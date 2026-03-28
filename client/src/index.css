@@ -3,155 +3,144 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ============================================================
+   CHRISTIE'S EAST HAMPTON — DESIGN TOKEN SYSTEM
+   Four locked institutional brand colors. No exceptions.
+   Serif for headlines/doctrine. Sans for data/labels/UI.
+   ============================================================ */
+
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  /* --- Brand Color Tokens (LOCKED) --- */
+  --color-navy:       oklch(0.24 0.07 255);   /* #1B2A4A */
+  --color-gold:       oklch(0.73 0.07 72);    /* #C8AC78 */
+  --color-charcoal:   oklch(0.33 0.02 220);   /* #384249 — primary body text */
+  --color-cream:      oklch(0.98 0.01 90);    /* #FAF8F4 — page/field background */
+
+  /* --- Supporting Palette (derived, not additions) --- */
+  --color-white:       oklch(1 0 0);
+  --color-border-line: oklch(0.91 0.005 255);  /* #E2E8F0 */
+  --color-success:     oklch(0.52 0.15 160);   /* #059669 */
+  --color-medium-gray: oklch(0.55 0.01 220);   /* #76787B */
+  --color-light-gray:  oklch(0.70 0.01 220);   /* #A3AAAD */
+  --color-alert-red:   oklch(0.55 0.22 25);    /* critical/alert */
+  --color-alert-amber: oklch(0.72 0.15 70);    /* warning */
+
+  /* --- Typography Tokens --- */
+  --font-serif:      "Cormorant Garamond", Georgia, serif;
+  --font-display:    "Playfair Display", Georgia, serif;
+  --font-sans:       "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --font-condensed:  "Barlow Condensed", "Helvetica Neue", Arial, sans-serif;
+
+  /* --- Spacing Scale (4px base) --- */
+  --spacing-1:  0.25rem;   /* 4px */
+  --spacing-2:  0.5rem;    /* 8px */
+  --spacing-3:  0.75rem;   /* 12px */
+  --spacing-4:  1rem;      /* 16px */
+  --spacing-6:  1.5rem;    /* 24px */
+  --spacing-8:  2rem;      /* 32px */
+  --spacing-12: 3rem;      /* 48px */
+  --spacing-16: 4rem;      /* 64px */
+
+  /* --- Radius --- */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+
+  /* --- Shadcn/UI semantic mappings --- */
+  --radius:                    var(--radius-md);
+  --color-background:          var(--color-cream);
+  --color-foreground:          var(--color-charcoal);
+  --color-card:                var(--color-white);
+  --color-card-foreground:     var(--color-charcoal);
+  --color-popover:             var(--color-white);
+  --color-popover-foreground:  var(--color-charcoal);
+  --color-primary:             var(--color-navy);
+  --color-primary-foreground:  var(--color-cream);
+  --color-secondary:           oklch(0.95 0.005 255);
+  --color-secondary-foreground:var(--color-charcoal);
+  --color-muted:               oklch(0.95 0.005 255);
+  --color-muted-foreground:    var(--color-medium-gray);
+  --color-accent:              var(--color-gold);
+  --color-accent-foreground:   var(--color-navy);
+  --color-destructive:         var(--color-alert-red);
+  --color-destructive-foreground: var(--color-white);
+  --color-border:              var(--color-border-line);
+  --color-input:               var(--color-border-line);
+  --color-ring:                var(--color-gold);
+
+  /* --- Chart colors (navy/gold palette) --- */
+  --color-chart-1: var(--color-navy);
+  --color-chart-2: var(--color-gold);
+  --color-chart-3: oklch(0.45 0.06 255);
+  --color-chart-4: oklch(0.60 0.05 72);
+  --color-chart-5: var(--color-medium-gray);
+
+  /* --- Sidebar --- */
+  --color-sidebar:                    var(--color-navy);
+  --color-sidebar-foreground:         var(--color-cream);
+  --color-sidebar-primary:            var(--color-gold);
+  --color-sidebar-primary-foreground: var(--color-navy);
+  --color-sidebar-accent:             oklch(0.30 0.07 255);
+  --color-sidebar-accent-foreground:  var(--color-cream);
+  --color-sidebar-border:             oklch(0.30 0.07 255);
+  --color-sidebar-ring:               var(--color-gold);
 }
 
-:root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
-}
-
+/* ============================================================
+   BASE LAYER
+   ============================================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  body {
-    @apply bg-background text-foreground;
+
+  html {
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Headline/doctrine voice — serif only */
+  h1, h2, h3 {
+    font-family: var(--font-serif);
+    color: var(--color-navy);
+    line-height: 1.2;
+  }
+
+  /* Data/label/UI voice — sans */
+  h4, h5, h6, p, span, label, button, input, select, textarea, table, th, td {
+    font-family: var(--font-sans);
+  }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),
   [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
   a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
+  select:not(:disabled) {
+    cursor: pointer;
   }
 }
 
+/* ============================================================
+   COMPONENT LAYER — Matrix Card Grammar
+   ============================================================ */
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
+  /* Container */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -161,17 +150,156 @@
   }
 
   @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
+    .container { padding-left: 1.5rem; padding-right: 1.5rem; }
+  }
+  @media (min-width: 1024px) {
+    .container { padding-left: 2rem; padding-right: 2rem; max-width: 1280px; }
   }
 
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
+  /* --- Matrix Card Grammar --- */
+  /* Base card */
+  .matrix-card {
+    background: var(--color-white);
+    border: 1px solid var(--color-border-line);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 3px rgba(27, 42, 74, 0.06);
+    transition: box-shadow 0.15s ease;
   }
+
+  .matrix-card:hover {
+    box-shadow: 0 4px 12px rgba(27, 42, 74, 0.10);
+  }
+
+  /* Card variant: alert (DOM 45–89 days) */
+  .matrix-card--alert {
+    border-left: 3px solid var(--color-alert-amber);
+  }
+
+  /* Card variant: critical (DOM 90+ days) */
+  .matrix-card--critical {
+    border-left: 3px solid var(--color-alert-red);
+  }
+
+  /* Card variant: active/featured */
+  .matrix-card--active {
+    border-left: 3px solid var(--color-gold);
+  }
+
+  /* Card header label (condensed sans) */
+  .matrix-card__label {
+    font-family: var(--font-condensed);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-medium-gray);
+    margin-bottom: 0.25rem;
+  }
+
+  /* Card headline (serif) */
+  .matrix-card__headline {
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Card value (large number display) */
+  .matrix-card__value {
+    font-family: var(--font-condensed);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    line-height: 1;
+  }
+
+  /* Card subtext */
+  .matrix-card__sub {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    color: var(--color-medium-gray);
+    margin-top: 0.25rem;
+  }
+
+  /* --- Nav Tab Grammar --- */
+  .nav-tab {
+    font-family: var(--font-condensed);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    color: rgba(250, 248, 244, 0.65);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    white-space: nowrap;
+    cursor: pointer;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .nav-tab:hover {
+    color: var(--color-cream);
+  }
+
+  .nav-tab--active {
+    color: var(--color-gold);
+    border-bottom-color: var(--color-gold);
+  }
+
+  /* --- Status Badge Grammar --- */
+  .badge {
+    font-family: var(--font-condensed);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .badge--active   { background: rgba(200, 172, 120, 0.15); color: var(--color-gold); }
+  .badge--alert    { background: rgba(245, 158, 11, 0.12);  color: #b45309; }
+  .badge--critical { background: rgba(220, 38, 38, 0.10);   color: #b91c1c; }
+  .badge--success  { background: rgba(5, 150, 105, 0.10);   color: #065f46; }
+  .badge--neutral  { background: rgba(56, 66, 73, 0.08);    color: var(--color-charcoal); }
+
+  /* --- Section Header Grammar --- */
+  /* On navy background: cream headline */
+  .section-header--dark h2,
+  .section-header--dark h3 {
+    color: var(--color-cream);
+  }
+
+  /* On cream background: navy headline */
+  .section-header--light h2,
+  .section-header--light h3 {
+    color: var(--color-navy);
+  }
+
+  /* Gold rule divider */
+  .gold-rule {
+    height: 1px;
+    background: linear-gradient(to right, var(--color-gold), transparent);
+    margin: 1.5rem 0;
+    opacity: 0.5;
+  }
+
+  /* Ticker display (condensed sans) */
+  .ticker-value {
+    font-family: var(--font-condensed);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .ticker-up   { color: var(--color-success); }
+  .ticker-down { color: var(--color-alert-red); }
+  .ticker-flat { color: var(--color-medium-gray); }
 }
