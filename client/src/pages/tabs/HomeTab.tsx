@@ -17,16 +17,18 @@ import {
   GALLERY_IMAGES,
 } from '@/lib/cdn-assets';
 
+// Real YouTube IDs scraped from christiesrealestategroupeh.com + channel UCRNUlNy2hkJFvo1IFTY4otg
+// Scraped March 29 2026. 9 strongest institutional/market signals selected from 30 total.
 const YOUTUBE_VIDEOS = [
-  { id: 'dQw4w9WgXcQ', title: 'East Hampton Market Report — Q1 2026' },
-  { id: 'dQw4w9WgXcQ', title: 'Hamptons Investment Strategy — Spring 2026' },
-  { id: 'dQw4w9WgXcQ', title: 'ANEW Build: 140 Hands Creek Road' },
-  { id: 'dQw4w9WgXcQ', title: "Christie's East Hampton — Institutional Overview" },
-  { id: 'dQw4w9WgXcQ', title: 'South Fork Market Dynamics — March 2026' },
-  { id: 'dQw4w9WgXcQ', title: "The Christie's Standard — Ed Bruehl" },
-  { id: 'dQw4w9WgXcQ', title: 'Sagaponack & Bridgehampton Deep Dive' },
-  { id: 'dQw4w9WgXcQ', title: 'Springs: The Opportunity Corridor' },
-  { id: 'dQw4w9WgXcQ', title: "Christie's East Hampton — Mission & Model" },
+  { id: 'DEVo7NabIy8', title: "Bringing James Christie's Legacy to the Hamptons" },
+  { id: 'FCsLbt_EgJ8', title: 'Get to Know Me — Ed Bruehl, Hamptons Real Estate' },
+  { id: 'gucsKvabi_k', title: 'Uncovering Value in Hamptons Real Estate — Traveling Podcast with Nick Martin Architects' },
+  { id: 'WhTXS0xz-Hs', title: 'Your Hamptons Real Estate Podcast Ep. 1 — Pierre Debbas Esq.' },
+  { id: 'IueHmzSSMT4', title: 'Your Hamptons Real Estate Podcast Ep. 2 — Marit Molin, Hamptons Community Outreach' },
+  { id: 'Vksowg9h2iQ', title: 'Your Hamptons Real Estate Podcast Ep. 3 — Brad Beyer, Local Home Inspector' },
+  { id: '3w7p8ZnrsdU', title: 'Found Inventory in the Hamptons — Ed Bruehl' },
+  { id: 'mRHfcIzsLvc', title: '3 Essentials for Every Successful Deal — Ed Bruehl' },
+  { id: 'fAPHGnmI_N4', title: 'SOLD & CLOSED: 129 Seven Ponds Road, Water Mill — 33.3 Acres, Field of Dreams' },
 ];
 
 function LightboxModal({
@@ -150,25 +152,43 @@ export default function HomeTab() {
           A Letter from the Desk
         </div>
         <h2 className="font-serif text-[var(--color-navy)] font-semibold text-[1.875rem] leading-[1.2] mb-8">
-          Always the Family's Interest Before the Sale. The Name Follows.
+          To those who have built something worth protecting on the East End — and those who are coming to build it.
         </h2>
         <div
           className="space-y-5 text-[var(--color-charcoal)] text-[1.125rem] leading-[1.75]"
           style={{ fontFamily: '"Cormorant Garamond", serif' }}
         >
           <p>
-            Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
+            James Christie founded his auction house in London in 1766 on a single conviction: that the right room, at the right moment, with the right provenance, allows the market to find true value. He did not simply sell things. He created a system of trust so disciplined that buyers and sellers could rely on it absolutely.
           </p>
           <p>
-            The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
+            Two hundred and sixty years later, Christie's East Hampton was established on the same conviction — applied to one of the most complex, underserved, and misread real estate markets in America.
           </p>
           <p>
-            This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
+            The Hamptons is not what most buyers and sellers have learned to see. The stigmatized lot on Highway 27. The legacy family parcel held across three generations, never listed. The rail-adjacent acre the luxury market ignores. These are Christie's moments. Assets the market has not priced correctly yet.
+          </p>
+          <p>
+            This office was built with a Morgan Stanley finance discipline and twenty years of Hamptons market knowledge. It now operates with something no other brokerage on the East End has — a six-member AI council trained on one business, one standard, and one market — working every day to surface the truth before the conversation begins.
+          </p>
+          <p>
+            What Christie's East Hampton has built is not a dashboard. It is a closed-loop intelligence system that scores every deal, tracks every pipeline, sources live market signals from nine hamlets, and delivers a briefing every morning before the market opens.
+          </p>
+          <p>
+            Every document that leaves this office has been reviewed by multiple intelligence systems against the Christie's standard. Every deal is scored before a minute of time is committed to it.
+          </p>
+          <p>
+            Christie's East Hampton is led by Ed Bruehl, Managing Director, alongside a growing team of dedicated East End professionals — Bonita DeWolf, Sebastian Mobo, Jarvis Slade, and Angel Theodore — each committed to the same standard this office was built on. Every client relationship begins and ends with this team.
+          </p>
+          <p>
+            Alongside the brokerage, Ed Bruehl operates ANEW Homes — a private build platform using Morton Buildings steel-frame construction to deliver finished homes in twelve months at a buyer cost below replacement value.
+          </p>
+          <p>
+            This is not a real estate practice. It is an institution in progress — grounded in 260 years of Christie's valuation intelligence and powered by the most capable intelligence systems currently in operation.
           </p>
           <p
             className="italic text-[var(--color-navy)] border-l-[3px] border-[var(--color-gold)] pl-5"
           >
-            — Institutional placeholder. Final founding letter text pending approval from Ed and Claude.
+            If you own property on the East End and you have been waiting for the right conversation — this is it. Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.
           </p>
         </div>
       </section>

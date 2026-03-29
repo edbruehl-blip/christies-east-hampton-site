@@ -290,8 +290,27 @@ export default function IdeasTab() {
   const [activeLens, setActiveLens] = useState<AnewLens>('anew-build');
   const [result, setResult] = useState<AnewOutput | null>(null);
 
+  // Placeholder PDF — all five export types point to the same institutional placeholder
+  // until the full PDF engine is built in the next sprint.
+  const PLACEHOLDER_PDF_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/sVtXnCxFpYtTKemO.pdf';
+
   const handleExport = (type: string) => {
-    alert(`Export: ${type} — PDF generation will be wired in the next sprint.`);
+    const labels: Record<string, string> = {
+      'anew-memo':       'ANEW_Build_Memo',
+      'cma':             'Christie_CMA',
+      'deal-brief':      'Deal_Brief',
+      'investment-memo': 'Investment_Memo',
+      'market-report':   'Market_Report',
+    };
+    const filename = `Christies_EH_${labels[type] ?? type}_March2026.pdf`;
+    const a = document.createElement('a');
+    a.href = PLACEHOLDER_PDF_URL;
+    a.download = filename;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
   };
 
   return (
