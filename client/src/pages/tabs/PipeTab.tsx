@@ -17,7 +17,8 @@ import { useState, useMemo } from 'react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type PipeType = 'Listing' | 'Buyer Rep' | 'Deal' | 'Contact' | 'Referral' | 'ANEW Build';
+// Locked type list — Mar 29 2026
+type PipeType = 'Deal' | 'Listing' | 'Buyer' | 'Seller' | 'Attorney' | 'Developer' | 'Referral' | 'Press' | 'Other';
 type PipeStatus = 'Active' | 'Watch' | 'Critical' | 'Stalled' | 'Closed' | 'Dead';
 
 interface PipeRow {
@@ -35,9 +36,9 @@ interface PipeRow {
 // ─── Seed data — real pipeline entries from production ───────────────────────
 
 const SEED_ROWS: PipeRow[] = [
-  { id: '1', address: '11 Meadowlark Lane', hamlet: 'East Hampton', type: 'ANEW Build', status: 'Critical', value: '$4,250,000', dom: 137, notes: 'Call before 10 AM Saturday — repositioning required', updatedAt: 'Mar 27' },
-  { id: '2', address: '795 N. Sea Mecox Road', hamlet: 'Water Mill', type: 'Buyer Rep', status: 'Critical', value: '$6,800,000', dom: 137, notes: 'Paired with Meadowlark — simultaneous strategy review', updatedAt: 'Mar 27' },
-  { id: '3', address: '140 Hands Creek Road', hamlet: 'East Hampton', type: 'ANEW Build', status: 'Critical', value: '$3,575,000', dom: 99, notes: '5–8% repositioning — first call priority', updatedAt: 'Mar 27' },
+  { id: '1', address: '11 Meadowlark Lane', hamlet: 'East Hampton', type: 'Deal', status: 'Critical', value: '$4,250,000', dom: 137, notes: 'Call before 10 AM Saturday — repositioning required', updatedAt: 'Mar 27' },
+  { id: '2', address: '795 N. Sea Mecox Road', hamlet: 'Water Mill', type: 'Buyer', status: 'Critical', value: '$6,800,000', dom: 137, notes: 'Paired with Meadowlark — simultaneous strategy review', updatedAt: 'Mar 27' },
+  { id: '3', address: '140 Hands Creek Road', hamlet: 'East Hampton', type: 'Deal', status: 'Critical', value: '$3,575,000', dom: 99, notes: '5–8% repositioning — first call priority', updatedAt: 'Mar 27' },
   { id: '4', address: '18 Tara Road', hamlet: 'East Hampton', type: 'Listing', status: 'Watch', value: '$2,995,000', dom: 82, notes: 'Brief before Monday', updatedAt: 'Mar 26' },
   { id: '5', address: '25 Horse Meadow Lane', hamlet: 'Bridgehampton', type: 'Listing', status: 'Watch', value: '$5,100,000', dom: 68, notes: 'WATCH tier', updatedAt: 'Mar 25' },
   { id: '6', address: '3 Sycamore Way', hamlet: 'Southampton Village', type: 'Listing', status: 'Active', value: '$3,200,000', dom: 52, notes: 'Monitor — approaching WATCH threshold', updatedAt: 'Mar 24' },
@@ -54,7 +55,7 @@ const STATUS_CONFIG: Record<PipeStatus, { bg: string; color: string; dot: string
   'Dead':     { bg: 'rgba(180,180,180,0.1)',  color: '#aaa',    dot: '#ccc' },
 };
 
-const TYPE_OPTIONS: PipeType[] = ['Listing', 'Buyer Rep', 'Deal', 'Contact', 'Referral', 'ANEW Build'];
+const TYPE_OPTIONS: PipeType[] = ['Deal', 'Listing', 'Buyer', 'Seller', 'Attorney', 'Developer', 'Referral', 'Press', 'Other'];
 const STATUS_OPTIONS: PipeStatus[] = ['Active', 'Watch', 'Critical', 'Stalled', 'Closed', 'Dead'];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -156,7 +157,7 @@ export default function PipeTab() {
       id: uid(),
       address: '',
       hamlet: '',
-      type: 'Listing',
+      type: 'Deal',
       status: 'Active',
       value: '',
       dom: null,

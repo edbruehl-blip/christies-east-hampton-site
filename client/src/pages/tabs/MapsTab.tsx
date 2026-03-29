@@ -199,9 +199,9 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           ))}
         </div>
 
-        {/* ── Last Zillow Sale + Best Restaurant ──────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 28 }}>
-          <div style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>
+        {/* ── Last Zillow Sale ─────────────────────────────────────────────── */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', display: 'inline-block', minWidth: 260 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>
               Last Zillow Sale
             </div>
@@ -212,13 +212,28 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
               {hamlet.lastSalePrice} · {hamlet.lastSaleDate}
             </div>
           </div>
-          <div style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>
-              Best Table
-            </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontSize: '0.88rem', fontWeight: 600 }}>
-              {hamlet.bestRestaurant}
-            </div>
+        </div>
+
+        {/* ── Restaurants (3-tier) ─────────────────────────────────────────── */}
+        <div style={{ marginBottom: 28 }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>
+            Dining
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
+            {[
+              { tier: 'Anchor', value: hamlet.restaurants.anchor },
+              { tier: 'Mid', value: hamlet.restaurants.mid },
+              { tier: 'Local', value: hamlet.restaurants.local },
+            ].map(r => (
+              <div key={r.tier} style={{ padding: '12px 14px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 4 }}>
+                  {r.tier}
+                </div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? '#ccc' : '#1B2A4A', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
+                  {r.value === 'TBD' ? 'TBD — next pass' : r.value}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -229,29 +244,50 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
             {hamlet.eeleListings.map((listing, i) => (
-              <a
-                key={i}
-                href={listing.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'block', padding: '14px 16px',
-                  background: '#fff', border: '1px solid rgba(27,42,74,0.1)',
-                  textDecoration: 'none', transition: 'border-color 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(27,42,74,0.1)')}
-              >
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem', marginBottom: 4 }}>
-                  {listing.address}
+              listing.placeholder ? (
+                <div
+                  key={i}
+                  style={{
+                    padding: '14px 16px',
+                    background: 'rgba(27,42,74,0.02)',
+                    border: '1px dashed rgba(27,42,74,0.18)',
+                  }}
+                >
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 6 }}>
+                    Listing {i + 1} — Placeholder
+                  </div>
+                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#ccc', fontSize: '0.82rem', fontStyle: 'italic' }}>
+                    Address TBD
+                  </div>
+                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#ccc', fontSize: '0.78rem', marginTop: 4, fontStyle: 'italic' }}>
+                    Price TBD · Active
+                  </div>
                 </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>
-                  {listing.price}
-                </div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                  {listing.beds} BD · {listing.baths} BA · {listing.sqft} SF
-                </div>
-              </a>
+              ) : (
+                <a
+                  key={i}
+                  href={listing.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'block', padding: '14px 16px',
+                    background: '#fff', border: '1px solid rgba(27,42,74,0.1)',
+                    textDecoration: 'none', transition: 'border-color 0.15s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')}
+                  onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(27,42,74,0.1)')}
+                >
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem', marginBottom: 4 }}>
+                    {listing.address}
+                  </div>
+                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>
+                    {listing.price}
+                  </div>
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    {listing.beds} BD · {listing.baths} BA · {listing.sqft} SF
+                  </div>
+                </a>
+              )
             ))}
           </div>
         </div>
