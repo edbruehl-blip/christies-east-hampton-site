@@ -303,3 +303,9 @@
   .ticker-down { color: var(--color-alert-red); }
   .ticker-flat { color: var(--color-medium-gray); }
 }
+
+/* ── Institutional ticker marquee ─────────────────────────────────────────── */
+@keyframes christies-marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
