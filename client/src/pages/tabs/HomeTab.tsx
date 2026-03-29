@@ -16,7 +16,7 @@
 
 import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, ED_HEADSHOT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-assets';
+import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, JAMES_CHRISTIE_PORTRAIT_FALLBACK, ED_HEADSHOT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-assets';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { generateMarketReport } from '@/lib/pdf-exports';
 
@@ -55,58 +55,73 @@ function Section1() {
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
-      {/* Full-bleed auction room with floating left panel */}
+      {/* Full-bleed auction room — BACKGROUND: grand saleroom · THUMBNAIL: James Christie oil portrait */}
       <div className="relative" style={{ minHeight: 600 }}>
-        {/* Auction room background */}
+        {/* Background: Christie's grand auction room (room-primary gallery image) */}
         <img
-          src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-          alt="Christie's Auction Room"
+          src={GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src ?? JAMES_CHRISTIE_PORTRAIT_FALLBACK}
+          alt="The Grand Saleroom, Christie's"
           className="w-full object-cover object-center"
           style={{ minHeight: 600, maxHeight: 700, display: 'block' }}
         />
-        {/* Dark overlay */}
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(27,42,74,0.92) 0%, rgba(27,42,74,0.7) 45%, rgba(27,42,74,0.25) 100%)' }} />
+        {/* Dark overlay — heavy left, fades right */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(27,42,74,0.94) 0%, rgba(27,42,74,0.72) 45%, rgba(27,42,74,0.22) 100%)' }} />
 
-        {/* Floating left panel — portrait thumbnail + letter */}
+        {/* Floating left panel — James Christie oil portrait thumbnail + identity card */}
         <div className="absolute top-0 left-0 bottom-0 flex flex-col justify-center px-8 py-10" style={{ maxWidth: 520, width: '100%' }}>
-          {/* Portrait thumbnail */}
+          {/* Thumbnail: James Christie oil portrait — face = authority */}
           <div
             onClick={handlePortraitClick}
-            style={{ cursor: generating ? 'wait' : 'pointer', display: 'inline-block', marginBottom: 12, alignSelf: 'flex-start' }}
-            title="Click to download the Christie's Hamptons Market Report"
+            style={{ cursor: generating ? 'wait' : 'pointer', display: 'inline-block', marginBottom: 16, alignSelf: 'flex-start' }}
+            title="Tap portrait for Market Report"
           >
             <img
               src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
               alt="James Christie — Founder, Christie's, Est. 1766"
               style={{
-                width: 96,
-                height: 120,
+                width: 88,
+                height: 112,
                 objectFit: 'cover',
-                objectPosition: 'top',
+                objectPosition: 'top center',
                 display: 'block',
                 border: '2px solid #C8AC78',
-                boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 4px 24px rgba(0,0,0,0.5)',
+                boxShadow: '0 0 0 1px rgba(200,172,120,0.25), 0 6px 28px rgba(0,0,0,0.55)',
               }}
             />
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
-              Click to download Market Report
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', marginTop: 7, textAlign: 'center' }}>
+              Market Report
             </div>
           </div>
 
-          {/* Founding letter on semi-transparent cream panel */}
-          <div style={{ background: 'rgba(250,248,244,0.07)', border: '1px solid rgba(200,172,120,0.2)', padding: '24px 28px', backdropFilter: 'blur(4px)' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+          {/* Identity card — semi-transparent, printed-document feel, CFS-matched typography */}
+          <div style={{
+            background: 'rgba(250,248,244,0.06)',
+            border: '1px solid rgba(200,172,120,0.22)',
+            padding: '32px 36px',
+            backdropFilter: 'blur(6px)',
+          }}>
+            {/* Label — matches CFS section label: Barlow Condensed 10px gold 0.22em */}
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
               Christie's · Est. 1766
             </div>
-            <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 2rem)', lineHeight: 1.2, margin: '0 0 16px' }}>
+            {/* Title — matches CFS primary value: Cormorant Garamond 600 1.75rem */}
+            <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.2, margin: '0 0 20px' }}>
               Christie's East Hampton
             </h1>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.8125rem', margin: '0 0 4px' }}>
-              Managing Director · Ed Bruehl
-            </p>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem', margin: 0 }}>
+            {/* Sub-label — matches CFS data row label: Barlow Condensed 10px gold 0.14em */}
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>
+              Managing Director
+            </div>
+            {/* Value — matches CFS data row value: Source Sans 3 600 0.9375rem */}
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9375rem', marginBottom: 16 }}>
+              Ed Bruehl
+            </div>
+            {/* Divider */}
+            <div style={{ height: 1, background: 'rgba(200,172,120,0.18)', marginBottom: 16 }} />
+            {/* Footer line — Source Sans 3 0.8125rem */}
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.8125rem', lineHeight: 1.5 }}>
               Christie's International Real Estate Group
-            </p>
+            </div>
           </div>
         </div>
       </div>
