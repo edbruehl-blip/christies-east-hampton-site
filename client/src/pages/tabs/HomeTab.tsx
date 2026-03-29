@@ -11,11 +11,13 @@
  */
 
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { MatrixCard } from '@/components/MatrixCard';
 import {
   JAMES_CHRISTIE_PORTRAIT_PRIMARY,
   GALLERY_IMAGES,
 } from '@/lib/cdn-assets';
+import { generateMarketReport } from '@/lib/pdf-exports';
 
 // Real YouTube IDs scraped from christiesrealestategroupeh.com + channel UCRNUlNy2hkJFvo1IFTY4otg
 // Scraped March 29 2026. 9 strongest institutional/market signals selected from 30 total.
@@ -91,10 +93,16 @@ export default function HomeTab() {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
-  const handleHeroClick = () => {
-    // Per spec: fires PDF download + William audio link simultaneously
-    // William audio — placeholder until ElevenLabs key is wired
-    console.log('[William] Audio trigger — ElevenLabs key required');
+  const handleHeroClick = async () => {
+    // Per spec: clicking James Christie portrait fires the full 5-page Market Report download
+    const toastId = toast.loading('Generating Christie\'s Hamptons Market Report…');
+    try {
+      await generateMarketReport();
+      toast.success('Market Report downloaded', { id: toastId });
+    } catch (err) {
+      console.error('[Market Report] PDF error:', err);
+      toast.error('PDF generation failed — check console', { id: toastId });
+    }
   };
 
   const handleSubscribe = (e: React.FormEvent) => {

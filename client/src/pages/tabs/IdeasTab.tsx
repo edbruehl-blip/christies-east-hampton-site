@@ -8,6 +8,14 @@
  */
 
 import { useState } from 'react';
+import { toast } from 'sonner';
+import {
+  generateAnewBuildMemo,
+  generateChristieCMA,
+  generateDealBrief,
+  generateInvestmentMemo,
+  generateMarketReport,
+} from '@/lib/pdf-exports';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA } from '@/data/hamlet-master';
 import { ED_HEADSHOT_PRIMARY, LOGO_BLACK } from '@/lib/cdn-assets';
@@ -290,27 +298,23 @@ export default function IdeasTab() {
   const [activeLens, setActiveLens] = useState<AnewLens>('anew-build');
   const [result, setResult] = useState<AnewOutput | null>(null);
 
-  // Placeholder PDF — all five export types point to the same institutional placeholder
-  // until the full PDF engine is built in the next sprint.
-  const PLACEHOLDER_PDF_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/sVtXnCxFpYtTKemO.pdf';
-
-  const handleExport = (type: string) => {
-    const labels: Record<string, string> = {
-      'anew-memo':       'ANEW_Build_Memo',
-      'cma':             'Christie_CMA',
-      'deal-brief':      'Deal_Brief',
-      'investment-memo': 'Investment_Memo',
-      'market-report':   'Market_Report',
-    };
-    const filename = `Christies_EH_${labels[type] ?? type}_March2026.pdf`;
-    const a = document.createElement('a');
-    a.href = PLACEHOLDER_PDF_URL;
-    a.download = filename;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const handleExport = async (type: string) => {
+    if (!result) return;
+    const toastId = toast.loading('Generating PDF…');
+    try {
+      switch (type) {
+        case 'anew-memo':       await generateAnewBuildMemo(result); break;
+        case 'cma':             await generateChristieCMA(result); break;
+        case 'deal-brief':      await generateDealBrief(result); break;
+        case 'investment-memo': await generateInvestmentMemo(result); break;
+        case 'market-report':   await generateMarketReport(result.hamletId); break;
+        default: break;
+      }
+      toast.success('PDF downloaded', { id: toastId });
+    } catch (err) {
+      console.error('PDF generation error:', err);
+      toast.error('PDF generation failed — check console', { id: toastId });
+    }
   };
 
   return (
