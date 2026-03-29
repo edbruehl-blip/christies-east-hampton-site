@@ -45,8 +45,19 @@ export const ED_HEADSHOT_BACKUP =
 //   BLACK  → PDF exports on cream background, light surfaces
 //   C-ICON → favicon, small-format brand mark
 
+// ── Official CIREG Brand PNGs (transparent background — browser-safe) ──────────
+// Source: Christie's International Real Estate Group brand CDN
+// These are the CANONICAL logo URLs per brand guidelines.
+// WHITE PNG → nav bar, dark/navy surfaces (transparent bg, white text)
+// BLACK PNG → PDF exports on cream background (transparent bg, black text)
 export const LOGO_WHITE =
-  `${CDN}/PThZZiXUXghWnEeT.jpg`;            // Primary: nav bar + dark surfaces
+  `https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png`;  // Official CIREG white lockup
+export const LOGO_BLACK =
+  `https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png`;  // Official CIREG black lockup
+
+// ── JPG variants on manuscdn.com (white bg — use only where bg matches) ────────
+export const LOGO_WHITE_JPG =
+  `${CDN}/PThZZiXUXghWnEeT.jpg`;            // White text, white bg — NOT for nav
 export const LOGO_WHITE_ALT =
   `${CDN}/EFOavnLBLAvavldg.jpg`;
 export const LOGO_WHITE_ON_BLACK =
@@ -57,8 +68,6 @@ export const LOGO_RED =
 export const LOGO_RED_ALT =
   `${CDN}/lLysXoGnPcHXMeZm.jpg`;
 
-export const LOGO_BLACK =
-  `${CDN}/mCrjQMxRyJtlSAWS.jpg`;            // PDF exports on cream background
 export const LOGO_BLACK_ALT =
   `${CDN}/zJtBLNOLqolMeyNW.jpg`;
 export const LOGO_BLACK_WORDMARK =
