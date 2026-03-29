@@ -55,37 +55,63 @@ function Section1() {
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
-      {/* Portrait hero */}
-      <div className="relative" style={{ maxHeight: 520, overflow: 'hidden' }}>
+      {/* Full-bleed auction room with floating left panel */}
+      <div className="relative" style={{ minHeight: 600 }}>
+        {/* Auction room background */}
         <img
           src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-          alt="James Christie — Founder, Christie's, Est. 1766"
-          className="w-full object-cover object-top"
-          style={{ maxHeight: 520, cursor: generating ? 'wait' : 'pointer', display: 'block' }}
-          onClick={handlePortraitClick}
-          title="Click to download the Christie's Hamptons Market Report"
+          alt="Christie's Auction Room"
+          className="w-full object-cover object-center"
+          style={{ minHeight: 600, maxHeight: 700, display: 'block' }}
         />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }}
-        />
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 6 }}>
-            Christie's · Est. 1766
+        {/* Dark overlay */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(27,42,74,0.92) 0%, rgba(27,42,74,0.7) 45%, rgba(27,42,74,0.25) 100%)' }} />
+
+        {/* Floating left panel — portrait thumbnail + letter */}
+        <div className="absolute top-0 left-0 bottom-0 flex flex-col justify-center px-8 py-10" style={{ maxWidth: 520, width: '100%' }}>
+          {/* Portrait thumbnail */}
+          <div
+            onClick={handlePortraitClick}
+            style={{ cursor: generating ? 'wait' : 'pointer', display: 'inline-block', marginBottom: 12, alignSelf: 'flex-start' }}
+            title="Click to download the Christie's Hamptons Market Report"
+          >
+            <img
+              src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+              alt="James Christie — Founder, Christie's, Est. 1766"
+              style={{
+                width: 96,
+                height: 120,
+                objectFit: 'cover',
+                objectPosition: 'top',
+                display: 'block',
+                border: '2px solid #C8AC78',
+                boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 4px 24px rgba(0,0,0,0.5)',
+              }}
+            />
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
+              Click to download Market Report
+            </div>
           </div>
-          <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', lineHeight: 1.15, margin: 0 }}>
-            Christie's East Hampton
-          </h1>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.875rem', marginTop: 6 }}>
-            Managing Director · Ed Bruehl · Christie's International Real Estate Group
-          </p>
-          <p style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 8 }}>
-            ↓ Click portrait to download Market Report
-          </p>
+
+          {/* Founding letter on semi-transparent cream panel */}
+          <div style={{ background: 'rgba(250,248,244,0.07)', border: '1px solid rgba(200,172,120,0.2)', padding: '24px 28px', backdropFilter: 'blur(4px)' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+              Christie's · Est. 1766
+            </div>
+            <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 2rem)', lineHeight: 1.2, margin: '0 0 16px' }}>
+              Christie's East Hampton
+            </h1>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.8125rem', margin: '0 0 4px' }}>
+              Managing Director · Ed Bruehl
+            </p>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem', margin: 0 }}>
+              Christie's International Real Estate Group
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Founding letter */}
+      {/* Founding letter — below hero */}
       <div className="px-6 py-10" style={{ maxWidth: 780, margin: '0 auto' }}>
         <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
           A Letter from the Desk

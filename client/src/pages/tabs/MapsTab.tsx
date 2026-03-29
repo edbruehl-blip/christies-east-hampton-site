@@ -385,8 +385,8 @@ export default function MapsTab() {
         <div style={{ flex: 1, position: 'relative', minHeight: 400 }}>
           <MapView
             onMapReady={handleMapReady}
-            initialCenter={{ lat: 40.96, lng: -72.35 }}
-            initialZoom={10}
+            initialCenter={{ lat: 40.9637, lng: -72.1848 }}
+            initialZoom={11}
           />
           {!mapReady && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1B2A4A' }}>

@@ -309,3 +309,15 @@
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+/* ─── Hide platform attribution badge ───────────────────────────────────────── */
+[data-manus-badge],
+.manus-watermark,
+#manus-watermark,
+iframe[src*="manus"],
+a[href*="manus.im"][target="_blank"]:not([data-keep]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}

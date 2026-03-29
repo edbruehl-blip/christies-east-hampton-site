@@ -10,7 +10,7 @@ import { MatrixCard } from '@/components/MatrixCard';
 // ─── Growth Model v2 Data (synced from sheet) ─────────────────────────────────
 
 const OUTLOOK = [
-  { year: 2026, agents: 3,  gci: '$875K',   avgGci: '$292K', milestone: 'Foundation — Ed + 2 agents' },
+  { year: 2026, agents: 15, gci: '$3.575M', avgGci: '$238K', milestone: 'Base case — 15 agents, $3.575M GCI target by December 2026' },
   { year: 2027, agents: 6,  gci: '$1.56M',  avgGci: '$260K', milestone: 'First team layer' },
   { year: 2028, agents: 10, gci: '$2.50M',  avgGci: '$250K', milestone: 'Operating scale' },
   { year: 2029, agents: 14, gci: '$3.08M',  avgGci: '$220K', milestone: 'Regional authority' },
