@@ -31,7 +31,7 @@ const ORG_CHART_DOCS: DocItem[] = [
     id: 'org-chart',
     label: "Christie's East Hampton · Institutional Hierarchy · March 2026",
     description: "Full organizational hierarchy from James Christie through the Auction House and Real Estate Division to the East Hampton team. Approved by Claude, Grok, and ChatGPT.",
-    url: 'https://christieshamptons26.netlify.app/assets/Christies_EH_Institutional_Hierarchy_March2026.pdf',
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/TtcjzvhlJtbopxGm.html',
     pinned: true,
   },
 ];
@@ -134,7 +134,7 @@ function DocCard({ doc }: { doc: DocItem }) {
               className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
               style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
             >
-              Open PDF
+              {doc.url?.endsWith('.html') ? 'Open Document' : 'Open PDF'}
             </a>
           ) : showPending ? (
             <span

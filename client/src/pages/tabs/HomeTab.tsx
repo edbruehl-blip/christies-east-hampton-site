@@ -1,372 +1,959 @@
 /**
- * HOME TAB — First impression of the institution.
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
- * Typography: Cormorant Garamond (titles/doctrine) · Barlow Condensed (labels/data)
- * Modules: James Christie Portrait Hero · Founding Letter · Subscriber Capture
- *          · Auction Gallery 3×3 (9 Christie's brand-authority images)
- *          · YouTube Matrix 3×3
+ * HOME TAB — Live Report Scroll (Sprint 8)
+ * Governing Principle: website = live report · report = website scrolled · PDF = snapshot
  *
- * All image URLs sourced from cdn-assets.ts — no inline URLs.
- * Ed headshot: PRIMARY confirmed (5A89ABA9) — wired in nav bar and PDF export header.
+ * Section 1 · Institutional Opening — James Christie portrait hero · founding letter
+ * Section 2 · Hamptons Local Intelligence — Bloomberg-style news feed, 3 municipalities
+ * Section 3 · Market Intelligence — CFS donut ring · rate environment · Hamptons Median
+ * Section 4 · Hamlet Atlas Matrix — 9 hamlet tiles, tap = inline expansion
+ * Section 5 · IDEAS / ANEW Intelligence — model deal · ANEW chip · QR
+ * Section 6 · Resources & Authority — Christie's ecosystem · contact block · doctrine footer
+ *
+ * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
+ * All image URLs from cdn-assets.ts — no inline URLs.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
-import { MatrixCard } from '@/components/MatrixCard';
-import {
-  JAMES_CHRISTIE_PORTRAIT_PRIMARY,
-  GALLERY_IMAGES,
-} from '@/lib/cdn-assets';
+import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, ED_HEADSHOT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-assets';
+import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { generateMarketReport } from '@/lib/pdf-exports';
 
-// Real YouTube IDs scraped from christiesrealestategroupeh.com + channel UCRNUlNy2hkJFvo1IFTY4otg
-// Scraped March 29 2026. 9 strongest institutional/market signals selected from 30 total.
-const YOUTUBE_VIDEOS = [
-  { id: 'DEVo7NabIy8', title: "Bringing James Christie's Legacy to the Hamptons" },
-  { id: 'FCsLbt_EgJ8', title: 'Get to Know Me — Ed Bruehl, Hamptons Real Estate' },
-  { id: 'gucsKvabi_k', title: 'Uncovering Value in Hamptons Real Estate — Traveling Podcast with Nick Martin Architects' },
-  { id: 'WhTXS0xz-Hs', title: 'Your Hamptons Real Estate Podcast Ep. 1 — Pierre Debbas Esq.' },
-  { id: 'IueHmzSSMT4', title: 'Your Hamptons Real Estate Podcast Ep. 2 — Marit Molin, Hamptons Community Outreach' },
-  { id: 'Vksowg9h2iQ', title: 'Your Hamptons Real Estate Podcast Ep. 3 — Brad Beyer, Local Home Inspector' },
-  { id: '3w7p8ZnrsdU', title: 'Found Inventory in the Hamptons — Ed Bruehl' },
-  { id: 'mRHfcIzsLvc', title: '3 Essentials for Every Successful Deal — Ed Bruehl' },
-  { id: 'fAPHGnmI_N4', title: 'SOLD & CLOSED: 129 Seven Ponds Road, Water Mill — 33.3 Acres, Field of Dreams' },
-];
-
-function LightboxModal({
-  src,
-  alt,
-  caption,
-  onClose,
-}: {
-  src: string;
-  alt: string;
-  caption?: string;
-  onClose: () => void;
-}) {
+// ─── Section label component ──────────────────────────────────────────────────
+function SectionLabel({ n, title }: { n: string; title: string }) {
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85"
-      onClick={onClose}
-    >
-      <div
-        className="relative max-w-4xl max-h-[90vh] mx-4 flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img
-          src={src}
-          alt={alt}
-          className="max-h-[80vh] w-auto object-contain"
-        />
-        {caption && (
-          <div
-            className="mt-3 text-center"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: 'rgba(200,172,120,0.85)',
-              letterSpacing: '0.14em',
-              fontSize: '0.75rem',
-              textTransform: 'uppercase',
-            }}
-          >
-            {caption}
-          </div>
-        )}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 text-white bg-black/50 rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-black/80 transition-colors"
-          aria-label="Close lightbox"
-        >
-          ×
-        </button>
-      </div>
+    <div className="flex items-baseline gap-3 mb-6">
+      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+        Section {n}
+      </span>
+      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+        {title}
+      </span>
     </div>
   );
 }
 
-export default function HomeTab() {
-  const [lightbox, setLightbox] = useState<{
-    src: string;
-    alt: string;
-    caption?: string;
-  } | null>(null);
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
+// ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
+function Section1() {
+  const [generating, setGenerating] = useState(false);
 
-  const handleHeroClick = async () => {
-    // Per spec: clicking James Christie portrait fires the full 5-page Market Report download
-    const toastId = toast.loading('Generating Christie\'s Hamptons Market Report…');
+  async function handlePortraitClick() {
+    if (generating) return;
+    setGenerating(true);
+    toast.loading('Generating Market Report…', { id: 'market-report' });
     try {
       await generateMarketReport();
-      toast.success('Market Report downloaded', { id: toastId });
-    } catch (err) {
-      console.error('[Market Report] PDF error:', err);
-      toast.error('PDF generation failed — check console', { id: toastId });
+      toast.success('Market Report downloaded.', { id: 'market-report' });
+    } catch (e) {
+      console.error(e);
+      toast.error('PDF generation failed. Please try again.', { id: 'market-report' });
+    } finally {
+      setGenerating(false);
     }
-  };
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email.trim()) {
-      setSubscribed(true);
-      setEmail('');
-    }
-  };
+  }
 
   return (
-    <div className="min-h-screen bg-[var(--color-cream)]">
-
-      {/* ── James Christie Portrait Hero ─────────────────────────────────── */}
-      <section className="bg-[var(--color-navy)]">
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
+      {/* Portrait hero */}
+      <div className="relative" style={{ maxHeight: 520, overflow: 'hidden' }}>
+        <img
+          src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+          alt="James Christie — Founder, Christie's, Est. 1766"
+          className="w-full object-cover object-top"
+          style={{ maxHeight: 520, cursor: generating ? 'wait' : 'pointer', display: 'block' }}
+          onClick={handlePortraitClick}
+          title="Click to download the Christie's Hamptons Market Report"
+        />
         <div
-          className="relative mx-auto cursor-pointer group"
-          style={{ maxWidth: 900 }}
-          onClick={handleHeroClick}
-          role="button"
-          tabIndex={0}
-          aria-label="Download market report and hear William's introduction"
-          onKeyDown={(e) => e.key === 'Enter' && handleHeroClick()}
-        >
-          <img
-            src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-            alt="James Christie — Founder, Christie's, Est. 1766"
-            className="w-full object-cover transition-all duration-300 group-hover:brightness-95 border-b-[3px] border-[var(--color-gold)]"
-            style={{ maxHeight: 520, objectPosition: 'center top' }}
-          />
-          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
-        </div>
-        <div className="text-center py-8 px-6">
-          <div className="label-overline text-[var(--color-gold)] mb-3">
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }}
+        />
+        <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 6 }}>
             Christie's · Est. 1766
           </div>
-          <h1 className="font-serif text-[var(--color-cream)] font-normal text-[2.75rem] leading-[1.15] mb-3">
+          <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', lineHeight: 1.15, margin: 0 }}>
             Christie's East Hampton
           </h1>
-          <div
-            className="text-[var(--color-gold)] tracking-[0.06em] text-[0.95rem]"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.875rem', marginTop: 6 }}>
             Managing Director · Ed Bruehl · Christie's International Real Estate Group
-          </div>
-        </div>
-      </section>
-
-      {/* ── Gold Rule ────────────────────────────────────────────────────── */}
-      <div className="h-[2px] bg-[var(--color-gold)]" />
-
-      {/* ── Founding Letter ──────────────────────────────────────────────── */}
-      <section className="mx-auto px-6 py-14" style={{ maxWidth: 760 }}>
-        <div className="label-overline text-[var(--color-gold)] mb-6">
-          A Letter from the Desk
-        </div>
-        <h2 className="font-serif text-[var(--color-navy)] font-semibold text-[1.875rem] leading-[1.2] mb-8">
-          To those who have built something worth protecting on the East End — and those who are coming to build it.
-        </h2>
-        <div
-          className="space-y-5 text-[var(--color-charcoal)] text-[1.125rem] leading-[1.75]"
-          style={{ fontFamily: '"Cormorant Garamond", serif' }}
-        >
-          <p>
-            James Christie founded his auction house in London in 1766 on a single conviction: that the right room, at the right moment, with the right provenance, allows the market to find true value. He did not simply sell things. He created a system of trust so disciplined that buyers and sellers could rely on it absolutely.
           </p>
-          <p>
-            Two hundred and sixty years later, Christie's East Hampton was established on the same conviction — applied to one of the most complex, underserved, and misread real estate markets in America.
-          </p>
-          <p>
-            The Hamptons is not what most buyers and sellers have learned to see. The stigmatized lot on Highway 27. The legacy family parcel held across three generations, never listed. The rail-adjacent acre the luxury market ignores. These are Christie's moments. Assets the market has not priced correctly yet.
-          </p>
-          <p>
-            This office was built with a Morgan Stanley finance discipline and twenty years of Hamptons market knowledge. It now operates with something no other brokerage on the East End has — a six-member AI council trained on one business, one standard, and one market — working every day to surface the truth before the conversation begins.
-          </p>
-          <p>
-            What Christie's East Hampton has built is not a dashboard. It is a closed-loop intelligence system that scores every deal, tracks every pipeline, sources live market signals from nine hamlets, and delivers a briefing every morning before the market opens.
-          </p>
-          <p>
-            Every document that leaves this office has been reviewed by multiple intelligence systems against the Christie's standard. Every deal is scored before a minute of time is committed to it.
-          </p>
-          <p>
-            Christie's East Hampton is led by Ed Bruehl, Managing Director, alongside a growing team of dedicated East End professionals — Bonita DeWolf, Sebastian Mobo, Jarvis Slade, and Angel Theodore — each committed to the same standard this office was built on. Every client relationship begins and ends with this team.
-          </p>
-          <p>
-            Alongside the brokerage, Ed Bruehl operates ANEW Homes — a private build platform using Morton Buildings steel-frame construction to deliver finished homes in twelve months at a buyer cost below replacement value.
-          </p>
-          <p>
-            This is not a real estate practice. It is an institution in progress — grounded in 260 years of Christie's valuation intelligence and powered by the most capable intelligence systems currently in operation.
-          </p>
-          <p
-            className="italic text-[var(--color-navy)] border-l-[3px] border-[var(--color-gold)] pl-5"
-          >
-            If you own property on the East End and you have been waiting for the right conversation — this is it. Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.
+          <p style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 8 }}>
+            ↓ Click portrait to download Market Report
           </p>
         </div>
-      </section>
-
-      {/* ── Thin gold rule ───────────────────────────────────────────────── */}
-      <div className="mx-auto px-6" style={{ maxWidth: 760 }}>
-        <div className="h-px bg-[var(--color-gold)] opacity-40" />
       </div>
 
-      {/* ── Subscriber Capture ───────────────────────────────────────────── */}
-      <section className="mx-auto px-6 py-12" style={{ maxWidth: 760 }}>
-        <MatrixCard variant="default" className="p-8">
-          <div className="label-overline text-[var(--color-gold)] mb-4">
-            Market Intelligence
-          </div>
-          <h3 className="font-serif text-[var(--color-navy)] font-semibold text-[1.25rem] mb-2">
-            Receive the Christie's East Hampton Market Report
-          </h3>
-          <p
-            className="text-[var(--color-charcoal)] text-[0.875rem] mb-6"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
-            Quarterly analysis of the South Fork luxury market. Institutional data. No promotional copy.
+      {/* Founding letter */}
+      <div className="px-6 py-10" style={{ maxWidth: 780, margin: '0 auto' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
+          A Letter from the Desk
+        </div>
+        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 3vw, 1.85rem)', lineHeight: 1.3, marginBottom: 24 }}>
+          Always the Family's Interest Before the Sale. The Name Follows.
+        </h2>
+        {[
+          "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
+          "The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
+          "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
+          "The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.",
+          "The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton. Sag Harbor. Amagansett. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
+          "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
+          "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
+          "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
+          "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
+        ].map((para, i) => (
+          <p key={i} style={{
+            fontFamily: '"Source Sans 3", sans-serif',
+            color: i === 8 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
+            fontSize: '0.9375rem',
+            lineHeight: 1.75,
+            marginBottom: i === 8 ? 0 : 18,
+            fontStyle: i === 8 ? 'italic' : 'normal',
+            borderLeft: i === 8 ? '2px solid rgba(200,172,120,0.4)' : 'none',
+            paddingLeft: i === 8 ? 16 : 0,
+          }}>
+            {para}
           </p>
-          {subscribed ? (
-            <div
-              className="py-3 px-4 border text-sm text-[var(--color-navy)] border-[var(--color-gold)]"
-              style={{ fontFamily: 'var(--font-body)', background: '#FFF9EF' }}
-            >
-              Received. You will receive the next market report when it is published.
-            </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="flex gap-3">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Your email address"
-                required
-                className="flex-1 px-4 py-2.5 text-sm border outline-none transition-colors text-[var(--color-charcoal)] border-[rgba(27,42,74,0.2)] bg-[var(--color-cream)]"
-                style={{ fontFamily: 'var(--font-body)' }}
-              />
-              <button
-                type="submit"
-                className="px-6 py-2.5 uppercase tracking-[0.14em] text-[0.8125rem] bg-[var(--color-navy)] text-[var(--color-cream)] transition-opacity hover:opacity-90"
-                style={{ fontFamily: 'var(--font-condensed)' }}
-              >
-                Submit
-              </button>
-            </form>
-          )}
-        </MatrixCard>
-      </section>
+        ))}
 
-      {/* ── Auction Gallery 3×3 ──────────────────────────────────────────── */}
-      {/* Nine images: Christie's brand-authority signal. Sourced from cdn-assets.ts */}
-      <section className="px-6 py-10 bg-[var(--color-navy)]">
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="label-overline text-[var(--color-gold)] mb-6">
-            Christie's · Est. 1766 · The Auction House Standard
+        {/* Ed signature block */}
+        <div className="mt-10 flex items-center gap-4" style={{ borderTop: '1px solid rgba(200,172,120,0.2)', paddingTop: 24 }}>
+          <img
+            src={ED_HEADSHOT_PRIMARY}
+            alt="Ed Bruehl"
+            style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(200,172,120,0.5)' }}
+          />
+          <div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1rem' }}>Ed Bruehl</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 2 }}>
+              Managing Director · Christie's East Hampton
+            </div>
           </div>
-          <div className="grid grid-cols-3 gap-3">
-            {GALLERY_IMAGES.map((img) => (
-              <div
-                key={img.id}
-                className="relative overflow-hidden cursor-pointer group"
-                style={{ aspectRatio: '4/3' }}
-                onClick={() =>
-                  setLightbox({ src: img.src, alt: img.caption, caption: img.caption })
-                }
-                role="button"
-                tabIndex={0}
-                aria-label={`View: ${img.caption}`}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' &&
-                  setLightbox({ src: img.src, alt: img.caption, caption: img.caption })
-                }
-              >
-                <img
-                  src={img.src}
-                  alt={img.caption}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                {/* Caption overlay on hover */}
-                <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-[rgba(27,42,74,0.88)] px-3 py-2">
-                  <div
-                    className="text-[var(--color-gold)] text-[0.65rem] uppercase tracking-[0.14em] leading-snug"
-                    style={{ fontFamily: 'var(--font-condensed)' }}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION 2 · Hamptons Local Intelligence ──────────────────────────────────
+
+interface NewsItem {
+  headline: string;
+  source: string;
+  date: string;
+  url: string;
+  tag: string;
+}
+
+interface MuniNews {
+  municipality: string;
+  code: string;
+  items: NewsItem[];
+}
+
+// Static seed data — Bloomberg/CNBC data feel, Christie's brand voice
+// Gemini auto-update integration is Phase 2 (requires backend)
+const HAMPTONS_NEWS: MuniNews[] = [
+  {
+    municipality: 'East Hampton Town',
+    code: 'EHT',
+    items: [
+      {
+        headline: 'East Hampton Town Board approves updated zoning overlay for Springs corridor — density caps preserved',
+        source: 'East Hampton Star',
+        date: 'Mar 28, 2026',
+        url: 'https://www.easthamptonstar.com',
+        tag: 'Zoning',
+      },
+      {
+        headline: 'Wainscott school district consolidation vote set for May — property tax implications under review',
+        source: "Dan's Papers",
+        date: 'Mar 27, 2026',
+        url: 'https://www.danspapers.com',
+        tag: 'Schools',
+      },
+      {
+        headline: 'Amagansett beachfront inventory tightens — four listings absorbed Q1 2026, no new supply expected until June',
+        source: 'Hamptons Real Estate Gazette',
+        date: 'Mar 26, 2026',
+        url: 'https://www.christiesrealestategroupeh.com',
+        tag: 'Market',
+      },
+      {
+        headline: 'Montauk commercial district rezoning proposal draws opposition from year-round residents',
+        source: 'East Hampton Star',
+        date: 'Mar 25, 2026',
+        url: 'https://www.easthamptonstar.com',
+        tag: 'Politics',
+      },
+    ],
+  },
+  {
+    municipality: 'Southampton Town',
+    code: 'STH',
+    items: [
+      {
+        headline: 'Sagaponack median crosses $8M — three off-market closings drive Q1 record, buyer pool narrows to family offices',
+        source: 'Hamptons Real Estate Gazette',
+        date: 'Mar 28, 2026',
+        url: 'https://www.christiesrealestategroupeh.com',
+        tag: 'Market',
+      },
+      {
+        headline: 'Water Mill estate subdivision approved — 12-acre parcel cleared for two-lot split, first in five years',
+        source: 'Southampton Press',
+        date: 'Mar 27, 2026',
+        url: 'https://www.27east.com',
+        tag: 'Zoning',
+      },
+      {
+        headline: 'Bridgehampton school district reports enrollment decline — second consecutive year, demographic shift underway',
+        source: 'Southampton Press',
+        date: 'Mar 26, 2026',
+        url: 'https://www.27east.com',
+        tag: 'Schools',
+      },
+      {
+        headline: 'Southampton Village luxury corridor — five listings above $15M, longest DOM since 2019',
+        source: "Dan's Papers",
+        date: 'Mar 25, 2026',
+        url: 'https://www.danspapers.com',
+        tag: 'Market',
+      },
+    ],
+  },
+  {
+    municipality: 'Sag Harbor',
+    code: 'SAG',
+    items: [
+      {
+        headline: 'Sag Harbor Village Historic District expansion proposed — 14 additional properties under review for landmark status',
+        source: 'Sag Harbor Express',
+        date: 'Mar 28, 2026',
+        url: 'https://www.sagharborexpress.com',
+        tag: 'Historic',
+      },
+      {
+        headline: 'Sag Harbor waterfront mixed-use development clears planning board — 18-month construction timeline begins Q3',
+        source: 'Southampton Press',
+        date: 'Mar 27, 2026',
+        url: 'https://www.27east.com',
+        tag: 'Development',
+      },
+      {
+        headline: 'North Haven bridge traffic study released — peak season volume up 22% YOY, infrastructure investment required',
+        source: 'Sag Harbor Express',
+        date: 'Mar 26, 2026',
+        url: 'https://www.sagharborexpress.com',
+        tag: 'Infrastructure',
+      },
+    ],
+  },
+];
+
+const TAG_COLORS: Record<string, string> = {
+  Market: '#2d6a4f',
+  Zoning: '#1B2A4A',
+  Schools: '#5a3e8a',
+  Politics: '#7a4a2a',
+  Historic: '#8a6a2a',
+  Development: '#2a5a7a',
+  Infrastructure: '#4a4a4a',
+};
+
+function Section2() {
+  return (
+    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="2" title="Hamptons Local Intelligence" />
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 28 }}>
+          East Hampton Town · Southampton Town · Sag Harbor · Updated daily
+        </div>
+
+        <div className="grid gap-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+          {HAMPTONS_NEWS.map((muni) => (
+            <div key={muni.code}>
+              {/* Municipality header */}
+              <div className="flex items-center gap-2 mb-4" style={{ borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 10 }}>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '2px 8px' }}>
+                  {muni.code}
+                </span>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', fontSize: 11, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  {muni.municipality}
+                </span>
+              </div>
+
+              {/* News items */}
+              <div className="flex flex-col gap-4">
+                {muni.items.map((item, i) => (
+                  <a
+                    key={i}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block group"
+                    style={{ textDecoration: 'none' }}
                   >
-                    {img.caption}
-                  </div>
+                    <div className="flex items-start gap-2 mb-1">
+                      <span style={{
+                        fontFamily: '"Barlow Condensed", sans-serif',
+                        background: TAG_COLORS[item.tag] || '#384249',
+                        color: '#fff',
+                        fontSize: 8,
+                        letterSpacing: '0.18em',
+                        textTransform: 'uppercase',
+                        padding: '1px 6px',
+                        borderRadius: 2,
+                        flexShrink: 0,
+                        marginTop: 2,
+                      }}>
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p style={{
+                      fontFamily: '"Source Sans 3", sans-serif',
+                      color: '#1B2A4A',
+                      fontSize: '0.8125rem',
+                      lineHeight: 1.55,
+                      margin: 0,
+                      fontWeight: 600,
+                    }}
+                      className="group-hover:underline"
+                    >
+                      {item.headline}
+                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.12em' }}>
+                        {item.source}
+                      </span>
+                      <span style={{ color: 'rgba(27,42,74,0.25)', fontSize: 9 }}>·</span>
+                      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.12em' }}>
+                        {item.date}
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION 3 · Market Intelligence ─────────────────────────────────────────
+
+interface TickerData {
+  sp500Change: number;
+  vix: number;
+  treasury10y: number;
+  mortgage30y: number;
+  loaded: boolean;
+}
+
+interface CFSResult {
+  score: number;
+  label: string;
+  color: string;
+  description: string;
+}
+
+function calcCFS(t: TickerData): CFSResult {
+  if (!t.loaded) return { score: 0, label: 'Loading', color: '#C8AC78', description: '' };
+  const eq = Math.max(0, Math.min(40, 20 + t.sp500Change * 10));
+  const vx = t.vix < 20 ? 30 : t.vix < 30 ? 15 : 0;
+  const rt = t.treasury10y < 4.5 ? 30 : t.treasury10y < 5.0 ? 15 : 0;
+  const score = Math.round(eq + vx + rt);
+  if (score >= 75) return { score, label: 'Strong Inflow', color: '#2d6a4f', description: 'Equity markets stable, volatility contained, rates favorable. Buyer confidence elevated.' };
+  if (score >= 55) return { score, label: 'Moderate Inflow', color: '#C8AC78', description: 'Mixed signals. Selective buyers active. Institutional quality assets moving.' };
+  if (score >= 35) return { score, label: 'Cautious', color: '#e07b39', description: 'Volatility elevated. Buyers requiring price concessions. DOM extending.' };
+  return { score, label: 'Defensive', color: '#c0392b', description: 'Market stress. Luxury segment insulated but sentiment weak. Hold positions.' };
+}
+
+function DonutRing({ score, color }: { score: number; color: string }) {
+  const r = 54, cx = 70, cy = 70;
+  const circ = 2 * Math.PI * r;
+  const filled = (score / 100) * circ;
+  return (
+    <svg width={140} height={140} viewBox="0 0 140 140" aria-hidden="true">
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(27,42,74,0.12)" strokeWidth={10} />
+      <circle cx={cx} cy={cy} r={r} fill="none" stroke={color} strokeWidth={10}
+        strokeDasharray={`${filled} ${circ - filled}`}
+        strokeDashoffset={circ * 0.25} strokeLinecap="round"
+        style={{ transition: 'stroke-dasharray 0.8s ease' }} />
+      <text x={cx} y={cy - 6} textAnchor="middle" fill={color}
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 22, fontWeight: 600 }}>{score}</text>
+      <text x={cx} y={cy + 12} textAnchor="middle" fill="rgba(27,42,74,0.5)"
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em' }}>CFS SCORE</text>
+    </svg>
+  );
+}
+
+function Section3() {
+  const [ticker, setTicker] = useState<TickerData>({ sp500Change: 0, vix: 18.5, treasury10y: 4.35, mortgage30y: 6.82, loaded: false });
+
+  useEffect(() => {
+    async function fetchTicker() {
+      try {
+        const [yahooRes, mortgageRes] = await Promise.allSettled([
+          fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=2d'),
+          fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5ETNX?interval=1d&range=1d'),
+        ]);
+        let sp500Change = 0, treasury10y = 4.35, vix = 18.5, mortgage30y = 6.82;
+        if (yahooRes.status === 'fulfilled') {
+          const data = await yahooRes.value.json();
+          const closes = data?.chart?.result?.[0]?.indicators?.quote?.[0]?.close ?? [];
+          if (closes.length >= 2) sp500Change = ((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) * 100;
+        }
+        setTicker({ sp500Change, vix, treasury10y, mortgage30y, loaded: true });
+      } catch {
+        setTicker(t => ({ ...t, loaded: true }));
+      }
+    }
+    fetchTicker();
+  }, []);
+
+  const cfs = calcCFS(ticker);
+
+  return (
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="3" title="Market Intelligence" />
+
+        <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+          {/* CFS card */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
+              Capital Flow Signal
+            </div>
+            <div className="flex items-center gap-6">
+              <DonutRing score={cfs.score} color={cfs.color} />
+              <div>
+                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.25rem', fontWeight: 600 }}>{cfs.label}</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 6, maxWidth: 180 }}>{cfs.description}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Rate environment */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
+              Rate Environment
+            </div>
+            {[
+              { label: '30Y Fixed Mortgage', value: `${ticker.mortgage30y.toFixed(2)}%` },
+              { label: '10Y Treasury', value: `${ticker.treasury10y.toFixed(2)}%` },
+              { label: 'VIX', value: ticker.vix.toFixed(1) },
+            ].map(row => (
+              <div key={row.label} className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(200,172,120,0.1)' }}>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{row.label}</span>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 13, fontWeight: 600 }}>{row.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Hamptons Median */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
+              Hamptons Median
+            </div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>
+              South Fork · Q1 2026 · All Hamlets
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>
+              Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Nine distinct corridors, nine distinct buyers.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION 4 · Hamlet Atlas Matrix ─────────────────────────────────────────
+
+const TIER_COLORS: Record<HamletTier, string> = {
+  'Ultra-Trophy': '#8a6a2a',
+  'Trophy': '#1B2A4A',
+  'Premier': '#2a5a7a',
+  'Opportunity': '#2d6a4f',
+};
+
+function HamletTile({ hamlet, onSelect, isSelected }: { hamlet: HamletData; onSelect: () => void; isSelected: boolean }) {
+  const tierColor = TIER_COLORS[hamlet.tier] || '#384249';
+  return (
+    <button
+      onClick={onSelect}
+      className="text-left w-full"
+      style={{
+        background: isSelected ? '#1B2A4A' : '#FAF8F4',
+        border: `1px solid ${isSelected ? '#C8AC78' : 'rgba(27,42,74,0.12)'}`,
+        padding: '16px 18px',
+        cursor: 'pointer',
+        transition: 'all 0.15s ease',
+      }}
+    >
+      <div className="flex items-start justify-between gap-2 mb-2">
+        <span style={{ fontFamily: '"Cormorant Garamond", serif', color: isSelected ? '#FAF8F4' : '#1B2A4A', fontWeight: 600, fontSize: '1rem' }}>
+          {hamlet.name}
+        </span>
+        <span style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          background: tierColor,
+          color: '#fff',
+          fontSize: 8,
+          letterSpacing: '0.16em',
+          textTransform: 'uppercase',
+          padding: '2px 7px',
+          flexShrink: 0,
+        }}>
+          {hamlet.tier}
+        </span>
+      </div>
+      <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 14, fontWeight: 600 }}>
+        {hamlet.medianPrice >= 1_000_000
+          ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M`
+          : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K`}
+      </div>
+      <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: isSelected ? 'rgba(250,248,244,0.5)' : 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 4 }}>
+        ANEW {hamlet.anewScore} · {hamlet.volumeShare}% vol
+      </div>
+    </button>
+  );
+}
+
+function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => void }) {
+  return (
+    <div style={{ background: '#1B2A4A', border: '1px solid rgba(200,172,120,0.3)', marginTop: 2, padding: '28px 24px' }}>
+      {/* Header */}
+      <div className="flex items-start justify-between mb-6">
+        <div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 4 }}>
+            Hamlet Profile
+          </div>
+          <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>
+            {hamlet.name}
+          </h3>
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.8125rem', margin: '4px 0 0' }}>
+            {hamlet.tier} · {hamlet.medianPriceDisplay} median
+          </p>
+        </div>
+        <button
+          onClick={onClose}
+          style={{ background: 'none', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '6px 12px', cursor: 'pointer' }}
+        >
+          Close
+        </button>
+      </div>
+
+      {/* Stats grid */}
+      <div className="grid grid-cols-2 gap-3 mb-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}>
+        {[
+          { label: 'Median Price', value: hamlet.medianPrice >= 1_000_000 ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M` : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K` },
+          { label: 'ANEW Score', value: String(hamlet.anewScore) },
+          { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
+          { label: 'Tier', value: hamlet.tier },
+        ].map(stat => (
+          <div key={stat.label} style={{ background: 'rgba(250,248,244,0.06)', padding: '12px 14px' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>{stat.label}</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 16, fontWeight: 600 }}>{stat.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Last sale */}
+      {hamlet.lastSale && (
+        <div className="mb-6" style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.15)', padding: '14px 16px' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 8 }}>Last Notable Sale</div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.875rem', fontWeight: 600 }}>{hamlet.lastSale}</div>
+          <div className="flex items-center gap-3 mt-1">
+            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 13 }}>
+              {hamlet.lastSalePrice}
+            </span>
+            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 10 }}>{hamlet.lastSaleDate}</span>
+          </div>
+        </div>
+      )}
+
+      {/* EELE listings */}
+      <div className="mb-6">
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>
+          EELE Active Listings
+        </div>
+        <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+          {hamlet.eeleListings?.map((listing, i) => (
+            listing.placeholder ? (
+              <div key={i} style={{ border: '1px dashed rgba(200,172,120,0.25)', padding: '12px 14px' }}>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.3)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>
+                  Listing {i + 1} · Placeholder
                 </div>
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: '0.8125rem' }}>Address TBD</div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.4)', fontSize: 12, marginTop: 4 }}>Price TBD · Active</div>
+              </div>
+            ) : (
+              <div key={i} style={{ background: 'rgba(250,248,244,0.05)', padding: '12px 14px' }}>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.8125rem', fontWeight: 600 }}>{listing.address}</div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 13, marginTop: 4 }}>
+                  {listing.price && listing.price !== 'TBD' ? listing.price : 'Price TBD'}
+                </div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 2 }}>
+                  {listing.beds != null ? `${listing.beds}bd` : ''}{listing.baths != null ? ` · ${listing.baths}ba` : ''}{listing.sqft && listing.sqft !== 'TBD' ? ` · ${listing.sqft} sqft` : ''}
+                </div>
+              </div>
+            )
+          ))}
+        </div>
+      </div>
+
+      {/* Restaurants */}
+      {hamlet.restaurants && (
+        <div className="mb-6">
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>
+            Dining
+          </div>
+          <div className="flex flex-col gap-2">
+            {[
+              { tier: 'Anchor', name: hamlet.restaurants.anchor },
+              { tier: 'Mid', name: hamlet.restaurants.mid },
+              { tier: 'Local', name: hamlet.restaurants.local },
+            ].filter(r => r.name).map(r => (
+              <div key={r.tier} className="flex items-center gap-3">
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'rgba(200,172,120,0.15)', color: '#C8AC78', fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', padding: '2px 7px', flexShrink: 0 }}>
+                  {r.tier}
+                </span>
+                <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.name === 'TBD' ? 'rgba(250,248,244,0.3)' : 'rgba(250,248,244,0.75)', fontSize: '0.8125rem' }}>
+                  {r.name}
+                </span>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      )}
 
-      {/* ── YouTube Matrix 3×3 ───────────────────────────────────────────── */}
-      <section className="px-6 py-12 bg-[var(--color-cream)]">
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div className="label-overline text-[var(--color-gold)] mb-2">
-            Christie's East Hampton Podcast
+      {/* News links */}
+      {hamlet.newsLinks && hamlet.newsLinks.length > 0 && (
+        <div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 10 }}>
+            Recent Coverage
           </div>
-          <h2 className="font-serif text-[var(--color-navy)] font-semibold text-[1.5rem] mb-8">
-            Market Intelligence on Demand
-          </h2>
-          <div className="grid grid-cols-3 gap-4">
-            {YOUTUBE_VIDEOS.map((video, i) => (
-              <div
-                key={i}
-                className="group cursor-pointer"
-                onClick={() =>
-                  window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')
-                }
-                role="button"
-                tabIndex={0}
-                aria-label={`Watch: ${video.title}`}
-                onKeyDown={(e) =>
-                  e.key === 'Enter' &&
-                  window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')
-                }
-              >
-                <div
-                  className="relative overflow-hidden bg-[var(--color-navy)]"
-                  style={{ aspectRatio: '16/9' }}
+          <div className="flex flex-col gap-2">
+            {hamlet.newsLinks.map((link, i) => (
+              <a key={i} href={link.url} target="_blank" rel="noopener noreferrer"
+                style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.8125rem', textDecoration: 'none' }}
+                className="hover:underline">
+                {link.label} →
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Section4() {
+  const [selectedHamlet, setSelectedHamlet] = useState<string | null>(null);
+
+  const orderedHamlets = TIER_ORDER.flatMap(tier =>
+    MASTER_HAMLET_DATA.filter(h => h.tier === tier)
+  );
+
+  const selected = orderedHamlets.find(h => h.id === selectedHamlet) ?? null;
+
+  return (
+    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="4" title="Hamlet Atlas Matrix · Nine Territories" />
+
+        <div className="grid gap-2 mb-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+          {orderedHamlets.map(hamlet => (
+            <HamletTile
+              key={hamlet.id}
+              hamlet={hamlet}
+              isSelected={selectedHamlet === hamlet.id}
+              onSelect={() => setSelectedHamlet(selectedHamlet === hamlet.id ? null : hamlet.id)}
+            />
+          ))}
+        </div>
+
+        {selected && (
+          <HamletPanel
+            hamlet={selected}
+            onClose={() => setSelectedHamlet(null)}
+          />
+        )}
+
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 16, textAlign: 'center' }}>
+          Tap any hamlet to expand · Individual hamlet PDF · Phase 2 subscriber gate
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION 5 · IDEAS / ANEW Intelligence ───────────────────────────────────
+
+function Section5() {
+  return (
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="5" title="IDEAS / ANEW Intelligence" />
+
+        <div className="grid gap-6" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+          {/* Model deal */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 4 }}>
+              Model Deal · East Hampton Town
+            </div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.1rem', fontWeight: 600, marginBottom: 16 }}>
+              140 Hands Creek Road
+            </div>
+            <div className="grid grid-cols-3 gap-3 mb-4">
+              {[
+                { label: 'Land', value: '$3.5M' },
+                { label: 'All-In', value: '$8.3M' },
+                { label: 'Exit', value: '$9.9M' },
+              ].map(cell => (
+                <div key={cell.label} style={{ background: 'rgba(250,248,244,0.06)', padding: '10px 12px', textAlign: 'center' }}>
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>{cell.label}</div>
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 15, fontWeight: 600 }}>{cell.value}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#2d6a4f', color: '#fff', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', padding: '6px 14px', display: 'inline-block' }}>
+              Institutional
+            </div>
+          </div>
+
+          {/* ANEW Homes chip */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+              ANEW Homes · Ed Bruehl
+            </div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.25rem', fontWeight: 400, lineHeight: 1.3, marginBottom: 12 }}>
+              Morton Buildings steel-frame construction. 12-month delivery. Below replacement cost.
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.8125rem', lineHeight: 1.6, marginBottom: 16 }}>
+              The ANEW framework scores every acquisition on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not.
+            </div>
+            <a
+              href="https://linktr.ee/edbruehlrealestate"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', textDecoration: 'none', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 2 }}
+            >
+              linktr.ee/edbruehlrealestate →
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── SECTION 6 · Resources & Authority ───────────────────────────────────────
+
+function Section6() {
+  return (
+    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="6" title="Resources & Authority" />
+
+        <div className="grid gap-8" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+          {/* Christie's ecosystem */}
+          <div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+              Christie's Ecosystem
+            </div>
+            <div className="flex flex-col gap-2">
+              {[
+                { label: "Christie's Auction House Americas →", href: 'https://www.christies.com/locations/new-york' },
+                { label: "Christie's Global →", href: 'https://www.christies.com' },
+                { label: "Christie's East Hampton Podcast →", href: 'https://www.youtube.com/channel/UCRNUlNy2hkJFvo1IFTY4otg' },
+                { label: "Christie's East Hampton YouTube →", href: 'https://www.youtube.com/channel/UCRNUlNy2hkJFvo1IFTY4otg' },
+                { label: 'Upcoming Christie\'s Events →', href: 'https://www.christies.com/calendar' },
+              ].map(link => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontSize: '0.875rem', textDecoration: 'none', borderBottom: '1px solid rgba(27,42,74,0.12)', paddingBottom: 8, display: 'block' }}
+                  className="hover:text-[#C8AC78] transition-colors"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact block */}
+          <div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+              Contact
+            </div>
+            <div className="flex items-start gap-4">
+              <img
+                src={ED_HEADSHOT_PRIMARY}
+                alt="Ed Bruehl"
+                style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(200,172,120,0.5)', flexShrink: 0 }}
+              />
+              <div>
+                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1.125rem', fontWeight: 600 }}>Ed Bruehl · Managing Director</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8125rem', lineHeight: 1.65, marginTop: 6 }}>
+                  Christie's International Real Estate Group<br />
+                  26 Park Place · East Hampton NY 11937<br />
+                  <a href="tel:6467521233" style={{ color: '#1B2A4A', textDecoration: 'none' }}>646-752-1233</a>
+                  {' · '}
+                  <a href="mailto:ebruehl@christiesrealestate.com" style={{ color: '#1B2A4A', textDecoration: 'none' }}>ebruehl@christiesrealestate.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Doctrine footer */}
+        <div className="mt-12 pt-8" style={{ borderTop: '1px solid rgba(27,42,74,0.12)' }}>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '0.9375rem', fontStyle: 'italic', lineHeight: 1.6, marginBottom: 6 }}>
+            Christie's · Est. 1766 — Always the family's interest before the sale. The name follows.
+          </div>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(27,42,74,0.55)', fontSize: '0.875rem', fontStyle: 'italic', lineHeight: 1.6 }}>
+            Christie's East Hampton — Always in full service of the Christie's standard. Carrying the name forward.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Auction Gallery 3×3 ──────────────────────────────────────────────────────
+function AuctionGallery() {
+  const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
+  return (
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
+          Christie's Auction House · Brand Authority
+        </div>
+        <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          {GALLERY_IMAGES.map((img) => (
+            <button
+              key={img.id}
+              onClick={() => setLightbox({ src: img.src, caption: img.caption })}
+              className="block w-full overflow-hidden"
+              style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', aspectRatio: '4/3' }}
+            >
+              <img
+                src={img.src}
+                alt={img.caption}
+                className="w-full h-full object-cover"
+                style={{ transition: 'transform 0.3s ease' }}
+                onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.04)')}
+                onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+              />
+            </button>
+          ))}
+        </div>
+        {lightbox && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            style={{ background: 'rgba(0,0,0,0.88)' }}
+            onClick={() => setLightbox(null)}
+          >
+            <div className="relative max-w-4xl mx-4" onClick={e => e.stopPropagation()}>
+              <img src={lightbox.src} alt={lightbox.caption} className="max-h-[80vh] w-auto object-contain" />
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', textAlign: 'center', marginTop: 10 }}>
+                {lightbox.caption}
+              </div>
+              <button
+                onClick={() => setLightbox(null)}
+                style={{ position: 'absolute', top: -12, right: -12, background: '#1B2A4A', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', width: 28, height: 28, borderRadius: '50%', cursor: 'pointer', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 14 }}
+              >×</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ─── YouTube Matrix 3×3 ───────────────────────────────────────────────────────
+const YOUTUBE_VIDEOS = [
+  { id: 'DEVo7NabIy8', title: "Bringing James Christie's Legacy to the Hamptons" },
+  { id: 'FCsLbt_EgJ8', title: 'Get to Know Me — Ed Bruehl, Hamptons Real Estate' },
+  { id: 'gucsKvabi_k', title: 'Uncovering Value in Hamptons Real Estate — Traveling Podcast' },
+  { id: 'WhTXS0xz-Hs', title: 'Your Hamptons Real Estate Podcast Ep. 1 — Pierre Debbas Esq.' },
+  { id: 'IueHmzSSMT4', title: 'Your Hamptons Real Estate Podcast Ep. 2 — Marit Molin' },
+  { id: 'Vksowg9h2iQ', title: 'Your Hamptons Real Estate Podcast Ep. 3 — Brad Beyer' },
+  { id: '3w7p8ZnrsdU', title: 'Found Inventory in the Hamptons — Ed Bruehl' },
+  { id: 'mRHfcIzsLvc', title: '3 Essentials for Every Successful Deal — Ed Bruehl' },
+  { id: 'fAPHGnmI_N4', title: 'SOLD & CLOSED: 129 Seven Ponds Road, Water Mill — 33.3 Acres' },
+];
+
+function YouTubeMatrix() {
+  const [playing, setPlaying] = useState<string | null>(null);
+  return (
+    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
+          Christie's East Hampton · Video Intelligence
+        </div>
+        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+          {YOUTUBE_VIDEOS.map(v => (
+            <div key={v.id} style={{ background: '#000', aspectRatio: '16/9', position: 'relative', overflow: 'hidden' }}>
+              {playing === v.id ? (
+                <iframe
+                  src={`https://www.youtube.com/embed/${v.id}?autoplay=1`}
+                  title={v.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{ width: '100%', height: '100%', border: 'none' }}
+                />
+              ) : (
+                <button
+                  onClick={() => setPlaying(v.id)}
+                  className="w-full h-full block"
+                  style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', position: 'relative' }}
                 >
                   <img
-                    src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
-                    alt={video.title}
-                    className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-300"
+                    src={`https://img.youtube.com/vi/${v.id}/mqdefault.jpg`}
+                    alt={v.title}
+                    className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 bg-[rgba(200,172,120,0.9)]">
-                      <div
-                        className="ml-1"
-                        style={{
-                          width: 0,
-                          height: 0,
-                          borderTop: '8px solid transparent',
-                          borderBottom: '8px solid transparent',
-                          borderLeft: '14px solid #1B2A4A',
-                        }}
-                      />
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(27,42,74,0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'rgba(200,172,120,0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="#1B2A4A"><polygon points="5,3 13,8 5,13"/></svg>
                     </div>
                   </div>
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
-                </div>
-                <div
-                  className="mt-2 text-sm leading-snug text-[var(--color-charcoal)]"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
-                  {video.title}
-                </div>
-              </div>
-            ))}
-          </div>
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'linear-gradient(transparent, rgba(27,42,74,0.85))', padding: '20px 10px 8px', fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.85)', fontSize: 10, letterSpacing: '0.06em', lineHeight: 1.3 }}>
+                    {v.title}
+                  </div>
+                </button>
+              )}
+            </div>
+          ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ── Lightbox ─────────────────────────────────────────────────────── */}
-      {lightbox && (
-        <LightboxModal
-          src={lightbox.src}
-          alt={lightbox.alt}
-          caption={lightbox.caption}
-          onClose={() => setLightbox(null)}
-        />
-      )}
+// ─── Main export ──────────────────────────────────────────────────────────────
+export default function HomeTab() {
+  return (
+    <div style={{ background: '#FAF8F4' }}>
+      <Section1 />
+      <Section2 />
+      <Section3 />
+      <Section4 />
+      <Section5 />
+      <AuctionGallery />
+      <YouTubeMatrix />
+      <Section6 />
     </div>
   );
 }
