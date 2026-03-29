@@ -147,7 +147,7 @@ export async function drawHeader(
 
 // ─── Shared footer ────────────────────────────────────────────────────────────
 
-export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number) {
+export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number, qrImg = '') {
   const y = PAGE.h - 14;
 
   // Gold rule
@@ -171,12 +171,18 @@ export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number) {
   doc.setTextColor(...C.muted);
   doc.text(`${pageNum} / ${totalPages}`, PAGE.w - PAGE.mr, y + 4, { align: 'right' });
 
-  // QR placeholder (bottom-right corner)
-  doc.setFillColor(240, 238, 234);
-  doc.rect(PAGE.w - PAGE.mr - 12, y - 1, 12, 12, 'F');
-  doc.setFontSize(4);
-  doc.setTextColor(...C.muted);
-  doc.text('QR', PAGE.w - PAGE.mr - 6, y + 5, { align: 'center' });
+  // QR code — linktr.ee/edbruehlrealestate
+  if (qrImg) {
+    try {
+      doc.addImage(qrImg, 'PNG', PAGE.w - PAGE.mr - 12, y - 1, 12, 12);
+    } catch {
+      doc.setFillColor(240, 238, 234);
+      doc.rect(PAGE.w - PAGE.mr - 12, y - 1, 12, 12, 'F');
+    }
+  } else {
+    doc.setFillColor(240, 238, 234);
+    doc.rect(PAGE.w - PAGE.mr - 12, y - 1, 12, 12, 'F');
+  }
 }
 
 // ─── Section label ────────────────────────────────────────────────────────────
@@ -292,12 +298,15 @@ export function downloadPdf(doc: jsPDF, filename: string) {
 
 // ─── Pre-load both CDN images ─────────────────────────────────────────────────
 
-export async function loadPdfAssets(): Promise<{ edImg: string; logoImg: string }> {
-  const [edImg, logoImg] = await Promise.all([
+const QR_LINKTREE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/ZhFMhIXpCZKCjsju.png';
+
+export async function loadPdfAssets(): Promise<{ edImg: string; logoImg: string; qrImg: string }> {
+  const [edImg, logoImg, qrImg] = await Promise.all([
     loadImageAsDataUrl(ED_HEADSHOT_PRIMARY),
     loadImageAsDataUrl(LOGO_BLACK),
+    loadImageAsDataUrl(QR_LINKTREE_URL),
   ]);
-  return { edImg, logoImg };
+  return { edImg, logoImg, qrImg };
 }
 
 // ─── Format helpers ───────────────────────────────────────────────────────────

@@ -26,7 +26,7 @@ import { LENS_LABELS } from '../calculators/anew-calculator';
 // ─── 1. ANEW Build Memo (2 pages) ─────────────────────────────────────────────
 
 export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
-  const { edImg, logoImg } = await loadPdfAssets();
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const hamlet = MASTER_HAMLET_DATA.find(h => h.id === result.hamletId)!;
 
@@ -96,7 +96,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   doc.setTextColor(...C.charcoal);
   y = wrapText(doc, `"${result.mentorLine}"`, PAGE.ml, y, PAGE.contentW - 30, 5);
 
-  drawFooter(doc, 1, 2);
+  drawFooter(doc, 1, 2, qrImg);
 
   // ── PAGE 2 ──
   doc.addPage();
@@ -128,7 +128,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   const disclaimer = 'This memo is prepared for internal use by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance. This document is confidential and intended solely for the named recipient.';
   y = wrapText(doc, disclaimer, PAGE.ml, y, PAGE.contentW, 4.5);
 
-  drawFooter(doc, 2, 2);
+  drawFooter(doc, 2, 2, qrImg);
 
   downloadPdf(doc, `Christies_EH_ANEW_Build_Memo_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
@@ -136,7 +136,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
 // ─── 2. Christie CMA (2 pages) ────────────────────────────────────────────────
 
 export async function generateChristieCMA(result: AnewOutput): Promise<void> {
-  const { edImg, logoImg } = await loadPdfAssets();
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const hamlet = MASTER_HAMLET_DATA.find(h => h.id === result.hamletId)!;
 
@@ -203,7 +203,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   doc.setTextColor(...C.charcoal);
   y = wrapText(doc, recText, PAGE.ml, y, PAGE.contentW, 5.5);
 
-  drawFooter(doc, 1, 2);
+  drawFooter(doc, 1, 2, qrImg);
 
   // ── PAGE 2 — Full hamlet comps ──
   doc.addPage();
@@ -233,7 +233,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   doc.line(PAGE.ml + 75, y, PAGE.ml + 120, y);
   doc.text('Date', PAGE.ml + 80, y + 4);
 
-  drawFooter(doc, 2, 2);
+  drawFooter(doc, 2, 2, qrImg);
 
   downloadPdf(doc, `Christies_EH_CMA_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
@@ -241,7 +241,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
 // ─── 3. Deal Brief (1 page) ───────────────────────────────────────────────────
 
 export async function generateDealBrief(result: AnewOutput): Promise<void> {
-  const { edImg, logoImg } = await loadPdfAssets();
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const hamlet = MASTER_HAMLET_DATA.find(h => h.id === result.hamletId)!;
 
@@ -340,7 +340,7 @@ export async function generateDealBrief(result: AnewOutput): Promise<void> {
   doc.setTextColor(...C.charcoal);
   y = wrapText(doc, `"${result.mentorLine}"`, PAGE.ml, y, PAGE.contentW, 5);
 
-  drawFooter(doc, 1, 1);
+  drawFooter(doc, 1, 1, qrImg);
 
   downloadPdf(doc, `Christies_EH_Deal_Brief_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
@@ -348,7 +348,7 @@ export async function generateDealBrief(result: AnewOutput): Promise<void> {
 // ─── 4. Investment Memo (2 pages) ─────────────────────────────────────────────
 
 export async function generateInvestmentMemo(result: AnewOutput): Promise<void> {
-  const { edImg, logoImg } = await loadPdfAssets();
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const hamlet = MASTER_HAMLET_DATA.find(h => h.id === result.hamletId)!;
 
@@ -422,7 +422,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
     y += 18;
   }
 
-  drawFooter(doc, 1, 2);
+  drawFooter(doc, 1, 2, qrImg);
 
   // ── PAGE 2 — Market context ──
   doc.addPage();
@@ -451,7 +451,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   const disclaimer = 'This memorandum is prepared for internal use by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance. This document is confidential.';
   y = wrapText(doc, disclaimer, PAGE.ml, y, PAGE.contentW, 4.5);
 
-  drawFooter(doc, 2, 2);
+  drawFooter(doc, 2, 2, qrImg);
 
   downloadPdf(doc, `Christies_EH_Investment_Memo_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
@@ -459,7 +459,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 // ─── 5. Five-Page Market Report ───────────────────────────────────────────────
 
 export async function generateMarketReport(hamletId?: string): Promise<void> {
-  const { edImg, logoImg } = await loadPdfAssets();
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const targetHamlet = hamletId ? MASTER_HAMLET_DATA.find(h => h.id === hamletId) : undefined;
 
@@ -564,7 +564,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
 
   y = drawHamletCompsTable(doc, y);
 
-  drawFooter(doc, 2, 5);
+  drawFooter(doc, 2, 5, qrImg);
 
   // ── PAGE 3 — Ultra-Trophy & Trophy Hamlets ──
   doc.addPage();
@@ -583,7 +583,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     y += 4;
   });
 
-  drawFooter(doc, 3, 5);
+  drawFooter(doc, 3, 5, qrImg);
 
   // ── PAGE 4 — Premier & Opportunity Hamlets ──
   doc.addPage();
@@ -602,7 +602,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     y += 4;
   });
 
-  drawFooter(doc, 4, 5);
+  drawFooter(doc, 4, 5, qrImg);
 
   // ── PAGE 5 — Christie's Advantage + Contact ──
   doc.addPage();
@@ -650,7 +650,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 30, y + 21);
   doc.text('646-752-1233 · christiesrealestategroup.com', PAGE.ml + 30, y + 26);
 
-  drawFooter(doc, 5, 5);
+  drawFooter(doc, 5, 5, qrImg);
 
   const filename = targetHamlet
     ? `Christies_EH_Market_Report_${targetHamlet.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
