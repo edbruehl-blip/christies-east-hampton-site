@@ -7,7 +7,7 @@
  *          · YouTube Matrix 3×3
  *
  * All image URLs sourced from cdn-assets.ts — no inline URLs.
- * Ed headshot: BACKUP in use until Ed confirms PRIMARY.
+ * Ed headshot: PRIMARY confirmed (5A89ABA9) — wired in nav bar and PDF export header.
  */
 
 import { useState } from 'react';

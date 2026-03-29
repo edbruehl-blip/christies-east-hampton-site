@@ -10,6 +10,7 @@
 import { useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA } from '@/data/hamlet-master';
+import { ED_HEADSHOT_PRIMARY, LOGO_BLACK } from '@/lib/cdn-assets';
 import {
   runAnewCalculator,
   LENS_LABELS,
@@ -117,6 +118,25 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
   ];
   return (
     <MatrixCard variant="navy" className="p-6">
+      {/* PDF Export Header — Ed Bruehl headshot + CIREG logo (mirrors printed PDF header) */}
+      <div className="flex items-center justify-between mb-5 pb-4 border-b border-[rgba(200,172,120,0.2)]">
+        <div className="flex items-center gap-3">
+          <img
+            src={ED_HEADSHOT_PRIMARY}
+            alt="Ed Bruehl — Managing Director"
+            className="h-10 w-10 rounded-full object-cover object-top border border-[rgba(200,172,120,0.35)]"
+          />
+          <div>
+            <div className="text-[var(--color-cream)] text-[0.8rem] font-semibold" style={{ fontFamily: '"Cormorant Garamond", serif' }}>Ed Bruehl</div>
+            <div className="text-[rgba(200,172,120,0.7)] text-[0.6rem] uppercase tracking-[0.14em]" style={{ fontFamily: 'var(--font-condensed)' }}>Managing Director · Christie's East Hampton</div>
+          </div>
+        </div>
+        <img
+          src={LOGO_BLACK}
+          alt="Christie's International Real Estate Group"
+          className="h-5 w-auto opacity-80 brightness-0 invert"
+        />
+      </div>
       <div className="flex items-start justify-between mb-6">
         <div>
           <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 10 }}>{result.hamletName} · {LENS_LABELS[result.lens]}</div>

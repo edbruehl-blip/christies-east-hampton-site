@@ -8,7 +8,7 @@
  */
 
 import { useState, type ReactNode } from "react";
-import { LOGO_WHITE } from "@/lib/cdn-assets";
+import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
 
@@ -51,6 +51,21 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
               style={{ fontFamily: "var(--font-condensed)", fontSize: "0.68rem", letterSpacing: "0.18em", textTransform: "uppercase" }}
             >
               East Hampton
+            </span>
+          </div>
+
+          {/* Ed Bruehl headshot — confirmed PRIMARY (5A89ABA9) */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
+            <img
+              src={ED_HEADSHOT_PRIMARY}
+              alt="Ed Bruehl — Managing Director"
+              className="h-8 w-8 rounded-full object-cover object-top border border-[rgba(200,172,120,0.4)]"
+            />
+            <span
+              className="text-[var(--color-cream)] opacity-70"
+              style={{ fontFamily: "var(--font-condensed)", fontSize: "0.62rem", letterSpacing: "0.16em", textTransform: "uppercase" }}
+            >
+              Ed Bruehl
             </span>
           </div>
 
