@@ -1,18 +1,22 @@
 /**
  * App.tsx — Christie's East Hampton Re-platform
  *
- * Seven-tab architecture: HOME · MARKET · MAPS · IDEAS · PIPE · FUTURE · INTEL
- * No eighth tab. Design tokens in index.css. No inline styles.
+ * Routes:
+ *   /        → Seven-tab dashboard (HOME · MARKET · MAPS · IDEAS · PIPE · FUTURE · INTEL)
+ *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
+ *
+ * Design tokens in index.css. No inline styles.
  */
 
 import { useState } from "react";
+import { Route, Switch } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardLayout, type TabId } from "./components/DashboardLayout";
 
-// Tab pages — stubs only until wireframe spec arrives
+// Tab pages
 import HomeTab   from "./pages/tabs/HomeTab";
 import MarketTab from "./pages/tabs/MarketTab";
 import MapsTab   from "./pages/tabs/MapsTab";
@@ -20,6 +24,9 @@ import IdeasTab  from "./pages/tabs/IdeasTab";
 import PipeTab   from "./pages/tabs/PipeTab";
 import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
+
+// Standalone pages
+import ReportPage from "./pages/ReportPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -34,17 +41,25 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
   }
 }
 
-function App() {
+function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("home");
+  return (
+    <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      <TabContent activeTab={activeTab} />
+    </DashboardLayout>
+  );
+}
 
+function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
-            <TabContent activeTab={activeTab} />
-          </DashboardLayout>
+          <Switch>
+            <Route path="/report" component={ReportPage} />
+            <Route component={Dashboard} />
+          </Switch>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

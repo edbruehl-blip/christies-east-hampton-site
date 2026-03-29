@@ -38,41 +38,48 @@ const ORG_CHART_DOCS: DocItem[] = [
 
 const MARKET_REPORT_DOCS: DocItem[] = [
   {
-    id: 'market-report-p3-5',
-    label: "Christie's Hamptons Market Report · Pages 3–5 · March 2026",
-    description: "Hamlet-by-hamlet analysis: East Hampton Village, The Springs, Sag Harbor, Bridgehampton, Water Mill, Wainscott, Amagansett, Montauk, Southampton Village. Pages 1–2 coming next pass.",
-    url: null,
+    id: 'market-report-live-v2',
+    label: "Christie's Hamptons Live Market Report · v2 · March 2026",
+    description: "Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
     pinned: true,
+  },
+  {
+    id: 'hamlet-pdf-east-hampton',
+    label: "Hamlet PDF · East Hampton Village · Wireframe",
+    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, EELE listings, last Zillow sale, dining, and news.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/mMMpkvVbutZzZYks.html',
   },
 ];
 
 const CONSTITUTION_DOCS: DocItem[] = [
   {
-    id: 'constitution',
-    label: "Christie's East Hampton · Constitution & Operating Principles",
-    description: "The founding operating principles, team covenant, and institutional standards governing the East Hampton flagship.",
-    url: null,
+    id: 'website-wireframe-v2',
+    label: "Christie's East Hampton · Website Wireframe · v2",
+    description: "Full website architecture wireframe — seven-tab structure, nav layers, HOME/MARKET/MAPS/IDEAS/PIPE/FUTURE/INTEL spec. Council-approved.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/EOvOozncXWBiBwbL.html',
   },
   {
-    id: 'sops',
-    label: "Standard Operating Procedures · Full Library",
-    description: "Complete SOP library covering client intake, listing protocol, deal management, morning brief, and team communication standards.",
-    url: null,
+    id: 'estate-advisory-card',
+    label: "Estate Advisory Card · Wireframe",
+    description: "Christie's East Hampton estate advisory card — client-facing one-page credential document. CIREG brand, Ed Bruehl, doctrine lines.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/wvTlDRaTbuGTazWd.html',
+  },
+  {
+    id: '300day-ascension',
+    label: "300-Day Ascension Plan · Wireframe",
+    description: "Full 300-day growth arc from foundation through market authority — agent recruitment, GCI targets, institutional positioning milestones.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/WXzEqCTtWmVsElaB.html',
   },
 ];
 
 const COUNCIL_BRIEF_DOCS: DocItem[] = [
   {
     id: 'council-brief-march-2026',
-    label: "Council Brief · March 2026",
-    description: "Monthly strategic brief for the AI Council — market conditions, pipeline status, growth model update, and 300-day arc progress.",
-    url: null,
-  },
-  {
-    id: 'council-brief-feb-2026',
-    label: "Council Brief · February 2026",
-    description: "February 2026 strategic brief — foundation month review.",
-    url: null,
+    label: "Council Brief · March 29, 2026 · FINAL",
+    description: "Full council brief — Perplexity compiled, ChatGPT reviewed, Claude approved, Ed authorized. Five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.",
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/JBBnSxvSjfkLOjlS.html',
+    pinned: true,
   },
 ];
 

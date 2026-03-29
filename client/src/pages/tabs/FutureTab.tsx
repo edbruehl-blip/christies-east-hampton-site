@@ -49,6 +49,56 @@ export default function FutureTab() {
 
       <div className="px-6 py-8" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
+        {/* GCI Ascending Bar Chart */}
+        <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          GCI Trajectory · 2026–2031
+        </div>
+        <MatrixCard variant="default" className="mb-10 p-6">
+          {/* Chart container */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12, height: 180, paddingBottom: 32, position: 'relative' }}>
+            {/* Y-axis label */}
+            <div style={{ position: 'absolute', left: 0, top: 0, fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>GCI ($M)</div>
+            {/* Gridlines */}
+            {[1, 2, 3, 4].map(v => (
+              <div key={v} style={{ position: 'absolute', left: 0, right: 0, bottom: 32 + (v / 4.5) * 148, height: 1, background: 'rgba(27,42,74,0.07)' }}>
+                <span style={{ position: 'absolute', left: 0, top: -8, fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', fontSize: 8 }}>${v}M</span>
+              </div>
+            ))}
+            {/* Bars */}
+            {OUTLOOK.map((row, i) => {
+              const maxGci = 4.5;
+              const gciNum = parseFloat(row.gci.replace(/[^0-9.]/g, ''));
+              const barH = Math.round((gciNum / maxGci) * 148);
+              const isFirst = i === 0;
+              return (
+                <div key={row.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, position: 'relative', zIndex: 1 }}>
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: isFirst ? '#C8AC78' : '#1B2A4A', fontSize: 10, fontWeight: 600, letterSpacing: '0.06em', marginBottom: 2 }}>
+                    {row.gci}
+                  </div>
+                  <div style={{
+                    width: '100%',
+                    height: barH,
+                    background: isFirst
+                      ? 'linear-gradient(to top, #C8AC78, rgba(200,172,120,0.6))'
+                      : 'linear-gradient(to top, #1B2A4A, rgba(27,42,74,0.55))',
+                    transition: 'height 0.6s ease',
+                    borderTop: `2px solid ${isFirst ? '#C8AC78' : '#1B2A4A'}`,
+                  }} />
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: isFirst ? '#C8AC78' : '#384249', fontSize: 10, letterSpacing: '0.1em', marginTop: 4 }}>
+                    {row.year}
+                  </div>
+                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 8, letterSpacing: '0.08em' }}>
+                    {row.agents}a
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(27,42,74,0.4)', fontSize: '0.75rem', marginTop: 4 }}>
+            Gold bar = 2026 base case locked. Navy bars = projected trajectory.
+          </div>
+        </MatrixCard>
+
         {/* 2026–2031 Outlook Table */}
         <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           2026–2031 GCI Outlook
