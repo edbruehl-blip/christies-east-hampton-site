@@ -20,13 +20,15 @@
 const CDN = "https://files.manuscdn.com/user_upload_by_module/session_file/115914870";
 
 // ─── James Christie Portraits ───────────────────────────────────────────────
-// Classical oil painting by Thomas Gainsborough, 18th-century attire, powdered wig
-// PRIMARY: cleaner crop — wired as HOME hero
-// FALLBACK: second crop — kept in reserve
+// Classical oil painting, 18th-century attire, powdered wig
+// Source files: IMG_0131.jpeg (481KB) and IMG_0131(1).jpeg (508KB) — confirmed distinct
+// Previous PRIMARY and FALLBACK were identical files (same MD5). Fixed sprint 4.
+// PRIMARY (A): IMG_0131.jpeg — 481KB, cleaner crop — wired as HOME hero
+// FALLBACK (B): IMG_0131(1).jpeg — 508KB — kept in reserve
 export const JAMES_CHRISTIE_PORTRAIT_PRIMARY =
-  `${CDN}/QQjgIXvpPSEWDCCI.jpg`;
+  `${CDN}/ShIMJFdIgwZYZbvl.jpg`;   // ← IMG_0131.jpeg (481KB) — confirmed distinct
 export const JAMES_CHRISTIE_PORTRAIT_FALLBACK =
-  `${CDN}/zAPzHxPZtnIrUAyv.jpg`;
+  `${CDN}/havAKIYeclkbgTPw.jpg`;   // ← IMG_0131(1).jpeg (508KB) — confirmed distinct
 
 // ─── Ed Bruehl Headshots ─────────────────────────────────────────────────────
 // PRIMARY (confirmed by Ed): 5A89ABA9 — navy jacket, white shirt, dark background
