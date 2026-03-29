@@ -1,27 +1,21 @@
 /**
  * HOME TAB — First impression of the institution.
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
- * Typography: Cormorant Garamond (titles/doctrine) · Source Sans 3 (body/data) · Barlow Condensed (labels)
- * Modules: James Christie Portrait Hero · Founding Letter · Subscriber Capture · Auction Gallery 3×3 · YouTube Matrix 3×3
+ * Typography: Cormorant Garamond (titles/doctrine) · Barlow Condensed (labels/data)
+ * Modules: James Christie Portrait Hero · Founding Letter · Subscriber Capture
+ *          · Auction Gallery 3×3 (9 Christie's brand-authority images)
+ *          · YouTube Matrix 3×3
+ *
+ * All image URLs sourced from cdn-assets.ts — no inline URLs.
+ * Ed headshot: BACKUP in use until Ed confirms PRIMARY.
  */
 
 import { useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
-
-const JAMES_CHRISTIE_PORTRAIT =
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/James_Christie_by_Thomas_Gainsborough.jpg/800px-James_Christie_by_Thomas_Gainsborough.jpg';
-
-const AUCTION_IMAGES = [
-  { src: 'https://images.unsplash.com/photo-1541961017774-22349e4a1262?auto=format&fit=crop&w=600&q=80', alt: 'Fine Art Auction' },
-  { src: 'https://images.unsplash.com/photo-1578321272176-b7bbc0679853?auto=format&fit=crop&w=600&q=80', alt: 'Estate Collection' },
-  { src: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=600&q=80', alt: 'Hamptons Estate' },
-  { src: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=600&q=80', alt: 'Oceanfront Property' },
-  { src: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=600&q=80', alt: 'Estate Interior' },
-  { src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80', alt: 'Pool House' },
-  { src: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80', alt: 'Garden Estate' },
-  { src: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=600&q=80', alt: 'Waterfront Home' },
-  { src: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=600&q=80', alt: 'Bridgehampton Estate' },
-];
+import {
+  JAMES_CHRISTIE_PORTRAIT_PRIMARY,
+  GALLERY_IMAGES,
+} from '@/lib/cdn-assets';
 
 const YOUTUBE_VIDEOS = [
   { id: 'dQw4w9WgXcQ', title: 'East Hampton Market Report — Q1 2026' },
@@ -29,24 +23,55 @@ const YOUTUBE_VIDEOS = [
   { id: 'dQw4w9WgXcQ', title: 'ANEW Build: 140 Hands Creek Road' },
   { id: 'dQw4w9WgXcQ', title: "Christie's East Hampton — Institutional Overview" },
   { id: 'dQw4w9WgXcQ', title: 'South Fork Market Dynamics — March 2026' },
-  { id: 'dQw4w9WgXcQ', title: 'The Christie\'s Standard — Ed Bruehl' },
+  { id: 'dQw4w9WgXcQ', title: "The Christie's Standard — Ed Bruehl" },
   { id: 'dQw4w9WgXcQ', title: 'Sagaponack & Bridgehampton Deep Dive' },
   { id: 'dQw4w9WgXcQ', title: 'Springs: The Opportunity Corridor' },
   { id: 'dQw4w9WgXcQ', title: "Christie's East Hampton — Mission & Model" },
 ];
 
-function LightboxModal({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function LightboxModal({
+  src,
+  alt,
+  caption,
+  onClose,
+}: {
+  src: string;
+  alt: string;
+  caption?: string;
+  onClose: () => void;
+}) {
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/85"
       onClick={onClose}
     >
-      <div className="relative max-w-4xl max-h-[90vh] mx-4" onClick={e => e.stopPropagation()}>
-        <img src={src} alt={alt} className="max-h-[85vh] w-auto object-contain" />
+      <div
+        className="relative max-w-4xl max-h-[90vh] mx-4 flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={src}
+          alt={alt}
+          className="max-h-[80vh] w-auto object-contain"
+        />
+        {caption && (
+          <div
+            className="mt-3 text-center"
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: 'rgba(200,172,120,0.85)',
+              letterSpacing: '0.14em',
+              fontSize: '0.75rem',
+              textTransform: 'uppercase',
+            }}
+          >
+            {caption}
+          </div>
+        )}
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-white bg-black/50 rounded-full w-8 h-8 flex items-center justify-center text-lg hover:bg-black/80 transition-colors"
-          aria-label="Close"
+          aria-label="Close lightbox"
         >
           ×
         </button>
@@ -56,7 +81,11 @@ function LightboxModal({ src, alt, onClose }: { src: string; alt: string; onClos
 }
 
 export default function HomeTab() {
-  const [lightbox, setLightbox] = useState<{ src: string; alt: string } | null>(null);
+  const [lightbox, setLightbox] = useState<{
+    src: string;
+    alt: string;
+    caption?: string;
+  } | null>(null);
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
 
@@ -75,10 +104,10 @@ export default function HomeTab() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
+    <div className="min-h-screen bg-[var(--color-cream)]">
 
       {/* ── James Christie Portrait Hero ─────────────────────────────────── */}
-      <section style={{ background: '#1B2A4A' }}>
+      <section className="bg-[var(--color-navy)]">
         <div
           className="relative mx-auto cursor-pointer group"
           style={{ maxWidth: 900 }}
@@ -86,34 +115,26 @@ export default function HomeTab() {
           role="button"
           tabIndex={0}
           aria-label="Download market report and hear William's introduction"
-          onKeyDown={e => e.key === 'Enter' && handleHeroClick()}
+          onKeyDown={(e) => e.key === 'Enter' && handleHeroClick()}
         >
           <img
-            src={JAMES_CHRISTIE_PORTRAIT}
+            src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
             alt="James Christie — Founder, Christie's, Est. 1766"
-            className="w-full object-cover transition-all duration-300 group-hover:brightness-95"
-            style={{ maxHeight: 520, objectPosition: 'center top', borderBottom: '3px solid #C8AC78' }}
+            className="w-full object-cover transition-all duration-300 group-hover:brightness-95 border-b-[3px] border-[var(--color-gold)]"
+            style={{ maxHeight: 520, objectPosition: 'center top' }}
           />
-          <div
-            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-            style={{ border: '2px solid #C8AC78' }}
-          />
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
         </div>
         <div className="text-center py-8 px-6">
-          <div
-            className="uppercase mb-3"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
+          <div className="label-overline text-[var(--color-gold)] mb-3">
             Christie's · Est. 1766
           </div>
-          <h1
-            className="mb-3"
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '2.75rem', lineHeight: 1.15 }}
-          >
+          <h1 className="font-serif text-[var(--color-cream)] font-normal text-[2.75rem] leading-[1.15] mb-3">
             Christie's East Hampton
           </h1>
           <div
-            style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', letterSpacing: '0.06em', fontSize: '0.95rem' }}
+            className="text-[var(--color-gold)] tracking-[0.06em] text-[0.95rem]"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
             Managing Director · Ed Bruehl · Christie's International Real Estate Group
           </div>
@@ -121,25 +142,19 @@ export default function HomeTab() {
       </section>
 
       {/* ── Gold Rule ────────────────────────────────────────────────────── */}
-      <div style={{ height: 2, background: '#C8AC78' }} />
+      <div className="h-[2px] bg-[var(--color-gold)]" />
 
       {/* ── Founding Letter ──────────────────────────────────────────────── */}
       <section className="mx-auto px-6 py-14" style={{ maxWidth: 760 }}>
-        <div
-          className="uppercase mb-6"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-        >
+        <div className="label-overline text-[var(--color-gold)] mb-6">
           A Letter from the Desk
         </div>
-        <h2
-          className="mb-8"
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.875rem', lineHeight: 1.2 }}
-        >
+        <h2 className="font-serif text-[var(--color-navy)] font-semibold text-[1.875rem] leading-[1.2] mb-8">
           Always the Family's Interest Before the Sale. The Name Follows.
         </h2>
         <div
-          className="space-y-5"
-          style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.125rem', color: '#384249', lineHeight: 1.75 }}
+          className="space-y-5 text-[var(--color-charcoal)] text-[1.125rem] leading-[1.75]"
+          style={{ fontFamily: '"Cormorant Garamond", serif' }}
         >
           <p>
             Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
@@ -151,8 +166,7 @@ export default function HomeTab() {
             This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
           </p>
           <p
-            className="italic"
-            style={{ color: '#1B2A4A', borderLeft: '3px solid #C8AC78', paddingLeft: '1.25rem' }}
+            className="italic text-[var(--color-navy)] border-l-[3px] border-[var(--color-gold)] pl-5"
           >
             — Institutional placeholder. Final founding letter text pending approval from Ed and Claude.
           </p>
@@ -161,34 +175,28 @@ export default function HomeTab() {
 
       {/* ── Thin gold rule ───────────────────────────────────────────────── */}
       <div className="mx-auto px-6" style={{ maxWidth: 760 }}>
-        <div style={{ height: 1, background: '#C8AC78', opacity: 0.4 }} />
+        <div className="h-px bg-[var(--color-gold)] opacity-40" />
       </div>
 
       {/* ── Subscriber Capture ───────────────────────────────────────────── */}
       <section className="mx-auto px-6 py-12" style={{ maxWidth: 760 }}>
         <MatrixCard variant="default" className="p-8">
-          <div
-            className="uppercase mb-4"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
+          <div className="label-overline text-[var(--color-gold)] mb-4">
             Market Intelligence
           </div>
-          <h3
-            className="mb-2"
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.25rem' }}
-          >
+          <h3 className="font-serif text-[var(--color-navy)] font-semibold text-[1.25rem] mb-2">
             Receive the Christie's East Hampton Market Report
           </h3>
           <p
-            className="mb-6"
-            style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.875rem' }}
+            className="text-[var(--color-charcoal)] text-[0.875rem] mb-6"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
             Quarterly analysis of the South Fork luxury market. Institutional data. No promotional copy.
           </p>
           {subscribed ? (
             <div
-              className="py-3 px-4 border text-sm"
-              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', borderColor: '#C8AC78', background: '#FFF9EF' }}
+              className="py-3 px-4 border text-sm text-[var(--color-navy)] border-[var(--color-gold)]"
+              style={{ fontFamily: 'var(--font-body)', background: '#FFF9EF' }}
             >
               Received. You will receive the next market report when it is published.
             </div>
@@ -197,27 +205,16 @@ export default function HomeTab() {
               <input
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Your email address"
                 required
-                className="flex-1 px-4 py-2.5 text-sm border outline-none transition-colors"
-                style={{
-                  fontFamily: '"Source Sans 3", sans-serif',
-                  color: '#384249',
-                  borderColor: 'rgba(27,42,74,0.2)',
-                  background: '#FAF8F4',
-                }}
+                className="flex-1 px-4 py-2.5 text-sm border outline-none transition-colors text-[var(--color-charcoal)] border-[rgba(27,42,74,0.2)] bg-[var(--color-cream)]"
+                style={{ fontFamily: 'var(--font-body)' }}
               />
               <button
                 type="submit"
-                className="px-6 py-2.5 uppercase tracking-wider transition-opacity hover:opacity-90"
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  letterSpacing: '0.14em',
-                  fontSize: '0.8125rem',
-                  background: '#1B2A4A',
-                  color: '#FAF8F4',
-                }}
+                className="px-6 py-2.5 uppercase tracking-[0.14em] text-[0.8125rem] bg-[var(--color-navy)] text-[var(--color-cream)] transition-opacity hover:opacity-90"
+                style={{ fontFamily: 'var(--font-condensed)' }}
               >
                 Submit
               </button>
@@ -227,35 +224,44 @@ export default function HomeTab() {
       </section>
 
       {/* ── Auction Gallery 3×3 ──────────────────────────────────────────── */}
-      <section className="px-6 py-10" style={{ background: '#1B2A4A' }}>
+      {/* Nine images: Christie's brand-authority signal. Sourced from cdn-assets.ts */}
+      <section className="px-6 py-10 bg-[var(--color-navy)]">
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div
-            className="uppercase mb-6"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
-            Christie's East Hampton · Property Gallery
+          <div className="label-overline text-[var(--color-gold)] mb-6">
+            Christie's · Est. 1766 · The Auction House Standard
           </div>
           <div className="grid grid-cols-3 gap-3">
-            {AUCTION_IMAGES.map((img, i) => (
+            {GALLERY_IMAGES.map((img) => (
               <div
-                key={i}
+                key={img.id}
                 className="relative overflow-hidden cursor-pointer group"
                 style={{ aspectRatio: '4/3' }}
-                onClick={() => setLightbox(img)}
+                onClick={() =>
+                  setLightbox({ src: img.src, alt: img.caption, caption: img.caption })
+                }
                 role="button"
                 tabIndex={0}
-                aria-label={`View ${img.alt}`}
-                onKeyDown={e => e.key === 'Enter' && setLightbox(img)}
+                aria-label={`View: ${img.caption}`}
+                onKeyDown={(e) =>
+                  e.key === 'Enter' &&
+                  setLightbox({ src: img.src, alt: img.caption, caption: img.caption })
+                }
               >
                 <img
                   src={img.src}
-                  alt={img.alt}
+                  alt={img.caption}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                  style={{ border: '2px solid #C8AC78' }}
-                />
+                {/* Caption overlay on hover */}
+                <div className="absolute inset-x-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-[rgba(27,42,74,0.88)] px-3 py-2">
+                  <div
+                    className="text-[var(--color-gold)] text-[0.65rem] uppercase tracking-[0.14em] leading-snug"
+                    style={{ fontFamily: 'var(--font-condensed)' }}
+                  >
+                    {img.caption}
+                  </div>
+                </div>
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
               </div>
             ))}
           </div>
@@ -263,18 +269,12 @@ export default function HomeTab() {
       </section>
 
       {/* ── YouTube Matrix 3×3 ───────────────────────────────────────────── */}
-      <section className="px-6 py-12" style={{ background: '#FAF8F4' }}>
+      <section className="px-6 py-12 bg-[var(--color-cream)]">
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
-          <div
-            className="uppercase mb-2"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
+          <div className="label-overline text-[var(--color-gold)] mb-2">
             Christie's East Hampton Podcast
           </div>
-          <h2
-            className="mb-8"
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.5rem' }}
-          >
+          <h2 className="font-serif text-[var(--color-navy)] font-semibold text-[1.5rem] mb-8">
             Market Intelligence on Demand
           </h2>
           <div className="grid grid-cols-3 gap-4">
@@ -282,37 +282,45 @@ export default function HomeTab() {
               <div
                 key={i}
                 className="group cursor-pointer"
-                onClick={() => window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
+                onClick={() =>
+                  window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')
+                }
                 role="button"
                 tabIndex={0}
                 aria-label={`Watch: ${video.title}`}
-                onKeyDown={e => e.key === 'Enter' && window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')}
+                onKeyDown={(e) =>
+                  e.key === 'Enter' &&
+                  window.open(`https://www.youtube.com/watch?v=${video.id}`, '_blank')
+                }
               >
-                <div className="relative overflow-hidden" style={{ aspectRatio: '16/9', background: '#1B2A4A' }}>
+                <div
+                  className="relative overflow-hidden bg-[var(--color-navy)]"
+                  style={{ aspectRatio: '16/9' }}
+                >
                   <img
                     src={`https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
                     alt={video.title}
                     className="w-full h-full object-cover opacity-70 group-hover:opacity-90 transition-opacity duration-300"
                   />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-                      style={{ background: 'rgba(200,172,120,0.9)' }}
-                    >
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 bg-[rgba(200,172,120,0.9)]">
                       <div
                         className="ml-1"
-                        style={{ width: 0, height: 0, borderTop: '8px solid transparent', borderBottom: '8px solid transparent', borderLeft: '14px solid #1B2A4A' }}
+                        style={{
+                          width: 0,
+                          height: 0,
+                          borderTop: '8px solid transparent',
+                          borderBottom: '8px solid transparent',
+                          borderLeft: '14px solid #1B2A4A',
+                        }}
                       />
                     </div>
                   </div>
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                    style={{ border: '2px solid #C8AC78' }}
-                  />
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none border-2 border-[var(--color-gold)]" />
                 </div>
                 <div
-                  className="mt-2 text-sm leading-snug"
-                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}
+                  className="mt-2 text-sm leading-snug text-[var(--color-charcoal)]"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 >
                   {video.title}
                 </div>
@@ -324,7 +332,12 @@ export default function HomeTab() {
 
       {/* ── Lightbox ─────────────────────────────────────────────────────── */}
       {lightbox && (
-        <LightboxModal src={lightbox.src} alt={lightbox.alt} onClose={() => setLightbox(null)} />
+        <LightboxModal
+          src={lightbox.src}
+          alt={lightbox.alt}
+          caption={lightbox.caption}
+          onClose={() => setLightbox(null)}
+        />
       )}
     </div>
   );

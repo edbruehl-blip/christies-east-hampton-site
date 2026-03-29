@@ -8,6 +8,7 @@
  */
 
 import { useState, type ReactNode } from "react";
+import { LOGO_WHITE } from "@/lib/cdn-assets";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
 
@@ -38,9 +39,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
 
           {/* Logo / Wordmark */}
           <div className="flex items-center gap-3 shrink-0">
-            {/* White CIREG lockup for dark nav background */}
+            {/* White CIREG lockup — sourced from cdn-assets.ts, dark nav background */}
             <img
-              src="https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png"
+              src={LOGO_WHITE}
               alt="Christie's International Real Estate"
               className="h-6 w-auto"
             />
