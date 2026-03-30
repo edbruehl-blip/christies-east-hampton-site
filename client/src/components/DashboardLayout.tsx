@@ -245,7 +245,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
         >
           {/* Logo + wordmark */}
           <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0, cursor: "pointer" }} onClick={() => onTabChange("home")}>
-            <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 'clamp(52px, 5vw, 68px)', width: 'auto', maxWidth: 240 }} />
+            <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 'clamp(52px, 5vw, 68px)', width: 'auto', maxWidth: 240, filter: 'brightness(0) invert(1)' }} />
             <div style={{ width: 1, height: 16, background: "rgba(200,172,120,0.35)", flexShrink: 0 }} className="hidden sm:block" />
             <span
               className="hidden sm:block"
