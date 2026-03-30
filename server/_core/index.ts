@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { registerPdfRoute } from "../pdf";
+import { registerTtsRoute } from "../tts-route";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -59,6 +60,9 @@ async function startServer() {
   // PDF generation route — MUST be registered before Vite/static middleware
   // so it is not intercepted by the SPA catch-all handler
   registerPdfRoute(app, port);
+
+  // TTS route — raw Express (no tRPC) so there is no request timeout cap
+  registerTtsRoute(app);
 
   // Development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {

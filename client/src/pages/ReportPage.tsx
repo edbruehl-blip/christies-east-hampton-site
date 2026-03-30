@@ -113,8 +113,6 @@ function Section1() {
   const [generating, setGenerating] = useState(false);
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
   const audioRef = useState<HTMLAudioElement | null>(null);
-  const ttsFoundingLetter = trpc.tts.foundingLetter.useMutation();
-
   async function handleDownload() {
     if (generating) return;
     setGenerating(true);
@@ -142,11 +140,13 @@ function Section1() {
     setAudioState('loading');
     toast.loading('Preparing audio…', { id: 'tts-letter' });
     try {
-      const result = await ttsFoundingLetter.mutateAsync();
-      const blob = new Blob(
-        [Uint8Array.from(atob(result.audio), c => c.charCodeAt(0))],
-        { type: result.mimeType }
-      );
+      // Use direct fetch to bypass tRPC timeout — ElevenLabs synthesis takes 15-25s
+      const response = await fetch('/api/tts/founding-letter');
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`TTS error ${response.status}: ${errText}`);
+      }
+      const blob = await response.blob();
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       audioRef[1](audio);

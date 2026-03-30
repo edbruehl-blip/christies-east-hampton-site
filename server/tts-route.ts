@@ -1,11 +1,7 @@
-import { COOKIE_NAME } from "@shared/const";
-import { getSessionCookieOptions } from "./_core/cookies";
-import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import type { Express } from "express";
 import { ENV } from "./_core/env";
-import { z } from "zod";
 
-// ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
+// ─── Founding letter text ──────────────────────────────────────────────────────
 const FOUNDING_LETTER = `Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
 
 The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
@@ -24,59 +20,68 @@ Every export from this platform — every market report, every deal brief, every
 
 Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.`;
 
-export const appRouter = router({
-  system: systemRouter,
-  auth: router({
-    me: publicProcedure.query(opts => opts.ctx.user),
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-      return { success: true } as const;
-    }),
-  }),
+const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
 
-  // ─── TTS proxy — ElevenLabs Voice ID fjnwTZkKtQOJaYzGLa6n ──────────────────
-  tts: router({
-    foundingLetter: publicProcedure.mutation(async () => {
-      const apiKey = ENV.elevenLabsApiKey;
-      if (!apiKey) throw new Error("ELEVENLABS_API_KEY not configured");
+export function registerTtsRoute(app: Express) {
+  // GET /api/tts/founding-letter — streams audio/mpeg directly to the client
+  // Using a raw Express route (not tRPC) so there is no request timeout cap.
+  app.get("/api/tts/founding-letter", async (req, res) => {
+    const apiKey = ENV.elevenLabsApiKey;
+    if (!apiKey) {
+      res.status(503).json({ error: "ELEVENLABS_API_KEY not configured" });
+      return;
+    }
 
-      const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
-      const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "xi-api-key": apiKey,
-          "Content-Type": "application/json",
-          "Accept": "audio/mpeg",
-        },
-        body: JSON.stringify({
-          text: FOUNDING_LETTER,
-          model_id: "eleven_multilingual_v2",
-          voice_settings: {
-            stability: 0.55,
-            similarity_boost: 0.75,
+    try {
+      const elevenRes = await fetch(
+        `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
+        {
+          method: "POST",
+          headers: {
+            "xi-api-key": apiKey,
+            "Content-Type": "application/json",
+            Accept: "audio/mpeg",
           },
-        }),
-        signal: AbortSignal.timeout(60000), // 60s — founding letter is ~1400 chars
-      });
+          body: JSON.stringify({
+            text: FOUNDING_LETTER,
+            model_id: "eleven_multilingual_v2",
+            voice_settings: {
+              stability: 0.55,
+              similarity_boost: 0.75,
+            },
+          }),
+          // No AbortSignal — let ElevenLabs take as long as it needs
+        }
+      );
 
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`ElevenLabs API error ${response.status}: ${errText}`);
+      if (!elevenRes.ok) {
+        const errText = await elevenRes.text();
+        console.error(`[TTS] ElevenLabs error ${elevenRes.status}: ${errText}`);
+        res.status(elevenRes.status).json({ error: errText });
+        return;
       }
 
-      const arrayBuffer = await response.arrayBuffer();
-      const base64 = Buffer.from(arrayBuffer).toString("base64");
-      return { audio: base64, mimeType: "audio/mpeg" };
-    }),
+      // Stream the audio directly to the client
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Cache-Control", "no-store");
 
-    // Lightweight ping to validate the API key is set (used in tests)
-    ping: publicProcedure.query(() => {
-      return { configured: !!ENV.elevenLabsApiKey };
-    }),
-  }),
-});
+      const reader = elevenRes.body?.getReader();
+      if (!reader) {
+        res.status(500).json({ error: "No response body from ElevenLabs" });
+        return;
+      }
 
-export type AppRouter = typeof appRouter;
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(value);
+      }
+      res.end();
+    } catch (err) {
+      console.error("[TTS] Unexpected error:", err);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "TTS generation failed" });
+      }
+    }
+  });
+}
