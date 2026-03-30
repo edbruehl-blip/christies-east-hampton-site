@@ -11,13 +11,12 @@
  * Layer 5: Social + office/weather strip — 7 social icons · 26 Park Place · live weather
  *
  * Data sources (matching production):
- *   Yahoo Finance: S&P, Treasury, Gold, Silver, VIX
- *   CoinGecko: Bitcoin
+ *   Server proxy /api/market-data: S&P, Treasury, Gold, Silver, VIX, Bitcoin, Mortgage
  *   Open-Meteo: East Hampton weather (lat 40.9637, lng -72.1848)
  *   Hamptons Median: static $2.34M (updated manually per market report cycle)
  */
 
-import { useState, useEffect, useRef, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
@@ -90,101 +89,56 @@ function weatherDesc(code: number): string {
 }
 
 // ── Market data hook ──────────────────────────────────────────────────────────
+// All financial feeds are fetched via the server-side proxy /api/market-data,
+// which bypasses Yahoo Finance CORS restrictions on the deployed domain.
+// Fields are null until the proxy responds; null fields are hidden (no dashes).
 interface MarketData {
-  sp500: string;
-  btc: string;
-  mortgage: string;
-  gold: string;
-  silver: string;
-  vix: string;
-  treasury: string;
-  weather: string;
+  sp500: string | null;
+  btc: string | null;
+  mortgage: string | null;
+  gold: string | null;
+  silver: string | null;
+  vix: string | null;
+  treasury: string | null;
+  weather: string | null;
+  updatedAt: string | null;
 }
 
 function useMarketData(): MarketData {
   const [data, setData] = useState<MarketData>({
-    sp500: "—",
-    btc: "—",
-    mortgage: "—",
-    gold: "—",
-    silver: "—",
-    vix: "—",
-    treasury: "—",
-    weather: "—",
+    sp500: null,
+    btc: null,
+    mortgage: null,
+    gold: null,
+    silver: null,
+    vix: null,
+    treasury: null,
+    weather: null,
+    updatedAt: null,
   });
 
   useEffect(() => {
     async function fetchAll() {
-      // Yahoo Finance helper
-      const yf = async (symbol: string) => {
-        try {
-          const r = await fetch(
-            `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`,
-            { signal: AbortSignal.timeout(8000) }
-          );
-          const j = await r.json();
-          const meta = j?.chart?.result?.[0]?.meta;
-          if (!meta) return null;
-          const price = meta.regularMarketPrice ?? meta.previousClose;
-          const prev = meta.chartPreviousClose ?? meta.previousClose;
-          const change = prev ? ((price - prev) / prev) * 100 : 0;
-          return { price, change };
-        } catch { return null; }
-      };
-
-      // S&P 500
-      const sp = await yf("%5EGSPC");
-      if (sp) {
-        const sign = sp.change >= 0 ? "+" : "";
-        setData(d => ({ ...d, sp500: `${sp.price.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} (${sign}${sp.change.toFixed(2)}%)` }));
-      }
-
-      // Gold
-      const gold = await yf("GC%3DF");
-      if (gold) {
-        const sign = gold.change >= 0 ? "+" : "";
-        setData(d => ({ ...d, gold: `$${gold.price.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 })} /oz (${sign}${gold.change.toFixed(2)}%)` }));
-      }
-
-      // Silver
-      const silver = await yf("SI%3DF");
-      if (silver) {
-        const sign = silver.change >= 0 ? "+" : "";
-        setData(d => ({ ...d, silver: `$${silver.price.toFixed(2)} /oz (${sign}${silver.change.toFixed(2)}%)` }));
-      }
-
-      // VIX
-      const vix = await yf("%5EVIX");
-      if (vix) {
-        const sign = vix.change >= 0 ? "+" : "";
-        setData(d => ({ ...d, vix: `${vix.price.toFixed(2)} (${sign}${vix.change.toFixed(2)}%)` }));
-      }
-
-      // 30Y Treasury
-      const tyx = await yf("%5ETYX");
-      if (tyx) {
-        setData(d => ({ ...d, treasury: `${tyx.price.toFixed(2)}%` }));
-      }
-
-      // Bitcoin (CoinGecko)
+      // ── Server-side proxy (bypasses Yahoo Finance CORS on deployed domain) ──
       try {
-        const r = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true",
-          { signal: AbortSignal.timeout(8000) }
-        );
-        const j = await r.json();
-        const price = j?.bitcoin?.usd;
-        const change = j?.bitcoin?.usd_24h_change;
-        if (price) {
-          const sign = change >= 0 ? "+" : "";
-          setData(d => ({ ...d, btc: `$${price.toLocaleString("en-US", { maximumFractionDigits: 0 })} (${sign}${change?.toFixed(2) ?? "—"}%)` }));
+        const r = await fetch("/api/market-data", { signal: AbortSignal.timeout(12000) });
+        if (r.ok) {
+          const j = await r.json();
+          setData(d => ({
+            ...d,
+            sp500:    j.sp500    ?? null,
+            gold:     j.gold     ?? null,
+            silver:   j.silver   ?? null,
+            vix:      j.vix      ?? null,
+            treasury: j.treasury ?? null,
+            btc:      j.btc      ?? null,
+            mortgage: j.mortgage ?? null,
+            updatedAt: j.updatedAt ?? null,
+          }));
         }
-      } catch { /* keep placeholder */ }
+      } catch { /* proxy unavailable — fields stay null and are hidden */ }
 
-      // 30Y Fixed Mortgage — static updated value (no free live API; matches production approach)
-      setData(d => ({ ...d, mortgage: "6.65%" }));
-
-      // Weather — Open-Meteo, East Hampton
+      // Weather — Open-Meteo, East Hampton (no CORS restriction, fetched client-side)
       try {
         const r = await fetch(
           "https://api.open-meteo.com/v1/forecast?latitude=40.9637&longitude=-72.1848&current_weather=true&temperature_unit=fahrenheit",
@@ -195,7 +149,7 @@ function useMarketData(): MarketData {
         if (cw) {
           setData(d => ({ ...d, weather: `${Math.round(cw.temperature)}°F ${weatherDesc(cw.weathercode)}` }));
         }
-      } catch { /* keep placeholder */ }
+      } catch { /* keep null */ }
     }
 
     fetchAll();
@@ -220,6 +174,11 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
 
   // Ticker content — exact production copy
   const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton\u2002·\u2002Exceptional Service";
+
+  // Format the updatedAt ISO string into a short local time stamp
+  const updatedLabel = market.updatedAt
+    ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}`
+    : null;
 
   return (
     <div className="min-h-screen flex flex-col bg-[var(--color-cream)]">
@@ -405,12 +364,20 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           }}
         >
           <DataItem label="S&P 500" value={market.sp500} />
-          <Sep />
+          {market.sp500 && market.btc && <Sep />}
           <DataItem label="Bitcoin" value={market.btc} />
-          <Sep />
+          {market.btc && market.mortgage && <Sep />}
           <DataItem label="30Y Fixed Mtg" value={market.mortgage} />
-          <Sep />
+          {market.mortgage && market.gold && <Sep />}
           <DataItem label="Gold" value={market.gold} />
+          {updatedLabel && (
+            <>
+              <Sep />
+              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "rgba(255,255,255,0.38)", letterSpacing: "0.06em" }}>
+                {updatedLabel}
+              </span>
+            </>
+          )}
         </div>
 
         {/* ══════════════════════════════════════════════════════════════
@@ -434,9 +401,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           }}
         >
           <DataItem label="Silver" value={market.silver} />
-          <Sep />
+          {market.silver && market.vix && <Sep />}
           <DataItem label="VIX" value={market.vix} />
-          <Sep />
+          {market.vix && market.treasury && <Sep />}
           <DataItem label="30Y Treasury" value={market.treasury} />
           <Sep />
           <DataItem label="Hamptons Median" value="$2.34M" gold />
@@ -492,7 +459,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           }}
         >
           <span>Christie's East Hampton Office&nbsp;&nbsp;·&nbsp;&nbsp;26 Park Place, East Hampton, NY 11937&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233</span>
-          <span style={{ color: "#C8AC78", fontWeight: 600, flexShrink: 0 }}>{market.weather}</span>
+          {market.weather && (
+            <span style={{ color: "#C8AC78", fontWeight: 600, flexShrink: 0 }}>{market.weather}</span>
+          )}
         </div>
       </div>
 
@@ -522,7 +491,9 @@ function Sep() {
   return <span style={{ color: "rgba(255,255,255,0.2)", userSelect: "none" }}>|</span>;
 }
 
-function DataItem({ label, value, gold }: { label: string; value: string; gold?: boolean }) {
+/** Renders a label:value pair. Renders nothing if value is null (feed hidden). */
+function DataItem({ label, value, gold }: { label: string; value: string | null; gold?: boolean }) {
+  if (!value) return null;
   return (
     <span style={{ fontFamily: "var(--font-condensed)", letterSpacing: "0.04em" }}>
       {label}:{" "}

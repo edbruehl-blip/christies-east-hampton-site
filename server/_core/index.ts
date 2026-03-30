@@ -9,6 +9,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { registerPdfRoute } from "../pdf";
 import { registerTtsRoute } from "../tts-route";
+import { registerMarketRoute } from "../market-route";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -63,6 +64,9 @@ async function startServer() {
 
   // TTS route — raw Express (no tRPC) so there is no request timeout cap
   registerTtsRoute(app);
+
+  // Market data proxy — bypasses CORS on Yahoo Finance for deployed environments
+  registerMarketRoute(app);
 
   // Development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
