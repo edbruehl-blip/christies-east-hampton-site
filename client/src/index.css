@@ -315,9 +315,22 @@
 .manus-watermark,
 #manus-watermark,
 iframe[src*="manus"],
-a[href*="manus.im"][target="_blank"]:not([data-keep]) {
+a[href*="manus.im"][target="_blank"]:not([data-keep]),
+[class*="manus-badge"],
+[id*="manus-badge"],
+div[class*="watermark"],
+div[class*="made-with"],
+div[class*="powered-by"],
+[class*="ManusWatermark"],
+[class*="ManusAttribution"],
+[class*="ManusFooter"] {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
 }
