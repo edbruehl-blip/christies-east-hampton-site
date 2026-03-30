@@ -24,7 +24,6 @@ import IdeasTab  from "./pages/tabs/IdeasTab";
 import PipeTab   from "./pages/tabs/PipeTab";
 import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
-
 // Standalone pages
 import ReportPage from "./pages/ReportPage";
 
@@ -43,6 +42,7 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("home");
+  // make sure to consider if you need authentication for certain routes
   return (
     <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
       <TabContent activeTab={activeTab} />

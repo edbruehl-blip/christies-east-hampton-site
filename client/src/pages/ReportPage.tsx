@@ -16,6 +16,7 @@
  */
 
 import { useState, useEffect } from 'react';
+import { trpc } from '@/lib/trpc';
 import { useLocation } from 'wouter';
 import { toast } from 'sonner';
 import {
@@ -109,8 +110,11 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
 // ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
 function Section1() {
   const [generating, setGenerating] = useState(false);
+  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
+  const audioRef = useState<HTMLAudioElement | null>(null);
+  const ttsFoundingLetter = trpc.tts.foundingLetter.useMutation();
 
-  async function handlePortraitClick() {
+  async function handleDownload() {
     if (generating) return;
     setGenerating(true);
     toast.loading('Generating Market Report…', { id: 'market-report' });
@@ -125,6 +129,44 @@ function Section1() {
     }
   }
 
+  async function handleListen() {
+    // If already playing, stop
+    if (audioState === 'playing' && audioRef[0]) {
+      audioRef[0].pause();
+      audioRef[0].currentTime = 0;
+      setAudioState('idle');
+      return;
+    }
+    if (audioState === 'loading') return;
+    setAudioState('loading');
+    toast.loading('Preparing audio…', { id: 'tts-letter' });
+    try {
+      const result = await ttsFoundingLetter.mutateAsync();
+      const blob = new Blob(
+        [Uint8Array.from(atob(result.audio), c => c.charCodeAt(0))],
+        { type: result.mimeType }
+      );
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef[1](audio);
+      audio.onended = () => {
+        setAudioState('idle');
+        URL.revokeObjectURL(url);
+      };
+      audio.onerror = () => {
+        setAudioState('error');
+        toast.error('Audio playback failed.', { id: 'tts-letter' });
+      };
+      await audio.play();
+      setAudioState('playing');
+      toast.success('Playing founding letter…', { id: 'tts-letter' });
+    } catch (e) {
+      console.error(e);
+      setAudioState('error');
+      toast.error('Audio generation failed. Please try again.', { id: 'tts-letter' });
+    }
+  }
+
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
       {/* Portrait hero */}
@@ -133,9 +175,7 @@ function Section1() {
           src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
           alt="James Christie — Founder, Christie's, Est. 1766"
           className="w-full object-cover object-top"
-          style={{ maxHeight: 520, cursor: generating ? 'wait' : 'pointer', display: 'block' }}
-          onClick={handlePortraitClick}
-          title="Click to download the Christie's Hamptons Market Report"
+          style={{ maxHeight: 520, display: 'block' }}
         />
         <div
           className="absolute inset-0"
@@ -176,19 +216,55 @@ function Section1() {
           >
             Managing Director · Ed Bruehl · Christie's International Real Estate Group
           </p>
-          <p
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: 'rgba(200,172,120,0.6)',
-              fontSize: 9,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              marginTop: 8,
-            }}
-          >
-            ↓ Tap portrait to download Market Report
-          </p>
         </div>
+      </div>
+
+      {/* ── Two action buttons beneath portrait ── */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '20px 24px 4px' }}>
+        {/* Button 1 — Download Market Report */}
+        <button
+          onClick={handleDownload}
+          disabled={generating}
+          style={{
+            background: 'none',
+            border: '1px solid rgba(200,172,120,0.55)',
+            color: '#C8AC78',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 11,
+            letterSpacing: '0.26em',
+            textTransform: 'uppercase',
+            padding: '9px 28px',
+            cursor: generating ? 'wait' : 'pointer',
+            opacity: generating ? 0.6 : 1,
+            transition: 'opacity 0.2s, border-color 0.2s',
+            minWidth: 240,
+          }}
+          onMouseEnter={e => { if (!generating) (e.currentTarget as HTMLButtonElement).style.borderColor = '#C8AC78'; }}
+          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(200,172,120,0.55)'; }}
+        >
+          {generating ? 'Generating…' : 'Download Market Report'}
+        </button>
+
+        {/* Button 2 — Listen · James Christie */}
+        <button
+          onClick={handleListen}
+          disabled={audioState === 'loading'}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: audioState === 'playing' ? '#FAF8F4' : 'rgba(200,172,120,0.65)',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 9,
+            letterSpacing: '0.24em',
+            textTransform: 'uppercase',
+            padding: '4px 8px',
+            cursor: audioState === 'loading' ? 'wait' : 'pointer',
+            opacity: audioState === 'loading' ? 0.5 : 1,
+            transition: 'color 0.2s',
+          }}
+        >
+          {audioState === 'loading' ? '· · ·' : audioState === 'playing' ? '◼ Stop' : '▶ Listen · James Christie'}
+        </button>
       </div>
 
       {/* Founding letter */}
