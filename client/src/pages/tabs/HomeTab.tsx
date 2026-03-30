@@ -82,7 +82,7 @@ function SectionA() {
                   width: 110,
                   height: 140,
                   objectFit: 'cover',
-                  objectPosition: 'top center',
+                  objectPosition: 'center 15%',
                   display: 'block',
                 }}
               />

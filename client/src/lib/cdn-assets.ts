@@ -20,15 +20,14 @@
 const CDN = "https://files.manuscdn.com/user_upload_by_module/session_file/115914870";
 
 // ─── James Christie Portraits ───────────────────────────────────────────────
-// Classical oil painting, 18th-century attire, powdered wig
-// Source files: IMG_0131.jpeg (481KB) and IMG_0131(1).jpeg (508KB) — confirmed distinct
-// Previous PRIMARY and FALLBACK were identical files (same MD5). Fixed sprint 4.
-// PRIMARY (A): IMG_0131.jpeg — 481KB, cleaner crop — wired as HOME hero
-// FALLBACK (B): IMG_0131(1).jpeg — 508KB — kept in reserve
+// Classical oil painting by Thomas Gainsborough (c.1778), National Portrait Gallery
+// James Christie — founder, Christie's, Est. 1766
+// Powdered wig, brown coat, red draped background — face clearly legible
+// Uploaded Sprint V1-close: CVWbttyPodJyWigp.jpg — confirmed image/jpeg 200
 export const JAMES_CHRISTIE_PORTRAIT_PRIMARY =
-  `${CDN}/ShIMJFdIgwZYZbvl.jpg`;   // ← IMG_0131.jpeg (481KB) — confirmed distinct
+  `${CDN}/CVWbttyPodJyWigp.jpg`;   // ← Gainsborough oil portrait — face, tight crop
 export const JAMES_CHRISTIE_PORTRAIT_FALLBACK =
-  `${CDN}/havAKIYeclkbgTPw.jpg`;   // ← IMG_0131(1).jpeg (508KB) — confirmed distinct
+  `${CDN}/CVWbttyPodJyWigp.jpg`;   // ← Same confirmed file (saleroom images retired)
 
 // ─── Ed Bruehl Headshots ─────────────────────────────────────────────────────
 // PRIMARY (confirmed by Ed): 5A89ABA9 — navy jacket, white shirt, dark background
