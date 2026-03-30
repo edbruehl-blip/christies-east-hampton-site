@@ -298,7 +298,7 @@ export function downloadPdf(doc: jsPDF, filename: string) {
 
 // ─── Pre-load both CDN images ─────────────────────────────────────────────────
 
-const QR_LINKTREE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/ZhFMhIXpCZKCjsju.png';
+const QR_LINKTREE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/PyhWsQjMFaamcdei.png';
 
 export async function loadPdfAssets(): Promise<{ edImg: string; logoImg: string; qrImg: string }> {
   const [edImg, logoImg, qrImg] = await Promise.all([

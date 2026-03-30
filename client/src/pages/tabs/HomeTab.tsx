@@ -58,35 +58,42 @@ function SectionA() {
 
         {/* Floating left panel */}
         <div
-          className="absolute top-0 left-0 bottom-0 flex flex-col justify-center px-8 py-10"
+          className="absolute top-0 left-0 bottom-0 flex flex-col justify-start px-8 py-10 overflow-y-auto"
           style={{ maxWidth: 520, width: '100%' }}
         >
-          {/* Portrait thumbnail — click → /report */}
+          {/* ── Portrait — standalone, above everything, unobstructed ── */}
           <div
             onClick={() => navigate('/report')}
-            style={{ cursor: 'pointer', display: 'inline-block', marginBottom: 16, alignSelf: 'flex-start' }}
+            style={{ cursor: 'pointer', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28, alignSelf: 'flex-start' }}
             title="Tap portrait for the full Market Report"
           >
-            <img
-              src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-              alt="James Christie — Founder, Christie's, Est. 1766"
-              style={{
-                width: 88,
-                height: 112,
-                objectFit: 'cover',
-                objectPosition: 'top center',
-                display: 'block',
-                border: '2px solid #C8AC78',
-                boxShadow: '0 0 0 1px rgba(200,172,120,0.25), 0 6px 28px rgba(0,0,0,0.55)',
-              }}
-            />
+            {/* Gold outer frame */}
+            <div style={{
+              padding: 4,
+              border: '2px solid #C8AC78',
+              boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.65)',
+              background: 'rgba(27,42,74,0.4)',
+              display: 'inline-block',
+            }}>
+              <img
+                src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                alt="James Christie — Founder, Christie's, Est. 1766"
+                style={{
+                  width: 110,
+                  height: 140,
+                  objectFit: 'cover',
+                  objectPosition: 'top center',
+                  display: 'block',
+                }}
+              />
+            </div>
             <div style={{
               fontFamily: '"Barlow Condensed", sans-serif',
               color: '#C8AC78',
-              fontSize: 8,
-              letterSpacing: '0.22em',
+              fontSize: 9,
+              letterSpacing: '0.24em',
               textTransform: 'uppercase',
-              marginTop: 7,
+              marginTop: 9,
               textAlign: 'center',
             }}>
               Market Report
@@ -99,6 +106,7 @@ function SectionA() {
             border: '1px solid rgba(200,172,120,0.22)',
             padding: '32px 36px',
             backdropFilter: 'blur(6px)',
+            marginBottom: 20,
           }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
               Christie's · Est. 1766
