@@ -246,7 +246,7 @@ function Section1() {
           {generating ? 'Generating…' : 'Download Market Report'}
         </button>
 
-        {/* Button 2 — Listen · James Christie */}
+        {/* Button 2 — Listen · Founding Letter */}
         <button
           onClick={handleListen}
           disabled={audioState === 'loading'}
@@ -264,7 +264,7 @@ function Section1() {
             transition: 'color 0.2s',
           }}
         >
-          {audioState === 'loading' ? '· · ·' : audioState === 'playing' ? '◼ Stop' : '▶ Listen · James Christie'}
+          {audioState === 'loading' ? '· · ·' : audioState === 'playing' ? '◼ STOP' : '▶ LISTEN · FOUNDING LETTER'}
         </button>
       </div>
 
