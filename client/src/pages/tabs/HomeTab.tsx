@@ -1,9 +1,10 @@
 /**
  * HOME TAB — Three sections only.
  *
- * Section A · Full-bleed hero — auction room background, James Christie portrait
- *             floating left, founding letter beside it, quiet gold "Market Report" prompt.
- *             Portrait click → navigates to /report (the full six-section live report).
+ * Section A · Full-bleed hero — auction room background.
+ *             Left column: portrait thumbnail (top) + identity card (below).
+ *             Right column: founding letter — FIRST TEXT ABOVE THE FOLD.
+ *             Portrait click → navigates to /report.
  *
  * Section B · Christie's · Auction Intelligence — 3×3 YouTube matrix.
  *
@@ -32,132 +33,163 @@ const YOUTUBE_VIDEOS = [
   { id: 'fAPHGnmI_N4', title: 'SOLD & CLOSED: 129 Seven Ponds Road, Water Mill — 33.3 Acres' },
 ];
 
+const FOUNDING_PARAGRAPHS = [
+  "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
+  "The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
+  "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
+  "The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.",
+  "The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton. Sag Harbor. Amagansett. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
+  "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
+  "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
+  "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
+  "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
+];
+
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
 function SectionA() {
   const [, navigate] = useLocation();
 
-  // Background: Christie's grand saleroom (room-primary gallery image)
   const auctionRoomSrc = GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
-      <div className="relative" style={{ minHeight: 600 }}>
-        {/* Background: grand auction room */}
+      {/* Full-bleed background */}
+      <div className="relative" style={{ minHeight: 'calc(100vh - 120px)' }}>
         <img
           src={auctionRoomSrc}
           alt="The Grand Saleroom, Christie's"
-          className="w-full object-cover object-center"
-          style={{ minHeight: 600, maxHeight: 700, display: 'block' }}
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ display: 'block' }}
         />
-        {/* Overlay — heavy left, fades right */}
+        {/* Dark overlay — heavier on left, lighter on right */}
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to right, rgba(27,42,74,0.95) 0%, rgba(27,42,74,0.78) 42%, rgba(27,42,74,0.18) 100%)'
+          background: 'linear-gradient(to right, rgba(27,42,74,0.97) 0%, rgba(27,42,74,0.88) 50%, rgba(27,42,74,0.55) 100%)'
         }} />
 
-        {/* Floating left panel */}
+        {/* Two-column layout over hero */}
         <div
-          className="absolute top-0 left-0 bottom-0 flex flex-col justify-start px-8 py-10 overflow-y-auto"
-          style={{ maxWidth: 520, width: '100%' }}
+          className="relative"
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '200px 1fr',
+            gap: 0,
+            minHeight: 'calc(100vh - 120px)',
+            alignItems: 'start',
+          }}
         >
-          {/* ── Portrait — standalone, above everything, unobstructed ── */}
-          <div
-            onClick={() => navigate('/report')}
-            style={{ cursor: 'pointer', display: 'inline-flex', flexDirection: 'column', alignItems: 'center', marginBottom: 28, alignSelf: 'flex-start' }}
-            title="Tap portrait for the full Market Report"
-          >
-            {/* Gold outer frame */}
-            <div style={{
-              padding: 4,
-              border: '2px solid #C8AC78',
-              boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.65)',
-              background: 'rgba(27,42,74,0.4)',
-              display: 'inline-block',
-            }}>
-              <img
-                src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-                alt="James Christie — Founder, Christie's, Est. 1766"
-                style={{
-                  width: 110,
-                  height: 140,
-                  objectFit: 'cover',
-                  objectPosition: 'center 15%',
-                  display: 'block',
-                }}
-              />
+          {/* ── LEFT COLUMN: portrait + identity card ── */}
+          <div style={{ padding: '32px 20px 32px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {/* Portrait thumbnail */}
+            <div
+              onClick={() => navigate('/report')}
+              style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              title="Tap portrait for the full Market Report"
+            >
+              <div style={{
+                padding: 4,
+                border: '2px solid #C8AC78',
+                boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.65)',
+                background: 'rgba(27,42,74,0.4)',
+                display: 'inline-block',
+              }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie — Founder, Christie's, Est. 1766"
+                  style={{
+                    width: 110,
+                    height: 140,
+                    objectFit: 'cover',
+                    objectPosition: 'center 15%',
+                    display: 'block',
+                  }}
+                />
+              </div>
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: '#C8AC78',
+                fontSize: 9,
+                letterSpacing: '0.24em',
+                textTransform: 'uppercase',
+                marginTop: 9,
+                textAlign: 'center',
+              }}>
+                Market Report
+              </div>
             </div>
+
+            {/* Identity card */}
             <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
-              fontSize: 9,
-              letterSpacing: '0.24em',
-              textTransform: 'uppercase',
-              marginTop: 9,
-              textAlign: 'center',
+              background: 'rgba(250,248,244,0.06)',
+              border: '1px solid rgba(200,172,120,0.22)',
+              padding: '18px 16px',
+              backdropFilter: 'blur(6px)',
             }}>
-              Market Report
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
+                Christie's · Est. 1766
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.05rem', lineHeight: 1.2, marginBottom: 12 }}>
+                Christie's East Hampton
+              </div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>
+                Managing Director
+              </div>
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.875rem', marginBottom: 10 }}>
+                Ed Bruehl
+              </div>
+              <div style={{ height: 1, background: 'rgba(200,172,120,0.18)', marginBottom: 10 }} />
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem', lineHeight: 1.5 }}>
+                Christie's International Real Estate Group
+              </div>
             </div>
           </div>
 
-          {/* Identity card — CFS-matched typography */}
-          <div style={{
-            background: 'rgba(250,248,244,0.06)',
-            border: '1px solid rgba(200,172,120,0.22)',
-            padding: '32px 36px',
-            backdropFilter: 'blur(6px)',
-            marginBottom: 20,
-          }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>
-              Christie's · Est. 1766
-            </div>
-            <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.2, margin: '0 0 20px' }}>
-              Christie's East Hampton
-            </h1>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 6 }}>
-              Managing Director
-            </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9375rem', marginBottom: 16 }}>
-              Ed Bruehl
-            </div>
-            <div style={{ height: 1, background: 'rgba(200,172,120,0.18)', marginBottom: 16 }} />
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.8125rem', lineHeight: 1.5 }}>
-              Christie's International Real Estate Group
-            </div>
-          </div>
-
-          {/* Founding letter — below identity card, still over hero */}
-          <div style={{ marginTop: 20, paddingRight: 8 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 14 }}>
+          {/* ── RIGHT COLUMN: founding letter — FIRST TEXT ABOVE THE FOLD ── */}
+          <div style={{ padding: '32px 36px 32px 12px' }}>
+            {/* Letter header */}
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>
-            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', lineHeight: 1.3, marginBottom: 16 }}>
+            <h2 style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              color: '#FAF8F4',
+              fontWeight: 400,
+              fontSize: 'clamp(1.15rem, 2vw, 1.5rem)',
+              lineHeight: 1.25,
+              marginBottom: 18,
+              maxWidth: 560,
+            }}>
               Always the Family's Interest Before the Sale. The Name Follows.
             </h2>
-            {[
-              "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-              "The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
-              "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-              "The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.",
-              "The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton. Sag Harbor. Amagansett. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
-              "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
-              "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
-              "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
-              "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
-            ].map((para, i) => (
-              <p key={i} style={{
-                fontFamily: '"Source Sans 3", sans-serif',
-                color: i === 8 ? '#C8AC78' : 'rgba(250,248,244,0.78)',
-                fontSize: '0.875rem',
-                lineHeight: 1.7,
-                marginBottom: i === 8 ? 0 : 14,
-                fontStyle: i === 8 ? 'italic' : 'normal',
-                borderLeft: i === 8 ? '2px solid rgba(200,172,120,0.4)' : 'none',
-                paddingLeft: i === 8 ? 10 : 0,
-              }}>
-                {para}
-              </p>
-            ))}
+
+            {/* All nine paragraphs — visible immediately, no scroll required */}
+            <div style={{ maxWidth: 620 }}>
+              {FOUNDING_PARAGRAPHS.map((para, i) => (
+                <p key={i} style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: i === 8 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
+                  fontSize: '0.875rem',
+                  lineHeight: 1.72,
+                  marginBottom: i === 8 ? 0 : 13,
+                  fontStyle: i === 8 ? 'italic' : 'normal',
+                  borderLeft: i === 8 ? '2px solid rgba(200,172,120,0.4)' : 'none',
+                  paddingLeft: i === 8 ? 10 : 0,
+                }}>
+                  {para}
+                </p>
+              ))}
+            </div>
+
+            {/* Signature */}
+            <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.18)' }}>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1rem', fontStyle: 'italic', marginBottom: 4 }}>
+                Ed Bruehl
+              </div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                Managing Director · Christie's East Hampton
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -224,57 +256,51 @@ function SectionB() {
 // ─── Section C · Footer ───────────────────────────────────────────────────────
 function SectionC() {
   return (
-    <footer style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <footer style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', padding: '40px 28px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
         {/* Doctrine lines */}
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.05rem', lineHeight: 1.5, marginBottom: 6 }}>
-            Always the Family's Interest Before the Sale. The Name Follows.
+        <div style={{ textAlign: 'center', marginBottom: 28 }}>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '1.05rem', fontStyle: 'italic', marginBottom: 8 }}>
+            "Always the Family's Interest Before the Sale. The Name Follows."
           </div>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', fontWeight: 400, fontSize: '0.9375rem', lineHeight: 1.5 }}>
-            The standard is not aspirational. It is operational.
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            Christie's International Real Estate Group · Est. 1766 · East Hampton
           </div>
         </div>
 
-        {/* Gold rule */}
-        <div style={{ height: 1, background: 'rgba(200,172,120,0.25)', marginBottom: 24 }} />
-
-        {/* Contact + QR */}
-        <div className="flex items-start justify-between gap-8 flex-wrap">
-          <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
-              Christie's East Hampton Office
+        {/* Contact row */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 32, flexWrap: 'wrap' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.55)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+              Office
             </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.875rem', lineHeight: 1.7 }}>
-              26 Park Place, East Hampton, NY 11937<br />
-              646-752-1233<br />
-              <a href="https://christiesrealestategroupeh.com" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'none' }}>
-                christiesrealestategroupeh.com
-              </a>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.8125rem' }}>
+              26 Park Place · East Hampton NY 11937
             </div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <img
-              src="https://files.manuscdn.com/user_upload_by_module/session_file/115914870/VlFbBxmLFqDOBmRb.png"
-              alt="QR — linktr.ee/edbruehlrealestate"
-              style={{ width: 72, height: 72, display: 'block', marginBottom: 6 }}
-            />
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-              Linktree
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.55)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+              Direct
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.8125rem' }}>
+              646-752-1233
             </div>
           </div>
-        </div>
-
-        {/* Copyright */}
-        <div style={{ marginTop: 24, fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.25)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-          © 2026 Christie's International Real Estate Group · East Hampton Flagship
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.55)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+              Email
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.8125rem' }}>
+              ebruehl@christiesrealestate.com
+            </div>
+          </div>
         </div>
       </div>
     </footer>
   );
 }
 
-// ─── HomeTab export ───────────────────────────────────────────────────────────
+// ─── HomeTab ──────────────────────────────────────────────────────────────────
 export default function HomeTab() {
   return (
     <div>

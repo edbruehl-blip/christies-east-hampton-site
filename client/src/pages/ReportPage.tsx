@@ -31,6 +31,7 @@ import {
   type HamletTier,
 } from '@/data/hamlet-master';
 import { generateMarketReport } from '@/lib/pdf-exports';
+import { generateReportPdf } from '@/lib/report-pdf';
 
 // ─── Back button ──────────────────────────────────────────────────────────────
 function BackBar() {
@@ -119,7 +120,7 @@ function Section1() {
     setGenerating(true);
     toast.loading('Generating Market Report…', { id: 'market-report' });
     try {
-      await generateMarketReport();
+      await generateReportPdf();
       toast.success('Market Report downloaded.', { id: 'market-report' });
     } catch (e) {
       console.error(e);
@@ -1776,7 +1777,7 @@ function YouTubeMatrix() {
 // ─── Main ReportPage export ───────────────────────────────────────────────────
 export default function ReportPage() {
   return (
-    <div style={{ background: '#FAF8F4', minHeight: '100vh' }}>
+    <div id="report-page-content" style={{ background: '#FAF8F4', minHeight: '100vh' }}>
       <BackBar />
       <Section1 />
       <Section2 />
