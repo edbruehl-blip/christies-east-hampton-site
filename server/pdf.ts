@@ -3,35 +3,58 @@
  *
  * Express route: GET /api/pdf/report
  *
- * Uses puppeteer-core with the system Chromium to render the live /report page
- * and return a PDF. This bypasses all color-parsing limitations of html2canvas
- * (which cannot handle Tailwind 4's oklch() color functions).
+ * Uses puppeteer-core with:
+ *   - @sparticuz/chromium in production (serverless-compatible, bundled binary)
+ *   - System Chromium (/usr/bin/chromium-browser) in local development
  *
- * The route navigates to the internal dev/prod server URL, waits for the page
- * to fully render, then calls page.pdf() to produce a mobile-viewport PDF.
+ * This bypasses all color-parsing limitations of html2canvas (oklch).
  */
 
 import type { Express, Request, Response } from "express";
 import puppeteer from "puppeteer-core";
 
-const CHROMIUM_PATH = "/usr/bin/chromium-browser";
+async function getChromiumPath(): Promise<string> {
+  // In production, use @sparticuz/chromium which bundles its own binary
+  if (process.env.NODE_ENV === "production") {
+    const chromium = await import("@sparticuz/chromium");
+    return await chromium.default.executablePath();
+  }
+  // In development, use the system Chromium
+  return "/usr/bin/chromium-browser";
+}
+
+async function getChromiumArgs(): Promise<string[]> {
+  const baseArgs = [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-dev-shm-usage",
+    "--disable-gpu",
+    "--no-first-run",
+    "--no-zygote",
+    "--single-process",
+  ];
+
+  if (process.env.NODE_ENV === "production") {
+    const chromium = await import("@sparticuz/chromium");
+    return [...chromium.default.args, ...baseArgs];
+  }
+
+  return baseArgs;
+}
 
 export function registerPdfRoute(app: Express, serverPort: number): void {
   app.get("/api/pdf/report", async (req: Request, res: Response) => {
     let browser;
     try {
+      const [executablePath, args] = await Promise.all([
+        getChromiumPath(),
+        getChromiumArgs(),
+      ]);
+
       browser = await puppeteer.launch({
-        executablePath: CHROMIUM_PATH,
+        executablePath,
         headless: true,
-        args: [
-          "--no-sandbox",
-          "--disable-setuid-sandbox",
-          "--disable-dev-shm-usage",
-          "--disable-gpu",
-          "--no-first-run",
-          "--no-zygote",
-          "--single-process",
-        ],
+        args,
       });
 
       const page = await browser.newPage();
