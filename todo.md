@@ -20,3 +20,7 @@
 - [ ] Custom domain activation: christiesrealestategroupeh.com (DNS CNAME set, awaiting Manus Settings → Domains panel)
 - [ ] PIPE tab wired to Google Sheet (scaffold complete, awaiting sheet tab inventory)
 - [ ] Consider upgrading TTS model to eleven_v3 for more expressive delivery
+- [x] Remove Made with Manus badge completely (all pages, desktop + mobile) — confirmed zero badge elements in DOM; CSS suppression already working
+- [x] Clean up FUTURE tab GCI chart (spacing, alignment, professional finish) — taller bars, proper Y-axis gridlines, legend, agent count labels
+- [ ] Confirm both domains added: christiesrealestategroupeh.com + www.christiesrealestategroupeh.com
+- [ ] Checkpoint and publish for Angel review
