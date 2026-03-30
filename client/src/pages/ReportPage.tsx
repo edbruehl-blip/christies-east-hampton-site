@@ -31,7 +31,6 @@ import {
   type HamletTier,
 } from '@/data/hamlet-master';
 import { generateMarketReport } from '@/lib/pdf-exports';
-import { generateReportPdf } from '@/lib/report-pdf';
 
 // ─── Back button ──────────────────────────────────────────────────────────────
 function BackBar() {
@@ -118,7 +117,7 @@ function Section1() {
     setGenerating(true);
     toast.loading('Generating Market Report…', { id: 'market-report' });
     try {
-      await generateReportPdf();
+      await generateMarketReport();
       toast.success('Market Report downloaded.', { id: 'market-report' });
     } catch (e) {
       console.error(e);
