@@ -3,107 +3,26 @@
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
- *   - Market ticker bar (S&P, DJIA, VIX, 10Y Treasury)
- *   - Capital Flow Signal (CFS) donut ring with score and label
+ *   - Hamptons Market Signal — nine-hamlet volume-share donut ring (Hamptons-native, no macro)
+ *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
  *   - Nine hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
  *   - Each tile: hamlet name, median price, ANEW score, tier badge, volume share bar
+ *
+ * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
+ * Do NOT use VIX, S&P, or broad macro indicators inside this ring or its score.
  */
 
-import { useEffect, useState } from 'react';
 import { MatrixCard, StatusBadge } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 
-// ─── Ticker Types ─────────────────────────────────────────────────────────────
+// ─── Tier color palette ───────────────────────────────────────────────────────
 
-interface TickerData {
-  sp500: number;
-  sp500Change: number;
-  djia: number;
-  djiaChange: number;
-  vix: number;
-  treasury10y: number;
-  loaded: boolean;
-}
-
-// ─── Capital Flow Signal ──────────────────────────────────────────────────────
-
-interface CFSResult {
-  score: number;
-  label: string;
-  color: string;
-  description: string;
-}
-
-function calcCFS(ticker: TickerData): CFSResult {
-  if (!ticker.loaded) return { score: 0, label: 'Loading', color: '#C8AC78', description: '' };
-
-  // Equity signal: S&P change drives 0–40 pts
-  const equitySignal = Math.max(0, Math.min(40, 20 + ticker.sp500Change * 10));
-
-  // VIX signal: VIX < 20 = 30 pts, 20–30 = 15 pts, > 30 = 0 pts
-  const vixSignal = ticker.vix < 20 ? 30 : ticker.vix < 30 ? 15 : 0;
-
-  // Rate signal: 10Y < 4.5% = 30 pts, 4.5–5% = 15 pts, > 5% = 0 pts
-  const rateSignal = ticker.treasury10y < 4.5 ? 30 : ticker.treasury10y < 5.0 ? 15 : 0;
-
-  const score = Math.round(equitySignal + vixSignal + rateSignal);
-
-  if (score >= 75) return { score, label: 'Strong Inflow', color: '#2d6a4f', description: 'Equity markets stable, volatility contained, rates favorable. Buyer confidence elevated.' };
-  if (score >= 55) return { score, label: 'Moderate Inflow', color: '#C8AC78', description: 'Mixed signals. Selective buyers active. Institutional quality assets moving.' };
-  if (score >= 35) return { score, label: 'Cautious', color: '#e07b39', description: 'Volatility elevated. Buyers requiring price concessions. DOM extending.' };
-  return { score, label: 'Defensive', color: '#c0392b', description: 'Market stress. Luxury segment insulated but sentiment weak. Hold positions.' };
-}
-
-// ─── Donut Ring SVG ───────────────────────────────────────────────────────────
-
-function DonutRing({ score, color }: { score: number; color: string }) {
-  const r = 54;
-  const cx = 70;
-  const cy = 70;
-  const circumference = 2 * Math.PI * r;
-  const filled = (score / 100) * circumference;
-
-  return (
-    <svg width={140} height={140} viewBox="0 0 140 140" aria-hidden="true">
-      {/* Track */}
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="rgba(27,42,74,0.12)" strokeWidth={10} />
-      {/* Progress */}
-      <circle
-        cx={cx}
-        cy={cy}
-        r={r}
-        fill="none"
-        stroke={color}
-        strokeWidth={10}
-        strokeDasharray={`${filled} ${circumference - filled}`}
-        strokeDashoffset={circumference * 0.25}
-        strokeLinecap="round"
-        style={{ transition: 'stroke-dasharray 0.8s ease' }}
-      />
-      {/* Score label */}
-      <text
-        x={cx}
-        y={cy - 4}
-        textAnchor="middle"
-        fill="#1B2A4A"
-        style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 28, fontWeight: 600 }}
-      >
-        {score}
-      </text>
-      <text
-        x={cx}
-        y={cy + 16}
-        textAnchor="middle"
-        fill="#384249"
-        style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.1em' }}
-      >
-        / 100
-      </text>
-    </svg>
-  );
-}
-
-// ─── Hamlet Tile ──────────────────────────────────────────────────────────────
+const TIER_COLORS: Record<HamletTier, string> = {
+  'Ultra-Trophy': '#C8AC78',   // gold
+  'Trophy':       '#1B2A4A',   // navy
+  'Premier':      '#384249',   // charcoal
+  'Opportunity':  '#8a9ba8',   // slate
+};
 
 const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
   'Ultra-Trophy': { bg: '#C8AC78', text: '#1B2A4A' },
@@ -111,6 +30,168 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
   'Premier':      { bg: '#384249', text: '#FAF8F4' },
   'Opportunity':  { bg: '#e8e4dc', text: '#384249' },
 };
+
+// ─── Hamptons Market Signal Donut ─────────────────────────────────────────────
+// Nine labeled segments, each proportional to hamlet volumeShare.
+// Rendered as an SVG pie/donut — no external data dependency.
+
+interface DonutSegment {
+  hamlet: HamletData;
+  startAngle: number;
+  endAngle: number;
+  midAngle: number;
+  pct: number;
+}
+
+function polarToXY(cx: number, cy: number, r: number, angleDeg: number) {
+  const rad = ((angleDeg - 90) * Math.PI) / 180;
+  return { x: cx + r * Math.cos(rad), y: cy + r * Math.sin(rad) };
+}
+
+function buildArcPath(cx: number, cy: number, r: number, startDeg: number, endDeg: number, innerR: number): string {
+  const start = polarToXY(cx, cy, r, startDeg);
+  const end = polarToXY(cx, cy, r, endDeg);
+  const iStart = polarToXY(cx, cy, innerR, endDeg);
+  const iEnd = polarToXY(cx, cy, innerR, startDeg);
+  const large = endDeg - startDeg > 180 ? 1 : 0;
+  return [
+    `M ${start.x} ${start.y}`,
+    `A ${r} ${r} 0 ${large} 1 ${end.x} ${end.y}`,
+    `L ${iStart.x} ${iStart.y}`,
+    `A ${innerR} ${innerR} 0 ${large} 0 ${iEnd.x} ${iEnd.y}`,
+    'Z',
+  ].join(' ');
+}
+
+function HamletDonut() {
+  const cx = 160;
+  const cy = 160;
+  const outerR = 130;
+  const innerR = 78;
+  const labelR = outerR + 22;
+  const total = MASTER_HAMLET_DATA.reduce((s, h) => s + h.volumeShare, 0);
+
+  // Build segments
+  const segments: DonutSegment[] = [];
+  let cursor = 0;
+  for (const hamlet of MASTER_HAMLET_DATA) {
+    const pct = hamlet.volumeShare / total;
+    const span = pct * 360;
+    const startAngle = cursor;
+    const endAngle = cursor + span;
+    const midAngle = cursor + span / 2;
+    segments.push({ hamlet, startAngle, endAngle, midAngle, pct });
+    cursor += span;
+  }
+
+  // Dominant hamlet by volume
+  const dominant = [...MASTER_HAMLET_DATA].sort((a, b) => b.volumeShare - a.volumeShare)[0];
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <svg
+        width={320}
+        height={320}
+        viewBox="0 0 320 320"
+        aria-label="Nine-hamlet volume share donut"
+        style={{ overflow: 'visible' }}
+      >
+        {/* Segments */}
+        {segments.map(seg => {
+          const color = TIER_COLORS[seg.hamlet.tier];
+          const gap = 1.2; // gap between segments in degrees
+          return (
+            <path
+              key={seg.hamlet.id}
+              d={buildArcPath(cx, cy, outerR, seg.startAngle + gap / 2, seg.endAngle - gap / 2, innerR)}
+              fill={color}
+              opacity={0.92}
+              style={{ transition: 'opacity 0.2s' }}
+            />
+          );
+        })}
+
+        {/* Center label */}
+        <text
+          x={cx}
+          y={cy - 14}
+          textAnchor="middle"
+          fill="#1B2A4A"
+          style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, fontWeight: 600, letterSpacing: '0.04em' }}
+        >
+          HAMPTONS
+        </text>
+        <text
+          x={cx}
+          y={cy + 4}
+          textAnchor="middle"
+          fill="#1B2A4A"
+          style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, fontWeight: 600, letterSpacing: '0.04em' }}
+        >
+          MARKET
+        </text>
+        <text
+          x={cx}
+          y={cy + 22}
+          textAnchor="middle"
+          fill="#C8AC78"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.16em' }}
+        >
+          SIGNAL
+        </text>
+
+        {/* Segment labels — only for segments ≥ 6% to avoid overlap */}
+        {segments.filter(s => s.pct >= 0.06).map(seg => {
+          const pos = polarToXY(cx, cy, labelR, seg.midAngle);
+          const anchor = pos.x < cx - 4 ? 'end' : pos.x > cx + 4 ? 'start' : 'middle';
+          // Short hamlet label
+          const shortName = seg.hamlet.name
+            .replace('East Hampton Village', 'EH Village')
+            .replace('Southampton Village', 'Southampton')
+            .replace('East Hampton', 'E. Hampton');
+          return (
+            <g key={`label-${seg.hamlet.id}`}>
+              <text
+                x={pos.x}
+                y={pos.y - 4}
+                textAnchor={anchor}
+                fill="#1B2A4A"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9.5, letterSpacing: '0.08em', fontWeight: 600 }}
+              >
+                {shortName.toUpperCase()}
+              </text>
+              <text
+                x={pos.x}
+                y={pos.y + 9}
+                textAnchor={anchor}
+                fill="#C8AC78"
+                style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, fontWeight: 600 }}
+              >
+                {seg.hamlet.volumeShare}%
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Dominant market note */}
+      <div className="text-center" style={{ maxWidth: 260 }}>
+        <span
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+        >
+          Dominant corridor
+        </span>
+        <div
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.125rem', marginTop: 2 }}
+        >
+          {dominant.name} · {dominant.volumeShare}% of volume
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Hamlet Tile ──────────────────────────────────────────────────────────────
 
 function HamletTile({ hamlet }: { hamlet: HamletData }) {
   const badge = TIER_BADGE_COLORS[hamlet.tier];
@@ -210,27 +291,93 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
   );
 }
 
+// ─── Rate Environment sidebar ─────────────────────────────────────────────────
+
+function RateEnvironment() {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Mortgage corridor */}
+      <div
+        className="p-5 border"
+        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+      >
+        <div
+          className="uppercase mb-2"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+        >
+          30Y Mortgage Corridor
+        </div>
+        <div
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+        >
+          6.38%
+        </div>
+        <div
+          className="mt-1"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
+        >
+          Freddie Mac weekly avg · March 2026
+        </div>
+      </div>
+
+      {/* Hamptons Median */}
+      <div
+        className="p-5 border"
+        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+      >
+        <div
+          className="uppercase mb-2"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+        >
+          Hamptons Median
+        </div>
+        <div
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+        >
+          $2.34M
+        </div>
+        <div
+          className="mt-1"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
+        >
+          All nine hamlets · trailing 12 months
+        </div>
+      </div>
+
+      {/* Tier legend */}
+      <div
+        className="p-5 border"
+        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+      >
+        <div
+          className="uppercase mb-3"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+        >
+          Tier Legend
+        </div>
+        <div className="flex flex-col gap-2">
+          {(Object.entries(TIER_COLORS) as [HamletTier, string][]).map(([tier, color]) => (
+            <div key={tier} className="flex items-center gap-2">
+              <div
+                className="w-3 h-3 rounded-sm shrink-0"
+                style={{ background: color }}
+              />
+              <span
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#384249', fontSize: 11, letterSpacing: '0.08em' }}
+              >
+                {tier}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MarketTab() {
-  const [ticker, setTicker] = useState<TickerData>({
-    sp500: 6368.85,
-    sp500Change: -1.67,
-    djia: 45166.64,
-    djiaChange: -1.73,
-    vix: 31.05,
-    treasury10y: 4.44,
-    loaded: true,
-  });
-
-  const cfs = calcCFS(ticker);
-
-  // Attempt live fetch — falls back to hardcoded March 27 close if unavailable
-  useEffect(() => {
-    // Live market data fetch would go here via a backend proxy
-    // For now, hardcoded to March 27, 2026 close (last known values)
-  }, []);
-
   const tierGroups = TIER_ORDER.map(tier => ({
     tier,
     hamlets: MASTER_HAMLET_DATA.filter(h => h.tier === tier),
@@ -239,137 +386,48 @@ export default function MarketTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
 
-      {/* ── Market Ticker Bar ─────────────────────────────────────────────── */}
-      <div
-        className="w-full px-6 py-3 flex flex-wrap items-center gap-6 overflow-x-auto"
-        style={{ background: '#1B2A4A', borderBottom: '2px solid #C8AC78' }}
-      >
-        {[
-          { label: 'S&P 500', value: ticker.sp500.toLocaleString('en-US', { minimumFractionDigits: 2 }), change: ticker.sp500Change },
-          { label: 'DJIA', value: ticker.djia.toLocaleString('en-US', { minimumFractionDigits: 2 }), change: ticker.djiaChange },
-          { label: 'VIX', value: ticker.vix.toFixed(2), change: null },
-          { label: '10Y Treasury', value: `${ticker.treasury10y.toFixed(2)}%`, change: null },
-        ].map(item => (
-          <div key={item.label} className="flex items-baseline gap-2 shrink-0">
-            <span
-              className="uppercase"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.16em' }}
-            >
-              {item.label}
-            </span>
-            <span
-              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9375rem' }}
-            >
-              {item.value}
-            </span>
-            {item.change !== null && (
-              <span
-                style={{
-                  fontFamily: '"Source Sans 3", sans-serif',
-                  fontSize: '0.8125rem',
-                  color: item.change >= 0 ? '#4ade80' : '#f87171',
-                }}
-              >
-                {item.change >= 0 ? '+' : ''}{item.change.toFixed(2)}%
-              </span>
-            )}
-          </div>
-        ))}
-        <div
-          className="ml-auto shrink-0 text-[10px] uppercase"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', letterSpacing: '0.12em' }}
-        >
-          As of March 27, 2026 close
-        </div>
-      </div>
-
-      {/* ── Capital Flow Signal ───────────────────────────────────────────── */}
+      {/* ── Hamptons Market Signal ─────────────────────────────────────────── */}
       <section className="px-6 py-10" style={{ background: '#FAF8F4' }}>
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
+
           <div
-            className="uppercase mb-6"
+            className="uppercase mb-2"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
           >
-            Capital Flow Signal
+            Hamptons Market Signal
           </div>
+          <h2
+            className="mb-8"
+            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
+          >
+            Nine-Hamlet Volume Distribution · South Fork Territory
+          </h2>
 
-          <MatrixCard variant="navy" className="p-8">
-            <div className="flex flex-col md:flex-row items-center gap-8">
-              {/* Donut */}
-              <div className="shrink-0">
-                <DonutRing score={cfs.score} color={cfs.color} />
-              </div>
-
-              {/* Signal text */}
-              <div className="flex-1">
-                <div
-                  className="mb-2"
-                  style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.75rem', lineHeight: 1.2 }}
-                >
-                  {cfs.label}
-                </div>
-                <div
-                  className="mb-6 leading-relaxed"
-                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.9375rem' }}
-                >
-                  {cfs.description}
-                </div>
-
-                {/* Signal components */}
-                <div className="grid grid-cols-3 gap-4">
-                  {[
-                    { label: 'Equity Signal', value: `S&P ${ticker.sp500Change >= 0 ? '+' : ''}${ticker.sp500Change.toFixed(2)}%`, ok: ticker.sp500Change >= 0 },
-                    { label: 'Volatility', value: `VIX ${ticker.vix.toFixed(2)}`, ok: ticker.vix < 25 },
-                    { label: 'Rate Environment', value: `10Y ${ticker.treasury10y.toFixed(2)}%`, ok: ticker.treasury10y < 4.75 },
-                  ].map(sig => (
-                    <div key={sig.label} className="flex flex-col gap-1">
-                      <span
-                        className="uppercase"
-                        style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 10, letterSpacing: '0.14em' }}
-                      >
-                        {sig.label}
-                      </span>
-                      <span
-                        style={{ fontFamily: '"Source Sans 3", sans-serif', color: sig.ok ? '#4ade80' : '#f87171', fontWeight: 600, fontSize: '0.9375rem' }}
-                      >
-                        {sig.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Mortgage corridor */}
-              <div
-                className="shrink-0 text-center p-5 border"
-                style={{ borderColor: 'rgba(200,172,120,0.3)', minWidth: 160 }}
-              >
-                <div
-                  className="uppercase mb-2"
-                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.16em' }}
-                >
-                  Mortgage Corridor
-                </div>
-                <div
-                  style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.5rem' }}
-                >
-                  6.5 – 7.0%
-                </div>
-                <div
-                  className="mt-1"
-                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.75rem' }}
-                >
-                  30-yr fixed estimate
-                </div>
-              </div>
+          <div className="flex flex-col lg:flex-row gap-10 items-start">
+            {/* Donut */}
+            <div className="shrink-0 flex justify-center w-full lg:w-auto">
+              <HamletDonut />
             </div>
-          </MatrixCard>
+
+            {/* Right column: rate environment + legend */}
+            <div className="flex-1 flex flex-col gap-6">
+              <RateEnvironment />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── Hamlet Tiles by Tier ─────────────────────────────────────────── */}
       <section className="px-6 pb-14" style={{ background: '#FAF8F4' }}>
         <div className="mx-auto" style={{ maxWidth: 1100 }}>
+
+          <div
+            className="uppercase mb-6"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+          >
+            Hamlet Intelligence Matrix
+          </div>
+
           {tierGroups.map(({ tier, hamlets }) => (
             <div key={tier} className="mb-10">
               {/* Tier header */}

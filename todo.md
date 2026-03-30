@@ -23,4 +23,18 @@
 - [x] Remove Made with Manus badge completely (all pages, desktop + mobile) — confirmed zero badge elements in DOM; CSS suppression already working
 - [x] Clean up FUTURE tab GCI chart (spacing, alignment, professional finish) — taller bars, proper Y-axis gridlines, legend, agent count labels
 - [ ] Confirm both domains added: christiesrealestategroupeh.com + www.christiesrealestategroupeh.com
-- [ ] Checkpoint and publish for Angel review
+- [x] Checkpoint and publish for Angel review — version 49ef300f
+
+## Final Compiled Directive — March 30, 2026
+
+- [ ] Publish Manus build and add both domains (christiesrealestategroupeh.com + www)
+- [ ] Confirm Netlify backup URL preserved before DNS cutover
+- [x] Remove all Manus vendor attribution from public-facing surfaces — ManusDialog login text neutralized; CSS suppression confirmed; debug collector is dev-only
+- [x] Rebuild MARKET donut/ring around nine hamlets only — nine-hamlet volume-share SVG donut, tier-colored segments, labeled, no macro data
+- [x] Re-art-direct PDF Market Report — page 1 mirrors website hero, page 2 two-column ticker+table, pages 3–4 hamlet card grid with tier badges and ANEW bars
+- [ ] Post-Angel: PIPE persistence (database)
+- [ ] Post-Angel: INTEL operational calendar (podcast + event sheets)
+- [ ] Post-Angel: favicon / public brand hygiene (Christie's mark)
+- [ ] Post-Angel: PDF parity with website
+- [ ] Post-Angel: FUTURE refinement
+- [ ] Post-Angel: MAPS / MARKET visual refinement
