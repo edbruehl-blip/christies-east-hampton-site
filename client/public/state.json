@@ -3,7 +3,7 @@
     "title": "Christie's East Hampton — Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
     "last_updated": "2026-03-31",
-    "sprint": 3,
+    "sprint": 4,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL"
@@ -39,7 +39,9 @@
     "firm": "Christie's International Real Estate Group",
     "address": "26 Park Place · East Hampton, NY 11937",
     "phone": "646-752-1233",
-    "career_sales": "$1B+ in Career Sales · 20 Years, East End"
+    "career_sales": "$1B+ in Career Sales · 20 Years, East End",
+    "headshot_cdn": "https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/INlfZDqMHcqOCvuv.jpg",
+    "headshot_note": "Navy jacket photo — used on HOME tab and all PDF exports. Do not replace without Ed's approval."
   },
 
   "scoring_framework": {
@@ -167,12 +169,20 @@
       "function": "generateEastHamptonVillageReport",
       "file": "client/src/lib/pdf-exports.ts",
       "hero": "Navy gradient placeholder — do not use auction room image here"
+    },
+    "generic_hamlet_pdf": {
+      "title": "{HamletName} · Christie's Intelligence Report",
+      "function": "generateHamletReport",
+      "file": "client/src/lib/pdf-exports.ts",
+      "note": "Sprint 4 — generic function wired to all 9 hamlet cards in MARKET tab. Takes HamletData as argument."
     }
   },
 
   "tts_audio": {
     "provider": "ElevenLabs",
     "voice_name": "William",
+    "voice_id": "N2lVS1w4EtoT3dr4eOWO",
+    "model": "eleven_multilingual_v2",
     "server_route": "/api/tts",
     "buttons": [
       {
@@ -188,6 +198,21 @@
     ],
     "player_controls": ["play/pause", "progress bar", "scrub/seek", "rewind 15s", "current time / total time"],
     "mobile_rule": "Full file downloads before playback begins"
+  },
+
+  "whatsapp_scheduler": {
+    "status": "wired — Sprint 4",
+    "provider": "Twilio + ElevenLabs",
+    "voice_id": "N2lVS1w4EtoT3dr4eOWO",
+    "server_file": "server/whatsapp-route.ts",
+    "endpoints": [
+      { "path": "/api/whatsapp/morning-brief", "schedule": "8:00 AM Eastern daily", "type": "morning market brief" },
+      { "path": "/api/whatsapp/evening-summary", "schedule": "8:00 PM Eastern daily", "type": "evening pipeline summary" },
+      { "path": "/api/whatsapp/test", "schedule": "on-demand POST", "type": "live test fire" }
+    ],
+    "env_keys": ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_WHATSAPP_FROM", "WILLIAM_WHATSAPP_TO"],
+    "scheduler": "node-cron with America/New_York timezone",
+    "flow": "brief text → ElevenLabs MP3 → S3 upload → Twilio WhatsApp media message"
   },
 
   "estate_advisory_card_loop": {
@@ -248,11 +273,26 @@
         "INTEL Podcast calendar sheet ID corrected to locked ID"
       ]
     },
-    "sprint_3_horizon": [
-      "William WhatsApp rebuild (8AM / 8PM)",
-      "Twilio integration",
-      "ElevenLabs voice",
-      "Listing webhook automation",
+    "sprint_4": {
+      "completed": "2026-03-31",
+      "deliverables": [
+        "Ed's headshot (navy jacket) integrated on HOME tab and all PDF exports",
+        "All 9 hamlet dining data fully populated (no TBDs) — 3-tier model: anchor/mid/local",
+        "Generic hamlet PDF function (generateHamletReport) wired to all 9 hamlet cards in MARKET tab",
+        "INTEL calendar confirmed pulling live rows from Google Sheets",
+        "MAPS placeholder listing suppression — placeholder cards hidden, clean empty state shown",
+        "William WhatsApp scheduler built — 8AM morning brief + 8PM pipeline summary",
+        "Twilio + ElevenLabs + S3 voice note delivery pipeline wired",
+        "node-cron scheduler with America/New_York timezone",
+        "10 vitest passing (4 test files)",
+        "state.json updated to Sprint 4"
+      ]
+    },
+    "sprint_5_horizon": [
+      "Daily 6AM listing sync — auto-scrape Ed's Christie's profile and seed PIPE",
+      "William WhatsApp live test fire — confirm Twilio delivery to Ed's phone",
+      "INTEL calendar enhancement if needed",
+      "Council feedback from upcoming review",
       "GitHub private repo: christies-east-hampton",
       "Claude API layer"
     ]

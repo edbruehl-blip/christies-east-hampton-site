@@ -238,32 +238,20 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
         </div>
 
         {/* ── Active Listings ─────────────────────────────────────────── */}
-        <div style={{ marginBottom: 28 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>
-            Active Listings
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
-            {hamlet.eeleListings.map((listing, i) => (
-              listing.placeholder ? (
-                <div
-                  key={i}
-                  style={{
-                    padding: '14px 16px',
-                    background: 'rgba(27,42,74,0.02)',
-                    border: '1px dashed rgba(27,42,74,0.18)',
-                  }}
-                >
-                  <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 6 }}>
-                    Listing {i + 1} — Placeholder
-                  </div>
-                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#ccc', fontSize: '0.82rem', fontStyle: 'italic' }}>
-                    Address TBD
-                  </div>
-                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#ccc', fontSize: '0.78rem', marginTop: 4, fontStyle: 'italic' }}>
-                    Price TBD · Active
-                  </div>
+        {(() => {
+          const realListings = hamlet.eeleListings.filter(l => !l.placeholder);
+          return (
+            <div style={{ marginBottom: 28 }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>
+                Active Listings
+              </div>
+              {realListings.length === 0 ? (
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', fontStyle: 'italic', padding: '10px 0' }}>
+                  No active listings at this time.
                 </div>
               ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
+                  {realListings.map((listing, i) => (
                 <a
                   key={i}
                   href={listing.url}
@@ -287,10 +275,12 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                     {listing.beds} BD · {listing.baths} BA · {listing.sqft} SF
                   </div>
                 </a>
-              )
-            ))}
-          </div>
-        </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })()}
 
         {/* ── News Links ───────────────────────────────────────────────────── */}
         <div>

@@ -10,6 +10,7 @@ import { serveStatic, setupVite } from "./vite";
 import { registerPdfRoute } from "../pdf";
 import { registerTtsRoute } from "../tts-route";
 import { registerMarketRoute } from "../market-route";
+import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -68,6 +69,10 @@ async function startServer() {
   // Market data proxy — bypasses CORS on Yahoo Finance for deployed environments
   registerMarketRoute(app);
 
+  // William WhatsApp — 8AM morning brief + 8PM pipeline summary via ElevenLabs + Twilio
+  registerWhatsAppRoute(app);
+  startWhatsAppScheduler();
+
   // Development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {
     await setupVite(app, server);
@@ -78,6 +83,7 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
 }
 
 startServer().catch(console.error);
