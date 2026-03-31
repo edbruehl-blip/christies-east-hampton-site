@@ -1,194 +1,207 @@
 /**
  * INTEL TAB — Operating Control Room
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Sprint 2 — March 31, 2026
  *
- * Layer 1 — Calendar (top, above fold): combined Podcast + Event + Internal + Social
- * Layer 2 — Live Sheet Embeds: Agent/Recruiting · Auction/Events · Social/Podcast
+ * Layer 1 — Master Calendar: live from Podcast + Event Google Sheets, no seeded data
+ * Layer 2 — Four-panel sheet grid: Agent Recruiting · Social/Podcast · Contact Database · Auction Events
  * Layer 3 — Canon Documents: org chart, wireframes, council briefs, PDFs
+ *
+ * Rules:
+ * - One continuous surface, no scroll traps
+ * - Viewport-height CSS for sheet panels
+ * - No boxed layouts that trap scroll
+ * - Sheets must be recognizable and usable as real spreadsheets
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { usePdfAssets } from '@/hooks/usePdfAssets';
 
-// ─── Google Sheet IDs ─────────────────────────────────────────────────────────
+// ─── Source-of-Truth Sheet IDs (locked March 31, 2026) ────────────────────────
 
-const SHEETS = {
-  agentRecruiting: '1a7arxf3_eTAnF7QlD3M-Fwnt7RhyRoaMWfLlTbA9MJ7mA',
-  auctionEvents:   '1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s',
+const SHEET_IDS = {
+  podcast:         '1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8',  // Layer 1 calendar source
+  event:           '1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s',  // Layer 1 calendar source + Layer 2 embed
+  agentRecruiting: '1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA',  // corrected ID (lowercase h)
   socialPodcast:   '1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I',
+  contactDatabase: '1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI',
 };
 
 function sheetEmbedUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit?usp=sharing&rm=minimal&widget=true&headers=false`;
 }
 
-// ─── Calendar Layer ───────────────────────────────────────────────────────────
-
-type CalFilter = 'All' | 'Podcast' | 'Event' | 'Internal' | 'Social';
-
-interface CalItem {
-  date: string;       // "Mar 31"
-  day: string;        // "Mon"
-  type: CalFilter;
-  title: string;
-  detail: string;
+function sheetOpenUrl(id: string) {
+  return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-const CALENDAR_ITEMS: CalItem[] = [
-  { date: 'Apr 1',  day: 'Wed', type: 'Internal',  title: 'Q2 Strategy Review',                detail: 'Ed Bruehl · Council · 10:00 AM' },
-  { date: 'Apr 3',  day: 'Fri', type: 'Podcast',   title: 'William Records · Episode 4',       detail: 'Recording · East Hampton Studio · 2:00 PM' },
-  { date: 'Apr 5',  day: 'Sun', type: 'Event',     title: 'Christie\'s Spring Auction Preview', detail: 'Rockefeller Center · 6:00 PM' },
-  { date: 'Apr 7',  day: 'Tue', type: 'Social',    title: 'Instagram · Market Report Drop',    detail: 'Scheduled post · 9:00 AM' },
-  { date: 'Apr 9',  day: 'Thu', type: 'Internal',  title: 'Agent Pipeline Review',              detail: 'Ed Bruehl · 11:00 AM' },
-  { date: 'Apr 10', day: 'Fri', type: 'Podcast',   title: 'William Records · Episode 5',       detail: 'Pre-production · Script due' },
-  { date: 'Apr 12', day: 'Sun', type: 'Event',     title: 'East Hampton Village Fair',         detail: 'Main Street · All day' },
-  { date: 'Apr 14', day: 'Tue', type: 'Social',    title: 'LinkedIn · Hamlet Atlas Feature',   detail: 'Scheduled post · 8:00 AM' },
-  { date: 'Apr 15', day: 'Wed', type: 'Internal',  title: 'Christie\'s National Call',         detail: 'Managing Directors · 2:00 PM' },
-  { date: 'Apr 17', day: 'Fri', type: 'Event',     title: 'Sag Harbor Arts Council Benefit',   detail: 'American Hotel · 7:00 PM' },
-  { date: 'Apr 21', day: 'Tue', type: 'Podcast',   title: 'William Records · Episode 6',       detail: 'Recording · East Hampton Studio · 2:00 PM' },
-  { date: 'Apr 24', day: 'Fri', type: 'Social',    title: 'Instagram · Sagaponack Feature',    detail: 'Scheduled post · 9:00 AM' },
-  { date: 'Apr 28', day: 'Tue', type: 'Internal',  title: 'Monthly GCI Review',                detail: 'Ed Bruehl · Council · 10:00 AM' },
-  { date: 'Apr 30', day: 'Thu', type: 'Event',     title: 'Christie\'s East Hampton Open House', detail: '26 Park Place · 4:00 PM' },
-];
+// ─── Calendar Layer — live from Google Sheets ─────────────────────────────────
+// The calendar renders the Podcast and Event sheets as full embeds side by side
+// above the fold, with filter tabs. No seeded data.
 
-const TYPE_COLORS: Record<CalFilter, { bg: string; text: string; border: string }> = {
-  All:      { bg: '#1B2A4A', text: '#FAF8F4', border: '#C8AC78' },
-  Podcast:  { bg: '#C8AC78', text: '#1B2A4A', border: '#C8AC78' },
-  Event:    { bg: '#1B2A4A', text: '#FAF8F4', border: '#1B2A4A' },
-  Internal: { bg: '#384249', text: '#FAF8F4', border: '#384249' },
-  Social:   { bg: '#FAF8F4', text: '#1B2A4A', border: '#C8AC78' },
-};
+type CalFilter = 'All' | 'Podcast' | 'Event' | 'Internal' | 'Social';
 
 function CalendarLayer() {
   const [filter, setFilter] = useState<CalFilter>('All');
   const filters: CalFilter[] = ['All', 'Podcast', 'Event', 'Internal', 'Social'];
-  const visible = filter === 'All' ? CALENDAR_ITEMS : CALENDAR_ITEMS.filter(i => i.type === filter);
+
+  // Determine which sheets to show based on filter
+  const showPodcast = filter === 'All' || filter === 'Podcast';
+  const showEvent   = filter === 'All' || filter === 'Event';
+  const showBoth    = showPodcast && showEvent;
 
   return (
-    <div className="mb-10">
-      {/* Section label */}
-      <div className="uppercase mb-4" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-        Layer 1 · Calendar · April 2026
-      </div>
-
-      {/* Filter pills */}
-      <div className="flex flex-wrap gap-2 mb-5">
-        {filters.map(f => {
-          const active = filter === f;
-          return (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className="px-4 py-1.5 text-[10px] uppercase tracking-widest border transition-all"
-              style={{
-                fontFamily: '"Barlow Condensed", sans-serif',
-                letterSpacing: '0.18em',
-                background: active ? '#1B2A4A' : 'transparent',
-                color: active ? '#C8AC78' : '#1B2A4A',
-                borderColor: active ? '#C8AC78' : '#1B2A4A',
-              }}
-            >
-              {f}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Calendar rows */}
-      <div className="flex flex-col gap-2">
-        {visible.map((item, i) => {
-          const c = TYPE_COLORS[item.type];
-          return (
-            <div
-              key={i}
-              className="flex items-center gap-4 px-4 py-3 border"
-              style={{ background: '#FFFFFF', borderColor: 'rgba(27,42,74,0.12)' }}
-            >
-              {/* Date block */}
-              <div className="shrink-0 w-14 text-center">
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', fontSize: 15, fontWeight: 700, lineHeight: 1 }}>
-                  {item.date}
-                </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
-                  {item.day}
-                </div>
-              </div>
-
-              {/* Type badge */}
-              <div
-                className="shrink-0 px-2.5 py-1 text-[9px] uppercase tracking-widest"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', background: c.bg, color: c.text, border: `1px solid ${c.border}`, letterSpacing: '0.16em', minWidth: 64, textAlign: 'center' }}
-              >
-                {item.type}
-              </div>
-
-              {/* Title + detail */}
-              <div className="flex-1 min-w-0">
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem' }}>
-                  {item.title}
-                </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}>
-                  {item.detail}
-                </div>
-              </div>
+    <div className="mb-0">
+      {/* Layer header */}
+      <div className="px-6 pt-6 pb-4 border-b" style={{ background: '#fff', borderColor: 'rgba(200,172,120,0.25)' }}>
+        <div className="flex items-start justify-between flex-wrap gap-3">
+          <div>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Layer 1 · Master Calendar · Above the fold · Always visible
             </div>
-          );
-        })}
-        {visible.length === 0 && (
-          <div className="py-8 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.85rem' }}>
-            No items for this filter.
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>
+              Master Calendar
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', marginTop: 2 }}>
+              Podcast · Event · Internal · Social — live from Google Sheets
+            </div>
           </div>
-        )}
+          <div className="flex gap-2 flex-wrap">
+            {filters.map(f => (
+              <button
+                key={f}
+                onClick={() => setFilter(f)}
+                className="px-3 py-1 text-[9px] uppercase tracking-widest border transition-all"
+                style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  letterSpacing: '0.16em',
+                  background: filter === f ? '#1B2A4A' : 'transparent',
+                  color: filter === f ? '#C8AC78' : '#384249',
+                  borderColor: filter === f ? '#C8AC78' : '#D3D1C7',
+                }}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-3 flex gap-4 text-[10px]" style={{ fontFamily: 'monospace', color: '#bbb' }}>
+          <span>Podcast: {SHEET_IDS.podcast.slice(0, 16)}…</span>
+          <span>Event: {SHEET_IDS.event.slice(0, 16)}…</span>
+          <span style={{ color: '#C8AC78' }}>Wednesday = anchor day</span>
+        </div>
       </div>
+
+      {/* Calendar sheet embeds — side by side when both visible */}
+      {(showPodcast || showEvent) && (
+        <div
+          className={showBoth ? 'grid grid-cols-2' : 'grid grid-cols-1'}
+          style={{ borderBottom: '1px solid rgba(200,172,120,0.2)' }}
+        >
+          {showPodcast && (
+            <div style={{ borderRight: showBoth ? '1px solid rgba(200,172,120,0.2)' : 'none' }}>
+              <div className="flex items-center justify-between px-4 py-2 border-b" style={{ background: '#1B2A4A', borderColor: 'rgba(200,172,120,0.2)' }}>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                  Podcast Pipeline
+                </span>
+                <a href={sheetOpenUrl(SHEET_IDS.podcast)} target="_blank" rel="noopener noreferrer"
+                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.12em' }}>
+                  Open Sheet ↗
+                </a>
+              </div>
+              <iframe
+                src={sheetEmbedUrl(SHEET_IDS.podcast)}
+                title="Podcast Pipeline"
+                width="100%"
+                style={{ display: 'block', height: 'calc(40vh)', minHeight: 280, border: 'none' }}
+                allowFullScreen
+              />
+            </div>
+          )}
+          {showEvent && (
+            <div>
+              <div className="flex items-center justify-between px-4 py-2 border-b" style={{ background: '#1B2A4A', borderColor: 'rgba(200,172,120,0.2)' }}>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                  Event Calendar
+                </span>
+                <a href={sheetOpenUrl(SHEET_IDS.event)} target="_blank" rel="noopener noreferrer"
+                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.12em' }}>
+                  Open Sheet ↗
+                </a>
+              </div>
+              <iframe
+                src={sheetEmbedUrl(SHEET_IDS.event)}
+                title="Event Calendar"
+                width="100%"
+                style={{ display: 'block', height: 'calc(40vh)', minHeight: 280, border: 'none' }}
+                allowFullScreen
+              />
+            </div>
+          )}
+          {/* Internal/Social filters show a note since those live inside the sheets */}
+          {!showPodcast && !showEvent && (
+            <div className="px-6 py-8 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.85rem' }}>
+              Internal and Social items are tracked inside the Podcast and Event sheets above.
+              <br />
+              <button onClick={() => setFilter('All')} className="mt-3 underline" style={{ color: '#C8AC78' }}>Show all sheets</button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
 
-// ─── Live Sheet Embed Layer ───────────────────────────────────────────────────
+// ─── Live Sheet Panel (Layer 2) ───────────────────────────────────────────────
 
-interface SheetEmbedProps {
+interface SheetPanelProps {
   title: string;
   subtitle: string;
   sheetId: string;
+  badge?: string;
 }
 
-function SheetEmbed({ title, subtitle, sheetId }: SheetEmbedProps) {
-  const url = sheetEmbedUrl(sheetId);
+function SheetPanel({ title, subtitle, sheetId, badge }: SheetPanelProps) {
   return (
-    <div className="mb-8">
-      <div className="flex items-baseline justify-between mb-3">
+    <div className="flex flex-col" style={{ border: '0.5px solid #D3D1C7', borderRadius: 6, overflow: 'hidden', background: '#fff' }}>
+      {/* Card header */}
+      <div className="flex items-center justify-between px-4 py-3" style={{ background: '#1B2A4A' }}>
         <div>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 600 }}>
             {title}
           </div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: 9, marginTop: 1 }}>
             {subtitle}
           </div>
         </div>
-        <a
-          href={`https://docs.google.com/spreadsheets/d/${sheetId}/edit`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-4 py-1.5 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
-        >
-          Open in Sheets ↗
-        </a>
+        <div className="flex items-center gap-3">
+          {badge && (
+            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 7, color: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.1)', padding: '1px 6px', borderRadius: 2, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+              {badge}
+            </span>
+          )}
+          <a
+            href={sheetOpenUrl(sheetId)}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}
+          >
+            Open ↗
+          </a>
+        </div>
       </div>
-      <div
-        className="w-full border"
-        style={{ borderColor: 'rgba(200,172,120,0.4)', background: '#fff' }}
-      >
-        <iframe
-          src={url}
-          title={title}
-          width="100%"
-          height="520"
-          frameBorder="0"
-          style={{ display: 'block', minHeight: 520 }}
-          allowFullScreen
-        />
+      {/* Sheet embed — viewport height so it fills the laptop screen */}
+      <iframe
+        src={sheetEmbedUrl(sheetId)}
+        title={title}
+        width="100%"
+        style={{ display: 'block', height: 'calc(50vh)', minHeight: 320, border: 'none', flex: 1 }}
+        allowFullScreen
+      />
+      {/* Footer */}
+      <div className="flex justify-between px-3 py-2" style={{ background: '#FAF8F4', borderTop: '0.5px solid #f0f0f0' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 7, color: '#bbb' }}>{sheetId.slice(0, 22)}…</span>
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.5px' }}>LIVE SHEET</span>
       </div>
     </div>
   );
@@ -196,25 +209,45 @@ function SheetEmbed({ title, subtitle, sheetId }: SheetEmbedProps) {
 
 function LiveSheetsLayer() {
   return (
-    <div className="mb-10">
-      <div className="uppercase mb-6" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-        Layer 2 · Live Operating Sheets
+    <div className="px-6 py-8 border-b" style={{ background: '#FAF8F4', borderColor: 'rgba(200,172,120,0.2)' }}>
+      {/* Layer header */}
+      <div className="mb-1 uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        Layer 2 · Operating Intelligence
       </div>
-      <SheetEmbed
-        title="Agent Pipeline · Recruiting"
-        subtitle="Future Agents · Active recruiting targets · Status tracking"
-        sheetId={SHEETS.agentRecruiting}
-      />
-      <SheetEmbed
-        title="Event Calendar · Auction Events"
-        subtitle="Christie's East Hampton · Events · Auction schedule"
-        sheetId={SHEETS.auctionEvents}
-      />
-      <SheetEmbed
-        title="Social Media Tracker · Podcast Pipeline"
-        subtitle="Content calendar · William Records · Platform scheduling"
-        sheetId={SHEETS.socialPodcast}
-      />
+      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>
+        Live Working Sheets
+      </div>
+      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', marginTop: 2, marginBottom: 20 }}>
+        Viewport-height optimized · Full laptop visibility · No cramped scroll boxes
+      </div>
+
+      {/* 2×2 grid */}
+      <div className="grid grid-cols-2 gap-4">
+        <SheetPanel
+          title="Agent Recruiting"
+          subtitle="Future agents · Active targets · Status tracking"
+          sheetId={SHEET_IDS.agentRecruiting}
+          badge="Live Sheet"
+        />
+        <SheetPanel
+          title="Social / Podcast Pipeline"
+          subtitle="Content calendar · William Records · Platform scheduling"
+          sheetId={SHEET_IDS.socialPodcast}
+          badge="Live Sheet"
+        />
+        <SheetPanel
+          title="Contact Database"
+          subtitle="Attorneys · Press · Christie's · Strategic contacts"
+          sheetId={SHEET_IDS.contactDatabase}
+          badge="Live Sheet"
+        />
+        <SheetPanel
+          title="Auction Events"
+          subtitle="Christie's East Hampton · Events · Auction schedule"
+          sheetId={SHEET_IDS.event}
+          badge="Live Sheet"
+        />
+      </div>
     </div>
   );
 }
@@ -233,7 +266,7 @@ const ORG_CHART_DOCS: DocItem[] = [
   {
     id: 'org-chart',
     label: "Christie's East Hampton · Institutional Hierarchy · March 2026",
-    description: "Full organizational hierarchy from James Christie through the Auction House and Real Estate Division to the East Hampton team. Approved by Claude, Grok, and ChatGPT.",
+    description: "Full organizational hierarchy from James Christie through the Auction House and Real Estate Division to the East Hampton team.",
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/TtcjzvhlJtbopxGm.html',
     pinned: true,
   },
@@ -250,8 +283,8 @@ const MARKET_REPORT_DOCS: DocItem[] = [
   {
     id: 'hamlet-pdf-east-hampton',
     label: "Hamlet PDF · East Hampton Village · Wireframe",
-    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, listings, last sale, dining, and news.",
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/mMMpkvVbutZzZYks.html',
+    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, ANEW score, tier classification, and comparable sales.",
+    url: null,
   },
 ];
 
@@ -280,7 +313,7 @@ const COUNCIL_BRIEF_DOCS: DocItem[] = [
   {
     id: 'council-brief-march-2026',
     label: "Council Brief · March 29, 2026 · FINAL",
-    description: "Full council brief — Perplexity compiled, ChatGPT reviewed, Claude approved, Ed authorized. Five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.",
+    description: "Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.",
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/JBBnSxvSjfkLOjlS.html',
     pinned: true,
   },
@@ -290,7 +323,7 @@ const ATTORNEY_DOCS: DocItem[] = [
   {
     id: 'attorney-database',
     label: "Attorney Database · East Hampton & South Fork",
-    description: "Curated list of real estate attorneys, estate attorneys, and transaction counsel serving the South Fork market. Maintained by Ed Bruehl.",
+    description: "Curated list of real estate attorneys, estate attorneys, and transaction counsel serving the South Fork market.",
     url: null,
   },
 ];
@@ -373,6 +406,7 @@ function DocSection({ title, docs }: { title: string; docs: DocItem[] }) {
 
 function CanonPdfSection() {
   const { visibleAssets, isStaging } = usePdfAssets();
+  if (visibleAssets.length === 0) return null;
   return (
     <div className="mb-8">
       <div className="uppercase mb-4" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
@@ -418,6 +452,29 @@ function CanonPdfSection() {
   );
 }
 
+// ─── Sprint 3 Horizon Banner ──────────────────────────────────────────────────
+
+function Sprint3Banner() {
+  return (
+    <div className="flex items-center gap-6 px-6 py-4" style={{ background: '#1B2A4A' }}>
+      <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>
+        Sprint 3 Horizon
+      </div>
+      <div className="flex gap-6 flex-wrap">
+        {[
+          { label: 'William WhatsApp', detail: '8AM/8PM · Twilio rebuild' },
+          { label: 'State File', detail: '/public/state.json · session open read' },
+          { label: 'Christie AI Tab', detail: 'Claude API native · inside dashboard' },
+        ].map(item => (
+          <div key={item.label} style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>
+            <span style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{item.label}</span> · {item.detail}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function IntelTab() {
@@ -435,23 +492,25 @@ export default function IntelTab() {
         </p>
       </div>
 
-      <div className="px-6 py-8" style={{ maxWidth: 1200, margin: '0 auto' }}>
+      {/* Layer 1 — Master Calendar (above the fold, no padding wrapper) */}
+      <CalendarLayer />
 
-        {/* Layer 1 — Calendar */}
-        <CalendarLayer />
+      {/* Divider */}
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-        {/* Divider */}
-        <div className="mb-10 border-t" style={{ borderColor: 'rgba(200,172,120,0.3)' }} />
+      {/* Layer 2 — Live Sheets */}
+      <LiveSheetsLayer />
 
-        {/* Layer 2 — Live Sheets */}
-        <LiveSheetsLayer />
+      {/* Divider */}
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-        {/* Divider */}
-        <div className="mb-10 border-t" style={{ borderColor: 'rgba(200,172,120,0.3)' }} />
-
-        {/* Layer 3 — Canon Documents */}
-        <div className="uppercase mb-6" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Layer 3 · Canon Documents
+      {/* Layer 3 — Canon Documents */}
+      <div className="px-6 py-8">
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Layer 3 · Institutional Archive
+        </div>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 24 }}>
+          Canon Documents
         </div>
 
         <DocSection title="Org Chart & Hierarchy" docs={ORG_CHART_DOCS} />
@@ -461,8 +520,18 @@ export default function IntelTab() {
         <DocSection title="Council Briefs" docs={COUNCIL_BRIEF_DOCS} />
         <DocSection title="Attorney Database" docs={ATTORNEY_DOCS} />
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
-
       </div>
+
+      {/* Sprint 3 Horizon Banner */}
+      <Sprint3Banner />
+
+      {/* Doctrine footer */}
+      <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
+        <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontStyle: 'italic', color: 'rgba(200,172,120,0.65)', fontSize: '0.72rem' }}>
+          Christie's · Est. 1766 — Always the family's interest before the sale. The name follows.
+        </div>
+      </div>
+
     </div>
   );
 }

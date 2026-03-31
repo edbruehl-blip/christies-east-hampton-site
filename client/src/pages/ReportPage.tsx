@@ -111,9 +111,11 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
 function Section1() {
   const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
   // Dual William: track state per audio channel
-  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
+  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
   const [audioChannel, setAudioChannel] = useState<'letter' | 'report'>('letter');
   const [audioProgress, setAudioProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useState<HTMLAudioElement | null>(null);
 
   // Auto-reset PDF done state after 3s
@@ -138,13 +140,49 @@ function Section1() {
     }
   }
 
-  async function stopAudio() {
+  // Format seconds as m:ss
+  function fmtTime(s: number) {
+    if (!isFinite(s) || isNaN(s)) return '0:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return `${m}:${sec.toString().padStart(2, '0')}`;
+  }
+
+  function stopAudio() {
     if (audioRef[0]) {
       audioRef[0].pause();
       audioRef[0].currentTime = 0;
     }
     setAudioState('idle');
     setAudioProgress(0);
+    setCurrentTime(0);
+    setDuration(0);
+  }
+
+  function togglePause() {
+    const audio = audioRef[0];
+    if (!audio) return;
+    if (audioState === 'playing') {
+      audio.pause();
+      setAudioState('paused');
+    } else if (audioState === 'paused') {
+      audio.play();
+      setAudioState('playing');
+    }
+  }
+
+  function handleRewind() {
+    const audio = audioRef[0];
+    if (!audio) return;
+    audio.currentTime = Math.max(0, audio.currentTime - 15);
+  }
+
+  function handleScrub(e: React.MouseEvent<HTMLDivElement>) {
+    const audio = audioRef[0];
+    if (!audio || !audio.duration) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
   }
 
   async function handleListen(channel: 'letter' | 'report') {
@@ -171,14 +209,20 @@ function Section1() {
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       audioRef[1](audio);
+      audio.onloadedmetadata = () => {
+        setDuration(audio.duration);
+      };
       audio.ontimeupdate = () => {
         if (audio.duration) {
           setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
+          setCurrentTime(audio.currentTime);
         }
       };
       audio.onended = () => {
         setAudioState('idle');
         setAudioProgress(0);
+        setCurrentTime(0);
+        setDuration(0);
         URL.revokeObjectURL(url);
       };
       audio.onerror = () => {
@@ -381,34 +425,99 @@ function Section1() {
                     : audioChannel === 'letter' ? 'Playing Founding Letter' : 'Playing Market Report'}
                 </span>
               </div>
-              {audioState === 'playing' && (
-                <button
-                  onClick={() => stopAudio()}
-                  style={{
-                    background: 'rgba(200,172,120,0.15)',
-                    border: '1px solid rgba(200,172,120,0.4)',
-                    color: '#C8AC78',
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    fontSize: 9,
-                    letterSpacing: '0.2em',
-                    textTransform: 'uppercase',
-                    padding: '4px 10px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  ◼ Stop
-                </button>
+              {(audioState === 'playing' || audioState === 'paused') && (
+                <div style={{ display: 'flex', gap: 6 }}>
+                  {/* Rewind 15s */}
+                  <button
+                    onClick={handleRewind}
+                    title="Rewind 15 seconds"
+                    style={{
+                      background: 'rgba(200,172,120,0.1)',
+                      border: '1px solid rgba(200,172,120,0.3)',
+                      color: '#C8AC78',
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 9,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      padding: '4px 8px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ↺ 15s
+                  </button>
+                  {/* Play / Pause */}
+                  <button
+                    onClick={togglePause}
+                    style={{
+                      background: 'rgba(200,172,120,0.15)',
+                      border: '1px solid rgba(200,172,120,0.4)',
+                      color: '#C8AC78',
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 9,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      padding: '4px 10px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {audioState === 'paused' ? '▶ Resume' : '⏸ Pause'}
+                  </button>
+                  {/* Stop */}
+                  <button
+                    onClick={() => stopAudio()}
+                    style={{
+                      background: 'rgba(200,172,120,0.1)',
+                      border: '1px solid rgba(200,172,120,0.3)',
+                      color: '#C8AC78',
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 9,
+                      letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      padding: '4px 10px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    ◼ Stop
+                  </button>
+                </div>
               )}
             </div>
-            {/* Progress bar */}
-            <div style={{ height: 3, background: 'rgba(200,172,120,0.15)', borderRadius: 2, overflow: 'hidden' }}>
-              <div style={{
-                height: '100%',
-                background: '#C8AC78',
-                borderRadius: 2,
-                width: audioState === 'loading' ? '0%' : `${audioProgress}%`,
-                transition: 'width 0.5s linear',
-              }} />
+            {/* Scrub bar + time display */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+              {/* Scrub track */}
+              <div
+                onClick={handleScrub}
+                style={{
+                  flex: 1,
+                  height: 5,
+                  background: 'rgba(200,172,120,0.15)',
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                  cursor: (audioState === 'playing' || audioState === 'paused') ? 'pointer' : 'default',
+                  position: 'relative',
+                }}
+              >
+                <div style={{
+                  height: '100%',
+                  background: '#C8AC78',
+                  borderRadius: 3,
+                  width: audioState === 'loading' ? '0%' : `${audioProgress}%`,
+                  transition: 'width 0.4s linear',
+                }} />
+              </div>
+              {/* Time display */}
+              {(audioState === 'playing' || audioState === 'paused') && duration > 0 && (
+                <span style={{
+                  fontFamily: 'monospace',
+                  fontSize: 9,
+                  color: 'rgba(200,172,120,0.6)',
+                  whiteSpace: 'nowrap',
+                  minWidth: 72,
+                  textAlign: 'right',
+                }}>
+                  {fmtTime(currentTime)} / {fmtTime(duration)}
+                </span>
+              )}
             </div>
             {audioState === 'loading' && (
               <div style={{
@@ -904,8 +1013,9 @@ function Section3() {
   useEffect(() => {
     async function fetchTicker() {
       try {
-        const [yahooRes] = await Promise.allSettled([
+        const [yahooRes, marketRes] = await Promise.allSettled([
           fetch('https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?interval=1d&range=2d'),
+          fetch('/api/market-data'),
         ]);
         let sp500Change = 0;
         if (yahooRes.status === 'fulfilled') {
@@ -916,7 +1026,26 @@ function Section3() {
               ((closes[closes.length - 1] - closes[closes.length - 2]) / closes[closes.length - 2]) *
               100;
         }
-        setTicker({ sp500Change, vix: 18.5, treasury10y: 4.35, mortgage30y: 6.82, loaded: true });
+        // Pull live mortgage rate from the same source as the ticker
+        let mortgage30y = 6.38;
+        let treasury10y = 4.81;
+        let vix = 30.61;
+        if (marketRes.status === 'fulfilled') {
+          const mkt = await marketRes.value.json();
+          if (mkt?.mortgage) {
+            const parsed = parseFloat(String(mkt.mortgage).replace('%', ''));
+            if (!isNaN(parsed)) mortgage30y = parsed;
+          }
+          if (mkt?.treasury) {
+            const parsed = parseFloat(String(mkt.treasury).replace('%', ''));
+            if (!isNaN(parsed)) treasury10y = parsed;
+          }
+          if (mkt?.vix) {
+            const parsed = parseFloat(String(mkt.vix).replace('%', ''));
+            if (!isNaN(parsed)) vix = parsed;
+          }
+        }
+        setTicker({ sp500Change, vix, treasury10y, mortgage30y, loaded: true });
       } catch {
         setTicker((t) => ({ ...t, loaded: true }));
       }
@@ -1682,13 +1811,6 @@ function Section6() {
                   <br />
                   <a href="tel:6467521233" style={{ color: '#1B2A4A', textDecoration: 'none' }}>
                     646-752-1233
-                  </a>{' '}
-                  ·{' '}
-                  <a
-                    href="mailto:ebruehl@christiesrealestate.com"
-                    style={{ color: '#1B2A4A', textDecoration: 'none' }}
-                  >
-                    ebruehl@christiesrealestate.com
                   </a>
                 </div>
               </div>
@@ -1947,6 +2069,148 @@ function YouTubeMatrix() {
   );
 }
 
+// ─── SECTION 7 · Christie's Auction Intelligence ─────────────────────────────
+// Contextual layer: upcoming auctions relevant to Hamptons buyers and sellers.
+// Disappears gracefully if no content is available.
+const AUCTION_ITEMS = [
+  {
+    category: 'Jewelry & Watches',
+    title: 'Magnificent Jewels',
+    date: 'April 10, 2026',
+    location: 'New York',
+    estimate: '$2M – $18M',
+    href: 'https://www.christies.com/en/auction/magnificent-jewels-30513/',
+    note: 'Relevant to estate liquidation conversations with ultra-trophy sellers.',
+  },
+  {
+    category: 'Fine Art',
+    title: '20th Century Evening Sale',
+    date: 'May 13, 2026',
+    location: 'New York',
+    estimate: '$40M – $120M',
+    href: 'https://www.christies.com/calendar',
+    note: 'Cross-category conversation starter for art-collecting buyers at $5M+ tier.',
+  },
+  {
+    category: 'Automobiles',
+    title: 'Gooding & Company — Amelia Island',
+    date: 'March 8, 2026',
+    location: 'Amelia Island, FL',
+    estimate: '$1M – $8M per lot',
+    href: 'https://www.goodingco.com',
+    note: 'Gooding relationship — relevant to developer and collector buyer profiles.',
+  },
+  {
+    category: 'Handbags & Fashion',
+    title: 'Handbags & Accessories Online',
+    date: 'April 3–17, 2026',
+    location: 'Online',
+    estimate: '$5K – $250K',
+    href: 'https://www.christies.com/calendar',
+    note: 'Lifestyle touchpoint for high-net-worth buyer relationships.',
+  },
+];
+
+function Section7() {
+  if (AUCTION_ITEMS.length === 0) return null;
+  return (
+    <section style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="7" title="Christie's Auction Intelligence" />
+        <p style={{
+          fontFamily: '"Source Sans 3", sans-serif',
+          color: 'rgba(250,248,244,0.55)',
+          fontSize: '0.8125rem',
+          marginBottom: 24,
+          maxWidth: 680,
+          lineHeight: 1.65,
+        }}>
+          Upcoming Christie's and affiliated auctions relevant to Hamptons buyer and seller conversations.
+          Use these as relationship touchpoints, not sales pitches.
+        </p>
+        <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}>
+          {AUCTION_ITEMS.map((item) => (
+            <a
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none' }}
+              className="block transition-opacity hover:opacity-80"
+            >
+              <div style={{
+                border: '0.5px solid rgba(200,172,120,0.25)',
+                background: 'rgba(200,172,120,0.04)',
+                padding: '16px 18px',
+              }}>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: '#C8AC78',
+                  fontSize: 9,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  marginBottom: 6,
+                }}>
+                  {item.category}
+                </div>
+                <div style={{
+                  fontFamily: '"Cormorant Garamond", serif',
+                  color: '#FAF8F4',
+                  fontSize: '1.05rem',
+                  fontWeight: 600,
+                  marginBottom: 4,
+                  lineHeight: 1.3,
+                }}>
+                  {item.title}
+                </div>
+                <div style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: 'rgba(250,248,244,0.5)',
+                  fontSize: '0.75rem',
+                  marginBottom: 8,
+                }}>
+                  {item.date} · {item.location}
+                </div>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: '#C8AC78',
+                  fontSize: 10,
+                  letterSpacing: '0.1em',
+                  marginBottom: 10,
+                }}>
+                  Est. {item.estimate}
+                </div>
+                <div style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: 'rgba(250,248,244,0.38)',
+                  fontSize: '0.7rem',
+                  lineHeight: 1.5,
+                  borderTop: '0.5px solid rgba(200,172,120,0.15)',
+                  paddingTop: 8,
+                  fontStyle: 'italic',
+                }}>
+                  {item.note}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+        <div style={{
+          marginTop: 24,
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: 'rgba(200,172,120,0.35)',
+          fontSize: 8,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          textAlign: 'center',
+        }}>
+          Christie's International Real Estate Group · East Hampton · christiesrealestategroupeh.com
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Main ReportPage export ───────────────────────────────────────────────────
 export default function ReportPage() {
   return (
@@ -1960,6 +2224,7 @@ export default function ReportPage() {
       <YouTubeMatrix />
       <Section5 />
       <Section6 />
+      <Section7 />
     </div>
   );
 }

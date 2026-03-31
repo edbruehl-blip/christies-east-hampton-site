@@ -15,6 +15,7 @@ import {
   generateDealBrief,
   generateInvestmentMemo,
   generateMarketReport,
+  generateEastHamptonVillageReport,
 } from '@/lib/pdf-exports';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA } from '@/data/hamlet-master';
@@ -123,6 +124,7 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
     { id: 'deal-brief', label: 'Deal Brief' },
     { id: 'investment-memo', label: 'Investment Memo' },
     { id: 'market-report', label: 'Market Report' },
+    { id: 'ehv-hamlet', label: 'EH Village Hamlet' },
   ];
   return (
     <MatrixCard variant="navy" className="p-6">
@@ -308,6 +310,7 @@ export default function IdeasTab() {
         case 'deal-brief':      await generateDealBrief(result); break;
         case 'investment-memo': await generateInvestmentMemo(result); break;
         case 'market-report':   await generateMarketReport(result.hamletId); break;
+        case 'ehv-hamlet':      await generateEastHamptonVillageReport(); break;
         default: break;
       }
       toast.success('PDF downloaded', { id: toastId });

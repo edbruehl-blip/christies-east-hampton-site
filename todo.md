@@ -63,3 +63,17 @@
 - [x] INTEL: Layer 3 — Canon documents below live sheets (existing cards preserved)
 - [x] PIPE: Wire pipeline entries to database for persistence across refresh
 - [x] PIPE: Full-width tall view, real data primary
+
+## Sprint 2 Directives — March 31, 2026
+
+- [ ] INTEL: Rebuild to wireframe spec — live calendar from Podcast + Event sheets, no seeded data
+- [ ] INTEL: 4-panel sheet grid (Agent Recruiting fixed ID, Social/Podcast, Contact Database, Auction Events)
+- [ ] INTEL: No scroll traps, one continuous surface, viewport-height CSS for sheet panels
+- [ ] PIPE: Replace UI with real Office Pipeline sheet embed (full-width, tall, laptop-optimized)
+- [ ] William: Add full audio controls (play/pause, scrub, rewind, time display)
+- [ ] Quick win: Remove email from /report contact block
+- [ ] Quick win: Wire /report Section 3 rate panel to live ticker feed
+- [ ] Quick win: Fix Agent Recruiting sheet ID (corrected ID)
+- [ ] Christie's Auction Intelligence: Add closing layer to /report (jewelry/watches/handbags/art/cars, 3-5 bullets)
+- [ ] Christie's Auction Intelligence: Add contextual footer to PDF export
+- [ ] Single-hamlet PDF: East Hampton Village static template

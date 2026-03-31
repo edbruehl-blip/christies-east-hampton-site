@@ -1,17 +1,27 @@
 /**
- * PIPE TAB — Daily driver pipeline. Database-backed persistence.
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
- * Typography: Cormorant Garamond (headlines) · Source Sans 3 (data) · Barlow Condensed (labels)
+ * PIPE TAB — Sprint 2 · March 31, 2026
  *
- * Sprint 1 — March 31 2026:
- *   - Wire to database via trpc.pipe.list / upsert / delete
- *   - Entries survive page refresh
- *   - Inline editing saves on ✓ click
- *   - Seed data pre-loaded from production pipeline on first load
+ * Primary surface: real Office Pipeline Google Sheet embedded full-width, tall
+ * Secondary surface: database-backed quick-add UI above the sheet (custom rows survive refresh)
+ *
+ * Sheet ID (locked): 1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M
+ * Rule: Sheet is primary. Custom UI sits above. Sheet is never replaced by fake UI.
  */
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
+
+// ─── Sheet config ─────────────────────────────────────────────────────────────
+
+const OFFICE_PIPELINE_SHEET_ID = '1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M';
+
+function sheetEmbedUrl(id: string) {
+  return `https://docs.google.com/spreadsheets/d/${id}/edit?usp=sharing&rm=minimal&widget=true&headers=false`;
+}
+
+function sheetOpenUrl(id: string) {
+  return `https://docs.google.com/spreadsheets/d/${id}/edit`;
+}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -32,19 +42,6 @@ interface PipeRow {
   updatedAt: Date;
 }
 
-// ─── Seed data — pre-loaded from production pipeline ─────────────────────────
-
-const SEED_ENTRIES = [
-  { address: '11 Meadowlark Lane',   hamlet: 'East Hampton',      type: 'Deal',    status: 'Critical', askPrice: '$4,250,000', dom: 137, notes: 'Call before 10 AM Saturday — repositioning required', sortOrder: 1 },
-  { address: '795 N. Sea Mecox Road', hamlet: 'Water Mill',        type: 'Buyer',   status: 'Critical', askPrice: '$6,800,000', dom: 137, notes: 'Paired with Meadowlark — simultaneous strategy review',  sortOrder: 2 },
-  { address: '140 Hands Creek Road', hamlet: 'East Hampton',      type: 'Deal',    status: 'Critical', askPrice: '$3,575,000', dom: 99,  notes: '5–8% repositioning — first call priority',              sortOrder: 3 },
-  { address: '18 Tara Road',         hamlet: 'East Hampton',      type: 'Listing', status: 'Watch',    askPrice: '$2,995,000', dom: 82,  notes: 'Brief before Monday',                                   sortOrder: 4 },
-  { address: '25 Horse Meadow Lane', hamlet: 'Bridgehampton',     type: 'Listing', status: 'Watch',    askPrice: '$5,100,000', dom: 68,  notes: 'WATCH tier',                                            sortOrder: 5 },
-  { address: '3 Sycamore Way',       hamlet: 'Southampton Village',type: 'Listing', status: 'Active',   askPrice: '$3,200,000', dom: 52,  notes: 'Monitor — approaching WATCH threshold',                 sortOrder: 6 },
-];
-
-// ─── Status config ────────────────────────────────────────────────────────────
-
 const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string }> = {
   'Active':   { bg: 'rgba(200,172,120,0.12)', color: '#8a6f3e', dot: '#C8AC78' },
   'Watch':    { bg: 'rgba(224,123,57,0.12)',  color: '#9a5a20', dot: '#e07b39' },
@@ -58,373 +55,265 @@ const TYPE_OPTIONS: PipeType[] = ['Deal', 'Listing', 'Buyer', 'Seller', 'Attorne
 const STATUS_OPTIONS: PipeStatus[] = ['Active', 'Watch', 'Critical', 'Stalled', 'Closed', 'Dead'];
 const HAMLET_OPTIONS = ['East Hampton', 'East Hampton Village', 'Sagaponack', 'Bridgehampton', 'Water Mill', 'Southampton Village', 'Sag Harbor', 'Amagansett', 'Springs', 'Montauk'];
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Quick-add form ───────────────────────────────────────────────────────────
 
-function StatusPill({ status }: { status: string }) {
-  const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG['Active'];
-  return (
-    <span style={{
-      display: 'inline-flex', alignItems: 'center', gap: 5,
-      padding: '2px 9px', fontSize: '0.68rem',
-      fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.1em',
-      textTransform: 'uppercase', fontWeight: 700,
-      background: cfg.bg, color: cfg.color, borderRadius: 2,
-    }}>
-      <span style={{ width: 6, height: 6, borderRadius: '50%', background: cfg.dot, flexShrink: 0 }} />
-      {status}
-    </span>
-  );
-}
+const BLANK_FORM = { address: '', hamlet: 'East Hampton', type: 'Deal' as PipeType, status: 'Active' as PipeStatus, askPrice: '', dom: 0, notes: '' };
 
-function DomBar({ dom }: { dom: number }) {
-  const pct = Math.min((dom / 150) * 100, 100);
-  const color = dom >= 90 ? '#c0392b' : dom >= 45 ? '#e07b39' : '#C8AC78';
+function QuickAddRow({ onAdded }: { onAdded: () => void }) {
+  const [form, setForm] = useState(BLANK_FORM);
+  const [open, setOpen] = useState(false);
+
+  const upsert = trpc.pipe.upsert.useMutation({
+    onSuccess: () => { setForm(BLANK_FORM); setOpen(false); onAdded(); },
+  });
+
+  const f = (k: keyof typeof form, v: string | number) => setForm(p => ({ ...p, [k]: v }));
+
+  if (!open) {
+    return (
+      <button
+        onClick={() => setOpen(true)}
+        className="flex items-center gap-2 px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+      >
+        + Add to Custom Tracker
+      </button>
+    );
+  }
+
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6, minWidth: 80 }}>
-      <div style={{ flex: 1, height: 4, background: 'rgba(27,42,74,0.1)', borderRadius: 2 }}>
-        <div style={{ height: '100%', borderRadius: 2, width: `${pct}%`, background: color, transition: 'width 0.3s' }} />
+    <div className="border p-4 mb-4" style={{ borderColor: 'rgba(200,172,120,0.4)', background: '#fff' }}>
+      <div className="grid grid-cols-2 gap-3 mb-3">
+        <input
+          placeholder="Address"
+          value={form.address}
+          onChange={e => f('address', e.target.value)}
+          className="border px-3 py-2 text-sm"
+          style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}
+        />
+        <select value={form.hamlet} onChange={e => f('hamlet', e.target.value)}
+          className="border px-3 py-2 text-sm" style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}>
+          {HAMLET_OPTIONS.map(h => <option key={h}>{h}</option>)}
+        </select>
+        <select value={form.type} onChange={e => f('type', e.target.value as PipeType)}
+          className="border px-3 py-2 text-sm" style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}>
+          {TYPE_OPTIONS.map(t => <option key={t}>{t}</option>)}
+        </select>
+        <select value={form.status} onChange={e => f('status', e.target.value as PipeStatus)}
+          className="border px-3 py-2 text-sm" style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}>
+          {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
+        </select>
+        <input
+          placeholder="Ask Price"
+          value={form.askPrice}
+          onChange={e => f('askPrice', e.target.value)}
+          className="border px-3 py-2 text-sm"
+          style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}
+        />
+        <input
+          placeholder="DOM"
+          type="number"
+          value={form.dom}
+          onChange={e => f('dom', parseInt(e.target.value) || 0)}
+          className="border px-3 py-2 text-sm"
+          style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}
+        />
       </div>
-      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', color, fontWeight: 700, minWidth: 28, textAlign: 'right' }}>
-        {dom}d
-      </span>
+      <input
+        placeholder="Notes"
+        value={form.notes}
+        onChange={e => f('notes', e.target.value)}
+        className="w-full border px-3 py-2 text-sm mb-3"
+        style={{ borderColor: '#D3D1C7', fontFamily: '"Source Sans 3", sans-serif' }}
+      />
+      <div className="flex gap-2">
+        <button
+          onClick={() => upsert.mutate({ ...form, sortOrder: 999 })}
+          disabled={!form.address || upsert.isPending}
+          className="px-5 py-2 text-[10px] uppercase tracking-widest"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', letterSpacing: '0.16em', opacity: !form.address ? 0.5 : 1 }}
+        >
+          {upsert.isPending ? 'Saving…' : '✓ Save'}
+        </button>
+        <button
+          onClick={() => { setOpen(false); setForm(BLANK_FORM); }}
+          className="px-4 py-2 text-[10px] uppercase tracking-widest border"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#D3D1C7', color: '#7a8a8e', letterSpacing: '0.16em' }}
+        >
+          Cancel
+        </button>
+      </div>
     </div>
   );
 }
 
-function EditCell({ value, onChange, placeholder, style }: { value: string; onChange: (v: string) => void; placeholder?: string; style?: React.CSSProperties }) {
+// ─── Custom tracker table (database rows) ─────────────────────────────────────
+
+function CustomTrackerTable() {
+  const { data: rows = [], refetch } = trpc.pipe.list.useQuery();
+  const deleteMutation = trpc.pipe.delete.useMutation({ onSuccess: () => refetch() });
+
+  if (rows.length === 0) return (
+    <div className="py-6 text-center text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+      No custom entries yet. Add one above.
+    </div>
+  );
+
   return (
-    <input
-      value={value}
-      onChange={e => onChange(e.target.value)}
-      placeholder={placeholder}
-      style={{
-        width: '100%', background: 'transparent', border: 'none', outline: 'none',
-        fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.85rem', color: '#384249',
-        padding: '2px 0', ...style,
-      }}
-    />
+    <div className="overflow-x-auto">
+      <table className="w-full text-sm border-collapse">
+        <thead>
+          <tr style={{ background: '#1B2A4A' }}>
+            {['Address', 'Hamlet', 'Type', 'Status', 'Ask Price', 'DOM', 'Notes', ''].map(h => (
+              <th key={h} className="px-3 py-2 text-left text-[9px] uppercase tracking-widest"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontWeight: 600, whiteSpace: 'nowrap' }}>
+                {h}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {(rows as PipeRow[]).map((row, i) => {
+            const sc = STATUS_CONFIG[row.status] ?? STATUS_CONFIG['Active'];
+            return (
+              <tr key={row.id} style={{ background: i % 2 === 0 ? '#fff' : '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.06)' }}>
+                <td className="px-3 py-2" style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.9rem' }}>
+                  {row.address}
+                </td>
+                <td className="px-3 py-2" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8rem' }}>
+                  {row.hamlet}
+                </td>
+                <td className="px-3 py-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#384249', fontSize: '0.8rem', letterSpacing: '0.08em' }}>
+                  {row.type}
+                </td>
+                <td className="px-3 py-2">
+                  <span className="px-2 py-0.5 text-[9px] uppercase tracking-widest"
+                    style={{ fontFamily: '"Barlow Condensed", sans-serif', background: sc.bg, color: sc.color, letterSpacing: '0.12em' }}>
+                    <span style={{ display: 'inline-block', width: 5, height: 5, borderRadius: '50%', background: sc.dot, marginRight: 4, verticalAlign: 'middle' }} />
+                    {row.status}
+                  </span>
+                </td>
+                <td className="px-3 py-2" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.82rem' }}>
+                  {row.askPrice}
+                </td>
+                <td className="px-3 py-2 text-center" style={{ fontFamily: 'monospace', color: '#7a8a8e', fontSize: '0.78rem' }}>
+                  {row.dom}
+                </td>
+                <td className="px-3 py-2 max-w-[200px]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {row.notes}
+                </td>
+                <td className="px-3 py-2">
+                  <button
+                    onClick={() => deleteMutation.mutate({ id: row.id })}
+                    className="text-[9px] uppercase tracking-widest hover:text-red-600 transition-colors"
+                    style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.1em' }}
+                  >
+                    ✕
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── Office Pipeline Sheet Embed ──────────────────────────────────────────────
+
+function OfficePipelineSheet() {
+  return (
+    <div style={{ border: '0.5px solid rgba(200,172,120,0.4)', borderRadius: 4, overflow: 'hidden' }}>
+      {/* Sheet header bar */}
+      <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
+        <div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>
+            Office Pipeline · Master Sheet
+          </div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 9, marginTop: 1 }}>
+            Primary operating surface · Live · Editable · Source of truth
+          </div>
+        </div>
+        <a
+          href={sheetOpenUrl(OFFICE_PIPELINE_SHEET_ID)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-4 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.14em' }}
+        >
+          Open Full Sheet ↗
+        </a>
+      </div>
+
+      {/* Full-width tall iframe — 75vh so it fills the laptop screen */}
+      <iframe
+        src={sheetEmbedUrl(OFFICE_PIPELINE_SHEET_ID)}
+        title="Office Pipeline"
+        width="100%"
+        style={{ display: 'block', height: '75vh', minHeight: 520, border: 'none' }}
+        allowFullScreen
+      />
+
+      {/* Footer */}
+      <div className="flex items-center justify-between px-4 py-2" style={{ background: '#FAF8F4', borderTop: '0.5px solid #f0f0f0' }}>
+        <span style={{ fontFamily: 'monospace', fontSize: 7, color: '#ccc' }}>{OFFICE_PIPELINE_SHEET_ID}</span>
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+          Live Sheet · Primary
+        </span>
+      </div>
+    </div>
   );
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function PipeTab() {
-  const utils = trpc.useUtils();
-
-  // ── Database queries & mutations ──────────────────────────────────────────
-  const { data: dbRows = [], isLoading } = trpc.pipe.list.useQuery();
-  const upsertMutation = trpc.pipe.upsert.useMutation({
-    onSuccess: () => utils.pipe.list.invalidate(),
-  });
-  const deleteMutation = trpc.pipe.delete.useMutation({
-    onSuccess: () => utils.pipe.list.invalidate(),
-  });
-
-  // ── Seed on first load ────────────────────────────────────────────────────
-  const [seeded, setSeeded] = useState(false);
-  useEffect(() => {
-    if (!isLoading && dbRows.length === 0 && !seeded) {
-      setSeeded(true);
-      SEED_ENTRIES.forEach(entry => {
-        upsertMutation.mutate(entry);
-      });
-    }
-  }, [isLoading, dbRows.length, seeded]);
-
-  // ── Local edit state ──────────────────────────────────────────────────────
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [editDraft, setEditDraft] = useState<Partial<PipeRow>>({});
-  const [search, setSearch] = useState('');
-  const [filterStatus, setFilterStatus] = useState<string>('All');
-  const [filterType, setFilterType] = useState<string>('All');
-
-  const rows = dbRows as PipeRow[];
-
-  // Summary counts
-  const critical = rows.filter(r => r.status === 'Critical').length;
-  const watch     = rows.filter(r => r.status === 'Watch').length;
-  const active    = rows.filter(r => r.status === 'Active').length;
-  const closed    = rows.filter(r => r.status === 'Closed').length;
-
-  // Filtered rows
-  const filtered = useMemo(() => {
-    return rows.filter(r => {
-      const matchSearch = search === '' ||
-        r.address.toLowerCase().includes(search.toLowerCase()) ||
-        r.hamlet.toLowerCase().includes(search.toLowerCase()) ||
-        r.notes.toLowerCase().includes(search.toLowerCase());
-      const matchStatus = filterStatus === 'All' || r.status === filterStatus;
-      const matchType   = filterType === 'All' || r.type === filterType;
-      return matchSearch && matchStatus && matchType;
-    });
-  }, [rows, search, filterStatus, filterType]);
-
-  // Start editing a row
-  const startEdit = (row: PipeRow) => {
-    setEditingId(row.id);
-    setEditDraft({ ...row });
-  };
-
-  // Save edited row to DB
-  const saveEdit = () => {
-    if (editingId === null || !editDraft) return;
-    upsertMutation.mutate({
-      id: editingId,
-      address: editDraft.address ?? '',
-      hamlet: editDraft.hamlet ?? '',
-      type: editDraft.type ?? 'Deal',
-      status: editDraft.status ?? 'Active',
-      askPrice: editDraft.askPrice ?? '',
-      dom: editDraft.dom ?? 0,
-      notes: editDraft.notes ?? '',
-      sortOrder: editDraft.sortOrder ?? 0,
-    });
-    setEditingId(null);
-    setEditDraft({});
-  };
-
-  // Add new empty row
-  const addRow = () => {
-    upsertMutation.mutate({
-      address: '',
-      hamlet: 'East Hampton',
-      type: 'Deal',
-      status: 'Active',
-      askPrice: '',
-      dom: 0,
-      notes: '',
-      sortOrder: rows.length,
-    }, {
-      onSuccess: (data) => {
-        setEditingId(data.id);
-        setEditDraft({ id: data.id, address: '', hamlet: 'East Hampton', type: 'Deal', status: 'Active', askPrice: '', dom: 0, notes: '', sortOrder: rows.length });
-        utils.pipe.list.invalidate();
-      }
-    });
-  };
-
-  // Delete row
-  const deleteRow = (id: number) => {
-    deleteMutation.mutate({ id });
-  };
-
-  if (isLoading) {
-    return (
-      <div style={{ background: '#FAF8F4', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.2em', fontSize: '0.8rem', textTransform: 'uppercase' }}>
-          Loading Pipeline…
-        </div>
-      </div>
-    );
-  }
+  const { refetch } = trpc.pipe.list.useQuery();
 
   return (
-    <div style={{ background: '#FAF8F4', minHeight: '100vh' }}>
+    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
-      <div style={{ background: '#1B2A4A', padding: '28px 28px 24px', borderBottom: '2px solid #C8AC78' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 6 }}>
-            Office Pipeline · Database Backed
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem', marginBottom: 4 }}>
-            Active Pipeline
-          </h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.82rem' }}>
-            {rows.length} entries · Persisted · Survives refresh
-          </p>
+      {/* Header */}
+      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Daily Driver · Pipeline · Active Deals · Buyers · Sellers
         </div>
+        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Pipeline</h2>
+        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
+          Office Pipeline sheet is the primary surface. Custom tracker above for quick-add entries.
+        </p>
       </div>
 
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '24px 28px 48px' }}>
+      <div className="px-6 py-8">
 
-        {/* ── Summary KPIs ──────────────────────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 24 }}>
-          {[
-            { label: 'Critical DOM 90+', value: critical, color: '#c0392b' },
-            { label: 'Watch DOM 45–89',  value: watch,    color: '#e07b39' },
-            { label: 'Active DOM < 45',  value: active,   color: '#C8AC78' },
-            { label: 'Closed',           value: closed,   color: '#1B2A4A' },
-          ].map(kpi => (
-            <div key={kpi.label} style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '16px 18px', textAlign: 'center' }}>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: kpi.color, fontWeight: 700, fontSize: '2rem', lineHeight: 1 }}>
-                {kpi.value}
+        {/* Custom Tracker — quick-add UI above the sheet */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+                Custom Tracker · Database-backed · Survives refresh
               </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 6 }}>
-                {kpi.label}
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
+                Quick-Add Entries
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* ── Toolbar ──────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
-          <div style={{ flex: 1, minWidth: 200, position: 'relative' }}>
-            <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: '#aaa', fontSize: 14, pointerEvents: 'none' }}>⌕</span>
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="Search address, hamlet, notes…"
-              style={{ width: '100%', padding: '8px 10px 8px 30px', border: '1px solid rgba(27,42,74,0.15)', background: '#fff', fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#384249', outline: 'none' }}
-            />
           </div>
-          <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)} style={{ padding: '8px 12px', border: '1px solid rgba(27,42,74,0.15)', background: '#fff', fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#384249', cursor: 'pointer', outline: 'none' }}>
-            <option value="All">All Status</option>
-            {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <select value={filterType} onChange={e => setFilterType(e.target.value)} style={{ padding: '8px 12px', border: '1px solid rgba(27,42,74,0.15)', background: '#fff', fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.72rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#384249', cursor: 'pointer', outline: 'none' }}>
-            <option value="All">All Types</option>
-            {TYPE_OPTIONS.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-          <button
-            onClick={addRow}
-            disabled={upsertMutation.isPending}
-            style={{ padding: '8px 20px', background: '#1B2A4A', color: '#FAF8F4', border: 'none', cursor: 'pointer', fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.72rem', letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700, transition: 'background 0.15s', flexShrink: 0, opacity: upsertMutation.isPending ? 0.6 : 1 }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#C8AC78')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#1B2A4A')}
-          >
-            + Add Row
-          </button>
+          <QuickAddRow onAdded={refetch} />
+          <CustomTrackerTable />
         </div>
 
-        {/* ── Column Headers ────────────────────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 2fr 80px', gap: 0, padding: '8px 14px', background: '#1B2A4A', marginBottom: 2 }}>
-          {['Address / Hamlet', 'Type', 'Status', 'Ask Price', 'DOM', 'Notes', ''].map(col => (
-            <div key={col} style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.8)', fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase' }}>
-              {col}
-            </div>
-          ))}
+        {/* Divider */}
+        <div className="mb-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.3)' }} />
+
+        {/* Primary: Office Pipeline Sheet */}
+        <div className="mb-2 uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Primary Surface · Office Pipeline · Master Sheet
         </div>
-
-        {/* ── Rows ──────────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-          {filtered.length === 0 && (
-            <div style={{ padding: '32px 14px', textAlign: 'center', background: '#fff', border: '1px solid rgba(27,42,74,0.08)' }}>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#7a8a8e', fontSize: '1.1rem' }}>No entries match the current filter.</div>
-            </div>
-          )}
-          {filtered.map(row => {
-            const isEditing = editingId === row.id;
-            const draft = isEditing ? editDraft : row;
-            const statusCfg = STATUS_CONFIG[row.status] ?? STATUS_CONFIG['Active'];
-            return (
-              <div
-                key={row.id}
-                style={{
-                  display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 1fr 2fr 80px',
-                  gap: 0, padding: '12px 14px',
-                  background: row.status === 'Critical' ? 'rgba(192,57,43,0.04)' : '#fff',
-                  border: `1px solid ${row.status === 'Critical' ? 'rgba(192,57,43,0.2)' : 'rgba(27,42,74,0.08)'}`,
-                  borderLeft: `3px solid ${statusCfg.dot}`,
-                  alignItems: 'center', transition: 'background 0.1s',
-                }}
-              >
-                {/* Address / Hamlet */}
-                <div>
-                  {isEditing ? (
-                    <div>
-                      <EditCell value={draft.address ?? ''} onChange={v => setEditDraft(d => ({ ...d, address: v }))} placeholder="Address" style={{ fontWeight: 600, color: '#1B2A4A', fontSize: '0.88rem', marginBottom: 2 }} />
-                      <select value={draft.hamlet ?? ''} onChange={e => setEditDraft(d => ({ ...d, hamlet: e.target.value }))} style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid rgba(27,42,74,0.2)', padding: '2px 6px', background: '#fff', color: '#7a8a8e', cursor: 'pointer', outline: 'none', width: '100%' }}>
-                        {HAMLET_OPTIONS.map(h => <option key={h} value={h}>{h}</option>)}
-                      </select>
-                    </div>
-                  ) : (
-                    <div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.92rem' }}>{row.address || <span style={{ color: '#ccc' }}>—</span>}</div>
-                      <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.68rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: 2 }}>{row.hamlet}</div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Type */}
-                <div onClick={e => e.stopPropagation()}>
-                  {isEditing ? (
-                    <select value={draft.type ?? 'Deal'} onChange={e => setEditDraft(d => ({ ...d, type: e.target.value }))} style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid rgba(27,42,74,0.2)', padding: '3px 6px', background: '#fff', color: '#384249', cursor: 'pointer', outline: 'none', width: '100%' }}>
-                      {TYPE_OPTIONS.map(t => <option key={t} value={t}>{t}</option>)}
-                    </select>
-                  ) : (
-                    <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#384249', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{row.type}</span>
-                  )}
-                </div>
-
-                {/* Status */}
-                <div onClick={e => e.stopPropagation()}>
-                  {isEditing ? (
-                    <select value={draft.status ?? 'Active'} onChange={e => setEditDraft(d => ({ ...d, status: e.target.value }))} style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.08em', textTransform: 'uppercase', border: '1px solid rgba(27,42,74,0.2)', padding: '3px 6px', background: '#fff', color: '#384249', cursor: 'pointer', outline: 'none', width: '100%' }}>
-                      {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
-                    </select>
-                  ) : (
-                    <StatusPill status={row.status} />
-                  )}
-                </div>
-
-                {/* Ask Price */}
-                <div onClick={e => e.stopPropagation()}>
-                  {isEditing ? (
-                    <EditCell value={draft.askPrice ?? ''} onChange={v => setEditDraft(d => ({ ...d, askPrice: v }))} placeholder="$0,000,000" style={{ fontWeight: 600, color: '#1B2A4A' }} />
-                  ) : (
-                    <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.85rem' }}>{row.askPrice || '—'}</span>
-                  )}
-                </div>
-
-                {/* DOM */}
-                <div>
-                  {isEditing ? (
-                    <EditCell value={String(draft.dom ?? 0)} onChange={v => setEditDraft(d => ({ ...d, dom: parseInt(v) || 0 }))} placeholder="0" style={{ fontWeight: 600, color: '#1B2A4A', width: 60 }} />
-                  ) : (
-                    row.dom > 0 ? <DomBar dom={row.dom} /> : <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#ccc', fontSize: '0.68rem' }}>—</span>
-                  )}
-                </div>
-
-                {/* Notes */}
-                <div onClick={e => e.stopPropagation()}>
-                  {isEditing ? (
-                    <EditCell value={draft.notes ?? ''} onChange={v => setEditDraft(d => ({ ...d, notes: v }))} placeholder="Notes…" style={{ fontSize: '0.8rem', color: '#7a8a8e' }} />
-                  ) : (
-                    <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.8rem' }}>{row.notes || '—'}</span>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }} onClick={e => e.stopPropagation()}>
-                  <button
-                    onClick={() => isEditing ? saveEdit() : startEdit(row)}
-                    title={isEditing ? 'Save' : 'Edit'}
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: isEditing ? '#C8AC78' : '#aaa', fontSize: 14, padding: '2px 4px' }}
-                  >
-                    {isEditing ? '✓' : '✎'}
-                  </button>
-                  <button
-                    onClick={() => deleteRow(row.id)}
-                    title="Delete"
-                    style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: '#ddd', fontSize: 14, padding: '2px 4px' }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#c0392b')}
-                    onMouseLeave={e => (e.currentTarget.style.color = '#ddd')}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-            );
-          })}
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 16 }}>
+          Office Pipeline
         </div>
-
-        {/* ── Footer ────────────────────────────────────────────────────────── */}
-        <div style={{ marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#aaa', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            {filtered.length} of {rows.length} entries · Click ✎ to edit · Click ✓ to save to database
-          </div>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M/edit"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.68rem', letterSpacing: '0.14em', textTransform: 'uppercase', padding: '6px 16px', border: '1px solid rgba(27,42,74,0.25)', color: '#384249', textDecoration: 'none', transition: 'all 0.15s' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#1B2A4A'; e.currentTarget.style.color = '#FAF8F4'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#384249'; }}
-          >
-            Open Pipeline Sheet ↗
-          </a>
-        </div>
+        <OfficePipelineSheet />
 
       </div>
     </div>

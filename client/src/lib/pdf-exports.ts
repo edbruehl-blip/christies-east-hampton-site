@@ -836,3 +836,198 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     : 'Christies_EH_Market_Report_South_Fork.pdf';
   downloadPdf(doc, filename);
 }
+
+// ─── 6. East Hampton Village · Single-Hamlet PDF Template ────────────────────
+// Static template for East Hampton Village. Wire to live data in Sprint 3.
+// Directive: first hamlet template; others follow same pattern.
+
+export async function generateEastHamptonVillageReport(): Promise<void> {
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
+  const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+  // ── Hamlet data (East Hampton Village — locked) ───────────────────────────
+  const H = {
+    name: 'East Hampton Village',
+    tier: 'Ultra-Trophy',
+    anewScore: 9.2,
+    medianPrice: '$5.15M',
+    volumeShare: '12%',
+    lastSale: '8 Lily Pond Lane',
+    lastSalePrice: '$9.8M',
+    lastSaleDate: 'Jan 2025',
+    yoy: '+8.2%',
+    activeListings: 14,
+    avgDOM: 112,
+    pricePerSqFt: '$1,420',
+    absorbRate: '3.2 months',
+    characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane define the ultra-trophy corridor. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
+  };
+
+  // ── Page 1: Cover ─────────────────────────────────────────────────────────
+  // Navy hero band
+  doc.setFillColor(...C.navy);
+  doc.rect(0, 0, PAGE.w, 88, 'F');
+
+  // Gold accent bar
+  doc.setFillColor(...C.gold);
+  doc.rect(PAGE.ml, 14, 2.5, 60, 'F');
+
+  // Tier label
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.gold);
+  doc.text('ULTRA-TROPHY · ANEW 9.2 / 10 · CHRISTIE\'S EAST HAMPTON', PAGE.ml + 8, 22);
+
+  // Hamlet name
+  doc.setFontSize(26);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(255, 255, 255);
+  doc.text('East Hampton', PAGE.ml + 8, 40);
+  doc.setFontSize(20);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Village', PAGE.ml + 8, 51);
+
+  // Subtitle
+  doc.setFontSize(8.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.gold);
+  doc.text('Hamlet Intelligence Report · Q1 2026', PAGE.ml + 8, 62);
+
+  // Date
+  doc.setFontSize(7);
+  doc.text(`Generated ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, PAGE.ml + 8, 70);
+
+  // ANEW score badge (top right)
+  doc.setFillColor(...C.gold);
+  doc.rect(PAGE.w - PAGE.mr - 30, 16, 30, 30, 'F');
+  doc.setFontSize(17);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('9.2', PAGE.w - PAGE.mr - 15, 29, { align: 'center' });
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'normal');
+  doc.text('ANEW', PAGE.w - PAGE.mr - 15, 35, { align: 'center' });
+  doc.text('SCORE', PAGE.w - PAGE.mr - 15, 39, { align: 'center' });
+
+  // ── Key metrics grid ──────────────────────────────────────────────────────
+  let y = 98;
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('KEY METRICS · Q1 2026', PAGE.ml, y);
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.line(PAGE.ml, y + 2, PAGE.ml + PAGE.contentW, y + 2);
+  y += 8;
+
+  const metrics: [string, string][] = [
+    ['Median Sale Price', H.medianPrice],
+    ['YoY Change', H.yoy],
+    ['Volume Share (South Fork)', H.volumeShare],
+    ['Active Listings', String(H.activeListings)],
+    ['Avg Days on Market', String(H.avgDOM)],
+    ['Price / Sq Ft', H.pricePerSqFt],
+    ['Absorption Rate', H.absorbRate],
+    ['Last Notable Sale', `${H.lastSale} · ${H.lastSalePrice} · ${H.lastSaleDate}`],
+  ];
+
+  metrics.forEach(([label, value], i) => {
+    const rowY = y + i * 10;
+    if (i % 2 === 0) {
+      doc.setFillColor(248, 246, 242);
+      doc.rect(PAGE.ml, rowY - 3, PAGE.contentW, 10, 'F');
+    }
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.charcoal);
+    doc.text(label, PAGE.ml + 4, rowY + 4);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...C.navy);
+    doc.text(value, PAGE.ml + PAGE.contentW - 4, rowY + 4, { align: 'right' });
+  });
+
+  y += metrics.length * 10 + 10;
+
+  // ── Hamlet character note ─────────────────────────────────────────────────
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('HAMLET CHARACTER', PAGE.ml, y);
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.line(PAGE.ml, y + 2, PAGE.ml + PAGE.contentW, y + 2);
+  y += 8;
+
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.charcoal);
+  const charLines = doc.splitTextToSize(H.characterNote, PAGE.contentW - 4);
+  doc.text(charLines, PAGE.ml + 2, y);
+  y += charLines.length * 4.5 + 10;
+
+  // ── ANEW Framework explainer ──────────────────────────────────────────────
+  if (y > 240) { doc.addPage(); y = 20; }
+  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('ANEW FRAMEWORK · EAST HAMPTON VILLAGE', PAGE.ml, y);
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.line(PAGE.ml, y + 2, PAGE.ml + PAGE.contentW, y + 2);
+  y += 8;
+
+  const anewItems: [string, string][] = [
+    ['A · Acquisition', 'Ultra-trophy corridor commands 15–25% premium over comparable South Fork hamlets. Entry price discipline is non-negotiable at this tier.'],
+    ['N · New Construction', 'New construction comps at $1,400–$1,600/sq ft. Land value alone in the Georgica corridor exceeds $3M/acre.'],
+    ['E · Exit Pricing', 'Exit pricing supported by persistent UHNW demand. Median hold period 4–7 years. Liquidity risk is low at the trophy tier.'],
+    ['W · Wealth Transfer', 'Estate and trust activity is the primary transaction driver. Christie\'s brand authority is the differentiating factor in this conversation.'],
+  ];
+
+  anewItems.forEach(([lens, desc]) => {
+    if (y > 260) { doc.addPage(); y = 20; }
+    doc.setFillColor(248, 246, 242);
+    doc.rect(PAGE.ml, y - 2, PAGE.contentW, 18, 'F');
+    doc.setFillColor(...C.gold);
+    doc.rect(PAGE.ml, y - 2, 2, 18, 'F');
+    doc.setFontSize(7.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...C.navy);
+    doc.text(lens, PAGE.ml + 6, y + 4);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.charcoal);
+    const descLines = doc.splitTextToSize(desc, PAGE.contentW - 10);
+    doc.text(descLines, PAGE.ml + 6, y + 9);
+    y += 22;
+  });
+
+  // ── Contact footer ────────────────────────────────────────────────────────
+  if (y > 250) { doc.addPage(); y = 20; }
+  y += 6;
+  doc.setFillColor(240, 238, 234);
+  doc.rect(PAGE.ml, y, PAGE.contentW, 30, 'F');
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.rect(PAGE.ml, y, PAGE.contentW, 30, 'S');
+  doc.setFillColor(...C.gold);
+  doc.rect(PAGE.ml, y, 2.5, 30, 'F');
+
+  if (edImg) {
+    try { doc.addImage(edImg, 'JPEG', PAGE.ml + 8, y + 3, 22, 22); } catch { /* skip */ }
+  }
+
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('Ed Bruehl', PAGE.ml + 36, y + 9);
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.charcoal);
+  doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 36, y + 15);
+  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.ml + 36, y + 21);
+  doc.text('christiesrealestategroupeh.com', PAGE.ml + 36, y + 27);
+
+  // ── PDF footer on all pages ───────────────────────────────────────────────
+  drawFooter(doc, 1, (doc.internal as any).getNumberOfPages(), qrImg);
+
+  downloadPdf(doc, 'Christies_EH_East_Hampton_Village_Q1_2026.pdf');
+}
