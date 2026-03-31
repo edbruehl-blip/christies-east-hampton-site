@@ -230,17 +230,17 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                   {r.tier}
                 </div>
                 <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? '#ccc' : '#1B2A4A', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
-                  {r.value === 'TBD' ? 'TBD — next pass' : r.value}
+                  {r.value === 'TBD' ? 'Coming Soon' : r.value}
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* ── EELE Active Listings ─────────────────────────────────────────── */}
+        {/* ── Active Listings ─────────────────────────────────────────── */}
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>
-            EELE Active Listings
+            Active Listings
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
             {hamlet.eeleListings.map((listing, i) => (

@@ -323,7 +323,9 @@ div[class*="made-with"],
 div[class*="powered-by"],
 [class*="ManusWatermark"],
 [class*="ManusAttribution"],
-[class*="ManusFooter"] {
+[class*="ManusFooter"],
+footer-watermark,
+manus-content-root {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;

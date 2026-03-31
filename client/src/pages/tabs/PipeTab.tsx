@@ -186,7 +186,7 @@ export default function PipeTab() {
             Active Pipeline
           </h2>
           <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.82rem' }}>
-            UI scaffold · Data wiring pending sheet confirmation · {rows.length} entries
+            Active Pipeline · {rows.length} entries · Local Session
           </p>
         </div>
       </div>
@@ -423,7 +423,7 @@ export default function PipeTab() {
         {/* ── Footer note ───────────────────────────────────────────────────── */}
         <div style={{ marginTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#aaa', fontSize: '0.65rem', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-            {filtered.length} of {rows.length} entries · Click any row to edit · Click ✓ to save · Sheet wiring pending
+            {filtered.length} of {rows.length} entries · Click any row to edit · Click ✓ to save
           </div>
           <a
             href="https://docs.google.com/spreadsheets/d/1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M/edit"
