@@ -38,3 +38,11 @@
 - [ ] Post-Angel: PDF parity with website
 - [ ] Post-Angel: FUTURE refinement
 - [ ] Post-Angel: MAPS / MARKET visual refinement
+
+## Final Compiled Directive v2 — March 30, 2026
+
+- [x] FUTURE tab: add 2026 scorecard (52 podcasts, 12 collector events, 12 agents, 12 raving fans) + tighten spacing
+- [x] Confirm all vendor attribution removed (desktop, mobile, staging, PDF) — zero visible Manus text in DOM or PDF output
+- [ ] Confirm hamlet donut live (nine segments, labeled, volume share %)
+- [ ] Publish build and add both domains: christiesrealestategroupeh.com + www
+- [ ] Return: HOME screenshot on live domain + FUTURE screenshot

@@ -7,6 +7,14 @@
 
 import { MatrixCard } from '@/components/MatrixCard';
 
+// ─── 2026 Scorecard ──────────────────────────────────────────────────────────
+const SCORECARD_2026 = [
+  { value: '52', label: 'Podcasts', sub: 'Weekly cadence · Full year' },
+  { value: '12', label: 'Collector Events', sub: 'Monthly · Curated audience' },
+  { value: '12', label: 'Agents', sub: 'Target roster · Dec 2026' },
+  { value: '12', label: 'Raving Fans', sub: 'Institutional advocates' },
+];
+
 // ─── Growth Model v2 Data (synced from sheet) ─────────────────────────────────
 
 const OUTLOOK = [
@@ -57,7 +65,27 @@ export default function FutureTab() {
         </p>
       </div>
 
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="px-6 py-8" style={{ maxWidth: 1100, margin: '0 auto' }}>
+
+        {/* ── 2026 Scorecard ─────────────────────────────────────────────────── */}
+        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          2026 Scorecard
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          {SCORECARD_2026.map(item => (
+            <MatrixCard key={item.label} variant="default" className="p-5">
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '2.5rem', fontWeight: 400, lineHeight: 1 }}>
+                {item.value}
+              </div>
+              <div className="mt-1" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+                {item.label}
+              </div>
+              <div className="mt-1" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 11 }}>
+                {item.sub}
+              </div>
+            </MatrixCard>
+          ))}
+        </div>
 
         {/* ── GCI Bar Chart ─────────────────────────────────────────────────── */}
         <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
