@@ -109,21 +109,30 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
 
 // ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
 function Section1() {
-  const [generating, setGenerating] = useState(false);
+  const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
+  const [audioProgress, setAudioProgress] = useState(0); // 0-100 for playback
   const audioRef = useState<HTMLAudioElement | null>(null);
+
+  // Auto-reset PDF done state after 3s
+  useEffect(() => {
+    if (pdfState === 'done') {
+      const t = setTimeout(() => setPdfState('idle'), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [pdfState]);
+
   async function handleDownload() {
-    if (generating) return;
-    setGenerating(true);
-    toast.loading('Generating Market Report…', { id: 'market-report' });
+    if (pdfState === 'generating') return;
+    setPdfState('generating');
     try {
       await generateMarketReport();
-      toast.success('Market Report downloaded.', { id: 'market-report' });
+      setPdfState('done');
     } catch (e) {
       console.error(e);
-      toast.error('PDF generation failed. Please try again.', { id: 'market-report' });
-    } finally {
-      setGenerating(false);
+      setPdfState('error');
+      toast.error('PDF generation failed. Please try again.');
+      setTimeout(() => setPdfState('idle'), 3000);
     }
   }
 
@@ -133,11 +142,12 @@ function Section1() {
       audioRef[0].pause();
       audioRef[0].currentTime = 0;
       setAudioState('idle');
+      setAudioProgress(0);
       return;
     }
     if (audioState === 'loading') return;
     setAudioState('loading');
-    toast.loading('Preparing audio…', { id: 'tts-letter' });
+    setAudioProgress(0);
     try {
       // Use direct fetch to bypass tRPC timeout — ElevenLabs synthesis takes 15-25s
       const response = await fetch('/api/tts/founding-letter');
@@ -149,21 +159,28 @@ function Section1() {
       const url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       audioRef[1](audio);
+      audio.ontimeupdate = () => {
+        if (audio.duration) {
+          setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
+        }
+      };
       audio.onended = () => {
         setAudioState('idle');
+        setAudioProgress(0);
         URL.revokeObjectURL(url);
       };
       audio.onerror = () => {
         setAudioState('error');
-        toast.error('Audio playback failed.', { id: 'tts-letter' });
+        toast.error('Audio playback failed.');
+        setTimeout(() => setAudioState('idle'), 3000);
       };
       await audio.play();
       setAudioState('playing');
-      toast.success('Playing founding letter…', { id: 'tts-letter' });
     } catch (e) {
       console.error(e);
       setAudioState('error');
-      toast.error('Audio generation failed. Please try again.', { id: 'tts-letter' });
+      toast.error('Audio generation failed. Please try again.');
+      setTimeout(() => setAudioState('idle'), 3000);
     }
   }
 
@@ -219,53 +236,175 @@ function Section1() {
         </div>
       </div>
 
-      {/* ── Two action buttons beneath portrait ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, padding: '20px 24px 4px' }}>
-        {/* Button 1 — Download Market Report */}
+      {/* ── Action panel beneath portrait ── */}
+      <div style={{ padding: '20px 24px 8px', maxWidth: 480, margin: '0 auto' }}>
+
+        {/* ── PDF Download Button ── */}
         <button
           onClick={handleDownload}
-          disabled={generating}
+          disabled={pdfState === 'generating'}
           style={{
-            background: 'none',
-            border: '1px solid rgba(200,172,120,0.55)',
-            color: '#C8AC78',
+            width: '100%',
+            background: pdfState === 'done' ? 'rgba(5,150,105,0.15)' : 'none',
+            border: `1px solid ${
+              pdfState === 'done' ? 'rgba(5,150,105,0.7)'
+              : pdfState === 'error' ? 'rgba(192,57,43,0.7)'
+              : 'rgba(200,172,120,0.55)'
+            }`,
+            color: pdfState === 'done' ? '#6ee7b7' : pdfState === 'error' ? '#f87171' : '#C8AC78',
             fontFamily: '"Barlow Condensed", sans-serif',
             fontSize: 11,
             letterSpacing: '0.26em',
             textTransform: 'uppercase',
-            padding: '9px 28px',
-            cursor: generating ? 'wait' : 'pointer',
-            opacity: generating ? 0.6 : 1,
-            transition: 'opacity 0.2s, border-color 0.2s',
-            minWidth: 240,
+            padding: '11px 28px',
+            cursor: pdfState === 'generating' ? 'wait' : 'pointer',
+            transition: 'all 0.3s',
+            position: 'relative',
+            overflow: 'hidden',
+            marginBottom: 6,
           }}
-          onMouseEnter={e => { if (!generating) (e.currentTarget as HTMLButtonElement).style.borderColor = '#C8AC78'; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(200,172,120,0.55)'; }}
         >
-          {generating ? 'Generating…' : 'Download Market Report'}
+          {/* Animated fill bar while generating */}
+          {pdfState === 'generating' && (
+            <span style={{
+              position: 'absolute', left: 0, top: 0, bottom: 0,
+              background: 'rgba(200,172,120,0.12)',
+              animation: 'pdf-pulse 1.4s ease-in-out infinite',
+              width: '100%',
+            }} />
+          )}
+          <span style={{ position: 'relative', zIndex: 1 }}>
+            {pdfState === 'generating' && (
+              <span style={{ marginRight: 8 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ display: 'inline', verticalAlign: 'middle', animation: 'spin 1s linear infinite' }}>
+                  <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
+                  <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+                </svg>
+              </span>
+            )}
+            {pdfState === 'generating' ? 'Building Report… Please Wait'
+              : pdfState === 'done' ? '✓ Market Report Downloaded'
+              : pdfState === 'error' ? 'Generation Failed — Tap to Retry'
+              : '↓ Download Market Report'}
+          </span>
         </button>
 
-        {/* Button 2 — Listen · Founding Letter */}
-        <button
-          onClick={handleListen}
-          disabled={audioState === 'loading'}
-          style={{
-            background: 'none',
-            border: 'none',
-            color: audioState === 'playing' ? '#FAF8F4' : 'rgba(200,172,120,0.65)',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 9,
-            letterSpacing: '0.24em',
-            textTransform: 'uppercase',
-            padding: '4px 8px',
-            cursor: audioState === 'loading' ? 'wait' : 'pointer',
-            opacity: audioState === 'loading' ? 0.5 : 1,
-            transition: 'color 0.2s',
-          }}
-        >
-          {audioState === 'loading' ? '· · ·' : audioState === 'playing' ? '◼ STOP' : '▶ LISTEN · FOUNDING LETTER'}
-        </button>
+        {/* ── TTS Audio Player ── */}
+        {audioState === 'idle' || audioState === 'error' ? (
+          <button
+            onClick={handleListen}
+            style={{
+              width: '100%',
+              background: 'none',
+              border: '1px solid rgba(200,172,120,0.28)',
+              color: 'rgba(200,172,120,0.75)',
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 10,
+              letterSpacing: '0.24em',
+              textTransform: 'uppercase',
+              padding: '9px 28px',
+              cursor: 'pointer',
+              transition: 'all 0.2s',
+            }}
+          >
+            {audioState === 'error' ? '⚠ Tap to Retry Audio' : '▶ Listen · Founding Letter'}
+          </button>
+        ) : (
+          <div style={{
+            border: '1px solid rgba(200,172,120,0.45)',
+            background: 'rgba(200,172,120,0.06)',
+            padding: '12px 16px',
+          }}>
+            {/* Status row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                {audioState === 'loading' ? (
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C8AC78" strokeWidth="2.5" style={{ flexShrink: 0, animation: 'spin 1s linear infinite' }}>
+                    <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
+                    <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+                  </svg>
+                ) : (
+                  /* Animated waveform bars */
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 16 }}>
+                    {[0.6, 1, 0.75, 1, 0.5].map((h, i) => (
+                      <span key={i} style={{
+                        display: 'block', width: 3, borderRadius: 2,
+                        background: '#C8AC78',
+                        height: `${h * 100}%`,
+                        animation: `wave-bar 0.8s ease-in-out ${i * 0.12}s infinite alternate`,
+                      }} />
+                    ))}
+                  </div>
+                )}
+                <span style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: '#C8AC78',
+                  fontSize: 10,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                }}>
+                  {audioState === 'loading' ? 'Synthesizing Audio… Please Wait' : 'Playing Founding Letter'}
+                </span>
+              </div>
+              {audioState === 'playing' && (
+                <button
+                  onClick={handleListen}
+                  style={{
+                    background: 'rgba(200,172,120,0.15)',
+                    border: '1px solid rgba(200,172,120,0.4)',
+                    color: '#C8AC78',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 9,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    padding: '4px 10px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  ◼ Stop
+                </button>
+              )}
+            </div>
+            {/* Progress bar */}
+            <div style={{ height: 3, background: 'rgba(200,172,120,0.15)', borderRadius: 2, overflow: 'hidden' }}>
+              <div style={{
+                height: '100%',
+                background: '#C8AC78',
+                borderRadius: 2,
+                width: audioState === 'loading' ? '0%' : `${audioProgress}%`,
+                transition: 'width 0.5s linear',
+              }} />
+            </div>
+            {audioState === 'loading' && (
+              <div style={{
+                fontFamily: '"Source Sans 3", sans-serif',
+                color: 'rgba(200,172,120,0.5)',
+                fontSize: 10,
+                marginTop: 6,
+                textAlign: 'center',
+              }}>
+                Downloading full audio before playback…
+              </div>
+            )}
+          </div>
+        )}
       </div>
+
+      {/* CSS animations */}
+      <style>{`
+        @keyframes pdf-pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.8; }
+        }
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes wave-bar {
+          from { transform: scaleY(0.4); }
+          to { transform: scaleY(1); }
+        }
+      `}</style>
 
       {/* Founding letter */}
       <div className="px-6 py-10" style={{ maxWidth: 780, margin: '0 auto' }}>

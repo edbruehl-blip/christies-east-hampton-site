@@ -110,12 +110,13 @@ function SectionA() {
                 fontFamily: '"Barlow Condensed", sans-serif',
                 color: '#C8AC78',
                 fontSize: 9,
-                letterSpacing: '0.24em',
+                letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 marginTop: 9,
                 textAlign: 'center',
+                lineHeight: 1.5,
               }}>
-                Market Report
+                Tap for<br/>Market Report
               </div>
             </div>
 

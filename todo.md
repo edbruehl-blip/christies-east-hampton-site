@@ -46,3 +46,9 @@
 - [ ] Confirm hamlet donut live (nine segments, labeled, volume share %)
 - [ ] Publish build and add both domains: christiesrealestategroupeh.com + www
 - [ ] Return: HOME screenshot on live domain + FUTURE screenshot
+- [ ] Remove "Made with Manus" badge visible in published build (bottom right corner)
+
+## UX Fixes — March 30, 2026 (pre-council-send)
+- [x] Portrait click: confirm navigates to /report (Market Report page), not external news — label updated to "Tap for Market Report"
+- [x] PDF download: add clear loading state + button label change + toast on completion — spinning icon, pulsing fill, green ✓ confirmation on done
+- [x] TTS audio: replace subtle spinner with prominent player — spinning loader with "Synthesizing Audio… Please Wait", animated waveform bars when playing, gold progress bar, STOP button, mobile-safe full-file-download-before-playback
