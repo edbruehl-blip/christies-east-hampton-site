@@ -4,6 +4,9 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { z } from "zod";
+import { getDb } from "./db";
+import { pipeline } from "../drizzle/schema";
+import { eq, asc } from "drizzle-orm";
 
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
 const FOUNDING_LETTER = `Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
@@ -24,6 +27,70 @@ Every export from this platform — every market report, every deal brief, every
 
 Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.`;
 
+// ─── Market Report narration text (mirrors /report page sections 2–4) ─────────
+const MARKET_REPORT_TEXT = `Hamptons Local Intelligence. East End. Current Affairs. March 2026.
+
+East Hampton Town. The East Hampton Town Board approved a new affordable housing overlay district along Springs Fireplace Road, adding 48 units of workforce housing. The Planning Board is reviewing a 12-lot subdivision on Accabonac Road with a public hearing scheduled for April. The East Hampton School District reported a 4.2 percent enrollment increase — the largest in a decade — driven by year-round residency growth.
+
+Southampton Town. Southampton Town extended its moratorium on new short-term rental permits through December 2026, citing neighborhood character concerns in Bridgehampton and Water Mill. The Bridgehampton Commons redevelopment proposal — mixed-use retail and residential — received preliminary approval. Southampton Village is advancing a twelve million dollar Main Street infrastructure upgrade.
+
+Sag Harbor. The Sag Harbor Village Board approved the Watchcase Factory residential conversion final phase, adding 22 luxury units to the historic complex. The Sag Harbor Cinema restoration is on schedule for a summer 2026 reopening. The village is reviewing a proposal to expand the waterfront park along Long Wharf.
+
+Market Intelligence. Capital Flow Signal: Strong Inflow. Institutional and family office capital is flowing at elevated levels into the South Fork market as of March 2026.
+
+Rate Environment. The 30-year fixed mortgage rate is 6.38 percent, per Freddie Mac. The 10-year Treasury yield is 4.81 percent. The VIX volatility index is at 30.61, indicating elevated macro uncertainty. The Hamptons median sale price is 2.34 million dollars, up 7 percent year over year in Q1 2026.
+
+Hamlet Atlas. Nine hamlets. South Fork. Tier classification and ANEW intelligence.
+
+Sagaponack. Ultra-Trophy tier. Median price: 8.5 million dollars. ANEW score: 9.4 out of 10. Volume share: 4 percent. Year over year: plus 4 percent.
+
+East Hampton Village. Ultra-Trophy tier. Median price: 5.2 million dollars. ANEW score: 9.1 out of 10. Volume share: 11 percent. Year over year: plus 12 percent.
+
+Bridgehampton. Trophy tier. Median price: 3.8 million dollars. ANEW score: 8.6 out of 10. Volume share: 9 percent. Year over year: plus 8 percent.
+
+Southampton Village. Trophy tier. Median price: 3.1 million dollars. ANEW score: 8.2 out of 10. Volume share: 12 percent. Year over year: plus 14 percent.
+
+Water Mill. Trophy tier. Median price: 2.9 million dollars. ANEW score: 7.9 out of 10. Volume share: 8 percent. Year over year: plus 7 percent.
+
+Amagansett. Premier tier. Median price: 2.4 million dollars. ANEW score: 7.5 out of 10. Volume share: 7 percent. Year over year: plus 9 percent.
+
+East Hampton. Premier tier. Median price: 1.85 million dollars. ANEW score: 7.2 out of 10. Volume share: 16 percent. Year over year: plus 18 percent.
+
+Sag Harbor. Premier tier. Median price: 1.75 million dollars. ANEW score: 7.0 out of 10. Volume share: 14 percent. Year over year: plus 11 percent.
+
+Springs. Opportunity tier. Median price: 1.1 million dollars. ANEW score: 6.4 out of 10. Volume share: 19 percent. Year over year: plus 17 percent.
+
+That is the South Fork. Nine hamlets. One standard. Christie's East Hampton.`;
+
+// ─── ElevenLabs TTS helper ─────────────────────────────────────────────────────
+async function callElevenLabs(text: string): Promise<{ audio: string; mimeType: string }> {
+  const apiKey = ENV.elevenLabsApiKey;
+  if (!apiKey) throw new Error("ELEVENLABS_API_KEY not configured");
+  const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
+  const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "xi-api-key": apiKey,
+      "Content-Type": "application/json",
+      "Accept": "audio/mpeg",
+    },
+    body: JSON.stringify({
+      text,
+      model_id: "eleven_multilingual_v2",
+      voice_settings: { stability: 0.55, similarity_boost: 0.75 },
+    }),
+    signal: AbortSignal.timeout(90000),
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`ElevenLabs API error ${response.status}: ${errText}`);
+  }
+  const arrayBuffer = await response.arrayBuffer();
+  const base64 = Buffer.from(arrayBuffer).toString("base64");
+  return { audio: base64, mimeType: "audio/mpeg" };
+}
+
 export const appRouter = router({
   system: systemRouter,
   auth: router({
@@ -38,44 +105,60 @@ export const appRouter = router({
   // ─── TTS proxy — ElevenLabs Voice ID fjnwTZkKtQOJaYzGLa6n ──────────────────
   tts: router({
     foundingLetter: publicProcedure.mutation(async () => {
-      const apiKey = ENV.elevenLabsApiKey;
-      if (!apiKey) throw new Error("ELEVENLABS_API_KEY not configured");
+      return callElevenLabs(FOUNDING_LETTER);
+    }),
 
-      const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
-      const url = `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`;
-
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "xi-api-key": apiKey,
-          "Content-Type": "application/json",
-          "Accept": "audio/mpeg",
-        },
-        body: JSON.stringify({
-          text: FOUNDING_LETTER,
-          model_id: "eleven_multilingual_v2",
-          voice_settings: {
-            stability: 0.55,
-            similarity_boost: 0.75,
-          },
-        }),
-        signal: AbortSignal.timeout(60000), // 60s — founding letter is ~1400 chars
-      });
-
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`ElevenLabs API error ${response.status}: ${errText}`);
-      }
-
-      const arrayBuffer = await response.arrayBuffer();
-      const base64 = Buffer.from(arrayBuffer).toString("base64");
-      return { audio: base64, mimeType: "audio/mpeg" };
+    marketReport: publicProcedure.mutation(async () => {
+      return callElevenLabs(MARKET_REPORT_TEXT);
     }),
 
     // Lightweight ping to validate the API key is set (used in tests)
     ping: publicProcedure.query(() => {
       return { configured: !!ENV.elevenLabsApiKey };
     }),
+  }),
+
+  // ─── Pipeline CRUD ──────────────────────────────────────────────────────────
+  pipe: router({
+    list: publicProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select().from(pipeline).orderBy(asc(pipeline.sortOrder), asc(pipeline.createdAt));
+    }),
+
+    upsert: publicProcedure
+      .input(z.object({
+        id: z.number().optional(),
+        address: z.string().min(1),
+        hamlet: z.string().min(1),
+        type: z.string().default('Listing'),
+        status: z.string().default('Prospect'),
+        askPrice: z.string().default(''),
+        dom: z.number().default(0),
+        notes: z.string().default(''),
+        sortOrder: z.number().default(0),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        const db = await getDb();
+        if (!db) throw new Error('Database not available');
+        if (id) {
+          await db.update(pipeline).set(data).where(eq(pipeline.id, id));
+          return { id };
+        } else {
+          const [result] = await db.insert(pipeline).values(data);
+          return { id: (result as { insertId: number }).insertId };
+        }
+      }),
+
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error('Database not available');
+        await db.delete(pipeline).where(eq(pipeline.id, input.id));
+        return { success: true };
+      }),
   }),
 });
 

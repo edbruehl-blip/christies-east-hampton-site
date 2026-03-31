@@ -1,0 +1,13 @@
+{
+  "query": "CREATE TABLE `pipeline` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`address` varchar(255) NOT NULL,\n\t`hamlet` varchar(64) NOT NULL,\n\t`type` varchar(64) NOT NULL DEFAULT 'Listing',\n\t`status` varchar(64) NOT NULL DEFAULT 'Prospect',\n\t`askPrice` varchar(32) DEFAULT '',\n\t`dom` int DEFAULT 0,\n\t`notes` text DEFAULT (''),\n\t`sortOrder` int DEFAULT 0,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `pipeline_id` PRIMARY KEY(`id`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway05.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3P3AB4TSinKFcP7.root --database Acqj9Wc4PB2323zvtzuKaz --execute CREATE TABLE `pipeline` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`address` varchar(255) NOT NULL,\n\t`hamlet` varchar(64) NOT NULL,\n\t`type` varchar(64) NOT NULL DEFAULT 'Listing',\n\t`status` varchar(64) NOT NULL DEFAULT 'Prospect',\n\t`askPrice` varchar(32) DEFAULT '',\n\t`dom` int DEFAULT 0,\n\t`notes` text DEFAULT (''),\n\t`sortOrder` int DEFAULT 0,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\tCONSTRAINT `pipeline_id` PRIMARY KEY(`id`)\n);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your TiDB version for the right syntax to use line 9 column 26 near \"''),",
+    "\t`sortOrder` int DEFAULT 0,",
+    "\t`createdAt` timestamp NOT NULL DEFAULT (now()),",
+    "\t`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,",
+    "\tCONSTRAINT `pipeline_id` PRIMARY KEY(`id`)",
+    ")\""
+  ]
+}

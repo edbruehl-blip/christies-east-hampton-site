@@ -110,8 +110,10 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
 // ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
 function Section1() {
   const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
+  // Dual William: track state per audio channel
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'error'>('idle');
-  const [audioProgress, setAudioProgress] = useState(0); // 0-100 for playback
+  const [audioChannel, setAudioChannel] = useState<'letter' | 'report'>('letter');
+  const [audioProgress, setAudioProgress] = useState(0);
   const audioRef = useState<HTMLAudioElement | null>(null);
 
   // Auto-reset PDF done state after 3s
@@ -136,21 +138,31 @@ function Section1() {
     }
   }
 
-  async function handleListen() {
-    // If already playing, stop
-    if (audioState === 'playing' && audioRef[0]) {
+  async function stopAudio() {
+    if (audioRef[0]) {
       audioRef[0].pause();
       audioRef[0].currentTime = 0;
-      setAudioState('idle');
-      setAudioProgress(0);
+    }
+    setAudioState('idle');
+    setAudioProgress(0);
+  }
+
+  async function handleListen(channel: 'letter' | 'report') {
+    // If already playing the same channel, stop
+    if (audioState === 'playing' && audioChannel === channel) {
+      stopAudio();
       return;
     }
-    if (audioState === 'loading') return;
+    // If playing a different channel, stop first
+    if (audioState === 'playing' || audioState === 'loading') {
+      stopAudio();
+    }
+    setAudioChannel(channel);
     setAudioState('loading');
     setAudioProgress(0);
+    const endpoint = channel === 'letter' ? '/api/tts/founding-letter' : '/api/tts/market-report';
     try {
-      // Use direct fetch to bypass tRPC timeout — ElevenLabs synthesis takes 15-25s
-      const response = await fetch('/api/tts/founding-letter');
+      const response = await fetch(endpoint);
       if (!response.ok) {
         const errText = await response.text();
         throw new Error(`TTS error ${response.status}: ${errText}`);
@@ -289,26 +301,48 @@ function Section1() {
           </span>
         </button>
 
-        {/* ── TTS Audio Player ── */}
+        {/* ── Dual William TTS Buttons ── */}
         {audioState === 'idle' || audioState === 'error' ? (
-          <button
-            onClick={handleListen}
-            style={{
-              width: '100%',
-              background: 'none',
-              border: '1px solid rgba(200,172,120,0.28)',
-              color: 'rgba(200,172,120,0.75)',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              letterSpacing: '0.24em',
-              textTransform: 'uppercase',
-              padding: '9px 28px',
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-          >
-            {audioState === 'error' ? '⚠ Tap to Retry Audio' : '▶ Listen · Founding Letter'}
-          </button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+            {/* Button 1 — Founding Letter */}
+            <button
+              onClick={() => handleListen('letter')}
+              style={{
+                background: 'none',
+                border: '1px solid rgba(200,172,120,0.28)',
+                color: 'rgba(200,172,120,0.75)',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 9,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                padding: '9px 10px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                lineHeight: 1.3,
+              }}
+            >
+              {audioState === 'error' && audioChannel === 'letter' ? '⚠ Retry' : '▶ Listen · Founding Letter'}
+            </button>
+            {/* Button 2 — Market Report */}
+            <button
+              onClick={() => handleListen('report')}
+              style={{
+                background: 'none',
+                border: '1px solid rgba(200,172,120,0.28)',
+                color: 'rgba(200,172,120,0.75)',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 9,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                padding: '9px 10px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                lineHeight: 1.3,
+              }}
+            >
+              {audioState === 'error' && audioChannel === 'report' ? '⚠ Retry' : '▶ Listen · Market Report'}
+            </button>
+          </div>
         ) : (
           <div style={{
             border: '1px solid rgba(200,172,120,0.45)',
@@ -324,7 +358,6 @@ function Section1() {
                     <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
                   </svg>
                 ) : (
-                  /* Animated waveform bars */
                   <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 16 }}>
                     {[0.6, 1, 0.75, 1, 0.5].map((h, i) => (
                       <span key={i} style={{
@@ -343,12 +376,14 @@ function Section1() {
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
                 }}>
-                  {audioState === 'loading' ? 'Synthesizing Audio… Please Wait' : 'Playing Founding Letter'}
+                  {audioState === 'loading'
+                    ? 'Synthesizing Audio… Please Wait'
+                    : audioChannel === 'letter' ? 'Playing Founding Letter' : 'Playing Market Report'}
                 </span>
               </div>
               {audioState === 'playing' && (
                 <button
-                  onClick={handleListen}
+                  onClick={() => stopAudio()}
                   style={{
                     background: 'rgba(200,172,120,0.15)',
                     border: '1px solid rgba(200,172,120,0.4)',

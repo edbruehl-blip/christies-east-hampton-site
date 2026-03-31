@@ -456,246 +456,239 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   downloadPdf(doc, `Christies_EH_Investment_Memo_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
 
-// ─── 5. Five-Page Market Report ───────────────────────────────────────────────
-// Art direction: website = live report · PDF = print snapshot
-// Page 1  → mirrors website hero (portrait gradient, founding line, doctrine)
-// Pages 2 → mirrors market ticker + summary block (two-column)
-// Pages 3–4 → mirrors hamlet card matrix (bordered card blocks per hamlet)
-// Page 5  → Christie's Advantage + contact (unchanged — already strong)
+// ─── 5. Five-Page Market Report (PDF parity with /report page order) ──────────
+// Page 1  → Hero + Founding Letter (mirrors /report Section 1)
+// Page 2  → Hamptons Local Intelligence (mirrors /report Section 2 news feed)
+// Page 3  → Market Intelligence: CFS + rate panel + Hamptons Median (mirrors /report Section 3)
+// Pages 4 → Hamlet Atlas Matrix — all nine hamlet cards (mirrors /report Section 4)
+// Page 5  → Resources & Authority — Christie's Advantage + contact (mirrors /report Section 6)
 
 export async function generateMarketReport(hamletId?: string): Promise<void> {
   const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const targetHamlet = hamletId ? MASTER_HAMLET_DATA.find(h => h.id === hamletId) : undefined;
 
-  // ── PAGE 1 — Hero Cover (mirrors website Section 1 portrait hero) ──────────
-  // Full navy field — mirrors the dark overlay on the James Christie portrait
+  // ── PAGE 1 — Hero + Founding Letter (mirrors /report Section 1) ──────────────
   doc.setFillColor(...C.navy);
   doc.rect(0, 0, PAGE.w, PAGE.h, 'F');
 
-  // Subtle texture: cream gradient strip at bottom (mimics portrait gradient overlay)
-  doc.setFillColor(27, 42, 74); // same navy, layered
-  doc.rect(0, PAGE.h - 90, PAGE.w, 90, 'F');
-
-  // Gold rule — top, mirroring the nav gold rule
   doc.setDrawColor(...C.gold);
   doc.setLineWidth(1.2);
   doc.line(PAGE.ml, 18, PAGE.w - PAGE.mr, 18);
 
-  // Institutional mark — mirrors "Christie's · Est. 1766" label on hero
   doc.setFontSize(8);
   doc.setTextColor(...C.gold);
   doc.setFont('helvetica', 'bold');
   doc.text('CHRISTIE\'S · EST. 1766', PAGE.w / 2, 27, { align: 'center' });
 
-  // Logo centered
   if (logoImg) {
-    try {
-      doc.addImage(logoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26);
-    } catch { /* skip */ }
+    try { doc.addImage(logoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26); } catch { /* skip */ }
   }
 
-  // Main title — mirrors website H1 "Christie's East Hampton"
-  doc.setFontSize(30);
+  doc.setFontSize(28);
   doc.setTextColor(...C.cream);
   doc.setFont('helvetica', 'bold');
-  doc.text('Christie\'s East Hampton', PAGE.w / 2, 82, { align: 'center' });
-
-  // Subtitle — mirrors "Managing Director · Ed Bruehl" line
-  doc.setFontSize(10);
-  doc.setTextColor(200, 190, 175);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Hamptons Market Report', PAGE.w / 2, 92, { align: 'center' });
-
-  // Gold rule — mirrors the divider below the hero title
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.5);
-  doc.line(PAGE.ml + 40, 98, PAGE.w - PAGE.mr - 40, 98);
-
-  // Territory / date line
-  doc.setFontSize(8.5);
-  doc.setTextColor(200, 190, 175);
-  doc.text(
-    targetHamlet ? `${targetHamlet.name} · ${targetHamlet.tier}` : 'South Fork · Nine Hamlets',
-    PAGE.w / 2, 106, { align: 'center' }
-  );
-  doc.setFontSize(7.5);
-  doc.text(today(), PAGE.w / 2, 113, { align: 'center' });
-
-  // Ed headshot — mirrors the portrait on the website hero
-  const headY = 128;
-  if (edImg) {
-    try {
-      // Circular crop approximated with a clipping rect
-      doc.addImage(edImg, 'JPEG', PAGE.w / 2 - 18, headY, 36, 36);
-    } catch { /* skip */ }
-  } else {
-    // Placeholder box
-    doc.setFillColor(...C.charcoal);
-    doc.rect(PAGE.w / 2 - 18, headY, 36, 36, 'F');
-    doc.setFontSize(6);
-    doc.setTextColor(...C.gold);
-    doc.text('ED BRUEHL', PAGE.w / 2, headY + 20, { align: 'center' });
-  }
-
-  // Name + title block — mirrors the hero overlay text
-  doc.setFontSize(11);
-  doc.setTextColor(...C.cream);
-  doc.setFont('helvetica', 'bold');
-  doc.text('Ed Bruehl', PAGE.w / 2, headY + 44, { align: 'center' });
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(200, 190, 175);
-  doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.w / 2, headY + 51, { align: 'center' });
-  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, headY + 57, { align: 'center' });
-
-  // Founding letter pull-quote — mirrors the letter headline on the website
-  doc.setDrawColor('rgba(200,172,120,0.4)' as unknown as string);
-  doc.setDrawColor(200, 172, 120);
-  doc.setLineWidth(0.3);
-  doc.line(PAGE.ml + 20, headY + 68, PAGE.w - PAGE.mr - 20, headY + 68);
+  doc.text('Christie\'s East Hampton', PAGE.w / 2, 80, { align: 'center' });
 
   doc.setFontSize(9.5);
-  doc.setTextColor(...C.cream);
-  doc.setFont('helvetica', 'bolditalic');
-  const pullQuote = 'Always the Family\'s Interest Before the Sale.';
-  doc.text(pullQuote, PAGE.w / 2, headY + 77, { align: 'center' });
-
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 190, 175);
-  doc.text('The Name Follows.', PAGE.w / 2, headY + 84, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+  doc.text('Live Market Report · ' + (targetHamlet ? targetHamlet.name : 'South Fork · Nine Hamlets'), PAGE.w / 2, 89, { align: 'center' });
+  doc.setFontSize(7.5);
+  doc.text(today(), PAGE.w / 2, 96, { align: 'center' });
 
-  // Bottom doctrine block — mirrors website footer doctrine
   doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.5);
-  doc.line(PAGE.ml, PAGE.h - 24, PAGE.w - PAGE.mr, PAGE.h - 24);
-  doc.setFontSize(6.5);
-  doc.setTextColor(...C.gold);
-  doc.setFont('helvetica', 'bold');
-  doc.text('CHRISTIE\'S INTERNATIONAL REAL ESTATE GROUP', PAGE.w / 2, PAGE.h - 18, { align: 'center' });
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(200, 190, 175);
-  doc.text('Est. 1766 · East Hampton, New York', PAGE.w / 2, PAGE.h - 13, { align: 'center' });
+  doc.setLineWidth(0.4);
+  doc.line(PAGE.ml + 30, 101, PAGE.w - PAGE.mr - 30, 101);
 
-  // ── PAGE 2 — South Fork Overview (mirrors website market ticker + summary) ──
-  doc.addPage();
-  let y = await drawHeader(doc, 'South Fork Overview', 'Nine Hamlets · Current Market Conditions', edImg, logoImg);
-
-  // Two-column layout: left = narrative + metrics, right = hamlet comps table header
-  const col1W = PAGE.contentW * 0.42;
-  const col2X = PAGE.ml + col1W + 6;
-  const col2W = PAGE.contentW - col1W - 6;
-
-  // Left column — narrative
-  let ly = y;
+  // Founding letter — full text, mirrors /report Section 1 letter body
+  const letterY = 108;
   doc.setFontSize(7);
   doc.setTextColor(...C.gold);
   doc.setFont('helvetica', 'bold');
-  doc.text('MARKET SUMMARY', PAGE.ml, ly);
-  doc.setDrawColor(...C.gold);
+  doc.text('FOUNDING LETTER', PAGE.ml, letterY);
   doc.setLineWidth(0.3);
-  doc.line(PAGE.ml, ly + 1.5, PAGE.ml + col1W, ly + 1.5);
-  ly += 6;
+  doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
+  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
+  let lY = letterY + 6;
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...C.charcoal);
-  const summaryShort = 'The South Fork comprises nine distinct hamlets — each with its own price corridor, buyer profile, and institutional character. Sagaponack and East Hampton Village anchor the ultra-trophy tier. Bridgehampton, Southampton Village, and Water Mill form the trophy corridor. Sag Harbor, Amagansett, and East Hampton proper represent the premier tier. Springs offers the most accessible entry point with the highest volume share.';
-  ly = wrapText(doc, summaryShort, PAGE.ml, ly, col1W, 5);
-  ly += 6;
+  doc.setTextColor(200, 190, 175);
+  for (const para of foundingText.split('\n\n')) {
+    lY = wrapText(doc, para, PAGE.ml, lY, PAGE.contentW, 5);
+    lY += 4;
+  }
 
-  // Key metrics — mirrors the market ticker bar on the website
-  const totalVolume = MASTER_HAMLET_DATA.reduce((s, h) => s + h.volumeShare, 0);
-  const avgAnew = (MASTER_HAMLET_DATA.reduce((s, h) => s + h.anewScore, 0) / MASTER_HAMLET_DATA.length).toFixed(1);
-  const medians = MASTER_HAMLET_DATA.map(h => h.medianPrice);
-  const sfMedian = medians.reduce((s, m) => s + m, 0) / medians.length;
+  // Doctrine footer
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.line(PAGE.ml, PAGE.h - 22, PAGE.w - PAGE.mr, PAGE.h - 22);
+  doc.setFontSize(7);
+  doc.setTextColor(...C.gold);
+  doc.setFont('helvetica', 'bolditalic');
+  doc.text('Always the Family\'s Interest Before the Sale.', PAGE.w / 2, PAGE.h - 16, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(200, 190, 175);
+  doc.text('The Name Follows. · Christie\'s International Real Estate Group · Est. 1766', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
-  // Metric tiles (mimics the ticker strip)
-  const metrics = [
-    { label: 'Hamlets Tracked', value: '9' },
-    { label: 'SF Median (Avg)', value: fmtUSD(sfMedian) },
-    { label: 'Avg ANEW Score', value: `${avgAnew} / 10` },
-    { label: 'Volume Tracked', value: fmtPct(totalVolume / 100) },
-    { label: '30Y Mortgage', value: '6.38%' },
-    { label: 'Source', value: 'Freddie Mac · March 2026' },
+  // ── PAGE 2 — Hamptons Local Intelligence (mirrors /report Section 2 news) ────
+  doc.addPage();
+  let y = await drawHeader(doc, 'Hamptons Local Intelligence', 'East End · Current Affairs · March 2026', edImg, logoImg);
+
+  const newsItems = [
+    {
+      location: 'East Hampton Town',
+      headline: 'Affordable Housing Overlay Approved on Springs Fireplace Road',
+      body: 'The East Hampton Town Board approved a new affordable housing overlay district along Springs Fireplace Road, adding 48 units of workforce housing. The Planning Board is reviewing a 12-lot subdivision on Accabonac Road with a public hearing scheduled for April. The East Hampton School District reported a 4.2% enrollment increase — the largest in a decade — driven by year-round residency growth.',
+    },
+    {
+      location: 'Southampton Town',
+      headline: 'Short-Term Rental Moratorium Extended Through December 2026',
+      body: 'Southampton Town extended its moratorium on new short-term rental permits through December 2026, citing neighborhood character concerns in Bridgehampton and Water Mill. The Bridgehampton Commons redevelopment proposal — mixed-use retail and residential — received preliminary approval. Southampton Village is advancing a $12M Main Street infrastructure upgrade.',
+    },
+    {
+      location: 'Sag Harbor',
+      headline: 'Watchcase Final Phase Approved · Cinema Restoration on Track',
+      body: 'The Sag Harbor Village Board approved the Watchcase Factory residential conversion final phase, adding 22 luxury units to the historic complex. The Sag Harbor Cinema restoration is on schedule for a summer 2026 reopening. The village is reviewing a proposal to expand the waterfront park along Long Wharf.',
+    },
   ];
 
-  doc.setFontSize(7);
-  doc.setTextColor(...C.gold);
-  doc.setFont('helvetica', 'bold');
-  doc.text('KEY METRICS', PAGE.ml, ly);
-  doc.setDrawColor(...C.gold);
-  doc.line(PAGE.ml, ly + 1.5, PAGE.ml + col1W, ly + 1.5);
-  ly += 6;
-
-  metrics.forEach(m => {
-    doc.setFontSize(7);
+  for (const item of newsItems) {
+    if (y + 32 > PAGE.h - PAGE.mb) break;
+    // Location badge
+    doc.setFillColor(...C.navy);
+    doc.rect(PAGE.ml, y, PAGE.contentW, 6, 'F');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...C.gold);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(...C.charcoal);
-    doc.text(m.label, PAGE.ml, ly);
-    doc.setFont('helvetica', 'normal');
+    doc.text(item.location.toUpperCase(), PAGE.ml + 3, y + 4);
+    y += 8;
+    // Headline
+    doc.setFontSize(9);
     doc.setTextColor(...C.navy);
-    doc.text(m.value, PAGE.ml + col1W, ly, { align: 'right' });
-    ly += 5.5;
-  });
-
-  // Right column — hamlet comps table (full width of right col)
-  let ry = y;
-  doc.setFontSize(7);
-  doc.setTextColor(...C.gold);
-  doc.setFont('helvetica', 'bold');
-  doc.text('HAMLET INTELLIGENCE MATRIX', col2X, ry);
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.3);
-  doc.line(col2X, ry + 1.5, col2X + col2W, ry + 1.5);
-  ry += 6;
-
-  // Mini hamlet table in right column
-  const miniCols = ['Hamlet', 'Tier', 'Median', 'ANEW', 'Vol'];
-  const miniColW = [col2W * 0.30, col2W * 0.22, col2W * 0.22, col2W * 0.13, col2W * 0.13];
-  const rowH = 5.5;
-
-  // Table header
-  doc.setFillColor(...C.navy);
-  doc.rect(col2X, ry, col2W, rowH, 'F');
-  doc.setFontSize(6);
-  doc.setTextColor(...C.cream);
-  doc.setFont('helvetica', 'bold');
-  let cx = col2X + 1.5;
-  miniCols.forEach((col, i) => {
-    doc.text(col, cx, ry + 3.5);
-    cx += miniColW[i];
-  });
-  ry += rowH;
-
-  // Table rows
-  MASTER_HAMLET_DATA.forEach((h, ri) => {
-    const bg = ri % 2 === 0 ? C.cream : [245, 243, 239] as [number, number, number];
-    doc.setFillColor(...bg);
-    doc.rect(col2X, ry, col2W, rowH, 'F');
-    doc.setFontSize(6);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('helvetica', 'bold');
+    y = wrapText(doc, item.headline, PAGE.ml, y, PAGE.contentW, 5.5);
+    y += 2;
+    // Body
+    doc.setFontSize(7.5);
     doc.setTextColor(...C.charcoal);
-    let rx = col2X + 1.5;
-    const rowData = [h.name, h.tier, h.medianPriceDisplay, `${h.anewScore}`, `${h.volumeShare}%`];
-    rowData.forEach((val, i) => {
-      doc.text(val, rx, ry + 3.5);
-      rx += miniColW[i];
-    });
-    ry += rowH;
-  });
+    doc.setFont('helvetica', 'normal');
+    y = wrapText(doc, item.body, PAGE.ml, y, PAGE.contentW, 5);
+    y += 8;
+  }
 
   drawFooter(doc, 2, 5, qrImg);
 
-  // ── PAGE 3 — Ultra-Trophy & Trophy Hamlet Cards ────────────────────────────
-  // Mirrors the HamletTile card grid on the website MARKET tab
+  // ── PAGE 3 — Market Intelligence (mirrors /report Section 3) ─────────────────
   doc.addPage();
-  y = await drawHeader(doc, 'Ultra-Trophy & Trophy Hamlets', 'Sagaponack · East Hampton Village · Bridgehampton · Southampton · Water Mill', edImg, logoImg);
+  y = await drawHeader(doc, 'Market Intelligence', 'Capital Flow Signal · Rate Environment · Hamptons Median', edImg, logoImg);
 
-  const topHamlets = MASTER_HAMLET_DATA.filter(h => h.tier === 'Ultra-Trophy' || h.tier === 'Trophy');
+  // Capital Flow Signal panel
+  doc.setFillColor(27, 42, 74);
+  doc.rect(PAGE.ml, y, PAGE.contentW, 18, 'F');
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.rect(PAGE.ml, y, PAGE.contentW, 18, 'S');
+  doc.setFontSize(7);
+  doc.setTextColor(...C.gold);
+  doc.setFont('helvetica', 'bold');
+  doc.text('CAPITAL FLOW SIGNAL', PAGE.ml + 4, y + 5);
+  doc.setFontSize(11);
+  doc.setTextColor(...C.cream);
+  doc.text('STRONG INFLOW', PAGE.ml + 4, y + 13);
+  doc.setFontSize(7);
+  doc.setTextColor(200, 190, 175);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Institutional & family office capital flowing at elevated levels · March 2026', PAGE.w - PAGE.mr - 4, y + 13, { align: 'right' });
+  y += 24;
 
-  // Tier badge color map — mirrors TIER_BADGE_COLORS in MarketTab
+  // Rate environment — two-column metric tiles
+  const rateMetrics = [
+    { label: '30-Year Fixed', value: '6.38%', sub: 'Freddie Mac · March 2026' },
+    { label: '10-Year Treasury', value: '4.81%', sub: 'Current yield' },
+    { label: 'VIX Volatility', value: '30.61', sub: 'Macro uncertainty elevated' },
+    { label: 'Hamptons Median', value: '$2.34M', sub: 'South Fork · Q1 2026 · +7% YoY' },
+  ];
+
+  const tileW = (PAGE.contentW - 6) / 2;
+  let tx = PAGE.ml;
+  let ty = y;
+  rateMetrics.forEach((m, i) => {
+    doc.setFillColor(240, 238, 234);
+    doc.rect(tx, ty, tileW, 20, 'F');
+    doc.setDrawColor(...C.gold);
+    doc.setLineWidth(0.3);
+    doc.rect(tx, ty, tileW, 20, 'S');
+    doc.setFillColor(...C.gold);
+    doc.rect(tx, ty, 2, 20, 'F');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...C.gold);
+    doc.setFont('helvetica', 'bold');
+    doc.text(m.label.toUpperCase(), tx + 5, ty + 6);
+    doc.setFontSize(13);
+    doc.setTextColor(...C.navy);
+    doc.text(m.value, tx + 5, ty + 14);
+    doc.setFontSize(6);
+    doc.setTextColor(...C.muted);
+    doc.setFont('helvetica', 'normal');
+    doc.text(m.sub, tx + 5, ty + 18);
+    if (i % 2 === 0) {
+      tx = PAGE.ml + tileW + 6;
+    } else {
+      tx = PAGE.ml;
+      ty += 26;
+    }
+  });
+  y = ty + 26;
+
+  // Hamlet median summary table
+  y = sectionLabel(doc, 'Hamlet Median Price Summary', y);
+  const avgAnew2 = (MASTER_HAMLET_DATA.reduce((s, h) => s + h.anewScore, 0) / MASTER_HAMLET_DATA.length).toFixed(1);
+  const tblCols = ['Hamlet', 'Tier', 'Median Price', 'ANEW Score', 'Vol. Share', 'YoY'];
+  const tblW = [PAGE.contentW * 0.22, PAGE.contentW * 0.18, PAGE.contentW * 0.18, PAGE.contentW * 0.14, PAGE.contentW * 0.14, PAGE.contentW * 0.14];
+  const rH = 5.5;
+
+  doc.setFillColor(...C.navy);
+  doc.rect(PAGE.ml, y, PAGE.contentW, rH, 'F');
+  doc.setFontSize(6);
+  doc.setTextColor(...C.cream);
+  doc.setFont('helvetica', 'bold');
+  let hx = PAGE.ml + 1.5;
+  tblCols.forEach((col, i) => { doc.text(col, hx, y + 3.5); hx += tblW[i]; });
+  y += rH;
+
+  MASTER_HAMLET_DATA.forEach((h, ri) => {
+    const bg = ri % 2 === 0 ? C.cream : [245, 243, 239] as [number, number, number];
+    doc.setFillColor(...bg);
+    doc.rect(PAGE.ml, y, PAGE.contentW, rH, 'F');
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.charcoal);
+    let rx2 = PAGE.ml + 1.5;
+    const yoyMap: Record<string, string> = {
+      'sagaponack': '+4%', 'east-hampton-village': '+12%', 'bridgehampton': '+8%',
+      'southampton-village': '+14%', 'water-mill': '+7%', 'amagansett': '+9%',
+      'east-hampton': '+18%', 'sag-harbor': '+11%', 'springs': '+17%',
+    };
+    [h.name, h.tier, h.medianPriceDisplay, `${h.anewScore}`, `${h.volumeShare}%`, yoyMap[h.id] ?? '—'].forEach((val, i) => {
+      doc.text(val, rx2, y + 3.5);
+      rx2 += tblW[i];
+    });
+    y += rH;
+  });
+
+  doc.setFontSize(6.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Avg ANEW Score across all nine hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · March 2026`, PAGE.ml, y + 5);
+
+  drawFooter(doc, 3, 5, qrImg);
+
+  // ── PAGE 4 — Hamlet Atlas Matrix (mirrors /report Section 4 — all 9 hamlets) ─
+  doc.addPage();
+  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Nine Hamlets · South Fork · Tier Classification · ANEW Intelligence', edImg, logoImg);
+
   const tierBadgeBg: Record<string, [number, number, number]> = {
     'Ultra-Trophy': C.gold,
     'Trophy':       C.navy,
@@ -709,143 +702,58 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     'Opportunity':  C.charcoal,
   };
 
-  // Two-column card grid
   const cardW = (PAGE.contentW - 6) / 2;
-  const cardH = 52;
-  const cardGap = 6;
+  const cardH = 44;
+  const cardGap = 4;
   let cardX = PAGE.ml;
   let cardY = y;
   let col = 0;
 
-  topHamlets.forEach(h => {
-    if (cardY + cardH > PAGE.h - PAGE.mb) return; // overflow guard
-
-    // Card background
-    doc.setFillColor(...C.cream);
-    doc.rect(cardX, cardY, cardW, cardH, 'F');
-    // Card border — gold for Ultra-Trophy, navy for Trophy
-    doc.setDrawColor(...(h.tier === 'Ultra-Trophy' ? C.gold : C.navy));
-    doc.setLineWidth(h.tier === 'Ultra-Trophy' ? 0.8 : 0.4);
-    doc.rect(cardX, cardY, cardW, cardH, 'S');
-
-    // Tier badge (top-right corner)
-    const badgeBg = tierBadgeBg[h.tier];
-    const badgeFg = tierBadgeFg[h.tier];
-    const badgeW = 28;
-    doc.setFillColor(...badgeBg);
-    doc.rect(cardX + cardW - badgeW, cardY, badgeW, 7, 'F');
-    doc.setFontSize(5.5);
-    doc.setTextColor(...badgeFg);
-    doc.setFont('helvetica', 'bold');
-    doc.text(h.tier.toUpperCase(), cardX + cardW - badgeW / 2, cardY + 4.5, { align: 'center' });
-
-    // Hamlet name
-    doc.setFontSize(11);
-    doc.setTextColor(...C.navy);
-    doc.setFont('helvetica', 'bold');
-    doc.text(h.name, cardX + 4, cardY + 14);
-
-    // Median price — prominent, mirrors the website card
-    doc.setFontSize(7);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text('MEDIAN PRICE', cardX + 4, cardY + 21);
-    doc.setFontSize(14);
-    doc.setTextColor(...C.navy);
-    doc.text(h.medianPriceDisplay, cardX + 4, cardY + 29);
-
-    // ANEW score + bar — mirrors the ANEW score bar on the website card
-    doc.setFontSize(6.5);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text('ANEW SCORE', cardX + 4, cardY + 36);
-    doc.setFontSize(8);
-    doc.setTextColor(...C.charcoal);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${h.anewScore} / 10`, cardX + 4, cardY + 41);
-    // Score bar
-    const barW = cardW - 8;
-    doc.setFillColor(230, 228, 224);
-    doc.rect(cardX + 4, cardY + 43, barW, 2, 'F');
-    doc.setFillColor(...C.gold);
-    doc.rect(cardX + 4, cardY + 43, barW * (h.anewScore / 10), 2, 'F');
-
-    // Volume share — mirrors the volume bar on the website card
-    doc.setFontSize(6);
-    doc.setTextColor(...C.muted);
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Vol. Share: ${h.volumeShare}%`, cardX + 4, cardY + 49);
-
-    // Advance grid position
-    col++;
-    if (col % 2 === 0) {
-      cardX = PAGE.ml;
-      cardY += cardH + cardGap;
-    } else {
-      cardX = PAGE.ml + cardW + 6;
-    }
-  });
-
-  drawFooter(doc, 3, 5, qrImg);
-
-  // ── PAGE 4 — Premier & Opportunity Hamlet Cards ────────────────────────────
-  doc.addPage();
-  y = await drawHeader(doc, 'Premier & Opportunity Hamlets', 'Sag Harbor · Amagansett · East Hampton · Springs', edImg, logoImg);
-
-  const lowerHamlets = MASTER_HAMLET_DATA.filter(h => h.tier === 'Premier' || h.tier === 'Opportunity');
-  cardX = PAGE.ml;
-  cardY = y;
-  col = 0;
-
-  lowerHamlets.forEach(h => {
+  MASTER_HAMLET_DATA.forEach(h => {
     if (cardY + cardH > PAGE.h - PAGE.mb) return;
 
     doc.setFillColor(...C.cream);
     doc.rect(cardX, cardY, cardW, cardH, 'F');
-    doc.setDrawColor(...C.navy);
-    doc.setLineWidth(0.4);
+    doc.setDrawColor(...(h.tier === 'Ultra-Trophy' ? C.gold : h.tier === 'Trophy' ? C.navy : C.charcoal));
+    doc.setLineWidth(h.tier === 'Ultra-Trophy' ? 0.8 : 0.4);
     doc.rect(cardX, cardY, cardW, cardH, 'S');
 
     const badgeBg = tierBadgeBg[h.tier];
     const badgeFg = tierBadgeFg[h.tier];
     doc.setFillColor(...badgeBg);
-    doc.rect(cardX + cardW - 28, cardY, 28, 7, 'F');
-    doc.setFontSize(5.5);
+    doc.rect(cardX + cardW - 28, cardY, 28, 6.5, 'F');
+    doc.setFontSize(5);
     doc.setTextColor(...badgeFg);
     doc.setFont('helvetica', 'bold');
-    doc.text(h.tier.toUpperCase(), cardX + cardW - 14, cardY + 4.5, { align: 'center' });
+    doc.text(h.tier.toUpperCase(), cardX + cardW - 14, cardY + 4.2, { align: 'center' });
 
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.setTextColor(...C.navy);
     doc.setFont('helvetica', 'bold');
-    doc.text(h.name, cardX + 4, cardY + 14);
-
-    doc.setFontSize(7);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text('MEDIAN PRICE', cardX + 4, cardY + 21);
-    doc.setFontSize(14);
-    doc.setTextColor(...C.navy);
-    doc.text(h.medianPriceDisplay, cardX + 4, cardY + 29);
+    doc.text(h.name, cardX + 4, cardY + 13);
 
     doc.setFontSize(6.5);
     doc.setTextColor(...C.gold);
     doc.setFont('helvetica', 'bold');
-    doc.text('ANEW SCORE', cardX + 4, cardY + 36);
-    doc.setFontSize(8);
-    doc.setTextColor(...C.charcoal);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`${h.anewScore} / 10`, cardX + 4, cardY + 41);
-    const barW2 = cardW - 8;
-    doc.setFillColor(230, 228, 224);
-    doc.rect(cardX + 4, cardY + 43, barW2, 2, 'F');
-    doc.setFillColor(...C.gold);
-    doc.rect(cardX + 4, cardY + 43, barW2 * (h.anewScore / 10), 2, 'F');
+    doc.text('MEDIAN', cardX + 4, cardY + 20);
+    doc.setFontSize(11);
+    doc.setTextColor(...C.navy);
+    doc.text(h.medianPriceDisplay, cardX + 4, cardY + 27);
 
     doc.setFontSize(6);
+    doc.setTextColor(...C.gold);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`ANEW ${h.anewScore} / 10`, cardX + 4, cardY + 33);
+    const barW = cardW - 8;
+    doc.setFillColor(230, 228, 224);
+    doc.rect(cardX + 4, cardY + 35, barW, 2, 'F');
+    doc.setFillColor(...C.gold);
+    doc.rect(cardX + 4, cardY + 35, barW * (h.anewScore / 10), 2, 'F');
+
+    doc.setFontSize(5.5);
     doc.setTextColor(...C.muted);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Vol. Share: ${h.volumeShare}%`, cardX + 4, cardY + 49);
+    doc.text(`Vol. ${h.volumeShare}%`, cardX + 4, cardY + 41);
 
     col++;
     if (col % 2 === 0) {
@@ -858,57 +766,68 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
 
   drawFooter(doc, 4, 5, qrImg);
 
-  // ── PAGE 5 — Christie's Advantage + Contact (unchanged — already strong) ──
+  // ── PAGE 5 — Resources & Authority (mirrors /report Section 6) ───────────────
   doc.addPage();
-  y = await drawHeader(doc, 'The Christie\'s Advantage', 'Why Christie\'s East Hampton', edImg, logoImg);
+  y = await drawHeader(doc, 'Resources & Authority', 'Christie\'s East Hampton · The Standard', edImg, logoImg);
 
-  y = sectionLabel(doc, 'Institutional Provenance Since 1766', y);
+  y = sectionLabel(doc, 'The Christie\'s Standard', y);
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  const p1 = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.';
-  y = wrapText(doc, p1, PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 6;
+  y = wrapText(doc, 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y += 5;
 
-  y = sectionLabel(doc, 'The South Fork Standard', y);
-  const p2 = 'The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.';
-  y = wrapText(doc, p2, PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 6;
+  y = sectionLabel(doc, 'ANEW Intelligence Framework', y);
+  y = wrapText(doc, 'Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate. The ANEW score is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y += 5;
 
-  y = sectionLabel(doc, 'ANEW Intelligence', y);
-  const p3 = 'This platform exists to carry the Christie\'s standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.';
-  y = wrapText(doc, p3, PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 8;
+  y = sectionLabel(doc, 'Platform Intelligence', y);
+  const platformItems = [
+    'Nine-hamlet ANEW scoring matrix · Updated quarterly',
+    'Live capital flow signal · Rate environment monitoring',
+    'Deal Brief · CMA · Investment Memo · ANEW Build Memo exports',
+    'Podcast & event calendar · Agent recruiting pipeline',
+    'Christie\'s auction calendar integration',
+  ];
+  platformItems.forEach(item => {
+    doc.setFontSize(7.5);
+    doc.setTextColor(...C.charcoal);
+    doc.setFont('helvetica', 'normal');
+    doc.text('·  ' + item, PAGE.ml + 3, y);
+    y += 5.5;
+  });
+  y += 4;
 
-  // Contact block — cream card with gold border, mirrors website contact block
+  // Contact card
   doc.setFillColor(240, 238, 234);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 36, 'F');
+  doc.rect(PAGE.ml, y, PAGE.contentW, 38, 'F');
   doc.setDrawColor(...C.gold);
   doc.setLineWidth(0.5);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 36, 'S');
-  // Gold left accent bar
+  doc.rect(PAGE.ml, y, PAGE.contentW, 38, 'S');
   doc.setFillColor(...C.gold);
-  doc.rect(PAGE.ml, y, 2.5, 36, 'F');
+  doc.rect(PAGE.ml, y, 2.5, 38, 'F');
 
   if (edImg) {
-    try {
-      doc.addImage(edImg, 'JPEG', PAGE.ml + 8, y + 5, 24, 24);
-    } catch { /* skip */ }
+    try { doc.addImage(edImg, 'JPEG', PAGE.ml + 8, y + 6, 24, 24); } catch { /* skip */ }
   } else {
     doc.setFillColor(...C.charcoal);
-    doc.rect(PAGE.ml + 8, y + 5, 24, 24, 'F');
+    doc.rect(PAGE.ml + 8, y + 6, 24, 24, 'F');
+    doc.setFontSize(5.5);
+    doc.setTextColor(...C.gold);
+    doc.text('ED BRUEHL', PAGE.ml + 20, y + 19, { align: 'center' });
+    doc.text('PHOTO PENDING', PAGE.ml + 20, y + 24, { align: 'center' });
   }
 
   doc.setFontSize(12);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...C.navy);
-  doc.text('Ed Bruehl', PAGE.ml + 38, y + 12);
+  doc.text('Ed Bruehl', PAGE.ml + 38, y + 13);
   doc.setFontSize(8);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 38, y + 19);
-  doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 38, y + 25);
-  doc.text('646-752-1233 · christiesrealestategroup.com', PAGE.ml + 38, y + 31);
+  doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 38, y + 20);
+  doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 38, y + 26);
+  doc.text('646-752-1233 · christiesrealestategroup.com', PAGE.ml + 38, y + 32);
 
   drawFooter(doc, 5, 5, qrImg);
 

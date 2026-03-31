@@ -8,6 +8,13 @@
       "when": 1774837917214,
       "tag": "0000_white_rocket_racer",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1774927441030,
+      "tag": "0001_dizzy_tusk",
+      "breakpoints": true
     }
   ]
 }

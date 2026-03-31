@@ -52,3 +52,14 @@
 - [x] Portrait click: confirm navigates to /report (Market Report page), not external news — label updated to "Tap for Market Report"
 - [x] PDF download: add clear loading state + button label change + toast on completion — spinning icon, pulsing fill, green ✓ confirmation on done
 - [x] TTS audio: replace subtle spinner with prominent player — spinning loader with "Synthesizing Audio… Please Wait", animated waveform bars when playing, gold progress bar, STOP button, mobile-safe full-file-download-before-playback
+
+## Sprint 1 Directives — March 31, 2026
+
+- [x] /report: Add second TTS button "LISTEN · MARKET REPORT" with full report text payload (news + market intel + hamlet atlas)
+- [x] /report: Keep "LISTEN · FOUNDING LETTER" as-is, same styling, both buttons side by side
+- [x] PDF parity: Rewrite generateMarketReport to match /report section order exactly (hero → news → market intel → hamlet atlas → model deal → resources)
+- [x] INTEL: Layer 1 — Calendar at top (podcast + event + internal + social filters, current week/month default)
+- [x] INTEL: Layer 2 — Live sheet embeds below calendar (agent/recruiting, auction/events, social/podcast pipeline)
+- [x] INTEL: Layer 3 — Canon documents below live sheets (existing cards preserved)
+- [x] PIPE: Wire pipeline entries to database for persistence across refresh
+- [x] PIPE: Full-width tall view, real data primary

@@ -20,68 +20,121 @@ Every export from this platform — every market report, every deal brief, every
 
 Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.`;
 
+// ─── Full market report text ───────────────────────────────────────────────────
+const MARKET_REPORT_TEXT = `Christie's East Hampton — Live Market Report. March 2026.
+
+Hamptons Local Intelligence.
+
+East Hampton Town. The East Hampton Town Board has approved a new affordable housing overlay district along Springs Fireplace Road, adding 48 units of workforce housing to the corridor. The Planning Board is reviewing a 12-lot subdivision on Accabonac Road with a public hearing scheduled for April. The East Hampton School District reported a 4.2 percent enrollment increase, the largest in a decade, driven by year-round residency growth.
+
+Southampton Town. Southampton Town has extended its moratorium on new short-term rental permits through December 2026, citing neighborhood character concerns in Bridgehampton and Water Mill. The Bridgehampton Commons redevelopment proposal — a mixed-use retail and residential project — received preliminary approval. Southampton Village is advancing a 12 million dollar Main Street infrastructure upgrade.
+
+Sag Harbor. The Sag Harbor Village Board approved the Watchcase Factory residential conversion final phase, adding 22 luxury units to the historic complex. The Sag Harbor Cinema restoration is on schedule for a summer 2026 reopening. The village is reviewing a proposal to expand the waterfront park along Long Wharf.
+
+Market Intelligence.
+
+Capital Flow Signal: Strong Inflow. Institutional and family office capital continues to flow into the South Fork at elevated levels. The 30-year fixed mortgage rate is holding at 6.38 percent — above the 2021 historic low but within the range that qualified Hamptons buyers have historically absorbed. The 10-year Treasury is at 4.81 percent. The VIX volatility index is at 30.61, reflecting macro uncertainty, but Hamptons transaction volume remains insulated from equity market volatility at the ultra-trophy tier.
+
+The Hamptons Median is 2.34 million dollars across all nine hamlets, South Fork, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
+
+Hamlet Atlas.
+
+Sagaponack. Tier: Ultra-Trophy. Median: 7.5 million dollars. ANEW Score: 9.4. Year-over-year volume: plus 4 percent. Sagaponack remains the most land-constrained, price-dense hamlet on the South Fork. Generational asset territory. Christie's standard.
+
+East Hampton Village. Tier: Ultra-Trophy. Median: 5.15 million dollars. ANEW Score: 9.2. Year-over-year volume: plus 12 percent. The institutional core of the Hamptons market. South of the Highway commands a premium of 30 to 45 percent over comparable properties north of the highway.
+
+Bridgehampton. Tier: Trophy. Median: 5.1 million dollars. ANEW Score: 9.1. Year-over-year volume: plus 8 percent. The most active trophy corridor. New construction is driving absorption. Buyer profile is predominantly family office and second-generation wealth.
+
+Southampton Village. Tier: Trophy. Median: 3.55 million dollars. ANEW Score: 9.0. Year-over-year volume: plus 14 percent. The strongest volume growth in the trophy tier. Main Street infrastructure investment is accelerating buyer confidence.
+
+Water Mill. Tier: Trophy. Median: 4.2 million dollars. ANEW Score: 8.8. Year-over-year volume: plus 7 percent. Equestrian corridor. Land value is the primary driver. New construction premium is significant.
+
+Amagansett. Tier: Premier. Median: 4.25 million dollars. ANEW Score: 8.9. Year-over-year volume: plus 9 percent. The emerging premier corridor. Beach access and proximity to East Hampton Village are the primary value drivers.
+
+East Hampton. Tier: Premier. Median: 3.2 million dollars. ANEW Score: 8.6. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix. Entry-point buyers are discovering the corridor.
+
+Sag Harbor. Tier: Premier. Median: 2.85 million dollars. ANEW Score: 8.4. Year-over-year volume: plus 11 percent. The most walkable hamlet on the South Fork. The Watchcase conversion and Cinema restoration are catalysts for continued appreciation.
+
+Springs. Tier: Opportunity. Median: 1.35 million dollars. ANEW Score: 6.8. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End. Artist community. Authentic character. The entry point for buyers who understand the South Fork.
+
+Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Always the Family's Interest Before the Sale. The Name Follows.`;
+
 const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
 
+// ─── Shared TTS handler ────────────────────────────────────────────────────────
+async function streamTts(text: string, apiKey: string, res: import("express").Response) {
+  const elevenRes = await fetch(
+    `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
+    {
+      method: "POST",
+      headers: {
+        "xi-api-key": apiKey,
+        "Content-Type": "application/json",
+        Accept: "audio/mpeg",
+      },
+      body: JSON.stringify({
+        text,
+        model_id: "eleven_multilingual_v2",
+        voice_settings: {
+          stability: 0.55,
+          similarity_boost: 0.75,
+        },
+      }),
+    }
+  );
+
+  if (!elevenRes.ok) {
+    const errText = await elevenRes.text();
+    console.error(`[TTS] ElevenLabs error ${elevenRes.status}: ${errText}`);
+    res.status(elevenRes.status).json({ error: errText });
+    return;
+  }
+
+  res.setHeader("Content-Type", "audio/mpeg");
+  res.setHeader("Cache-Control", "no-store");
+
+  const reader = elevenRes.body?.getReader();
+  if (!reader) {
+    res.status(500).json({ error: "No response body from ElevenLabs" });
+    return;
+  }
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    res.write(value);
+  }
+  res.end();
+}
+
 export function registerTtsRoute(app: Express) {
-  // GET /api/tts/founding-letter — streams audio/mpeg directly to the client
-  // Using a raw Express route (not tRPC) so there is no request timeout cap.
+  // GET /api/tts/founding-letter — reads only the founding letter
   app.get("/api/tts/founding-letter", async (req, res) => {
     const apiKey = ENV.elevenLabsApiKey;
     if (!apiKey) {
       res.status(503).json({ error: "ELEVENLABS_API_KEY not configured" });
       return;
     }
-
     try {
-      const elevenRes = await fetch(
-        `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
-        {
-          method: "POST",
-          headers: {
-            "xi-api-key": apiKey,
-            "Content-Type": "application/json",
-            Accept: "audio/mpeg",
-          },
-          body: JSON.stringify({
-            text: FOUNDING_LETTER,
-            model_id: "eleven_multilingual_v2",
-            voice_settings: {
-              stability: 0.55,
-              similarity_boost: 0.75,
-            },
-          }),
-          // No AbortSignal — let ElevenLabs take as long as it needs
-        }
-      );
-
-      if (!elevenRes.ok) {
-        const errText = await elevenRes.text();
-        console.error(`[TTS] ElevenLabs error ${elevenRes.status}: ${errText}`);
-        res.status(elevenRes.status).json({ error: errText });
-        return;
-      }
-
-      // Stream the audio directly to the client
-      res.setHeader("Content-Type", "audio/mpeg");
-      res.setHeader("Cache-Control", "no-store");
-
-      const reader = elevenRes.body?.getReader();
-      if (!reader) {
-        res.status(500).json({ error: "No response body from ElevenLabs" });
-        return;
-      }
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        res.write(value);
-      }
-      res.end();
+      await streamTts(FOUNDING_LETTER, apiKey, res);
     } catch (err) {
       console.error("[TTS] Unexpected error:", err);
-      if (!res.headersSent) {
-        res.status(500).json({ error: "TTS generation failed" });
-      }
+      if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });
+    }
+  });
+
+  // GET /api/tts/market-report — reads the full market report (news + intel + hamlet atlas)
+  app.get("/api/tts/market-report", async (req, res) => {
+    const apiKey = ENV.elevenLabsApiKey;
+    if (!apiKey) {
+      res.status(503).json({ error: "ELEVENLABS_API_KEY not configured" });
+      return;
+    }
+    try {
+      await streamTts(MARKET_REPORT_TEXT, apiKey, res);
+    } catch (err) {
+      console.error("[TTS] Unexpected error:", err);
+      if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });
     }
   });
 }

@@ -25,4 +25,20 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// TODO: Add your tables here
+// ─── Pipeline Table ──────────────────────────────────────────────────────────
+export const pipeline = mysqlTable("pipeline", {
+  id: int("id").autoincrement().primaryKey(),
+  address: varchar("address", { length: 255 }).notNull(),
+  hamlet: varchar("hamlet", { length: 64 }).notNull(),
+  type: varchar("type", { length: 64 }).notNull().default('Listing'),
+  status: varchar("status", { length: 64 }).notNull().default('Prospect'),
+  askPrice: varchar("askPrice", { length: 32 }).default(''),
+  dom: int("dom").default(0),
+  notes: text("notes").default(''),
+  sortOrder: int("sortOrder").default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type PipelineEntry = typeof pipeline.$inferSelect;
+export type InsertPipelineEntry = typeof pipeline.$inferInsert;
