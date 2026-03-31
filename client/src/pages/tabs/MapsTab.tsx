@@ -157,7 +157,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
         {/* Hamlet name over photo */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '24px 28px' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            {hamlet.tier} · ANEW {hamlet.anewScore.toFixed(1)} / 10
+            {hamlet.tier} · CIS {hamlet.anewScore.toFixed(1)} / 10
           </div>
           <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '2rem', lineHeight: 1.1 }}>
             {hamlet.name}
@@ -184,7 +184,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 28 }}>
           {[
             { label: 'Median Price', value: hamlet.medianPriceDisplay },
-            { label: 'ANEW Score', value: `${hamlet.anewScore.toFixed(1)} / 10` },
+            { label: 'CIS', value: `${hamlet.anewScore.toFixed(1)} / 10` },
             { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (

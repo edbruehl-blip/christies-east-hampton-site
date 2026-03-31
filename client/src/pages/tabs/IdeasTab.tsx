@@ -110,7 +110,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
 function RunButton({ onClick }: { onClick: () => void }) {
   return (
     <button onClick={onClick} className="w-full py-3 text-sm uppercase tracking-widest transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]" style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#FAF8F4', letterSpacing: '0.2em' }}>
-      Run ANEW Score
+      Generate Your Private Property Intelligence Brief
     </button>
   );
 }
@@ -324,9 +324,9 @@ export default function IdeasTab() {
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
       {/* Header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>ANEW Investment Intelligence</div>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie's Intelligence Score</div>
         <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>IDEAS Calculator</h2>
-        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>Select a lens, enter your numbers, and receive an institutional-grade ANEW score with strategic classification.</p>
+        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>Select a lens, enter your numbers, and receive an institutional-grade Christie's Intelligence Score (CIS) with strategic classification.</p>
       </div>
 
       {/* Mode Cards + Calculator */}
@@ -357,7 +357,7 @@ export default function IdeasTab() {
 
             {/* Results */}
             <div>
-              <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>ANEW Score Output</div>
+              <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>CIS Output</div>
               {result ? (
                 <ResultsPanel result={result} onExport={handleExport} />
               ) : (

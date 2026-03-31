@@ -77,3 +77,12 @@
 - [ ] Christie's Auction Intelligence: Add closing layer to /report (jewelry/watches/handbags/art/cars, 3-5 bullets)
 - [ ] Christie's Auction Intelligence: Add contextual footer to PDF export
 - [ ] Single-hamlet PDF: East Hampton Village static template
+
+## Sprint 3 Directives — March 31, 2026
+- [ ] CIS rename: replace all "ANEW Score" with "Christie's Intelligence Score (CIS)" across 7 files (23 occurrences)
+- [ ] IDEAS CTA: change button text to "Generate Your Private Property Intelligence Brief"
+- [ ] PDF export title: rename to "Private Property Intelligence Brief" across all export functions
+- [ ] Estate Advisory Card PDF: build from wireframe HTML, host on CDN, add to INTEL Layer 3
+- [ ] Hamlet PDF: rebuild to match wireframe spec exactly (navy gradient hero, two-column layout, no auction room image)
+- [ ] INTEL: fix Podcast calendar sheet ID to 1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8
+- [ ] state.json: build in client/public with sprint number, sheet IDs, design tokens, founding letter, CIS definition, doctrine lines, tab architecture, sprint build summary

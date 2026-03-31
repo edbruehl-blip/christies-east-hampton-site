@@ -1,7 +1,7 @@
 /**
  * MASTER_HAMLET_DATA — Single source of truth for all nine South Fork hamlets.
  * Every tab, every PDF, every calculator pulls from this file only.
- * Do not modify medians or ANEW scores without Ed's explicit approval.
+ * Do not modify medians or CIS scores without Ed's explicit approval.
  *
  * Design tokens: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels)

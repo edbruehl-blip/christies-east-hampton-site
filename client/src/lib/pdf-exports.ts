@@ -53,7 +53,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   y += 4;
 
   // ANEW Score block
-  y = sectionLabel(doc, 'ANEW Score', y);
+  y = sectionLabel(doc, 'CIS', y);
   doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...C.navy);
@@ -165,7 +165,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   y = kvRow(doc, 'All-In Basis', result.allInDisplay, y);
   y = kvRow(doc, 'Value Spread', result.spreadDisplay, y, result.spread > 0);
   y = kvRow(doc, 'Spread %', result.spreadPctDisplay, y, result.spread > 0);
-  y = kvRow(doc, 'ANEW Score', `${result.score} — ${result.verdict}`, y);
+  y = kvRow(doc, 'CIS', `${result.score} — ${result.verdict}`, y);
   y += 4;
 
   // Last comparable sale
@@ -300,7 +300,7 @@ export async function generateDealBrief(result: AnewOutput): Promise<void> {
   doc.setFontSize(8);
   const hamletRows = [
     ['Median Price', hamlet.medianPriceDisplay],
-    ['ANEW Score', `${hamlet.anewScore} / 10`],
+    ['CIS', `${hamlet.anewScore} / 10`],
     ['Vol. Share', `${hamlet.volumeShare}%`],
     ['Last Sale', hamlet.lastSalePrice],
     ['Sale Date', hamlet.lastSaleDate],
@@ -375,7 +375,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   // Investment thesis
   y = sectionLabel(doc, 'Investment Thesis', y);
   const thesis = result.spread > 0
-    ? `This ${hamlet.tier.toLowerCase()} asset in ${result.hamletName} presents a ${result.verdict.toLowerCase()} investment opportunity with a ${result.spreadPctDisplay} spread against all-in basis. The ANEW score of ${result.score} reflects strong hamlet fundamentals (ANEW ${hamlet.anewScore}/10, ${hamlet.volumeShare}% volume share) and favorable exit pricing of ${result.exitDisplay}. Christie's East Hampton recommends this as a priority acquisition.`
+    ? `This ${hamlet.tier.toLowerCase()} asset in ${result.hamletName} presents a ${result.verdict.toLowerCase()} investment opportunity with a ${result.spreadPctDisplay} spread against all-in basis. The ANEW score of ${result.score} reflects strong hamlet fundamentals (CIS ${hamlet.anewScore}/10, ${hamlet.volumeShare}% volume share) and favorable exit pricing of ${result.exitDisplay}. Christie's East Hampton recommends this as a priority acquisition.`
     : `This asset in ${result.hamletName} currently shows a negative spread of ${result.spreadDisplay} against all-in basis. The ANEW score of ${result.score} reflects current market conditions. Christie's East Hampton recommends a pricing review and repositioning strategy before committing capital.`;
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
@@ -390,7 +390,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
     ['Projected Exit Price', result.exitDisplay, true],
     ['Gross Spread', result.spreadDisplay, result.spread > 0],
     ['Spread %', result.spreadPctDisplay, result.spread > 0],
-    ['ANEW Score', `${result.score} / 100`, false],
+    ['CIS', `${result.score} / 100`, false],
     ['Verdict', result.verdict, false],
   ];
   finRows.forEach(([k, v, hl]) => { y = kvRow(doc, k, v, y, hl); });
@@ -645,7 +645,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   // Hamlet median summary table
   y = sectionLabel(doc, 'Hamlet Median Price Summary', y);
   const avgAnew2 = (MASTER_HAMLET_DATA.reduce((s, h) => s + h.anewScore, 0) / MASTER_HAMLET_DATA.length).toFixed(1);
-  const tblCols = ['Hamlet', 'Tier', 'Median Price', 'ANEW Score', 'Vol. Share', 'YoY'];
+  const tblCols = ['Hamlet', 'Tier', 'Median Price', 'CIS', 'Vol. Share', 'YoY'];
   const tblW = [PAGE.contentW * 0.22, PAGE.contentW * 0.18, PAGE.contentW * 0.18, PAGE.contentW * 0.14, PAGE.contentW * 0.14, PAGE.contentW * 0.14];
   const rH = 5.5;
 
@@ -681,7 +681,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Avg ANEW Score across all nine hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · March 2026`, PAGE.ml, y + 5);
+  doc.text(`Avg CIS across all nine hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · March 2026`, PAGE.ml, y + 5);
 
   drawFooter(doc, 3, 5, qrImg);
 
@@ -743,7 +743,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     doc.setFontSize(6);
     doc.setTextColor(...C.gold);
     doc.setFont('helvetica', 'bold');
-    doc.text(`ANEW ${h.anewScore} / 10`, cardX + 4, cardY + 33);
+    doc.text(`CIS ${h.anewScore} / 10`, cardX + 4, cardY + 33);
     const barW = cardW - 8;
     doc.setFillColor(230, 228, 224);
     doc.rect(cardX + 4, cardY + 35, barW, 2, 'F');
@@ -778,7 +778,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   y += 5;
 
   y = sectionLabel(doc, 'ANEW Intelligence Framework', y);
-  y = wrapText(doc, 'Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate. The ANEW score is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y = wrapText(doc, 'Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate. The CIS is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
   y += 5;
 
   y = sectionLabel(doc, 'Platform Intelligence', y);
@@ -897,7 +897,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   doc.setFontSize(7);
   doc.text(`Generated ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`, PAGE.ml + 8, 70);
 
-  // ANEW score badge (top right)
+  // CIS badge (top right)
   doc.setFillColor(...C.gold);
   doc.rect(PAGE.w - PAGE.mr - 30, 16, 30, 30, 'F');
   doc.setFontSize(17);

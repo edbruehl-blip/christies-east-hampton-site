@@ -283,7 +283,7 @@ const MARKET_REPORT_DOCS: DocItem[] = [
   {
     id: 'hamlet-pdf-east-hampton',
     label: "Hamlet PDF · East Hampton Village · Wireframe",
-    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, ANEW score, tier classification, and comparable sales.",
+    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, CIS, tier classification, and comparable sales.",
     url: null,
   },
 ];
@@ -297,9 +297,9 @@ const CONSTITUTION_DOCS: DocItem[] = [
   },
   {
     id: 'estate-advisory-card',
-    label: "Estate Advisory Card · Wireframe",
-    description: "Christie's East Hampton estate advisory card — client-facing one-page credential document. CIREG brand, Ed Bruehl, doctrine lines.",
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/wvTlDRaTbuGTazWd.html',
+    label: "Estate Advisory Card · PDF",
+    description: "Christie's East Hampton estate advisory card — client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie's meeting.",
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_7b840fde.pdf',
   },
   {
     id: '300day-ascension',

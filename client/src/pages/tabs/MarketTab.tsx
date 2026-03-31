@@ -6,7 +6,7 @@
  *   - Hamptons Market Signal — nine-hamlet volume-share donut ring (Hamptons-native, no macro)
  *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
  *   - Nine hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
- *   - Each tile: hamlet name, median price, ANEW score, tier badge, volume share bar
+ *   - Each tile: hamlet name, median price, Christie's Intelligence Score (CIS), tier badge, volume share bar
  *
  * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
  * Do NOT use VIX, S&P, or broad macro indicators inside this ring or its score.
@@ -232,14 +232,14 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
         </div>
       </div>
 
-      {/* ANEW score */}
+      {/* CIS — Christie's Intelligence Score */}
       <div className="flex items-center gap-3">
         <div>
           <div
             className="text-[10px] uppercase tracking-wider mb-0.5"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}
           >
-            ANEW Score
+            CIS
           </div>
           <div
             style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontWeight: 600, fontSize: '1.125rem' }}
@@ -248,7 +248,7 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
             <span style={{ fontSize: '0.75rem', color: '#7a8a8e', marginLeft: 2 }}>/10</span>
           </div>
         </div>
-        {/* ANEW score bar */}
+        {/* CIS bar */}
         <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(27,42,74,0.1)' }}>
           <div
             className="h-full rounded-full transition-all duration-700"

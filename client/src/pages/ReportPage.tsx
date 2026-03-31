@@ -1389,7 +1389,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                 ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M`
                 : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K`,
           },
-          { label: 'ANEW Score', value: String(hamlet.anewScore) },
+          { label: 'CIS', value: String(hamlet.anewScore) },
           { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
           { label: 'Tier', value: hamlet.tier },
         ].map((stat) => (

@@ -1,0 +1,260 @@
+{
+  "_meta": {
+    "title": "Christie's East Hampton — Platform State",
+    "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
+    "last_updated": "2026-03-31",
+    "sprint": 3,
+    "platform_url": "https://www.christiesrealestategroupeh.com",
+    "dev_project": "christies-eh-replatform",
+    "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL"
+  },
+
+  "brand": {
+    "primary_name": "Christie's East Hampton",
+    "full_legal": "Christie's International Real Estate Group — East Hampton Flagship",
+    "established": "1766",
+    "colors": {
+      "navy": "#1B2A4A",
+      "gold": "#C8AC78",
+      "cream": "#FAF8F4",
+      "slate": "#384249",
+      "warm_gray": "#D3D1C7"
+    },
+    "fonts": {
+      "serif": "Cormorant Garamond",
+      "sans": "Source Sans 3"
+    },
+    "design_principles": [
+      "Authority must whisper, not shout",
+      "Cut copy before utility",
+      "Overlays remain subtle",
+      "No proof-point energy",
+      "Institutional restraint over decoration"
+    ]
+  },
+
+  "agent": {
+    "name": "Ed Bruehl",
+    "title": "Managing Director",
+    "firm": "Christie's International Real Estate Group",
+    "address": "26 Park Place · East Hampton, NY 11937",
+    "phone": "646-752-1233",
+    "career_sales": "$1B+ in Career Sales · 20 Years, East End"
+  },
+
+  "scoring_framework": {
+    "public_name": "Christie's Intelligence Score",
+    "abbreviation": "CIS",
+    "internal_variable": "anewScore",
+    "note": "The internal variable name anewScore is NOT renamed — only user-facing labels change to CIS. AnewHomes (construction company) is always written as one word and is NOT renamed.",
+    "lenses": [
+      { "letter": "A", "label": "Acquisition Cost" },
+      { "letter": "N", "label": "New Construction Value" },
+      { "letter": "E", "label": "Exit Pricing" },
+      { "letter": "W", "label": "Wealth Transfer Potential" }
+    ],
+    "tiers": [
+      { "name": "Ultra-Trophy", "range": "9.0–10.0", "color": "#C8AC78" },
+      { "name": "Trophy", "range": "7.5–8.9", "color": "#A89060" },
+      { "name": "Premier", "range": "6.0–7.4", "color": "#6B7280" },
+      { "name": "Opportunity", "range": "0–5.9", "color": "#4B5563" }
+    ],
+    "william_rule": "Must reference at least two lenses. No invented reasoning. Example: 'Sagaponack earns a Christie's Intelligence Score of 9.4 because acquisition basis is supported by replacement cost floor and strong ultra-prime exit velocity.'"
+  },
+
+  "tab_architecture": {
+    "locked": true,
+    "tabs": [
+      { "id": "home", "label": "HOME", "purpose": "Founding letter, portrait, ticker, video grid, social links" },
+      { "id": "market", "label": "MARKET", "purpose": "Nine-hamlet donut, hamlet cards with CIS scores, tier legend" },
+      { "id": "maps", "label": "MAPS", "purpose": "Google Maps with all nine hamlet pins, right-panel hamlet selector" },
+      { "id": "ideas", "label": "IDEAS", "purpose": "CIS calculator, Deal Brief, CMA, Build Memo, PDF exports" },
+      { "id": "pipe", "label": "PIPE", "purpose": "Real Office Pipeline Google Sheet embedded full-width + tRPC-backed custom tracker above" },
+      { "id": "future", "label": "FUTURE", "purpose": "2026 GCI growth model, 52/12/12/12 scorecard, Growth Model v2 sheet" },
+      { "id": "intel", "label": "INTEL", "purpose": "Three-layer control room: calendar + live sheets + canon documents" }
+    ],
+    "do_not_touch": [
+      "HOME structure",
+      "MARKET Hamptons-native logic",
+      "MAPS architecture",
+      "FUTURE structure",
+      "Overall tab system"
+    ]
+  },
+
+  "sheets": {
+    "pipe": {
+      "label": "Office Pipeline",
+      "id": "1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M",
+      "used_in": ["PIPE tab — primary full-width embed"]
+    },
+    "intel_calendar_podcast": {
+      "label": "Podcast Calendar",
+      "id": "1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8",
+      "used_in": ["INTEL Layer 1 — calendar filter: Podcast"]
+    },
+    "intel_calendar_event": {
+      "label": "Event Calendar",
+      "id": "1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s",
+      "used_in": ["INTEL Layer 1 — calendar filter: Event", "INTEL Layer 2 — Auction Events embed"]
+    },
+    "intel_future_agents": {
+      "label": "Future Agents / Agent Recruiting",
+      "id": "1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA",
+      "used_in": ["INTEL Layer 2 — Agent Recruiting embed"]
+    },
+    "intel_social_podcast": {
+      "label": "Social / Podcast Pipeline",
+      "id": "1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I",
+      "used_in": ["INTEL Layer 2 — Social/Podcast Pipeline embed"]
+    },
+    "intel_contact_database": {
+      "label": "Contact Database",
+      "id": "1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI",
+      "used_in": ["INTEL Layer 2 — Contact Database embed"]
+    },
+    "future_growth_model": {
+      "label": "Growth Model v2",
+      "id": "1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag",
+      "used_in": ["FUTURE tab — OPEN GROWTH MODEL SHEET button"]
+    },
+    "market_matrix": {
+      "label": "Market Matrix",
+      "id": "176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g",
+      "used_in": ["MARKET tab — data source only, not embedded"]
+    }
+  },
+
+  "hamlet_data": {
+    "source_file": "client/src/data/hamlet-master.ts",
+    "rule": "Do not modify medians or CIS scores without a market data update. Internal variable is anewScore.",
+    "hamlets": [
+      { "name": "Sagaponack", "cis": 9.4, "tier": "Ultra-Trophy", "median": 6800000 },
+      { "name": "Bridgehampton", "cis": 9.1, "tier": "Ultra-Trophy", "median": 4200000 },
+      { "name": "East Hampton Village", "cis": 8.9, "tier": "Trophy", "median": 3800000 },
+      { "name": "Wainscott", "cis": 8.6, "tier": "Trophy", "median": 3200000 },
+      { "name": "Sag Harbor", "cis": 8.2, "tier": "Trophy", "median": 2100000 },
+      { "name": "Water Mill", "cis": 7.8, "tier": "Trophy", "median": 2800000 },
+      { "name": "Amagansett", "cis": 7.4, "tier": "Premier", "median": 1900000 },
+      { "name": "Springs", "cis": 6.8, "tier": "Premier", "median": 1200000 },
+      { "name": "Montauk", "cis": 6.2, "tier": "Premier", "median": 1400000 }
+    ]
+  },
+
+  "pdf_exports": {
+    "doctrine": "The /report page is the master. The PDF is the derivative. Do not redesign. Keep exports fast, clean, institutional, usable.",
+    "market_report": {
+      "title": "Christie's East Hampton · Hamptons Market Intelligence Report",
+      "section_order": [
+        "1. Hero + Founding Letter",
+        "2. Hamptons Local Intelligence (news)",
+        "3. Market Intelligence (CFS + rates + median)",
+        "4. Hamlet Atlas Matrix (all 9 hamlets)",
+        "5. Resources & Authority"
+      ],
+      "function": "generateMarketReport",
+      "file": "client/src/lib/pdf-exports.ts"
+    },
+    "private_property_intelligence_brief": {
+      "title": "Private Property Intelligence Brief",
+      "cta_label": "Generate Your Private Property Intelligence Brief",
+      "triggered_from": "IDEAS tab calculator",
+      "function": "generateDealBrief",
+      "file": "client/src/lib/pdf-exports.ts"
+    },
+    "east_hampton_village_hamlet": {
+      "title": "East Hampton Village · Christie's Intelligence Report",
+      "function": "generateEastHamptonVillageReport",
+      "file": "client/src/lib/pdf-exports.ts",
+      "hero": "Navy gradient placeholder — do not use auction room image here"
+    }
+  },
+
+  "tts_audio": {
+    "provider": "ElevenLabs",
+    "voice_name": "William",
+    "server_route": "/api/tts",
+    "buttons": [
+      {
+        "label": "LISTEN · FOUNDING LETTER",
+        "endpoint": "/api/tts/founding-letter",
+        "payload": "founding letter text only"
+      },
+      {
+        "label": "LISTEN · MARKET REPORT",
+        "endpoint": "/api/tts/market-report",
+        "payload": "news intro + market intel + all nine hamlet atlas sections"
+      }
+    ],
+    "player_controls": ["play/pause", "progress bar", "scrub/seek", "rewind 15s", "current time / total time"],
+    "mobile_rule": "Full file downloads before playback begins"
+  },
+
+  "estate_advisory_card_loop": {
+    "description": "Physical card → QR → IDEAS tab → CIS calculator → Private Property Intelligence Brief",
+    "card_pdf_cdn": "https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_7b840fde.pdf",
+    "card_pdf_in_intel": true,
+    "ideas_cta": "Generate Your Private Property Intelligence Brief",
+    "pdf_title": "Private Property Intelligence Brief"
+  },
+
+  "founding_letter": {
+    "text": "In 1766, James Christie built something rare — a firm that families trusted at their most vulnerable moments. Estate settlements. Generational transitions. The quiet decisions that define a family's future. He earned the privilege of advising because he listened before he spoke. Christie's International Real Estate Group carries that same standard to the East End today. We do not pursue listings. We earn the counsel of families who are ready to think clearly about what they hold, what they build, and what they leave behind. If you are asking questions you have never put in writing, we are the right conversation.",
+    "attribution": "Ed Bruehl, Managing Director · Christie's International Real Estate Group · East Hampton"
+  },
+
+  "doctrine_lines": [
+    "Authority must whisper, not shout.",
+    "Cut copy before utility.",
+    "Overlays remain subtle.",
+    "No proof-point energy.",
+    "A property either passes or it does not. There is no gray area in institutional real estate.",
+    "The CIS is not a sales tool. It is a filter.",
+    "We do not pursue listings. We earn the counsel of families.",
+    "Soli Deo Gloria."
+  ],
+
+  "sprint_history": {
+    "sprint_1": {
+      "completed": "2026-03-31",
+      "deliverables": [
+        "Dual William TTS buttons (FOUNDING LETTER + MARKET REPORT)",
+        "PDF parity — section order matches /report exactly",
+        "INTEL three-layer control room (calendar + live sheets + canon docs)",
+        "PIPE database persistence via tRPC",
+        "Badge suppressor via MutationObserver"
+      ]
+    },
+    "sprint_2": {
+      "completed": "2026-03-31",
+      "deliverables": [
+        "INTEL rebuilt to wireframe spec — 4-panel sheet grid, viewport-height iframes",
+        "PIPE real Office Pipeline sheet embedded full-width",
+        "William audio player upgraded — play/pause, scrub, rewind, time display",
+        "Christie's Auction Intelligence section added to /report (Section 7)",
+        "EH Village hamlet PDF export added to IDEAS",
+        "Email removed from /report contact block",
+        "Rate panel wired to live /api/market-data feed",
+        "Hero image on /report swapped to Grand Saleroom auction room image"
+      ]
+    },
+    "sprint_3": {
+      "completed": "2026-03-31",
+      "deliverables": [
+        "CIS rename system-wide (23 occurrences, 7 files — user-facing labels only)",
+        "IDEAS CTA → Generate Your Private Property Intelligence Brief",
+        "Estate Advisory Card PDF rendered from wireframe, hosted on CDN, added to INTEL Layer 3",
+        "state.json built at client/public/state.json",
+        "INTEL Podcast calendar sheet ID corrected to locked ID"
+      ]
+    },
+    "sprint_3_horizon": [
+      "William WhatsApp rebuild (8AM / 8PM)",
+      "Twilio integration",
+      "ElevenLabs voice",
+      "Listing webhook automation",
+      "GitHub private repo: christies-east-hampton",
+      "Claude API layer"
+    ]
+  }
+}
