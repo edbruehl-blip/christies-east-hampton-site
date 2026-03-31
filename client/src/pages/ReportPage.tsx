@@ -186,12 +186,12 @@ function Section1() {
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
-      {/* Portrait hero */}
+      {/* Auction room hero */}
       <div className="relative" style={{ maxHeight: 520, overflow: 'hidden' }}>
         <img
-          src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-          alt="James Christie — Founder, Christie's, Est. 1766"
-          className="w-full object-cover object-top"
+          src={GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src ?? GALLERY_IMAGES[0]?.src}
+          alt="The Grand Saleroom, Christie's"
+          className="w-full object-cover object-center"
           style={{ maxHeight: 520, display: 'block' }}
         />
         <div
