@@ -299,7 +299,7 @@ const CONSTITUTION_DOCS: DocItem[] = [
     id: 'estate-advisory-card',
     label: "Estate Advisory Card · PDF",
     description: "Christie's East Hampton estate advisory card — client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie's meeting.",
-    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_7b840fde.pdf',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_e0fc3254.pdf',
   },
   {
     id: '300day-ascension',
@@ -452,18 +452,18 @@ function CanonPdfSection() {
   );
 }
 
-// ─── Sprint 3 Horizon Banner ──────────────────────────────────────────────────
+// ─── Sprint 5 Horizon Banner ──────────────────────────────────────────────────
 
-function Sprint3Banner() {
+function Sprint5Banner() {
   return (
     <div className="flex items-center gap-6 px-6 py-4" style={{ background: '#1B2A4A' }}>
       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>
-        Sprint 3 Horizon
+        Sprint 5 Horizon
       </div>
       <div className="flex gap-6 flex-wrap">
         {[
-          { label: 'William WhatsApp', detail: '8AM/8PM · Twilio rebuild' },
-          { label: 'State File', detail: '/public/state.json · session open read' },
+          { label: 'Daily Listing Sync', detail: "Christie's profile → MAPS tab · automated" },
+          { label: 'Canon Library', detail: 'Nine PDFs · Ed supplies files · auto-wire' },
           { label: 'Christie AI Tab', detail: 'Claude API native · inside dashboard' },
         ].map(item => (
           <div key={item.label} style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>
@@ -522,8 +522,8 @@ export default function IntelTab() {
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
       </div>
 
-      {/* Sprint 3 Horizon Banner */}
-      <Sprint3Banner />
+      {/* Sprint 5 Horizon Banner */}
+      <Sprint5Banner />
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>

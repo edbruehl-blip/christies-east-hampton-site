@@ -23,6 +23,18 @@ import * as d3 from 'd3';
 import { MapView } from '@/components/Map';
 import { MASTER_HAMLET_DATA, TIER_COLORS, type HamletData } from '@/data/hamlet-master';
 
+// ─── Live Listings Type ──────────────────────────────────────────────────────
+
+interface LiveListing {
+  address: string;
+  price: string;
+  beds: number | null;
+  baths: number | null;
+  sqft: string;
+  url: string;
+  hamlet?: string;
+}
+
 // CDN URLs for the GeoJSON files
 const GEOJSON_URLS = {
   contours:     'https://static.manus.space/webdev/paumanok_contours.geojson',
@@ -127,7 +139,7 @@ function PaumanokPlate() {
 
 // ─── Inline Hamlet Panel ──────────────────────────────────────────────────────
 
-function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => void }) {
+function HamletPanel({ hamlet, onClose, liveListings }: { hamlet: HamletData; onClose: () => void; liveListings: Record<string, LiveListing[]> }) {
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Scroll panel into view on open
@@ -239,7 +251,9 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
 
         {/* ── Active Listings ─────────────────────────────────────────── */}
         {(() => {
-          const realListings = hamlet.eeleListings.filter(l => !l.placeholder);
+          // Prefer live listings from API; fall back to hamlet-master non-placeholders
+          const live = liveListings[hamlet.id] || [];
+          const realListings = live.length > 0 ? live : hamlet.eeleListings.filter(l => !l.placeholder);
           return (
             <div style={{ marginBottom: 28 }}>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>
@@ -333,6 +347,17 @@ export default function MapsTab() {
   const [activeHamlet, setActiveHamlet] = useState<HamletData | null>(null);
   const [mapReady, setMapReady] = useState(false);
   const mapRef = useRef<google.maps.Map | null>(null);
+  const [liveListings, setLiveListings] = useState<Record<string, LiveListing[]>>({});
+
+  // Fetch live listings from Christie's API on mount
+  useEffect(() => {
+    fetch('/api/listings')
+      .then(r => r.json())
+      .then(data => {
+        if (data.byHamlet) setLiveListings(data.byHamlet);
+      })
+      .catch(err => console.warn('[MapsTab] Listings fetch failed, using placeholders:', err));
+  }, []);
 
   const handleMapReady = (map: google.maps.Map) => {
     mapRef.current = map;
@@ -434,6 +459,7 @@ export default function MapsTab() {
         <HamletPanel
           hamlet={activeHamlet}
           onClose={() => setActiveHamlet(null)}
+          liveListings={liveListings}
         />
       )}
 

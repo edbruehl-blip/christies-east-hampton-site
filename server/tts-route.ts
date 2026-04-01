@@ -10,7 +10,7 @@ This platform exists to carry the Christie's standard into every conversation, e
 
 The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
 
-The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton. Sag Harbor. Amagansett. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
+The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Each one has a story. Each one has a price. Each one has a buyer.
 
 Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.
 
@@ -21,7 +21,7 @@ Every export from this platform — every market report, every deal brief, every
 Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.`;
 
 // ─── Full market report text ───────────────────────────────────────────────────
-const MARKET_REPORT_TEXT = `Christie's East Hampton — Live Market Report. March 2026.
+const MARKET_REPORT_TEXT = `Christie's East Hampton — Live Market Report. Q1 2026.
 
 Hamptons Local Intelligence.
 

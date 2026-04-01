@@ -86,3 +86,19 @@
 - [ ] Hamlet PDF: rebuild to match wireframe spec exactly (navy gradient hero, two-column layout, no auction room image)
 - [ ] INTEL: fix Podcast calendar sheet ID to 1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8
 - [ ] state.json: build in client/public with sprint number, sheet IDs, design tokens, founding letter, CIS definition, doctrine lines, tab architecture, sprint build summary
+
+## Sprint 5 — Truth Alignment — April 1, 2026
+- [x] Twilio: re-enter credentials via secrets manager, confirm auth, fire live WhatsApp test to 646-752-1233
+- [x] Hamlet: fix "Montauk" → "East Hampton Town" in tts-route.ts
+- [x] Hamlet: fix "Montauk" → "East Hampton Town" in whatsapp-route.ts
+- [x] Hamlet: verify hamlet-master.ts ninth hamlet matches canon (East Hampton Town, CIS 8.6, Premier)
+- [x] CTA: replace all "Generate" with "Request" language in IdeasTab.tsx
+- [x] CTA: audit /report surface for any "Generate" CTA language and correct
+- [x] Horizon: update INTEL tab Sprint 3 banner to Sprint 5 Horizon with correct items
+- [x] Listings: build daily listing sync from Christie's profile page
+- [x] Integrity: label PIPE quick-add tracker "Local Draft — Not synced to Pipeline Sheet"
+- [ ] Integrity: upload six canon HTML files to CDN and wire into INTEL document library
+- [x] Integrity: re-upload Estate Advisory Card PDF and update URL in INTEL
+- [x] Integrity: remove puppeteer-core, @sparticuz/chromium, html2pdf.js (dead weight); axios retained — required by core OAuth sdk
+- [x] Vitest: 18/18 passing across 5 test files — Twilio credentials validated live
+- [x] Checkpoint: save Sprint 5 final checkpoint

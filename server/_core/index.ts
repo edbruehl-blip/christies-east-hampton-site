@@ -7,10 +7,11 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { registerPdfRoute } from "../pdf";
 import { registerTtsRoute } from "../tts-route";
 import { registerMarketRoute } from "../market-route";
 import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
+import listingsRouter, { syncListings } from "../listings-sync-route";
+import cron from "node-cron";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -59,10 +60,6 @@ async function startServer() {
     })
   );
 
-  // PDF generation route — MUST be registered before Vite/static middleware
-  // so it is not intercepted by the SPA catch-all handler
-  registerPdfRoute(app, port);
-
   // TTS route — raw Express (no tRPC) so there is no request timeout cap
   registerTtsRoute(app);
 
@@ -72,6 +69,23 @@ async function startServer() {
   // William WhatsApp — 8AM morning brief + 8PM pipeline summary via ElevenLabs + Twilio
   registerWhatsAppRoute(app);
   startWhatsAppScheduler();
+
+  // Listings sync — Christie's API → MAPS tab
+  app.use('/api/listings', listingsRouter);
+
+  // 6AM daily listing sync (America/New_York)
+  cron.schedule('0 0 6 * * *', async () => {
+    console.log('[Listings Cron] 6AM daily sync starting...');
+    try {
+      const result = await syncListings();
+      console.log(`[Listings Cron] Synced ${result.listings.length} listings at ${result.syncedAt}`);
+    } catch (err) {
+      console.error('[Listings Cron] Sync failed:', err);
+    }
+  }, { timezone: 'America/New_York' });
+
+  // Run an initial sync on server start (non-blocking)
+  syncListings().catch(err => console.error('[Listings] Initial sync failed:', err));
 
   // Development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development") {

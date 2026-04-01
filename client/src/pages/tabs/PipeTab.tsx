@@ -53,11 +53,11 @@ const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string }> 
 
 const TYPE_OPTIONS: PipeType[] = ['Deal', 'Listing', 'Buyer', 'Seller', 'Attorney', 'Developer', 'Referral', 'Press', 'Other'];
 const STATUS_OPTIONS: PipeStatus[] = ['Active', 'Watch', 'Critical', 'Stalled', 'Closed', 'Dead'];
-const HAMLET_OPTIONS = ['East Hampton', 'East Hampton Village', 'Sagaponack', 'Bridgehampton', 'Water Mill', 'Southampton Village', 'Sag Harbor', 'Amagansett', 'Springs', 'Montauk'];
+const HAMLET_OPTIONS = ['East Hampton Village', 'Sagaponack', 'Bridgehampton', 'Water Mill', 'Southampton Village', 'Sag Harbor', 'Amagansett', 'Springs', 'East Hampton Town'];
 
 // ─── Quick-add form ───────────────────────────────────────────────────────────
 
-const BLANK_FORM = { address: '', hamlet: 'East Hampton', type: 'Deal' as PipeType, status: 'Active' as PipeStatus, askPrice: '', dom: 0, notes: '' };
+const BLANK_FORM = { address: '', hamlet: 'East Hampton Village', type: 'Deal' as PipeType, status: 'Active' as PipeStatus, askPrice: '', dom: 0, notes: '' };
 
 function QuickAddRow({ onAdded }: { onAdded: () => void }) {
   const [form, setForm] = useState(BLANK_FORM);
@@ -71,13 +71,18 @@ function QuickAddRow({ onAdded }: { onAdded: () => void }) {
 
   if (!open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
-      >
-        + Add to Custom Tracker
-      </button>
+      <div className="flex items-center gap-3 flex-wrap">
+        <button
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-2 px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+        >
+          + Add to Custom Tracker
+        </button>
+        <span style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.72rem', color: '#7a8a8e', fontStyle: 'italic' }}>
+          Local Draft — not synced to Pipeline Sheet
+        </span>
+      </div>
     );
   }
 

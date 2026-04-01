@@ -110,7 +110,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
 function RunButton({ onClick }: { onClick: () => void }) {
   return (
     <button onClick={onClick} className="w-full py-3 text-sm uppercase tracking-widest transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]" style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#FAF8F4', letterSpacing: '0.2em' }}>
-      Generate Your Private Property Intelligence Brief
+      Request Your Private Property Intelligence Brief
     </button>
   );
 }
