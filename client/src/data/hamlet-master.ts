@@ -56,7 +56,7 @@ export interface HamletData {
   qsHamletTier: number;
 }
 
-// ─── Nine Hamlets ─────────────────────────────────────────────────────────────
+// ─── Ten Hamlets ─────────────────────────────────────────────────────────────
 
 export const MASTER_HAMLET_DATA: HamletData[] = [
   {
@@ -351,16 +351,47 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
     ],
-    lat: 41.0026,
+     lat: 41.0026,
     lng: -72.1576,
     qsHamletMult: 0.92,
     qsHamletTier: 1,
   },
+  {
+    id: 'montauk',
+    name: 'Montauk',
+    tier: 'Opportunity',
+    medianPrice: 1_850_000,
+    medianPriceDisplay: '$1.85M',
+    anewScore: 8.2,
+    volumeShare: 9,
+    lastSale: 'TBD',
+    lastSalePrice: 'TBD',
+    lastSaleDate: 'Q1 2026',
+    restaurants: {
+      anchor: 'Naturally Good',
+      mid: 'TBD',
+      local: 'TBD',
+    },
+    zillowUrl: 'https://www.zillow.com/montauk-ny/',
+    newsLinks: [
+      { label: 'WSJ Hamptons', url: 'https://www.wsj.com/real-estate/luxury-homes/hamptons' },
+      { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
+      { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
+    ],
+    photo: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    eeleListings: [
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+    ],
+    lat: 71.0559,
+    lng: -71.9565,
+    qsHamletMult: 0.88,
+    qsHamletTier: 1,
+  },
 ];
-
-// ─── Note: Hampton Bays (Cowfish) and Montauk (Naturally Good) are not in the
-// nine-hamlet ANEW territory but are tracked in the restaurant reference.
-// Add as supplemental hamlets if scope expands.
+// ─── Montauk: 10th hamlet added per Ed Bruehl direction, April 2026.
+// Hampton Bays (Cowfish) is not in the ten-hamlet ANEW territory.
 
 // Tier color map — token-driven
 export const TIER_COLORS: Record<HamletTier, string> = {

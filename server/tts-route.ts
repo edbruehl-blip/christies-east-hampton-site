@@ -4,13 +4,13 @@ import { ENV } from "./_core/env";
 // ─── Founding letter text ──────────────────────────────────────────────────────
 const FOUNDING_LETTER = `Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
 
-The South Fork is not a market. It is a territory — nine distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
+The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
 
 The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
 
-The nine hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Each one has a story. Each one has a price. Each one has a buyer.
+The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
 
 Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.
 
@@ -35,7 +35,7 @@ Market Intelligence.
 
 Capital Flow Signal: Strong Inflow. Institutional and family office capital continues to flow into the South Fork at elevated levels. The 30-year fixed mortgage rate is holding at 6.38 percent — above the 2021 historic low but within the range that qualified Hamptons buyers have historically absorbed. The 10-year Treasury is at 4.81 percent. The VIX volatility index is at 30.61, reflecting macro uncertainty, but Hamptons transaction volume remains insulated from equity market volatility at the ultra-trophy tier.
 
-The Hamptons Median is 2.34 million dollars across all nine hamlets, South Fork, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
+The Hamptons Median is 2.34 million dollars across all ten hamlets, South Fork, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
 
 Hamlet Atlas.
 
@@ -56,6 +56,8 @@ East Hampton. Tier: Premier. Median: 3.2 million dollars. ANEW Score: 8.6. Year-
 Sag Harbor. Tier: Premier. Median: 2.85 million dollars. ANEW Score: 8.4. Year-over-year volume: plus 11 percent. The most walkable hamlet on the South Fork. The Watchcase conversion and Cinema restoration are catalysts for continued appreciation.
 
 Springs. Tier: Opportunity. Median: 1.35 million dollars. ANEW Score: 6.8. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End. Artist community. Authentic character. The entry point for buyers who understand the South Fork.
+
+Montauk. Tier: Opportunity. Median: 1.85 million dollars. ANEW Score: 8.2. Year-over-year volume: plus 9 percent. The eastern anchor of the South Fork. Oceanfront character, year-round community, and a buyer profile that values authenticity over prestige.
 
 Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Always the Family's Interest Before the Sale. The Name Follows.`;
 

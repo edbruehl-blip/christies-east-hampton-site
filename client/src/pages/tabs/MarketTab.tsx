@@ -3,9 +3,9 @@
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
- *   - Hamptons Market Signal — nine-hamlet volume-share donut ring (Hamptons-native, no macro)
+ *   - Hamptons Market Signal — ten-hamlet volume-share donut ring (Hamptons-native, no macro)
  *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
- *   - Nine hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
+ *   - Ten hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
  *   - Each tile: hamlet name, median price, Christie's Intelligence Score (CIS), tier badge, volume share bar
  *
  * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
@@ -32,7 +32,7 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
 };
 
 // ─── Hamptons Market Signal Donut ─────────────────────────────────────────────
-// Nine labeled segments, each proportional to hamlet volumeShare.
+// Ten labeled segments, each proportional to hamlet volumeShare.
 // Rendered as an SVG pie/donut — no external data dependency.
 
 interface DonutSegment {
@@ -93,7 +93,7 @@ function HamletDonut() {
         width={320}
         height={320}
         viewBox="0 0 320 320"
-        aria-label="Nine-hamlet volume share donut"
+        aria-label="Ten-hamlet volume share donut"
         style={{ overflow: 'visible' }}
       >
         {/* Segments */}
@@ -340,7 +340,7 @@ function RateEnvironment() {
           className="mt-1"
           style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
         >
-          All nine hamlets · trailing 12 months
+          All ten hamlets · trailing 12 months
         </div>
       </div>
 
@@ -400,7 +400,7 @@ export default function MarketTab() {
             className="mb-8"
             style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
-            Nine-Hamlet Volume Distribution · South Fork Territory
+            Ten-Hamlet Volume Distribution · South Fork Territory
           </h2>
 
           <div className="flex flex-col lg:flex-row gap-10 items-start">
@@ -452,6 +452,55 @@ export default function MarketTab() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Saunders 2025 Annual Market Summary ─────────────────────────── */}
+      <section className="px-6 pb-14" style={{ background: '#1B2A4A' }}>
+        <div className="mx-auto py-10" style={{ maxWidth: 1100 }}>
+          <div
+            className="uppercase mb-2"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+          >
+            Competitive Intelligence
+          </div>
+          <h2
+            className="mb-8"
+            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', lineHeight: 1.25 }}
+          >
+            Saunders &amp; Associates · 2025 Annual Market Summary
+          </h2>
+          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+            {[
+              { label: 'Total Market Volume', value: '$6.797B', sub: 'All transactions 2025' },
+              { label: 'Home Sales Volume',   value: '$5.922B', sub: 'Residential only' },
+              { label: 'Median Sale Price',   value: '$2.01M',  sub: 'All property types' },
+              { label: 'Sales Over $20M',     value: '29',      sub: 'Luxury tier transactions' },
+              { label: 'Land Transactions',   value: '−36%',    sub: 'Year-over-year decline' },
+            ].map(stat => (
+              <div
+                key={stat.label}
+                style={{
+                  background: 'rgba(250,248,244,0.05)',
+                  border: '1px solid rgba(200,172,120,0.2)',
+                  padding: '20px 18px',
+                }}
+              >
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 8 }}>
+                  {stat.label}
+                </div>
+                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.1, marginBottom: 6 }}>
+                  {stat.value}
+                </div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
+                  {stat.sub}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ marginTop: 16, fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: '0.75rem' }}>
+            Source: Saunders &amp; Associates 2025 Annual Report · Data locked per canon · Q1 2026
+          </div>
         </div>
       </section>
 

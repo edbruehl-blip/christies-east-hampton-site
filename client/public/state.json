@@ -68,8 +68,8 @@
     "locked": true,
     "tabs": [
       { "id": "home", "label": "HOME", "purpose": "Founding letter, portrait, ticker, video grid, social links" },
-      { "id": "market", "label": "MARKET", "purpose": "Nine-hamlet donut, hamlet cards with CIS scores, tier legend" },
-      { "id": "maps", "label": "MAPS", "purpose": "Google Maps with all nine hamlet pins, right-panel hamlet selector" },
+      { "id": "market", "label": "MARKET", "purpose": "Ten-hamlet donut, hamlet cards with CIS scores, tier legend" },
+      { "id": "maps", "label": "MAPS", "purpose": "Google Maps with all ten hamlet pins, right-panel hamlet selector" },
       { "id": "ideas", "label": "IDEAS", "purpose": "CIS calculator, Deal Brief, CMA, Build Memo, PDF exports" },
       { "id": "pipe", "label": "PIPE", "purpose": "Real Office Pipeline Google Sheet embedded full-width + tRPC-backed custom tracker above" },
       { "id": "future", "label": "FUTURE", "purpose": "2026 GCI growth model, 52/12/12/12 scorecard, Growth Model v2 sheet" },
@@ -193,7 +193,7 @@
       {
         "label": "LISTEN · MARKET REPORT",
         "endpoint": "/api/tts/market-report",
-        "payload": "news intro + market intel + all nine hamlet atlas sections"
+        "payload": "news intro + market intel + all ten hamlet atlas sections"
       }
     ],
     "player_controls": ["play/pause", "progress bar", "scrub/seek", "rewind 15s", "current time / total time"],

@@ -419,7 +419,7 @@ export default function MapsTab() {
           background: '#FAF8F4', overflowY: 'auto', maxHeight: 520,
         }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 14 }}>
-            Nine Hamlets
+            Ten Hamlets
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {MASTER_HAMLET_DATA.map(hamlet => {

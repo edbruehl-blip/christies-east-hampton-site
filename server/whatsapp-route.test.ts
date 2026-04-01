@@ -11,7 +11,7 @@ import { describe, it, expect } from "vitest";
 function buildMorningBrief(dateStr: string): string {
   return (
     `Good morning. This is William, your Christie's East Hampton intelligence brief for ${dateStr}. ` +
-    `The Hamptons luxury market continues to show resilience across all nine hamlets. ` +
+    `The Hamptons luxury market continues to show resilience across all ten hamlets. ` +
     `Sagaponack and Bridgehampton remain the top tier, with median prices above seven million dollars. ` +
     `East Hampton Village and Southampton Village are active in the four to six million range. ` +
     `Sag Harbor and Amagansett present strong opportunity plays in the two to three million corridor. ` +
@@ -41,9 +41,9 @@ describe("William WhatsApp — morning brief", () => {
     expect(text).toContain("Christie's East Hampton");
   });
 
-  it("mentions all nine hamlets context", () => {
+  it("mentions all ten hamlets context", () => {
     const text = buildMorningBrief("Monday, March 31, 2026");
-    expect(text).toContain("nine hamlets");
+    expect(text).toContain("ten hamlets");
   });
 
   it("includes Sagaponack as top-tier hamlet", () => {

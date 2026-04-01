@@ -18,7 +18,7 @@ const SCORECARD_2026 = [
 // ─── Growth Model v2 Data (synced from sheet) ─────────────────────────────────
 
 const OUTLOOK = [
-  { year: 2026, agents: 15, gci: '$3.575M', gciNum: 3.575, avgGci: '$238K', milestone: 'Base case — 15 agents, $3.575M GCI target by December 2026' },
+  { year: 2026, agents: 15, gci: '$3.95M',  gciNum: 3.95,  avgGci: '$263K', milestone: 'Base case — 15 agents, $3.95M GCI · $158M volume · $1.185M house take by December 2026' },
   { year: 2027, agents: 6,  gci: '$1.56M',  gciNum: 1.56,  avgGci: '$260K', milestone: 'First team layer' },
   { year: 2028, agents: 10, gci: '$2.50M',  gciNum: 2.50,  avgGci: '$250K', milestone: 'Operating scale' },
   { year: 2029, agents: 14, gci: '$3.08M',  gciNum: 3.08,  avgGci: '$220K', milestone: 'Regional authority' },
