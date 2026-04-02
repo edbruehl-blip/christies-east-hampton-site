@@ -213,7 +213,7 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
           className="shrink-0 px-2 py-0.5 text-[10px] uppercase tracking-wider"
           style={{ fontFamily: '"Barlow Condensed", sans-serif', background: badge.bg, color: badge.text, letterSpacing: '0.12em' }}
         >
-          {hamlet.tier}
+          CIS {hamlet.anewScore.toFixed(1)}
         </span>
       </div>
 

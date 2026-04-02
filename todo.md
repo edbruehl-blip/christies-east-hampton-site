@@ -128,3 +128,10 @@
 - [x] IntelTab.tsx: contactDatabase key renamed to hamptonsOutreachIntelligence (Sprint 6 Flag 1 approved)
 - [x] IntelTab.tsx: SheetPanel title updated to 'Hamptons Outreach Intelligence'
 - [x] IntelTab.tsx: SHEET_IDS lock date updated to April 1, 2026
+
+## Sprint 6 — Platform Direction (April 1, 2026)
+
+- [ ] Favicon: upload best C option (IMG_4386 = crimson block C, IMG_4387 = serif C on white) to CDN, set as favicon.ico
+- [ ] Art/Beauty/Provenance standard: audit and apply across platform copy/UI
+- [ ] William closing: implement Option B
+- [ ] Tier labels: remove from all surfaces

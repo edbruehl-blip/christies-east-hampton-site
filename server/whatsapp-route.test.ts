@@ -19,7 +19,7 @@ function buildMorningBrief(dateStr: string): string {
     `Gold is elevated, signaling continued flight-to-quality positioning by ultra-high-net-worth buyers. ` +
     `Today's priority: review your active pipeline, confirm any weekend showing requests, ` +
     `and check the auction calendar for upcoming Christie's events. ` +
-    `Have a productive day.`
+    `We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`
   );
 }
 
@@ -29,7 +29,7 @@ function buildEveningSummary(dateStr: string): string {
     `A reminder to review any new inquiries that came in today and update deal stages in your pipeline. ` +
     `If you have showing feedback from today, log it while it's fresh. ` +
     `Tomorrow's market brief will arrive at eight AM. ` +
-    `Rest well.`
+    `We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`
   );
 }
 
@@ -79,9 +79,9 @@ describe("William WhatsApp — evening summary", () => {
     expect(text).toContain("eight AM");
   });
 
-  it("is under 600 characters (short voice note)", () => {
+  it("is under 750 characters (short voice note)", () => {
     const text = buildEveningSummary("Monday, March 31");
-    expect(text.length).toBeLessThan(600);
+    expect(text.length).toBeLessThan(750);
   });
 });
 

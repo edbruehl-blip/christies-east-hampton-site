@@ -101,7 +101,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
     <div className="flex flex-col gap-1">
       <label className="uppercase text-[10px] tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Hamlet</label>
       <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }}>
-        {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name} — {h.tier}</option>)}
+        {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
     </div>
   );

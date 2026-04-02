@@ -1,5 +1,5 @@
 /**
- * MASTER_HAMLET_DATA — Single source of truth for all nine South Fork hamlets.
+ * MASTER_HAMLET_DATA — Single source of truth for all ten South Fork hamlets.
  * Every tab, every PDF, every calculator pulls from this file only.
  * Do not modify medians or CIS scores without Ed's explicit approval.
  *
@@ -360,9 +360,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'montauk',
     name: 'Montauk',
     tier: 'Opportunity',
-    medianPrice: 1_850_000,
-    medianPriceDisplay: '$1.85M',
-    anewScore: 8.2,
+    medianPrice: 2_240_000,
+    medianPriceDisplay: '$2.24M',
+    anewScore: 8.2,  // CIS 8.2 — Source: Saunders Q4 2025
     volumeShare: 9,
     lastSale: 'TBD',
     lastSalePrice: 'TBD',
@@ -384,7 +384,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
     ],
-    lat: 71.0559,
+    lat: 41.0559,
     lng: -71.9565,
     qsHamletMult: 0.88,
     qsHamletTier: 1,

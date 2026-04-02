@@ -15,7 +15,7 @@ The South Fork is not a market. It is a territory — ten distinct hamlets, each
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
 
-The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
+The Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
 
 The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
 
@@ -40,29 +40,29 @@ Market Intelligence. Capital Flow Signal: Strong Inflow. Institutional and famil
 
 Rate Environment. The 30-year fixed mortgage rate is 6.38 percent, per Freddie Mac. The 10-year Treasury yield is 4.81 percent. The VIX volatility index is at 30.61, indicating elevated macro uncertainty. The Hamptons median sale price is 2.34 million dollars, up 7 percent year over year in Q1 2026.
 
-Hamlet Atlas. Ten hamlets. South Fork. Tier classification and ANEW intelligence.
+Hamlet Atlas. Ten hamlets. South Fork. Christie's Intelligence Score classification.
 
-Sagaponack. Ultra-Trophy tier. Median price: 8.5 million dollars. ANEW score: 9.4 out of 10. Volume share: 4 percent. Year over year: plus 4 percent.
+Sagaponack. CIS score: 9.4 out of 10. Median price: 7.5 million dollars. Volume share: 4 percent. Year over year: plus 4 percent.
 
-East Hampton Village. Ultra-Trophy tier. Median price: 5.2 million dollars. ANEW score: 9.1 out of 10. Volume share: 11 percent. Year over year: plus 12 percent.
+East Hampton Village. CIS score: 9.2 out of 10. Median price: 5.15 million dollars. Volume share: 12 percent. Year over year: plus 12 percent.
 
-Bridgehampton. Trophy tier. Median price: 3.8 million dollars. ANEW score: 8.6 out of 10. Volume share: 9 percent. Year over year: plus 8 percent.
+Bridgehampton. CIS score: 9.1 out of 10. Median price: 5.1 million dollars. Volume share: 8 percent. Year over year: plus 8 percent.
 
-Southampton Village. Trophy tier. Median price: 3.1 million dollars. ANEW score: 8.2 out of 10. Volume share: 12 percent. Year over year: plus 14 percent.
+Southampton Village. CIS score: 9.0 out of 10. Median price: 3.55 million dollars. Volume share: 14 percent. Year over year: plus 14 percent.
 
-Water Mill. Trophy tier. Median price: 2.9 million dollars. ANEW score: 7.9 out of 10. Volume share: 8 percent. Year over year: plus 7 percent.
+Amagansett. CIS score: 8.9 out of 10. Median price: 4.25 million dollars. Volume share: 9 percent. Year over year: plus 9 percent.
 
-Amagansett. Premier tier. Median price: 2.4 million dollars. ANEW score: 7.5 out of 10. Volume share: 7 percent. Year over year: plus 9 percent.
+Water Mill. CIS score: 8.8 out of 10. Median price: 4.2 million dollars. Volume share: 7 percent. Year over year: plus 7 percent.
 
-East Hampton. Premier tier. Median price: 1.85 million dollars. ANEW score: 7.2 out of 10. Volume share: 16 percent. Year over year: plus 18 percent.
+East Hampton Town. CIS score: 8.6 out of 10. Median price: 3.2 million dollars. Volume share: 18 percent. Year over year: plus 18 percent.
 
-Sag Harbor. Premier tier. Median price: 1.75 million dollars. ANEW score: 7.0 out of 10. Volume share: 14 percent. Year over year: plus 11 percent.
+Sag Harbor. CIS score: 8.4 out of 10. Median price: 2.85 million dollars. Volume share: 11 percent. Year over year: plus 11 percent.
 
-Springs. Opportunity tier. Median price: 1.1 million dollars. ANEW score: 6.4 out of 10. Volume share: 19 percent. Year over year: plus 17 percent.
+Montauk. CIS score: 8.2 out of 10. Median price: 2.24 million dollars. Volume share: 9 percent. Year over year: plus 6 percent. The eastern anchor of the South Fork.
 
-Montauk. Opportunity tier. Median price: 1.85 million dollars. ANEW score: 8.2 out of 10. Volume share: 9 percent. The eastern anchor of the South Fork.
+Springs. CIS score: 6.8 out of 10. Median price: 1.35 million dollars. Volume share: 17 percent. Year over year: plus 17 percent.
 
-That is the South Fork. Ten hamlets. One standard. Christie's East Hampton.`;
+We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`;
 
 // ─── ElevenLabs TTS helper ─────────────────────────────────────────────────────
 async function callElevenLabs(text: string): Promise<{ audio: string; mimeType: string }> {

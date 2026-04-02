@@ -10,8 +10,8 @@
  *   We approximate with Helvetica-Bold for display headings.
  *
  * Two doctrine lines (footer, every page):
- *   Line 1: "Always the Family's Interest Before the Sale. The Name Follows."
- *   Line 2: "Christie's International Real Estate Group · Est. 1766 · East Hampton"
+ *   Line 1: "Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766"
+ *   Line 2: "26 Park Place, East Hampton, NY 11937 · 646-752-1233"
  *
  * CDN assets (confirmed image/jpeg or image/png, 200 OK):
  *   Ed headshot:  https://files.manuscdn.com/user_upload_by_module/session_file/115914870/...
@@ -159,12 +159,12 @@ export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number, qrIm
   doc.setFontSize(6.5);
   doc.setTextColor(...C.navy);
   doc.setFont('helvetica', 'bolditalic');
-  doc.text("Always the Family's Interest Before the Sale. The Name Follows.", PAGE.ml, y + 4);
+  doc.text("Art. Beauty. Provenance. · Christie’s International Real Estate Group · Est. 1766", PAGE.ml, y + 4);
 
   // Doctrine line 2
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.muted);
-  doc.text("Christie's International Real Estate Group · Est. 1766 · East Hampton", PAGE.ml, y + 8);
+  doc.text("26 Park Place, East Hampton, NY 11937 · 646-752-1233", PAGE.ml, y + 8);
 
   // Page number
   doc.setFontSize(6.5);
@@ -254,7 +254,7 @@ export function drawHamletCompsTable(doc: jsPDF, y: number): number {
   ]);
 
   // Simple manual table
-  const cols = ['Hamlet', 'Tier', 'Median Price', 'ANEW Score', 'Vol. Share'];
+  const cols = ['Hamlet', 'Tier', 'Median Price', 'CIS Score', 'Vol. Share'];
   const colW = [50, 35, 35, 28, 28];
   const rowH = 6;
 

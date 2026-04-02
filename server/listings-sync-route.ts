@@ -3,7 +3,7 @@
  * Sprint 5 — April 1, 2026
  *
  * Fetches Ed Bruehl's active listings from Christie's Real Estate Group API
- * and maps them to the nine EELE hamlets for the MAPS tab.
+ * and maps them to the ten EELE hamlets for the MAPS tab.
  *
  * Christie's API endpoint discovered from agent profile page:
  *   /realestate/listingsv2/?usmAgentMlsIds=NY_EELI:530479|NY_ONEKEYMLS:184926|non-mls:530479,184926
@@ -36,6 +36,7 @@ const CHRISTIES_BASE = 'https://www.christiesrealestategroup.com';
 
 // ─── Hamlet keyword map ───────────────────────────────────────────────────────
 // Maps hamlet IDs (from hamlet-master.ts) to address keywords for classification
+// Ten hamlets — Montauk is its own bucket (Sprint 6, April 2026)
 
 const HAMLET_KEYWORDS: Record<string, string[]> = {
   'east-hampton-village':  ['east hampton', 'e hampton'],
@@ -46,7 +47,8 @@ const HAMLET_KEYWORDS: Record<string, string[]> = {
   'sag-harbor':            ['sag harbor'],
   'amagansett':            ['amagansett'],
   'springs':               ['springs'],
-  'east-hampton-town':     ['east hampton', 'wainscott', 'montauk', 'noyac'],
+  'east-hampton-town':     ['wainscott', 'noyac'],
+  'montauk':               ['montauk'],
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

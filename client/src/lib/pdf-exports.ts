@@ -52,7 +52,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   y = kvRow(doc, 'Spread %', result.spreadPctDisplay, y, result.spread > 0);
   y += 4;
 
-  // ANEW Score block
+  // CIS Score block
   y = sectionLabel(doc, 'CIS', y);
   doc.setFontSize(28);
   doc.setFont('helvetica', 'bold');
@@ -85,7 +85,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   // Hamlet intelligence
   y = sectionLabel(doc, 'Hamlet Intelligence', y);
   y = kvRow(doc, 'Median Price', hamlet.medianPriceDisplay, y);
-  y = kvRow(doc, 'ANEW Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
+  y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
   y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork`, y);
   y = kvRow(doc, 'Last Notable Sale', `${hamlet.lastSale} · ${hamlet.lastSalePrice} · ${hamlet.lastSaleDate}`, y);
   y += 4;
@@ -110,9 +110,9 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
   const methodology = [
-    'The ANEW Score (0–100) is computed from three inputs: (1) Gross Financial Attractiveness derived from',
+    'The Christie\'s Intelligence Score (0–100) is computed from three inputs: (1) Gross Financial Attractiveness derived from',
     'the spread percentage between all-in cost and projected exit price; (2) Hamlet Quality Score based on',
-    'tier classification and ANEW multiplier; (3) ANEW Intelligence Contribution from the hamlet\'s',
+    'tier classification and CIS multiplier; (3) CIS Intelligence Contribution from the hamlet\'s',
     'institutional score. Thresholds: 85–100 = Institutional · 70–84 = Executable · 55–69 = Marginal · <55 = Pass.',
   ];
   methodology.forEach(line => {
@@ -154,7 +154,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   // Market position
   y = sectionLabel(doc, 'Market Position', y);
   y = kvRow(doc, 'Hamlet Median Price', hamlet.medianPriceDisplay, y, true);
-  y = kvRow(doc, 'ANEW Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
+  y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
   y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork transactions`, y);
   y = kvRow(doc, 'Tier Classification', hamlet.tier, y);
   y += 4;
@@ -195,8 +195,8 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   // Recommendation
   y = sectionLabel(doc, 'Christie\'s Recommendation', y);
   const recText = result.spread > 0
-    ? `Based on current South Fork market conditions and the ANEW scoring model, this property presents a ${result.verdict.toLowerCase()} opportunity. The ${result.spreadPctDisplay} spread against all-in basis supports the estimated value of ${result.exitDisplay}. Christie's East Hampton recommends proceeding with confidence.`
-    : `Current market conditions indicate a negative spread of ${result.spreadDisplay} against all-in basis. Christie's East Hampton recommends a pricing review before proceeding. The ANEW score of ${result.score} reflects current market headwinds in ${result.hamletName}.`;
+    ? `Based on current South Fork market conditions and the Christie's Intelligence Score model, this property presents a ${result.verdict.toLowerCase()} opportunity. The ${result.spreadPctDisplay} spread against all-in basis supports the estimated value of ${result.exitDisplay}. Christie's East Hampton recommends proceeding with confidence.`
+    : `Current market conditions indicate a negative spread of ${result.spreadDisplay} against all-in basis. Christie's East Hampton recommends a pricing review before proceeding. The CIS score of ${result.score} reflects current market headwinds in ${result.hamletName}.`;
 
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
@@ -368,15 +368,15 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   doc.setFontSize(8);
   doc.setTextColor(200, 190, 175);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${result.hamletName} · ${hamlet.tier} · ANEW Score ${result.score} — ${result.verdict}`, PAGE.ml + 4, y + 20);
+  doc.text(`${result.hamletName} · CIS ${result.score} — ${result.verdict}`, PAGE.ml + 4, y + 20);
   doc.text(`All-In: ${result.allInDisplay}  ·  Exit: ${result.exitDisplay}  ·  Spread: ${result.spreadDisplay} (${result.spreadPctDisplay})`, PAGE.ml + 4, y + 26);
   y += 34;
 
   // Investment thesis
   y = sectionLabel(doc, 'Investment Thesis', y);
   const thesis = result.spread > 0
-    ? `This ${hamlet.tier.toLowerCase()} asset in ${result.hamletName} presents a ${result.verdict.toLowerCase()} investment opportunity with a ${result.spreadPctDisplay} spread against all-in basis. The ANEW score of ${result.score} reflects strong hamlet fundamentals (CIS ${hamlet.anewScore}/10, ${hamlet.volumeShare}% volume share) and favorable exit pricing of ${result.exitDisplay}. Christie's East Hampton recommends this as a priority acquisition.`
-    : `This asset in ${result.hamletName} currently shows a negative spread of ${result.spreadDisplay} against all-in basis. The ANEW score of ${result.score} reflects current market conditions. Christie's East Hampton recommends a pricing review and repositioning strategy before committing capital.`;
+    ? `This asset in ${result.hamletName} presents a ${result.verdict.toLowerCase()} investment opportunity with a ${result.spreadPctDisplay} spread against all-in basis. The CIS score of ${result.score} reflects strong hamlet fundamentals (CIS ${hamlet.anewScore}/10, ${hamlet.volumeShare}% volume share) and favorable exit pricing of ${result.exitDisplay}. Christie's East Hampton recommends this as a priority acquisition.`
+    : `This asset in ${result.hamletName} currently shows a negative spread of ${result.spreadDisplay} against all-in basis. The CIS score of ${result.score} reflects current market conditions. Christie's East Hampton recommends a pricing review and repositioning strategy before committing capital.`;
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
@@ -401,7 +401,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   y = kvRow(doc, 'Hamlet', result.hamletName, y);
   y = kvRow(doc, 'Tier', hamlet.tier, y);
   y = kvRow(doc, 'Median Price', hamlet.medianPriceDisplay, y, true);
-  y = kvRow(doc, 'ANEW Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
+  y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
   y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork`, y);
   y = kvRow(doc, 'Last Comparable', `${hamlet.lastSale} · ${hamlet.lastSalePrice} · ${hamlet.lastSaleDate}`, y);
 
@@ -436,7 +436,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   const advantage = [
     'Christie\'s International Real Estate Group brings 260 years of institutional provenance to every transaction.',
     'Our East Hampton office operates at the intersection of art, architecture, and land — serving families whose',
-    'assets require the same care as a Christie\'s auction consignment. The ANEW scoring model is our proprietary',
+    'assets require the same care as a Christie\'s auction consignment. The Christie\'s Intelligence Score model is our proprietary',
     'intelligence layer, built on ten hamlet datasets and refined through live market cycles.'
   ];
   advantage.forEach(line => {
@@ -510,7 +510,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
-  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
+  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
   let lY = letterY + 6;
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
@@ -527,10 +527,10 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(7);
   doc.setTextColor(...C.gold);
   doc.setFont('helvetica', 'bolditalic');
-  doc.text('Always the Family\'s Interest Before the Sale.', PAGE.w / 2, PAGE.h - 16, { align: 'center' });
+  doc.text("Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766", PAGE.w / 2, PAGE.h - 16, { align: 'center' });
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 190, 175);
-  doc.text('The Name Follows. · Christie\'s International Real Estate Group · Est. 1766', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
+  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
   // ── PAGE 2 — Hamptons Local Intelligence (mirrors /report Section 2 news) ────
   doc.addPage();
@@ -687,7 +687,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
 
   // ── PAGE 4 — Hamlet Atlas Matrix (mirrors /report Section 4 — all 9 hamlets) ─
   doc.addPage();
-  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Ten Hamlets · South Fork · Tier Classification · ANEW Intelligence', edImg, logoImg);
+  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Ten Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
 
   const tierBadgeBg: Record<string, [number, number, number]> = {
     'Ultra-Trophy': C.gold,
@@ -777,13 +777,13 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   y = wrapText(doc, 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.', PAGE.ml, y, PAGE.contentW, 5.5);
   y += 5;
 
-  y = sectionLabel(doc, 'ANEW Intelligence Framework', y);
-  y = wrapText(doc, 'Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate. The CIS is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y = sectionLabel(doc, "Christie's Intelligence Score Framework", y);
+  y = wrapText(doc, 'Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate. The Christie’s Intelligence Score is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
   y += 5;
 
   y = sectionLabel(doc, 'Platform Intelligence', y);
   const platformItems = [
-    'Nine-hamlet ANEW scoring matrix · Updated quarterly',
+    'Ten-hamlet Christie’s Intelligence Score matrix · Updated quarterly',
     'Live capital flow signal · Rate environment monitoring',
     'Deal Brief · CMA · Investment Memo · ANEW Build Memo exports',
     'Podcast & event calendar · Agent recruiting pipeline',

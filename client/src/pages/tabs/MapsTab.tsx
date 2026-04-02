@@ -169,7 +169,7 @@ function HamletPanel({ hamlet, onClose, liveListings }: { hamlet: HamletData; on
         {/* Hamlet name over photo */}
         <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '24px 28px' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            {hamlet.tier} · CIS {hamlet.anewScore.toFixed(1)} / 10
+            CIS {hamlet.anewScore.toFixed(1)} / 10
           </div>
           <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '2rem', lineHeight: 1.1 }}>
             {hamlet.name}

@@ -8,7 +8,7 @@
  * Section 2 · Hamptons Local Intelligence — Bloomberg-style news feed
  * Section 3 · Market Intelligence — CFS donut ring · rate environment · Hamptons Median
  * Section 4 · Hamlet Atlas Matrix — 9 hamlet tiles, tap = inline expansion
- * Section 5 · IDEAS / ANEW Intelligence — model deal · ANEW chip · QR
+ * Section 5 · IDEAS / CIS Intelligence — model deal · CIS chip · QR
  * Section 6 · Resources & Authority — Christie's ecosystem · contact block · doctrine footer
  *
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
@@ -175,6 +175,24 @@ function Section1() {
     const audio = audioRef[0];
     if (!audio) return;
     audio.currentTime = Math.max(0, audio.currentTime - 15);
+  }
+
+  function handleForward() {
+    const audio = audioRef[0];
+    if (!audio) return;
+    audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 15);
+  }
+
+  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
+  function handleShare() {
+    const endpoint = audioChannel === 'letter' ? '/api/tts/founding-letter' : '/api/tts/market-report';
+    const fullUrl = window.location.origin + endpoint;
+    navigator.clipboard.writeText(fullUrl).then(() => {
+      setShareState('copied');
+      setTimeout(() => setShareState('idle'), 2500);
+    }).catch(() => {
+      toast.error('Could not copy link.');
+    });
   }
 
   function handleScrub(e: React.MouseEvent<HTMLDivElement>) {
@@ -430,7 +448,7 @@ function Section1() {
                   {/* Rewind 15s */}
                   <button
                     onClick={handleRewind}
-                    title="Rewind 15 seconds"
+                    title="Back 15 seconds"
                     style={{
                       background: 'rgba(200,172,120,0.1)',
                       border: '1px solid rgba(200,172,120,0.3)',
@@ -443,7 +461,7 @@ function Section1() {
                       cursor: 'pointer',
                     }}
                   >
-                    ↺ 15s
+                    ↺ −15s
                   </button>
                   {/* Play / Pause */}
                   <button
@@ -462,6 +480,24 @@ function Section1() {
                   >
                     {audioState === 'paused' ? '▶ Resume' : '⏸ Pause'}
                   </button>
+                  {/* Forward 15s */}
+                  <button
+                    onClick={handleForward}
+                    title="Forward 15 seconds"
+                    style={{
+                      background: 'rgba(200,172,120,0.1)',
+                      border: '1px solid rgba(200,172,120,0.3)',
+                      color: '#C8AC78',
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 9,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      padding: '4px 8px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    +15s ↻
+                  </button>
                   {/* Stop */}
                   <button
                     onClick={() => stopAudio()}
@@ -478,6 +514,25 @@ function Section1() {
                     }}
                   >
                     ◼ Stop
+                  </button>
+                  {/* Share — copies direct MP3 link */}
+                  <button
+                    onClick={handleShare}
+                    title="Copy audio link to clipboard"
+                    style={{
+                      background: shareState === 'copied' ? 'rgba(5,150,105,0.15)' : 'rgba(200,172,120,0.1)',
+                      border: `1px solid ${shareState === 'copied' ? 'rgba(5,150,105,0.6)' : 'rgba(200,172,120,0.3)'}`,
+                      color: shareState === 'copied' ? '#6ee7b7' : '#C8AC78',
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 9,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      padding: '4px 8px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                    }}
+                  >
+                    {shareState === 'copied' ? '✓ Copied' : '↗ Share'}
                   </button>
                 </div>
               )}
@@ -574,13 +629,13 @@ function Section1() {
             marginBottom: 24,
           }}
         >
-          Always the Family's Interest Before the Sale. The Name Follows.
+          Art. Beauty. Provenance. Since 1766.
         </h2>
         {[
           "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
           'The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
           "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-          'The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.',
+          'The Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.',
           'The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
           "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
           "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
@@ -1270,20 +1325,7 @@ function HamletTile({
         >
           {hamlet.name}
         </span>
-        <span
-          style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            background: tierColor,
-            color: '#fff',
-            fontSize: 8,
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase',
-            padding: '2px 7px',
-            flexShrink: 0,
-          }}
-        >
-          {hamlet.tier}
-        </span>
+        {/* Tier badge removed — CIS only on public surfaces (Sprint 6 LD-02) */}
       </div>
       <div
         style={{
@@ -1307,7 +1349,7 @@ function HamletTile({
           marginTop: 4,
         }}
       >
-        ANEW {hamlet.anewScore} · {hamlet.volumeShare}% vol
+        CIS {hamlet.anewScore} · {hamlet.volumeShare}% vol
       </div>
     </button>
   );
@@ -1356,7 +1398,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
               margin: '4px 0 0',
             }}
           >
-            {hamlet.tier} · {hamlet.medianPriceDisplay} median
+            CIS {hamlet.anewScore.toFixed(1)} · {hamlet.medianPriceDisplay} median
           </p>
         </div>
         <button
@@ -1391,7 +1433,6 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           },
           { label: 'CIS', value: String(hamlet.anewScore) },
           { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
-          { label: 'Tier', value: hamlet.tier },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -1531,12 +1572,12 @@ function Section4() {
   );
 }
 
-// ─── SECTION 5 · IDEAS / ANEW Intelligence ───────────────────────────────────
+// ─── SECTION 5 · IDEAS / CIS Intelligence ────────────────────────────────────
 function Section5() {
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="5" title="IDEAS / ANEW Intelligence" />
+        <SectionLabel n="5" title="IDEAS / CIS Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -1666,7 +1707,7 @@ function Section5() {
                 marginBottom: 16,
               }}
             >
-              The ANEW framework scores every acquisition on four lenses: Acquisition cost, New
+              The Christie’s Intelligence Score evaluates every acquisition on four lenses: Acquisition cost, New
               construction value, Exit pricing, and Wealth transfer potential. A property either
               passes or it does not.
             </div>
@@ -1832,19 +1873,19 @@ function Section6() {
               marginBottom: 6,
             }}
           >
-            Christie's · Est. 1766 — Always the family's interest before the sale. The name follows.
+            Art. Beauty. Provenance.
           </div>
           <div
             style={{
-              fontFamily: '"Cormorant Garamond", serif',
+              fontFamily: '"Barlow Condensed", sans-serif',
               color: 'rgba(27,42,74,0.55)',
-              fontSize: '0.875rem',
-              fontStyle: 'italic',
+              fontSize: 9,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
               lineHeight: 1.6,
             }}
           >
-            Christie's East Hampton — Always in full service of the Christie's standard. Carrying
-            the name forward.
+            Christie’s International Real Estate Group · Est. 1766 · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
           </div>
         </div>
       </div>

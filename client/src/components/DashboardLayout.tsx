@@ -474,7 +474,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       <footer style={{ background: "#1B2A4A", padding: "14px 24px", marginTop: "auto" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(250,248,244,0.35)" }}>
-            Christie's · Est. 1766 — Always the family's interest before the sale. The name follows.
+            Art. Beauty. Provenance. · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
           </span>
           <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(200,172,120,0.45)" }}>
             Private Access

@@ -53,7 +53,7 @@ const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string }> 
 
 const TYPE_OPTIONS: PipeType[] = ['Deal', 'Listing', 'Buyer', 'Seller', 'Attorney', 'Developer', 'Referral', 'Press', 'Other'];
 const STATUS_OPTIONS: PipeStatus[] = ['Active', 'Watch', 'Critical', 'Stalled', 'Closed', 'Dead'];
-const HAMLET_OPTIONS = ['East Hampton Village', 'Sagaponack', 'Bridgehampton', 'Water Mill', 'Southampton Village', 'Sag Harbor', 'Amagansett', 'Springs', 'East Hampton Town'];
+const HAMLET_OPTIONS = ['East Hampton Village', 'Sagaponack', 'Bridgehampton', 'Water Mill', 'Southampton Village', 'Sag Harbor', 'Amagansett', 'Springs', 'East Hampton Town', 'Montauk'];
 
 // ─── Quick-add form ───────────────────────────────────────────────────────────
 

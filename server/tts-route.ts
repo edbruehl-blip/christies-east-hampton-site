@@ -8,7 +8,7 @@ The South Fork is not a market. It is a territory — ten distinct hamlets, each
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
 
-The ANEW framework is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
+The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
 
 The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
 
@@ -39,27 +39,27 @@ The Hamptons Median is 2.34 million dollars across all ten hamlets, South Fork, 
 
 Hamlet Atlas.
 
-Sagaponack. Tier: Ultra-Trophy. Median: 7.5 million dollars. ANEW Score: 9.4. Year-over-year volume: plus 4 percent. Sagaponack remains the most land-constrained, price-dense hamlet on the South Fork. Generational asset territory. Christie's standard.
+Sagaponack. CIS Score: 9.4. Median: 7.5 million dollars. Year-over-year volume: plus 4 percent. Sagaponack remains the most land-constrained, price-dense hamlet on the South Fork. Generational asset territory. Christie's standard.
 
-East Hampton Village. Tier: Ultra-Trophy. Median: 5.15 million dollars. ANEW Score: 9.2. Year-over-year volume: plus 12 percent. The institutional core of the Hamptons market. South of the Highway commands a premium of 30 to 45 percent over comparable properties north of the highway.
+East Hampton Village. CIS Score: 9.2. Median: 5.15 million dollars. Year-over-year volume: plus 12 percent. The institutional core of the Hamptons market. South of the Highway commands a premium of 30 to 45 percent over comparable properties north of the highway.
 
-Bridgehampton. Tier: Trophy. Median: 5.1 million dollars. ANEW Score: 9.1. Year-over-year volume: plus 8 percent. The most active trophy corridor. New construction is driving absorption. Buyer profile is predominantly family office and second-generation wealth.
+Bridgehampton. CIS Score: 9.1. Median: 5.1 million dollars. Year-over-year volume: plus 8 percent. The most active trophy corridor. New construction is driving absorption. Buyer profile is predominantly family office and second-generation wealth.
 
-Southampton Village. Tier: Trophy. Median: 3.55 million dollars. ANEW Score: 9.0. Year-over-year volume: plus 14 percent. The strongest volume growth in the trophy tier. Main Street infrastructure investment is accelerating buyer confidence.
+Southampton Village. CIS Score: 9.0. Median: 3.55 million dollars. Year-over-year volume: plus 14 percent. The strongest volume growth in the trophy tier. Main Street infrastructure investment is accelerating buyer confidence.
 
-Water Mill. Tier: Trophy. Median: 4.2 million dollars. ANEW Score: 8.8. Year-over-year volume: plus 7 percent. Equestrian corridor. Land value is the primary driver. New construction premium is significant.
+Water Mill. CIS Score: 8.8. Median: 4.2 million dollars. Year-over-year volume: plus 7 percent. Equestrian corridor. Land value is the primary driver. New construction premium is significant.
 
-Amagansett. Tier: Premier. Median: 4.25 million dollars. ANEW Score: 8.9. Year-over-year volume: plus 9 percent. The emerging premier corridor. Beach access and proximity to East Hampton Village are the primary value drivers.
+Amagansett. CIS Score: 8.9. Median: 4.25 million dollars. Year-over-year volume: plus 9 percent. The emerging premier corridor. Beach access and proximity to East Hampton Village are the primary value drivers.
 
-East Hampton. Tier: Premier. Median: 3.2 million dollars. ANEW Score: 8.6. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix. Entry-point buyers are discovering the corridor.
+East Hampton Town. CIS Score: 8.6. Median: 3.2 million dollars. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix. Entry-point buyers are discovering the corridor.
 
-Sag Harbor. Tier: Premier. Median: 2.85 million dollars. ANEW Score: 8.4. Year-over-year volume: plus 11 percent. The most walkable hamlet on the South Fork. The Watchcase conversion and Cinema restoration are catalysts for continued appreciation.
+Sag Harbor. CIS Score: 8.4. Median: 2.85 million dollars. Year-over-year volume: plus 11 percent. The most walkable hamlet on the South Fork. The Watchcase conversion and Cinema restoration are catalysts for continued appreciation.
 
-Springs. Tier: Opportunity. Median: 1.35 million dollars. ANEW Score: 6.8. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End. Artist community. Authentic character. The entry point for buyers who understand the South Fork.
+Springs. CIS Score: 6.8. Median: 1.35 million dollars. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End. Artist community. Authentic character. The entry point for buyers who understand the South Fork.
 
-Montauk. Tier: Opportunity. Median: 1.85 million dollars. ANEW Score: 8.2. Year-over-year volume: plus 9 percent. The eastern anchor of the South Fork. Oceanfront character, year-round community, and a buyer profile that values authenticity over prestige.
+Montauk. CIS Score: 8.2. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. The eastern anchor of the South Fork. Oceanfront character, year-round community, and a buyer profile that values authenticity over prestige.
 
-Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Always the Family's Interest Before the Sale. The Name Follows.`;
+Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`;
 
 const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
 
