@@ -493,7 +493,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(9.5);
   doc.setTextColor(200, 190, 175);
   doc.setFont('helvetica', 'normal');
-  doc.text('Live Market Report · ' + (targetHamlet ? targetHamlet.name : 'South Fork · Ten Hamlets'), PAGE.w / 2, 89, { align: 'center' });
+  doc.text('Live Market Report · ' + (targetHamlet ? targetHamlet.name : 'Ten Hamlets · East Hampton'), PAGE.w / 2, 89, { align: 'center' });
   doc.setFontSize(7.5);
   doc.text(today(), PAGE.w / 2, 96, { align: 'center' });
 
@@ -833,7 +833,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
 
   const filename = targetHamlet
     ? `Christies_EH_Market_Report_${targetHamlet.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
-    : 'Christies_EH_Market_Report_South_Fork.pdf';
+    : 'Christies_EH_Market_Report.pdf';
   downloadPdf(doc, filename);
 }
 

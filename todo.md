@@ -188,3 +188,10 @@
 - [x] 25 future Christie's NY auction events pushed to Google Calendar (gold/yellow, Live Auction)
 - [x] Wednesday Circuit recurring event created: May 7, 2026, every Wednesday, 9:30AM–1PM
 - [ ] Sprint 6 open items: Favicon (IMG_4386), Art/Beauty/Provenance audit, William closing Option B, Tier label removal
+
+## Phase C — April 2, 2026
+
+- [x] PDF filename: change Christies_EH_Market_Report_South_Fork.pdf → Christies_EH_Market_Report.pdf
+- [x] PDF page title (line 496): change "South Fork · Ten Hamlets" → "Ten Hamlets · East Hampton"
+- [x] Discipline sentence confirmed unchanged: "The Christie's Intelligence Score is not a sales tool. It is a discipline." — no edit needed
+- [x] Intel Layer 3 org chart: wired as first DocSection (ORG_CHART_DOCS) — confirmed first card in Layer 3
