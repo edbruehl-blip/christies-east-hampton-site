@@ -6,6 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus } from "./sheets-helper";
 import { eq, asc } from "drizzle-orm";
 
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
@@ -122,6 +123,51 @@ export const appRouter = router({
 
   // ─── Pipeline CRUD ──────────────────────────────────────────────────────────
   pipe: router({
+    // Read live deals directly from the Google Sheet (single source of truth)
+    sheetDeals: publicProcedure.query(async () => {
+      try {
+        const deals = await readPipelineDeals();
+        return { deals, error: null };
+      } catch (err: any) {
+        return { deals: [], error: err.message ?? 'Failed to read sheet' };
+      }
+    }),
+
+    // Write a status update directly to the Google Sheet
+    updateSheetStatus: publicProcedure
+      .input(z.object({
+        address: z.string().min(1),
+        status: z.string().min(1),
+        date: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await updatePipelineStatus(input.address, input.status, input.date);
+        if (!result.success) throw new Error(`Row not found for address: ${input.address}`);
+        return result;
+      }),
+
+    // Append a new deal row to the Google Sheet
+    appendSheet: publicProcedure
+      .input(z.object({
+        address: z.string().min(1),
+        town: z.string().optional(),
+        type: z.string().optional(),
+        price: z.string().optional(),
+        status: z.string().optional(),
+        agent: z.string().optional(),
+        side: z.string().optional(),
+        ersSigned: z.string().optional(),
+        eeliLink: z.string().optional(),
+        signs: z.string().optional(),
+        photos: z.string().optional(),
+        zillowShowcase: z.string().optional(),
+        dateClosed: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await appendPipelineRow(input);
+        return result;
+      }),
+
     list: publicProcedure.query(async () => {
       const db = await getDb();
       if (!db) return [];

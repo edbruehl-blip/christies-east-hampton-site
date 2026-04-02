@@ -161,3 +161,17 @@
 - [x] Wednesday Circuit start date → May 7, 2026 (first Wednesday in May)
 - [x] Nightly sync: filter to today-or-later only (no backfill of past events)
 - [x] Weekly Christie's auction scraper: fetch christies.com/en/calendar, write NY sale dates to Event Calendar sheet
+
+## Sprint 6 — Four Items (April 2, 2026)
+- [x] Item 1: PIPE tab — 2 Old Hollow Road status CLOSED, date April 2, 2026 — live write confirmed
+- [x] Item 2: Sale Type column E in Apps Script — Online Auction / Live Auction, gold/grey color-coding
+- [x] Item 3: Server-side triggers — instructions documented below (run in Google Apps Script UI, not server-side)
+- [x] Item 4: scrapeChristiesAuctions() + createWednesdayCircuit() — script ready, run manually in Apps Script UI
+
+## Google Sheets API Integration (April 2, 2026)
+- [x] Install googleapis package
+- [x] Scaffold server/sheets-helper.ts with service account auth — column map corrected to real sheet structure
+- [x] Add GOOGLE_SERVICE_ACCOUNT_JSON secret
+- [x] Wire PIPE tab — sheetDeals query + updateSheetStatus mutation wired to Google Sheets API
+- [x] Remove DB tracker, Google Sheet is single source of truth — PipeTab rebuilt with live deal cards
+- [x] First live write: 2 Old Hollow Road status=Closed date=April 2, 2026 — verified in Sheet row 4

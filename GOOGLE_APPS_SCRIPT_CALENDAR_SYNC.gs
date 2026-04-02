@@ -2,7 +2,7 @@
  * Christie's East Hampton — Google Apps Script
  * Nightly Calendar Sync + Wednesday Circuit + Christie's Auction Scraper
  *
- * VERSION: Sprint 6 — April 2, 2026
+ * VERSION: Sprint 6 — April 2, 2026 (Rev 2: Sale Type column added)
  *
  * PURPOSE:
  *   1. Reads Event Calendar sheet and Podcast Calendar sheet.
@@ -26,6 +26,20 @@
  * SHEET IDs:
  *   Event Calendar:   1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s
  *   Podcast Calendar: 1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8
+ *
+ * EVENT CALENDAR COLUMN MAP (Sheet1):
+ *   A = Start Date (MM/DD/YYYY)
+ *   B = Event Name / Sale Title
+ *   C = Description (subtitle + URL)
+ *   D = Sync Status (auto: SYNCED / PAST)
+ *   E = Sale Type (Live Auction | Online Auction | Internal | Podcast | Social | blank)
+ *   F = End Date (MM/DD/YYYY)
+ *   G = Source (CHRISTIES_SCRAPE | manual)
+ *
+ * SALE TYPE COLOR CODING:
+ *   Live Auction   → Gold   (#C8AC78 background, dark text)
+ *   Online Auction → Grey   (#9E9E9E background, white text)
+ *   (other types use default calendar color)
  */
 
 // ─── Configuration ────────────────────────────────────────────────────────────
@@ -37,6 +51,11 @@ const CHRISTIES_CALENDAR_URL = 'https://www.christies.com/en/calendar';
 
 // Wednesday Circuit — official start date
 const CIRCUIT_START_DATE = new Date('2026-05-07T09:30:00'); // May 7, 2026
+
+// Google Calendar color IDs for sale types
+// See: https://developers.google.com/apps-script/reference/calendar/event-color
+const COLOR_LIVE_AUCTION   = CalendarApp.EventColor.YELLOW;   // closest to gold
+const COLOR_ONLINE_AUCTION = CalendarApp.EventColor.GRAPHITE; // grey
 
 // ─── Main: Nightly Sync ───────────────────────────────────────────────────────
 
@@ -60,9 +79,14 @@ function syncSheetsToCalendar() {
 
 /**
  * Reads a sheet and creates calendar events for unsynced rows.
- * Expected columns: A=Date, B=Event Name, C=Description (optional), D=Synced (auto-written)
+ *
+ * Event Calendar columns: A=Date, B=Event Name, C=Description, D=Synced, E=Sale Type, F=End Date, G=Source
+ * Podcast Calendar columns: A=Date, B=Event Name, C=Description, D=Synced
  *
  * NO BACKFILL: events with dates before today are skipped (marked PAST in column D).
+ * Sale Type (column E) drives calendar event color:
+ *   "Live Auction"   → YELLOW (gold)
+ *   "Online Auction" → GRAPHITE (grey)
  */
 function syncSheet(cal, sheetId, sheetLabel) {
   const ss = SpreadsheetApp.openById(sheetId);
@@ -73,12 +97,16 @@ function syncSheet(cal, sheetId, sheetLabel) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
+  const isEventCalendar = (sheetId === EVENT_SHEET_ID);
+
   for (let i = 1; i < data.length; i++) {
     const row = data[i];
     const rawDate = row[0];
     const eventName = row[1] ? String(row[1]).trim() : '';
     const description = row[2] ? String(row[2]).trim() : '';
     const synced = row[3] ? String(row[3]).trim() : '';
+    // Column E: Sale Type (only present on Event Calendar)
+    const saleType = isEventCalendar && row[4] ? String(row[4]).trim() : '';
 
     // Skip if no date or no event name
     if (!rawDate || !eventName) continue;
@@ -109,15 +137,30 @@ function syncSheet(cal, sheetId, sheetLabel) {
     const dayEnd = new Date(eventDate);
     dayEnd.setHours(23, 59, 59, 999);
     const existing = cal.getEvents(dayStart, dayEnd);
-    const duplicate = existing.some(e => e.getTitle() === '[' + sheetLabel + '] ' + eventName);
+    const eventTitle = '[' + sheetLabel + '] ' + eventName;
+    const duplicate = existing.some(function(e) { return e.getTitle() === eventTitle; });
 
     if (!duplicate) {
-      cal.createAllDayEvent(
-        '[' + sheetLabel + '] ' + eventName,
+      const newEvent = cal.createAllDayEvent(
+        eventTitle,
         eventDate,
         { description: description || ('Auto-synced from ' + sheetLabel) }
       );
-      Logger.log('Created: ' + eventName + ' on ' + eventDate.toDateString());
+
+      // Apply color based on Sale Type (Event Calendar only)
+      if (isEventCalendar && saleType) {
+        try {
+          if (saleType === 'Live Auction') {
+            newEvent.setColor(COLOR_LIVE_AUCTION);
+          } else if (saleType === 'Online Auction') {
+            newEvent.setColor(COLOR_ONLINE_AUCTION);
+          }
+        } catch (colorErr) {
+          Logger.log('Color set failed for "' + eventName + '": ' + colorErr.message);
+        }
+      }
+
+      Logger.log('Created: ' + eventName + ' on ' + eventDate.toDateString() + (saleType ? ' [' + saleType + ']' : ''));
     }
 
     // Mark row as synced in column D
@@ -182,19 +225,24 @@ function createWednesdayCircuit() {
  * Fetches christies.com/en/calendar, extracts all New York sale dates,
  * and writes them into the Event Calendar sheet.
  *
- * The page embeds all 119 upcoming events as a JSON object in the HTML
+ * The page embeds all upcoming events as a JSON object in the HTML
  * (window.chrComponents.calendar = { data: {...} }).
  * No JavaScript rendering required — UrlFetchApp gets the full data.
  *
  * Run manually once to seed, then set a weekly Monday trigger.
  *
- * Sheet columns written:
+ * Sale Type detection:
+ *   - If sale.type_txt contains "online" → "Online Auction"
+ *   - Otherwise → "Live Auction"
+ *
+ * Sheet columns written (Event Calendar):
  *   A = Start Date (MM/DD/YYYY)
  *   B = Sale Title
  *   C = Description (subtitle + URL)
  *   D = (left blank — sync status, written by syncSheet)
- *   E = End Date (MM/DD/YYYY)
- *   F = Source (CHRISTIES_SCRAPE)
+ *   E = Sale Type (Live Auction | Online Auction)
+ *   F = End Date (MM/DD/YYYY)
+ *   G = Source (CHRISTIES_SCRAPE)
  */
 function scrapeChristiesAuctions() {
   const ss = SpreadsheetApp.openById(EVENT_SHEET_ID);
@@ -268,11 +316,11 @@ function scrapeChristiesAuctions() {
   Logger.log('New York events found: ' + nyEvents.length);
 
   // Get existing entries to avoid duplicates
-  // Read column B (sale titles) and column F (source) to check
+  // Read column B (sale titles) and column G (source) to check
   const existingData = sheet.getDataRange().getValues();
   const existingTitles = new Set();
   for (let i = 1; i < existingData.length; i++) {
-    if (existingData[i][5] === 'CHRISTIES_SCRAPE') {
+    if (existingData[i][6] === 'CHRISTIES_SCRAPE') {
       existingTitles.add(String(existingData[i][1]).trim());
     }
   }
@@ -315,28 +363,103 @@ function scrapeChristiesAuctions() {
     const url = sale.landing_url || '';
     const description = [subtitle, url].filter(Boolean).join(' · ');
 
+    // Determine Sale Type from sale type text
+    const typeText = (sale.type_txt || sale.sale_type || '').toLowerCase();
+    const saleType = typeText.indexOf('online') !== -1 ? 'Online Auction' : 'Live Auction';
+
     // Format dates as MM/DD/YYYY for the sheet
     const fmt = function(d) {
       return (d.getMonth() + 1) + '/' + d.getDate() + '/' + d.getFullYear();
     };
 
-    // Append row: Date | Title | Description | (blank) | End Date | Source
+    // Append row: Date | Title | Description | (blank) | Sale Type | End Date | Source
     sheet.appendRow([
       fmt(startDate),
       title,
       description,
       '',              // Column D: sync status — left blank for syncSheet to fill
-      fmt(endDate),
-      'CHRISTIES_SCRAPE',
+      saleType,        // Column E: Sale Type (Live Auction | Online Auction)
+      fmt(endDate),    // Column F: End Date
+      'CHRISTIES_SCRAPE', // Column G: Source
     ]);
 
     existingTitles.add(title);
     added++;
-    Logger.log('Added: ' + title + ' (' + fmt(startDate) + ' – ' + fmt(endDate) + ')');
+    Logger.log('Added: ' + title + ' (' + fmt(startDate) + ' – ' + fmt(endDate) + ') [' + saleType + ']');
   });
 
   Logger.log('Scrape complete — added: ' + added + ', skipped: ' + skipped);
   Logger.log('Run syncSheetsToCalendar() to push new entries to Google Calendar.');
+}
+
+// ─── Utility: Add Sale Type header to Event Calendar sheet ───────────────────
+
+/**
+ * One-time utility: ensures the Event Calendar sheet has the correct headers.
+ * Run once after pasting this script to set up column headers.
+ *
+ * Expected header row (row 1):
+ *   A=Start Date | B=Event Name | C=Description | D=Sync Status | E=Sale Type | F=End Date | G=Source
+ */
+function setupEventCalendarHeaders() {
+  const ss = SpreadsheetApp.openById(EVENT_SHEET_ID);
+  const sheet = ss.getSheets()[0];
+
+  // Check if headers already exist
+  const firstRow = sheet.getRange(1, 1, 1, 7).getValues()[0];
+  const hasHeaders = firstRow[0] && String(firstRow[0]).trim() !== '';
+
+  if (!hasHeaders) {
+    sheet.getRange(1, 1, 1, 7).setValues([[
+      'Start Date', 'Event Name', 'Description', 'Sync Status', 'Sale Type', 'End Date', 'Source'
+    ]]);
+    Logger.log('Headers set on Event Calendar sheet.');
+  } else {
+    // Update column E header to "Sale Type" if it's missing
+    if (!firstRow[4] || String(firstRow[4]).trim() === '') {
+      sheet.getRange(1, 5).setValue('Sale Type');
+      Logger.log('Column E header set to "Sale Type".');
+    }
+    // Update column F to "End Date" and G to "Source" if needed
+    if (!firstRow[5] || String(firstRow[5]).trim() === '') {
+      sheet.getRange(1, 6).setValue('End Date');
+    }
+    if (!firstRow[6] || String(firstRow[6]).trim() === '') {
+      sheet.getRange(1, 7).setValue('Source');
+    }
+    Logger.log('Headers verified. Existing data preserved.');
+  }
+}
+
+// ─── Utility: Color-code existing Sale Type entries ──────────────────────────
+
+/**
+ * One-time utility: applies background color to all rows in the Event Calendar
+ * that have a Sale Type in column E.
+ *   Live Auction   → Gold background (#C8AC78)
+ *   Online Auction → Light grey background (#E0E0E0)
+ *
+ * Run once after scrapeChristiesAuctions() to visually distinguish sale types.
+ */
+function colorCodeSaleTypes() {
+  const ss = SpreadsheetApp.openById(EVENT_SHEET_ID);
+  const sheet = ss.getSheets()[0];
+  const data = sheet.getDataRange().getValues();
+  const lastCol = sheet.getLastColumn();
+
+  for (let i = 1; i < data.length; i++) {
+    const saleType = data[i][4] ? String(data[i][4]).trim() : '';
+    if (!saleType) continue;
+
+    const range = sheet.getRange(i + 1, 1, 1, lastCol);
+    if (saleType === 'Live Auction') {
+      range.setBackground('#FFF3CD'); // warm gold tint
+    } else if (saleType === 'Online Auction') {
+      range.setBackground('#F5F5F5'); // light grey
+    }
+  }
+
+  Logger.log('Color-coding complete.');
 }
 
 // ─── Utility: List all events today (for testing) ─────────────────────────────
@@ -376,6 +499,8 @@ function testScrapePreview() {
   });
   Logger.log('NY events preview (' + nyEvents.length + ' total):');
   nyEvents.slice(0, 10).forEach(function(e) {
-    Logger.log('  · ' + e.title_txt + ' | ' + e.date_display_txt + ' | ' + e.location_txt);
+    const typeText = (e.type_txt || e.sale_type || '').toLowerCase();
+    const saleType = typeText.indexOf('online') !== -1 ? 'Online Auction' : 'Live Auction';
+    Logger.log('  · ' + e.title_txt + ' | ' + e.date_display_txt + ' | ' + e.location_txt + ' | ' + saleType);
   });
 }
