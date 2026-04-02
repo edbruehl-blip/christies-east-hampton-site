@@ -175,3 +175,16 @@
 - [x] Wire PIPE tab — sheetDeals query + updateSheetStatus mutation wired to Google Sheets API
 - [x] Remove DB tracker, Google Sheet is single source of truth — PipeTab rebuilt with live deal cards
 - [x] First live write: 2 Old Hollow Road status=Closed date=April 2, 2026 — verified in Sheet row 4
+
+## Full Platform Audit — April 2, 2026
+- [x] Listings parser fixed: JSON extracted from <main> tag, cheerio selector corrected — 4 active listings now syncing
+- [x] sheets-helper.ts column map corrected: DATE CLOSED moved from M to U (column 21), sheet expanded to 22 columns
+- [x] Wrong date in M4 (YOUTUBE LONG) cleared; April 2, 2026 written correctly to U4 (DATE CLOSED)
+- [x] readPipelineDeals: header row skip added (skips row where address === "ADDRESS")
+- [x] pipe.sheetDeals: 47 rows, 10 section headers, 37 actual deals — all correct
+- [x] All 23 tests passing, 0 TypeScript errors, 0 browser console errors
+- [x] Dev server: clean — no errors, no warnings beyond cosmetic baseline-browser-mapping notice
+- [x] Calendar setup: all 5 functions run from sandbox (setupEventCalendarHeaders, scrapeChristiesAuctions, colorCodeSaleTypes, createWednesdayCircuit, syncSheetsToCalendar)
+- [x] 25 future Christie's NY auction events pushed to Google Calendar (gold/yellow, Live Auction)
+- [x] Wednesday Circuit recurring event created: May 7, 2026, every Wednesday, 9:30AM–1PM
+- [ ] Sprint 6 open items: Favicon (IMG_4386), Art/Beauty/Provenance audit, William closing Option B, Tier label removal

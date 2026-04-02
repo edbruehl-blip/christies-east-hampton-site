@@ -154,11 +154,27 @@ export async function syncListings(): Promise<{ listings: EeleListing[]; syncedA
 
   const html = await res.text();
 
-  // The API returns JSON with an "html" key containing the listing cards
+  // The page wraps listing JSON inside <main>{"listings":"<article ...escaped...>"}</main>
+  // We must extract the JSON from <main>, parse it, then unescape the HTML.
   let listingHtml = html;
   try {
-    const json = JSON.parse(html);
-    if (json.html) listingHtml = json.html;
+    // Extract content between <main> and </main>
+    const mainMatch = html.match(/<main>(\{[\s\S]*?\})<\/main>/);
+    if (mainMatch) {
+      const json = JSON.parse(mainMatch[1]);
+      if (json.listings) {
+        // The value is escaped HTML — unescape it
+        listingHtml = json.listings
+          .replace(/\\\/\//g, '/')
+          .replace(/\\"/g, '"')
+          .replace(/\\\\/g, '\\');
+      }
+    } else {
+      // Fallback: try parsing the whole response as JSON
+      const json = JSON.parse(html);
+      if (json.html) listingHtml = json.html;
+      else if (json.listings) listingHtml = json.listings;
+    }
   } catch {
     // Already raw HTML — parse directly
   }

@@ -6,7 +6,7 @@
  *
  * Sheet ID (locked): 1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M
  *
- * Real column map (Sheet1, row 2 is header row):
+ * Real column map (Sheet1, row 2 is header row, row 1 is blank):
  *   A = ADDRESS
  *   B = TOWN
  *   C = TYPE
@@ -19,7 +19,20 @@
  *   J = SIGNS
  *   K = PHOTOS
  *   L = ZILLOW SHOWCASE
- *   M = DATE CLOSED     ← we append this column for close dates
+ *   M = YOUTUBE LONG
+ *   N = YOUTUBE SHORT
+ *   O = BROCHURE LINK
+ *   P = E-BLAST
+ *   Q = FEEDS
+ *   R = AUCTION?
+ *   S = PRIVATE COLLECTOR
+ *   T = ACCESS (KEY)
+ *   U = DATE CLOSED     ← close dates go here (column 21, index 20)
+ *
+ * Row structure:
+ *   Row 1 = blank
+ *   Row 2 = column headers
+ *   Row 3+ = data rows (section headers like "BUY-SIDE DEALS" interspersed)
  */
 
 import { google } from "googleapis";
@@ -48,7 +61,7 @@ export async function readPipelineRows(): Promise<string[][]> {
   const sheets = getSheetsClient();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: `${TAB}!A:M`,
+    range: `${TAB}!A:U`,  // A through U (21 columns)
   });
   return (res.data.values as string[][]) ?? [];
 }
@@ -83,6 +96,9 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
     const address = row[0]?.trim() ?? "";
     if (!address) continue;
 
+    // Skip the header row (row 2, index 1 — contains "ADDRESS", "TOWN", etc.)
+    if (address === "ADDRESS") continue;
+
     // Section headers have address text but no price/status
     const hasPrice = !!row[3]?.trim();
     const isSectionHeader = !hasPrice && address.toUpperCase() === address;
@@ -90,18 +106,19 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
     deals.push({
       rowNumber: i + 1,
       address,
-      town: row[1]?.trim() ?? "",
-      type: row[2]?.trim() ?? "",
-      price: row[3]?.trim() ?? "",
-      status: row[4]?.trim() ?? "",
-      agent: row[5]?.trim() ?? "",
-      side: row[6]?.trim() ?? "",
-      ersSigned: row[7]?.trim() ?? "",
-      eeliLink: row[8]?.trim() ?? "",
-      signs: row[9]?.trim() ?? "",
-      photos: row[10]?.trim() ?? "",
+      town:           row[1]?.trim()  ?? "",
+      type:           row[2]?.trim()  ?? "",
+      price:          row[3]?.trim()  ?? "",
+      status:         row[4]?.trim()  ?? "",
+      agent:          row[5]?.trim()  ?? "",
+      side:           row[6]?.trim()  ?? "",
+      ersSigned:      row[7]?.trim()  ?? "",
+      eeliLink:       row[8]?.trim()  ?? "",
+      signs:          row[9]?.trim()  ?? "",
+      photos:         row[10]?.trim() ?? "",
       zillowShowcase: row[11]?.trim() ?? "",
-      dateClosed: row[12]?.trim() ?? "",
+      // Columns M–T (indices 12–19) are media/marketing fields — not surfaced in the UI
+      dateClosed:     row[20]?.trim() ?? "",  // Column U (index 20)
       isSectionHeader,
     });
   }
@@ -132,7 +149,7 @@ export async function updateCell(range: string, value: string): Promise<void> {
 }
 
 // ─── Update status only (by address) ─────────────────────────────────────────
-// Column E = STATUS (index 4), Column M = DATE CLOSED (index 12)
+// Column E = STATUS (index 4), Column U = DATE CLOSED (index 20)
 export async function updatePipelineStatus(
   address: string,
   status: string,
@@ -151,11 +168,11 @@ export async function updatePipelineStatus(
     requestBody: { values: [[status]] },
   });
 
-  // Write DATE CLOSED in column M if provided
+  // Write DATE CLOSED in column U if provided
   if (dateClosed) {
     await sheets.spreadsheets.values.update({
       spreadsheetId: SHEET_ID,
-      range: `${TAB}!M${rowNumber}`,
+      range: `${TAB}!U${rowNumber}`,
       valueInputOption: "USER_ENTERED",
       requestBody: { values: [[dateClosed]] },
     });
@@ -165,6 +182,7 @@ export async function updatePipelineStatus(
 }
 
 // ─── Append a new deal row ────────────────────────────────────────────────────
+// Writes A–H only (address through ERS/EBB signed) — media columns left blank
 export async function appendPipelineRow(deal: {
   address: string;
   town?: string;
@@ -174,33 +192,25 @@ export async function appendPipelineRow(deal: {
   agent?: string;
   side?: string;
   ersSigned?: string;
-  eeliLink?: string;
-  signs?: string;
-  photos?: string;
-  zillowShowcase?: string;
   dateClosed?: string;
 }): Promise<{ rowNumber: number }> {
   const sheets = getSheetsClient();
 
-  const values = [
-    deal.address,
-    deal.town ?? "",
-    deal.type ?? "",
-    deal.price ?? "",
-    deal.status ?? "",
-    deal.agent ?? "",
-    deal.side ?? "",
-    deal.ersSigned ?? "",
-    deal.eeliLink ?? "",
-    deal.signs ?? "",
-    deal.photos ?? "",
-    deal.zillowShowcase ?? "",
-    deal.dateClosed ?? "",
-  ];
+  // Build a 21-column row (A–U), leaving media columns M–T blank
+  const values = new Array(21).fill("");
+  values[0]  = deal.address;
+  values[1]  = deal.town       ?? "";
+  values[2]  = deal.type       ?? "";
+  values[3]  = deal.price      ?? "";
+  values[4]  = deal.status     ?? "";
+  values[5]  = deal.agent      ?? "";
+  values[6]  = deal.side       ?? "";
+  values[7]  = deal.ersSigned  ?? "";
+  values[20] = deal.dateClosed ?? "";  // Column U
 
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID,
-    range: `${TAB}!A:M`,
+    range: `${TAB}!A:U`,
     valueInputOption: "USER_ENTERED",
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [values] },
