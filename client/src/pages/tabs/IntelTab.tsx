@@ -17,14 +17,14 @@ import { useState, useEffect } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { usePdfAssets } from '@/hooks/usePdfAssets';
 
-// ─── Source-of-Truth Sheet IDs (locked March 31, 2026) ────────────────────────
+// ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
 const SHEET_IDS = {
   podcast:         '1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8',  // Layer 1 calendar source
   event:           '1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s',  // Layer 1 calendar source + Layer 2 embed
   agentRecruiting: '1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA',  // corrected ID (lowercase h)
   socialPodcast:   '1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I',
-  contactDatabase: '1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI',
+  hamptonsOutreachIntelligence: '1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI', // renamed: Hamptons Outreach Intelligence (UHNW targeting) — Sprint 6 Flag 1
 };
 
 function sheetEmbedUrl(id: string) {
@@ -236,9 +236,9 @@ function LiveSheetsLayer() {
           badge="Live Sheet"
         />
         <SheetPanel
-          title="Contact Database"
-          subtitle="Attorneys · Press · Christie's · Strategic contacts"
-          sheetId={SHEET_IDS.contactDatabase}
+          title="Hamptons Outreach Intelligence"
+          subtitle="UHNW targeting · Outreach intelligence · Vendor network"
+          sheetId={SHEET_IDS.hamptonsOutreachIntelligence}
           badge="Live Sheet"
         />
         <SheetPanel

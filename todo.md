@@ -102,3 +102,29 @@
 - [x] Integrity: remove puppeteer-core, @sparticuz/chromium, html2pdf.js (dead weight); axios retained — required by core OAuth sdk
 - [x] Vitest: 18/18 passing across 5 test files — Twilio credentials validated live
 - [x] Checkpoint: save Sprint 5 final checkpoint
+
+## Manny Brief — April 1, 2026
+
+### Part I-A: Live Truth (Pipeline)
+- [x] PIPE DB: 25 Horseshoe Road → status IN CONTRACT
+- [x] PIPE DB: 2 Old Hollow → status IN CONTRACT
+
+### Part I-B: Additive Sheet Edits
+- [x] Contact Database: DO NOT TOUCH existing sheet (Hamptons Outreach — property targeting, not relationship DB)
+- [x] Contact Database: CONTACTS_STAGING tab built inside Growth Model v2 — 14 columns (NAME, ROLE, QUADRANT, COMPANY, PHONE, EMAIL, BIRTHDAY, GIFT TRIGGER, LAST GIFT, CADENCE, LAST TOUCH, NEXT TOUCH DUE, WHALE NOTES, NOTES) — structure only, no data, no formulas. Dropdowns (ROLE + CADENCE) pending Ed activation.
+- [x] Future Agents: QUADRANT column added (column I, row 3)
+- [x] Podcast Calendar: PUBLIC (K4), PDF (L4), DISPATCH (M4) columns added
+- [x] Podcast Calendar: Balsam Farm added as Ep 13, row 17, Status: CONFIRMED
+- [x] Podcast Calendar: Green Thumb Nursery added as Ep 14, row 18, Status: CONFIRMED
+- [x] Event Calendar: PUBLIC (I5), PDF (J5), DISPATCH (K5) columns added
+- [x] Event Calendar: Bridge Car Show row 8 date updated to August 2026
+- [x] Event Calendar: Wednesday Circuit added row 10, Date: Recurring 2026, Status: Recurring
+- [x] Growth Model v2: ASSUMPTIONS row 27 added (2026_INSTITUTIONAL_PIPELINE_GCI = $825,000 with full notes). OUTPUTS rows 23-27 added: Agent Production $3.125M + Institutional $825K = Total GCI $3.95M + House Take $1.185M. No formulas overwritten.
+
+### Part III: Inventory
+- [x] Return full 8-sheet inventory delivered — sprint5-inventory-april1.md
+- [x] Council Audit delivered — council-audit-april1.md
+- [x] All 8 sheet IDs confirmed correct in codebase (no changes needed)
+- [x] IntelTab.tsx: contactDatabase key renamed to hamptonsOutreachIntelligence (Sprint 6 Flag 1 approved)
+- [x] IntelTab.tsx: SheetPanel title updated to 'Hamptons Outreach Intelligence'
+- [x] IntelTab.tsx: SHEET_IDS lock date updated to April 1, 2026
