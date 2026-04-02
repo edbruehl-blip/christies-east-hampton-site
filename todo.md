@@ -135,3 +135,21 @@
 - [ ] Art/Beauty/Provenance standard: audit and apply across platform copy/UI
 - [ ] William closing: implement Option B
 - [ ] Tier labels: remove from all surfaces
+
+## Phase B Sprint — April 2, 2026
+
+### P0 (Do First)
+- [x] P0-1: Favicon — swap to IMG_4386.JPG (cream C on crimson)
+- [x] P0-2: Hero image crop — push object-position down (HOME + /report)
+- [x] P0-3: Audio player — back 15s, play/pause, forward 15s, progress bar, runtime, Share button
+
+### Phase B (In Sequence)
+- [x] B-1: INTEL cleanup — remove Auction Events from Layer 2, restructure to 3 panels, update Sprint 6 banner
+- [x] B-2: Embed Google Calendar in Intel Layer 1 (month view, navy/gold, no chrome)
+- [x] B-3: Google Apps Script nightly sync (Event Calendar + Podcast Calendar → Google Calendar) — script ready to paste
+- [x] B-4: Create Wednesday Circuit as first recurring Google Calendar event — in Apps Script
+- [x] B-5: Wire org chart wireframe to Intel Layer 3 as first canon document card — already done prior session, confirmed
+- [x] B-6: Maps Intelligence Hub — five layers one scroll (CIS Calculator migrated, IDEAS removed from nav)
+- [x] B-7: Futures tab — arc chart confirmed rendering correctly, no changes needed
+- [x] B-8: OG meta tags — og:title, og:description, og:image, og:url, og:site_name, twitter:card, twitter:image
+- [x] B-9: Market ticker verified — institutional marquee + 7-field data strip (S&P, BTC, Mtg, Gold, Silver, VIX, Treasury, Weather)

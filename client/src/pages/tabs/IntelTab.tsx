@@ -92,6 +92,17 @@ function CalendarLayer() {
         </div>
       </div>
 
+      {/* Google Calendar embed — full width, month view, navy bg, gold events, no chrome */}
+      <div style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.25)' }}>
+        <iframe
+          src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%231B2A4A&color=%23C8AC78"
+          title="Christie's East Hampton · Master Calendar"
+          width="100%"
+          style={{ display: 'block', height: 600, border: 'none' }}
+          allowFullScreen
+        />
+      </div>
+
       {/* Calendar sheet embeds — side by side when both visible */}
       {(showPodcast || showEvent) && (
         <div
@@ -221,8 +232,8 @@ function LiveSheetsLayer() {
         Viewport-height optimized · Full laptop visibility · No cramped scroll boxes
       </div>
 
-      {/* 2×2 grid */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* 3-panel grid — Auction Events removed (same sheet as Layer 1 right panel) */}
+      <div className="grid grid-cols-3 gap-4">
         <SheetPanel
           title="Agent Recruiting"
           subtitle="Future agents · Active targets · Status tracking"
@@ -239,12 +250,6 @@ function LiveSheetsLayer() {
           title="Hamptons Outreach Intelligence"
           subtitle="UHNW targeting · Outreach intelligence · Vendor network"
           sheetId={SHEET_IDS.hamptonsOutreachIntelligence}
-          badge="Live Sheet"
-        />
-        <SheetPanel
-          title="Auction Events"
-          subtitle="Christie's East Hampton · Events · Auction schedule"
-          sheetId={SHEET_IDS.event}
           badge="Live Sheet"
         />
       </div>
@@ -452,19 +457,20 @@ function CanonPdfSection() {
   );
 }
 
-// ─── Sprint 5 Horizon Banner ──────────────────────────────────────────────────
+// ─── Sprint 6 Horizon Banner ─────────────────────────────────────────────────────────
 
-function Sprint5Banner() {
+function Sprint6Banner() {
   return (
     <div className="flex items-center gap-6 px-6 py-4" style={{ background: '#1B2A4A' }}>
       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>
-        Sprint 5 Horizon
+        Sprint 6 Horizon
       </div>
       <div className="flex gap-6 flex-wrap">
         {[
-          { label: 'Daily Listing Sync', detail: "Christie's profile → MAPS tab · automated" },
-          { label: 'Canon Library', detail: 'Nine PDFs · Ed supplies files · auto-wire' },
-          { label: 'Christie AI Tab', detail: 'Claude API native · inside dashboard' },
+          { label: 'Maps Intelligence Hub', detail: 'CIS Calculator migration · ten hamlet matrix · PDF per card' },
+          { label: 'Google Calendar', detail: 'Live embed · nightly sync · Wednesday Circuit' },
+          { label: 'Org Chart', detail: 'CIREG hierarchy wireframe · Layer 3 first card' },
+          { label: 'Futures Arc', detail: 'GCI trajectory 2026–2030 · six phase milestones' },
         ].map(item => (
           <div key={item.label} style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>
             <span style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{item.label}</span> · {item.detail}
@@ -522,8 +528,8 @@ export default function IntelTab() {
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
       </div>
 
-      {/* Sprint 5 Horizon Banner */}
-      <Sprint5Banner />
+      {/* Sprint 6 Horizon Banner */}
+      <Sprint6Banner />
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>

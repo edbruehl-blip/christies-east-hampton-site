@@ -21,11 +21,11 @@ import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
 
+// IDEAS removed from public navigation — CIS Calculator migrated to MAPS tab (Sprint 6)
 const TABS: { id: TabId; label: string }[] = [
   { id: "home",   label: "HOME"   },
   { id: "market", label: "MARKET" },
   { id: "maps",   label: "MAPS"   },
-  { id: "ideas",  label: "IDEAS"  },
   { id: "pipe",   label: "PIPE"   },
   { id: "future", label: "FUTURE" },
   { id: "intel",  label: "INTEL"  },

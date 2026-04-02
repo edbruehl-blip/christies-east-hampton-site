@@ -265,8 +265,8 @@ function Section1() {
         <img
           src={GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src ?? GALLERY_IMAGES[0]?.src}
           alt="The Grand Saleroom, Christie's"
-          className="w-full object-cover object-center"
-          style={{ maxHeight: 520, display: 'block' }}
+          className="w-full object-cover"
+          style={{ maxHeight: 520, display: 'block', objectPosition: 'center 40%' }}
         />
         <div
           className="absolute inset-0"
