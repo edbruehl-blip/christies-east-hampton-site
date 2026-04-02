@@ -156,3 +156,8 @@
 
 ## Sprint 6 — Live Mortgage Rate (April 2, 2026)
 - [x] Wire 30Y Fixed Mortgage rate to live FRED/Freddie Mac endpoint — MORTGAGE30US series, 24h cache, fallback to last known value. Live: 6.46%
+
+## Sprint 6 — Apps Script Updates (April 2, 2026)
+- [x] Wednesday Circuit start date → May 7, 2026 (first Wednesday in May)
+- [x] Nightly sync: filter to today-or-later only (no backfill of past events)
+- [x] Weekly Christie's auction scraper: fetch christies.com/en/calendar, write NY sale dates to Event Calendar sheet
