@@ -153,3 +153,6 @@
 - [x] B-7: Futures tab — arc chart confirmed rendering correctly, no changes needed
 - [x] B-8: OG meta tags — og:title, og:description, og:image, og:url, og:site_name, twitter:card, twitter:image
 - [x] B-9: Market ticker verified — institutional marquee + 7-field data strip (S&P, BTC, Mtg, Gold, Silver, VIX, Treasury, Weather)
+
+## Sprint 6 — Live Mortgage Rate (April 2, 2026)
+- [x] Wire 30Y Fixed Mortgage rate to live FRED/Freddie Mac endpoint — MORTGAGE30US series, 24h cache, fallback to last known value. Live: 6.46%

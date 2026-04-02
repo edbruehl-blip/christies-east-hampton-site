@@ -53,6 +53,49 @@ async function fetchBTC(): Promise<{ price: number; change: number } | null> {
   }
 }
 
+// ─── Mortgage rate cache ─────────────────────────────────────────────────────
+// FRED series MORTGAGE30US — Freddie Mac PMMS, updated weekly on Thursdays.
+// Cache for 24 hours to avoid hammering the endpoint on every page load.
+let mortgageCache: { rate: string; fetchedAt: number } = {
+  rate: "6.38%",   // last known value — overwritten on first successful fetch
+  fetchedAt: 0,
+};
+
+async function fetchMortgageRate(): Promise<string> {
+  const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+  const now = Date.now();
+  if (now - mortgageCache.fetchedAt < CACHE_TTL_MS) {
+    return mortgageCache.rate;
+  }
+  try {
+    // FRED public CSV endpoint — no API key required
+    const url = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US";
+    const res = await fetch(url, {
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; MarketProxy/1.0)" },
+      signal: AbortSignal.timeout(10000),
+    });
+    if (!res.ok) throw new Error(`FRED responded ${res.status}`);
+    const csv = await res.text();
+    // CSV format: DATE,VALUE\n2024-01-04,6.62\n...
+    const lines = csv.trim().split("\n");
+    // Last non-empty line with a numeric value
+    for (let i = lines.length - 1; i >= 1; i--) {
+      const parts = lines[i].split(",");
+      const val = parseFloat(parts[1]);
+      if (!isNaN(val)) {
+        const formatted = `${val.toFixed(2)}%`;
+        mortgageCache = { rate: formatted, fetchedAt: now };
+        return formatted;
+      }
+    }
+    throw new Error("No valid rate found in FRED CSV");
+  } catch (err) {
+    console.warn("[market-route] FRED mortgage fetch failed, using cached value:", err);
+    // Return stale cache or last known fallback — never return null
+    return mortgageCache.rate;
+  }
+}
+
 export function registerMarketRoute(app: Express) {
   app.get("/api/market-data", async (_req, res) => {
     try {
@@ -85,8 +128,8 @@ export function registerMarketRoute(app: Express) {
         btc: btc
           ? `$${btc.price.toLocaleString("en-US", { maximumFractionDigits: 0 })} (${btc.change >= 0 ? "+" : ""}${btc.change.toFixed(2)}%)`
           : null,
-        // 30Y Fixed Mortgage — Freddie Mac weekly average (updated 2026-03-27)
-        mortgage: "6.38%",
+        // 30Y Fixed Mortgage — Freddie Mac PMMS via FRED (series MORTGAGE30US, 24h cache)
+        mortgage: await fetchMortgageRate(),
         updatedAt: new Date().toISOString(),
       };
 
