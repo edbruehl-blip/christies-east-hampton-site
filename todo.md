@@ -270,3 +270,8 @@
 
 ## Sprint 7 — New Locked Decision (April 2 Final Brief)
 - Business card is the branding anchor: photo + "CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP" + "Art. Beauty. Provenance." + christiesrealestategroup.com — apply this standard to all surfaces
+
+## Sprint 7 Item 6 — ElevenLabs Key Rotation (April 2, 2026)
+- [x] Update ELEVENLABS_API_KEY to new key (old key deleted by Ed) — key rotated April 2, 2026
+- [x] Confirm TTS /api/tts/founding-letter endpoint responds with audio — 200 OK, 1.86MB audio file
+- [x] Run vitest to confirm tts.test.ts passes with new key — 23/23 passing
