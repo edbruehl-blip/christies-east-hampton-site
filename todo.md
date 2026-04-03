@@ -322,3 +322,6 @@
 - [x] MAPS tab — fix hamlet ID mismatch in HAMLET_KEYWORDS (east-hampton-village → east-hampton, hampton-bays → east-hampton)
 - [x] MAPS tab — add live listing badge (N ACTIVE) to hamlet grid cards
 - [x] MAPS tab — add top listing preview to hamlet grid card body
+
+## PIPE Tab — Google Sheet Embed (April 3, 2026)
+- [x] Build server-side proxy: read private Office Pipeline Sheet via Service Account, render as styled HTML table in PIPE tab

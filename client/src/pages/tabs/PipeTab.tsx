@@ -1,12 +1,13 @@
 /**
- * PIPE TAB — Sprint 6 · April 2, 2026
+ * PIPE TAB — Sprint 7 · April 3, 2026
  *
  * Architecture: Google Sheet is the SINGLE SOURCE OF TRUTH.
- * - Top panel: live deal cards read from Sheet via tRPC (pipe.sheetDeals)
- * - Status update panel: writes directly to Sheet via pipe.updateSheetStatus
- * - Bottom: full-width Sheet embed for direct editing
+ * - Top: KPI summary strip (deal count, total volume, by status)
+ * - Middle: Full-width styled table — all rows from Sheet, server-proxied via Service Account
+ * - Bottom: Status update panel — writes directly to Sheet
  *
  * Sheet ID (locked): 1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M
+ * Note: Sheet is private — rendered via server-side proxy (no iframe, no public sharing required)
  */
 
 import { useState } from 'react';
@@ -16,194 +17,178 @@ import { trpc } from '@/lib/trpc';
 
 const OFFICE_PIPELINE_SHEET_ID = '1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M';
 
-function sheetEmbedUrl(id: string) {
-  return `https://docs.google.com/spreadsheets/d/${id}/edit?usp=sharing&rm=minimal&widget=true&headers=false`;
-}
-
 function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
 // ─── Status config ────────────────────────────────────────────────────────────
 
-const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string; label: string }> = {
-  'In Contract': { bg: 'rgba(200,172,120,0.15)', color: '#8a6f3e', dot: '#C8AC78', label: 'In Contract' },
-  'Active':      { bg: 'rgba(200,172,120,0.12)', color: '#8a6f3e', dot: '#C8AC78', label: 'Active' },
-  'Closed':      { bg: 'rgba(27,42,74,0.08)',    color: '#1B2A4A', dot: '#1B2A4A', label: 'Closed' },
-  'Watch':       { bg: 'rgba(224,123,57,0.12)',  color: '#9a5a20', dot: '#e07b39', label: 'Watch' },
-  'Critical':    { bg: 'rgba(192,57,43,0.12)',   color: '#8b2515', dot: '#c0392b', label: 'Critical' },
-  'Stalled':     { bg: 'rgba(120,138,142,0.12)', color: '#4a5a5e', dot: '#7a8a8e', label: 'Stalled' },
-  'Dead':        { bg: 'rgba(180,180,180,0.1)',  color: '#aaa',    dot: '#ccc',    label: 'Dead' },
+const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string; border: string }> = {
+  'In Contract': { bg: 'rgba(200,172,120,0.18)', color: '#7a5c28', dot: '#C8AC78', border: '#C8AC78' },
+  'Active':      { bg: 'rgba(34,139,34,0.1)',    color: '#1a6b1a', dot: '#228B22', border: '#228B22' },
+  'Closed':      { bg: 'rgba(27,42,74,0.1)',      color: '#1B2A4A', dot: '#1B2A4A', border: '#1B2A4A' },
+  'Watch':       { bg: 'rgba(224,123,57,0.12)',   color: '#9a5a20', dot: '#e07b39', border: '#e07b39' },
+  'Critical':    { bg: 'rgba(192,57,43,0.12)',    color: '#8b2515', dot: '#c0392b', border: '#c0392b' },
+  'Stalled':     { bg: 'rgba(120,138,142,0.12)',  color: '#4a5a5e', dot: '#7a8a8e', border: '#7a8a8e' },
+  'Dead':        { bg: 'rgba(180,180,180,0.1)',   color: '#aaa',    dot: '#ccc',    border: '#ccc'    },
 };
 
 function getStatusConfig(status: string) {
-  return STATUS_CONFIG[status] ?? { bg: 'rgba(200,172,120,0.08)', color: '#7a8a8e', dot: '#ccc', label: status };
+  return STATUS_CONFIG[status] ?? { bg: 'rgba(200,172,120,0.06)', color: '#7a8a8e', dot: '#ccc', border: '#ccc' };
 }
 
 const STATUS_OPTIONS = ['In Contract', 'Active', 'Closed', 'Watch', 'Critical', 'Stalled', 'Dead'];
 
-// ─── Deal Card ────────────────────────────────────────────────────────────────
+// ─── Column definitions ───────────────────────────────────────────────────────
 
-interface DealCardProps {
-  address: string;
-  town: string;
-  type: string;
-  price: string;
-  status: string;
-  agent: string;
-  side: string;
-  dateClosed: string;
-  onStatusUpdate: (address: string, status: string, date?: string) => void;
-  isUpdating: boolean;
-}
+const COLUMNS = [
+  { key: 'address',       label: 'Address',        width: 220, primary: true  },
+  { key: 'town',          label: 'Town',            width: 120, primary: false },
+  { key: 'type',          label: 'Type',            width: 100, primary: false },
+  { key: 'price',         label: 'Price',           width: 120, primary: true  },
+  { key: 'status',        label: 'Status',          width: 110, primary: true  },
+  { key: 'side',          label: 'Side',            width: 80,  primary: false },
+  { key: 'agent',         label: 'Agent',           width: 110, primary: false },
+  { key: 'ersSigned',     label: 'ERS/EBB',         width: 70,  primary: false },
+  { key: 'signs',         label: 'Signs',           width: 60,  primary: false },
+  { key: 'photos',        label: 'Photos',          width: 60,  primary: false },
+  { key: 'zillowShowcase',label: 'Zillow',          width: 60,  primary: false },
+  { key: 'dateClosed',    label: 'Date Closed',     width: 120, primary: false },
+] as const;
 
-function DealCard({ address, town, type, price, status, agent, side, dateClosed, onStatusUpdate, isUpdating }: DealCardProps) {
-  const [editMode, setEditMode] = useState(false);
-  const [newStatus, setNewStatus] = useState(status);
-  const [closeDate, setCloseDate] = useState(dateClosed || '');
-  const sc = getStatusConfig(status);
+type DealKey = typeof COLUMNS[number]['key'];
 
-  const handleSave = () => {
-    onStatusUpdate(address, newStatus, newStatus === 'Closed' ? closeDate : undefined);
-    setEditMode(false);
-  };
+// ─── KPI Strip ────────────────────────────────────────────────────────────────
+
+function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
+  const active      = deals.filter(d => d.status === 'Active').length;
+  const inContract  = deals.filter(d => d.status === 'In Contract').length;
+  const closed      = deals.filter(d => d.status === 'Closed').length;
+  const totalVol    = deals
+    .filter(d => d.price)
+    .reduce((sum, d) => {
+      const n = parseFloat(d.price.replace(/[^0-9.]/g, ''));
+      return sum + (isNaN(n) ? 0 : n);
+    }, 0);
+  const fmt = (n: number) =>
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1_000 ? `$${(n / 1_000).toFixed(0)}K` : `$${n}`;
+
+  const kpis = [
+    { label: 'Active',      value: String(active),       dot: '#228B22' },
+    { label: 'In Contract', value: String(inContract),   dot: '#C8AC78' },
+    { label: 'Closed',      value: String(closed),       dot: '#1B2A4A' },
+    { label: 'Total Volume',value: fmt(totalVol),        dot: '#C8AC78' },
+    { label: 'Total Deals', value: String(deals.length), dot: '#7a8a8e' },
+  ];
 
   return (
-    <div
-      className="p-4 border"
-      style={{
-        borderColor: 'rgba(200,172,120,0.3)',
-        background: '#fff',
-        borderLeft: `3px solid ${sc.dot}`,
-      }}
-    >
-      {/* Address + side badge */}
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem', lineHeight: 1.2 }}>
-            {address}
-          </div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', marginTop: 2 }}>
-            {town} · {type}
+    <div className="flex flex-wrap gap-3 mb-6">
+      {kpis.map(k => (
+        <div key={k.label} className="flex items-center gap-3 px-4 py-3" style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', minWidth: 120 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
+          <div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1.1rem', lineHeight: 1 }}>{k.value}</div>
           </div>
         </div>
-        <span
-          className="px-2 py-0.5 text-[8px] uppercase tracking-widest shrink-0"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', background: side === 'Buyer' ? 'rgba(27,42,74,0.08)' : 'rgba(200,172,120,0.15)', color: side === 'Buyer' ? '#1B2A4A' : '#8a6f3e', letterSpacing: '0.14em' }}
-        >
-          {side}
-        </span>
-      </div>
-
-      {/* Price + agent */}
-      <div className="flex items-center gap-4 mb-3">
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
-          {price}
-        </span>
-        <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.72rem' }}>
-          {agent}
-        </span>
-        {dateClosed && (
-          <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontSize: '0.7rem', fontStyle: 'italic' }}>
-            Closed {dateClosed}
-          </span>
-        )}
-      </div>
-
-      {/* Status row */}
-      {!editMode ? (
-        <div className="flex items-center justify-between">
-          <span
-            className="px-2 py-0.5 text-[9px] uppercase tracking-widest"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', background: sc.bg, color: sc.color, letterSpacing: '0.12em' }}
-          >
-            <span style={{ display: 'inline-block', width: 5, height: 5, borderRadius: '50%', background: sc.dot, marginRight: 4, verticalAlign: 'middle' }} />
-            {status}
-          </span>
-          <button
-            onClick={() => { setNewStatus(status); setEditMode(true); }}
-            className="text-[8px] uppercase tracking-widest hover:text-[#C8AC78] transition-colors"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.12em' }}
-          >
-            Update Status
-          </button>
-        </div>
-      ) : (
-        <div className="flex items-center gap-2 flex-wrap">
-          <select
-            value={newStatus}
-            onChange={e => setNewStatus(e.target.value)}
-            className="border px-2 py-1 text-xs"
-            style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}
-          >
-            {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
-          </select>
-          {newStatus === 'Closed' && (
-            <input
-              type="text"
-              placeholder="Close date (e.g. April 2, 2026)"
-              value={closeDate}
-              onChange={e => setCloseDate(e.target.value)}
-              className="border px-2 py-1 text-xs flex-1"
-              style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', minWidth: 160 }}
-            />
-          )}
-          <button
-            onClick={handleSave}
-            disabled={isUpdating}
-            className="px-3 py-1 text-[9px] uppercase tracking-widest"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', letterSpacing: '0.14em', opacity: isUpdating ? 0.6 : 1 }}
-          >
-            {isUpdating ? 'Saving…' : '✓ Save'}
-          </button>
-          <button
-            onClick={() => setEditMode(false)}
-            className="px-3 py-1 text-[9px] uppercase tracking-widest border"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#D3D1C7', color: '#7a8a8e', letterSpacing: '0.14em' }}
-          >
-            Cancel
-          </button>
-        </div>
-      )}
+      ))}
     </div>
   );
 }
 
-// ─── Live Deal Cards (reads from Google Sheet) ────────────────────────────────
+// ─── Status Badge ─────────────────────────────────────────────────────────────
 
-function LiveDealCards() {
+function StatusBadge({ status }: { status: string }) {
+  const sc = getStatusConfig(status);
+  return (
+    <span
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 4,
+        padding: '2px 8px',
+        fontFamily: '"Barlow Condensed", sans-serif',
+        fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase',
+        background: sc.bg, color: sc.color,
+        border: `1px solid ${sc.border}`,
+        whiteSpace: 'nowrap',
+      }}
+    >
+      <span style={{ width: 5, height: 5, borderRadius: '50%', background: sc.dot, display: 'inline-block' }} />
+      {status || '—'}
+    </span>
+  );
+}
+
+// ─── Inline Status Editor ─────────────────────────────────────────────────────
+
+function InlineStatusEditor({
+  address, currentStatus, currentDate, onSave, onCancel, isSaving,
+}: {
+  address: string; currentStatus: string; currentDate: string;
+  onSave: (status: string, date?: string) => void;
+  onCancel: () => void; isSaving: boolean;
+}) {
+  const [newStatus, setNewStatus] = useState(currentStatus);
+  const [closeDate, setCloseDate] = useState(currentDate || '');
+  return (
+    <div className="flex items-center gap-2 flex-wrap py-1">
+      <select
+        value={newStatus}
+        onChange={e => setNewStatus(e.target.value)}
+        className="border px-2 py-1 text-xs"
+        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', background: '#fff' }}
+      >
+        {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
+      </select>
+      {newStatus === 'Closed' && (
+        <input
+          type="text"
+          placeholder="Close date (e.g. April 2, 2026)"
+          value={closeDate}
+          onChange={e => setCloseDate(e.target.value)}
+          className="border px-2 py-1 text-xs"
+          style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', minWidth: 160 }}
+        />
+      )}
+      <button
+        onClick={() => onSave(newStatus, newStatus === 'Closed' ? closeDate : undefined)}
+        disabled={isSaving}
+        className="px-3 py-1 text-[9px] uppercase tracking-widest"
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', opacity: isSaving ? 0.6 : 1 }}
+      >
+        {isSaving ? 'Saving…' : '✓ Save'}
+      </button>
+      <button
+        onClick={onCancel}
+        className="px-3 py-1 text-[9px] uppercase tracking-widest border"
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#D3D1C7', color: '#7a8a8e' }}
+      >
+        Cancel
+      </button>
+    </div>
+  );
+}
+
+// ─── Full Pipeline Table ──────────────────────────────────────────────────────
+
+function PipelineTable() {
   const { data, isLoading, error, refetch } = trpc.pipe.sheetDeals.useQuery(undefined, {
-    refetchInterval: 60_000, // refresh every 60s
+    refetchInterval: 60_000,
     staleTime: 30_000,
   });
 
   const updateStatus = trpc.pipe.updateSheetStatus.useMutation({
-    onSuccess: () => {
-      setTimeout(() => refetch(), 1500); // small delay to let Sheet propagate
-    },
+    onSuccess: () => setTimeout(() => refetch(), 1500),
   });
 
-  const [updatingAddress, setUpdatingAddress] = useState<string | null>(null);
-
-  const handleStatusUpdate = (address: string, status: string, date?: string) => {
-    setUpdatingAddress(address);
-    updateStatus.mutate(
-      { address, status, date },
-      {
-        onSettled: () => setUpdatingAddress(null),
-        onError: (err) => {
-          console.error('Status update failed:', err);
-          alert(`Update failed: ${err.message}`);
-        },
-      }
-    );
-  };
+  const [editingAddress, setEditingAddress] = useState<string | null>(null);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   if (isLoading) {
     return (
-      <div className="flex items-center gap-3 py-8" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.8rem' }}>
-        <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#C8AC78', borderTopColor: 'transparent' }} />
-        Loading live deals from Sheet…
+      <div className="flex items-center gap-3 py-12 justify-center" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.8rem' }}>
+        <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#C8AC78', borderTopColor: 'transparent' }} />
+        Loading Office Pipeline from Sheet…
       </div>
     );
   }
@@ -216,103 +201,249 @@ function LiveDealCards() {
     );
   }
 
-  const deals = (data?.deals ?? []).filter(d => !d.isSectionHeader && d.address);
+  const allRows = data?.deals ?? [];
+  // Section headers become visual dividers in the table
+  const filtered = allRows.filter(d => {
+    if (!d.address) return false;
+    if (d.isSectionHeader) return true; // always show section headers
+    if (filterStatus !== 'all' && d.status !== filterStatus) return false;
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      return (
+        d.address.toLowerCase().includes(q) ||
+        d.town.toLowerCase().includes(q) ||
+        d.agent.toLowerCase().includes(q) ||
+        d.price.toLowerCase().includes(q)
+      );
+    }
+    return true;
+  });
 
-  if (deals.length === 0) {
-    return (
-      <div className="py-6 text-center text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-        No active deals found in the Sheet.
-      </div>
-    );
-  }
-
-  // Group by section (buy-side vs listing-side)
-  const buySide = deals.filter(d => d.side === 'Buyer' || d.side === 'Buy');
-  const listingSide = deals.filter(d => d.side === 'Seller' || d.side === 'List' || d.side === 'Listing');
-  const other = deals.filter(d => !buySide.includes(d) && !listingSide.includes(d));
-
-  const renderGroup = (title: string, group: typeof deals) => {
-    if (group.length === 0) return null;
-    return (
-      <div className="mb-6">
-        <div className="mb-3 uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 9 }}>
-          {title}
-        </div>
-        <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-          {group.map(deal => (
-            <DealCard
-              key={deal.rowNumber}
-              address={deal.address}
-              town={deal.town}
-              type={deal.type}
-              price={deal.price}
-              status={deal.status}
-              agent={deal.agent}
-              side={deal.side}
-              dateClosed={deal.dateClosed}
-              onStatusUpdate={handleStatusUpdate}
-              isUpdating={updatingAddress === deal.address}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
+  const dealRows = allRows.filter(d => !d.isSectionHeader && d.address);
 
   return (
     <div>
-      {updateStatus.isSuccess && (
-        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(27,42,74,0.06)', color: '#1B2A4A', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>
-          ✓ Sheet updated — refreshing in a moment…
-        </div>
-      )}
-      {renderGroup('Buy-Side Deals', buySide)}
-      {renderGroup('Listing-Side Deals', listingSide)}
-      {renderGroup('Other', other)}
-    </div>
-  );
-}
+      {/* KPI strip */}
+      <KpiStrip deals={dealRows as unknown as Array<Record<string, string>>} />
 
-// ─── Office Pipeline Sheet Embed ──────────────────────────────────────────────
-
-function OfficePipelineSheet() {
-  return (
-    <div style={{ border: '0.5px solid rgba(200,172,120,0.4)', borderRadius: 4, overflow: 'hidden' }}>
-      {/* Sheet header bar */}
-      <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
-        <div>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600 }}>
-            Office Pipeline · Master Sheet
-          </div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 9, marginTop: 1 }}>
-            Primary operating surface · Live · Editable · Single source of truth
-          </div>
-        </div>
+      {/* Controls bar */}
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <input
+          type="text"
+          placeholder="Search address, town, agent…"
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          className="border px-3 py-2 text-sm flex-1"
+          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', minWidth: 200, maxWidth: 320 }}
+        />
+        <select
+          value={filterStatus}
+          onChange={e => setFilterStatus(e.target.value)}
+          className="border px-3 py-2 text-sm"
+          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff' }}
+        >
+          <option value="all">All Statuses</option>
+          {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
+        </select>
+        <button
+          onClick={() => refetch()}
+          className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em' }}
+        >
+          ↻ Refresh
+        </button>
         <a
           href={sheetOpenUrl(OFFICE_PIPELINE_SHEET_ID)}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.14em' }}
+          className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.14em', textDecoration: 'none' }}
         >
           Open Full Sheet ↗
         </a>
       </div>
 
-      {/* Full-width tall iframe */}
-      <iframe
-        src={sheetEmbedUrl(OFFICE_PIPELINE_SHEET_ID)}
-        title="Office Pipeline"
-        width="100%"
-        style={{ display: 'block', height: '75vh', minHeight: 520, border: 'none' }}
-        allowFullScreen
-      />
+      {/* Success notification */}
+      {updateStatus.isSuccess && (
+        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(27,42,74,0.06)', color: '#1B2A4A', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>
+          ✓ Sheet updated — refreshing in a moment…
+        </div>
+      )}
+
+      {/* Table */}
+      <div style={{ overflowX: 'auto', border: '0.5px solid rgba(200,172,120,0.35)' }}>
+        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
+          {/* Header */}
+          <thead>
+            <tr style={{ background: '#1B2A4A' }}>
+              {COLUMNS.map(col => (
+                <th
+                  key={col.key}
+                  style={{
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    color: '#C8AC78',
+                    fontSize: 9,
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    padding: '10px 12px',
+                    textAlign: 'left',
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                    minWidth: col.width,
+                    borderRight: '1px solid rgba(200,172,120,0.12)',
+                  }}
+                >
+                  {col.label}
+                </th>
+              ))}
+              <th style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '10px 12px', textAlign: 'left', fontWeight: 600, whiteSpace: 'nowrap', minWidth: 90 }}>
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {filtered.length === 0 ? (
+              <tr>
+                <td colSpan={COLUMNS.length + 1} style={{ padding: '24px', textAlign: 'center', fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', fontStyle: 'italic' }}>
+                  No deals match the current filter.
+                </td>
+              </tr>
+            ) : (
+              filtered.map((row, idx) => {
+                if (row.isSectionHeader) {
+                  return (
+                    <tr key={`section-${idx}`} style={{ background: '#F0EDE7' }}>
+                      <td
+                        colSpan={COLUMNS.length + 1}
+                        style={{
+                          fontFamily: '"Barlow Condensed", sans-serif',
+                          color: '#1B2A4A',
+                          fontSize: 10,
+                          letterSpacing: '0.22em',
+                          textTransform: 'uppercase',
+                          padding: '8px 12px',
+                          fontWeight: 700,
+                          borderTop: '2px solid rgba(200,172,120,0.4)',
+                          borderBottom: '1px solid rgba(200,172,120,0.2)',
+                        }}
+                      >
+                        {row.address}
+                      </td>
+                    </tr>
+                  );
+                }
+
+                const isEditing = editingAddress === row.address;
+                const isEvenRow = idx % 2 === 0;
+
+                return (
+                  <tr
+                    key={`${row.address}-${row.rowNumber}`}
+                    style={{
+                      background: isEditing ? 'rgba(200,172,120,0.06)' : isEvenRow ? '#fff' : '#FAFAF8',
+                      borderBottom: '1px solid rgba(27,42,74,0.06)',
+                      transition: 'background 0.1s',
+                    }}
+                    onMouseEnter={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = 'rgba(200,172,120,0.04)'; }}
+                    onMouseLeave={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = isEvenRow ? '#fff' : '#FAFAF8'; }}
+                  >
+                    {COLUMNS.map(col => {
+                      const val = row[col.key as DealKey] ?? '';
+
+                      // Status column — render badge or editor
+                      if (col.key === 'status') {
+                        return (
+                          <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
+                            {isEditing ? (
+                              <InlineStatusEditor
+                                address={row.address}
+                                currentStatus={row.status}
+                                currentDate={row.dateClosed}
+                                onSave={(status, date) => {
+                                  updateStatus.mutate({ address: row.address, status, date });
+                                  setEditingAddress(null);
+                                }}
+                                onCancel={() => setEditingAddress(null)}
+                                isSaving={updateStatus.isPending}
+                              />
+                            ) : (
+                              <StatusBadge status={val} />
+                            )}
+                          </td>
+                        );
+                      }
+
+                      // Address column — primary, serif
+                      if (col.key === 'address') {
+                        return (
+                          <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
+                            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.92rem', lineHeight: 1.3 }}>{val}</div>
+                          </td>
+                        );
+                      }
+
+                      // Price column — bold
+                      if (col.key === 'price') {
+                        return (
+                          <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
+                            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.04em' }}>{val || '—'}</span>
+                          </td>
+                        );
+                      }
+
+                      // Checkmark columns (ersSigned, signs, photos, zillowShowcase)
+                      if (['ersSigned', 'signs', 'photos', 'zillowShowcase'].includes(col.key)) {
+                        const isChecked = val === '✓' || val === 'Yes' || val === 'TRUE' || val === '1';
+                        return (
+                          <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', textAlign: 'center', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
+                            {val ? (
+                              <span style={{ color: isChecked ? '#228B22' : '#7a8a8e', fontSize: '0.8rem', fontFamily: '"Source Sans 3", sans-serif' }}>
+                                {isChecked ? '✓' : val}
+                              </span>
+                            ) : (
+                              <span style={{ color: '#ddd', fontSize: '0.7rem' }}>—</span>
+                            )}
+                          </td>
+                        );
+                      }
+
+                      // Default text cell
+                      return (
+                        <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
+                          <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: val ? '#384249' : '#ccc', fontSize: '0.8rem' }}>
+                            {val || '—'}
+                          </span>
+                        </td>
+                      );
+                    })}
+
+                    {/* Actions column */}
+                    <td style={{ padding: '10px 12px', verticalAlign: 'middle' }}>
+                      {!isEditing && (
+                        <button
+                          onClick={() => setEditingAddress(row.address)}
+                          className="text-[8px] uppercase tracking-widest hover:text-[#C8AC78] transition-colors"
+                          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.12em', whiteSpace: 'nowrap' }}
+                        >
+                          Edit Status
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+      </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between px-4 py-2" style={{ background: '#FAF8F4', borderTop: '0.5px solid #f0f0f0' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 7, color: '#ccc' }}>{OFFICE_PIPELINE_SHEET_ID}</span>
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-          Live Sheet · Primary · Single Source of Truth
+      <div className="flex items-center justify-between mt-3 px-1">
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          Live · Server-Proxied · Single Source of Truth · {OFFICE_PIPELINE_SHEET_ID.slice(0, 16)}…
+        </span>
+        <span style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.7rem', color: '#7a8a8e', fontStyle: 'italic' }}>
+          {dealRows.length} deal{dealRows.length !== 1 ? 's' : ''} · refreshes every 60s
         </span>
       </div>
     </div>
@@ -324,50 +455,30 @@ function OfficePipelineSheet() {
 export default function PipeTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
-
       {/* Header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Daily Driver · Pipeline · Active Deals · Buyers · Sellers
+          Daily Driver · Office Pipeline · Single Source of Truth
         </div>
         <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Pipeline</h2>
         <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-          Google Sheet is the single source of truth. Update deal status here — writes directly to the Sheet.
+          All rows read live from the Office Pipeline Sheet via service account. Edit status inline — writes directly back to the Sheet.
         </p>
       </div>
 
+      {/* Full pipeline table */}
       <div className="px-6 py-8">
-
-        {/* Live Deal Cards — reads from Google Sheet */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-                Live Deals · Google Sheet · Real-Time
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
-                Active Pipeline
-              </div>
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Office Pipeline · Master Sheet · Live
             </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.7rem', color: '#7a8a8e', fontStyle: 'italic' }}>
-              Click "Update Status" on any card to write directly to the Sheet
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
+              Active Deals
             </div>
           </div>
-          <LiveDealCards />
         </div>
-
-        {/* Divider */}
-        <div className="mb-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.3)' }} />
-
-        {/* Primary: Office Pipeline Sheet Embed */}
-        <div className="mb-2 uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Primary Surface · Office Pipeline · Master Sheet
-        </div>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 16 }}>
-          Office Pipeline
-        </div>
-        <OfficePipelineSheet />
-
+        <PipelineTable />
       </div>
     </div>
   );
