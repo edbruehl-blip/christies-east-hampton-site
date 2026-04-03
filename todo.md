@@ -325,3 +325,7 @@
 
 ## PIPE Tab — Google Sheet Embed (April 3, 2026)
 - [x] Build server-side proxy: read private Office Pipeline Sheet via Service Account, render as styled HTML table in PIPE tab
+
+## Sprint 7 Items 7 + PIPE Add Deal (April 3, 2026)
+- [x] Sprint 7 Item 7 — Update INTEL Horizon banner from Sprint 6 to Sprint 7
+- [x] PIPE tab — Add Deal button wired to appendSheet tRPC mutation

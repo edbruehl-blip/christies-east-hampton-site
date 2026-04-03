@@ -467,14 +467,16 @@ function Sprint6Banner() {
   return (
     <div className="flex items-center gap-6 px-6 py-4" style={{ background: '#1B2A4A' }}>
       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>
-        Sprint 6 Horizon
+        Sprint 7 Horizon
       </div>
       <div className="flex gap-6 flex-wrap">
         {[
-          { label: 'Maps Intelligence Hub', detail: 'CIS Calculator migration · ten hamlet matrix · PDF per card' },
-          { label: 'Google Calendar', detail: 'Live embed · nightly sync · Wednesday Circuit' },
-          { label: 'Org Chart', detail: 'CIREG hierarchy wireframe · Layer 3 first card' },
-          { label: 'Futures Arc', detail: 'GCI trajectory 2026–2030 · six phase milestones' },
+          { label: 'Family Office List', detail: '12 UHNW principals · 5 tiers · letter template · pipeline wired' },
+          { label: 'Local Charity Tracker', detail: 'Highway 27 Safety · East Hampton Affordable Housing · 6 initiatives' },
+          { label: 'Intel Source Registry', detail: '16 sources · 4 Growth Model pillars · cadence + feed map' },
+          { label: 'Newsletter Infrastructure', detail: 'Beehiiv + Gmail SMTP · subscriber form · 5-step setup checklist' },
+          { label: 'ElevenLabs Key', detail: 'Manny key · Text to Speech permission · TTS confirmed live' },
+          { label: 'PIPE Tab Proxy', detail: 'Private Sheet · service account · full 12-col table · inline editor' },
         ].map(item => (
           <div key={item.label} style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>
             <span style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{item.label}</span> · {item.detail}

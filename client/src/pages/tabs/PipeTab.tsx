@@ -10,7 +10,7 @@
  * Note: Sheet is private — rendered via server-side proxy (no iframe, no public sharing required)
  */
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { trpc } from '@/lib/trpc';
 
 // ─── Sheet config ─────────────────────────────────────────────────────────────
@@ -450,9 +450,135 @@ function PipelineTable() {
   );
 }
 
+// ─── Add Deal Form ───────────────────────────────────────────────────────────
+
+const TOWNS = ['East Hampton', 'Southampton', 'Bridgehampton', 'Sagaponack', 'Water Mill', 'Sag Harbor', 'Montauk', 'Amagansett', 'Springs', 'Wainscott', 'Hampton Bays', 'Other'];
+const TYPES = ['Residential', 'Land', 'Commercial', 'Condo', 'Co-op', 'Rental'];
+const STATUSES = ['Active', 'In Contract', 'Closed', 'Watch', 'Dead'];
+const SIDES = ['Buyer', 'Seller', 'Dual'];
+
+function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({
+    address: '', town: 'East Hampton', type: 'Residential',
+    price: '', status: 'Active', agent: 'Ed Bruehl',
+    side: 'Seller', ersSigned: '', eeliLink: '', signs: '', photos: '', zillowShowcase: '', dateClosed: '',
+  });
+  const [error, setError] = useState<string | null>(null);
+
+  const append = trpc.pipe.appendSheet.useMutation({
+    onSuccess: () => {
+      setOpen(false);
+      setForm({ address: '', town: 'East Hampton', type: 'Residential', price: '', status: 'Active', agent: 'Ed Bruehl', side: 'Seller', ersSigned: '', eeliLink: '', signs: '', photos: '', zillowShowcase: '', dateClosed: '' });
+      setError(null);
+      onSuccess();
+    },
+    onError: (e) => setError(e.message),
+  });
+
+  const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
+  const inputStyle = { fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#1B2A4A', background: '#fff', border: '1px solid #D3D1C7', borderRadius: 4, padding: '6px 10px', width: '100%', outline: 'none' };
+  const labelStyle = { fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: '#7a8a8e', display: 'block', marginBottom: 3 };
+
+  return (
+    <div className="mb-6">
+      {!open ? (
+        <button
+          onClick={() => setOpen(true)}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78', background: '#1B2A4A', border: '1px solid #C8AC78', borderRadius: 4, padding: '7px 18px', cursor: 'pointer' }}
+        >
+          + Add Deal
+        </button>
+      ) : (
+        <div style={{ background: '#fff', border: '1px solid #D3D1C7', borderRadius: 6, padding: '20px 24px', boxShadow: '0 2px 12px rgba(27,42,74,0.07)' }}>
+          <div className="flex items-center justify-between mb-4">
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.05rem' }}>Add New Deal</div>
+            <button onClick={() => setOpen(false)} style={{ color: '#7a8a8e', background: 'none', border: 'none', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
+          </div>
+          <div className="grid grid-cols-2 gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
+            <div style={{ gridColumn: '1 / -1' }}>
+              <label style={labelStyle}>Address *</label>
+              <input style={inputStyle} value={form.address} onChange={e => set('address', e.target.value)} placeholder="12 Further Lane, East Hampton" />
+            </div>
+            <div>
+              <label style={labelStyle}>Town</label>
+              <select style={inputStyle} value={form.town} onChange={e => set('town', e.target.value)}>
+                {TOWNS.map(t => <option key={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Type</label>
+              <select style={inputStyle} value={form.type} onChange={e => set('type', e.target.value)}>
+                {TYPES.map(t => <option key={t}>{t}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Price</label>
+              <input style={inputStyle} value={form.price} onChange={e => set('price', e.target.value)} placeholder="$2,500,000" />
+            </div>
+            <div>
+              <label style={labelStyle}>Status</label>
+              <select style={inputStyle} value={form.status} onChange={e => set('status', e.target.value)}>
+                {STATUSES.map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>Agent</label>
+              <input style={inputStyle} value={form.agent} onChange={e => set('agent', e.target.value)} placeholder="Ed Bruehl" />
+            </div>
+            <div>
+              <label style={labelStyle}>Side</label>
+              <select style={inputStyle} value={form.side} onChange={e => set('side', e.target.value)}>
+                {SIDES.map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={labelStyle}>ERS Signed</label>
+              <input style={inputStyle} value={form.ersSigned} onChange={e => set('ersSigned', e.target.value)} placeholder="✓ or date" />
+            </div>
+            <div>
+              <label style={labelStyle}>EELI Link</label>
+              <input style={inputStyle} value={form.eeliLink} onChange={e => set('eeliLink', e.target.value)} placeholder="https://..." />
+            </div>
+            <div>
+              <label style={labelStyle}>Date Closed</label>
+              <input style={inputStyle} type="date" value={form.dateClosed} onChange={e => set('dateClosed', e.target.value)} />
+            </div>
+          </div>
+          {error && (
+            <div style={{ marginTop: 12, fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.78rem', color: '#c0392b', background: 'rgba(192,57,43,0.06)', border: '1px solid rgba(192,57,43,0.2)', borderRadius: 4, padding: '6px 10px' }}>
+              {error}
+            </div>
+          )}
+          <div className="flex gap-3 mt-5">
+            <button
+              onClick={() => append.mutate(form)}
+              disabled={!form.address.trim() || append.isPending}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#FAF8F4', background: append.isPending ? '#7a8a8e' : '#1B2A4A', border: '1px solid #1B2A4A', borderRadius: 4, padding: '7px 20px', cursor: !form.address.trim() || append.isPending ? 'not-allowed' : 'pointer', opacity: !form.address.trim() ? 0.5 : 1 }}
+            >
+              {append.isPending ? 'Adding…' : 'Add to Sheet'}
+            </button>
+            <button
+              onClick={() => setOpen(false)}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#7a8a8e', background: 'transparent', border: '1px solid #D3D1C7', borderRadius: 4, padding: '7px 16px', cursor: 'pointer' }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function PipeTab() {
+  const utils = trpc.useUtils();
+  const handleDealAdded = useCallback(() => {
+    utils.pipe.sheetDeals.invalidate();
+  }, [utils]);
+
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
       {/* Header */}
@@ -478,6 +604,8 @@ export default function PipeTab() {
             </div>
           </div>
         </div>
+        {/* Add Deal button — wired to appendSheet tRPC mutation */}
+        <AddDealForm onSuccess={handleDealAdded} />
         <PipelineTable />
       </div>
     </div>
