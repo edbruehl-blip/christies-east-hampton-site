@@ -19,6 +19,7 @@ import { MapView } from '@/components/Map';
 import { toast } from 'sonner';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_COLORS, type HamletData } from '@/data/hamlet-master';
+import { HAMLET_BOUNDARIES } from '@/data/hamlet-boundaries';
 import { ED_HEADSHOT_PRIMARY, LOGO_BLACK } from '@/lib/cdn-assets';
 import {
   runAnewCalculator,
@@ -81,7 +82,40 @@ function PaumanokPlate() {
           // Satellite aerial view — full North+South Fork
           map.setMapTypeId('satellite');
           map.setTilt(0);
-          // Add custom gold dot markers (no default blob pins)
+
+          // ── Hamlet boundary polygon overlays ────────────────────────────────
+          // Semi-transparent navy fill, gold stroke — Christie's palette
+          HAMLET_BOUNDARIES.forEach(boundary => {
+            const polygon = new window.google!.maps.Polygon({
+              paths: boundary.coords.map(([lat, lng]) => ({ lat, lng })),
+              strokeColor: '#C8AC78',
+              strokeOpacity: 0.85,
+              strokeWeight: 2,
+              fillColor: '#1B2A4A',
+              fillOpacity: 0.18,
+              map,
+            });
+
+            // Info window on click — hamlet name + CIS score
+            const hamletData = MASTER_HAMLET_DATA.find(h => h.id === boundary.id);
+            if (hamletData) {
+              const infoWindow = new window.google!.maps.InfoWindow({
+                content: [
+                  '<div style="font-family:Barlow Condensed,sans-serif;background:#1B2A4A;color:#FAF8F4;padding:10px 14px;min-width:140px;">',
+                  `<div style="color:#C8AC78;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px">${boundary.name}</div>`,
+                  `<div style="font-family:Cormorant Garamond,serif;font-size:1.1rem;font-weight:400">${hamletData.medianPriceDisplay}</div>`,
+                  `<div style="color:rgba(200,172,120,0.7);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;margin-top:2px">CIS ${hamletData.anewScore}/10</div>`,
+                  '</div>',
+                ].join(''),
+              });
+              polygon.addListener('click', (e: google.maps.MapMouseEvent) => {
+                infoWindow.setPosition(e.latLng);
+                infoWindow.open(map);
+              });
+            }
+          });
+
+          // ── Gold dot markers (on top of polygons) ───────────────────────────
           MASTER_HAMLET_DATA.forEach(hamlet => {
             const pin = document.createElement('div');
             pin.style.cssText = [

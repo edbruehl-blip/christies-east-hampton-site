@@ -431,6 +431,99 @@ function CanonPdfSection() {
   );
 }
 
+// ─── Relationship Intelligence Layer ────────────────────────────────────────
+// Competitive intelligence only. Not mentor. Not prospect on any public surface.
+
+interface CompetitorProfile {
+  id: string;
+  name: string;
+  firm: string;
+  title: string;
+  territory: string;
+  notableTransaction: string;
+  notableTransactionYear: string;
+  affiliations: string[];
+  status: 'Active' | 'Inactive';
+  notes: string;
+}
+
+const COMPETITOR_PROFILES: CompetitorProfile[] = [
+  {
+    id: 'frank-newbold',
+    name: 'Frank Newbold',
+    firm: "Sotheby's International Realty",
+    title: 'Associate Broker',
+    territory: 'East Hampton · South Fork',
+    notableTransaction: '$70M · Further Lane, East Hampton',
+    notableTransactionYear: '2025',
+    affiliations: [
+      'East Hampton Historical Society — Trustee',
+    ],
+    status: 'Active',
+    notes: 'Dominant presence on Further Lane corridor. EHHS Trustee position provides institutional access to the same collector and estate networks Christie\'s targets. Monitor for listing activity on trophy parcels south of the highway.',
+  },
+];
+
+function RelationshipIntelligenceLayer() {
+  return (
+    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        Layer 4 · Relationship Intelligence
+      </div>
+      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 4 }}>
+        Competitive Intelligence
+      </div>
+      <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+        Internal use only. Not for client-facing surfaces.
+      </div>
+      <div className="flex flex-col gap-4">
+        {COMPETITOR_PROFILES.map(profile => (
+          <div key={profile.id} style={{ border: '1px solid rgba(27,42,74,0.12)', borderLeft: '3px solid #C8AC78', background: '#fff', padding: '20px 24px' }}>
+            <div className="flex items-start justify-between gap-4 mb-3">
+              <div>
+                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.05rem' }}>
+                  {profile.name}
+                </div>
+                <div className="text-xs mt-0.5" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+                  {profile.title} · {profile.firm}
+                </div>
+              </div>
+              <span
+                className="shrink-0 px-3 py-1 text-[9px] uppercase tracking-widest"
+                style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  background: profile.status === 'Active' ? '#1B2A4A' : 'rgba(27,42,74,0.08)',
+                  color: profile.status === 'Active' ? '#C8AC78' : '#7a8a8e',
+                  letterSpacing: '0.18em',
+                }}
+              >
+                {profile.status}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-4" style={{ maxWidth: 560 }}>
+              <div>
+                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Territory</div>
+                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.territory}</div>
+              </div>
+              <div>
+                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Notable Transaction</div>
+                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.notableTransaction} · {profile.notableTransactionYear}</div>
+              </div>
+              <div className="col-span-2">
+                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Affiliations</div>
+                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.affiliations.join(' · ')}</div>
+              </div>
+            </div>
+            <div className="pt-3 border-t text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', borderColor: 'rgba(27,42,74,0.08)' }}>
+              {profile.notes}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // ─── Sprint 6 Horizon Banner ─────────────────────────────────────────────────────────
 
 function Sprint6Banner() {
@@ -545,6 +638,9 @@ export default function IntelTab() {
         <DocSection title="Attorney Database" docs={ATTORNEY_DOCS} />
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
       </div>
+
+      {/* Layer 4 — Relationship Intelligence */}
+      <RelationshipIntelligenceLayer />
 
       {/* Sprint 6 Horizon Banner */}
       <Sprint6Banner />

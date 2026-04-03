@@ -405,3 +405,8 @@
 - [x] HOME: Remove duplicate footer — keep only one gold-on-navy doctrine line
 - [x] HOME: Tighten secondary messaging so founding letter remains dominant voice
 - [x] FUTURE: Replace horizontal bubble timeline with ascending staircase bars in navy and gold
+
+## Sprint 8
+
+- [x] MAPS: GeoJSON hamlet boundary polygon overlays on satellite view for all 10 hamlets
+- [x] INTEL: Frank Newbold competitor profile in Relationship Intelligence layer (alive, Sotheby's Associate Broker, $70M Further Lane 2025, EHHS Trustee — competitive intelligence only)
