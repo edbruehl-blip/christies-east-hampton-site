@@ -101,29 +101,7 @@ function SectionA() {
               </div>
             </div>
 
-            <div style={{
-              background: 'rgba(250,248,244,0.06)',
-              border: '1px solid rgba(200,172,120,0.22)',
-              padding: '18px 16px',
-              backdropFilter: 'blur(6px)',
-            }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
-                Christie's · Est. 1766
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.05rem', lineHeight: 1.2, marginBottom: 12 }}>
-                Christie's East Hampton
-              </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 4 }}>
-                Managing Director
-              </div>
-              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.875rem', marginBottom: 10 }}>
-                Ed Bruehl
-              </div>
-              <div style={{ height: 1, background: 'rgba(200,172,120,0.18)', marginBottom: 10 }} />
-              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem', lineHeight: 1.5 }}>
-                Christie's International Real Estate Group
-              </div>
-            </div>
+
           </div>
 
           {/* ── RIGHT COLUMN: founding letter ── */}
@@ -200,43 +178,6 @@ function SectionB() {
 
   return (
     <div style={{ background: '#FAF8F4' }}>
-
-      {/* ── Christie's YouTube Channel ── */}
-      <div style={{ borderBottom: '1px solid rgba(27,42,74,0.08)', padding: '56px 40px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Christie's · YouTube Channel
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 16 }}>
-            Your Hamptons Real Estate Podcast
-          </h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(27,42,74,0.65)', fontSize: '0.9375rem', lineHeight: 1.7, maxWidth: 640, marginBottom: 24 }}>
-            Every episode is a conversation with the people who shape the South Fork — architects, attorneys, collectors, farmers, and the families who have held this land for generations. Subscribe to follow the series.
-          </p>
-          <a
-            href="https://www.youtube.com/channel/UCRNUlNy2hkJFvo1IFTY4otg"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              background: '#1B2A4A',
-              color: '#C8AC78',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              padding: '10px 20px',
-              textDecoration: 'none',
-              border: '1px solid rgba(200,172,120,0.3)',
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            Subscribe to the Channel
-          </a>
-        </div>
-      </div>
 
       {/* ── Christie's Story ── */}
       <div style={{ borderBottom: '1px solid rgba(27,42,74,0.08)', padding: '56px 40px', background: '#1B2A4A' }}>

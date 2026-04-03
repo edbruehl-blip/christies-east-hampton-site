@@ -391,3 +391,9 @@
 - [x] Render imageUrl in MAPS hamlet detail panel hero (with hamlet.photo fallback)
 - [x] Render vibeText as "Character" paragraph in MAPS hamlet detail panel
 - [x] Option B JSON schema confirmed and pasted back for Perplexity verification
+
+## Four Visual Fixes — Publish Blockers (April 3, 2026)
+- [x] HOME — remove podcast bar completely
+- [x] HOME — remove identity card box under James Christie portrait
+- [x] MAPS — confirm Gemini hamlet images are rendering (imageUrl wired)
+- [x] PIPE — pipeline table confirmed above the fold (already correct)
