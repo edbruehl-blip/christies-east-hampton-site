@@ -410,59 +410,56 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
         </div>
 
         {/* ══════════════════════════════════════════════════════════════
-            LAYER 5 — Social icons + office/weather strip
+            LAYER 5 — Single thin sliver: social icons · address · email · weather
+            All inline, gold on navy, one row, no extra height
         ══════════════════════════════════════════════════════════════ */}
-        {/* Social icons row */}
-        <div
-          style={{
-            background: "#384249",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            minHeight: 38,
-            padding: "4px 0",
-            gap: 18,
-            borderBottom: "1px solid rgba(255,255,255,0.07)",
-            flexWrap: "wrap",
-          }}
-        >
-          {SOCIAL_LINKS.map(link => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              title={link.label}
-              style={{ color: "rgba(255,255,255,0.55)", display: "flex", alignItems: "center", transition: "color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-              onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
-            >
-              {link.svg}
-            </a>
-          ))}
-        </div>
-
-        {/* Office + weather bar */}
         <div
           style={{
             background: "#1B2A4A",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: 40,
-            padding: "5px 24px",
-            fontSize: 11.5,
-            color: "rgba(255,255,255,0.82)",
-            gap: 10,
+            minHeight: 32,
+            padding: "4px 16px",
+            gap: 14,
+            borderBottom: "1px solid rgba(0,0,0,0.18)",
             flexWrap: "wrap",
-            borderBottom: "1px solid rgba(0,0,0,0.15)",
+            overflow: "hidden",
           }}
         >
-          <span>
-            Christie’s East Hampton Office&nbsp;&nbsp;·&nbsp;&nbsp;26 Park Place, East Hampton, NY 11937&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: '#C8AC78', textDecoration: 'none' }}>edbruehl@christiesrealestategroup.com</a>
+          {/* Social icons — compact, gold tint */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+            {SOCIAL_LINKS.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={link.label}
+                style={{ color: "rgba(200,172,120,0.55)", display: "flex", alignItems: "center", transition: "color 0.2s" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#C8AC78")}
+                onMouseLeave={e => (e.currentTarget.style.color = "rgba(200,172,120,0.55)")}
+              >
+                {/* Render 14×14 icons for the slim bar */}
+                <span style={{ width: 14, height: 14, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {link.svg}
+                </span>
+              </a>
+            ))}
+          </div>
+          {/* Divider */}
+          <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
+          {/* Office address + email */}
+          <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, letterSpacing: "0.06em", color: "rgba(200,172,120,0.7)", whiteSpace: "nowrap" }}>
+            26 Park Place, East Hampton&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233&nbsp;&nbsp;·&nbsp;&nbsp;
+            <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: '#C8AC78', textDecoration: 'none' }}>edbruehl@christiesrealestategroup.com</a>
           </span>
+          {/* Weather — gold, compact */}
           {market.weather && (
-            <span style={{ color: "#C8AC78", fontWeight: 600, flexShrink: 0 }}>{market.weather}</span>
+            <>
+              <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
+              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#C8AC78", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
+            </>
           )}
         </div>
       </div>

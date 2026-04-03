@@ -42,10 +42,16 @@ const ARC_PHASES = [
   { phase: 'Phase IV',  days: '271–300', label: 'Consolidation', description: 'Full South Fork market authority established. Annual GCI run rate confirmed. Year 2 plan locked.' },
 ];
 
-// Chart constants
-const CHART_H   = 220; // px — usable bar area
-const MAX_GCI   = 5.0; // ceiling for Y-axis
-const Y_TICKS   = [1, 2, 3, 4, 5];
+// Ascension milestones — from Ilija ProForma March 2026 v4 + Christie's Ascension UPDATED
+const ASCENSION_MILESTONES = [
+  { id: 1, label: 'Year 1 · 2026',   volume: '$2.5M',   sub: 'Foundation · First closings',          actual: true,  detail: 'Ed Bruehl solo · 1 agent · 2 closings · Base case entry' },
+  { id: 2, label: 'Year 2 · 2027',   volume: '$13.62M', sub: 'First team layer · 6 agents',           actual: false, detail: '6 agents operating · $2.27M avg GCI/agent · Podcast + events cadence locked' },
+  { id: 3, label: 'Year 3 · 2028',   volume: '$20M+',   sub: 'Operating scale · 10 agents',           actual: false, detail: '10 agents · $2M avg · South Fork market presence established' },
+  { id: 4, label: 'Year 4 · 2029',   volume: '$143M+',  sub: 'Regional authority · 14 agents',        actual: false, detail: "14 agents · Institutional listing pipeline · Christie's brand fully deployed" },
+  { id: 5, label: 'Year 5 · 2030',   volume: '$280M+',  sub: 'Institutional presence · 18 agents',   actual: false, detail: '18 agents · Family office relationships active · UHNW collector network' },
+  { id: 6, label: 'Year 6 · 2031',   volume: '$3B',     sub: 'Full South Fork coverage · 22 agents', actual: false, detail: "22 agents · Full territory coverage · Christie's East Hampton as market authority" },
+];
+
 const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
 
 export default function FutureTab() {
@@ -87,140 +93,88 @@ export default function FutureTab() {
           ))}
         </div>
 
-        {/* ── GCI Bar Chart ─────────────────────────────────────────────────── */}
+        {/* ── Ascension Arc ────────────────────────────────────────────────────── */}
         <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          GCI Trajectory · 2026–2031
+          Ascension Arc · Sales Volume Trajectory
         </div>
-
-        <MatrixCard variant="default" className="mb-10 p-6 pb-5">
-          {/* Chart wrapper — relative so Y-axis labels can be absolute */}
-          <div style={{ position: 'relative', paddingLeft: 36 }}>
-
-            {/* Y-axis label */}
+        <MatrixCard variant="default" className="mb-10 p-6">
+          {/* Ascending step visual */}
+          <div className="relative">
+            {/* Connector line */}
             <div style={{
-              position: 'absolute', left: 0, top: '50%',
-              transform: 'rotate(-90deg) translateX(50%)',
-              transformOrigin: 'left center',
-              ...LABEL_FONT, color: 'rgba(27,42,74,0.35)', fontSize: 9,
-              letterSpacing: '0.12em', textTransform: 'uppercase', whiteSpace: 'nowrap',
-            }}>
-              GCI ($M)
-            </div>
-
-            {/* Chart area */}
-            <div style={{ position: 'relative', height: CHART_H + 48 }}>
-
-              {/* Horizontal gridlines + Y tick labels */}
-              {Y_TICKS.map(v => {
-                const pct = (v / MAX_GCI) * CHART_H;
-                return (
-                  <div key={v} style={{
-                    position: 'absolute', left: 0, right: 0,
-                    bottom: 48 + pct,
-                    height: 1, background: 'rgba(27,42,74,0.07)',
+              position: 'absolute',
+              top: 28,
+              left: 28,
+              right: 28,
+              height: 2,
+              background: 'linear-gradient(to right, #C8AC78 0%, rgba(27,42,74,0.25) 100%)',
+              zIndex: 0,
+            }} />
+            <div className="grid grid-cols-3 md:grid-cols-6 gap-4 relative" style={{ zIndex: 1 }}>
+              {ASCENSION_MILESTONES.map((m, i) => (
+                <div key={m.id} className="flex flex-col items-center text-center">
+                  {/* Node */}
+                  <div style={{
+                    width: 56, height: 56,
+                    borderRadius: '50%',
+                    background: m.actual ? '#1B2A4A' : '#FAF8F4',
+                    border: `2px solid ${m.actual ? '#C8AC78' : 'rgba(27,42,74,0.2)'}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    marginBottom: 10,
+                    boxShadow: m.actual ? '0 4px 16px rgba(200,172,120,0.25)' : 'none',
                   }}>
                     <span style={{
-                      position: 'absolute', right: 'calc(100% + 6px)', top: -8,
-                      ...LABEL_FONT, color: 'rgba(27,42,74,0.4)', fontSize: 9,
-                      whiteSpace: 'nowrap',
+                      ...LABEL_FONT,
+                      color: m.actual ? '#C8AC78' : 'rgba(27,42,74,0.4)',
+                      fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
                     }}>
-                      ${v}M
+                      {i + 1}
                     </span>
                   </div>
-                );
-              })}
-
-              {/* Bars */}
-              <div style={{
-                position: 'absolute', bottom: 48, left: 0, right: 0,
-                display: 'flex', alignItems: 'flex-end', gap: 10, height: CHART_H,
-              }}>
-                {OUTLOOK.map((row, i) => {
-                  const barH = Math.round((row.gciNum / MAX_GCI) * CHART_H);
-                  const isFirst = i === 0;
-                  return (
-                    <div key={row.year} style={{
-                      flex: 1, display: 'flex', flexDirection: 'column',
-                      alignItems: 'center', justifyContent: 'flex-end', height: '100%',
+                  {/* Volume */}
+                  <div style={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    color: m.actual ? '#C8AC78' : '#1B2A4A',
+                    fontSize: m.volume.length > 5 ? '1.1rem' : '1.3rem',
+                    fontWeight: 600, lineHeight: 1.1, marginBottom: 4,
+                  }}>
+                    {m.volume}
+                  </div>
+                  {/* Label */}
+                  <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>
+                    {m.label}
+                  </div>
+                  {/* Sub */}
+                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.4 }}>
+                    {m.sub}
+                  </div>
+                  {/* Actual badge */}
+                  {m.actual && (
+                    <div className="mt-2 px-2 py-0.5 text-[9px] uppercase" style={{
+                      ...LABEL_FONT, background: '#1B2A4A', color: '#C8AC78',
+                      letterSpacing: '0.12em',
                     }}>
-                      {/* Value label above bar */}
-                      <div style={{
-                        ...LABEL_FONT,
-                        color: isFirst ? '#C8AC78' : '#1B2A4A',
-                        fontSize: 11, fontWeight: 700,
-                        letterSpacing: '0.04em',
-                        marginBottom: 5,
-                        whiteSpace: 'nowrap',
-                      }}>
-                        {row.gci}
-                      </div>
-                      {/* Bar */}
-                      <div style={{
-                        width: '80%',
-                        height: barH,
-                        background: isFirst
-                          ? 'linear-gradient(to top, #C8AC78 0%, rgba(200,172,120,0.55) 100%)'
-                          : 'linear-gradient(to top, #1B2A4A 0%, rgba(27,42,74,0.45) 100%)',
-                        borderTop: `2px solid ${isFirst ? '#C8AC78' : '#1B2A4A'}`,
-                        transition: 'height 0.5s ease',
-                      }} />
+                      Actual
                     </div>
-                  );
-                })}
-              </div>
-
-              {/* X-axis: year + agent count */}
-              <div style={{
-                position: 'absolute', bottom: 0, left: 0, right: 0,
-                display: 'flex', gap: 10, height: 44,
-              }}>
-                {OUTLOOK.map((row, i) => {
-                  const isFirst = i === 0;
-                  return (
-                    <div key={row.year} style={{
-                      flex: 1, display: 'flex', flexDirection: 'column',
-                      alignItems: 'center', justifyContent: 'flex-start',
-                      paddingTop: 8, gap: 2,
-                    }}>
-                      <div style={{
-                        ...LABEL_FONT,
-                        color: isFirst ? '#C8AC78' : '#384249',
-                        fontSize: 11, fontWeight: 600, letterSpacing: '0.1em',
-                      }}>
-                        {row.year}
-                      </div>
-                      <div style={{
-                        ...LABEL_FONT,
-                        color: 'rgba(27,42,74,0.4)',
-                        fontSize: 9, letterSpacing: '0.08em',
-                      }}>
-                        {row.agents} agents
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-            </div>{/* /chart area */}
-          </div>{/* /paddingLeft wrapper */}
-
-          {/* Legend */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 20,
-            marginTop: 16, paddingTop: 12,
-            borderTop: '1px solid rgba(27,42,74,0.08)',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <div style={{ width: 12, height: 12, background: '#C8AC78' }} />
-              <span style={{ ...LABEL_FONT, color: 'rgba(27,42,74,0.5)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                2026 Base Case — Locked
-              </span>
+                  )}
+                </div>
+              ))}
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <div style={{ width: 12, height: 12, background: '#1B2A4A' }} />
-              <span style={{ ...LABEL_FONT, color: 'rgba(27,42,74,0.5)', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                Projected Trajectory
-              </span>
+          </div>
+          {/* Detail rows */}
+          <div className="mt-8 border-t pt-6" style={{ borderColor: 'rgba(27,42,74,0.08)' }}>
+            <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em' }}>
+              Milestone Detail · Ilija ProForma March 2026 v4 · Christie&apos;s Ascension UPDATED
+            </div>
+            <div className="flex flex-col gap-2">
+              {ASCENSION_MILESTONES.map(m => (
+                <div key={m.id} className="flex items-start gap-4 py-2 border-b" style={{ borderColor: 'rgba(27,42,74,0.05)' }}>
+                  <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, minWidth: 80, letterSpacing: '0.1em' }}>{m.label}</div>
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1rem', fontWeight: 600, minWidth: 80 }}>{m.volume}</div>
+                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8rem', flex: 1 }}>{m.detail}</div>
+                  {m.actual && <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>✓ Actual</div>}
+                </div>
+              ))}
             </div>
           </div>
         </MatrixCard>

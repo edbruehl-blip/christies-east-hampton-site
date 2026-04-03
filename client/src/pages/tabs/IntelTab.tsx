@@ -102,7 +102,7 @@ function CalendarLayer() {
           src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%231B2A4A&color=%23C8AC78"
           title="Christie's East Hampton · Master Calendar"
           width="100%"
-          style={{ display: 'block', height: 600, border: 'none' }}
+          style={{ display: 'block', height: 400, border: 'none' }}
           allowFullScreen
         />
       </div>

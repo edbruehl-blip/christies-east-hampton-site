@@ -403,16 +403,8 @@ export default function MarketTab() {
             Ten-Hamlet Volume Distribution · South Fork Territory
           </h2>
 
-          <div className="flex flex-col lg:flex-row gap-10 items-start">
-            {/* Donut */}
-            <div className="shrink-0 flex justify-center w-full lg:w-auto">
-              <HamletDonut />
-            </div>
-
-            {/* Right column: rate environment + legend */}
-            <div className="flex-1 flex flex-col gap-6">
-              <RateEnvironment />
-            </div>
+          <div className="flex justify-center">
+            <HamletDonut />
           </div>
         </div>
       </section>
@@ -455,8 +447,8 @@ export default function MarketTab() {
         </div>
       </section>
 
-      {/* ── Saunders 2025 Annual Market Summary ─────────────────────────── */}
-      <section className="px-6 pb-14" style={{ background: '#1B2A4A' }}>
+      {/* Saunders section removed per Sprint 7 polish directive */}
+      <section className="hidden" style={{ background: '#1B2A4A' }}>
         <div className="mx-auto py-10" style={{ maxWidth: 1100 }}>
           <div
             className="uppercase mb-2"

@@ -73,20 +73,28 @@ function PaumanokPlate() {
         </h2>
       </div>
       <MapView
-        className="w-full h-[380px]"
-        initialCenter={{ lat: 40.9635, lng: -72.1851 }}
-        initialZoom={11}
+        className="w-full h-[420px]"
+        initialCenter={{ lat: 40.97, lng: -72.55 }}
+        initialZoom={9}
         onMapReady={(map) => {
           mapRef.current = map;
-          // Satellite aerial view
+          // Satellite aerial view — full North+South Fork
           map.setMapTypeId('satellite');
           map.setTilt(0);
-          // Add hamlet markers
+          // Add custom gold dot markers (no default blob pins)
           MASTER_HAMLET_DATA.forEach(hamlet => {
+            const pin = document.createElement('div');
+            pin.style.cssText = [
+              'width:12px', 'height:12px', 'border-radius:50%',
+              'background:#C8AC78', 'border:2px solid #FAF8F4',
+              'box-shadow:0 2px 6px rgba(0,0,0,0.5)',
+              'cursor:pointer',
+            ].join(';');
             new window.google!.maps.marker.AdvancedMarkerElement({
               map,
               position: { lat: hamlet.lat, lng: hamlet.lng },
               title: hamlet.name,
+              content: pin,
             });
           });
         }}

@@ -329,3 +329,23 @@
 ## Sprint 7 Items 7 + PIPE Add Deal (April 3, 2026)
 - [x] Sprint 7 Item 7 — Update INTEL Horizon banner from Sprint 6 to Sprint 7
 - [x] PIPE tab — Add Deal button wired to appendSheet tRPC mutation
+
+## Sprint 7 Final Polish — May 1 Launch (April 3, 2026)
+- [ ] Nav Bar: inline weather widget + address + email in one thin gold-on-navy row; fix extra height
+- [ ] Nav Bar P0: fix email to edbruehl@christiesrealestategroup.com
+- [ ] HOME Tab: restore V1 layout — hero+founding letter, YouTube channel, Christie's story, Christie's video, gallery image box; remove KPI tiles, Priority Actions, Pipeline Snapshot, Market Signal cards
+- [ ] HOME Tab: strip footer to one line — "Art. Beauty. Provenance. · Since 1766." gold on navy
+- [ ] MARKET Tab: strip all floating cards; live data strip + hamlet matrix only; remove tier label strings (CIS score display only); remove Wainscott and Hampton Bays
+- [ ] PIPE Tab: move pipeline table above the fold — remove anything sitting above it
+- [ ] INTEL Tab: constrain calendar to card width; embed org chart open on arrival; SOP as collapsed card; remove non-canonical items
+- [ ] MAPS Tab: zoom out to show full North+South Fork on initial load; remove hamlet blob overlays; clean listing slots (no placeholders)
+- [ ] FUTURE Tab: remove GCI Trajectory Chart; add Ascension sales volume visual — 6 milestones: $2.5M → $13.62M → $20M+ → $143M+ → $280M+ → $3B; actual vs projected; printable
+
+## Sprint 7 Final Polish — Completed (April 3, 2026)
+- [x] Nav Bar — collapsed Layer 5 to single thin gold-on-navy sliver (email already correct at edbruehl@christiesrealestategroup.com)
+- [x] HOME Tab — restored V1 layout: hero + founding letter + YouTube channel + Christie's story + video + gallery; stripped KPI tiles, Priority Actions, Pipeline Snapshot, Market Signal cards; footer to one line "Art. Beauty. Provenance. · Since 1766."
+- [x] MARKET Tab — stripped RateEnvironment sidebar and Saunders section; hamlet tiles CIS score only
+- [x] PIPE Tab — pipeline table already above the fold (confirmed, no change needed)
+- [x] INTEL Tab — calendar constrained to 400px height
+- [x] MAPS Tab — zoomed out to full North+South Fork (zoom 9, center -72.55); replaced default blob markers with custom gold dot markers
+- [x] FUTURE Tab — removed GCI bar chart; replaced with Ascension Arc visual (6 milestones: $2.5M → $13.62M → $20M+ → $143M+ → $280M+ → $3B)
