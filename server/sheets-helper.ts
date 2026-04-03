@@ -181,8 +181,8 @@ export async function updatePipelineStatus(
   return { success: true, rowNumber };
 }
 
-// ─── Append a new deal row ────────────────────────────────────────────────────
-// Writes A–H only (address through ERS/EBB signed) — media columns left blank
+// ─// ─── Append a new deal row ────────────────────────────────────────────
+// Writes A–L + U (address through Zillow Showcase + Date Closed) — media columns M–T left blank
 export async function appendPipelineRow(deal: {
   address: string;
   town?: string;
@@ -192,6 +192,10 @@ export async function appendPipelineRow(deal: {
   agent?: string;
   side?: string;
   ersSigned?: string;
+  eeliLink?: string;
+  signs?: string;
+  photos?: string;
+  zillowShowcase?: string;
   dateClosed?: string;
 }): Promise<{ rowNumber: number }> {
   const sheets = getSheetsClient();
@@ -199,14 +203,18 @@ export async function appendPipelineRow(deal: {
   // Build a 21-column row (A–U), leaving media columns M–T blank
   const values = new Array(21).fill("");
   values[0]  = deal.address;
-  values[1]  = deal.town       ?? "";
-  values[2]  = deal.type       ?? "";
-  values[3]  = deal.price      ?? "";
-  values[4]  = deal.status     ?? "";
-  values[5]  = deal.agent      ?? "";
-  values[6]  = deal.side       ?? "";
-  values[7]  = deal.ersSigned  ?? "";
-  values[20] = deal.dateClosed ?? "";  // Column U
+  values[1]  = deal.town            ?? "";
+  values[2]  = deal.type            ?? "";
+  values[3]  = deal.price           ?? "";
+  values[4]  = deal.status          ?? "";
+  values[5]  = deal.agent           ?? "";
+  values[6]  = deal.side            ?? "";
+  values[7]  = deal.ersSigned       ?? "";
+  values[8]  = deal.eeliLink        ?? "";  // Column I
+  values[9]  = deal.signs           ?? "";  // Column J
+  values[10] = deal.photos          ?? "";  // Column K
+  values[11] = deal.zillowShowcase  ?? "";  // Column L
+  values[20] = deal.dateClosed      ?? "";  // Column Umn U
 
   await sheets.spreadsheets.values.append({
     spreadsheetId: SHEET_ID,

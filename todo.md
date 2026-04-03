@@ -352,3 +352,6 @@
 
 ## Pre-Publish Fix — April 3, 2026
 - [x] MARKET Tab — add Wainscott back (no CIS score yet, show as pending)
+
+## PIPE Bulk Import — April 3, 2026
+- [x] PIPE tab — "Import from Profile" button: compare scraped listings to Sheet, append new ones as Active deal rows

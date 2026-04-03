@@ -8,6 +8,7 @@ import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
 import { readPipelineDeals, appendPipelineRow, updatePipelineStatus } from './sheets-helper';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
+import { syncListings } from './listings-sync-route';
 import { eq, asc } from "drizzle-orm";
 
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
@@ -207,6 +208,68 @@ export const appRouter = router({
         if (!db) throw new Error('Database not available');
         await db.delete(pipeline).where(eq(pipeline.id, input.id));
         return { success: true };
+      }),
+
+    /**
+     * Import from Profile — scrape Christie's profile page, compare addresses to
+     * the existing Sheet, and append any new listings as Active deal rows.
+     * Returns { imported, skipped, listings } so the UI can show a summary.
+     */
+    importFromProfile: publicProcedure
+      .mutation(async () => {
+        // 1. Scrape live listings
+        const { listings } = await syncListings();
+        if (listings.length === 0) {
+          return { imported: 0, skipped: 0, listings: [] as string[] };
+        }
+        // 2. Read existing Sheet to detect duplicates
+        const existingDeals = await readPipelineDeals();
+        const existingAddresses = new Set(
+          existingDeals
+            .filter(d => !d.isSectionHeader)
+            .map(d => d.address.toLowerCase().trim())
+        );
+        // 3. Append new listings only
+        const TOWN_MAP: Record<string, string> = {
+          'sagaponack': 'Sagaponack',
+          'east-hampton-village': 'East Hampton',
+          'bridgehampton': 'Bridgehampton',
+          'southampton-village': 'Southampton',
+          'water-mill': 'Water Mill',
+          'sag-harbor': 'Sag Harbor',
+          'amagansett': 'Amagansett',
+          'east-hampton': 'East Hampton',
+          'springs': 'Springs',
+          'montauk': 'Montauk',
+          'wainscott': 'Wainscott',
+        };
+        const imported: string[] = [];
+        const skipped: string[] = [];
+        for (const listing of listings) {
+          const addrKey = listing.address.toLowerCase().trim();
+          if (existingAddresses.has(addrKey)) {
+            skipped.push(listing.address);
+            continue;
+          }
+          const town = TOWN_MAP[listing.hamlet ?? ''] ?? listing.hamlet ?? '';
+          await appendPipelineRow({
+            address: listing.address,
+            town,
+            type: listing.propertyType || 'Residential',
+            price: listing.price,
+            status: 'Active',
+            agent: 'Ed Bruehl',
+            side: 'Listing',
+            ersSigned: '',
+            eeliLink: listing.url,
+            signs: '',
+            photos: '',
+            zillowShowcase: '',
+            dateClosed: '',
+          });
+          imported.push(listing.address);
+        }
+        return { imported: imported.length, skipped: skipped.length, listings: imported };
       }),
   }),
 

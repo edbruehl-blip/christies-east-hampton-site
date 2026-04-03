@@ -12,6 +12,7 @@
 
 import { useState, useCallback } from 'react';
 import { trpc } from '@/lib/trpc';
+import { toast } from 'sonner';
 
 // ─── Sheet config ─────────────────────────────────────────────────────────────
 
@@ -571,7 +572,63 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
+// // ─── Import from Profile Button ─────────────────────────────────────────────
+
+function ImportFromProfileButton({ onSuccess }: { onSuccess: () => void }) {
+  const [result, setResult] = useState<{ imported: number; skipped: number; listings: string[] } | null>(null);
+  const importMutation = trpc.pipe.importFromProfile.useMutation({
+    onSuccess: (data) => {
+      setResult(data);
+      onSuccess();
+      toast.success(
+        data.imported > 0
+          ? `${data.imported} listing${data.imported > 1 ? 's' : ''} imported to Sheet`
+          : `All ${data.skipped} listing${data.skipped > 1 ? 's' : ''} already in Sheet — no duplicates added`,
+        { duration: 6000 }
+      );
+    },
+    onError: (err) => {
+      toast.error(`Import failed: ${err.message}`);
+    },
+  });
+  return (
+    <div className="mb-4">
+      <button
+        onClick={() => { setResult(null); importMutation.mutate(); }}
+        disabled={importMutation.isPending}
+        className="flex items-center gap-2 px-4 py-2 text-sm rounded border transition-colors"
+        style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          letterSpacing: '0.12em',
+          fontSize: 10,
+          textTransform: 'uppercase',
+          background: 'transparent',
+          borderColor: '#C8AC78',
+          color: '#C8AC78',
+          opacity: importMutation.isPending ? 0.7 : 1,
+          cursor: importMutation.isPending ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {importMutation.isPending ? (
+          <><span className="animate-spin inline-block w-3 h-3 border border-current border-t-transparent rounded-full" style={{ borderTopColor: 'transparent' }} /> Syncing Profile…</>
+        ) : (
+          <>↓ Import from Profile</>
+        )}
+      </button>
+      {result && (
+        <div className="mt-2 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
+          {result.imported > 0 ? (
+            <span style={{ color: '#1a6b1a' }}>✓ {result.imported} new row{result.imported > 1 ? 's' : ''} added: {result.listings.join(', ')}</span>
+          ) : (
+            <span style={{ color: '#7a8a8e' }}>All {result.skipped} listing{result.skipped > 1 ? 's' : ''} already in Sheet.</span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Main Component ─────────────────────────────────────────────
 
 export default function PipeTab() {
   const utils = trpc.useUtils();
@@ -604,8 +661,11 @@ export default function PipeTab() {
             </div>
           </div>
         </div>
-        {/* Add Deal button — wired to appendSheet tRPC mutation */}
-        <AddDealForm onSuccess={handleDealAdded} />
+        {/* Action buttons row */}
+        <div className="flex items-center gap-3 mb-2">
+          <AddDealForm onSuccess={handleDealAdded} />
+          <ImportFromProfileButton onSuccess={handleDealAdded} />
+        </div>
         <PipelineTable />
       </div>
     </div>
