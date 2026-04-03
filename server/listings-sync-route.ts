@@ -39,7 +39,9 @@ const CHRISTIES_BASE = 'https://www.christiesrealestategroup.com';
 // Ten hamlets — Montauk is its own bucket (Sprint 6, April 2026)
 
 const HAMLET_KEYWORDS: Record<string, string[]> = {
-  'east-hampton-village':  ['east hampton', 'e hampton'],
+  // NOTE: hamlet IDs must exactly match those in client/src/data/hamlet-master.ts
+  // Master IDs: sagaponack, east-hampton-village, bridgehampton, southampton-village,
+  //             water-mill, sag-harbor, amagansett, east-hampton, springs, montauk
   'sagaponack':            ['sagaponack'],
   'bridgehampton':         ['bridgehampton'],
   'water-mill':            ['water mill'],
@@ -47,8 +49,9 @@ const HAMLET_KEYWORDS: Record<string, string[]> = {
   'sag-harbor':            ['sag harbor'],
   'amagansett':            ['amagansett'],
   'springs':               ['springs'],
-  'east-hampton-town':     ['wainscott', 'noyac'],
   'montauk':               ['montauk'],
+  // east-hampton covers East Hampton Village, East Hampton Town, and Hampton Bays
+  'east-hampton':          ['east hampton', 'e hampton', 'hampton bays'],
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

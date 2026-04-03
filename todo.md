@@ -311,3 +311,14 @@
 - [x] ElevenLabs key rotation — new "Manny" key set, TTS confirmed live (200 OK, 369KB audio)
 - [x] Item 4: Intel Source Registry — 16 sources across 4 pillars (Territory, Relationship, Memory, Voice) — filter tabs, expandable cards, Growth Model feed map — wired into INTEL Layer 3
 - [x] Item 5: Newsletter Infrastructure — Beehiiv subscriber management + Gmail SMTP — nodemailer installed — newsletter.ts helper with buildMarketReportNewsletter, beehiivSubscribe, sendTestEmail — tRPC procedures: newsletter.subscribe, newsletter.getStats, newsletter.sendTestEmail — NewsletterManager component in INTEL Layer 3 — 2 new vitest tests — 25/25 passing
+
+## MAPS Tab — Live Listings Fix (April 3, 2026)
+
+- [ ] Diagnose why MAPS hamlet cards show TBD instead of live listings from scraper
+- [ ] Fix data pipeline so live listings from christiesrealestategroup.com/realestate/agent/ed-bruehl/ render in MAPS hamlet cards
+- [ ] Confirm all 4 live listings are displaying correctly in MAPS tab
+
+## MAPS Tab — Live Listings Fix (April 3, 2026)
+- [x] MAPS tab — fix hamlet ID mismatch in HAMLET_KEYWORDS (east-hampton-village → east-hampton, hampton-bays → east-hampton)
+- [x] MAPS tab — add live listing badge (N ACTIVE) to hamlet grid cards
+- [x] MAPS tab — add top listing preview to hamlet grid card body

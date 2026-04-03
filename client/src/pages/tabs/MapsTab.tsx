@@ -415,7 +415,8 @@ function CISCalculatorLayer() {
 
 // ─── Layer 3 + 4: Ten Hamlet Matrix + PDF Download ────────────────────────────
 
-function HamletMatrixCard({ hamlet, onExpand, isExpanded }: { hamlet: HamletData; onExpand: () => void; isExpanded: boolean }) {
+function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { hamlet: HamletData; onExpand: () => void; isExpanded: boolean; liveListings: Record<string, LiveListing[]> }) {
+  const hamletListings = liveListings[hamlet.id] || [];
   const [downloading, setDownloading] = useState(false);
 
   const handleDownload = async (e: React.MouseEvent) => {
@@ -456,6 +457,11 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded }: { hamlet: HamletData
             CIS {hamlet.anewScore.toFixed(1)} / 10
           </div>
         </div>
+        {hamletListings.length > 0 && (
+          <div style={{ position: 'absolute', top: 8, right: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
+            {hamletListings.length} ACTIVE
+          </div>
+        )}
       </div>
 
       {/* Card body */}
@@ -474,6 +480,14 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded }: { hamlet: HamletData
           </div>
         </div>
 
+        {/* Live listing preview — shows first listing address if available */}
+        {hamletListings.length > 0 && (
+          <div style={{ marginBottom: 8, padding: '8px 10px', background: isExpanded ? 'rgba(200,172,120,0.1)' : 'rgba(27,42,74,0.04)', borderLeft: '2px solid #C8AC78' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 2 }}>Top Listing</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: isExpanded ? '#FAF8F4' : '#1B2A4A', fontSize: '0.72rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hamletListings[0].address}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
+          </div>
+        )}
         {/* PDF download button — Layer 4 */}
         <button
           onClick={handleDownload}
@@ -667,6 +681,7 @@ export default function MapsTab() {
                 hamlet={hamlet}
                 isExpanded={activeHamlet?.id === hamlet.id}
                 onExpand={() => setActiveHamlet(prev => prev?.id === hamlet.id ? null : hamlet)}
+                liveListings={liveListings}
               />
             ))}
           </div>
