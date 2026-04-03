@@ -349,3 +349,6 @@
 - [x] INTEL Tab — calendar constrained to 400px height
 - [x] MAPS Tab — zoomed out to full North+South Fork (zoom 9, center -72.55); replaced default blob markers with custom gold dot markers
 - [x] FUTURE Tab — removed GCI bar chart; replaced with Ascension Arc visual (6 milestones: $2.5M → $13.62M → $20M+ → $143M+ → $280M+ → $3B)
+
+## Pre-Publish Fix — April 3, 2026
+- [x] MARKET Tab — add Wainscott back (no CIS score yet, show as pending)

@@ -389,8 +389,42 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     qsHamletMult: 0.88,
     qsHamletTier: 1,
   },
+  {
+    id: 'wainscott',
+    name: 'Wainscott',
+    tier: 'Trophy',
+    medianPrice: 3_850_000,
+    medianPriceDisplay: '$3.85M',
+    anewScore: 0,   // CIS score pending — not yet assigned by Ed
+    volumeShare: 4,
+    lastSale: 'TBD',
+    lastSalePrice: 'TBD',
+    lastSaleDate: 'Q1 2026',
+    restaurants: {
+      anchor: 'TBD',
+      mid: 'TBD',
+      local: 'TBD',
+    },
+    zillowUrl: 'https://www.zillow.com/wainscott-ny/',
+    newsLinks: [
+      { label: 'WSJ Hamptons', url: 'https://www.wsj.com/real-estate/luxury-homes/hamptons' },
+      { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
+      { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
+    ],
+    photo: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+    eeleListings: [
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+      { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
+    ],
+    lat: 40.9448,
+    lng: -72.2365,
+    qsHamletMult: 0.94,
+    qsHamletTier: 2,
+  },
 ];
 // ─── Montauk: 10th hamlet added per Ed Bruehl direction, April 2026.
+// Wainscott: added April 3, 2026 — CIS score pending, Trophy tier, ~$3.85M median.
 // Hampton Bays (Cowfish) is not in the ten-hamlet ANEW territory.
 
 // Tier color map — token-driven
