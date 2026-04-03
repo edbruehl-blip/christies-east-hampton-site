@@ -375,3 +375,19 @@
 - [x] PDF — methodology text updated to CIS-only language
 - [x] PDF — investment memo ANEW items updated to CIS-only language
 - [x] PDF — market report cover label updated from ULTRA-TROPHY to CIS 9.2 / 10
+
+## Hamlet Data Pass — April 3, 2026
+- [ ] Update all 10 hamlet medians in hamlet-master.ts (Saunders 2025 annual report)
+- [ ] Wire imageUrl (Wikimedia Commons) into hamlet-master.ts for all 10 hamlets
+- [ ] Wire vibeText (Gemini two-sentence copy) into hamlet-master.ts for all 10 hamlets
+- [ ] Render imageUrl in MAPS hamlet detail panel and MARKET tiles
+- [ ] Render vibeText in MAPS hamlet detail panel
+- [ ] Confirm Option B JSON schema for INTEL Layer 3
+
+## Hamlet Data Pass — Completed April 3, 2026
+- [x] Update all 10 hamlet medians in hamlet-master.ts (Saunders 2025 canonical values)
+- [x] Wire Wikimedia imageUrl into hamlet-master.ts for all 10 hamlets
+- [x] Wire Gemini vibeText into hamlet-master.ts for all 10 hamlets
+- [x] Render imageUrl in MAPS hamlet detail panel hero (with hamlet.photo fallback)
+- [x] Render vibeText as "Character" paragraph in MAPS hamlet detail panel
+- [x] Option B JSON schema confirmed and pasted back for Perplexity verification

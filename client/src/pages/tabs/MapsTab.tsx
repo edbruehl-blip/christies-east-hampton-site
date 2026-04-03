@@ -545,7 +545,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
   return (
     <div ref={panelRef} style={{ background: '#FAF8F4', borderTop: `3px solid ${tierColor}` }}>
       <div style={{ position: 'relative', height: 280, overflow: 'hidden' }}>
-        <img src={hamlet.photo} alt={hamlet.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+        <img src={hamlet.imageUrl || hamlet.photo} alt={hamlet.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(27,42,74,0.1) 0%, rgba(27,42,74,0.72) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '24px 28px' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
@@ -577,6 +577,13 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
             </div>
           ))}
         </div>
+
+        {hamlet.vibeText && (
+          <div style={{ marginBottom: 28, padding: '18px 20px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', borderLeft: '3px solid #C8AC78' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 8 }}>Character</div>
+            <p style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>{hamlet.vibeText}</p>
+          </div>
+        )}
 
         <div style={{ marginBottom: 28 }}>
           <div style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', display: 'inline-block', minWidth: 260 }}>
