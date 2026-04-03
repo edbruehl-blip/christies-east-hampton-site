@@ -275,3 +275,27 @@
 - [x] Update ELEVENLABS_API_KEY to new key (old key deleted by Ed) — key rotated April 2, 2026
 - [x] Confirm TTS /api/tts/founding-letter endpoint responds with audio — 200 OK, 1.86MB audio file
 - [x] Run vitest to confirm tts.test.ts passes with new key — 23/23 passing
+
+## Sprint 7 — Go Signals (April 2, 2026)
+
+### Netlify — Kill the Project
+- [ ] Remove all Netlify references from architecture, README, and documentation
+- [ ] Remove any Netlify deploy scripts or config files from the project
+- [ ] Platform is Manus only — christies-dash-acqj9wc4.manus.space + www.christiesrealestategroupeh.com
+
+### Sprint 7 Item 1 — Org Chart v2
+- [ ] Read Org Chart Intelligence Google Sheet for live data
+- [ ] Build landscape, left-to-right, five-tier org chart component
+- [ ] Five tiers: Artemis/Pinault → Christie's Auction House → CIH → CIREG Tri-State → Christie's East Hampton Flagship
+- [ ] Guillaume Cerutti greyed out (departed March 30, 2026)
+- [ ] Zone One: public, names visible
+- [ ] Zone Two: private, no names in HTML — Ed-authenticated only
+- [ ] Wire as first canon document card in INTEL Layer 3
+- [ ] CIREG brand palette (charcoal/navy, gold connectors)
+
+### Sprint 7 Item 2 — Family Office List + Custom Letter System
+- [ ] Research East Hampton / South Fork UHNW family offices via Perplexity
+- [ ] Build structured list in INTEL (name, principal, AUM estimate, property interest, contact)
+- [ ] Build Ed Bruehl / James Christie custom letter template (auction-house magazine insert format)
+- [ ] QR code to newsletter/subscription
+- [ ] Wire into PIPE for follow-up tracking

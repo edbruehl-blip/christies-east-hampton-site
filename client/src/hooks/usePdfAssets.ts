@@ -17,7 +17,7 @@ export interface PdfAsset {
 }
 
 // The nine canon assets. URLs are null until Ed supplies the files.
-// When a file is uploaded to Netlify, update the url field here.
+// When a file is uploaded to CDN, update the url field here.
 export const CANON_PDF_ASSETS: PdfAsset[] = [
   {
     id: "anew-council-brief",
@@ -95,9 +95,9 @@ export const CANON_PDF_ASSETS: PdfAsset[] = [
 
 const IS_STAGING =
   typeof window !== "undefined" &&
-  (window.location.hostname.includes("netlify") ||
-    window.location.hostname.includes("localhost") ||
-    window.location.hostname.includes("manus.computer"));
+  (window.location.hostname.includes("localhost") ||
+    window.location.hostname.includes("manus.computer") ||
+    window.location.hostname.includes("manus.space"));
 
 /**
  * Returns only the assets that are safe to render in the current environment.

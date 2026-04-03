@@ -1,17 +1,24 @@
 # Environment Variables Reference
 
-**Christie's East Hampton Re-platform**
+**Christie's East Hampton — Manus Platform**
 
-The following environment variables must be configured in the Netlify dashboard before launch. Real keys never live in the repository.
+All environment variables are managed via the Manus Secrets panel (Settings → Secrets in the Management UI). Real keys never live in the repository.
 
 | Variable | Purpose | Required For |
 |---|---|---|
-| `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API | MAPS tab Earth animation and static embed |
-| `ELEVENLABS_API_KEY` | ElevenLabs voice synthesis | WhatsApp William voice layer |
-| `OPENAI_API_KEY` | OpenAI GPT | Intelligence layer |
-| `PERPLEXITY_API_KEY` | Perplexity API | INTEL tab live comps |
-| `TWILIO_ACCOUNT_SID` | Twilio | WhatsApp William inbound routing |
-| `TWILIO_AUTH_TOKEN` | Twilio | WhatsApp William inbound routing |
-| `NETLIFY_BLOBS_STORE_ID` | Netlify Blobs | Deal pipeline persistence store |
+| `ELEVENLABS_API_KEY` | ElevenLabs voice synthesis | LISTEN · FOUNDING LETTER button, TTS endpoint |
+| `TWILIO_ACCOUNT_SID` | Twilio | WhatsApp William inbound/outbound |
+| `TWILIO_AUTH_TOKEN` | Twilio | WhatsApp William inbound/outbound |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Google Sheets + Calendar API | PIPE tab live Sheet reads/writes, calendar sync |
+| `JWT_SECRET` | Session cookie signing | Manus OAuth |
+| `VITE_APP_ID` | Manus OAuth application ID | Authentication |
+| `OAUTH_SERVER_URL` | Manus OAuth backend | Authentication |
+| `VITE_OAUTH_PORTAL_URL` | Manus login portal | Authentication |
+| `DATABASE_URL` | MySQL/TiDB connection | All database operations |
+| `BUILT_IN_FORGE_API_KEY` | Manus built-in APIs (server-side) | LLM, storage, notifications |
+| `VITE_FRONTEND_FORGE_API_KEY` | Manus built-in APIs (client-side) | Frontend API access |
 
-To configure: Netlify Dashboard → Site Settings → Environment Variables → Add variable.
+To configure: Manus Management UI → Settings → Secrets → Add Secret.
+
+**Platform:** Manus only — christies-dash-acqj9wc4.manus.space + www.christiesrealestategroupeh.com  
+**Netlify:** Removed from architecture April 2, 2026.

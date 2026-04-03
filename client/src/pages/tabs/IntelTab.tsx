@@ -269,10 +269,10 @@ interface DocItem {
 
 const ORG_CHART_DOCS: DocItem[] = [
   {
-    id: 'org-chart',
-    label: "Christie's East Hampton · Institutional Hierarchy · March 2026",
-    description: "Full organizational hierarchy from James Christie through the Auction House and Real Estate Division to the East Hampton team.",
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/TtcjzvhlJtbopxGm.html',
+    id: 'org-chart-v2',
+    label: "CIREG Ecosystem · Organizational Map · April 2, 2026",
+    description: "Five-tier institutional hierarchy: Artémis / Pinault Family → Christie's Auction House → CIH → CIREG Tri-State → Christie's East Hampton Flagship. CIREG Brand Guidelines compliant. Guillaume Cerutti marked departed March 30, 2026.",
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/cireg-org-chart-v2-april-2026_cf381d58.html',
     pinned: true,
   },
 ];
@@ -350,9 +350,9 @@ const IBC_DOCS: DocItem[] = [
 
 const IS_STAGING =
   typeof window !== 'undefined' &&
-  (window.location.hostname.includes('netlify') ||
-    window.location.hostname.includes('localhost') ||
-    window.location.hostname.includes('manus.computer'));
+  (window.location.hostname.includes('localhost') ||
+    window.location.hostname.includes('manus.computer') ||
+    window.location.hostname.includes('manus.space'));
 
 function DocCard({ doc }: { doc: DocItem }) {
   const isLive = doc.url !== null;
