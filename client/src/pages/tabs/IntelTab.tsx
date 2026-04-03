@@ -16,6 +16,8 @@
 import { useState, useEffect } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { usePdfAssets } from '@/hooks/usePdfAssets';
+import { FamilyOfficeList } from '@/components/FamilyOfficeList';
+import { LocalCharityTracker } from '@/components/LocalCharityTracker';
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
@@ -520,6 +522,14 @@ export default function IntelTab() {
         </div>
 
         <DocSection title="Org Chart & Hierarchy" docs={ORG_CHART_DOCS} />
+        {/* Family Office Intelligence — Sprint 7 Item 2 */}
+        <div className="mb-8">
+          <FamilyOfficeList />
+        </div>
+        {/* Local Charity Tracker — Sprint 7 Item 3 */}
+        <div className="mb-8">
+          <LocalCharityTracker />
+        </div>
         <DocSection title="Market Report" docs={MARKET_REPORT_DOCS} />
         <CanonPdfSection />
         <DocSection title="Constitution & SOPs" docs={CONSTITUTION_DOCS} />

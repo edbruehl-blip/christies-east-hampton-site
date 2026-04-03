@@ -299,3 +299,9 @@
 - [ ] Build Ed Bruehl / James Christie custom letter template (auction-house magazine insert format)
 - [ ] QR code to newsletter/subscription
 - [ ] Wire into PIPE for follow-up tracking
+
+## Sprint 7 Items 2 & 3 — April 3, 2026
+
+- [x] Item 2: Family Office List — 12 UHNW principals across 5 tiers in INTEL Layer 3 — Ed Bruehl / James Christie letter template — QR to newsletter — wired into PIPE for follow-up
+- [x] Item 3: Local Charity Tracker — Highway 27 safety + East Hampton affordable housing — card in INTEL — Google Sheet backend
+- [ ] ElevenLabs key rotation — update ELEVENLABS_API_KEY to new "Manny" key with Text to Speech permission — confirm TTS live
