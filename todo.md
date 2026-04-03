@@ -355,3 +355,23 @@
 
 ## PIPE Bulk Import — April 3, 2026
 - [x] PIPE tab — "Import from Profile" button: compare scraped listings to Sheet, append new ones as Active deal rows
+
+## Post-Sprint 7 Brief — April 3, 2026
+- [ ] Audit queued visual fixes: calendar width, MAPS framing, Org Chart open on arrival, HOME V1 layout, MARKET tier labels stripped, FUTURE Ascension Arc as hero
+- [ ] Set Wainscott CIS score to 8.7 in hamlet-master.ts
+- [ ] Fix Frank Newbold fact: alive, Associate Broker at Sotheby's, sold $70M Further Lane 2025, East Hampton Historical Society Trustee — remove any deceased language
+- [ ] PDF parity pass: remove tier language, update Wainscott to 8.7, narrow layout to match site, replace PHOTO PENDING slots with hamlet images
+- [ ] Confirm all exports (CMA, deal brief, futures pro forma, market report) use CIS-only language — no public GCI or tier labels
+
+## Post-Sprint 7 Brief — Completed (April 3, 2026)
+- [x] HOME tab — audio player removed, V1 layout confirmed
+- [x] MARKET tab — tier section headers removed, flat hamlet grid
+- [x] Wainscott CIS score set to 8.7 in hamlet-master.ts (propagates to MARKET, MAPS, CIS Calculator, PDF exports)
+- [x] Frank Newbold — no reference found in codebase, no action needed
+- [x] PDF parity pass — tier language removed from all 5 export types (CIS Build Memo, CMA, Deal Brief, Investment Memo, Market Report)
+- [x] PDF — PHOTO PENDING replaced with ED BRUEHL placeholder text
+- [x] PDF — market report table header updated (Tier column removed, 5-column layout)
+- [x] PDF — hamlet atlas card badges updated from tier name to CIS score
+- [x] PDF — methodology text updated to CIS-only language
+- [x] PDF — investment memo ANEW items updated to CIS-only language
+- [x] PDF — market report cover label updated from ULTRA-TROPHY to CIS 9.2 / 10

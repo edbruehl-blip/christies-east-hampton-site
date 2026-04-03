@@ -247,15 +247,14 @@ export function drawHamletCompsTable(doc: jsPDF, y: number): number {
 
   const rows = MASTER_HAMLET_DATA.map(h => [
     h.name,
-    h.tier,
     h.medianPriceDisplay,
-    `${h.anewScore}`,
+    `${h.anewScore} / 10`,
     `${h.volumeShare}%`,
   ]);
 
   // Simple manual table
-  const cols = ['Hamlet', 'Tier', 'Median Price', 'CIS Score', 'Vol. Share'];
-  const colW = [50, 35, 35, 28, 28];
+  const cols = ['Hamlet', 'Median Price', 'CIS Score', 'Vol. Share'];
+  const colW = [60, 45, 40, 31];
   const rowH = 6;
 
   // Header row

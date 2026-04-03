@@ -395,7 +395,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 3_850_000,
     medianPriceDisplay: '$3.85M',
-    anewScore: 0,   // CIS score pending — not yet assigned by Ed
+    anewScore: 8.7,  // CIS score confirmed April 3, 2026 — Ed Bruehl
     volumeShare: 4,
     lastSale: 'TBD',
     lastSalePrice: 'TBD',
@@ -424,7 +424,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
   },
 ];
 // ─── Montauk: 10th hamlet added per Ed Bruehl direction, April 2026.
-// Wainscott: added April 3, 2026 — CIS score pending, Trophy tier, ~$3.85M median.
+// Wainscott: added April 3, 2026 — CIS 8.7 confirmed April 3, 2026, Trophy tier, ~$3.85M median.
 // Hampton Bays (Cowfish) is not in the ten-hamlet ANEW territory.
 
 // Tier color map — token-driven

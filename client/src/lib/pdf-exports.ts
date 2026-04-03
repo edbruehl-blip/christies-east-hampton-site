@@ -39,7 +39,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   // Property summary
   y = sectionLabel(doc, 'Property Summary', y);
   y = kvRow(doc, 'Address', result.address, y);
-  y = kvRow(doc, 'Hamlet', `${result.hamletName} · ${hamlet.tier}`, y);
+  y = kvRow(doc, 'Hamlet', result.hamletName, y);
   y = kvRow(doc, 'Lens', LENS_LABELS[result.lens], y);
   y = kvRow(doc, 'Date', today(), y);
   y += 4;
@@ -112,7 +112,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   const methodology = [
     'The Christie\'s Intelligence Score (0–100) is computed from three inputs: (1) Gross Financial Attractiveness derived from',
     'the spread percentage between all-in cost and projected exit price; (2) Hamlet Quality Score based on',
-    'tier classification and CIS multiplier; (3) CIS Intelligence Contribution from the hamlet\'s',
+    'CIS hamlet multiplier; (3) CIS Intelligence Contribution from the hamlet\'s',
     'institutional score. Thresholds: 85–100 = Institutional · 70–84 = Executable · 55–69 = Marginal · <55 = Pass.',
   ];
   methodology.forEach(line => {
@@ -146,7 +146,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   // Subject property
   y = sectionLabel(doc, 'Subject Property', y);
   y = kvRow(doc, 'Address', result.address, y);
-  y = kvRow(doc, 'Hamlet', `${result.hamletName} · ${hamlet.tier}`, y);
+  y = kvRow(doc, 'Hamlet', result.hamletName, y);
   y = kvRow(doc, 'Analysis Date', today(), y);
   y = kvRow(doc, 'Prepared By', 'Ed Bruehl · Managing Director · Christie\'s East Hampton', y);
   y += 4;
@@ -156,7 +156,6 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   y = kvRow(doc, 'Hamlet Median Price', hamlet.medianPriceDisplay, y, true);
   y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
   y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork transactions`, y);
-  y = kvRow(doc, 'Tier Classification', hamlet.tier, y);
   y += 4;
 
   // Pricing analysis
@@ -279,7 +278,7 @@ export async function generateDealBrief(result: AnewOutput): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
   const snapRows = [
-    ['Hamlet', `${result.hamletName} · ${hamlet.tier}`],
+    ['Hamlet', result.hamletName],
     ['Lens', LENS_LABELS[result.lens]],
     ['All-In', result.allInDisplay],
     ['Exit', result.exitDisplay],
@@ -399,7 +398,6 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   // Hamlet context
   y = sectionLabel(doc, 'Hamlet Context', y);
   y = kvRow(doc, 'Hamlet', result.hamletName, y);
-  y = kvRow(doc, 'Tier', hamlet.tier, y);
   y = kvRow(doc, 'Median Price', hamlet.medianPriceDisplay, y, true);
   y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
   y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork`, y);
@@ -645,8 +643,8 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   // Hamlet median summary table
   y = sectionLabel(doc, 'Hamlet Median Price Summary', y);
   const avgAnew2 = (MASTER_HAMLET_DATA.reduce((s, h) => s + h.anewScore, 0) / MASTER_HAMLET_DATA.length).toFixed(1);
-  const tblCols = ['Hamlet', 'Tier', 'Median Price', 'CIS', 'Vol. Share', 'YoY'];
-  const tblW = [PAGE.contentW * 0.22, PAGE.contentW * 0.18, PAGE.contentW * 0.18, PAGE.contentW * 0.14, PAGE.contentW * 0.14, PAGE.contentW * 0.14];
+  const tblCols = ['Hamlet', 'Median Price', 'CIS Score', 'Vol. Share', 'YoY'];
+  const tblW = [PAGE.contentW * 0.30, PAGE.contentW * 0.22, PAGE.contentW * 0.18, PAGE.contentW * 0.15, PAGE.contentW * 0.15];
   const rH = 5.5;
 
   doc.setFillColor(...C.navy);
@@ -671,7 +669,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
       'southampton-village': '+14%', 'water-mill': '+7%', 'amagansett': '+9%',
       'east-hampton': '+18%', 'sag-harbor': '+11%', 'springs': '+17%', 'montauk': '+6%',
     };
-    [h.name, h.tier, h.medianPriceDisplay, `${h.anewScore}`, `${h.volumeShare}%`, yoyMap[h.id] ?? '—'].forEach((val, i) => {
+    [h.name, h.medianPriceDisplay, `${h.anewScore} / 10`, `${h.volumeShare}%`, yoyMap[h.id] ?? '—'].forEach((val, i) => {
       doc.text(val, rx2, y + 3.5);
       rx2 += tblW[i];
     });
@@ -714,18 +712,18 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
 
     doc.setFillColor(...C.cream);
     doc.rect(cardX, cardY, cardW, cardH, 'F');
-    doc.setDrawColor(...(h.tier === 'Ultra-Trophy' ? C.gold : h.tier === 'Trophy' ? C.navy : C.charcoal));
-    doc.setLineWidth(h.tier === 'Ultra-Trophy' ? 0.8 : 0.4);
+    doc.setDrawColor(...C.navy);
+    doc.setLineWidth(0.4);
     doc.rect(cardX, cardY, cardW, cardH, 'S');
 
-    const badgeBg = tierBadgeBg[h.tier];
-    const badgeFg = tierBadgeFg[h.tier];
+    const badgeBg: [number, number, number] = C.navy;
+    const badgeFg: [number, number, number] = C.cream;
     doc.setFillColor(...badgeBg);
     doc.rect(cardX + cardW - 28, cardY, 28, 6.5, 'F');
     doc.setFontSize(5);
     doc.setTextColor(...badgeFg);
     doc.setFont('helvetica', 'bold');
-    doc.text(h.tier.toUpperCase(), cardX + cardW - 14, cardY + 4.2, { align: 'center' });
+    doc.text(`CIS ${h.anewScore}`, cardX + cardW - 14, cardY + 4.2, { align: 'center' });
 
     doc.setFontSize(10);
     doc.setTextColor(...C.navy);
@@ -814,8 +812,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     doc.rect(PAGE.ml + 8, y + 6, 24, 24, 'F');
     doc.setFontSize(5.5);
     doc.setTextColor(...C.gold);
-    doc.text('ED BRUEHL', PAGE.ml + 20, y + 19, { align: 'center' });
-    doc.text('PHOTO PENDING', PAGE.ml + 20, y + 24, { align: 'center' });
+    doc.text('ED BRUEHL', PAGE.ml + 20, y + 20, { align: 'center' });
   }
 
   doc.setFontSize(12);
@@ -860,7 +857,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
     avgDOM: 112,
     pricePerSqFt: '$1,420',
     absorbRate: '3.2 months',
-    characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane define the ultra-trophy corridor. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
+    characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
   };
 
   // ── Page 1: Cover ─────────────────────────────────────────────────────────
@@ -876,7 +873,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   doc.setFontSize(7);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.gold);
-  doc.text('ULTRA-TROPHY · ANEW 9.2 / 10 · CHRISTIE\'S EAST HAMPTON', PAGE.ml + 8, 22);
+  doc.text('CIS 9.2 / 10 · CHRISTIE\'S EAST HAMPTON', PAGE.ml + 8, 22);
 
   // Hamlet name
   doc.setFontSize(26);
@@ -977,9 +974,9 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   y += 8;
 
   const anewItems: [string, string][] = [
-    ['A · Acquisition', 'Ultra-trophy corridor commands 15–25% premium over comparable South Fork hamlets. Entry price discipline is non-negotiable at this tier.'],
+    ['A · Acquisition', 'High-CIS corridors command 15–25% premium over comparable South Fork hamlets. Entry price discipline is non-negotiable.'],
     ['N · New Construction', 'New construction comps at $1,400–$1,600/sq ft. Land value alone in the Georgica corridor exceeds $3M/acre.'],
-    ['E · Exit Pricing', 'Exit pricing supported by persistent UHNW demand. Median hold period 4–7 years. Liquidity risk is low at the trophy tier.'],
+    ['E · Exit Pricing', 'Exit pricing supported by persistent UHNW demand. Median hold period 4–7 years. Liquidity risk is low in high-CIS hamlets.'],
     ['W · Wealth Transfer', 'Estate and trust activity is the primary transaction driver. Christie\'s brand authority is the differentiating factor in this conversation.'],
   ];
 

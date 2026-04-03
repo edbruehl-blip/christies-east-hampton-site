@@ -420,30 +420,11 @@ export default function MarketTab() {
             Hamlet Intelligence Matrix
           </div>
 
-          {tierGroups.map(({ tier, hamlets }) => (
-            <div key={tier} className="mb-10">
-              {/* Tier header */}
-              <div className="flex items-center gap-4 mb-5">
-                <div
-                  className="uppercase"
-                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', letterSpacing: '0.2em', fontSize: 12, fontWeight: 600 }}
-                >
-                  {tier}
-                </div>
-                <div style={{ flex: 1, height: 1, background: 'rgba(27,42,74,0.12)' }} />
-                <StatusBadge variant={tier === 'Ultra-Trophy' ? 'active' : 'neutral'}>
-                  {hamlets.length} hamlet{hamlets.length > 1 ? 's' : ''}
-                </StatusBadge>
-              </div>
-
-              {/* Hamlet grid */}
-              <div className={`grid gap-4 ${hamlets.length === 1 ? 'grid-cols-1 max-w-sm' : hamlets.length === 2 ? 'grid-cols-2' : 'grid-cols-3'}`}>
-                {hamlets.map(hamlet => (
-                  <HamletTile key={hamlet.id} hamlet={hamlet} />
-                ))}
-              </div>
-            </div>
-          ))}
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {MASTER_HAMLET_DATA.map(hamlet => (
+              <HamletTile key={hamlet.id} hamlet={hamlet} />
+            ))}
+          </div>
         </div>
       </section>
 
