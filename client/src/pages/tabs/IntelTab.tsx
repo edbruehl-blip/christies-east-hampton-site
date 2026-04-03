@@ -525,6 +525,32 @@ export default function IntelTab() {
           Canon Documents
         </div>
 
+        {/* Perplexity Mastermind Map — Sprint 8 · always open, no click required */}
+        <div className="mb-10">
+          <div className="uppercase mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+            Mastermind Map · Christie's East Hampton · Perplexity Intelligence
+          </div>
+          <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
+            <iframe
+              src="https://www.perplexity.ai/computer/a/christie-s-mastermind-map-0qAECI9PRi6bRbieIPaj_g"
+              title="Christie's East Hampton · Mastermind Map · Perplexity"
+              width="100%"
+              style={{ display: 'block', height: 700, border: 'none' }}
+              allowFullScreen
+            />
+          </div>
+          <div className="mt-2 text-right">
+            <a
+              href="https://www.perplexity.ai/computer/a/christie-s-mastermind-map-0qAECI9PRi6bRbieIPaj_g"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
+            >
+              Open in Perplexity ↗
+            </a>
+          </div>
+        </div>
+
         <DocSection title="Org Chart & Hierarchy" docs={ORG_CHART_DOCS} />
         {/* Intel Source Registry — Sprint 7 Item 4 */}
         <div className="mb-8">

@@ -331,7 +331,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
     photo: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Hook_Windmill%2C_East_Hampton%2C_NY.jpg/1200px-Hook_Windmill%2C_East_Hampton%2C_NY.jpg',
+    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Cedar_Point_Lighthouse.jpg/1200px-Cedar_Point_Lighthouse.jpg',
     vibeText: 'Deep wooded privacy and expansive harbor access. The natural, uncrowded alternative to the village corridors.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
