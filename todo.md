@@ -397,3 +397,11 @@
 - [x] HOME — remove identity card box under James Christie portrait
 - [x] MAPS — confirm Gemini hamlet images are rendering (imageUrl wired)
 - [x] PIPE — pipeline table confirmed above the fold (already correct)
+
+## April 3 Council Brief — Five Design Corrections
+
+- [x] INTEL: Wrap Google Calendar in Christie's card module with navy border and constrained content width
+- [x] INTEL: Collapse Podcast Pipeline and Event Calendar spreadsheet embeds behind clean "Open Sheet" buttons
+- [x] HOME: Remove duplicate footer — keep only one gold-on-navy doctrine line
+- [x] HOME: Tighten secondary messaging so founding letter remains dominant voice
+- [x] FUTURE: Replace horizontal bubble timeline with ascending staircase bars in navy and gold

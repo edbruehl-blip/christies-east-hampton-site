@@ -188,14 +188,9 @@ function SectionB() {
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, maxWidth: 560 }}>
             The Authority on Art, Beauty, and Provenance
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 32 }}>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.72)', fontSize: '0.9rem', lineHeight: 1.75, margin: 0 }}>
-              Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, unparalleled service, and expertise reaching across cultures and centuries.
-            </p>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.72)', fontSize: '0.9rem', lineHeight: 1.75, margin: 0 }}>
-              Christie's International Real Estate Group brings that same standard to the world's most distinguished residential properties. In the Hamptons, that means applying 260 years of institutional discipline to every conversation, every valuation, and every family decision about the land they have built their lives around.
-            </p>
-          </div>
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.72)', fontSize: '0.9rem', lineHeight: 1.75, margin: 0, maxWidth: 620 }}>
+            Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, unparalleled service, and expertise reaching across cultures and centuries.
+          </p>
         </div>
       </div>
 
@@ -249,26 +244,14 @@ function SectionB() {
   );
 }
 
-// ─── Section C · Footer — one line only ───────────────────────────────────────
-function SectionC() {
-  return (
-    <footer style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', padding: '18px 28px' }}>
-      <div style={{ maxWidth: 1400, margin: '0 auto', textAlign: 'center' }}>
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.65rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78' }}>
-          Art. Beauty. Provenance. · Since 1766.
-        </span>
-      </div>
-    </footer>
-  );
-}
-
 // ─── HomeTab ──────────────────────────────────────────────────────────────────
+// SectionC (duplicate footer) removed — DashboardLayout renders the single
+// "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
       <SectionB />
-      <SectionC />
     </div>
   );
 }

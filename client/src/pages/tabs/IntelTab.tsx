@@ -46,123 +46,93 @@ function sheetOpenUrl(id: string) {
 type CalFilter = 'All' | 'Podcast' | 'Event' | 'Internal' | 'Social';
 
 function CalendarLayer() {
-  const [filter, setFilter] = useState<CalFilter>('All');
-  const filters: CalFilter[] = ['All', 'Podcast', 'Event', 'Internal', 'Social'];
-
-  // Determine which sheets to show based on filter
-  const showPodcast = filter === 'All' || filter === 'Podcast';
-  const showEvent   = filter === 'All' || filter === 'Event';
-  const showBoth    = showPodcast && showEvent;
-
   return (
-    <div className="mb-0">
-      {/* Layer header */}
-      <div className="px-6 pt-6 pb-4 border-b" style={{ background: '#fff', borderColor: 'rgba(200,172,120,0.25)' }}>
-        <div className="flex items-start justify-between flex-wrap gap-3">
-          <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-              Layer 1 · Master Calendar · Above the fold · Always visible
-            </div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>
-              Master Calendar
-            </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', marginTop: 2 }}>
-              Podcast · Event · Internal · Social — live from Google Sheets
-            </div>
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {filters.map(f => (
-              <button
-                key={f}
-                onClick={() => setFilter(f)}
-                className="px-3 py-1 text-[9px] uppercase tracking-widest border transition-all"
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  letterSpacing: '0.16em',
-                  background: filter === f ? '#1B2A4A' : 'transparent',
-                  color: filter === f ? '#C8AC78' : '#384249',
-                  borderColor: filter === f ? '#C8AC78' : '#D3D1C7',
-                }}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="mt-3 flex gap-4 text-[10px]" style={{ fontFamily: 'monospace', color: '#bbb' }}>
-          <span>Podcast: {SHEET_IDS.podcast.slice(0, 16)}…</span>
-          <span>Event: {SHEET_IDS.event.slice(0, 16)}…</span>
-          <span style={{ color: '#C8AC78' }}>Wednesday = anchor day</span>
-        </div>
+    <div className="px-6 py-8">
+      {/* Layer label */}
+      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        Layer 1 · Master Calendar
       </div>
 
-      {/* Google Calendar embed — full width, month view, navy bg, gold events, no chrome */}
-      <div style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.25)' }}>
+      {/* Christie's card module — navy border, constrained width, no raw embed feel */}
+      <div style={{
+        border: '1px solid #1B2A4A',
+        borderRadius: 2,
+        overflow: 'hidden',
+        background: '#fff',
+        maxWidth: 900,
+      }}>
+        {/* Card header — navy bar with gold label */}
+        <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
+          <div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
+              Master Calendar · Christie's East Hampton
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: 9, marginTop: 2 }}>
+              Podcast · Event · Internal · Social · Wednesday Circuit
+            </div>
+          </div>
+          <a
+            href="https://calendar.google.com/calendar/r"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
+          >
+            Open in Google ↗
+          </a>
+        </div>
+
+        {/* Calendar iframe — contained inside the card */}
         <iframe
           src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%231B2A4A&color=%23C8AC78"
           title="Christie's East Hampton · Master Calendar"
           width="100%"
-          style={{ display: 'block', height: 400, border: 'none' }}
+          style={{ display: 'block', height: 480, border: 'none' }}
           allowFullScreen
         />
-      </div>
 
-      {/* Calendar sheet embeds — side by side when both visible */}
-      {(showPodcast || showEvent) && (
-        <div
-          className={showBoth ? 'grid grid-cols-2' : 'grid grid-cols-1'}
-          style={{ borderBottom: '1px solid rgba(200,172,120,0.2)' }}
-        >
-          {showPodcast && (
-            <div style={{ borderRight: showBoth ? '1px solid rgba(200,172,120,0.2)' : 'none' }}>
-              <div className="flex items-center justify-between px-4 py-2 border-b" style={{ background: '#1B2A4A', borderColor: 'rgba(200,172,120,0.2)' }}>
-                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                  Podcast Pipeline
-                </span>
-                <a href={sheetOpenUrl(SHEET_IDS.podcast)} target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.12em' }}>
-                  Open Sheet ↗
-                </a>
-              </div>
-              <iframe
-                src={sheetEmbedUrl(SHEET_IDS.podcast)}
-                title="Podcast Pipeline"
-                width="100%"
-                style={{ display: 'block', height: 'calc(40vh)', minHeight: 280, border: 'none' }}
-                allowFullScreen
-              />
-            </div>
-          )}
-          {showEvent && (
-            <div>
-              <div className="flex items-center justify-between px-4 py-2 border-b" style={{ background: '#1B2A4A', borderColor: 'rgba(200,172,120,0.2)' }}>
-                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                  Event Calendar
-                </span>
-                <a href={sheetOpenUrl(SHEET_IDS.event)} target="_blank" rel="noopener noreferrer"
-                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.12em' }}>
-                  Open Sheet ↗
-                </a>
-              </div>
-              <iframe
-                src={sheetEmbedUrl(SHEET_IDS.event)}
-                title="Event Calendar"
-                width="100%"
-                style={{ display: 'block', height: 'calc(40vh)', minHeight: 280, border: 'none' }}
-                allowFullScreen
-              />
-            </div>
-          )}
-          {/* Internal/Social filters show a note since those live inside the sheets */}
-          {!showPodcast && !showEvent && (
-            <div className="px-6 py-8 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.85rem' }}>
-              Internal and Social items are tracked inside the Podcast and Event sheets above.
-              <br />
-              <button onClick={() => setFilter('All')} className="mt-3 underline" style={{ color: '#C8AC78' }}>Show all sheets</button>
-            </div>
-          )}
+        {/* Card footer — sheet access buttons, no raw Google UI */}
+        <div className="flex items-center gap-4 px-5 py-3 border-t" style={{ background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.12)' }}>
+          <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginRight: 4 }}>
+            Source Sheets:
+          </span>
+          <a
+            href={sheetOpenUrl(SHEET_IDS.podcast)}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: '#1B2A4A',
+              fontSize: 9,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              border: '1px solid rgba(27,42,74,0.25)',
+              padding: '3px 10px',
+              background: 'transparent',
+              textDecoration: 'none',
+            }}
+          >
+            Podcast Pipeline ↗
+          </a>
+          <a
+            href={sheetOpenUrl(SHEET_IDS.event)}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: '#1B2A4A',
+              fontSize: 9,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              border: '1px solid rgba(27,42,74,0.25)',
+              padding: '3px 10px',
+              background: 'transparent',
+              textDecoration: 'none',
+            }}
+          >
+            Event Calendar ↗
+          </a>
         </div>
-      )}
+      </div>
     </div>
   );
 }

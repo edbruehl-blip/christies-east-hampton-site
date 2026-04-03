@@ -98,67 +98,56 @@ export default function FutureTab() {
           Ascension Arc · Sales Volume Trajectory
         </div>
         <MatrixCard variant="default" className="mb-10 p-6">
-          {/* Ascending step visual */}
-          <div className="relative">
-            {/* Connector line */}
-            <div style={{
-              position: 'absolute',
-              top: 28,
-              left: 28,
-              right: 28,
-              height: 2,
-              background: 'linear-gradient(to right, #C8AC78 0%, rgba(27,42,74,0.25) 100%)',
-              zIndex: 0,
-            }} />
-            <div className="grid grid-cols-3 md:grid-cols-6 gap-4 relative" style={{ zIndex: 1 }}>
-              {ASCENSION_MILESTONES.map((m, i) => (
-                <div key={m.id} className="flex flex-col items-center text-center">
-                  {/* Node */}
-                  <div style={{
-                    width: 56, height: 56,
-                    borderRadius: '50%',
-                    background: m.actual ? '#1B2A4A' : '#FAF8F4',
-                    border: `2px solid ${m.actual ? '#C8AC78' : 'rgba(27,42,74,0.2)'}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    marginBottom: 10,
-                    boxShadow: m.actual ? '0 4px 16px rgba(200,172,120,0.25)' : 'none',
-                  }}>
-                    <span style={{
-                      ...LABEL_FONT,
-                      color: m.actual ? '#C8AC78' : 'rgba(27,42,74,0.4)',
-                      fontSize: 10, fontWeight: 700, letterSpacing: '0.06em',
+          {/* Ascending staircase bars — navy and gold, Ascension deck logic */}
+          <div style={{ overflowX: 'auto' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, minWidth: 560, height: 220, paddingBottom: 0 }}>
+              {ASCENSION_MILESTONES.map((m, i) => {
+                // Bar heights ascend: 20% → 32% → 44% → 60% → 76% → 100%
+                const heights = [20, 32, 44, 60, 76, 100];
+                const pct = heights[i] ?? 100;
+                const barH = Math.round((pct / 100) * 180);
+                return (
+                  <div key={m.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: 220 }}>
+                    {/* Volume label above bar */}
+                    <div style={{
+                      fontFamily: '"Cormorant Garamond", serif',
+                      color: m.actual ? '#C8AC78' : '#1B2A4A',
+                      fontSize: m.volume.length > 5 ? '0.85rem' : '1rem',
+                      fontWeight: 600, lineHeight: 1, marginBottom: 6, textAlign: 'center',
                     }}>
-                      {i + 1}
-                    </span>
-                  </div>
-                  {/* Volume */}
-                  <div style={{
-                    fontFamily: '"Cormorant Garamond", serif',
-                    color: m.actual ? '#C8AC78' : '#1B2A4A',
-                    fontSize: m.volume.length > 5 ? '1.1rem' : '1.3rem',
-                    fontWeight: 600, lineHeight: 1.1, marginBottom: 4,
-                  }}>
-                    {m.volume}
-                  </div>
-                  {/* Label */}
-                  <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>
-                    {m.label}
-                  </div>
-                  {/* Sub */}
-                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.4 }}>
-                    {m.sub}
-                  </div>
-                  {/* Actual badge */}
-                  {m.actual && (
-                    <div className="mt-2 px-2 py-0.5 text-[9px] uppercase" style={{
-                      ...LABEL_FONT, background: '#1B2A4A', color: '#C8AC78',
-                      letterSpacing: '0.12em',
-                    }}>
-                      Actual
+                      {m.volume}
                     </div>
-                  )}
-                </div>
-              ))}
+                    {/* Staircase bar */}
+                    <div style={{
+                      width: '100%',
+                      height: barH,
+                      background: m.actual
+                        ? 'linear-gradient(to top, #1B2A4A 0%, #2a3f5f 100%)'
+                        : 'linear-gradient(to top, rgba(27,42,74,0.12) 0%, rgba(27,42,74,0.22) 100%)',
+                      borderTop: `3px solid ${m.actual ? '#C8AC78' : 'rgba(200,172,120,0.35)'}`,
+                      borderLeft: '1px solid rgba(27,42,74,0.08)',
+                      borderRight: '1px solid rgba(27,42,74,0.08)',
+                      position: 'relative',
+                    }}>
+                      {m.actual && (
+                        <div style={{
+                          position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)',
+                          ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase',
+                        }}>
+                          Now
+                        </div>
+                      )}
+                    </div>
+                    {/* Year label below bar */}
+                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
+                      {m.label.split(' · ')[0]}
+                    </div>
+                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.62rem', lineHeight: 1.3, textAlign: 'center', marginTop: 2 }}>
+                      {m.sub.split(' · ')[0]}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
           {/* Detail rows */}
