@@ -199,3 +199,74 @@
 ## Phase C Continued — April 2, 2026
 
 - [x] Doctrine footer audit: all five PDF export footers confirmed correct — all call drawFooter() from pdf-engine.ts line 162 which renders "Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766" — no changes needed
+
+## Sprint 7 — May 1 Systems Launch (Narrow Sequence Only)
+## Brief Date: April 2, 2026 · Hard Launch: May 1, 2026
+## Build only what is listed, in order. Nothing added.
+
+### URGENT (Before April 17)
+- [ ] URGENT: Netlify Personal Access Token "manus" expires April 17 — Ed must generate new token at app.netlify.com → User Settings → Applications → Personal Access Tokens, then send to Manny to update environment variable. Deployments stop April 17 without this.
+
+### Sprint 7 Item 1 — Professional Org Chart (Version 2)
+- [ ] Render org chart as first canon document card in INTEL Layer 3
+- [ ] Landscape orientation, left-to-right hierarchy, CIREG brand guidelines (charcoal/gray palette, approved lockup)
+- [ ] Dynamic: driven from Org Chart Intelligence Google Sheet (Zone One public / Zone Two private)
+- [ ] Five tiers: Artemis/Pinault → Christie's Auction House → CIH → CIREG Tri-State → Christie's East Hampton Flagship
+- [ ] Guillaume Cerutti marked as departed (March 30, 2026), greyed out
+- [ ] Appendix: Layer 3 Relationship Intelligence note (Council of 39, Whales, Strategic Partners, etc.)
+- [ ] Zone Two is private and Ed-authenticated only
+
+### Sprint 7 Item 2 — Family Office List + Custom Letter System
+- [ ] Perplexity-sourced family offices in East Hampton area — structured list in INTEL
+- [ ] Custom Ed Bruehl / James Christie letter (embedded auction-house magazine insert format)
+- [ ] Targets: oceanfront / UHNW / family office drops in East Hampton area
+- [ ] QR code direct to free newsletter / subscription model on website
+- [ ] Letter system wired into PIPE for follow-up tracking
+
+### Sprint 7 Item 3 — Local Charity Tracker
+- [ ] Wire into INTEL and newsletter
+- [ ] Critical names: Highway 27 safety + East Hampton affordable housing
+- [ ] Perplexity-sourced charity identification
+
+### Sprint 7 Item 4 — Intel Source / Growth Model Template Consolidation
+- [ ] All homework scrubs / spreadsheets consolidated into one consistent template
+- [ ] Dashboard grows smarter, not bigger — no new tabs, no new surfaces
+
+### Sprint 7 Item 5 — Newsletter Infrastructure
+- [ ] Ed enables Christie's email auto-forward to Gmail
+- [ ] Manny configures Beehiiv setup (sender: edbruehl@christiesrealestategroup.com)
+- [ ] Gmail SMTP "Send As" configuration so Gmail sends professionally branded Christie's mail
+- [ ] Newsletter = Christie's East Hampton Market Report delivered to inbox
+- [ ] One product, four surfaces, free forever
+- [ ] Every Monday cadence
+
+### Sprint 7 Item 6 — ElevenLabs API Key Regeneration
+- [ ] Ed regenerates key at elevenlabs.io
+- [ ] Ed sends new key to Manny via secure channel only
+- [ ] Manny updates ELEVENLABS_API_KEY environment variable
+
+### Locked Decisions (Do Not Revisit)
+- CIREG Brand Guidelines are canon law for every visual surface
+- Four pillars: territory intelligence, relationship capital, institutional memory, advisory voice
+- Newsletter is the Christie's East Hampton Market Report — one product, four surfaces, free forever
+- Org chart is landscape, dynamic, sheet-driven (Zone One public / Zone Two private)
+- May 1 is the hard launch — nothing ships before
+- Craig Silverstein lens: formalize the plan early, build systems that scale without ego, keep Christie's 1766 brand as the story
+- Ricky filter: every surface must pass — does this make Ed look like the authority?
+
+### SOPs for Intel Page (Locked for Angel / Team)
+- Weekly porch-drop card campaign starts May 1
+- Newsletter goes out every Monday (free forever) — drives to subscription model
+- Custom letter drops to targeted oceanfront/UHNW/family offices begin May 1
+- Every new sign-up auto-feeds PIPE and INTEL for follow-up
+- Charity tie-in in every issue (Highway 27 safety + East Hampton affordable housing)
+
+## Sprint 7 — UI Fixes (New Items from April 2 Final Brief — Build Before May 1)
+
+- [x] UI-FIX-1: Maps tab — replaced D3 SVG plate with live Google Maps aerial view (satellite, centered East Hampton lat 40.9635 lng -72.1851, zoom 11, hamlet markers)
+- [x] UI-FIX-2: Founding letter mobile layout — added flex-col md:grid breakpoint so portrait stacks above text on mobile
+- [x] UI-FIX-3: Nav bar email — added edbruehl@christiesrealestategroup.com as gold mailto link in office/weather bar (DashboardLayout.tsx line 462)
+- [x] UI-FIX-4: Footer stripped to one line — "Art. Beauty. Provenance. · Since 1766." — Christie’s gold (#C8AC78), centered, navy background (DashboardLayout.tsx line 479)
+
+## Sprint 7 — New Locked Decision (April 2 Final Brief)
+- Business card is the branding anchor: photo + "CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP" + "Art. Beauty. Provenance." + christiesrealestategroup.com — apply this standard to all surfaces

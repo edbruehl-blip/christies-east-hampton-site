@@ -458,7 +458,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
             borderBottom: "1px solid rgba(0,0,0,0.15)",
           }}
         >
-          <span>Christie's East Hampton Office&nbsp;&nbsp;·&nbsp;&nbsp;26 Park Place, East Hampton, NY 11937&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233</span>
+          <span>
+            Christie’s East Hampton Office&nbsp;&nbsp;·&nbsp;&nbsp;26 Park Place, East Hampton, NY 11937&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233&nbsp;&nbsp;·&nbsp;&nbsp;<a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: '#C8AC78', textDecoration: 'none' }}>edbruehl@christiesrealestategroup.com</a>
+          </span>
           {market.weather && (
             <span style={{ color: "#C8AC78", fontWeight: 600, flexShrink: 0 }}>{market.weather}</span>
           )}
@@ -471,13 +473,10 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       </main>
 
       {/* ── Footer ── */}
-      <footer style={{ background: "#1B2A4A", padding: "14px 24px", marginTop: "auto" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(250,248,244,0.35)" }}>
-            Art. Beauty. Provenance. · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
-          </span>
-          <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.6rem", letterSpacing: "0.14em", textTransform: "uppercase", color: "rgba(200,172,120,0.45)" }}>
-            Private Access
+      <footer style={{ background: "#1B2A4A", padding: "12px 24px", marginTop: "auto" }}>
+        <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
+          <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#C8AC78" }}>
+            Art. Beauty. Provenance. · Since 1766.
           </span>
         </div>
       </footer>

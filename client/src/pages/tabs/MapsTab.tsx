@@ -15,6 +15,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import { MapView } from '@/components/Map';
 import { toast } from 'sonner';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_COLORS, type HamletData } from '@/data/hamlet-master';
@@ -47,97 +48,49 @@ const GEOJSON_URLS = {
   trail:       'https://static.manus.space/webdev/paumanok_trail.geojson',
 };
 
-// ─── Layer 1: Paumanok Aerial Plate ──────────────────────────────────────────
+// ─── Layer 1: Google Maps Aerial Plate ───────────────────────────────────────
+// East Hampton, NY: lat 40.9635, lng -72.1851 — satellite aerial, zoom 11
 
 function PaumanokPlate() {
-  const svgRef = useRef<SVGSVGElement>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  useEffect(() => {
-    if (!svgRef.current) return;
-    const svg = d3.select(svgRef.current);
-    const width = svgRef.current.clientWidth || 900;
-    const height = 340;
-    svg.attr('viewBox', `0 0 ${width} ${height}`);
-
-    const projection = d3.geoMercator()
-      .center([-72.35, 40.96])
-      .scale(width * 38)
-      .translate([width / 2, height / 2]);
-    const pathGen = d3.geoPath().projection(projection);
-
-    svg.append('rect').attr('width', width).attr('height', height).attr('fill', '#1B2A4A');
-    const g = svg.append('g');
-
-    Promise.all([
-      fetch(GEOJSON_URLS.contours).then(r => r.json()).catch(() => null),
-      fetch(GEOJSON_URLS.waterBodies).then(r => r.json()).catch(() => null),
-      fetch(GEOJSON_URLS.trail).then(r => r.json()).catch(() => null),
-    ]).then(([contours, water, trail]) => {
-      if (contours?.features) {
-        g.selectAll('.contour').data(contours.features).enter().append('path')
-          .attr('d', pathGen as any).attr('fill', 'none')
-          .attr('stroke', 'rgba(200,172,120,0.18)').attr('stroke-width', 0.5);
-      }
-      if (water?.features) {
-        g.selectAll('.water').data(water.features).enter().append('path')
-          .attr('d', pathGen as any).attr('fill', 'rgba(100,149,200,0.35)')
-          .attr('stroke', 'rgba(100,149,200,0.5)').attr('stroke-width', 0.5);
-      }
-      if (trail?.features) {
-        g.selectAll('.trail').data(trail.features).enter().append('path')
-          .attr('d', pathGen as any).attr('fill', 'none')
-          .attr('stroke', '#C8AC78').attr('stroke-width', 1.5)
-          .attr('stroke-dasharray', '4 3').attr('opacity', 0.85);
-      }
-
-      MASTER_HAMLET_DATA.forEach(hamlet => {
-        const [px, py] = projection([hamlet.lng, hamlet.lat]) ?? [0, 0];
-        if (px === 0 && py === 0) return;
-        g.append('circle').attr('cx', px).attr('cy', py)
-          .attr('r', hamlet.tier === 'Ultra-Trophy' ? 5 : 3.5)
-          .attr('fill', TIER_COLORS[hamlet.tier])
-          .attr('stroke', '#FAF8F4').attr('stroke-width', 1);
-        g.append('text').attr('x', px + 7).attr('y', py + 4)
-          .attr('fill', '#FAF8F4').attr('font-family', '"Barlow Condensed", sans-serif')
-          .attr('font-size', 9).attr('letter-spacing', '0.08em')
-          .text(hamlet.name.toUpperCase());
-      });
-
-      const legend = svg.append('g').attr('transform', `translate(${width - 160}, ${height - 40})`);
-      legend.append('line').attr('x1', 0).attr('y1', 8).attr('x2', 24).attr('y2', 8)
-        .attr('stroke', '#C8AC78').attr('stroke-width', 1.5).attr('stroke-dasharray', '4 3');
-      legend.append('text').attr('x', 30).attr('y', 12)
-        .attr('fill', 'rgba(250,248,244,0.55)').attr('font-family', '"Barlow Condensed", sans-serif')
-        .attr('font-size', 9).attr('letter-spacing', '0.1em').text('PAUMANOK PATH');
-
-      svg.append('text').attr('x', 8).attr('y', height - 6)
-        .attr('fill', 'rgba(250,248,244,0.25)')
-        .attr('font-family', '"Source Sans 3", sans-serif').attr('font-size', 8)
-        .text('© OpenStreetMap contributors · USGS National Map');
-
-      setLoaded(true);
-    });
-  }, []);
+  const mapRef = useRef<google.maps.Map | null>(null);
 
   return (
-    <div className="relative w-full" style={{ background: '#1B2A4A', borderBottom: '2px solid #C8AC78' }}>
-      <div className="px-6 pt-6 pb-3 flex items-end justify-between">
-        <div>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            Paumanok · South Fork · Long Island
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
-            The Territory
-          </h2>
+    <div className="relative w-full" style={{ borderBottom: '2px solid #C8AC78' }}>
+      {/* Header overlay — gradient fades into the map */}
+      <div
+        style={{
+          position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10,
+          padding: '16px 24px 32px',
+          background: 'linear-gradient(to bottom, rgba(27,42,74,0.85) 0%, rgba(27,42,74,0) 100%)',
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
+          South Fork · East Hampton · Long Island
         </div>
-        {!loaded && (
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 10, letterSpacing: '0.12em' }}>
-            Loading map data…
-          </div>
-        )}
+        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
+          The Territory
+        </h2>
       </div>
-      <svg ref={svgRef} className="w-full" style={{ height: 340, display: 'block' }} aria-label="Paumanok South Fork topographic map" />
+      <MapView
+        className="w-full h-[380px]"
+        initialCenter={{ lat: 40.9635, lng: -72.1851 }}
+        initialZoom={11}
+        onMapReady={(map) => {
+          mapRef.current = map;
+          // Satellite aerial view
+          map.setMapTypeId('satellite');
+          map.setTilt(0);
+          // Add hamlet markers
+          MASTER_HAMLET_DATA.forEach(hamlet => {
+            new window.google!.maps.marker.AdvancedMarkerElement({
+              map,
+              position: { lat: hamlet.lat, lng: hamlet.lng },
+              title: hamlet.name,
+            });
+          });
+        }}
+      />
     </div>
   );
 }

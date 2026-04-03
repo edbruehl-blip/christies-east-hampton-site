@@ -189,11 +189,10 @@ function SectionA() {
           background: 'linear-gradient(to right, rgba(27,42,74,0.97) 0%, rgba(27,42,74,0.88) 50%, rgba(27,42,74,0.55) 100%)'
         }} />
 
-        {/* Two-column layout over hero */}
+        {/* Two-column layout over hero — stacks vertically on mobile */}
         <div
-          className="relative"
+          className="relative flex flex-col md:grid"
           style={{
-            display: 'grid',
             gridTemplateColumns: '200px 1fr',
             gap: 0,
             minHeight: 'calc(100vh - 120px)',
