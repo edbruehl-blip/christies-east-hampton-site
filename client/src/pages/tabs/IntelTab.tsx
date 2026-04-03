@@ -18,6 +18,8 @@ import { MatrixCard } from '@/components/MatrixCard';
 import { usePdfAssets } from '@/hooks/usePdfAssets';
 import { FamilyOfficeList } from '@/components/FamilyOfficeList';
 import { LocalCharityTracker } from '@/components/LocalCharityTracker';
+import { IntelSourceTemplate } from '@/components/IntelSourceTemplate';
+import { NewsletterManager } from '@/components/NewsletterManager';
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
@@ -522,6 +524,10 @@ export default function IntelTab() {
         </div>
 
         <DocSection title="Org Chart & Hierarchy" docs={ORG_CHART_DOCS} />
+        {/* Intel Source Registry — Sprint 7 Item 4 */}
+        <div className="mb-8">
+          <IntelSourceTemplate />
+        </div>
         {/* Family Office Intelligence — Sprint 7 Item 2 */}
         <div className="mb-8">
           <FamilyOfficeList />
@@ -529,6 +535,10 @@ export default function IntelTab() {
         {/* Local Charity Tracker — Sprint 7 Item 3 */}
         <div className="mb-8">
           <LocalCharityTracker />
+        </div>
+        {/* Newsletter Infrastructure — Sprint 7 Item 5 */}
+        <div className="mb-8">
+          <NewsletterManager />
         </div>
         <DocSection title="Market Report" docs={MARKET_REPORT_DOCS} />
         <CanonPdfSection />

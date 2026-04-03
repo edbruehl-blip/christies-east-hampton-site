@@ -6,7 +6,8 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus } from "./sheets-helper";
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus } from './sheets-helper';
+import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { eq, asc } from "drizzle-orm";
 
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
@@ -206,6 +207,45 @@ export const appRouter = router({
         if (!db) throw new Error('Database not available');
         await db.delete(pipeline).where(eq(pipeline.id, input.id));
         return { success: true };
+      }),
+  }),
+
+  // ─── Newsletter — Beehiiv + Gmail SMTP ────────────────────────────────────
+  newsletter: router({
+    /**
+     * Subscribe an email to the Christie's East Hampton newsletter via Beehiiv.
+     */
+    subscribe: publicProcedure
+      .input(z.object({
+        email: z.string().email(),
+        firstName: z.string().optional(),
+        lastName: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await beehiivSubscribe({
+          email: input.email,
+          firstName: input.firstName,
+          lastName: input.lastName,
+          utmSource: 'christies-eh-dashboard',
+        });
+        return result;
+      }),
+
+    /**
+     * Get Beehiiv subscriber stats for dashboard display.
+     */
+    getStats: publicProcedure
+      .query(async () => {
+        return beehiivGetStats();
+      }),
+
+    /**
+     * Send a test email to confirm Gmail SMTP is configured correctly.
+     */
+    sendTestEmail: publicProcedure
+      .input(z.object({ to: z.string().email() }))
+      .mutation(async ({ input }) => {
+        return sendTestEmail(input.to);
       }),
   }),
 });
