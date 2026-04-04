@@ -555,6 +555,64 @@ function Sprint6Banner() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+// ─── Sticky Section Navigator ───────────────────────────────────────────────
+// P4 mobile fix: allows quick vertical scroll navigation on long INTEL page
+
+const INTEL_SECTIONS = [
+  { id: 'intel-layer-1', label: 'Layer 1 · Calendar' },
+  { id: 'intel-layer-2', label: 'Layer 2 · Sheets' },
+  { id: 'intel-layer-3', label: 'Layer 3 · Archive' },
+  { id: 'intel-layer-4', label: 'Layer 4 · Intelligence' },
+];
+
+function IntelStickyNav() {
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  return (
+    <div
+      style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 40,
+        background: '#1B2A4A',
+        borderBottom: '1px solid rgba(200,172,120,0.3)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 0,
+        overflowX: 'auto',
+        padding: '0 16px',
+      }}
+    >
+      {INTEL_SECTIONS.map(s => (
+        <button
+          key={s.id}
+          onClick={() => scrollTo(s.id)}
+          style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 10,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: 'rgba(200,172,120,0.8)',
+            background: 'transparent',
+            border: 'none',
+            padding: '10px 14px',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            borderBottom: '2px solid transparent',
+            transition: 'color 0.15s, border-color 0.15s',
+          }}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#C8AC78'; (e.target as HTMLButtonElement).style.borderBottomColor = '#C8AC78'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'rgba(200,172,120,0.8)'; (e.target as HTMLButtonElement).style.borderBottomColor = 'transparent'; }}
+        >
+          {s.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 export default function IntelTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
@@ -569,6 +627,9 @@ export default function IntelTab() {
           Calendar · Live operating sheets · Canon documents · Council briefs.
         </p>
       </div>
+
+      {/* Sticky section navigator — P4 mobile fix */}
+      <IntelStickyNav />
 
       {/* Hero Slot — Relationship Intelligence (reserved for spiderweb — no build until approved spec + Ed GO) */}
       <div className="px-6 py-6 border-b" style={{ background: '#FAF8F4', borderColor: 'rgba(200,172,120,0.2)' }}>
@@ -606,18 +667,21 @@ export default function IntelTab() {
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
       {/* Layer 1 — Master Calendar (above the fold, no padding wrapper) */}
+      <div id="intel-layer-1" />
       <CalendarLayer />
 
       {/* Divider */}
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
       {/* Layer 2 — Live Sheets */}
+      <div id="intel-layer-2" />
       <LiveSheetsLayer />
 
       {/* Divider */}
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
       {/* Layer 3 — Canon Documents */}
+      <div id="intel-layer-3" />
       <div className="px-6 py-8">
         <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
@@ -683,6 +747,7 @@ export default function IntelTab() {
       </div>
 
       {/* Layer 4 — Relationship Intelligence */}
+      <div id="intel-layer-4" />
       <RelationshipIntelligenceLayer />
 
       {/* Sprint 6 Horizon Banner */}

@@ -17,6 +17,7 @@
  */
 
 import { useState, useEffect, type ReactNode } from "react";
+import { useLocation } from "wouter";
 import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
@@ -169,7 +170,7 @@ interface DashboardLayoutProps {
 
 export function DashboardLayout({ activeTab, onTabChange, children }: DashboardLayoutProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [publicMode, setPublicMode] = useState(false);
+  const [, navigate] = useLocation();
   const market = useMarketData();
 
   // Ticker content — exact production copy
@@ -244,7 +245,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {/* Right: PUBLIC toggle + Ed headshot */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <button
-              onClick={() => setPublicMode(v => !v)}
+              onClick={() => navigate('/public')}
               style={{
                 fontFamily: "var(--font-condensed)",
                 fontSize: "0.65rem",
@@ -254,13 +255,14 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
                 padding: "4px 12px",
                 cursor: "pointer",
                 borderRadius: 2,
-                border: publicMode ? "1px solid #C8AC78" : "1px solid rgba(200,172,120,0.35)",
-                background: publicMode ? "rgba(200,172,120,0.15)" : "transparent",
-                color: publicMode ? "#C8AC78" : "rgba(250,248,244,0.6)",
+                border: "1px solid rgba(200,172,120,0.35)",
+                background: "transparent",
+                color: "rgba(250,248,244,0.6)",
                 transition: "all 0.2s",
               }}
+              title="Open public-facing view"
             >
-              {publicMode ? "● PUBLIC" : "PUBLIC"}
+              PUBLIC ↗
             </button>
             <img
               src={ED_HEADSHOT_PRIMARY}

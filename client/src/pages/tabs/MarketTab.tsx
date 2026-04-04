@@ -264,7 +264,7 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
             className="text-[10px] uppercase tracking-wider"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', letterSpacing: '0.12em' }}
           >
-            Volume Share
+            Share of Hamptons Dollar Volume
           </span>
           <span
             style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8125rem' }}
@@ -281,11 +281,20 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
       </div>
 
       {/* Last notable sale */}
+      {hamlet.lastSale && (
+        <div
+          className="text-xs pt-1 border-t"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', borderColor: 'rgba(27,42,74,0.08)' }}
+        >
+          Last sale: <span style={{ color: '#384249' }}>{hamlet.lastSale} · {hamlet.lastSalePrice}</span>
+        </div>
+      )}
+      {/* Data footnote */}
       <div
-        className="text-xs pt-1 border-t"
-        style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', borderColor: 'rgba(27,42,74,0.08)' }}
+        className="text-[9px] pt-1 border-t"
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', borderColor: 'rgba(27,42,74,0.06)', letterSpacing: '0.04em', lineHeight: 1.4 }}
       >
-        Last sale: <span style={{ color: '#384249' }}>{hamlet.lastSale} · {hamlet.lastSalePrice}</span>
+        2025 recorded brokerage transactions · Saunders &amp; Associates annual report cross-referenced William Raveis YE 2025 · Total Hamptons dollar volume $5.922B
       </div>
     </MatrixCard>
   );

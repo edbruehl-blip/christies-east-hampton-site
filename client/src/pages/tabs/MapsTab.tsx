@@ -116,19 +116,27 @@ function PaumanokPlate() {
           });
 
           // ── Gold dot markers (on top of polygons) ───────────────────────────
+          // P4 mobile fix: 44px tap target wrapper with 20px visible dot (Apple HIG minimum)
           MASTER_HAMLET_DATA.forEach(hamlet => {
+            const wrapper = document.createElement('div');
+            wrapper.style.cssText = [
+              'width:44px', 'height:44px', 'border-radius:50%',
+              'display:flex', 'align-items:center', 'justify-content:center',
+              'cursor:pointer', 'background:transparent',
+            ].join(';');
             const pin = document.createElement('div');
             pin.style.cssText = [
-              'width:12px', 'height:12px', 'border-radius:50%',
-              'background:#C8AC78', 'border:2px solid #FAF8F4',
-              'box-shadow:0 2px 6px rgba(0,0,0,0.5)',
-              'cursor:pointer',
+              'width:20px', 'height:20px', 'border-radius:50%',
+              'background:#C8AC78', 'border:2.5px solid #FAF8F4',
+              'box-shadow:0 2px 8px rgba(0,0,0,0.55)',
+              'pointer-events:none',
             ].join(';');
+            wrapper.appendChild(pin);
             new window.google!.maps.marker.AdvancedMarkerElement({
               map,
               position: { lat: hamlet.lat, lng: hamlet.lng },
               title: hamlet.name,
-              content: pin,
+              content: wrapper,
             });
           });
         }}
@@ -617,7 +625,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
           {[
             { label: 'Median Price', value: hamlet.medianPriceDisplay },
             { label: 'CIS', value: `${hamlet.anewScore.toFixed(1)} / 10` },
-            { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
+            { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (
             <div key={stat.label} style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>

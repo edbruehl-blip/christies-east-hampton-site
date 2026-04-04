@@ -214,7 +214,7 @@ export default function FutureTab() {
         <MatrixCard variant="default" className="mb-10 p-6">
           {/* Ascending staircase bars — navy and gold, Ascension deck logic */}
           <div style={{ overflowX: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 6, minWidth: 560, height: 220, paddingBottom: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, minWidth: 640, height: 240, paddingBottom: 0 }}>
               {ASCENSION_MILESTONES.map((m, i) => {
                 // Bar heights ascend: 20% → 32% → 44% → 60% → 76% → 100%
                 const heights = [20, 32, 44, 60, 76, 100];
@@ -228,7 +228,7 @@ export default function FutureTab() {
                     <div style={{
                       fontFamily: '"Cormorant Garamond", serif',
                       color: isFilled ? '#C8AC78' : '#1B2A4A',
-                      fontSize: m.volume.length > 5 ? '0.85rem' : '1rem',
+                      fontSize: m.volume.length > 5 ? '0.9rem' : '1.05rem',
                       fontWeight: 600, lineHeight: 1, marginBottom: 6, textAlign: 'center',
                     }}>
                       {m.volume}
@@ -255,10 +255,10 @@ export default function FutureTab() {
                       )}
                     </div>
                     {/* Milestone label below bar */}
-                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
+                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center', lineHeight: 1.2 }}>
                       {m.label}
                     </div>
-                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.62rem', lineHeight: 1.3, textAlign: 'center', marginTop: 2 }}>
+                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.3, textAlign: 'center', marginTop: 2 }}>
                       {m.period}
                     </div>
                     {m.status && (

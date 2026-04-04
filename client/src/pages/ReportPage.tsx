@@ -1432,7 +1432,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                 : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K`,
           },
           { label: 'CIS', value: String(hamlet.anewScore) },
-          { label: 'Volume Share', value: `${hamlet.volumeShare}%` },
+          { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
         ].map((stat) => (
           <div
             key={stat.label}

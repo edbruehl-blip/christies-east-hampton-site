@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
@@ -126,7 +126,8 @@ export const appRouter = router({
   // ─── Pipeline CRUD ──────────────────────────────────────────────────────────
   pipe: router({
     // Read live deals directly from the Google Sheet (single source of truth)
-    sheetDeals: publicProcedure.query(async () => {
+    // P5: protected — pipeline data is internal only
+    sheetDeals: protectedProcedure.query(async () => {
       try {
         const deals = await readPipelineDeals();
         return { deals, error: null };
@@ -136,7 +137,8 @@ export const appRouter = router({
     }),
 
     // Write a status update directly to the Google Sheet
-    updateSheetStatus: publicProcedure
+    // P5: protected — write access is internal only
+    updateSheetStatus: protectedProcedure
       .input(z.object({
         address: z.string().min(1),
         status: z.string().min(1),
@@ -149,7 +151,8 @@ export const appRouter = router({
       }),
 
     // Append a new deal row to the Google Sheet
-    appendSheet: publicProcedure
+    // P5: protected — write access is internal only
+    appendSheet: protectedProcedure
       .input(z.object({
         address: z.string().min(1),
         town: z.string().optional(),
@@ -170,13 +173,15 @@ export const appRouter = router({
         return result;
       }),
 
-    list: publicProcedure.query(async () => {
+    // P5: protected — pipeline DB list is internal only
+    list: protectedProcedure.query(async () => {
       const db = await getDb();
       if (!db) return [];
       return db.select().from(pipeline).orderBy(asc(pipeline.sortOrder), asc(pipeline.createdAt));
     }),
 
-    upsert: publicProcedure
+    // P5: protected — pipeline DB upsert is internal only
+    upsert: protectedProcedure
       .input(z.object({
         id: z.number().optional(),
         address: z.string().min(1),
@@ -201,7 +206,8 @@ export const appRouter = router({
         }
       }),
 
-    delete: publicProcedure
+    // P5: protected — pipeline DB delete is internal only
+    delete: protectedProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
@@ -215,7 +221,8 @@ export const appRouter = router({
      * the existing Sheet, and append any new listings as Active deal rows.
      * Returns { imported, skipped, listings } so the UI can show a summary.
      */
-    importFromProfile: publicProcedure
+    // P5: protected — import from profile is internal only
+    importFromProfile: protectedProcedure
       .mutation(async () => {
         // 1. Scrape live listings
         const { listings } = await syncListings();
@@ -279,7 +286,8 @@ export const appRouter = router({
      * Read all entities from the Intelligence Web Google Sheet.
      * Returns full list; client filters by entityType/tier for each tab.
      */
-    webEntities: publicProcedure.query(async () => {
+    // P5: protected — Intelligence Web data is internal only (UHNW targeting, whale registry)
+    webEntities: protectedProcedure.query(async () => {
       try {
         const entities = await readIntelWebRows();
         return { entities, error: null };
@@ -313,7 +321,8 @@ export const appRouter = router({
     /**
      * Get Beehiiv subscriber stats for dashboard display.
      */
-    getStats: publicProcedure
+    // P5: protected — subscriber stats are internal only
+    getStats: protectedProcedure
       .query(async () => {
         return beehiivGetStats();
       }),

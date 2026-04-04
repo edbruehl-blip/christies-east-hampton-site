@@ -509,3 +509,37 @@
 - [x] Item 3 — Build BRIEF handler: trigger morning brief immediately
 - [x] Item 4 — Update Twilio webhook URL to https://www.christiesrealestategroupeh.com/api/whatsapp/inbound (confirmed in Twilio sandbox settings)
 - [x] Item 4 — PUBLISH REQUIRED before live test — webhook live on prod after publish
+
+## Sprint 9 Final Directive — April 4, 2026
+
+### P0 — PUBLIC Tab Surface Breach (BLOCKING)
+- [x] Build clean /public route: HOME content (James Christie letter, market strip, Auction House Services) + MARKET hamlet cards
+- [x] Ensure PUBLIC route has NO INTEL surfaces, NO PIPE data, NO recruiting targets, NO whale intelligence
+- [x] Confirm INTEL and PIPE remain gated behind Manus OAuth
+- [x] Send screenshot of public visitor view to Ed
+
+### P2 — Market Data Corrections
+- [x] East Hampton Village median: 5.15M to 5.25M
+- [x] Remove East Hampton Town card entirely
+- [x] Remove Southampton Town card entirely
+- [x] Add East Hampton North card: Median 2.03M, CIS 8.6, Share 9pct, Dollar Volume 545.4M
+- [x] Relabel Volume Share to Share of Hamptons Dollar Volume everywhere on platform
+- [x] Add footnote on every hamlet card: Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume 5.922B.
+- [x] Update all hamlet dollar volume shares to corrected values from brief
+- [x] Add Wainscott last notable sale: 115 Beach Lane 59M March 2026
+- [ ] Add Data current as of timestamp on HOME tab automated from last Sheets API call (deferred to Sprint 10)
+- [ ] Update James Christie portrait PDF with all P2 corrections narrative intelligence section placeholder only (deferred)
+- [ ] Sub-hamlet architecture: prepare fields in data layer only do NOT render on public interface (deferred)
+
+### P4 — Mobile Responsive Pass
+- [x] MAPS markers: increase tap target size for mobile (44px wrapper, 20px dot)
+- [x] HOME ticker: prevent text wrapping on narrow viewports
+- [x] INTEL: sticky navigator for vertical scroll Layer 1 Layer 2 Layer 3 Layer 4
+- [x] FUTURE: bar chart labels readable on mobile (10px labels, 640px minWidth)
+
+### P5 — Security Hardening
+- [x] Confirm Manus OAuth gates all INTEL surfaces (PrivateTabGate + protectedProcedure)
+- [x] Confirm no internal data leaks on PUBLIC route (verified: no PIPE/INTEL/whale data)
+- [x] Confirm all API keys in Manus secrets manager not hardcoded
+- [x] Confirm PERPLEXITY_API_KEY working in NEWS command pipeline (200 OK validated)
+- [x] Harden PIPE/INTEL procedures: 10 publicProcedure → protectedProcedure (server-side auth)

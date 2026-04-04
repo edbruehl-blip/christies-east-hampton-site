@@ -4,11 +4,14 @@
  * Routes:
  *   /        → Seven-tab dashboard (HOME · MARKET · MAPS · IDEAS · PIPE · FUTURE · INTEL)
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
+ *   /public  → Public-facing surface (founding letter, Auction House Services, hamlet cards)
+ *              NO INTEL, NO PIPE, NO internal data — safe for external sharing
  *
  * Design tokens in index.css. No inline styles.
  *
  * Sprint 9 P0: PIPE and INTEL are gated behind Manus OAuth via PrivateTabGate.
  * HOME, MARKET, MAPS, and FUTURE are public — no auth required.
+ * /public is the external-safe surface for sharing with prospects and partners.
  */
 
 import { useState } from "react";
@@ -31,6 +34,7 @@ import IntelTab  from "./pages/tabs/IntelTab";
 
 // Standalone pages
 import ReportPage from "./pages/ReportPage";
+import PublicPage from "./pages/PublicPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -72,6 +76,7 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/report" component={ReportPage} />
+            <Route path="/public" component={PublicPage} />
             <Route component={Dashboard} />
           </Switch>
         </TooltipProvider>

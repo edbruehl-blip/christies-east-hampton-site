@@ -70,7 +70,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 8_040_000,
     medianPriceDisplay: '$8.04M',
     anewScore: 9.4,
-    volumeShare: 4,
+    volumeShare: 4,  // ~4% — ~$229.9M of $5.922B (Sagaponack combined)
     lastSale: '123 Ocean Road',
     lastSalePrice: '$19.5M',
     lastSaleDate: 'Feb 2025',
@@ -102,10 +102,10 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'east-hampton-village',
     name: 'East Hampton Village',
     tier: 'Ultra-Trophy',
-    medianPrice: 5_150_000,
-    medianPriceDisplay: '$5.15M',
+    medianPrice: 5_250_000,
+    medianPriceDisplay: '$5.25M',
     anewScore: 9.2,
-    volumeShare: 12,
+    volumeShare: 7,  // 7% — $408.9M of $5.922B (Saunders 2025 + Raveis YE 2025)
     lastSale: '8 Lily Pond Lane',
     lastSalePrice: '$9.8M',
     lastSaleDate: 'Jan 2025',
@@ -140,7 +140,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 4_470_000,
     medianPriceDisplay: '$4.47M',
     anewScore: 9.1,
-    volumeShare: 8,
+    volumeShare: 9,  // 9% — $530.9M of $5.922B
     lastSale: '71 Ocean Road',
     lastSalePrice: '$7.2M',
     lastSaleDate: 'Mar 2025',
@@ -175,7 +175,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 4_385_000,
     medianPriceDisplay: '$4.385M',
     anewScore: 9.0,
-    volumeShare: 14,
+    volumeShare: 11,  // 11% — $670.4M of $5.922B
     lastSale: '48 Gin Lane',
     lastSalePrice: '$5.6M',
     lastSaleDate: 'Feb 2025',
@@ -210,7 +210,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 4_550_000,
     medianPriceDisplay: '$4.55M',
     anewScore: 8.8,
-    volumeShare: 7,
+    volumeShare: 7,  // 7% — $405.1M of $5.922B
     lastSale: '91 Flying Point Road',
     lastSalePrice: '$6.4M',
     lastSaleDate: 'Jan 2025',
@@ -245,7 +245,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 2_800_000,
     medianPriceDisplay: '$2.80M',
     anewScore: 8.4,
-    volumeShare: 11,
+    volumeShare: 5,  // 5% — $315.8M of $5.922B
     lastSale: '15 Bay Street',
     lastSalePrice: '$3.9M',
     lastSaleDate: 'Mar 2025',
@@ -280,7 +280,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 4_350_000,
     medianPriceDisplay: '$4.35M',
     anewScore: 8.9,
-    volumeShare: 9,
+    volumeShare: 9,  // 9% — $508.2M of $5.922B
     lastSale: '32 Bluff Road',
     lastSalePrice: '$4.7M',
     lastSaleDate: 'Feb 2025',
@@ -309,16 +309,19 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     qsHamletTier: 3,
   },
   {
-    id: 'east-hampton',
-    name: 'East Hampton',
+    // East Hampton North — replaces "East Hampton Town" per P2 directive April 4, 2026
+    // Dollar volume: EH Middle ($290.3M) + EH NW ($255.2M) = $545.4M combined
+    // Saunders 2025 + Raveis YE 2025 cross-reference
+    id: 'east-hampton-north',
+    name: 'East Hampton North',
     tier: 'Premier',
-    medianPrice: 3_200_000,
-    medianPriceDisplay: '$3.2M',
+    medianPrice: 2_030_000,
+    medianPriceDisplay: '$2.03M',
     anewScore: 8.6,
-    volumeShare: 18,
-    lastSale: '114 Two Holes of Water Road',
-    lastSalePrice: '$3.2M',
-    lastSaleDate: 'Mar 2025',
+    volumeShare: 9,  // 9% — $545.4M of $5.922B
+    lastSale: 'TBD',
+    lastSalePrice: 'TBD',
+    lastSaleDate: '',
     restaurants: {
       anchor: 'Rowdy Hall',
       mid: 'TBD',
@@ -338,8 +341,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
     ],
-    lat: 40.9626,
-    lng: -72.1854,
+    lat: 40.9826,
+    lng: -72.2100,
     qsHamletMult: 1.05,
     qsHamletTier: 3,
   },
@@ -350,7 +353,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 1_580_000,
     medianPriceDisplay: '$1.58M',
     anewScore: 6.8,
-    volumeShare: 17,
+    volumeShare: 3,  // 3% — $156.2M of $5.922B
     lastSale: '9 Old Stone Highway',
     lastSalePrice: '$2.1M',
     lastSaleDate: 'Jan 2025',
@@ -385,7 +388,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 2_240_000,
     medianPriceDisplay: '$2.24M',
     anewScore: 8.2,
-    volumeShare: 9,
+    volumeShare: 4,  // 4% — $245.3M of $5.922B
     lastSale: '18 Tara Road',
     lastSalePrice: '$3.99M',
     lastSaleDate: 'Active 2026',
@@ -420,10 +423,10 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 3_180_000,
     medianPriceDisplay: '$3.18M',
     anewScore: 8.7,
-    volumeShare: 4,
-    lastSale: '',
-    lastSalePrice: '',
-    lastSaleDate: '',
+    volumeShare: 2,  // 2% — $91.7M of $5.922B
+    lastSale: '115 Beach Lane',
+    lastSalePrice: '$59M',
+    lastSaleDate: 'Mar 2026',
     restaurants: {
       anchor: 'Pierre\'s',
       mid: 'Georgica Restaurant',

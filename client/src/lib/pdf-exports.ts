@@ -86,7 +86,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   y = sectionLabel(doc, 'Hamlet Intelligence', y);
   y = kvRow(doc, 'Median Price', hamlet.medianPriceDisplay, y);
   y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
-  y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork`, y);
+  y = kvRow(doc, 'Share of Hamptons Dollar Volume', `${hamlet.volumeShare}% of Hamptons dollar volume`, y);
   y = kvRow(doc, 'Last Notable Sale', `${hamlet.lastSale} · ${hamlet.lastSalePrice} · ${hamlet.lastSaleDate}`, y);
   y += 4;
 
@@ -155,7 +155,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   y = sectionLabel(doc, 'Market Position', y);
   y = kvRow(doc, 'Hamlet Median Price', hamlet.medianPriceDisplay, y, true);
   y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
-  y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork transactions`, y);
+  y = kvRow(doc, 'Share of Hamptons Dollar Volume', `${hamlet.volumeShare}% of Hamptons dollar volume`, y);
   y += 4;
 
   // Pricing analysis
@@ -400,7 +400,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   y = kvRow(doc, 'Hamlet', result.hamletName, y);
   y = kvRow(doc, 'Median Price', hamlet.medianPriceDisplay, y, true);
   y = kvRow(doc, 'CIS Score (Hamlet)', `${hamlet.anewScore} / 10`, y);
-  y = kvRow(doc, 'Volume Share', `${hamlet.volumeShare}% of South Fork`, y);
+  y = kvRow(doc, 'Share of Hamptons Dollar Volume', `${hamlet.volumeShare}% of Hamptons dollar volume`, y);
   y = kvRow(doc, 'Last Comparable', `${hamlet.lastSale} · ${hamlet.lastSalePrice} · ${hamlet.lastSaleDate}`, y);
 
   if (result.strategicClassification) {
@@ -920,7 +920,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   const metrics: [string, string][] = [
     ['Median Sale Price', H.medianPrice],
     ['YoY Change', H.yoy],
-    ['Volume Share (South Fork)', H.volumeShare],
+    ['Share of Hamptons Dollar Volume', H.volumeShare],
     ['Active Listings', String(H.activeListings)],
     ['Avg Days on Market', String(H.avgDOM)],
     ['Price / Sq Ft', H.pricePerSqFt],
