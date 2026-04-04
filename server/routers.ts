@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, readIntelWebRows } from './sheets-helper';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { eq, asc } from "drizzle-orm";
@@ -271,6 +271,22 @@ export const appRouter = router({
         }
         return { imported: imported.length, skipped: skipped.length, listings: imported };
       }),
+  }),
+
+  // ─── Intelligence Web ─────────────────────────────────────────────────────
+  intel: router({
+    /**
+     * Read all entities from the Intelligence Web Google Sheet.
+     * Returns full list; client filters by entityType/tier for each tab.
+     */
+    webEntities: publicProcedure.query(async () => {
+      try {
+        const entities = await readIntelWebRows();
+        return { entities, error: null };
+      } catch (err: any) {
+        return { entities: [], error: err.message ?? 'Failed to read Intelligence Web sheet' };
+      }
+    }),
   }),
 
   // ─── Newsletter — Beehiiv + Gmail SMTP ────────────────────────────────────

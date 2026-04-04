@@ -410,3 +410,26 @@
 
 - [x] MAPS: GeoJSON hamlet boundary polygon overlays on satellite view for all 10 hamlets
 - [x] INTEL: Frank Newbold competitor profile in Relationship Intelligence layer (alive, Sotheby's Associate Broker, $70M Further Lane 2025, EHHS Trustee — competitive intelligence only)
+
+## Sprint 8 — Manny Brief April 3, 2026
+
+### Item 1 — Intelligence Web Filtered Tabs (GO)
+- [x] Wire Intelligence Web Google Sheet (ID: 1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA) to INTEL
+- [x] Add Audience column with multi-value tag support to sheet schema
+- [x] Build Jarvis_Top_Agents filtered tab (TIER 1 RECRUITs only)
+- [x] Build Whale_Intelligence filtered tab (WHALE entity type)
+- [x] Build Auction_Referrals filtered tab (PARTNER + INSTITUTION types)
+- [x] Read-only display — no edit UI for non-Ed users
+
+### Item 2 — Attorney Database Card (GO)
+- [x] Build structured card module in INTEL Layer 3
+- [x] Four fields: Firm Name, Contact, Specialty, Relationship Tier
+- [x] Seed data: Pierre Debbas (Romer Debbas, Tier 1 Inner Circle), Brian Lester (Tarbet and Lester, Tier 1 Active), Jonathan Tarbet (Tarbet and Lester, Tier 1 Active), Seamus McGrath (Tarbet and Lester, Tier 1 Active)
+
+### Item 3 — FUTURE Tab PDF Export (CONFIRM / ENHANCE)
+- [x] Confirm exportAscensionPDF() function exists and is wired to button (confirmed: line 64 + line 398)
+- [x] Verify scorecard tiles are clearly labeled "Targets, Not Actuals" in PDF output (already done: subtitle line reads "Pro Forma · April 2026 · Ilija Pavlović Review Copy · Targets, Not Actuals")
+- [x] Confirm PDF renders correctly in browser print dialog — ready for April 15 Ilija deadline
+
+### Item 4 — Publish (HOLD pending Ed GO)
+- [ ] Publish checkpoint ea10273b to live domain on Ed GO signal

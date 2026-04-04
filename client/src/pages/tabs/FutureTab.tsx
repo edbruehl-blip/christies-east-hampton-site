@@ -381,7 +381,7 @@ export default function FutureTab() {
                 </div>
                 <div>
                   <div className="uppercase text-[10px] mb-1" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.16em' }}>
-                    {phase.phase} · {phase.label}
+                    {phase.phase}{' · '}{phase.label}
                   </div>
                   <div className="text-sm leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
                     {phase.description}

@@ -227,3 +227,60 @@ export async function appendPipelineRow(deal: {
   const allRows = await readPipelineRows();
   return { rowNumber: allRows.length };
 }
+
+// ─── Intelligence Web Sheet ───────────────────────────────────────────────────
+const INTEL_WEB_SHEET_ID = "1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA";
+const INTEL_WEB_TAB = "Intelligence Web";
+
+export interface IntelWebEntity {
+  entityName: string;
+  entityType: string;  // WHALE | RECRUIT | COMPETITOR | PARTNER | INSTITUTION | MEDIA
+  tier: string;        // TIER 1 | TIER 2 | ARCHETYPE | WATCH | ACTIVE | ATTORNEY
+  currentFirm: string;
+  territory: string;
+  connection1: string;
+  connection2: string;
+  connection3: string;
+  connectionType: string;
+  status: string;
+  lastIntelDate: string;
+  notes: string;
+  owner: string;
+  archetypeMatch: string;
+  audience: string;    // Audience column (multi-value tags: Jarvis_Top_Agents, Whale_Intelligence, Auction_Referrals)
+}
+
+export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
+  const sheets = getSheetsClient();
+  let rows: string[][];
+  try {
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: INTEL_WEB_SHEET_ID,
+      range: `${INTEL_WEB_TAB}!A:O`,
+    });
+    rows = (res.data.values as string[][]) ?? [];
+  } catch {
+    return [];
+  }
+  // Row 1 = headers, skip it
+  const dataRows = rows.slice(1);
+  return dataRows
+    .filter(r => r && r[0] && r[0].trim())
+    .map(r => ({
+      entityName:      r[0]  ?? '',
+      entityType:      r[1]  ?? '',
+      tier:            r[2]  ?? '',
+      currentFirm:     r[3]  ?? '',
+      territory:       r[4]  ?? '',
+      connection1:     r[5]  ?? '',
+      connection2:     r[6]  ?? '',
+      connection3:     r[7]  ?? '',
+      connectionType:  r[8]  ?? '',
+      status:          r[9]  ?? '',
+      lastIntelDate:   r[10] ?? '',
+      notes:           r[11] ?? '',
+      owner:           r[12] ?? '',
+      archetypeMatch:  r[13] ?? '',
+      audience:        r[14] ?? '',
+    }));
+}

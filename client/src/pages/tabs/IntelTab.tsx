@@ -20,6 +20,8 @@ import { FamilyOfficeList } from '@/components/FamilyOfficeList';
 import { LocalCharityTracker } from '@/components/LocalCharityTracker';
 import { IntelSourceTemplate } from '@/components/IntelSourceTemplate';
 import { NewsletterManager } from '@/components/NewsletterManager';
+import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
+import { AttorneyDatabase } from '@/components/AttorneyDatabase';
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
@@ -671,7 +673,10 @@ export default function IntelTab() {
         <CanonPdfSection />
         <DocSection title="Constitution & SOPs" docs={CONSTITUTION_DOCS} />
         <DocSection title="Council Briefs" docs={COUNCIL_BRIEF_DOCS} />
-        <DocSection title="Attorney Database" docs={ATTORNEY_DOCS} />
+        {/* Intelligence Web — Sprint 8 · Three filtered tabs (Jarvis Top Agents, Whale Intelligence, Auction Referrals) */}
+        <IntelligenceWebTabs />
+        {/* Attorney Database — Sprint 8 · Structured card module with four seed contacts */}
+        <AttorneyDatabase />
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
         </div>{/* /frame-max-w */}
       </div>
