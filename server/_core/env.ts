@@ -12,4 +12,5 @@ export const ENV = {
   twilioAuthToken: process.env.TWILIO_AUTH_TOKEN ?? "",
   twilioWhatsappFrom: process.env.TWILIO_WHATSAPP_FROM ?? "",
   williamWhatsappTo: process.env.WILLIAM_WHATSAPP_TO ?? "",
+  perplexityApiKey: process.env.PERPLEXITY_API_KEY ?? "",
 };

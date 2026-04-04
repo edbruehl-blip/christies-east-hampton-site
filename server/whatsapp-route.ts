@@ -136,6 +136,21 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   return { sid, audioUrl, textLength: text.length };
 }
 
+// ─── Exported delivery helper for inbound handler ───────────────────────────
+
+export async function deliverBriefToNumber(to: string): Promise<void> {
+  const text = buildMorningBrief();
+  const audioBuffer = await synthesiseAudio(text);
+  const audioUrl    = await uploadAudio(audioBuffer, "morning");
+  const client = twilio(ENV.twilioAccountSid, ENV.twilioAuthToken);
+  await client.messages.create({
+    from: ENV.twilioWhatsappFrom,
+    to,
+    body: "🌅 Christie's EH — Morning Market Brief",
+    mediaUrl: [audioUrl],
+  });
+}
+
 // ─── Route registration ───────────────────────────────────────────────────────
 
 export function registerWhatsAppRoute(app: Express): void {

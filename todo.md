@@ -498,3 +498,14 @@
 - [ ] Flambeaux PDF standard — implement as default stylesheet for all five export types
 - [ ] "Data current as of [date]" timestamp on HOME — automated from last Sheets API call
 - [ ] Newsletter activation — wire immediately upon receipt of Beehiiv credentials from Ed
+
+## Sprint 9 — WhatsApp Inbound Pipeline (April 4, 2026)
+
+- [x] Item 1 — Add PERPLEXITY_API_KEY to Manus secrets and wire into env.ts (pplx- key confirmed valid 200 OK)
+- [x] Item 2 — Build POST /api/whatsapp/inbound webhook: parse Body, route NEWS/PIPE/STATUS/BRIEF commands
+- [x] Item 3 — Build NEWS handler: 14-category Cronkite prompt via Perplexity, ElevenLabs William voice, Twilio WhatsApp delivery
+- [x] Item 3 — Build PIPE handler: last 5 pipeline deals from Google Sheet
+- [x] Item 3 — Build STATUS handler: active listing count + pipeline summary
+- [x] Item 3 — Build BRIEF handler: trigger morning brief immediately
+- [x] Item 4 — Update Twilio webhook URL to https://www.christiesrealestategroupeh.com/api/whatsapp/inbound (confirmed in Twilio sandbox settings)
+- [x] Item 4 — PUBLISH REQUIRED before live test — webhook live on prod after publish

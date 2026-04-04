@@ -10,6 +10,7 @@ import { serveStatic, setupVite } from "./vite";
 import { registerTtsRoute } from "../tts-route";
 import { registerMarketRoute } from "../market-route";
 import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
+import { registerWhatsAppInbound } from "../whatsapp-inbound";
 import listingsRouter, { syncListings } from "../listings-sync-route";
 import cron from "node-cron";
 
@@ -69,6 +70,9 @@ async function startServer() {
   // William WhatsApp — 8AM morning brief + 8PM pipeline summary via ElevenLabs + Twilio
   registerWhatsAppRoute(app);
   startWhatsAppScheduler();
+
+  // WhatsApp inbound webhook — receives Twilio POST, routes NEWS/PIPE/STATUS/BRIEF commands
+  registerWhatsAppInbound(app);
 
   // Listings sync — Christie's API → MAPS tab
   app.use('/api/listings', listingsRouter);
