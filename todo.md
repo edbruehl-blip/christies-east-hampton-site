@@ -446,3 +446,11 @@
 - [x] Constrain to --frame-max-w, gold/navy treatment
 - [x] Six tiles: Appraisals & Valuations, Collection Management, Art Finance, Heritage & Taxation, Consignment, Private Sales — each linking to Christie's.com
 - [x] Wire into HOME tab lower section
+
+### Item 7 — Intelligence Web Google Sheet Created and Wired
+- [x] Create Intelligence Web Google Sheet from 42-entity seed XLSX
+- [x] Tab renamed to "Intelligence Web", header formatted navy/gold
+- [x] Audience column auto-derived: Jarvis_Top_Agents (15), Whale_Intelligence (2), Auction_Referrals (11)
+- [x] Sheet ID updated in sheets-helper.ts: 1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0
+- [x] Live read confirmed: 42 entities, all columns including Audience
+- [x] Three filtered INTEL tabs now reading live data from this sheet

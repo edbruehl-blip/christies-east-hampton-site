@@ -229,7 +229,7 @@ export async function appendPipelineRow(deal: {
 }
 
 // ─── Intelligence Web Sheet ───────────────────────────────────────────────────
-const INTEL_WEB_SHEET_ID = "1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA";
+const INTEL_WEB_SHEET_ID = "1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0";
 const INTEL_WEB_TAB = "Intelligence Web";
 
 export interface IntelWebEntity {
