@@ -454,3 +454,47 @@
 - [x] Sheet ID updated in sheets-helper.ts: 1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0
 - [x] Live read confirmed: 42 entities, all columns including Audience
 - [x] Three filtered INTEL tabs now reading live data from this sheet
+
+## Sprint 9 — External-Ready · Target: May 1, 2026
+
+### P0 — PUBLIC/PRIVATE Surface Breach (Day 1 · CRITICAL)
+- [ ] Separate PUBLIC route — show only: founding letter, Christie's services, market data, hamlet cards, MAPS calculator, estate advisory card
+- [ ] PUBLIC may never show: PIPE, recruiting targets, whale intelligence, family office registry, attorney intelligence, internal calendar, any private ops data
+- [x] Gate INTEL and PIPE tabs behind Manus OAuth (protectedProcedure / auth check on tab render)
+
+### P1 — Conversion Loop (Day 1)
+- [x] Wire "REQUEST YOUR PRIVATE PROPERTY INTELLIGENCE BRIEF" button on MAPS to pre-filled WhatsApp (646-752-1233) with property address and CIS score
+- [x] Add "Request a Private Territory Briefing" button at bottom of MARKET tab — same WhatsApp destination (646-752-1233)
+
+### P2 — TBD Data Removal (Day 1)
+- [x] Cross-reference Pipeline Sheet for Wainscott last sale data — push to hamlet-master.ts (no closed sales found; field cleared)
+- [x] Cross-reference Pipeline Sheet for Montauk last sale data — push to hamlet-master.ts (18 Tara Road $3.99M Active 2026)
+- [x] Remove all remaining TBD placeholders from the platform (if real data unavailable, remove the field entirely)
+
+### P3 — Intelligence Web Sheet Corrections (Day 1)
+- [x] Add Lily Safra as new entity: WHALE · ACTIVE · Audience: Whale_Intelligence
+- [x] Append Whale_Intelligence to Audience for Rick Moeser, Tony Ingrao, Art Murray (keep Auction_Referrals)
+- [x] Correct Frank Newbold (Row 22): Current Firm = "Sotheby's Intl Realty" (not "Unknown")
+- [x] Add Angela Boyer-Stump: RECRUIT · TIER 1 · Sotheby's Intl Realty · Bridgehampton · Jarvis_Top_Agents · Senior Global RE Advisor · 27yr licensed · Top 50 Sotheby's nationally · $75M+ 2024 · Fluent German · Southampton Yacht Club Board · Archetype Match: YES
+
+### P4 — Mobile Responsive Pass (Day 2-3)
+- [ ] MAPS hamlet markers — increase touch target size for mobile
+- [ ] HOME ticker — fix wrapping on small screens
+- [ ] James Christie portrait — scale cleanly on iPhone without compression
+- [ ] FUTURE bar chart labels — increase font size on mobile
+- [ ] INTEL tab — add sticky section navigator: Layer 1 / Layer 2 / Layer 3 / Layer 4
+
+### P5 — Security Hardening (Day 3-5)
+- [ ] Auth-gate all tRPC write procedures: updateSheetStatus, appendSheet, TTS mutations → protectedProcedure
+- [ ] Remove legacy DB routes: pipe.list, pipe.upsert, pipe.delete
+- [ ] Move SHEET_ID from hardcoded value in sheets-helper.ts to environment variable
+- [ ] Add TTL cache to pipe.sheetDeals (prevent hitting 300/min Sheets API quota)
+
+### P6 — Remaining Items (Week 2-4)
+- [ ] Shared content max-width CSS variable — confirm consistent application to MAPS, PIPE, INTEL containers
+- [ ] INTEL hero slot — confirm "Relationship Intelligence — In Development" placeholder card is present
+- [ ] FUTURE tab pro forma export — verify PDF matches Ascension deck structure (staged milestones, not calendar years)
+- [ ] Hamlet imagery — confirm all 11 hamlet JPEGs are wired via CDN (no Wikimedia URLs remain)
+- [ ] Flambeaux PDF standard — implement as default stylesheet for all five export types
+- [ ] "Data current as of [date]" timestamp on HOME — automated from last Sheets API call
+- [ ] Newsletter activation — wire immediately upon receipt of Beehiiv credentials from Ed

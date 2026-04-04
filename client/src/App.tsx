@@ -6,6 +6,9 @@
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
  *
  * Design tokens in index.css. No inline styles.
+ *
+ * Sprint 9 P0: PIPE and INTEL are gated behind Manus OAuth via PrivateTabGate.
+ * HOME, MARKET, MAPS, and FUTURE are public — no auth required.
  */
 
 import { useState } from "react";
@@ -15,6 +18,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardLayout, type TabId } from "./components/DashboardLayout";
+import { PrivateTabGate } from "./components/PrivateTabGate";
 
 // Tab pages
 import HomeTab   from "./pages/tabs/HomeTab";
@@ -24,6 +28,7 @@ import IdeasTab  from "./pages/tabs/IdeasTab";
 import PipeTab   from "./pages/tabs/PipeTab";
 import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
+
 // Standalone pages
 import ReportPage from "./pages/ReportPage";
 
@@ -33,16 +38,25 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
     case "market": return <MarketTab />;
     case "maps":   return <MapsTab />;
     case "ideas":  return <IdeasTab />;
-    case "pipe":   return <PipeTab />;
+    // PIPE — private: operational pipeline data, deal records, recruiting targets
+    case "pipe":   return (
+      <PrivateTabGate tabLabel="PIPE">
+        <PipeTab />
+      </PrivateTabGate>
+    );
     case "future": return <FutureTab />;
-    case "intel":  return <IntelTab />;
+    // INTEL — private: relationship intelligence, whale registry, attorney database, family offices
+    case "intel":  return (
+      <PrivateTabGate tabLabel="INTEL">
+        <IntelTab />
+      </PrivateTabGate>
+    );
     default:       return <HomeTab />;
   }
 }
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("home");
-  // make sure to consider if you need authentication for certain routes
   return (
     <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
       <TabContent activeTab={activeTab} />
