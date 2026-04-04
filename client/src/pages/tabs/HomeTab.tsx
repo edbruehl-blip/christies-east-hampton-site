@@ -19,6 +19,7 @@
 import { useLocation } from 'wouter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
+import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 
 const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
@@ -245,7 +246,37 @@ function SectionB() {
   );
 }
 
-// ─── HomeTab ──────────────────────────────────────────────────────────────────
+// ─── William Voice Note Player ─────────────────────────────────────────────────────────────────────────────
+function SectionWilliam() {
+  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  // The founding letter TTS endpoint returns a fresh audio URL on each call
+  const audioUrl = window.location.origin + '/api/tts/founding-letter';
+
+  return (
+    <section style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px' }}>
+      <div style={{ maxWidth: 640, margin: '0 auto' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+          William · Christie’s East Hampton
+        </div>
+        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.2rem, 2.2vw, 1.5rem)', lineHeight: 1.3, marginBottom: 6 }}>
+          Intelligence Brief
+        </h2>
+        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: 13, lineHeight: 1.6, marginBottom: 20, opacity: 0.75 }}>
+          {today}
+        </p>
+        <WilliamAudioPlayer
+          audioUrl={audioUrl}
+          label="Founding Letter · Christie’s East Hampton"
+        />
+        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: 11, lineHeight: 1.5, marginTop: 12, opacity: 0.5 }}>
+          Tap play to hear William deliver the Christie’s East Hampton founding letter. Audio synthesised via ElevenLabs. Share button copies the MP3 URL to clipboard.
+        </p>
+      </div>
+    </section>
+  );
+}
+
+// ─── HomeTab ─────────────────────────────────────────────────────────────────────────────
 // SectionC (duplicate footer) removed — DashboardLayout renders the single
 // "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
 export default function HomeTab() {
@@ -254,6 +285,7 @@ export default function HomeTab() {
       <SectionA />
       <SectionB />
       <AuctionHouseServices />
+      <SectionWilliam />
     </div>
   );
 }

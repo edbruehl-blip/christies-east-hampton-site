@@ -19,6 +19,7 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
+import { trpc } from "@/lib/trpc";
 
 export type TabId = "home" | "market" | "maps" | "ideas" | "pipe" | "future" | "intel";
 
@@ -179,6 +180,15 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
   // Format the updatedAt ISO string into a short local time stamp
   const updatedLabel = market.updatedAt
     ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}`
+    : null;
+
+  // Data current as of — last Sheets API call timestamp
+  const { data: sheetsTimestamp } = trpc.market.dataTimestamp.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnWindowFocus: false,
+  });
+  const dataCurrentLabel = sheetsTimestamp?.timestamp
+    ? `Data current as of ${new Date(sheetsTimestamp.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
     : null;
 
   return (
@@ -461,6 +471,13 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
             <>
               <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
               <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#C8AC78", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
+            </>
+          )}
+          {/* Data current as of — Sheets API freshness */}
+          {dataCurrentLabel && (
+            <>
+              <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
+              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "rgba(200,172,120,0.65)", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{dataCurrentLabel}</span>
             </>
           )}
         </div>

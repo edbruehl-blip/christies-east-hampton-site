@@ -58,6 +58,46 @@ export interface HamletData {
   // ANEW multipliers
   qsHamletMult: number;
   qsHamletTier: number;
+
+  /**
+   * SUB-HAMLET SCAFFOLD — DATA LAYER ONLY
+   * ─────────────────────────────────────────────────────────────────────────
+   * This field is a reserved container for future sub-hamlet granularity
+   * (e.g., "EH Village South of Highway" vs. "EH Village North of Highway").
+   *
+   * RENDERING RULES:
+   *   - DO NOT render this field anywhere in the UI
+   *   - DO NOT surface this on the /public route
+   *   - DO NOT display this on the MARKET tab hamlet cards
+   *   - The exact field schema (names, parent-child relationships,
+   *     sub-designation labels) will be provided by Perplexity 2 as part
+   *     of the CIS matrix deliverable
+   *
+   * Leave all values as empty arrays until Ed issues GO on the CIS matrix.
+   */
+  subHamlets?: SubHamletEntry[];
+}
+
+/**
+ * SUB-HAMLET ENTRY — reserved schema container
+ * All fields optional — exact schema TBD per CIS matrix deliverable.
+ * DO NOT render, display, or export until Ed issues GO.
+ */
+export interface SubHamletEntry {
+  /** Internal identifier, e.g. "eh-village-south-of-highway" */
+  id?: string;
+  /** Display name, e.g. "South of the Highway" */
+  name?: string;
+  /** Parent hamlet ID this sub-hamlet belongs to */
+  parentHamletId?: string;
+  /** Reserved for CIS matrix sub-designation labels */
+  cisSubDesignation?: string;
+  /** Reserved for sub-hamlet median price (USD) */
+  medianPrice?: number;
+  /** Reserved for sub-hamlet CIS score */
+  anewScore?: number;
+  /** Reserved for additional CIS matrix fields — TBD */
+  [key: string]: unknown;
 }
 
 // ─── Ten Hamlets ─────────────────────────────────────────────────────────────

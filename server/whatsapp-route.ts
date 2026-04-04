@@ -47,7 +47,7 @@ function buildMorningBrief(): string {
     `Gold is elevated, signaling continued flight-to-quality positioning by ultra-high-net-worth buyers. ` +
     `Today's priority: review your active pipeline, confirm any weekend showing requests, ` +
     `and check the auction calendar for upcoming Christie's events. ` +
-    `We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`
+    `Soli Deo Gloria.`
   );
 }
 
@@ -61,7 +61,7 @@ function buildEveningSummary(): string {
     `A reminder to review any new inquiries that came in today and update deal stages in your pipeline. ` +
     `If you have showing feedback from today, log it while it's fresh. ` +
     `Tomorrow's market brief will arrive at eight AM. ` +
-    `We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`
+    `Soli Deo Gloria.`
   );
 }
 

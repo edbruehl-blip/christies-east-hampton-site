@@ -297,7 +297,31 @@ export const appRouter = router({
     }),
   }),
 
-  // ─── Newsletter — Beehiiv + Gmail SMTP ────────────────────────────────────
+  // ─── Market data timestamp ─────────────────────────────────────────────────────────────────────────────
+  market: router({
+    /**
+     * Returns the timestamp of the last successful Sheets API call.
+     * Used to display "Data current as of [date]" on the HOME market strip.
+     */
+    dataTimestamp: publicProcedure.query(async () => {
+      try {
+        const { readPipelineDeals } = await import('./sheets-helper');
+        const deals = await readPipelineDeals();
+        return {
+          timestamp: new Date().toISOString(),
+          dealCount: deals.length,
+          error: null as string | null,
+        };
+      } catch (err: any) {
+        return {
+          timestamp: null as string | null,
+          dealCount: 0,
+          error: (err as Error).message ?? 'Sheets unavailable',
+        };
+      }
+    }),
+  }),
+
   newsletter: router({
     /**
      * Subscribe an email to the Christie's East Hampton newsletter via Beehiiv.
