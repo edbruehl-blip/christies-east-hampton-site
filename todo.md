@@ -433,3 +433,16 @@
 
 ### Item 4 — Publish (HOLD pending Ed GO)
 - [ ] Publish checkpoint ea10273b to live domain on Ed GO signal
+
+### Item 5 — Shared CSS Max-Width Variable (Sprint 8 · April 3)
+- [ ] Confirm --frame-max-w is already defined in index.css
+- [ ] Apply --frame-max-w to MAPS map frame container
+- [ ] Apply --frame-max-w to PIPE table frame container
+- [ ] Apply --frame-max-w to INTEL spiderweb/RelationshipIntelligenceLayer container
+
+### Item 6 — Auction House Services Section on HOME tab
+- [x] Upload Christie's services video to CDN
+- [x] Build AuctionHouseServices component: branded video player + six service tiles
+- [x] Constrain to --frame-max-w, gold/navy treatment
+- [x] Six tiles: Appraisals & Valuations, Collection Management, Art Finance, Heritage & Taxation, Consignment, Private Sales — each linking to Christie's.com
+- [x] Wire into HOME tab lower section

@@ -469,6 +469,7 @@ const COMPETITOR_PROFILES: CompetitorProfile[] = [
 function RelationshipIntelligenceLayer() {
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
         Layer 4 · Relationship Intelligence
       </div>
@@ -521,11 +522,11 @@ function RelationshipIntelligenceLayer() {
             </div>
           </div>
         ))}
+       </div>{/* /frame-max-w */}
       </div>
     </div>
   );
 }
-
 // ─── Sprint 6 Horizon Banner ─────────────────────────────────────────────────────────
 
 function Sprint6Banner() {

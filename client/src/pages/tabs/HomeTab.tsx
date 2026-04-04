@@ -18,6 +18,7 @@
 
 import { useLocation } from 'wouter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
+import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 
 const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
@@ -252,6 +253,7 @@ export default function HomeTab() {
     <div>
       <SectionA />
       <SectionB />
+      <AuctionHouseServices />
     </div>
   );
 }
