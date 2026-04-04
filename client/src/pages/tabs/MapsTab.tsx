@@ -413,7 +413,7 @@ function CISCalculatorLayer() {
       </div>
 
       <div className="px-6 py-8">
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>Select Lens</div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
             {MODES.map(mode => (

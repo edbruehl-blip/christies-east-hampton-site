@@ -651,6 +651,7 @@ export default function PipeTab() {
 
       {/* Full pipeline table */}
       <div className="px-6 py-8">
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="flex items-center justify-between mb-5">
           <div>
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
@@ -667,6 +668,7 @@ export default function PipeTab() {
           <ImportFromProfileButton onSuccess={handleDealAdded} />
         </div>
         <PipelineTable />
+        </div>{/* /frame-max-w */}
       </div>
     </div>
   );

@@ -567,6 +567,41 @@ export default function IntelTab() {
         </p>
       </div>
 
+      {/* Hero Slot — Relationship Intelligence (reserved for spiderweb — no build until approved spec + Ed GO) */}
+      <div className="px-6 py-6 border-b" style={{ background: '#FAF8F4', borderColor: 'rgba(200,172,120,0.2)' }}>
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+          <div style={{
+            border: '1px solid rgba(27,42,74,0.18)',
+            borderLeft: '3px solid rgba(200,172,120,0.4)',
+            borderRadius: 2,
+            padding: '20px 24px',
+            background: '#fff',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 16,
+          }}>
+            <div>
+              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', letterSpacing: '0.22em', fontSize: 9 }}>
+                Layer 4 · Reserved Slot
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
+                Relationship Intelligence
+              </div>
+              <div className="mt-1" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem' }}>
+                In Development — Awaiting approved spec and Ed GO.
+              </div>
+            </div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(200,172,120,0.5)', whiteSpace: 'nowrap', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, padding: '4px 10px' }}>
+              Pending
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
+
       {/* Layer 1 — Master Calendar (above the fold, no padding wrapper) */}
       <CalendarLayer />
 
@@ -581,6 +616,7 @@ export default function IntelTab() {
 
       {/* Layer 3 — Canon Documents */}
       <div className="px-6 py-8">
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 3 · Institutional Archive
         </div>
@@ -637,6 +673,7 @@ export default function IntelTab() {
         <DocSection title="Council Briefs" docs={COUNCIL_BRIEF_DOCS} />
         <DocSection title="Attorney Database" docs={ATTORNEY_DOCS} />
         <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
+        </div>{/* /frame-max-w */}
       </div>
 
       {/* Layer 4 — Relationship Intelligence */}

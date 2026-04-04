@@ -86,102 +86,97 @@ export async function drawHeader(
   edImgData: string,
   logoImgData: string,
 ): Promise<number> {
-  const bandH = 38;
+  // Flambeaux standard: CIREG logo centered at top, single gold rule beneath
+  // Title centered in serif treatment (Helvetica-Bold approximates Cormorant Garamond)
+  const cx = PAGE.w / 2;
 
-  // Navy band
-  doc.setFillColor(...C.navy);
-  doc.rect(0, 0, PAGE.w, bandH, 'F');
-
-  // Gold rule at bottom of band
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.5);
-  doc.line(0, bandH, PAGE.w, bandH);
-
-  // Ed headshot (circular crop approximated with clipping)
-  if (edImgData) {
-    try {
-      doc.addImage(edImgData, 'JPEG', PAGE.ml, 5, 20, 20);
-    } catch { /* skip */ }
-  } else {
-    // Placeholder box
-    doc.setFillColor(...C.charcoal);
-    doc.rect(PAGE.ml, 5, 20, 20, 'F');
-    doc.setFontSize(5);
-    doc.setTextColor(...C.gold);
-    doc.text('ED BRUEHL', PAGE.ml + 10, 15, { align: 'center' });
-  }
-
-  // Title block (right of headshot)
-  const tx = PAGE.ml + 24;
-  doc.setFontSize(7);
-  doc.setTextColor(...C.gold);
-  doc.setFont('helvetica', 'bold');
-  doc.text('CHRISTIE\'S EAST HAMPTON · ED BRUEHL · MANAGING DIRECTOR', tx, 11);
-
-  doc.setFontSize(13);
-  doc.setTextColor(...C.cream);
-  doc.setFont('helvetica', 'bold');
-  doc.text(title, tx, 20);
-
-  doc.setFontSize(8);
-  doc.setTextColor(200, 190, 175);
-  doc.setFont('helvetica', 'normal');
-  doc.text(subtitle, tx, 27);
-
-  // CIREG logo (top-right)
+  // CIREG logo — centered, 44mm wide
   if (logoImgData) {
     try {
-      doc.addImage(logoImgData, 'PNG', PAGE.w - PAGE.mr - 36, 8, 36, 14);
+      doc.addImage(logoImgData, 'PNG', cx - 22, 8, 44, 17);
     } catch { /* skip */ }
+  } else {
+    doc.setFontSize(9);
+    doc.setTextColor(...C.navy);
+    doc.setFont('helvetica', 'bold');
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 18, { align: 'center' });
   }
 
-  // Date line (bottom of band)
+  // Single gold rule beneath logo
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.5);
+  doc.line(PAGE.ml, 28, PAGE.w - PAGE.mr, 28);
+
+  // Title — centered, gold, serif-weight
+  doc.setFontSize(15);
+  doc.setTextColor(...C.gold);
+  doc.setFont('helvetica', 'bold');
+  doc.text(title, cx, 38, { align: 'center' });
+
+  // Subtitle — centered, muted
+  if (subtitle) {
+    doc.setFontSize(8);
+    doc.setTextColor(...C.muted);
+    doc.setFont('helvetica', 'normal');
+    doc.text(subtitle, cx, 45, { align: 'center' });
+  }
+
+  // Horizontal rule under title
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.3);
+  doc.line(PAGE.ml, 50, PAGE.w - PAGE.mr, 50);
+
+  // Date line — right-aligned, small
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   doc.setFontSize(6.5);
-  doc.setTextColor(...C.gold);
+  doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'normal');
-  doc.text(dateStr, PAGE.w - PAGE.mr, bandH - 4, { align: 'right' });
+  doc.text(dateStr, PAGE.w - PAGE.mr, 45, { align: 'right' });
 
-  return bandH + 8; // y start for body
+  return 56; // y start for body (generous spacing after header)
 }
 
 // ─── Shared footer ────────────────────────────────────────────────────────────
 
 export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number, qrImg = '') {
-  const y = PAGE.h - 14;
+  // Flambeaux standard: footer rule at bottom, Christie's address centered, Private & Confidential
+  const y = PAGE.h - 16;
+  const cx = PAGE.w / 2;
 
-  // Gold rule
+  // Gold footer rule
   doc.setDrawColor(...C.gold);
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, y, PAGE.w - PAGE.mr, y);
 
-  // Doctrine line 1
+  // Christie's address — centered
   doc.setFontSize(6.5);
   doc.setTextColor(...C.navy);
-  doc.setFont('helvetica', 'bolditalic');
-  doc.text("Art. Beauty. Provenance. · Christie’s International Real Estate Group · Est. 1766", PAGE.ml, y + 4);
-
-  // Doctrine line 2
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...C.muted);
-  doc.text("26 Park Place, East Hampton, NY 11937 · 646-752-1233", PAGE.ml, y + 8);
+  doc.text("Christie's International Real Estate Group · 26 Park Place, East Hampton NY 11937", cx, y + 5, { align: 'center' });
 
-  // Page number
+  // Private & Confidential — centered, small caps style
+  doc.setFontSize(5.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PRIVATE & CONFIDENTIAL', cx, y + 10, { align: 'center' });
+
+  // Page number — right-aligned
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);
-  doc.text(`${pageNum} / ${totalPages}`, PAGE.w - PAGE.mr, y + 4, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${pageNum} / ${totalPages}`, PAGE.w - PAGE.mr, y + 5, { align: 'right' });
 
-  // QR code — linktr.ee/edbruehlrealestate
+  // QR code — left side
   if (qrImg) {
     try {
-      doc.addImage(qrImg, 'PNG', PAGE.w - PAGE.mr - 12, y - 1, 12, 12);
+      doc.addImage(qrImg, 'PNG', PAGE.ml, y - 1, 12, 12);
     } catch {
       doc.setFillColor(240, 238, 234);
-      doc.rect(PAGE.w - PAGE.mr - 12, y - 1, 12, 12, 'F');
+      doc.rect(PAGE.ml, y - 1, 12, 12, 'F');
     }
   } else {
     doc.setFillColor(240, 238, 234);
-    doc.rect(PAGE.w - PAGE.mr - 12, y - 1, 12, 12, 'F');
+    doc.rect(PAGE.ml, y - 1, 12, 12, 'F');
   }
 }
 

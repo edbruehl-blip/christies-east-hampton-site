@@ -76,6 +76,10 @@
   --color-chart-4: oklch(0.60 0.05 72);
   --color-chart-5: var(--color-medium-gray);
 
+  /* --- Shared Frame Width (LOCKED) --- */
+  /* One rule. MAPS map frame, PIPE table frame, INTEL container all use this. */
+  --frame-max-w: 1100px;
+
   /* --- Sidebar --- */
   --color-sidebar:                    var(--color-navy);
   --color-sidebar-foreground:         var(--color-cream);

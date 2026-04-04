@@ -6,6 +6,7 @@
  */
 
 import { MatrixCard } from '@/components/MatrixCard';
+import { useCallback } from 'react';
 
 // ─── 2026 Scorecard ──────────────────────────────────────────────────────────
 const SCORECARD_2026 = [
@@ -42,17 +43,130 @@ const ARC_PHASES = [
   { phase: 'Phase IV',  days: '271–300', label: 'Consolidation', description: 'Full South Fork market authority established. Annual GCI run rate confirmed. Year 2 plan locked.' },
 ];
 
-// Ascension milestones — from Ilija ProForma March 2026 v4 + Christie's Ascension UPDATED
+// Ascension milestones — from Christie's Ascension UPDATED deck (April 2026)
+// Labels match deck exactly: staged milestones, not calendar years
 const ASCENSION_MILESTONES = [
-  { id: 1, label: 'Year 1 · 2026',   volume: '$2.5M',   sub: 'Foundation · First closings',          actual: true,  detail: 'Ed Bruehl solo · 1 agent · 2 closings · Base case entry' },
-  { id: 2, label: 'Year 2 · 2027',   volume: '$13.62M', sub: 'First team layer · 6 agents',           actual: false, detail: '6 agents operating · $2.27M avg GCI/agent · Podcast + events cadence locked' },
-  { id: 3, label: 'Year 3 · 2028',   volume: '$20M+',   sub: 'Operating scale · 10 agents',           actual: false, detail: '10 agents · $2M avg · South Fork market presence established' },
-  { id: 4, label: 'Year 4 · 2029',   volume: '$143M+',  sub: 'Regional authority · 14 agents',        actual: false, detail: "14 agents · Institutional listing pipeline · Christie's brand fully deployed" },
-  { id: 5, label: 'Year 5 · 2030',   volume: '$280M+',  sub: 'Institutional presence · 18 agents',   actual: false, detail: '18 agents · Family office relationships active · UHNW collector network' },
-  { id: 6, label: 'Year 6 · 2031',   volume: '$3B',     sub: 'Full South Fork coverage · 22 agents', actual: false, detail: "22 agents · Full territory coverage · Christie's East Hampton as market authority" },
+  { id: 1, label: '1ST 100 DAYS',     period: 'Mar–Jun 2026',  volume: '$2.5M',   status: 'BUILT',     agents: '',         detail: 'Ed Bruehl solo · 2 closings · Base case entry · Systems deployed' },
+  { id: 2, label: '2ND 100 DAYS',     period: 'Jun–Sep 2026',  volume: '$13.62M', status: 'BUILDING',  agents: '',         detail: 'First agent hires · Podcast + events cadence locked · INTEL library live' },
+  { id: 3, label: '3RD 100 DAYS',     period: 'Sep–Dec 2026',  volume: '$20M+',   status: 'LAUNCHING', agents: '',         detail: "Operating scale · South Fork market presence established · Christie's brand deployed" },
+  { id: 4, label: 'END OF 2026',      period: 'December 2026', volume: '$143M+',  status: '',          agents: '15 Agents', detail: 'Institutional listing pipeline · 15 agents operating · $158M volume run rate' },
+  { id: 5, label: 'FULL YEAR 2027',   period: 'Full Season',   volume: '$280M+',  status: '',          agents: '22 Agents', detail: 'Family office relationships active · UHNW collector network · 22 agents' },
+  { id: 6, label: '2028–2031 →',  period: 'EH · Southampton · Westhampton', volume: '$3B', status: '', agents: '', detail: "Full South Fork coverage · Christie's East Hampton as market authority" },
 ];
 
 const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
+
+// CIREG logo (white version for dark backgrounds)
+const CIREG_LOGO = 'https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png';
+// CIREG logo (black version for light backgrounds)
+const CIREG_LOGO_DARK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
+
+function exportAscensionPDF() {
+  const win = window.open('', '_blank');
+  if (!win) return;
+
+  const heights = [20, 32, 44, 60, 76, 100];
+  const statusColors: Record<string, string> = {
+    BUILT: '#2D5A3D',
+    BUILDING: '#C8AC78',
+    LAUNCHING: '#1B2A4A',
+  };
+
+  const barsHTML = ASCENSION_MILESTONES.map((m, i) => {
+    const pct = heights[i] ?? 100;
+    const barH = Math.round((pct / 100) * 180);
+    const isFilled = i === 0;
+    const statusBadge = m.status
+      ? `<div style="display:inline-block;margin-top:6px;padding:2px 8px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;background:${statusColors[m.status] ?? '#1B2A4A'};color:#FAF8F4;border-radius:2px;">${m.status}</div>`
+      : m.agents
+      ? `<div style="display:inline-block;margin-top:6px;padding:2px 8px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;background:rgba(27,42,74,0.12);color:#1B2A4A;border-radius:2px;">${m.agents}</div>`
+      : '';
+    return `
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:220px;">
+        <div style="font-family:'Cormorant Garamond',serif;color:${isFilled ? '#C8AC78' : '#1B2A4A'};font-size:${m.volume.length > 5 ? '13px' : '15px'};font-weight:600;line-height:1;margin-bottom:6px;text-align:center;">${m.volume}</div>
+        <div style="width:100%;height:${barH}px;background:${isFilled ? 'linear-gradient(to top,#1B2A4A 0%,#2a3f5f 100%)' : 'linear-gradient(to top,rgba(27,42,74,0.12) 0%,rgba(27,42,74,0.22) 100%)'};border-top:3px solid ${isFilled ? '#C8AC78' : 'rgba(200,172,120,0.35)'};position:relative;">
+          ${isFilled ? '<div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-family:\'Barlow Condensed\',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;">Now</div>' : ''}
+        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;margin-top:6px;text-align:center;">${m.label}</div>
+        <div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:9px;line-height:1.3;text-align:center;margin-top:2px;">${m.period}</div>
+        ${statusBadge}
+      </div>`;
+  }).join('');
+
+  const arcHTML = ARC_PHASES.map(p => `
+    <div style="border:1px solid rgba(27,42,74,0.12);padding:16px;background:#fff;">
+      <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px;">${p.phase} · ${p.label} · Days ${p.days}</div>
+      <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:11px;line-height:1.5;">${p.description}</div>
+    </div>`).join('');
+
+  const scorecardHTML = SCORECARD_2026.map(s => `
+    <div style="border:1px solid rgba(27,42,74,0.12);padding:16px;background:#fff;text-align:center;">
+      <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:28px;font-weight:400;line-height:1;">${s.value}</div>
+      <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-top:4px;">${s.label}</div>
+      <div style="font-family:'Source Sans 3',sans-serif;color:rgba(27,42,74,0.45);font-size:10px;margin-top:2px;">${s.sub}</div>
+    </div>`).join('');
+
+  win.document.write(`<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>Christie’s East Hampton · The First 300 Days + Ascension</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Source+Sans+3:wght@400;600&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 landscape; margin: 18mm 20mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Source Sans 3', sans-serif; background: #FAF8F4; color: #1B2A4A; margin: 0; padding: 0; }
+  @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head><body>
+
+<!-- HEADER -->
+<div style="text-align:center;padding:20px 0 12px;border-bottom:1px solid rgba(200,172,120,0.4);margin-bottom:20px;">
+  <img src="${CIREG_LOGO_DARK}" alt="Christie's International Real Estate Group" style="height:40px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;margin-top:4px;">Christie’s East Hampton · Growth Model</div>
+</div>
+
+<!-- TITLE -->
+<div style="text-align:center;margin-bottom:20px;">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#1B2A4A;letter-spacing:1px;">The First 300 Days + Ascension</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(27,42,74,0.45);margin-top:4px;">Pro Forma · April 2026 · Ilija Pavlović Review Copy · Targets, Not Actuals</div>
+</div>
+
+<!-- 2026 SCORECARD (TARGETS) -->
+<div style="margin-bottom:20px;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">2026 Scorecard · Targets</div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+    ${scorecardHTML}
+  </div>
+</div>
+
+<!-- ASCENSION STAIRCASE -->
+<div style="margin-bottom:20px;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">Ascension Arc · Sales Volume Trajectory · Staged Milestones</div>
+  <div style="border:1px solid rgba(27,42,74,0.12);background:#fff;padding:20px 24px;">
+    <div style="display:flex;align-items:flex-end;gap:6px;height:220px;">
+      ${barsHTML}
+    </div>
+  </div>
+</div>
+
+<!-- 300-DAY ARC -->
+<div style="margin-bottom:20px;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">300-Day Arc · Execution Phases</div>
+  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+    ${arcHTML}
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div style="border-top:1px solid rgba(200,172,120,0.4);padding-top:12px;margin-top:8px;text-align:center;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(27,42,74,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;">Christie’s International Real Estate Group · 26 Park Place, East Hampton NY 11937 · Private &amp; Confidential</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(200,172,120,0.5);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;margin-top:3px;">Art. Beauty. Provenance. · Since 1766</div>
+</div>
+
+</body></html>`);
+  win.document.close();
+  setTimeout(() => { win.focus(); win.print(); }, 800);
+}
 
 export default function FutureTab() {
   return (
@@ -106,12 +220,14 @@ export default function FutureTab() {
                 const heights = [20, 32, 44, 60, 76, 100];
                 const pct = heights[i] ?? 100;
                 const barH = Math.round((pct / 100) * 180);
+                const isFilled = i === 0;
+                const statusColors: Record<string, string> = { BUILT: '#2D5A3D', BUILDING: '#C8AC78', LAUNCHING: '#1B2A4A' };
                 return (
-                  <div key={m.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: 220 }}>
+                  <div key={m.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: 240 }}>
                     {/* Volume label above bar */}
                     <div style={{
                       fontFamily: '"Cormorant Garamond", serif',
-                      color: m.actual ? '#C8AC78' : '#1B2A4A',
+                      color: isFilled ? '#C8AC78' : '#1B2A4A',
                       fontSize: m.volume.length > 5 ? '0.85rem' : '1rem',
                       fontWeight: 600, lineHeight: 1, marginBottom: 6, textAlign: 'center',
                     }}>
@@ -121,15 +237,15 @@ export default function FutureTab() {
                     <div style={{
                       width: '100%',
                       height: barH,
-                      background: m.actual
+                      background: isFilled
                         ? 'linear-gradient(to top, #1B2A4A 0%, #2a3f5f 100%)'
                         : 'linear-gradient(to top, rgba(27,42,74,0.12) 0%, rgba(27,42,74,0.22) 100%)',
-                      borderTop: `3px solid ${m.actual ? '#C8AC78' : 'rgba(200,172,120,0.35)'}`,
+                      borderTop: `3px solid ${isFilled ? '#C8AC78' : 'rgba(200,172,120,0.35)'}`,
                       borderLeft: '1px solid rgba(27,42,74,0.08)',
                       borderRight: '1px solid rgba(27,42,74,0.08)',
                       position: 'relative',
                     }}>
-                      {m.actual && (
+                      {isFilled && (
                         <div style={{
                           position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)',
                           ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase',
@@ -138,13 +254,23 @@ export default function FutureTab() {
                         </div>
                       )}
                     </div>
-                    {/* Year label below bar */}
+                    {/* Milestone label below bar */}
                     <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
-                      {m.label.split(' · ')[0]}
+                      {m.label}
                     </div>
                     <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.62rem', lineHeight: 1.3, textAlign: 'center', marginTop: 2 }}>
-                      {m.sub.split(' · ')[0]}
+                      {m.period}
                     </div>
+                    {m.status && (
+                      <div style={{ marginTop: 4, padding: '2px 6px', fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase', ...LABEL_FONT, background: statusColors[m.status] ?? '#1B2A4A', color: '#FAF8F4', borderRadius: 2 }}>
+                        {m.status}
+                      </div>
+                    )}
+                    {!m.status && m.agents && (
+                      <div style={{ marginTop: 4, padding: '2px 6px', fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase', ...LABEL_FONT, background: 'rgba(27,42,74,0.1)', color: '#1B2A4A', borderRadius: 2 }}>
+                        {m.agents}
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -161,7 +287,7 @@ export default function FutureTab() {
                   <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, minWidth: 80, letterSpacing: '0.1em' }}>{m.label}</div>
                   <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1rem', fontWeight: 600, minWidth: 80 }}>{m.volume}</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8rem', flex: 1 }}>{m.detail}</div>
-                  {m.actual && <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>✓ Actual</div>}
+                  {m.status && <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{m.status}</div>}
                 </div>
               ))}
             </div>
@@ -266,8 +392,15 @@ export default function FutureTab() {
           ))}
         </div>
 
-        {/* ── Google Sheet link ─────────────────────────────────────────────── */}
-        <div className="text-center pb-4">
+        {/* ── Export + Google Sheet link ─────────────────────────────────────────────────────────── */}
+        <div className="flex items-center justify-center gap-4 pb-4">
+          <button
+            onClick={exportAscensionPDF}
+            className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
+            style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
+          >
+            ↓ Export PDF · 300 Days + Ascension
+          </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
             target="_blank"
