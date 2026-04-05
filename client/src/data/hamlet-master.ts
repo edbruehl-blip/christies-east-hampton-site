@@ -1,5 +1,5 @@
 /**
- * MASTER_HAMLET_DATA — Single source of truth for all ten South Fork hamlets.
+ * MASTER_HAMLET_DATA — Single source of truth for all eleven South Fork hamlets.
  * Every tab, every PDF, every calculator pulls from this file only.
  * Do not modify medians or CIS scores without Ed's explicit approval.
  *

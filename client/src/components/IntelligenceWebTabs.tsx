@@ -163,7 +163,7 @@ export function IntelligenceWebTabs() {
   const entities: IntelEntity[] = data?.entities ?? [];
   const filtered = filterEntities(entities, activeTab);
 
-  const sheetUrl = `https://docs.google.com/spreadsheets/d/1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA/edit`;
+  const sheetUrl = `https://docs.google.com/spreadsheets/d/1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0/edit`;
 
   return (
     <div className="mb-10">

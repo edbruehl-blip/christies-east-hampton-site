@@ -14,13 +14,13 @@ import { eq, asc } from "drizzle-orm";
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
 const FOUNDING_LETTER = `Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
 
-The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
+The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
 
-The Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
+The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
 
-The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
+The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
 
 Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.
 
@@ -43,7 +43,7 @@ Market Intelligence. Capital Flow Signal: Strong Inflow. Institutional and famil
 
 Rate Environment. The 30-year fixed mortgage rate is 6.38 percent, per Freddie Mac. The 10-year Treasury yield is 4.81 percent. The VIX volatility index is at 30.61, indicating elevated macro uncertainty. The Hamptons median sale price is 2.34 million dollars, up 7 percent year over year in Q1 2026.
 
-Hamlet Atlas. Ten hamlets. South Fork. Christie's Intelligence Score classification.
+Hamlet Atlas. Eleven hamlets. South Fork. Christie's Intelligence Score classification.
 
 Sagaponack. CIS score: 9.4 out of 10. Median price: 7.5 million dollars. Volume share: 4 percent. Year over year: plus 4 percent.
 
@@ -57,7 +57,9 @@ Amagansett. CIS score: 8.9 out of 10. Median price: 4.25 million dollars. Volume
 
 Water Mill. CIS score: 8.8 out of 10. Median price: 4.2 million dollars. Volume share: 7 percent. Year over year: plus 7 percent.
 
-East Hampton Town. CIS score: 8.6 out of 10. Median price: 3.2 million dollars. Volume share: 18 percent. Year over year: plus 18 percent.
+East Hampton North. CIS score: 8.6 out of 10. Median price: 2.03 million dollars. Volume share: 8 percent. Year over year: plus 18 percent.
+
+Wainscott. CIS score: 8.5 out of 10. Median price: 3.18 million dollars. Volume share: 5 percent. Year over year: plus 10 percent.
 
 Sag Harbor. CIS score: 8.4 out of 10. Median price: 2.85 million dollars. Volume share: 11 percent. Year over year: plus 11 percent.
 

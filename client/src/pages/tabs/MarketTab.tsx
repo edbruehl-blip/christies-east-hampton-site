@@ -3,9 +3,9 @@
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
- *   - Hamptons Market Signal — ten-hamlet volume-share donut ring (Hamptons-native, no macro)
+ *   - Hamptons Market Signal — eleven-hamlet volume-share donut ring (Hamptons-native, no macro)
  *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
- *   - Ten hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
+ *   - Eleven hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
  *   - Each tile: hamlet name, median price, Christie's Intelligence Score (CIS), tier badge, volume share bar
  *
  * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
@@ -32,7 +32,7 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
 };
 
 // ─── Hamptons Market Signal Donut ─────────────────────────────────────────────
-// Ten labeled segments, each proportional to hamlet volumeShare.
+// Eleven labeled segments, each proportional to hamlet volumeShare.
 // Rendered as an SVG pie/donut — no external data dependency.
 
 interface DonutSegment {
@@ -93,7 +93,7 @@ function HamletDonut() {
         width={320}
         height={320}
         viewBox="0 0 320 320"
-        aria-label="Ten-hamlet volume share donut"
+        aria-label="Eleven-hamlet volume share donut"
         style={{ overflow: 'visible' }}
       >
         {/* Segments */}
@@ -379,7 +379,7 @@ function RateEnvironment() {
           className="mt-1"
           style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
         >
-          All ten hamlets · trailing 12 months
+          All eleven hamlets · trailing 12 months
         </div>
       </div>
 

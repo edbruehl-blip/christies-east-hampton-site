@@ -19,7 +19,6 @@ import { usePdfAssets } from '@/hooks/usePdfAssets';
 import { FamilyOfficeList } from '@/components/FamilyOfficeList';
 import { LocalCharityTracker } from '@/components/LocalCharityTracker';
 import { IntelSourceTemplate } from '@/components/IntelSourceTemplate';
-import { NewsletterManager } from '@/components/NewsletterManager';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { AttorneyDatabase } from '@/components/AttorneyDatabase';
 
@@ -729,10 +728,6 @@ export default function IntelTab() {
         {/* Local Charity Tracker — Sprint 7 Item 3 */}
         <div className="mb-8">
           <LocalCharityTracker />
-        </div>
-        {/* Newsletter Infrastructure — Sprint 7 Item 5 */}
-        <div className="mb-8">
-          <NewsletterManager />
         </div>
         <DocSection title="Market Report" docs={MARKET_REPORT_DOCS} />
         <CanonPdfSection />

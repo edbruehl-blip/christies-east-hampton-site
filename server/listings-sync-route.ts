@@ -36,12 +36,12 @@ const CHRISTIES_BASE = 'https://www.christiesrealestategroup.com';
 
 // ─── Hamlet keyword map ───────────────────────────────────────────────────────
 // Maps hamlet IDs (from hamlet-master.ts) to address keywords for classification
-// Ten hamlets — Montauk is its own bucket (Sprint 6, April 2026)
+// Eleven hamlets — Montauk is its own bucket (Sprint 6, April 2026)
 
 const HAMLET_KEYWORDS: Record<string, string[]> = {
   // NOTE: hamlet IDs must exactly match those in client/src/data/hamlet-master.ts
   // Master IDs: sagaponack, east-hampton-village, bridgehampton, southampton-village,
-  //             water-mill, sag-harbor, amagansett, east-hampton, springs, montauk
+  //             water-mill, sag-harbor, amagansett, east-hampton-north, wainscott, springs, montauk
   'sagaponack':            ['sagaponack'],
   'bridgehampton':         ['bridgehampton'],
   'water-mill':            ['water mill'],
@@ -50,8 +50,11 @@ const HAMLET_KEYWORDS: Record<string, string[]> = {
   'amagansett':            ['amagansett'],
   'springs':               ['springs'],
   'montauk':               ['montauk'],
-  // east-hampton covers East Hampton Village, East Hampton Town, and Hampton Bays
-  'east-hampton':          ['east hampton', 'e hampton', 'hampton bays'],
+  'wainscott':             ['wainscott'],
+  // east-hampton-village covers East Hampton Village (south of highway)
+  'east-hampton-village':  ['east hampton village'],
+  // east-hampton-north covers East Hampton Town / north of highway / Hampton Bays
+  'east-hampton-north':    ['east hampton', 'e hampton', 'hampton bays'],
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────

@@ -179,7 +179,7 @@ James Christie opened the doors at Pall Mall in 1766 with a single conviction: t
 
 That principle has guided every transaction Christie's has conducted for 260 years — and it is the standard we carry into the East Hampton market today.
 
-The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Your presence at ${principal.property.split("—")[0].trim()} places you at the center of the most concentrated wealth corridor in the northeastern United States.
+The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Your presence at ${principal.property.split("—")[0].trim()} places you at the center of the most concentrated wealth corridor in the northeastern United States.
 
 Christie's International Real Estate Group represents the institutional standard in this market. Our Christie's Intelligence Score evaluates every property on four lenses: acquisition cost, new construction value, exit pricing, and wealth transfer potential. There is no gray area in institutional real estate.
 

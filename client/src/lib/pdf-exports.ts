@@ -435,7 +435,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
     'Christie\'s International Real Estate Group brings 260 years of institutional provenance to every transaction.',
     'Our East Hampton office operates at the intersection of art, architecture, and land — serving families whose',
     'assets require the same care as a Christie\'s auction consignment. The Christie\'s Intelligence Score model is our proprietary',
-    'intelligence layer, built on ten hamlet datasets and refined through live market cycles.'
+    'intelligence layer, built on eleven hamlet datasets and refined through live market cycles.'
   ];
   advantage.forEach(line => {
     doc.text(line, PAGE.ml, y);
@@ -458,7 +458,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 // Page 1  → Hero + Founding Letter (mirrors /report Section 1)
 // Page 2  → Hamptons Local Intelligence (mirrors /report Section 2 news feed)
 // Page 3  → Market Intelligence: CFS + rate panel + Hamptons Median (mirrors /report Section 3)
-// Pages 4 → Hamlet Atlas Matrix — all ten hamlet cards (mirrors /report Section 4)
+// Pages 4 → Hamlet Atlas Matrix — all eleven hamlet cards (mirrors /report Section 4)
 // Page 5  → Resources & Authority — Christie's Advantage + contact (mirrors /report Section 6)
 
 export async function generateMarketReport(hamletId?: string): Promise<void> {
@@ -491,7 +491,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(9.5);
   doc.setTextColor(200, 190, 175);
   doc.setFont('helvetica', 'normal');
-  doc.text('Live Market Report · ' + (targetHamlet ? targetHamlet.name : 'Ten Hamlets · East Hampton'), PAGE.w / 2, 89, { align: 'center' });
+  doc.text('Live Market Report · ' + (targetHamlet ? targetHamlet.name : 'Eleven Hamlets · East Hampton'), PAGE.w / 2, 89, { align: 'center' });
   doc.setFontSize(7.5);
   doc.text(today(), PAGE.w / 2, 96, { align: 'center' });
 
@@ -508,7 +508,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
-  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
+  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
   let lY = letterY + 6;
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
@@ -679,13 +679,13 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'normal');
-  doc.text(`Avg CIS across all ten hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · Q1 2026`, PAGE.ml, y + 5);
+  doc.text(`Avg CIS across all eleven hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · Q1 2026`, PAGE.ml, y + 5);
 
   drawFooter(doc, 3, 5, qrImg);
 
   // ── PAGE 4 — Hamlet Atlas Matrix (mirrors /report Section 4 — all 9 hamlets) ─
   doc.addPage();
-  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Ten Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
+  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Eleven Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
 
   const tierBadgeBg: Record<string, [number, number, number]> = {
     'Ultra-Trophy': C.gold,

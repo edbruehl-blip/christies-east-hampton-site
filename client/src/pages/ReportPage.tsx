@@ -679,7 +679,7 @@ function Section1() {
         </h2>
         {[
           "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-          'The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
+          'The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
           "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",          'The Christie\'s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie\'s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.',
           'The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
           "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
@@ -1316,7 +1316,7 @@ function Section3() {
               }}
             >
               Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at
-              $1.35M. Ten distinct corridors, ten distinct buyers.
+              $1.35M. Eleven distinct corridors, eleven distinct buyers.
             </div>
           </div>
         </div>

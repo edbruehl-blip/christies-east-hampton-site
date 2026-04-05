@@ -31,41 +31,6 @@ import { fetchCronkiteBrief } from "./whatsapp-inbound";
 const ELEVENLABS_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // William
 const ELEVENLABS_MODEL    = "eleven_multilingual_v2";
 
-// ─── Brief copy ───────────────────────────────────────────────────────────────
-
-function buildMorningBrief(): string {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric", year: "numeric",
-  });
-  return (
-    `Good morning. This is William, your Christie's East Hampton intelligence brief for ${dateStr}. ` +
-    `The Hamptons luxury market continues to show resilience across all ten hamlets. ` +
-    `Sagaponack and Bridgehampton remain the top tier, with median prices above seven million dollars. ` +
-    `East Hampton Village and Southampton Village are active in the four to six million range. ` +
-    `Sag Harbor and Amagansett present strong opportunity plays in the two to three million corridor. ` +
-    `The thirty-year fixed mortgage rate is holding near six point four percent. ` +
-    `Gold is elevated, signaling continued flight-to-quality positioning by ultra-high-net-worth buyers. ` +
-    `Today's priority: review your active pipeline, confirm any weekend showing requests, ` +
-    `and check the auction calendar for upcoming Christie's events. ` +
-    `Soli Deo Gloria.`
-  );
-}
-
-function buildEveningSummary(): string {
-  const now = new Date();
-  const dateStr = now.toLocaleDateString("en-US", {
-    weekday: "long", month: "long", day: "numeric",
-  });
-  return (
-    `Good evening. William here with your Christie's East Hampton pipeline summary for ${dateStr}. ` +
-    `A reminder to review any new inquiries that came in today and update deal stages in your pipeline. ` +
-    `If you have showing feedback from today, log it while it's fresh. ` +
-    `Tomorrow's market brief will arrive at eight AM. ` +
-    `Soli Deo Gloria.`
-  );
-}
-
 // ─── ElevenLabs synthesis ─────────────────────────────────────────────────────
 
 async function synthesiseAudio(text: string): Promise<Buffer> {
