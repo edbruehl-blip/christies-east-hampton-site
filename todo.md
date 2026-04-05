@@ -577,3 +577,11 @@
 - [x] CRITICAL-2: PIPE spinner hang fixed — pipe.sheetDeals query now has retry:false so auth errors surface immediately instead of hanging
 - [x] Bonus: Ten-Hamlet → Eleven-Hamlet in MapsTab.tsx (heading + comments), MarketTab.tsx (heading), whatsapp-route.test.ts (test assertion + mock text)
 - [x] 35/35 tests passing, esbuild 90kb clean, 0 TypeScript errors
+
+## PIPE Fix — April 5, 2026 (Ed Bruehl Directive)
+
+- [x] Root cause confirmed: Sprint 9 P5 hardening changed pipe.sheetDeals from publicProcedure to protectedProcedure — blocked service account before it could run
+- [x] Fix: pipe.sheetDeals reverted to publicProcedure — GOOGLE_SERVICE_ACCOUNT_JSON is the auth layer, not session cookies
+- [x] Write procedures (updateSheetStatus, appendSheet, appendSheet, list, upsert, delete, importFromProfile) remain protectedProcedure
+- [x] Server-side confirmed: 47 deals loaded via service account, no session cookie required
+- [x] 35/35 tests passing, esbuild 90.2kb clean

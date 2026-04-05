@@ -128,8 +128,10 @@ export const appRouter = router({
   // ─── Pipeline CRUD ──────────────────────────────────────────────────────────
   pipe: router({
     // Read live deals directly from the Google Sheet (single source of truth)
-    // P5: protected — pipeline data is internal only
-    sheetDeals: protectedProcedure.query(async () => {
+    // Auth: GOOGLE_SERVICE_ACCOUNT_JSON is the auth layer — no session cookie required.
+    // The service account credential handles Google Sheets access server-side.
+    // Write procedures (updateSheetStatus, appendSheet) remain protectedProcedure.
+    sheetDeals: publicProcedure.query(async () => {
       try {
         const deals = await readPipelineDeals();
         return { deals, error: null };
