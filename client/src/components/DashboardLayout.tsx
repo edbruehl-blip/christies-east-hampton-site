@@ -195,7 +195,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     <div className="min-h-screen flex flex-col bg-[var(--color-cream)]">
 
       {/* ══════════════════════════════════════════════════════════════════
-          LAYER 1 — Tab row: CIREG logo · 7 tabs · PUBLIC toggle · Ed headshot
+          LAYER 1 — Tab row: CIREG logo · 7 tabs · Ed headshot
           Background: Navy #1B2A4A
       ══════════════════════════════════════════════════════════════════ */}
       <div
@@ -252,28 +252,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
             ))}
           </nav>
 
-          {/* Right: PUBLIC toggle + Ed headshot */}
+          {/* Right: Ed headshot */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-            <button
-              onClick={() => navigate('/public')}
-              style={{
-                fontFamily: "var(--font-condensed)",
-                fontSize: "0.65rem",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                padding: "4px 12px",
-                cursor: "pointer",
-                borderRadius: 2,
-                border: "1px solid rgba(200,172,120,0.35)",
-                background: "transparent",
-                color: "rgba(250,248,244,0.6)",
-                transition: "all 0.2s",
-              }}
-              title="Open public-facing view"
-            >
-              PUBLIC ↗
-            </button>
+
             <img
               src={ED_HEADSHOT_PRIMARY}
               alt="Ed Bruehl — Managing Director"

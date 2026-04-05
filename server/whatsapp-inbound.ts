@@ -102,6 +102,26 @@ async function uploadAudio(buffer: Buffer, label: string): Promise<string> {
   return url;
 }
 
+
+// ─── 6-hour Cronkite brief cache ─────────────────────────────────────────────
+// Avoids redundant Perplexity + ElevenLabs calls when NEWS is texted multiple
+// times within the same morning. Cache is in-memory (process lifetime).
+const SIX_HOURS_MS = 6 * 60 * 60 * 1000;
+let briefCache: { audioUrl: string; generatedAt: number } | null = null;
+
+function getCachedBrief(): string | null {
+  if (!briefCache) return null;
+  if (Date.now() - briefCache.generatedAt > SIX_HOURS_MS) {
+    briefCache = null;
+    return null;
+  }
+  return briefCache.audioUrl;
+}
+
+function setBriefCache(audioUrl: string): void {
+  briefCache = { audioUrl, generatedAt: Date.now() };
+}
+
 // ─── Send WhatsApp reply ──────────────────────────────────────────────────────
 async function sendTextReply(to: string, body: string): Promise<void> {
   const client = twilio(ENV.twilioAccountSid, ENV.twilioAuthToken);
@@ -125,7 +145,21 @@ async function sendVoiceReply(to: string, audioUrl: string, caption: string): Pr
 // ─── Command handlers ─────────────────────────────────────────────────────────
 
 async function handleNews(to: string): Promise<void> {
-  // Acknowledge immediately
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+
+  // Check 6-hour cache before calling Perplexity + ElevenLabs
+  const cachedUrl = getCachedBrief();
+  if (cachedUrl) {
+    console.log("[WhatsApp NEWS] Serving cached brief (< 6h old)");
+    await sendVoiceReply(
+      to,
+      cachedUrl,
+      "📰 Christie's East Hampton — Intelligence Brief · " + dateLabel
+    );
+    return;
+  }
+
+  // Cache miss — generate fresh brief
   await sendTextReply(to, "🎙️ Fetching your Christie's intelligence brief. William will deliver it in 30 seconds…");
 
   const briefText = await fetchCronkiteBrief();
@@ -135,10 +169,13 @@ async function handleNews(to: string): Promise<void> {
   const audioBuffer = await synthesiseAudio(fullText);
   const audioUrl    = await uploadAudio(audioBuffer, "news-brief");
 
+  // Cache the result for 6 hours
+  setBriefCache(audioUrl);
+
   await sendVoiceReply(
     to,
     audioUrl,
-    "📰 Christie's East Hampton — Intelligence Brief · " + new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })
+    "📰 Christie's East Hampton — Intelligence Brief · " + dateLabel
   );
 }
 
