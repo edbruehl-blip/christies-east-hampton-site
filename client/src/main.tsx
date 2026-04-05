@@ -14,6 +14,10 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
   if (!(error instanceof TRPCClientError)) return;
   if (typeof window === "undefined") return;
 
+  // Never redirect on public routes — /public and /report are accessible without auth
+  const publicPaths = ['/public', '/report'];
+  if (publicPaths.some(p => window.location.pathname.startsWith(p))) return;
+
   const isUnauthorized = error.message === UNAUTHED_ERR_MSG;
 
   if (!isUnauthorized) return;

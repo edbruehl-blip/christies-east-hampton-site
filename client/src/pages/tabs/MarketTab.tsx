@@ -439,7 +439,7 @@ export default function MarketTab() {
             className="mb-8"
             style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
-            Ten-Hamlet Volume Distribution · South Fork Territory
+            Eleven-Hamlet Volume Distribution · South Fork Territory
           </h2>
 
           <div className="flex justify-center">

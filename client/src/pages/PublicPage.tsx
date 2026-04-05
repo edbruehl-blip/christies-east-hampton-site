@@ -313,7 +313,7 @@ function HamletMarketSection() {
           Hamptons Market Intelligence
         </div>
         <h2 className="mb-2" style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}>
-          Ten-Hamlet Territory · South Fork
+          Eleven-Hamlet Territory · South Fork
         </h2>
         <p className="mb-10" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.8rem', maxWidth: 620, lineHeight: 1.6 }}>
           Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume $5.922B.

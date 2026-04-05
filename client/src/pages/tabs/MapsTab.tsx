@@ -2,7 +2,7 @@
  * MAPS TAB — Maps Intelligence Hub. Five layers, one scroll.
  * Layer 1: Paumanok SVG aerial plate (static, no zoom controls)
  * Layer 2: CIS Calculator (migrated from IDEAS — this is the canonical home)
- * Layer 3: Ten Hamlet Matrix — CIS score cards with satellite thumbnails
+ * Layer 3: Eleven Hamlet Matrix — CIS score cards with satellite thumbnails
  * Layer 4: Individual hamlet PDF download from each card
  * Layer 5: Calculator output printable from Maps tab
  *
@@ -478,7 +478,7 @@ function CISCalculatorLayer() {
   );
 }
 
-// ─── Layer 3 + 4: Ten Hamlet Matrix + PDF Download ────────────────────────────
+// ─── Layer 3 + 4: Eleven Hamlet Matrix + PDF Download ────────────────────────────
 
 function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { hamlet: HamletData; onExpand: () => void; isExpanded: boolean; liveListings: Record<string, LiveListing[]> }) {
   const hamletListings = liveListings[hamlet.id] || [];
@@ -731,11 +731,11 @@ export default function MapsTab() {
       {/* ── Layer 2: CIS Calculator ───────────────────────────────────────── */}
       <CISCalculatorLayer />
 
-      {/* ── Layer 3: Ten Hamlet Matrix ────────────────────────────────────── */}
+      {/* ── Layer 3: Eleven Hamlet Matrix ────────────────────────────────────── */}
       <div style={{ borderBottom: '1px solid rgba(27,42,74,0.12)' }}>
         <div className="px-6 pt-8 pb-4" style={{ background: '#FAF8F4' }}>
           <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-            Ten Hamlets · South Fork
+            Eleven Hamlets · South Fork
           </div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.5rem' }}>
             Hamlet Intelligence Matrix

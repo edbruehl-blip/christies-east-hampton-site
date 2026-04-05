@@ -565,3 +565,15 @@
 - [x] Item 8: Newsletter subscribe button — NewsletterManager removed from IntelTab.tsx (credentials not set)
 - [x] Item 9: PublicPage.tsx — routed at /public in App.tsx (Sprint 9 P0 public surface live)
 - [ ] Item 10: Verify d2xsxph8 CloudFront domain live after publish
+
+## CRITICAL — April 4, 2026 (Post-Publish)
+
+- [ ] CRITICAL-1: /public route hitting Manus OAuth gate — must bypass auth entirely for unauthenticated visitors
+- [ ] CRITICAL-2: PIPE tab stuck on "Loading Office Pipeline from Sheet" — restore Google Sheets connection
+
+## Sprint 10 Post-Publish Fixes — April 5, 2026
+
+- [x] CRITICAL-1: /public OAuth redirect fixed — main.tsx redirectToLoginIfUnauthorized now skips /public and /report paths
+- [x] CRITICAL-2: PIPE spinner hang fixed — pipe.sheetDeals query now has retry:false so auth errors surface immediately instead of hanging
+- [x] Bonus: Ten-Hamlet → Eleven-Hamlet in MapsTab.tsx (heading + comments), MarketTab.tsx (heading), whatsapp-route.test.ts (test assertion + mock text)
+- [x] 35/35 tests passing, esbuild 90kb clean, 0 TypeScript errors

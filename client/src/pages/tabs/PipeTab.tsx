@@ -175,6 +175,7 @@ function PipelineTable() {
   const { data, isLoading, error, refetch } = trpc.pipe.sheetDeals.useQuery(undefined, {
     refetchInterval: 60_000,
     staleTime: 30_000,
+    retry: false, // Do not retry on auth errors — fail fast and show error state
   });
 
   const updateStatus = trpc.pipe.updateSheetStatus.useMutation({
