@@ -512,7 +512,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       {/* Hamlet photo thumbnail */}
       <div style={{ height: 120, overflow: 'hidden', position: 'relative' }}>
         <img
-          src={hamlet.photo}
+          src={hamlet.imageUrl || hamlet.photo}
           alt={hamlet.name}
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
