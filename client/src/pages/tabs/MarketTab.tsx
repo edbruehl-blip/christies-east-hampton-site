@@ -196,12 +196,41 @@ function HamletDonut() {
 function HamletTile({ hamlet }: { hamlet: HamletData }) {
   const badge = TIER_BADGE_COLORS[hamlet.tier];
   const maxVolume = Math.max(...MASTER_HAMLET_DATA.map(h => h.volumeShare));
+  const heroSrc = hamlet.imageUrl || hamlet.photo;
 
   return (
     <MatrixCard
       variant={hamlet.tier === 'Ultra-Trophy' ? 'active' : 'default'}
-      className="p-5 flex flex-col gap-3 cursor-pointer group hover:shadow-md transition-shadow"
+      className="flex flex-col cursor-pointer group hover:shadow-md transition-shadow overflow-hidden !p-0"
     >
+      {/* Hamlet hero image */}
+      {heroSrc && (
+        <div className="relative w-full overflow-hidden" style={{ height: 160 }}>
+          <img
+            src={heroSrc}
+            alt={hamlet.name}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+            style={{ display: 'block' }}
+          />
+          {/* Gradient overlay */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.72) 100%)' }}
+          />
+          {/* Tier badge overlaid on image */}
+          <div className="absolute bottom-3 left-4">
+            <span
+              className="px-2 py-0.5 text-[9px] uppercase tracking-wider"
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', background: badge.bg, color: badge.text, letterSpacing: '0.12em' }}
+            >
+              {hamlet.tier}
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Card body */}
+      <div className="p-5 flex flex-col gap-3">
       {/* Tier badge + hamlet name */}
       <div className="flex items-start justify-between gap-2">
         <h3
@@ -296,6 +325,7 @@ function HamletTile({ hamlet }: { hamlet: HamletData }) {
       >
         2025 recorded brokerage transactions · Saunders &amp; Associates annual report cross-referenced William Raveis YE 2025 · Total Hamptons dollar volume $5.922B
       </div>
+      </div>{/* end card body */}
     </MatrixCard>
   );
 }

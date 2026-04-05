@@ -543,3 +543,12 @@
 - [x] Confirm all API keys in Manus secrets manager not hardcoded
 - [x] Confirm PERPLEXITY_API_KEY working in NEWS command pipeline (200 OK validated)
 - [x] Harden PIPE/INTEL procedures: 10 publicProcedure → protectedProcedure (server-side auth)
+
+## Session April 4-5, 2026 — Three Ed Rulings + Production Fix
+
+- [x] Ruling 1: EH North image — Cedar Point County Park aerial (completed prior session, confirmed)
+- [x] Ruling 2: MARKET tab hamlet images — HamletTile now shows 160px hero photo (imageUrl primary, photo fallback) with gradient overlay and tier badge, matching MAPS tab treatment
+- [x] Ruling 3: PDF auth gate — /api/pdf/report now calls sdk.authenticateRequest(); returns 401 if no valid session
+- [x] Production crash fix — whatsapp-inbound.ts line 44 Authorization header confirmed standard ASCII backticks (0x60); esbuild compiles clean in 9ms, 0 errors
+- [x] esbuild full build verified: server/_core/index.ts → 89.5kb, 0 errors
+- [x] 35/35 tests passing, 0 TypeScript errors

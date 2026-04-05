@@ -373,8 +373,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_harbor_69567bf6.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/11_east_hampton_town_3d8cdaf3.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_cedar_point_df0d3cd5.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_cedar_point_df0d3cd5.jpg',
     vibeText: 'Deep wooded privacy and expansive harbor access. The natural, uncrowded alternative to the village corridors.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },

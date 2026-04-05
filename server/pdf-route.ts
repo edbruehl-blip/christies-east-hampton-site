@@ -20,6 +20,7 @@
 
 import { Router, type Request, type Response } from 'express';
 import puppeteer from 'puppeteer-core';
+import { sdk } from './_core/sdk';
 
 const router = Router();
 
@@ -29,6 +30,14 @@ function getServerPort(): number {
 }
 
 router.get('/api/pdf/report', async (req: Request, res: Response) => {
+  // ── Auth gate — require valid Manus session ──────────────────────────────
+  try {
+    await sdk.authenticateRequest(req);
+  } catch {
+    res.status(401).json({ error: 'Unauthorized — please log in to download the market report.' });
+    return;
+  }
+
   let browser = null;
   try {
     const port = getServerPort();
