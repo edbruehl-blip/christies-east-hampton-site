@@ -585,3 +585,11 @@
 - [x] Write procedures (updateSheetStatus, appendSheet, appendSheet, list, upsert, delete, importFromProfile) remain protectedProcedure
 - [x] Server-side confirmed: 47 deals loaded via service account, no session cookie required
 - [x] 35/35 tests passing, esbuild 90.2kb clean
+
+## INTEL Fix — April 5, 2026 (Ed Bruehl Directive)
+
+- [x] Root cause confirmed: same Sprint 9 P5 hardening that broke PIPE — intel.webEntities promoted to protectedProcedure, blocking service account before it ran
+- [x] Fix: intel.webEntities reverted to publicProcedure in server/routers.ts
+- [x] AUTH MODEL comment block added at top of appRouter in routers.ts — documents service account auth vs session auth, lists all affected procedures, explains the rule
+- [x] Server-side confirmed: readIntelWebRows() → 44 entities loaded from Intelligence Web Sheet (1eELH_ZV...)
+- [x] 35/35 tests passing, esbuild 90.3kb clean, 0 TypeScript errors
