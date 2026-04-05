@@ -125,7 +125,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack_beach_79562586.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/01_sagaponack_da3d0919.jpg',
     vibeText: 'Agricultural heritage meeting the Atlantic. Deeply personal, quiet luxury away from the summer crowds.',
     eeleListings: [
@@ -160,7 +160,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_village_main_beach_77916dfb.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/02_east_hampton_village_69834421.jpg',
     vibeText: 'Pristine luxury and immaculate estates. The historical and institutional anchor of the South Fork.',
     eeleListings: [
@@ -195,7 +195,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton_mecox_c2a4b82f.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/03_bridgehampton_cd70aff1.jpg',
     vibeText: 'Sprawling equestrian estates and vineyards. A seamless blend of retained agricultural heritage and refined wealth.',
     eeleListings: [
@@ -230,7 +230,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton_coopers_beach_fe6759c5.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/05_southampton_village_da26a626.jpg',
     vibeText: 'Majestic and transformative coastal beauty. The grand, traditional standard of Hamptons estate living.',
     eeleListings: [
@@ -265,7 +265,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water_mill_windmill_8a45de1b.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/04_water_mill_8b4c3753.jpg',
     vibeText: 'Historic rustic charm defined by its working mill and waterfronts. Quiet exclusivity centered around Mecox Bay.',
     eeleListings: [
@@ -300,7 +300,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag_harbor_marina_f2b1b7c1.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/08_sag_harbor_fa9f5673.jpg',
     vibeText: 'Historic yachting center and maritime heart of the Hamptons. Deep-water marinas bordered by walkable, high-end retail.',
     eeleListings: [
@@ -335,7 +335,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett_beach_1a94cf78.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/06_amagansett_74af9d55.jpg',
     vibeText: 'Quintessential, relaxed coastal luxury. Classic beach days anchored by immaculate sands and exclusionary privacy.',
     eeleListings: [
@@ -373,7 +373,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1501594907352-04cda38ebc29?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_harbor_69567bf6.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/11_east_hampton_town_3d8cdaf3.jpg',
     vibeText: 'Deep wooded privacy and expansive harbor access. The natural, uncrowded alternative to the village corridors.',
     eeleListings: [
@@ -408,7 +408,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs_accabonac_eb4003dc.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/10_springs_a5e1792f.jpg',
     vibeText: 'Artistic, intimate, and secluded natural beauty. Quiet Accabonac Creek views totally removed from the highway rush.',
     eeleListings: [
@@ -443,7 +443,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/montauk_lighthouse_8f675846.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/09_montauk_a5e39554.jpg',
     vibeText: 'Dramatic, elemental, and rugged. The iconic end-of-the-world coastal scenery defined by crashing surf and cliffs.',
     eeleListings: [
@@ -478,7 +478,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1200&q=80',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott_georgica_c2860cc0.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/07_wainscott_6758074b.jpg',
     vibeText: 'Spectacular isolation and quiet exclusivity. High-hedged privacy shielding the most discrete estates on the East End.',
     eeleListings: [
