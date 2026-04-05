@@ -23,6 +23,7 @@ import {
   JAMES_CHRISTIE_PORTRAIT_PRIMARY,
   ED_HEADSHOT_PRIMARY,
   GALLERY_IMAGES,
+  LOGO_BLACK,
 } from '@/lib/cdn-assets';
 import {
   MASTER_HAMLET_DATA,
@@ -30,13 +31,30 @@ import {
   type HamletData,
   type HamletTier,
 } from '@/data/hamlet-master';
-import { generateMarketReport } from '@/lib/pdf-exports';
+import { generateReportPdf } from '@/lib/report-pdf';
+import '@/styles/report-print.css';
 
 // ─── Back button ──────────────────────────────────────────────────────────────
 function BackBar() {
   const [, navigate] = useLocation();
+  const [pdfLoading, setPdfLoading] = useState(false);
+
+  async function handlePdfDownload() {
+    setPdfLoading(true);
+    try {
+      await generateReportPdf();
+      toast.success('PDF downloaded successfully');
+    } catch (err) {
+      toast.error('PDF generation failed — please try again');
+      console.error('[PDF Download]', err);
+    } finally {
+      setPdfLoading(false);
+    }
+  }
+
   return (
     <div
+      data-no-print
       style={{
         background: '#1B2A4A',
         borderBottom: '1px solid rgba(200,172,120,0.2)',
@@ -69,10 +87,30 @@ function BackBar() {
           fontSize: 9,
           letterSpacing: '0.18em',
           textTransform: 'uppercase',
+          flex: 1,
         }}
       >
         Christie's East Hampton · Live Market Report
       </span>
+      <button
+        data-pdf-download
+        onClick={handlePdfDownload}
+        disabled={pdfLoading}
+        style={{
+          background: pdfLoading ? 'rgba(200,172,120,0.3)' : '#C8AC78',
+          border: 'none',
+          color: '#1B2A4A',
+          fontFamily: '"Barlow Condensed", sans-serif',
+          fontSize: 9,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          padding: '5px 16px',
+          cursor: pdfLoading ? 'not-allowed' : 'pointer',
+          fontWeight: 600,
+        }}
+      >
+        {pdfLoading ? 'Generating…' : '↓ Download PDF'}
+      </button>
     </div>
   );
 }
@@ -130,7 +168,7 @@ function Section1() {
     if (pdfState === 'generating') return;
     setPdfState('generating');
     try {
-      await generateMarketReport();
+      await generateReportPdf();
       setPdfState('done');
     } catch (e) {
       console.error(e);
@@ -272,7 +310,15 @@ function Section1() {
           className="absolute inset-0"
           style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }}
         />
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-6">
+        <div
+          className="absolute bottom-0 left-0 right-0 px-6 pb-6">
+          <div style={{ marginBottom: 10 }}>
+            <img
+              src={LOGO_BLACK}
+              alt="Christie's International Real Estate Group"
+              style={{ height: 28, opacity: 0.9, filter: 'brightness(0) invert(1)' }}
+            />
+          </div>
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
@@ -634,9 +680,8 @@ function Section1() {
         {[
           "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
           'The South Fork is not a market. It is a territory — ten distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
-          "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-          'The Christie’s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.',
-          'The ten hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton Town. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
+          "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",          'The Christie\'s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie\'s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.',
+          'The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
           "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
           "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
           "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
@@ -1118,7 +1163,7 @@ function Section3() {
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
         >
-          {/* CFS card */}
+          {/* CFS card — Correction 11: editorial label only, no donut ring, no raw score */}
           <div
             style={{
               background: 'rgba(250,248,244,0.05)',
@@ -1138,32 +1183,29 @@ function Section3() {
             >
               Capital Flow Signal
             </div>
-            <div className="flex items-center gap-6">
-              <DonutRing score={cfs.score} color={cfs.color} />
-              <div>
-                <div
-                  style={{
-                    fontFamily: '"Cormorant Garamond", serif',
-                    color: '#FAF8F4',
-                    fontSize: '1.25rem',
-                    fontWeight: 600,
-                  }}
-                >
-                  {cfs.label}
-                </div>
-                <div
-                  style={{
-                    fontFamily: '"Source Sans 3", sans-serif',
-                    color: 'rgba(250,248,244,0.6)',
-                    fontSize: '0.75rem',
-                    lineHeight: 1.5,
-                    marginTop: 6,
-                    maxWidth: 180,
-                  }}
-                >
-                  {cfs.description}
-                </div>
-              </div>
+            <div
+              style={{
+                fontFamily: '"Cormorant Garamond", serif',
+                color: '#FAF8F4',
+                fontSize: '2rem',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                lineHeight: 1.1,
+                marginBottom: 10,
+              }}
+            >
+              INSTITUTIONAL<br />INFLOW
+            </div>
+            <div
+              style={{
+                fontFamily: '"Source Sans 3", sans-serif',
+                color: 'rgba(250,248,244,0.55)',
+                fontSize: '0.75rem',
+                lineHeight: 1.5,
+                maxWidth: 220,
+              }}
+            >
+              Capital is moving into the South Fork from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.
             </div>
           </div>
 
@@ -1188,9 +1230,8 @@ function Section3() {
               Rate Environment
             </div>
             {[
-              { label: '30Y Fixed Mortgage', value: `${ticker.mortgage30y.toFixed(2)}%` },
-              { label: '10Y Treasury', value: `${ticker.treasury10y.toFixed(2)}%` },
-              { label: 'VIX', value: ticker.vix.toFixed(1) },
+              { label: '30-Year Fixed', value: `${ticker.mortgage30y.toFixed(2)}%` },
+              { label: '10-Year Treasury', value: `${ticker.treasury10y.toFixed(2)}%` },
             ].map((row) => (
               <div
                 key={row.label}
@@ -1263,7 +1304,7 @@ function Section3() {
                 marginTop: 8,
               }}
             >
-              South Fork · Q1 2026 · All Hamlets
+              South Fork · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report
             </div>
             <div
               style={{
@@ -1424,8 +1465,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))' }}
       >
         {[
-          {
-            label: 'Median Price',
+          { label: 'Median Price',
             value:
               hamlet.medianPrice >= 1_000_000
                 ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M`
@@ -1433,6 +1473,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           },
           { label: 'CIS', value: String(hamlet.anewScore) },
           { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
+          { label: '4-Year Direction', value: 'Up' },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -1524,49 +1565,43 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
 function Section4() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selectedHamlet = MASTER_HAMLET_DATA.find((h) => h.id === selectedId) ?? null;
+  // Correction 3: render all 11 hamlets in CIS-descending order
+  const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.anewScore - a.anewScore);
 
   return (
     <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
-        {TIER_ORDER.map((tier) => {
-          const hamlets = MASTER_HAMLET_DATA.filter((h) => h.tier === tier);
-          if (!hamlets.length) return null;
-          return (
-            <div key={tier} className="mb-8">
-              <div
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  color: 'rgba(27,42,74,0.4)',
-                  fontSize: 9,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  marginBottom: 10,
-                  paddingBottom: 6,
-                  borderBottom: '1px solid rgba(27,42,74,0.08)',
-                }}
-              >
-                {tier}
-              </div>
-              <div
-                className="grid gap-2"
-                style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))' }}
-              >
-                {hamlets.map((h) => (
-                  <HamletTile
-                    key={h.id}
-                    hamlet={h}
-                    isSelected={selectedId === h.id}
-                    onSelect={() => setSelectedId(selectedId === h.id ? null : h.id)}
-                  />
-                ))}
-              </div>
-              {selectedHamlet && hamlets.some((h) => h.id === selectedId) && (
-                <HamletPanel hamlet={selectedHamlet} onClose={() => setSelectedId(null)} />
-              )}
-            </div>
-          );
-        })}
+        <div
+          className="grid gap-2"
+          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', marginBottom: 8 }}
+        >
+          {sortedHamlets.map((h) => (
+            <HamletTile
+              key={h.id}
+              hamlet={h}
+              isSelected={selectedId === h.id}
+              onSelect={() => setSelectedId(selectedId === h.id ? null : h.id)}
+            />
+          ))}
+        </div>
+        {selectedHamlet && (
+          <HamletPanel hamlet={selectedHamlet} onClose={() => setSelectedId(null)} />
+        )}
+        {/* Correction 8: Hamlet table footnote */}
+        <div
+          style={{
+            fontFamily: '"Source Sans 3", sans-serif',
+            color: 'rgba(27,42,74,0.45)',
+            fontSize: '0.6875rem',
+            lineHeight: 1.5,
+            marginTop: 20,
+            paddingTop: 12,
+            borderTop: '1px solid rgba(27,42,74,0.08)',
+          }}
+        >
+          Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume $5.922B.
+        </div>
       </div>
     </section>
   );
@@ -1599,7 +1634,7 @@ function Section5() {
                 marginBottom: 4,
               }}
             >
-              Model Deal · East Hampton Town
+              Model Deal · East Hampton
             </div>
             <div
               style={{
@@ -1607,16 +1642,28 @@ function Section5() {
                 color: '#FAF8F4',
                 fontSize: '1.1rem',
                 fontWeight: 600,
+                marginBottom: 4,
+              }}
+            >
+              9 Daniels Hole Road
+            </div>
+            <div
+              style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: 'rgba(250,248,244,0.45)',
+                fontSize: 9,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
                 marginBottom: 16,
               }}
             >
-              140 Hands Creek Road
+              East Hampton · Closed $2.47M · January 2026 · First Closed Transaction
             </div>
             <div className="grid grid-cols-3 gap-3 mb-4">
               {[
-                { label: 'Land', value: '$3.5M' },
-                { label: 'All-In', value: '$8.3M' },
-                { label: 'Exit', value: '$9.9M' },
+                { label: 'Land', value: '$1.1M' },
+                { label: 'All-In', value: '$2.47M' },
+                { label: 'Exit', value: '$3.2M' },
               ].map((cell) => (
                 <div
                   key={cell.label}
@@ -1707,9 +1754,7 @@ function Section5() {
                 marginBottom: 16,
               }}
             >
-              The Christie’s Intelligence Score evaluates every acquisition on four lenses: Acquisition cost, New
-              construction value, Exit pricing, and Wealth transfer potential. A property either
-              passes or it does not.
+              The Christie's Intelligence Score evaluates every acquisition on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. A property either passes or it does not.
             </div>
             <a
               href="https://linktr.ee/edbruehlrealestate"
@@ -2252,20 +2297,223 @@ function Section7() {
   );
 }
 
+// ─── SECTION 8 · Estate Advisory Card (Page 6) ───────────────────────────────
+// The final page of the report. Same asset as the HOME download CTA.
+// Christie's logo (black on cream), Ed headshot, QR code, doctrine lines.
+function EstateAdvisoryCard() {
+  return (
+    <section style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.1)' }}>
+      <div className="px-6 py-12" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="6" title="Estate Advisory" />
+        <div
+          className="grid gap-8"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}
+        >
+          {/* Left: Ed headshot + identity */}
+          <div className="flex flex-col gap-6">
+            <div className="flex items-start gap-5">
+              <img
+                src={ED_HEADSHOT_PRIMARY}
+                alt="Ed Bruehl"
+                style={{
+                  width: 80,
+                  height: 80,
+                  objectFit: 'cover',
+                  objectPosition: 'center top',
+                  borderRadius: 2,
+                  border: '1px solid rgba(27,42,74,0.15)',
+                }}
+              />
+              <div>
+                <div
+                  style={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    color: '#1B2A4A',
+                    fontSize: '1.25rem',
+                    fontWeight: 600,
+                    marginBottom: 2,
+                  }}
+                >
+                  Ed Bruehl
+                </div>
+                <div
+                  style={{
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    color: 'rgba(27,42,74,0.5)',
+                    fontSize: 9,
+                    letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    marginBottom: 6,
+                  }}
+                >
+                  Christie's International Real Estate Group · East Hampton
+                </div>
+                <div
+                  style={{
+                    fontFamily: '"Source Sans 3", sans-serif',
+                    color: 'rgba(27,42,74,0.6)',
+                    fontSize: '0.8125rem',
+                    lineHeight: 1.5,
+                  }}
+                >
+                  26 Park Place · East Hampton, NY 11937
+                </div>
+              </div>
+            </div>
+            <div
+              style={{
+                fontFamily: '"Cormorant Garamond", serif',
+                color: '#1B2A4A',
+                fontSize: '1.05rem',
+                lineHeight: 1.65,
+                fontStyle: 'italic',
+              }}
+            >
+              "The family's interest comes before the sale. Not the commission.
+              Not the close. The family. That principle has survived 260 years
+              of markets, wars, and revolutions."
+            </div>
+            <div
+              style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: 'rgba(27,42,74,0.35)',
+                fontSize: 9,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+              }}
+            >
+              — James Christie, Pall Mall, 1766
+            </div>
+          </div>
+
+          {/* Right: Services + CTA */}
+          <div className="flex flex-col gap-5">
+            <div
+              style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: '#C8AC78',
+                fontSize: 9,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                marginBottom: 4,
+              }}
+            >
+              Private Territory Briefing
+            </div>
+            <div
+              style={{
+                fontFamily: '"Source Sans 3", sans-serif',
+                color: 'rgba(27,42,74,0.7)',
+                fontSize: '0.875rem',
+                lineHeight: 1.65,
+                marginBottom: 8,
+              }}
+            >
+              A private, no-obligation briefing covering your target hamlet's
+              current inventory, CIS-scored opportunities, and Christie's
+              institutional access to off-market transactions. Delivered in
+              person at 26 Park Place or via secure video.
+            </div>
+            {[
+              'Hamlet-specific CIS analysis',
+              'Off-market access via Christie\'s network',
+              'Estate liquidation advisory',
+              'New construction acquisition strategy',
+              'Auction house cross-referral for art & collectibles',
+            ].map((item) => (
+              <div
+                key={item}
+                className="flex items-start gap-2"
+                style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: 'rgba(27,42,74,0.65)',
+                  fontSize: '0.8125rem',
+                  lineHeight: 1.5,
+                }}
+              >
+                <span style={{ color: '#C8AC78', marginTop: 2, flexShrink: 0 }}>—</span>
+                <span>{item}</span>
+              </div>
+            ))}
+            <a
+              href="https://wa.me/14155238886?text=BRIEF"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-block',
+                marginTop: 12,
+                background: '#1B2A4A',
+                color: '#FAF8F4',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 10,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                padding: '10px 20px',
+              }}
+            >
+              Request Briefing via WhatsApp →
+            </a>
+          </div>
+        </div>
+
+        {/* Footer: Christie's logo + doctrine */}
+        <div
+          style={{
+            marginTop: 48,
+            paddingTop: 20,
+            borderTop: '1px solid rgba(27,42,74,0.1)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: 12,
+          }}
+        >
+          <img
+            src={LOGO_BLACK}
+            alt="Christie's International Real Estate Group"
+            style={{ height: 24 }}
+          />
+          <div
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: 'rgba(27,42,74,0.35)',
+              fontSize: 8,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              textAlign: 'right',
+            }}
+          >
+            Private &amp; Confidential · Christie's East Hampton · christiesrealestategroupeh.com
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── Main ReportPage export ───────────────────────────────────────────────────
+// Six-page structure:
+//   Page 1 — Section1: Founding Letter (James Christie portrait + letter)
+//   Page 2 — Section2: Market Intelligence (CFS, rates, market strip)
+//   Page 3 — Section3: Hamlet Atlas Matrix (11 hamlets, CIS-descending)
+//   Page 4 — Section4: IDEAS Teaser (ANEW build, model deal)
+//   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
+//   Page 6 — EstateAdvisoryCard: Estate Advisory CTA
 export default function ReportPage() {
   return (
     <div id="report-page-content" style={{ background: '#FAF8F4', minHeight: '100vh' }}>
       <BackBar />
       <Section1 />
-      <Section2 />
-      <AuctionGallery />
       <Section3 />
       <Section4 />
-      <YouTubeMatrix />
       <Section5 />
+      <AuctionGallery />
+      <YouTubeMatrix />
       <Section6 />
       <Section7 />
+      <EstateAdvisoryCard />
     </div>
   );
 }

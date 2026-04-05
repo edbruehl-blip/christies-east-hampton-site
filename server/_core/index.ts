@@ -12,6 +12,7 @@ import { registerMarketRoute } from "../market-route";
 import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
 import { registerWhatsAppInbound } from "../whatsapp-inbound";
 import listingsRouter, { syncListings } from "../listings-sync-route";
+import pdfRouter from "../pdf-route";
 import cron from "node-cron";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -76,6 +77,9 @@ async function startServer() {
 
   // Listings sync — Christie's API → MAPS tab
   app.use('/api/listings', listingsRouter);
+
+  // PDF render — Puppeteer-based PDF generation for the market report
+  app.use(pdfRouter);
 
   // 6AM daily listing sync (America/New_York)
   cron.schedule('0 0 6 * * *', async () => {

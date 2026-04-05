@@ -1,0 +1,89 @@
+/**
+ * Report Print Stylesheet — Flambeaux Print Standards
+ * Christie's East Hampton Market Report
+ *
+ * Applied via @media print and also loaded by Puppeteer when rendering /report.
+ * Ensures navy/cream color blocks, gold accents, and Cormorant/Barlow fonts
+ * render correctly in the PDF output.
+ *
+ * Design tokens:
+ *   Navy:    #1B2A4A
+ *   Gold:    #C8AC78
+ *   Charcoal:#384249
+ *   Cream:   #FAF8F4
+ */
+
+@media print {
+  /* ── Page setup ── */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  html,
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  /* ── Hide non-report chrome ── */
+  nav,
+  header,
+  .back-bar,
+  [data-no-print],
+  button[data-pdf-download] {
+    display: none !important;
+  }
+
+  /* ── Preserve background colors ── */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* ── Section page breaks ── */
+  section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* ── Prevent orphaned headings ── */
+  h1, h2, h3 {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* ── Ensure images render ── */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* ── Preserve grid layouts ── */
+  .grid {
+    display: grid !important;
+  }
+
+  /* ── Hamlet tile grid ── */
+  .hamlet-tile-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  /* ── Links: show URL in print ── */
+  a[href]::after {
+    content: none !important;
+  }
+
+  /* ── Remove box shadows (they don't print well) ── */
+  * {
+    box-shadow: none !important;
+  }
+
+  /* ── Ensure text is legible ── */
+  body {
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+}
