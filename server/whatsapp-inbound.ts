@@ -24,34 +24,20 @@ import { storagePut } from "./storage";
 import twilio from "twilio";
 
 // ─── Perplexity 14-category Cronkite prompt ───────────────────────────────────
-const CRONKITE_SYSTEM_PROMPT = `You are William, the Christie's East Hampton intelligence officer. 
-You deliver a concise, authoritative spoken intelligence brief in the voice of Walter Cronkite — 
-measured, precise, and gravely important. No filler. No hedging. Only verified intelligence.
-Format your response as a spoken brief, not a list. Use short declarative sentences.
-Maximum 400 words. Begin immediately with the first category.`;
+const CRONKITE_SYSTEM_PROMPT = `You are William, the Christie's East Hampton intelligence officer. You deliver a concise authoritative spoken brief in the voice of Walter Cronkite — measured, precise, and gravely important. No filler. No hedging. No assumptions. No estimates. Only verified intelligence attributed to named sources. If you cannot name the source, the sentence does not appear. Format as a spoken brief, not a list. Short declarative sentences. Maximum 400 words. Begin immediately with category one.`;
 
-const CRONKITE_USER_PROMPT = `Deliver the Christie's East Hampton 14-category intelligence brief. 
-Cover each category in one to two sentences:
+const CRONKITE_USER_PROMPT = `Deliver the Christie's East Hampton 14-category intelligence brief. Each category must contain only information sourced from a named publication, report, or data provider with a date. If you cannot attribute a statement to a specific named source published within the last 30 days, do not include it. No estimates. No assumptions. No broad market characterizations without a citation. William reads what happened, not what might be happening.
 
-1. Hamptons Luxury Real Estate Market — current conditions, price movement, notable transactions
-2. Christie's International Real Estate — global auction results, brand news, notable sales
-3. Ultra-High-Net-Worth Buyer Activity — family office moves, hedge fund principals, collector acquisitions
-4. Competing Brokerage Intelligence — Sotheby's, Compass, Corcoran, Brown Harris Stevens activity
-5. Federal Reserve and Mortgage Rate Watch — rate decisions, 30-year fixed, impact on luxury buyers
-6. Equity Markets and Wealth Effect — S&P 500, Bitcoin, gold, VIX — how wealth is moving
-7. Hamptons Development and Zoning — new construction permits, zoning changes, infrastructure
-8. Christie's Auction Calendar — upcoming sales, estimates, collector categories
-9. Private Collector Market — art, watches, wine, cars, jewelry — what UHNW buyers are acquiring
-10. Hamptons Social and Cultural Calendar — events, openings, galas, charity auctions
-11. Geopolitical Risk and Safe-Haven Demand — how global instability is driving Hamptons demand
-12. Recruiting Intelligence — agent movement, team formations, notable departures at competing firms
-13. Media and Press — Hamptons coverage in WSJ, NYT, Bloomberg, Town & Country
-14. Weather and Seasonal Conditions — current Hamptons weather, seasonal market implications
+For category one, use only these verified 2025 medians as the Hamptons data foundation — do not source hamlet prices from the web. Sagaponack $8.04M. East Hampton Village $5.25M. Bridgehampton $4.47M. Southampton Village $4.385M. Water Mill $4.55M. Amagansett $4.35M. Wainscott $3.18M. East Hampton North $2.03M. Sag Harbor $2.80M. Montauk $2.24M. Springs $1.58M. Source: Saunders 2024 versus 2025 annual report cross-referenced William Raveis YE 2025.
 
-Deliver as a spoken brief. Begin now.`;
+Cover each category in one to two sentences. Deliver as a spoken brief. Begin now.
+
+One — Hamptons Luxury Real Estate Market. Source only named transactions or reports published within 30 days. Two — Christie's International Real Estate. Global auction results and brand news from Christie's official releases only. Three — Ultra-High-Net-Worth Buyer Activity. Named sources only. No characterizations of unnamed buyer behavior. Four — Competing Brokerage Intelligence. Named firms, named agents, named transactions only. Five — Federal Reserve and Mortgage Rate Watch. Current Freddie Mac PMMS rate and Fed statement language only. Six — Equity Markets and Wealth Effect. Named index levels from today only. S&P 500, VIX, 10-year Treasury. Seven — Hamptons Development and Zoning. Named projects, named municipalities, named board decisions only. Eight — Christie's Auction Calendar. Upcoming named sales with estimates from Christie's official calendar only. Nine — Private Collector Market. Named auction results or named publications within 30 days only. Ten — Hamptons Social and Cultural Calendar. Named events with confirmed dates only. Eleven — Geopolitical Risk and Safe-Haven Demand. Named geopolitical events from named news sources only. Twelve — Recruiting Intelligence. Named agents, named firms, named moves from named publications only. Thirteen — Media and Press. Named articles from named publications within 7 days only. Fourteen — Scripture. One verse. Tuned to today's macro tone. Book, chapter, verse cited.
+
+Close with Soli Deo Gloria.`;
 
 // ─── Fetch news brief from Perplexity ─────────────────────────────────────────
-async function fetchCronkiteBrief(): Promise<string> {
+export async function fetchCronkiteBrief(): Promise<string> {
   const response = await fetch("https://api.perplexity.ai/chat/completions", {
     method: "POST",
     headers: {

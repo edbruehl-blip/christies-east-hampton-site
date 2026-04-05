@@ -25,6 +25,7 @@ import type { Express } from "express";
 import { ENV } from "./_core/env";
 import { storagePut } from "./storage";
 import twilio from "twilio";
+import { fetchCronkiteBrief } from "./whatsapp-inbound";
 
 // ─── ElevenLabs config ────────────────────────────────────────────────────────
 const ELEVENLABS_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // William
@@ -120,7 +121,8 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   audioUrl: string;
   textLength: number;
 }> {
-  const text = type === "evening" ? buildEveningSummary() : buildMorningBrief();
+  // All three brief types now use the live Perplexity Cronkite prompt — one source of truth
+  const text = await fetchCronkiteBrief();
   const label = type === "morning" ? "morning" : type === "evening" ? "evening" : "test";
   const caption =
     type === "morning"
@@ -139,7 +141,7 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
 // ─── Exported delivery helper for inbound handler ───────────────────────────
 
 export async function deliverBriefToNumber(to: string): Promise<void> {
-  const text = buildMorningBrief();
+  const text = await fetchCronkiteBrief();
   const audioBuffer = await synthesiseAudio(text);
   const audioUrl    = await uploadAudio(audioBuffer, "morning");
   const client = twilio(ENV.twilioAccountSid, ENV.twilioAuthToken);
