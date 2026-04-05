@@ -560,8 +560,8 @@
 - [x] Item 3: Hamlet naming sweep — fixed 14 stale "ten hamlet" references across 9 files (client + server)
 - [x] Item 4: Listings scraper hamlet ID — HAMLET_KEYWORDS updated: east-hampton-village, east-hampton-north, wainscott
 - [x] Item 5: Dead code removal — buildMorningBrief + buildEveningSummary removed from whatsapp-route.ts; Home.tsx, ComponentShowcase.tsx, IdeasTab.tsx deleted
-- [ ] Item 6: ElevenLabs voice unification — whatsapp-route.ts → fjnwTZkKtQOJaYzGLa6n
+- [x] Item 6: ElevenLabs voice unification — whatsapp-route.ts → fjnwTZkKtQOJaYzGLa6n (One William, one voice)
 - [x] Item 7: IdeasTab.tsx — deleted permanently (no longer in App.tsx or nav)
 - [x] Item 8: Newsletter subscribe button — NewsletterManager removed from IntelTab.tsx (credentials not set)
-- [ ] Item 9: PublicPage.tsx — AWAITING ED RULING (route at /public or delete)
+- [x] Item 9: PublicPage.tsx — routed at /public in App.tsx (Sprint 9 P0 public surface live)
 - [ ] Item 10: Verify d2xsxph8 CloudFront domain live after publish

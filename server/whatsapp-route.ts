@@ -28,7 +28,7 @@ import twilio from "twilio";
 import { fetchCronkiteBrief } from "./whatsapp-inbound";
 
 // ─── ElevenLabs config ────────────────────────────────────────────────────────
-const ELEVENLABS_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // William
+const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as tts-route.ts)
 const ELEVENLABS_MODEL    = "eleven_multilingual_v2";
 
 // ─── ElevenLabs synthesis ─────────────────────────────────────────────────────

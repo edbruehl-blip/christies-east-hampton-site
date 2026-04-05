@@ -4,6 +4,7 @@
  * Routes:
  *   /        → Six-tab dashboard (HOME · MARKET · MAPS · PIPE · FUTURE · INTEL)
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
+ *   /public  → Public-facing surface (no auth required) — Sprint 9 P0
  *
  * Design tokens in index.css. No inline styles.
  */
@@ -25,7 +26,8 @@ import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
 
 // Standalone pages
-import ReportPage from "./pages/ReportPage";
+import ReportPage  from "./pages/ReportPage";
+import PublicPage  from "./pages/PublicPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -56,6 +58,7 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/report" component={ReportPage} />
+            <Route path="/public" component={PublicPage} />
             <Route component={Dashboard} />
           </Switch>
         </TooltipProvider>
