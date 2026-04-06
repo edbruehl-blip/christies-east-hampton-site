@@ -73,8 +73,8 @@ function mergeHamletData(
     return {
       ...h,
       liveMedian: match?.median2025 ?? h.medianPriceDisplay,
-      liveCis: match?.cis ?? h.anewScore,
-      liveVolumeShare: match?.volumeShare ?? h.volumeShare,
+      liveCis: (match as any)?.cisScore ?? (match as any)?.cis ?? h.anewScore,
+      liveVolumeShare: parseFloat(String((match as any)?.dollarVolumeShare ?? (match as any)?.volumeShare ?? h.volumeShare)) || h.volumeShare,
       liveDollarVolume: match?.dollarVolume ?? '',
       liveSales: match?.sales2025 ?? 0,
       liveDirection: match?.direction ?? '',
@@ -279,7 +279,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           </h3>
           <span
             className="shrink-0 px-2 py-0.5 text-[10px] uppercase tracking-wider"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', background: badge.bg, color: badge.text, letterSpacing: '0.12em' }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', letterSpacing: '0.12em' }}
           >
             CIS {hamlet.liveCis.toFixed(1)}
           </span>

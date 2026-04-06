@@ -518,7 +518,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.75) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 8, left: 10 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', textShadow: '0 1px 4px rgba(0,0,0,0.85)' }}>
             CIS {hamlet.anewScore.toFixed(1)} / 10
           </div>
         </div>
