@@ -467,10 +467,14 @@ function RateEnvironment() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MarketTab() {
-  const { data: matrixRows, isLoading: matrixLoading } = trpc.market.hamletMatrix.useQuery(undefined, {
+  const { data: matrixResponse, isLoading: matrixLoading } = trpc.market.hamletMatrix.useQuery(undefined, {
     retry: false,
     staleTime: 5 * 60 * 1000,
   });
+
+  // matrixResponse is { hamlets: LiveMatrixRow[], error: string | null }
+  // Extract the hamlets array before passing to mergeHamletData
+  const matrixRows = matrixResponse?.hamlets;
 
   const mergedData = useMemo(
     () => mergeHamletData(MASTER_HAMLET_DATA, matrixRows),
