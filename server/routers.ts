@@ -321,6 +321,48 @@ export const appRouter = router({
         return { entities: [], error: err.message ?? 'Failed to read Intelligence Web sheet' };
       }
     }),
+    /**
+     * Fetch a 30-day news snippet for a named entity via Perplexity.
+     * Used by the Institutional Mind Map hover tooltip to surface live intelligence.
+     * Returns a 1-2 sentence summary or null if no news found.
+     * publicProcedure: no session cookie required — Perplexity API key is the credential.
+     */
+    entityNews: publicProcedure
+      .input(z.object({ entityName: z.string().min(1).max(120) }))
+      .query(async ({ input }) => {
+        try {
+          const response = await fetch('https://api.perplexity.ai/chat/completions', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${ENV.perplexityApiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              model: 'sonar',
+              messages: [
+                {
+                  role: 'system',
+                  content: 'You are a concise intelligence briefing system. Return exactly 1-2 sentences. Named sources only. No speculation. If no news in the last 30 days, return exactly: No recent news.',
+                },
+                {
+                  role: 'user',
+                  content: `What is the most significant news about ${input.entityName} in the last 30 days? Real estate, business, or professional news only. Named sources only.`,
+                },
+              ],
+              max_tokens: 120,
+              temperature: 0.1,
+            }),
+            signal: AbortSignal.timeout(15000),
+          });
+          if (!response.ok) return { news: null, error: 'Perplexity unavailable' };
+          const data = await response.json() as { choices: Array<{ message: { content: string } }> };
+          const content = data.choices[0]?.message?.content?.trim() ?? '';
+          if (!content || content === 'No recent news.') return { news: null, error: null };
+          return { news: content, error: null };
+        } catch (err: any) {
+          return { news: null, error: err.message ?? 'Failed to fetch news' };
+        }
+      }),
   }),
   // ─── Market data ───────────────────────────────────────────────────────────────────────────────────────
   market: router({

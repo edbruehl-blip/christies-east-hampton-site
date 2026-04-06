@@ -1136,23 +1136,48 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.setFont('helvetica', 'italic');
   doc.text('Soli Deo Gloria.', ml, y);
 
-  // ── Two QR placeholder boxes — bottom right ───────────────────────────────
+  // ── Two QR codes — bottom right (Website + Ed vCard) ───────────────────────
+  const QRCode = (await import('qrcode')).default;
   const qrY = PAGE.h - 50;
-  const qrX1 = PAGE.w - mr - 30;
-  const qrX2 = PAGE.w - mr - 14;
-  if (qrImg) {
-    try { doc.addImage(qrImg, 'PNG', qrX1, qrY, 12, 12); } catch {
-      doc.setFillColor(240, 238, 234); doc.rect(qrX1, qrY, 12, 12, 'F');
-    }
-  } else {
-    doc.setFillColor(240, 238, 234); doc.rect(qrX1, qrY, 12, 12, 'F');
+  const qrSize = 22;
+  const qrGap = 6;
+  const qrX1 = PAGE.w - mr - qrSize * 2 - qrGap;
+  const qrX2 = PAGE.w - mr - qrSize;
+
+  // QR 1 — Website
+  try {
+    const websiteQr = await QRCode.toDataURL('https://christiesrealestategroupeh.com', {
+      width: 128, margin: 1, color: { dark: '#1b2a4a', light: '#FAFAF4' },
+    });
+    doc.addImage(websiteQr, 'PNG', qrX1, qrY, qrSize, qrSize);
+  } catch {
+    doc.setFillColor(240, 238, 234); doc.rect(qrX1, qrY, qrSize, qrSize, 'F');
   }
   doc.setFontSize(5.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
-  doc.text('Website', qrX1 + 6, qrY + 14.5, { align: 'center' });
+  doc.text('Website', qrX1 + qrSize / 2, qrY + qrSize + 3.5, { align: 'center' });
 
-  doc.setFillColor(240, 238, 234); doc.rect(qrX2 + 2, qrY, 12, 12, 'F');
+  // QR 2 — Ed vCard
+  const vcard = [
+    'BEGIN:VCARD', 'VERSION:3.0',
+    'FN:Ed Bruehl',
+    "ORG:Christie's International Real Estate Group",
+    'TITLE:Managing Director',
+    'TEL;TYPE=CELL:+16467521233',
+    'EMAIL:edbruehl@christiesrealestategroup.com',
+    'URL:https://christiesrealestategroupeh.com',
+    'ADR;TYPE=WORK:;;26 Park Place;East Hampton;NY;11937;USA',
+    'END:VCARD',
+  ].join('\n');
+  try {
+    const vcardQr = await QRCode.toDataURL(vcard, {
+      width: 128, margin: 1, color: { dark: '#1b2a4a', light: '#FAFAF4' },
+    });
+    doc.addImage(vcardQr, 'PNG', qrX2, qrY, qrSize, qrSize);
+  } catch {
+    doc.setFillColor(240, 238, 234); doc.rect(qrX2, qrY, qrSize, qrSize, 'F');
+  }
   doc.setFontSize(5.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
-  doc.text('Contact', qrX2 + 8, qrY + 14.5, { align: 'center' });
+  doc.text('Contact', qrX2 + qrSize / 2, qrY + qrSize + 3.5, { align: 'center' });
 
   // ── Bottom gold rule ──────────────────────────────────────────────────────
   const footerRuleY = PAGE.h - 22;

@@ -627,3 +627,9 @@
 - [x] S13-1: Institutional Mind Map — interactive spiderweb, INTEL Layer 1, 32 nodes, hover states, view toggle (Full/Hierarchy/Recruits/Whales), no iframe
 - [x] S13-2: generateFutureReportPDF() full jsPDF landscape — arc bars + 300-day proof + agent table + profit pool, Flambeaux standard, FUTURE tab button wired
 - [x] S13-3: WhatsApp BRIEF [address] command — hamlet lookup table (11 hamlets), LLM fallback, CIS score + Christie's positioning paragraph, HELP menu updated
+
+## Sprint 14 — April 6, 2026
+- [x] S14-1: Rebuild InstitutionalMindMap — two parallel tracks, Cerutti removed, 35 nodes, corrected org structure (Brennan CEO, Pradels/Kadakia added, Thad Wong/Mike Golden, Gavin Swartzman)
+- [x] S14-2: INTEL Layer 5 — Relationship Intelligence full table with four filters (type, tier, audience, last touch), All Entities tab added to IntelligenceWebTabs, lastTouch + cadence columns now read from sheet
+- [x] S14-3: Hover news panels — intel.entityNews tRPC procedure, Perplexity 30-day news on Mind Map node hover, 5min cache
+- [x] S14-4: QR codes in generateChristiesLetter() — Website QR (christiesrealestategroupeh.com) + Ed vCard QR, navy on cream, 22x22mm, qrcode package installed

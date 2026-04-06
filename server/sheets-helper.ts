@@ -297,6 +297,8 @@ export interface IntelWebEntity {
   owner: string;
   archetypeMatch: string;
   audience: string;    // Audience column (multi-value tags: Jarvis_Top_Agents, Whale_Intelligence, Auction_Referrals)
+  lastTouch: string;   // Column P — last contact date
+  cadence: string;     // Column Q — contact cadence
 }
 
 export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
@@ -305,7 +307,7 @@ export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
   try {
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: INTEL_WEB_SHEET_ID,
-      range: `${INTEL_WEB_TAB}!A:O`,
+      range: `${INTEL_WEB_TAB}!A:Q`,
     });
     rows = (res.data.values as string[][]) ?? [];
   } catch {
@@ -331,6 +333,8 @@ export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
       owner:           r[12] ?? '',
       archetypeMatch:  r[13] ?? '',
       audience:        r[14] ?? '',
+      lastTouch:       r[15] ?? '',
+      cadence:         r[16] ?? '',
     }));
 }
 
