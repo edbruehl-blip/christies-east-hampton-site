@@ -375,7 +375,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-north-sunset_d9c3ca9b.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-north-sunset_d9c3ca9b.jpg',
-    vibeText: 'Deep wooded privacy and expansive harbor access. The natural, uncrowded alternative to the village corridors.',
+    vibeText: 'Where wetland light meets open sky. East Hampton North is the quiet side of the township — pastoral, unhurried, and tucked just far enough from the Village to feel like its own world.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -444,8 +444,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/montauk_lighthouse_8f675846.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/09_montauk_a5e39554.jpg',
-    vibeText: 'Dramatic, elemental, and rugged. The iconic end-of-the-world coastal scenery defined by crashing surf and cliffs.',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Montauk_2b5f2ba8.jpg',
+    vibeText: 'Where the Atlantic ends and the surf begins. Montauk is raw, unhurried, and fiercely its own — the East End\'s most authentic hamlet.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },

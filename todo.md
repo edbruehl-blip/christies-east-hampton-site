@@ -636,3 +636,9 @@
 
 ## Sprint 15 — Hamlet Photo Refresh (April 6, 2026)
 - [x] S15-1: Upload all 15 Ed hamlet photos to CDN, catalogue best image per hamlet, wire into hamlet-master.ts imageUrl fields
+
+## Sprint 15b — Quick Closes (April 6, 2026)
+- [x] S15b-1: Wire Montauk surfboard photo to CDN and hamlet-master.ts imageUrl
+- [x] S15b-2: Update Montauk vibe text (Atlantic/surf copy)
+- [x] S15b-3: Update EH North vibe text (wetland light copy — remove harbor access)
+- [x] S15b-4: Verify Bonnie Brennan and Ilija Pavlović spellings — already correct in live code
