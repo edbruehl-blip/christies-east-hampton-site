@@ -277,9 +277,106 @@ async function handleHelp(to: string): Promise<void> {
     `  INTEL  — Top 5 recruits + top 3 whale intel\n` +
     `  STATUS — Platform status report\n` +
     `  BRIEF  — Morning brief (voice)\n` +
+    `  BRIEF [address] — Address CIS brief (hamlet, median, CIS score)\n` +
     `  HELP   — This menu\n\n` +
     `26 Park Place, East Hampton · 646-752-1233`
   );
+}
+
+// ─── BRIEF [address] — Address-specific CIS brief ───────────────────────────
+// Hamlet lookup table — inline, no client import needed
+const HAMLET_LOOKUP: Record<string, { name: string; median: string; cis: number; tier: string }> = {
+  'sagaponack':            { name: 'Sagaponack',           median: '$8.04M',  cis: 9.4, tier: 'Ultra-Trophy' },
+  'east hampton village':  { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
+  'east hampton':          { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
+  'bridgehampton':         { name: 'Bridgehampton',        median: '$4.47M',  cis: 9.1, tier: 'Trophy' },
+  'southampton village':   { name: 'Southampton Village',  median: '$4.385M', cis: 9.0, tier: 'Trophy' },
+  'southampton':           { name: 'Southampton Village',  median: '$4.385M', cis: 9.0, tier: 'Trophy' },
+  'water mill':            { name: 'Water Mill',           median: '$4.55M',  cis: 8.8, tier: 'Trophy' },
+  'sag harbor':            { name: 'Sag Harbor',           median: '$2.80M',  cis: 8.4, tier: 'Premier' },
+  'amagansett':            { name: 'Amagansett',           median: '$4.35M',  cis: 8.9, tier: 'Trophy' },
+  'east hampton north':    { name: 'East Hampton North',   median: '$2.03M',  cis: 8.6, tier: 'Premier' },
+  'springs':               { name: 'Springs',              median: '$1.58M',  cis: 6.8, tier: 'Opportunity' },
+  'montauk':               { name: 'Montauk',              median: '$2.24M',  cis: 8.2, tier: 'Premier' },
+  'wainscott':             { name: 'Wainscott',            median: '$3.18M',  cis: 8.7, tier: 'Trophy' },
+};
+
+function resolveHamlet(text: string): { name: string; median: string; cis: number; tier: string } | null {
+  const lower = text.toLowerCase();
+  // Longest-match first to avoid 'east hampton' matching before 'east hampton village'
+  const keys = Object.keys(HAMLET_LOOKUP).sort((a, b) => b.length - a.length);
+  for (const key of keys) {
+    if (lower.includes(key)) return HAMLET_LOOKUP[key];
+  }
+  return null;
+}
+
+async function sendAddressBriefReply(
+  to: string,
+  address: string,
+  hamlet: { name: string; median: string; cis: number; tier: string }
+): Promise<void> {
+  const { invokeLLM } = await import('./_core/llm');
+  const res = await invokeLLM({
+    messages: [
+      {
+        role: 'system',
+        content: `You are William, Christie's East Hampton intelligence officer. Write exactly 3 sentences positioning Christie's for a property at this address. Tone: authoritative, institutional, measured. Reference the hamlet's character, the Christie's brand advantage (259 years, art-secured lending, auction house adjacency), and the CIS score. No filler. No hedging. No bullet points.`,
+      },
+      {
+        role: 'user',
+        content: `Address: ${address}\nHamlet: ${hamlet.name}\nTier: ${hamlet.tier}\nMedian: ${hamlet.median}\nCIS Score: ${hamlet.cis}/10`,
+      },
+    ],
+  });
+  const positioning = (res.choices?.[0]?.message?.content ?? '').trim();
+  await sendTextReply(
+    to,
+    `🏛️ CHRISTIE'S EAST HAMPTON · ADDRESS BRIEF\n\n` +
+    `📍 ${address}\n\n` +
+    `HAMLET: ${hamlet.name}\n` +
+    `TIER: ${hamlet.tier}\n` +
+    `MEDIAN: ${hamlet.median}\n` +
+    `CIS SCORE: ${hamlet.cis}/10\n\n` +
+    `CHRISTIE'S POSITIONING:\n${positioning}\n\n` +
+    `Full analysis: christiesrealestategroupeh.com (MAPS tab)`
+  );
+}
+
+async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
+  // rawBody is the original (non-uppercased) message body, e.g. "BRIEF 26 Park Place East Hampton"
+  const address = rawBody.replace(/^BRIEF\s+/i, '').trim();
+  if (!address) {
+    await sendTextReply(to, `🏛️ Reply BRIEF followed by an address.\nExample: BRIEF 26 Park Place East Hampton`);
+    return;
+  }
+  const hamlet = resolveHamlet(address);
+  if (hamlet) {
+    await sendAddressBriefReply(to, address, hamlet);
+    return;
+  }
+  // Fall back to LLM hamlet identification
+  try {
+    const { invokeLLM } = await import('./_core/llm');
+    const res = await invokeLLM({
+      messages: [
+        {
+          role: 'system',
+          content: 'You are a South Fork real estate expert. Given an address, identify which hamlet it belongs to from this list ONLY: Sagaponack, East Hampton Village, Bridgehampton, Southampton Village, Water Mill, Sag Harbor, Amagansett, East Hampton North, Springs, Montauk, Wainscott. Reply with ONLY the hamlet name from the list, nothing else.',
+        },
+        { role: 'user', content: `Address: ${address}` },
+      ],
+    });
+    const identified = (res.choices?.[0]?.message?.content ?? '').trim();
+    const resolved = resolveHamlet(identified);
+    if (resolved) {
+      await sendAddressBriefReply(to, address, resolved);
+    } else {
+      await sendTextReply(to, `⚠️ Could not identify hamlet for: ${address}\n\nInclude the hamlet name, e.g.:\nBRIEF 26 Park Place East Hampton`);
+    }
+  } catch (err: any) {
+    await sendTextReply(to, `⚠️ Brief failed: ${err.message ?? 'Unknown error'}. Try again.`);
+  }
 }
 
 // ─── Route registration ───────────────────────────────────────────────────────
@@ -289,7 +386,8 @@ export function registerWhatsAppInbound(app: Express): void {
     // Respond 200 immediately so Twilio does not retry
     res.status(200).send("<Response></Response>");
 
-    const body: string = (req.body?.Body ?? "").trim().toUpperCase();
+    const rawBody: string = (req.body?.Body ?? "").trim();
+    const body: string = rawBody.toUpperCase();
     const from: string = req.body?.From ?? "";
 
     if (!from) {
@@ -308,6 +406,8 @@ export function registerWhatsAppInbound(app: Express): void {
         await handleStatus(from);
       } else if (body === "BRIEF" || body === "MORNING") {
         await handleBrief(from);
+      } else if (body.startsWith("BRIEF ")) {
+        await handleAddressBrief(from, rawBody);
       } else if (body === "INTEL" || body === "INTELLIGENCE") {
         await handleIntel(from);
       } else if (body === "HELP" || body === "?") {

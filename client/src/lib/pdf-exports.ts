@@ -1177,3 +1177,240 @@ export async function generateChristiesLetter(): Promise<void> {
 
   downloadPdf(doc, `Christies-EH-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
+
+// ─── generateFutureReportPDF — Sprint 13 jsPDF Landscape ─────────────────────
+// One page · 8.5×11 landscape · Flambeaux standard
+// Sections: Arc bars · 300-day proof · Agent table · Profit pool
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface FutureReportInput {
+  agents: { name: string; role?: string; status?: string; proj2026: number; act2026: number; proj2027: number; act2027: number }[];
+  total: { proj2026: number; act2026: number; proj2027: number; act2027: number };
+  liveAct2026?: number;
+}
+
+const FUTURE_MILESTONES = [
+  { year: '2025', volume: 15_000_000,  display: '$15M',           isBaseline: true  },
+  { year: '2026', volume: 55_000_000,  display: '$55M',           isBaseline: false },
+  { year: '2027', volume: 105_000_000, display: '$100M\u2013$110M', isBaseline: false },
+  { year: '2028', volume: 165_000_000, display: '$165M',          isBaseline: false },
+  { year: '2029', volume: 230_000_000, display: '$230M',          isBaseline: false },
+  { year: '2031', volume: 430_000_000, display: '$430M',          isBaseline: false },
+] as const;
+
+const FUTURE_MAX_VOL = 430_000_000;
+
+const LP = {
+  w: 279.4, h: 215.9, ml: 16, mr: 16, mt: 14, mb: 18,
+  get cw() { return this.w - this.ml - this.mr; },
+};
+
+function fmtVolFuture(n: number): string {
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 0 : 1)}M`;
+  if (n >= 1_000)     return `$${Math.round(n / 1_000)}K`;
+  return `$${n.toLocaleString()}`;
+}
+
+export async function generateFutureReportPDF(input: FutureReportInput): Promise<void> {
+  const { agents, total, liveAct2026 = 0 } = input;
+  const { logoImg } = await loadPdfAssets();
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
+
+  // Gold rule top
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.8);
+  doc.line(LP.ml, 8, LP.w - LP.mr, 8);
+
+  // Logo
+  try {
+    doc.addImage(logoImg, 'PNG', LP.ml, 10, 44, 10);
+  } catch {
+    doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", LP.ml, 17);
+  }
+
+  // Title
+  doc.setFontSize(13); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+  doc.text('THE ASCENSION ARC \u00b7 $1 BILLION RUN RATE', LP.w / 2, 15, { align: 'center' });
+  doc.setFontSize(7); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+  doc.text(today(), LP.w - LP.mr, 13, { align: 'right' });
+  doc.text('Private & Confidential \u00b7 Ilija Pavlovi\u0107 Review Copy', LP.w - LP.mr, 17.5, { align: 'right' });
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3);
+  doc.line(LP.ml, 22, LP.w - LP.mr, 22);
+
+  let y = 26;
+
+  // ── Arc bars section label ──────────────────────────────────────────────────
+  doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+  doc.text('ASCENSION ARC \u00b7 SALES VOLUME ONLY \u00b7 TARGETS, NOT ACTUALS', LP.ml, y);
+  y += 4;
+
+  const barAreaW = LP.cw * 0.42;
+  const barSlotW = barAreaW / FUTURE_MILESTONES.length;
+  const barMaxH = 38;
+  const barBaseY = y + barMaxH + 2;
+
+  // $1B horizon dashed line
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.25);
+  doc.setLineDashPattern([1.5, 1], 0);
+  doc.line(LP.ml, y + 2, LP.ml + barAreaW, y + 2);
+  doc.setLineDashPattern([], 0);
+  doc.setFontSize(5.5); doc.setTextColor(...C.gold);
+  doc.text('$1B RUN RATE \u00b7 2032\u20132033', LP.ml, y + 1.2);
+
+  FUTURE_MILESTONES.forEach((m, i) => {
+    const barH = (m.volume / FUTURE_MAX_VOL) * barMaxH;
+    const bx = LP.ml + i * barSlotW;
+    const by = barBaseY - barH;
+    const bw = barSlotW * 0.65;
+
+    if (m.isBaseline) {
+      doc.setFillColor(200, 210, 220);
+      doc.rect(bx + barSlotW * 0.175, by, bw, barH, 'F');
+    } else if (m.year === '2026') {
+      const closed = total.act2026 > 0 ? total.act2026 : liveAct2026;
+      const active = total.proj2026 > 0 ? Math.max(0, total.proj2026 - closed) : 13_620_000;
+      const proj   = Math.max(0, m.volume - closed - active);
+      const ts = closed + active + proj || 1;
+      let segY = barBaseY;
+      doc.setFillColor(220, 210, 190);
+      doc.rect(bx + barSlotW * 0.175, segY - (proj / ts) * barH, bw, (proj / ts) * barH, 'F');
+      segY -= (proj / ts) * barH;
+      doc.setFillColor(...C.gold);
+      doc.rect(bx + barSlotW * 0.175, segY - (active / ts) * barH, bw, (active / ts) * barH, 'F');
+      segY -= (active / ts) * barH;
+      doc.setFillColor(...C.navy);
+      doc.rect(bx + barSlotW * 0.175, segY - (closed / ts) * barH, bw, (closed / ts) * barH, 'F');
+    } else {
+      doc.setFillColor(215, 200, 170);
+      doc.rect(bx + barSlotW * 0.175, by, bw, barH, 'F');
+      doc.setDrawColor(...C.gold); doc.setLineWidth(0.4);
+      doc.line(bx + barSlotW * 0.175, by, bx + barSlotW * 0.175 + bw, by);
+    }
+
+    doc.setFontSize(6); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+    doc.text(m.display, bx + barSlotW / 2, by - 1.5, { align: 'center' });
+    doc.setTextColor(...C.gold);
+    doc.text(m.year, bx + barSlotW / 2, barBaseY + 4, { align: 'center' });
+    if (m.isBaseline) {
+      doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+      doc.text('Bonita DeWolf', bx + barSlotW / 2, barBaseY + 7.5, { align: 'center' });
+      doc.text('pre-launch', bx + barSlotW / 2, barBaseY + 10, { align: 'center' });
+    }
+  });
+
+  // ── 300-Day Proof (right column) ────────────────────────────────────────────
+  const proofX = LP.ml + barAreaW + 6;
+  const proofW = LP.cw - barAreaW - 6;
+  let py = 30;
+
+  doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+  doc.text('300-DAY PROOF \u00b7 2026', proofX, py);
+  py += 4;
+
+  const proofBlocks = [
+    { label: 'First 100 Days',  period: 'Nov 2025 \u2013 Feb 2026', volume: '$4.57M',  badge: 'Closed',    badgeC: C.navy as [number, number, number] },
+    { label: 'Second 100 Days', period: 'Mar \u2013 May 1, 2026',   volume: '$13.62M', badge: 'Active',    badgeC: C.gold as [number, number, number] },
+    { label: 'Third 100 Days',  period: 'May 1 \u2013 Aug 2026',    volume: '$55M',    badge: 'Projected', badgeC: C.muted as [number, number, number] },
+  ];
+  const blockW = proofW / 3 - 2;
+  proofBlocks.forEach((b, i) => {
+    const bx = proofX + i * (blockW + 3);
+    doc.setDrawColor(200, 172, 120); doc.setLineWidth(0.3);
+    doc.rect(bx, py, blockW, 28, 'S');
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+    doc.text(b.label.toUpperCase(), bx + 2, py + 4);
+    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+    doc.text(b.period, bx + 2, py + 8);
+    doc.setFontSize(12); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+    doc.text(b.volume, bx + blockW / 2, py + 18, { align: 'center' });
+    doc.setFillColor(...b.badgeC);
+    doc.rect(bx + 2, py + 21, blockW - 4, 4.5, 'F');
+    doc.setFontSize(5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.cream);
+    doc.text(b.badge.toUpperCase(), bx + blockW / 2, py + 24, { align: 'center' });
+  });
+  py += 32;
+
+  // ── Agent Volume Table ──────────────────────────────────────────────────────
+  doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+  doc.text('AGENT VOLUME \u00b7 2026 \u00b7 SALES VOLUME ONLY', proofX, py);
+  py += 4;
+
+  const tCols = ['Agent', 'Proj 2026', 'Act 2026', 'Proj 2027'];
+  const tColW = [proofW * 0.4, proofW * 0.2, proofW * 0.2, proofW * 0.2];
+  const rowH = 5.5;
+
+  doc.setFillColor(...C.navy);
+  doc.rect(proofX, py, proofW, rowH, 'F');
+  doc.setFontSize(6); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.cream);
+  let cx2 = proofX + 2;
+  tCols.forEach((col, i) => { doc.text(col, cx2, py + 3.8); cx2 += tColW[i]; });
+  py += rowH;
+
+  const tableAgents = [
+    ...agents,
+    {
+      name: 'TOTAL', role: '', status: '',
+      proj2026: total.proj2026 || 55_000_000,
+      act2026:  total.act2026 > 0 ? total.act2026 : liveAct2026,
+      proj2027: total.proj2027 || 93_000_000,
+      act2027:  0,
+    },
+  ];
+  tableAgents.forEach((a, ri) => {
+    if (py > LP.h - LP.mb - 20) return;
+    const isTotal = a.name === 'TOTAL';
+    const bg: [number, number, number] = isTotal ? C.navy : (ri % 2 === 0 ? C.cream : [245, 243, 239]);
+    doc.setFillColor(...bg);
+    doc.rect(proofX, py, proofW, rowH, 'F');
+    doc.setFontSize(6); doc.setFont('helvetica', isTotal ? 'bold' : 'normal');
+    doc.setTextColor(...(isTotal ? C.cream : C.charcoal));
+    cx2 = proofX + 2;
+    [a.name, fmtVolFuture(a.proj2026), a.act2026 > 0 ? fmtVolFuture(a.act2026) : '\u2014', fmtVolFuture(a.proj2027)].forEach((cell, i) => {
+      if (i > 0 && isTotal) doc.setTextColor(...C.gold);
+      doc.text(cell, cx2, py + 3.8);
+      cx2 += tColW[i];
+    });
+    py += rowH;
+  });
+
+  // ── Profit Pool ─────────────────────────────────────────────────────────────
+  const ppY = barBaseY + 14;
+  doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+  doc.text('PROFIT POOL \u00b7 THE ECONOMIC LOGIC', LP.ml, ppY);
+
+  const ppRows = [
+    { year: '2026', vol: '$55M',  pool: '$300K', edShare: '$100K' },
+    { year: '2027', vol: '$100M', pool: '$1.2M', edShare: '$400K' },
+    { year: '2028', vol: '$165M', pool: '$2.5M', edShare: '$833K' },
+  ];
+  const ppColW = barAreaW / ppRows.length - 2;
+  ppRows.forEach((r, i) => {
+    const bx = LP.ml + i * (ppColW + 3);
+    const by2 = ppY + 3;
+    doc.setDrawColor(200, 172, 120); doc.setLineWidth(0.3);
+    doc.rect(bx, by2, ppColW, 20, 'S');
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
+    doc.text(`${r.year} \u00b7 ${r.vol}`, bx + 2, by2 + 4);
+    doc.setFontSize(11); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+    doc.text(r.edShare, bx + ppColW / 2, by2 + 12, { align: 'center' });
+    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+    doc.text(`Ed's Share \u00b7 Pool: ${r.pool}`, bx + ppColW / 2, by2 + 17, { align: 'center' });
+  });
+
+  // ── Footer ───────────────────────────────────────────────────────────────────
+  const footerY = LP.h - LP.mb + 4;
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.4);
+  doc.line(LP.ml, footerY, LP.w - LP.mr, footerY);
+  doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+  doc.text("Art. Beauty. Provenance. \u00b7 Christie's International Real Estate Group \u00b7 Est. 1766", LP.w / 2, footerY + 4, { align: 'center' });
+  doc.setFontSize(6); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+  doc.text('26 Park Place, East Hampton, NY 11937 \u00b7 646-752-1233 \u00b7 edbruehl@christiesrealestategroup.com', LP.w / 2, footerY + 8, { align: 'center' });
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.muted);
+  doc.text('PRIVATE & CONFIDENTIAL', LP.w / 2, footerY + 12, { align: 'center' });
+
+  // Gold rule bottom
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.8);
+  doc.line(LP.ml, LP.h - 6, LP.w - LP.mr, LP.h - 6);
+
+  downloadPdf(doc, `Christies-EH-Ascension-Arc-${today().replace(/\s/g, '-')}.pdf`);
+}

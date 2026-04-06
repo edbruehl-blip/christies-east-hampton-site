@@ -622,3 +622,8 @@
 - [x] P1: generateFutureReport() renamed, auto-print trigger confirmed (window.print() at 800ms already present)
 - [x] P3: generateChristiesLetter() built (Flambeaux standard, Cormorant Garamond, gold rules, two QR placeholders, date block), HOME tab button wired
 - [x] P2: UHNW Backend Strategy PDF + Intelligence Web HTML hosted on Manus CDN, wired to INTEL Layer 4 Document Library
+
+## Sprint 13 — April 6, 2026
+- [x] S13-1: Institutional Mind Map — interactive spiderweb, INTEL Layer 1, 32 nodes, hover states, view toggle (Full/Hierarchy/Recruits/Whales), no iframe
+- [x] S13-2: generateFutureReportPDF() full jsPDF landscape — arc bars + 300-day proof + agent table + profit pool, Flambeaux standard, FUTURE tab button wired
+- [x] S13-3: WhatsApp BRIEF [address] command — hamlet lookup table (11 hamlets), LLM fallback, CIS score + Christie's positioning paragraph, HELP menu updated

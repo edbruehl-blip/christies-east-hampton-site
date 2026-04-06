@@ -20,6 +20,7 @@
 import { useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
+import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
@@ -43,55 +44,16 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Mind Map Placeholder (Layer 1 — Sprint 12 reserved) ─────────────────────
+// ─── Mind Map Layer 1 — Sprint 13 LIVE ───────────────────────────────────────
 
-function MindMapPlaceholder() {
+function MindMapSection() {
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 1 · Institutional Mind Map
         </div>
-        <div
-          style={{
-            border: '1px solid rgba(200,172,120,0.3)',
-            borderLeft: '3px solid #C8AC78',
-            borderRadius: 2,
-            background: '#fff',
-            padding: '32px 28px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 24,
-            minHeight: 120,
-          }}
-        >
-          <div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.25rem', marginBottom: 6 }}>
-              Institutional Mind Map
-            </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', maxWidth: 480, lineHeight: 1.5 }}>
-              Artémis / Pinault → Christie's Auction House → CIH → CIREG → Christie's East Hampton.
-              Interactive relationship map with hover states, click behavior, and fresh news preview panels.
-              Awaiting Sprint 12 GO.
-            </div>
-          </div>
-          <div
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 9,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: 'rgba(200,172,120,0.5)',
-              whiteSpace: 'nowrap',
-              border: '1px solid rgba(200,172,120,0.25)',
-              borderRadius: 2,
-              padding: '6px 14px',
-            }}
-          >
-            Sprint 12
-          </div>
-        </div>
+        <InstitutionalMindMap />
       </div>
     </div>
   );
@@ -539,7 +501,7 @@ export default function IntelTab() {
 
       {/* Layer 1 — Institutional Mind Map (Sprint 12 reserved) */}
       <div id="intel-layer-1" />
-      <MindMapPlaceholder />
+      <MindMapSection />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
