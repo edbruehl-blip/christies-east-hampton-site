@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, readIntelWebRows } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { eq, asc } from "drizzle-orm";
@@ -322,9 +322,22 @@ export const appRouter = router({
       }
     }),
   }),
-
-  // ─── Market data timestamp ─────────────────────────────────────────────────────────────────────────────
+  // ─── Market data ───────────────────────────────────────────────────────────────────────────────────────
   market: router({
+    /**
+     * Read all 11 hamlet rows from the Market Matrix Google Sheet.
+     * Auth: GOOGLE_SERVICE_ACCOUNT_JSON (service account) — publicProcedure.
+     * See AUTH MODEL comment block above.
+     */
+    hamletMatrix: publicProcedure.query(async () => {
+      try {
+        const hamlets = await readMarketMatrixRows();
+        return { hamlets, error: null };
+      } catch (err: any) {
+        return { hamlets: [], error: (err as Error).message ?? 'Failed to read Market Matrix sheet' };
+      }
+    }),
+
     /**
      * Returns the timestamp of the last successful Sheets API call.
      * Used to display "Data current as of [date]" on the HOME market strip.
@@ -346,6 +359,24 @@ export const appRouter = router({
         };
       }
     }),
+  }),
+
+  /**
+   * FUTURE tab — Growth Model v2 live data
+   * Auth layer: GOOGLE_SERVICE_ACCOUNT_JSON (service account reads Growth Model v2 sheet)
+   * Rule: publicProcedure — no session cookie required for sheet reads
+   */
+  future: router({
+    growthModel: publicProcedure
+      .query(async () => {
+        return readGrowthModelData();
+      }),
+    // SERVICE ACCOUNT AUTH — reads VOLUME tab (sales volume projected/actual per agent)
+    // publicProcedure: service account authenticates with Google Sheets, no session cookie needed
+    volumeData: publicProcedure
+      .query(async () => {
+        return readGrowthModelVolume();
+      }),
   }),
 
   newsletter: router({

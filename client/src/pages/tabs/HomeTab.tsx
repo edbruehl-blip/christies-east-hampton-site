@@ -20,6 +20,7 @@ import { useLocation } from 'wouter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
+import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 
 const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
@@ -64,10 +65,11 @@ function SectionA() {
           }}
         >
           {/* ── LEFT COLUMN: portrait + identity card ── */}
-          <div style={{ padding: '32px 20px 32px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Sprint 11 Item 11: portrait centered + responsive on iPhone */}
+          <div style={{ padding: '28px 20px 20px 28px', display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
             <div
               onClick={() => navigate('/report')}
-              style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+              style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}
               title="Tap portrait for the full Market Report"
             >
               <div style={{
@@ -80,9 +82,10 @@ function SectionA() {
                 <img
                   src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
                   alt="James Christie — Founder, Christie's, Est. 1766"
+                  className="block"
                   style={{
-                    width: 110,
-                    height: 140,
+                    width: 'clamp(90px, 14vw, 130px)',
+                    height: 'clamp(115px, 18vw, 165px)',
                     objectFit: 'cover',
                     objectPosition: 'center 35%',
                     display: 'block',
@@ -102,8 +105,6 @@ function SectionA() {
                 Tap for<br/>Market Report
               </div>
             </div>
-
-
           </div>
 
           {/* ── RIGHT COLUMN: founding letter ── */}
@@ -286,6 +287,16 @@ export default function HomeTab() {
       <SectionB />
       <AuctionHouseServices />
       <SectionWilliam />
+      {/* Estate Advisory Card — one locked copy source, three surfaces */}
+      {/* framed=true adds Christie's gold border for HOME tab usage */}
+      <div style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px 64px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
+            Estate Advisory
+          </div>
+          <EstateAdvisoryCard framed />
+        </div>
+      </div>
     </div>
   );
 }

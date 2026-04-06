@@ -1,35 +1,38 @@
 /**
  * INTEL TAB — Operating Control Room
- * Sprint 2 — March 31, 2026
+ * Sprint 11 — April 5, 2026
  *
- * Layer 1 — Master Calendar: live from Podcast + Event Google Sheets, no seeded data
- * Layer 2 — Four-panel sheet grid: Agent Recruiting · Social/Podcast · Contact Database · Auction Events
- * Layer 3 — Canon Documents: org chart, wireframes, council briefs, PDFs
+ * Layer Order (Sprint 11 Item 8):
+ * 1. Mind Map placeholder — full width, reserved for Sprint 12 institutional mind map
+ * 2. Master Calendar — live from Podcast + Event Google Sheets
+ * 3. Nine-Sheet Matrix — all nine canonical sheets with open links
+ * 4. Document Library — org chart, estate advisory card, 300-day plan, market report, council brief
+ * 5. Intelligence Web filtered views — Jarvis Top Agents, Whale Intelligence, Auction Referrals
  *
- * Rules:
- * - One continuous surface, no scroll traps
- * - Viewport-height CSS for sheet panels
- * - No boxed layouts that trap scroll
- * - Sheets must be recognizable and usable as real spreadsheets
+ * Removed (Sprint 11 Item 8):
+ * - Perplexity Mastermind Map iframe (Item 9 — replaced by Sprint 12 institutional mind map)
+ * - IntelSourceTemplate, FamilyOfficeList, LocalCharityTracker, AttorneyDatabase, IBC_DOCS
+ *
+ * Added (Sprint 11 Item 10):
+ * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
-import { usePdfAssets } from '@/hooks/usePdfAssets';
-import { FamilyOfficeList } from '@/components/FamilyOfficeList';
-import { LocalCharityTracker } from '@/components/LocalCharityTracker';
-import { IntelSourceTemplate } from '@/components/IntelSourceTemplate';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
-import { AttorneyDatabase } from '@/components/AttorneyDatabase';
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
 const SHEET_IDS = {
-  podcast:         '1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8',  // Layer 1 calendar source
-  event:           '1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s',  // Layer 1 calendar source + Layer 2 embed
-  agentRecruiting: '1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA',  // corrected ID (lowercase h)
-  socialPodcast:   '1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I',
-  hamptonsOutreachIntelligence: '1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI', // renamed: Hamptons Outreach Intelligence (UHNW targeting) — Sprint 6 Flag 1
+  podcast:                    '1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8',
+  event:                      '1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s',
+  agentRecruiting:            '1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA',
+  socialPodcast:              '1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I',
+  hamptonsOutreachIntelligence: '1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI',
+  growthModel:                '1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag',
+  officePipeline:             '1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M',
+  marketMatrix:               '176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g',
+  intelligenceWebMaster:      '1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0',
 };
 
 function sheetEmbedUrl(id: string) {
@@ -40,21 +43,71 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Calendar Layer — live from Google Sheets ─────────────────────────────────
-// The calendar renders the Podcast and Event sheets as full embeds side by side
-// above the fold, with filter tabs. No seeded data.
+// ─── Mind Map Placeholder (Layer 1 — Sprint 12 reserved) ─────────────────────
 
-type CalFilter = 'All' | 'Podcast' | 'Event' | 'Internal' | 'Social';
+function MindMapPlaceholder() {
+  return (
+    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Layer 1 · Institutional Mind Map
+        </div>
+        <div
+          style={{
+            border: '1px solid rgba(200,172,120,0.3)',
+            borderLeft: '3px solid #C8AC78',
+            borderRadius: 2,
+            background: '#fff',
+            padding: '32px 28px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 24,
+            minHeight: 120,
+          }}
+        >
+          <div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.25rem', marginBottom: 6 }}>
+              Institutional Mind Map
+            </div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', maxWidth: 480, lineHeight: 1.5 }}>
+              Artémis / Pinault → Christie's Auction House → CIH → CIREG → Christie's East Hampton.
+              Interactive relationship map with hover states, click behavior, and fresh news preview panels.
+              Awaiting Sprint 12 GO.
+            </div>
+          </div>
+          <div
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 9,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: 'rgba(200,172,120,0.5)',
+              whiteSpace: 'nowrap',
+              border: '1px solid rgba(200,172,120,0.25)',
+              borderRadius: 2,
+              padding: '6px 14px',
+            }}
+          >
+            Sprint 12
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Calendar Layer (Layer 2) ─────────────────────────────────────────────────
 
 function CalendarLayer() {
   return (
     <div className="px-6 py-8">
       {/* Layer label */}
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-        Layer 1 · Master Calendar
+        Layer 2 · Master Calendar
       </div>
 
-      {/* Christie's card module — navy border, constrained width, no raw embed feel */}
+      {/* Christie's card module */}
       <div style={{
         border: '1px solid #1B2A4A',
         borderRadius: 2,
@@ -62,7 +115,7 @@ function CalendarLayer() {
         background: '#fff',
         maxWidth: 900,
       }}>
-        {/* Card header — navy bar with gold label */}
+        {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
           <div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
@@ -78,161 +131,208 @@ function CalendarLayer() {
             rel="noopener noreferrer"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
           >
-            Open in Google ↗
+            Open Google Calendar ↗
           </a>
         </div>
 
-        {/* Calendar iframe — contained inside the card */}
-        <iframe
-          src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab%40group.calendar.google.com&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%231B2A4A&color=%23C8AC78"
-          title="Christie's East Hampton · Master Calendar"
-          width="100%"
-          style={{ display: 'block', height: 480, border: 'none' }}
-          allowFullScreen
-        />
-
-        {/* Card footer — sheet access buttons, no raw Google UI */}
-        <div className="flex items-center gap-4 px-5 py-3 border-t" style={{ background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.12)' }}>
-          <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginRight: 4 }}>
-            Source Sheets:
-          </span>
-          <a
-            href={sheetOpenUrl(SHEET_IDS.podcast)}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#1B2A4A',
-              fontSize: 9,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(27,42,74,0.25)',
-              padding: '3px 10px',
-              background: 'transparent',
-              textDecoration: 'none',
-            }}
-          >
-            Podcast Pipeline ↗
-          </a>
-          <a
-            href={sheetOpenUrl(SHEET_IDS.event)}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#1B2A4A',
-              fontSize: 9,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              border: '1px solid rgba(27,42,74,0.25)',
-              padding: '3px 10px',
-              background: 'transparent',
-              textDecoration: 'none',
-            }}
-          >
-            Event Calendar ↗
-          </a>
+        {/* Two-panel embed: Podcast left, Event right */}
+        <div className="grid grid-cols-2" style={{ height: 520 }}>
+          <div style={{ borderRight: '1px solid rgba(27,42,74,0.1)', overflow: 'hidden' }}>
+            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
+              Podcast Calendar
+            </div>
+            <iframe
+              src={sheetEmbedUrl(SHEET_IDS.podcast)}
+              title="Podcast Calendar"
+              width="100%"
+              height="480"
+              style={{ display: 'block', border: 'none' }}
+            />
+          </div>
+          <div style={{ overflow: 'hidden' }}>
+            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
+              Event Calendar
+            </div>
+            <iframe
+              src={sheetEmbedUrl(SHEET_IDS.event)}
+              title="Event Calendar"
+              width="100%"
+              height="480"
+              style={{ display: 'block', border: 'none' }}
+            />
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-// ─── Live Sheet Panel (Layer 2) ───────────────────────────────────────────────
+// ─── Nine-Sheet Matrix (Layer 3 — Sprint 11 Item 10) ─────────────────────────
 
-interface SheetPanelProps {
-  title: string;
-  subtitle: string;
+interface SheetEntry {
+  id: string;
+  name: string;
+  description: string;
   sheetId: string;
   badge?: string;
 }
 
-function SheetPanel({ title, subtitle, sheetId, badge }: SheetPanelProps) {
+const NINE_SHEETS: SheetEntry[] = [
+  {
+    id: 'growth-model',
+    name: 'Growth Model v2',
+    description: 'Agent volume projections, GCI model, ROSTER, LEADERBOARD, OUTPUTS, and recruiting pipeline. Single source of truth for the Ascension Arc.',
+    sheetId: SHEET_IDS.growthModel,
+    badge: 'FUTURE Tab',
+  },
+  {
+    id: 'office-pipeline',
+    name: 'Office Pipeline',
+    description: 'Live deal tracker — 47 active deals across all eleven hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
+    sheetId: SHEET_IDS.officePipeline,
+    badge: 'PIPE Tab',
+  },
+  {
+    id: 'market-matrix',
+    name: 'Market Matrix',
+    description: 'Eleven-hamlet market data matrix — CIS scores, 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
+    sheetId: SHEET_IDS.marketMatrix,
+    badge: 'MARKET Tab',
+  },
+  {
+    id: 'future-agents',
+    name: 'Future Agents Recruiting',
+    description: 'Tier 1 and Tier 2 agent recruiting targets — status, firm, territory, and outreach cadence. Jarvis Top Agents audience.',
+    sheetId: SHEET_IDS.agentRecruiting,
+    badge: 'INTEL Layer 2',
+  },
+  {
+    id: 'intel-web-master',
+    name: 'Intelligence Web Master',
+    description: '48 entities across RECRUIT, WHALE, COMPETITOR, PARTNER, ATTORNEY, ADVISOR, MEDIA, INSTITUTION, and COUNCIL types. 17 columns including Last Touch and Cadence.',
+    sheetId: SHEET_IDS.intelligenceWebMaster,
+    badge: 'INTEL Layer 5',
+  },
+  {
+    id: 'social-pipeline',
+    name: 'Social Pipeline',
+    description: 'Content calendar, social post tracker, and podcast episode pipeline. Coordinates Angel\'s weekly production schedule.',
+    sheetId: SHEET_IDS.socialPodcast,
+    badge: 'INTEL Layer 2',
+  },
+  {
+    id: 'event-calendar',
+    name: 'Event Calendar',
+    description: 'All Christie\'s East Hampton events — Private Collector Series, caravan, office meetings, and community events. Syncs to Google Calendar via Apps Script.',
+    sheetId: SHEET_IDS.event,
+    badge: 'INTEL Layer 2',
+  },
+  {
+    id: 'podcast-calendar',
+    name: 'Podcast Calendar',
+    description: 'Weekly podcast episode schedule — guest, topic, recording date, and publication date. Angel\'s production master.',
+    sheetId: SHEET_IDS.podcast,
+    badge: 'INTEL Layer 2',
+  },
+  {
+    id: 'hamptons-outreach',
+    name: 'Hamptons Outreach Intelligence',
+    description: 'UHNW targeting intelligence — Tier A and Tier B principals, outreach sequence, campaign playbook, and Christie\'s Neighborhood Card mailer list.',
+    sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
+    badge: 'Internal',
+  },
+];
+
+function NineSheetMatrix() {
   return (
-    <div className="flex flex-col" style={{ border: '0.5px solid #D3D1C7', borderRadius: 6, overflow: 'hidden', background: '#fff' }}>
-      {/* Card header */}
-      <div className="flex items-center justify-between px-4 py-3" style={{ background: '#1B2A4A' }}>
-        <div>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '1.2px', textTransform: 'uppercase', fontWeight: 600 }}>
-            {title}
-          </div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: 9, marginTop: 1 }}>
-            {subtitle}
-          </div>
+    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Layer 3 · Nine-Sheet Matrix
         </div>
-        <div className="flex items-center gap-3">
-          {badge && (
-            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 7, color: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.1)', padding: '1px 6px', borderRadius: 2, letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-              {badge}
-            </span>
-          )}
-          <a
-            href={sheetOpenUrl(sheetId)}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}
-          >
-            Open ↗
-          </a>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
+          Canonical Data Sources
         </div>
-      </div>
-      {/* Sheet embed — viewport height so it fills the laptop screen */}
-      <iframe
-        src={sheetEmbedUrl(sheetId)}
-        title={title}
-        width="100%"
-        style={{ display: 'block', height: 'calc(50vh)', minHeight: 320, border: 'none', flex: 1 }}
-        allowFullScreen
-      />
-      {/* Footer */}
-      <div className="flex justify-between px-3 py-2" style={{ background: '#FAF8F4', borderTop: '0.5px solid #f0f0f0' }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 7, color: '#bbb' }}>{sheetId.slice(0, 22)}…</span>
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.5px' }}>LIVE SHEET</span>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+          All nine Google Sheets powering the Christie's East Hampton platform. Each opens directly in Google Sheets.
+        </div>
+
+        <div className="grid grid-cols-1 gap-3" style={{ maxWidth: 860 }}>
+          {NINE_SHEETS.map((sheet, i) => (
+            <div
+              key={sheet.id}
+              style={{
+                border: '1px solid rgba(27,42,74,0.12)',
+                borderLeft: '3px solid rgba(200,172,120,0.5)',
+                background: '#fff',
+                padding: '16px 20px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 20,
+              }}
+            >
+              {/* Index number */}
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 11,
+                color: 'rgba(200,172,120,0.5)',
+                letterSpacing: '0.1em',
+                minWidth: 20,
+                textAlign: 'center',
+              }}>
+                {String(i + 1).padStart(2, '0')}
+              </div>
+
+              {/* Sheet info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3 mb-1">
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.98rem' }}>
+                    {sheet.name}
+                  </div>
+                  {sheet.badge && (
+                    <span style={{
+                      fontFamily: '"Barlow Condensed", sans-serif',
+                      fontSize: 8,
+                      letterSpacing: '0.16em',
+                      textTransform: 'uppercase',
+                      color: '#C8AC78',
+                      background: 'rgba(200,172,120,0.1)',
+                      border: '1px solid rgba(200,172,120,0.3)',
+                      borderRadius: 2,
+                      padding: '2px 7px',
+                    }}>
+                      {sheet.badge}
+                    </span>
+                  )}
+                </div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', lineHeight: 1.45 }}>
+                  {sheet.description}
+                </div>
+              </div>
+
+              {/* Open button */}
+              <a
+                href={sheetOpenUrl(sheet.sheetId)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 inline-block px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em', whiteSpace: 'nowrap' }}
+              >
+                Open Sheet ↗
+              </a>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function LiveSheetsLayer() {
-  return (
-    <div className="px-6 py-8 border-b" style={{ background: '#FAF8F4', borderColor: 'rgba(200,172,120,0.2)' }}>
-      {/* Layer header */}
-      <div className="mb-1 uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-        Layer 2 · Operating Intelligence
-      </div>
-      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>
-        Live Working Sheets
-      </div>
-      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', marginTop: 2, marginBottom: 20 }}>
-        Viewport-height optimized · Full laptop visibility · No cramped scroll boxes
-      </div>
-
-      {/* 3-panel grid — Auction Events removed (same sheet as Layer 1 right panel) */}
-      <div className="grid grid-cols-3 gap-4">
-        <SheetPanel
-          title="Agent Recruiting"
-          subtitle="Future agents · Active targets · Status tracking"
-          sheetId={SHEET_IDS.agentRecruiting}
-          badge="Live Sheet"
-        />
-        <SheetPanel
-          title="Social / Podcast Pipeline"
-          subtitle="Content calendar · William Records · Platform scheduling"
-          sheetId={SHEET_IDS.socialPodcast}
-          badge="Live Sheet"
-        />
-        <SheetPanel
-          title="Hamptons Outreach Intelligence"
-          subtitle="UHNW targeting · Outreach intelligence · Vendor network"
-          sheetId={SHEET_IDS.hamptonsOutreachIntelligence}
-          badge="Live Sheet"
-        />
-      </div>
-    </div>
-  );
-}
-
-// ─── Document Library (Layer 3) ───────────────────────────────────────────────
+// ─── Document Library (Layer 4) ───────────────────────────────────────────────
+// Sprint 11 Item 8: Keep only — Org Chart, Estate Advisory Card PDF,
+// 300-Day Ascension Plan, Market Report wireframe, Council Brief.
+// Remove: IntelSourceTemplate, FamilyOfficeList, LocalCharityTracker,
+//         AttorneyDatabase, IBC_DOCS, CanonPdfSection (dynamic).
 
 interface DocItem {
   id: string;
@@ -242,326 +342,116 @@ interface DocItem {
   pinned?: boolean;
 }
 
-const ORG_CHART_DOCS: DocItem[] = [
+const DOCUMENT_LIBRARY: DocItem[] = [
   {
     id: 'org-chart-v2',
-    label: "CIREG Ecosystem · Organizational Map · April 2, 2026",
-    description: "Five-tier institutional hierarchy: Artémis / Pinault Family → Christie's Auction House → CIH → CIREG Tri-State → Christie's East Hampton Flagship. CIREG Brand Guidelines compliant. Guillaume Cerutti marked departed March 30, 2026.",
+    label: 'CIREG Ecosystem · Organizational Map · April 2, 2026',
+    description: 'Five-tier institutional hierarchy: Artémis / Pinault Family → Christie\'s Auction House → CIH → CIREG Tri-State → Christie\'s East Hampton Flagship. CIREG Brand Guidelines compliant. Guillaume Cerutti marked departed March 30, 2026.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/cireg-org-chart-v2-april-2026_cf381d58.html',
     pinned: true,
   },
-];
-
-const MARKET_REPORT_DOCS: DocItem[] = [
   {
-    id: 'market-report-live-v2',
-    label: "Christie's Hamptons Live Market Report · v2 · March 2026",
-    description: "Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.",
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
+    id: 'estate-advisory-card',
+    label: 'Estate Advisory Card · PDF',
+    description: 'Christie\'s East Hampton estate advisory card — client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie\'s meeting.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_e0fc3254.pdf',
     pinned: true,
   },
   {
-    id: 'hamlet-pdf-east-hampton',
-    label: "Hamlet PDF · East Hampton Village · Wireframe",
-    description: "Single-hamlet deep-dive PDF wireframe for East Hampton Village — market data, CIS, tier classification, and comparable sales.",
-    url: null,
-  },
-];
-
-const CONSTITUTION_DOCS: DocItem[] = [
-  {
-    id: 'website-wireframe-v2',
-    label: "Christie's East Hampton · Website Wireframe · v2",
-    description: "Full website architecture wireframe — seven-tab structure, nav layers, HOME/MARKET/MAPS/IDEAS/PIPE/FUTURE/INTEL spec. Council-approved.",
-    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/EOvOozncXWBiBwbL.html',
-  },
-  {
-    id: 'estate-advisory-card',
-    label: "Estate Advisory Card · PDF",
-    description: "Christie's East Hampton estate advisory card — client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie's meeting.",
-    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_e0fc3254.pdf',
-  },
-  {
     id: '300day-ascension',
-    label: "300-Day Ascension Plan · Wireframe",
-    description: "Full 300-day growth arc from foundation through market authority — agent recruitment, GCI targets, institutional positioning milestones.",
+    label: '300-Day Ascension Plan · Wireframe',
+    description: 'Full 300-day growth arc from foundation through market authority — agent recruitment, GCI targets, institutional positioning milestones.',
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/WXzEqCTtWmVsElaB.html',
   },
-];
-
-const COUNCIL_BRIEF_DOCS: DocItem[] = [
+  {
+    id: 'market-report-live-v2',
+    label: 'Christie\'s Hamptons Live Market Report · v2 · March 2026',
+    description: 'Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.',
+    url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
+  },
   {
     id: 'council-brief-march-2026',
-    label: "Council Brief · March 29, 2026 · FINAL",
-    description: "Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.",
+    label: 'Council Brief · March 29, 2026 · FINAL',
+    description: 'Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.',
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/JBBnSxvSjfkLOjlS.html',
     pinned: true,
   },
 ];
 
-const ATTORNEY_DOCS: DocItem[] = [
-  {
-    id: 'attorney-database',
-    label: "Attorney Database · East Hampton & South Fork",
-    description: "Curated list of real estate attorneys, estate attorneys, and transaction counsel serving the South Fork market.",
-    url: null,
-  },
-];
-
-const IBC_DOCS: DocItem[] = [
-  {
-    id: 'ibc-overview',
-    label: "Adam Kalb · IBC Materials · Overview",
-    description: "International Business Council materials provided by Adam Kalb. Covers IBC structure, membership, and Christie's East Hampton integration strategy.",
-    url: null,
-  },
-  {
-    id: 'ibc-brief',
-    label: "Adam Kalb · IBC Brief",
-    description: "Detailed IBC brief and action items for Christie's East Hampton flagship participation.",
-    url: null,
-  },
-];
-
-const IS_STAGING =
-  typeof window !== 'undefined' &&
-  (window.location.hostname.includes('localhost') ||
-    window.location.hostname.includes('manus.computer') ||
-    window.location.hostname.includes('manus.space'));
-
-function DocCard({ doc }: { doc: DocItem }) {
-  const isLive = doc.url !== null;
-  const showPending = IS_STAGING && !isLive;
-  if (!IS_STAGING && !isLive) return null;
-  return (
-    <MatrixCard variant={doc.pinned ? 'active' : 'default'} className="p-5">
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex-1 min-w-0">
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem', lineHeight: 1.35 }}>
-            {doc.label}
-          </div>
-          <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-            {doc.description}
-          </div>
-        </div>
-        <div className="shrink-0">
-          {isLive ? (
-            <a
-              href={doc.url!}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
-            >
-              {doc.url?.endsWith('.html') ? 'Open Document' : 'Open PDF'}
-            </a>
-          ) : showPending ? (
-            <span
-              className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'rgba(27,42,74,0.06)', color: '#7a8a8e', letterSpacing: '0.16em' }}
-            >
-              Staging
-            </span>
-          ) : null}
-        </div>
-      </div>
-    </MatrixCard>
-  );
-}
-
-function DocSection({ title, docs }: { title: string; docs: DocItem[] }) {
-  const visible = IS_STAGING ? docs : docs.filter(d => d.url !== null);
-  if (visible.length === 0) return null;
-  return (
-    <div className="mb-8">
-      <div className="uppercase mb-4" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-        {title}
-      </div>
-      <div className="flex flex-col gap-3">
-        {visible.map(doc => <DocCard key={doc.id} doc={doc} />)}
-      </div>
-    </div>
-  );
-}
-
-function CanonPdfSection() {
-  const { visibleAssets, isStaging } = usePdfAssets();
-  if (visibleAssets.length === 0) return null;
-  return (
-    <div className="mb-8">
-      <div className="uppercase mb-4" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-        Canon Documents
-      </div>
-      <div className="flex flex-col gap-3">
-        {visibleAssets.map(asset => (
-          <MatrixCard key={asset.id} variant="default" className="p-5">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem' }}>
-                  {asset.label}
-                </div>
-                <div className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-                  {asset.filename}
-                </div>
-              </div>
-              <div className="shrink-0">
-                {asset.url ? (
-                  <a
-                    href={asset.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-                    style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
-                  >
-                    Open PDF
-                  </a>
-                ) : isStaging ? (
-                  <span
-                    className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest"
-                    style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'rgba(27,42,74,0.06)', color: '#7a8a8e', letterSpacing: '0.16em' }}
-                  >
-                    Staging
-                  </span>
-                ) : null}
-              </div>
-            </div>
-          </MatrixCard>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-// ─── Relationship Intelligence Layer ────────────────────────────────────────
-// Competitive intelligence only. Not mentor. Not prospect on any public surface.
-
-interface CompetitorProfile {
-  id: string;
-  name: string;
-  firm: string;
-  title: string;
-  territory: string;
-  notableTransaction: string;
-  notableTransactionYear: string;
-  affiliations: string[];
-  status: 'Active' | 'Inactive';
-  notes: string;
-}
-
-const COMPETITOR_PROFILES: CompetitorProfile[] = [
-  {
-    id: 'frank-newbold',
-    name: 'Frank Newbold',
-    firm: "Sotheby's International Realty",
-    title: 'Associate Broker',
-    territory: 'East Hampton · South Fork',
-    notableTransaction: '$70M · Further Lane, East Hampton',
-    notableTransactionYear: '2025',
-    affiliations: [
-      'East Hampton Historical Society — Trustee',
-    ],
-    status: 'Active',
-    notes: 'Dominant presence on Further Lane corridor. EHHS Trustee position provides institutional access to the same collector and estate networks Christie\'s targets. Monitor for listing activity on trophy parcels south of the highway.',
-  },
-];
-
-function RelationshipIntelligenceLayer() {
+function DocumentLibrary() {
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-        Layer 4 · Relationship Intelligence
-      </div>
-      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 4 }}>
-        Competitive Intelligence
-      </div>
-      <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-        Internal use only. Not for client-facing surfaces.
-      </div>
-      <div className="flex flex-col gap-4">
-        {COMPETITOR_PROFILES.map(profile => (
-          <div key={profile.id} style={{ border: '1px solid rgba(27,42,74,0.12)', borderLeft: '3px solid #C8AC78', background: '#fff', padding: '20px 24px' }}>
-            <div className="flex items-start justify-between gap-4 mb-3">
-              <div>
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.05rem' }}>
-                  {profile.name}
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Layer 4 · Document Library
+        </div>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 24 }}>
+          Canon Documents
+        </div>
+
+        <div className="flex flex-col gap-3" style={{ maxWidth: 860 }}>
+          {DOCUMENT_LIBRARY.map(doc => (
+            <MatrixCard key={doc.id} variant={doc.pinned ? 'active' : 'default'} className="p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem', lineHeight: 1.35 }}>
+                    {doc.label}
+                  </div>
+                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+                    {doc.description}
+                  </div>
                 </div>
-                <div className="text-xs mt-0.5" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-                  {profile.title} · {profile.firm}
+                <div className="shrink-0">
+                  {doc.url ? (
+                    <a
+                      href={doc.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+                    >
+                      {doc.url.endsWith('.html') ? 'Open Document' : 'Open PDF'}
+                    </a>
+                  ) : null}
                 </div>
               </div>
-              <span
-                className="shrink-0 px-3 py-1 text-[9px] uppercase tracking-widest"
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  background: profile.status === 'Active' ? '#1B2A4A' : 'rgba(27,42,74,0.08)',
-                  color: profile.status === 'Active' ? '#C8AC78' : '#7a8a8e',
-                  letterSpacing: '0.18em',
-                }}
-              >
-                {profile.status}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2 mb-4" style={{ maxWidth: 560 }}>
-              <div>
-                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Territory</div>
-                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.territory}</div>
-              </div>
-              <div>
-                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Notable Transaction</div>
-                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.notableTransaction} · {profile.notableTransactionYear}</div>
-              </div>
-              <div className="col-span-2">
-                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Affiliations</div>
-                <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{profile.affiliations.join(' · ')}</div>
-              </div>
-            </div>
-            <div className="pt-3 border-t text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', borderColor: 'rgba(27,42,74,0.08)' }}>
-              {profile.notes}
-            </div>
-          </div>
-        ))}
-       </div>{/* /frame-max-w */}
+            </MatrixCard>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
-// ─── Sprint 6 Horizon Banner ─────────────────────────────────────────────────────────
 
-function Sprint6Banner() {
+// ─── Intelligence Web Layer (Layer 5) ────────────────────────────────────────
+
+function IntelligenceWebLayer() {
   return (
-    <div className="flex items-center gap-6 px-6 py-4" style={{ background: '#1B2A4A' }}>
-      <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '1.5px', textTransform: 'uppercase', fontWeight: 600, whiteSpace: 'nowrap' }}>
-        Sprint 7 Horizon
-      </div>
-      <div className="flex gap-6 flex-wrap">
-        {[
-          { label: 'Family Office List', detail: '12 UHNW principals · 5 tiers · letter template · pipeline wired' },
-          { label: 'Local Charity Tracker', detail: 'Highway 27 Safety · East Hampton Affordable Housing · 6 initiatives' },
-          { label: 'Intel Source Registry', detail: '16 sources · 4 Growth Model pillars · cadence + feed map' },
-          { label: 'Newsletter Infrastructure', detail: 'Beehiiv + Gmail SMTP · subscriber form · 5-step setup checklist' },
-          { label: 'ElevenLabs Key', detail: 'Manny key · Text to Speech permission · TTS confirmed live' },
-          { label: 'PIPE Tab Proxy', detail: 'Private Sheet · service account · full 12-col table · inline editor' },
-        ].map(item => (
-          <div key={item.label} style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.5)' }}>
-            <span style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 600 }}>{item.label}</span> · {item.detail}
-          </div>
-        ))}
+    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+          Layer 5 · Relationship Intelligence
+        </div>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
+          Intelligence Web
+        </div>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+          48 entities · Jarvis Top Agents · Whale Intelligence · Auction Referrals · Internal use only.
+        </div>
+        <IntelligenceWebTabs />
       </div>
     </div>
   );
 }
 
-// ─── Main Component ───────────────────────────────────────────────────────────
-
-// ─── Sticky Section Navigator ───────────────────────────────────────────────
-// P4 mobile fix: allows quick vertical scroll navigation on long INTEL page
+// ─── Sticky Section Navigator ─────────────────────────────────────────────────
 
 const INTEL_SECTIONS = [
-  { id: 'intel-layer-1', label: 'Layer 1 · Calendar' },
-  { id: 'intel-layer-2', label: 'Layer 2 · Sheets' },
-  { id: 'intel-layer-3', label: 'Layer 3 · Archive' },
-  { id: 'intel-layer-4', label: 'Layer 4 · Intelligence' },
+  { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
+  { id: 'intel-layer-2', label: 'Layer 2 · Calendar' },
+  { id: 'intel-layer-3', label: 'Layer 3 · Nine Sheets' },
+  { id: 'intel-layer-4', label: 'Layer 4 · Documents' },
+  { id: 'intel-layer-5', label: 'Layer 5 · Intel Web' },
 ];
 
 function IntelStickyNav() {
@@ -612,6 +502,8 @@ function IntelStickyNav() {
   );
 }
 
+// ─── Main Component ───────────────────────────────────────────────────────────
+
 export default function IntelTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
@@ -623,130 +515,36 @@ export default function IntelTab() {
         </div>
         <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
         <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-          Calendar · Live operating sheets · Canon documents · Council briefs.
+          Mind Map · Calendar · Nine-Sheet Matrix · Canon Documents · Intelligence Web.
         </p>
       </div>
 
-      {/* Sticky section navigator — P4 mobile fix */}
+      {/* Sticky section navigator */}
       <IntelStickyNav />
 
-      {/* Hero Slot — Relationship Intelligence (reserved for spiderweb — no build until approved spec + Ed GO) */}
-      <div className="px-6 py-6 border-b" style={{ background: '#FAF8F4', borderColor: 'rgba(200,172,120,0.2)' }}>
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-          <div style={{
-            border: '1px solid rgba(27,42,74,0.18)',
-            borderLeft: '3px solid rgba(200,172,120,0.4)',
-            borderRadius: 2,
-            padding: '20px 24px',
-            background: '#fff',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 16,
-          }}>
-            <div>
-              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', letterSpacing: '0.22em', fontSize: 9 }}>
-                Layer 4 · Reserved Slot
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
-                Relationship Intelligence
-              </div>
-              <div className="mt-1" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem' }}>
-                In Development — Awaiting approved spec and Ed GO.
-              </div>
-            </div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(200,172,120,0.5)', whiteSpace: 'nowrap', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, padding: '4px 10px' }}>
-              Pending
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Layer 1 — Institutional Mind Map (Sprint 12 reserved) */}
+      <div id="intel-layer-1" />
+      <MindMapPlaceholder />
 
-      {/* Divider */}
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 1 — Master Calendar (above the fold, no padding wrapper) */}
-      <div id="intel-layer-1" />
+      {/* Layer 2 — Master Calendar */}
+      <div id="intel-layer-2" />
       <CalendarLayer />
 
-      {/* Divider */}
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 2 — Live Sheets */}
-      <div id="intel-layer-2" />
-      <LiveSheetsLayer />
-
-      {/* Divider */}
-      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
-
-      {/* Layer 3 — Canon Documents */}
+      {/* Layer 3 — Nine-Sheet Matrix */}
       <div id="intel-layer-3" />
-      <div className="px-6 py-8">
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 3 · Institutional Archive
-        </div>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 24 }}>
-          Canon Documents
-        </div>
+      <NineSheetMatrix />
 
-        {/* Perplexity Mastermind Map — Sprint 8 · always open, no click required */}
-        <div className="mb-10">
-          <div className="uppercase mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-            Mastermind Map · Christie's East Hampton · Perplexity Intelligence
-          </div>
-          <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
-            <iframe
-              src="https://www.perplexity.ai/computer/a/christie-s-mastermind-map-0qAECI9PRi6bRbieIPaj_g"
-              title="Christie's East Hampton · Mastermind Map · Perplexity"
-              width="100%"
-              style={{ display: 'block', height: 700, border: 'none' }}
-              allowFullScreen
-            />
-          </div>
-          <div className="mt-2 text-right">
-            <a
-              href="https://www.perplexity.ai/computer/a/christie-s-mastermind-map-0qAECI9PRi6bRbieIPaj_g"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
-            >
-              Open in Perplexity ↗
-            </a>
-          </div>
-        </div>
-
-        <DocSection title="Org Chart & Hierarchy" docs={ORG_CHART_DOCS} />
-        {/* Intel Source Registry — Sprint 7 Item 4 */}
-        <div className="mb-8">
-          <IntelSourceTemplate />
-        </div>
-        {/* Family Office Intelligence — Sprint 7 Item 2 */}
-        <div className="mb-8">
-          <FamilyOfficeList />
-        </div>
-        {/* Local Charity Tracker — Sprint 7 Item 3 */}
-        <div className="mb-8">
-          <LocalCharityTracker />
-        </div>
-        <DocSection title="Market Report" docs={MARKET_REPORT_DOCS} />
-        <CanonPdfSection />
-        <DocSection title="Constitution & SOPs" docs={CONSTITUTION_DOCS} />
-        <DocSection title="Council Briefs" docs={COUNCIL_BRIEF_DOCS} />
-        {/* Intelligence Web — Sprint 8 · Three filtered tabs (Jarvis Top Agents, Whale Intelligence, Auction Referrals) */}
-        <IntelligenceWebTabs />
-        {/* Attorney Database — Sprint 8 · Structured card module with four seed contacts */}
-        <AttorneyDatabase />
-        <DocSection title="Adam Kalb · IBC Materials" docs={IBC_DOCS} />
-        </div>{/* /frame-max-w */}
-      </div>
-
-      {/* Layer 4 — Relationship Intelligence */}
+      {/* Layer 4 — Document Library */}
       <div id="intel-layer-4" />
-      <RelationshipIntelligenceLayer />
+      <DocumentLibrary />
 
-      {/* Sprint 6 Horizon Banner */}
-      <Sprint6Banner />
+      {/* Layer 5 — Intelligence Web */}
+      <div id="intel-layer-5" />
+      <IntelligenceWebLayer />
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>

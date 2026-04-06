@@ -593,3 +593,18 @@
 - [x] AUTH MODEL comment block added at top of appRouter in routers.ts — documents service account auth vs session auth, lists all affected procedures, explains the rule
 - [x] Server-side confirmed: readIntelWebRows() → 44 entities loaded from Intelligence Web Sheet (1eELH_ZV...)
 - [x] 35/35 tests passing, esbuild 90.3kb clean, 0 TypeScript errors
+
+## Sprint 11 — April 5, 2026 (Gate Four GO)
+
+- [x] Item 0: Remove /public route entirely — verify 404 — confirm in writing
+- [x] Item 1: Wire Market Matrix Sheet to MARKET tab via publicProcedure (service account)
+- [x] Item 2: Wire Growth Model v2 Sheet to FUTURE tab via publicProcedure (service account)
+- [x] Item 3: WhatsApp cron timezone confirmed already correct (America/New_York) — no change needed
+- [x] Item 4: Wednesday Circuit — old event deleted, new recurring event created from April 30 2026 (Calendar API)
+- [x] Item 5: FUTURE tab rebuilt — six-bar Ascension Arc, 300-day proof, live volume table (VOLUME tab), profit pool, PDF export
+- [x] Item 6: Estate Advisory Card — shared component extracted, rendered at HOME tab bottom (framed, gold border) and /report closing section
+- [x] Item 7: Intelligence Web Master Sheet updated — Frank Newbold corrected to RECRUIT/Tier 1/COLD/Jarvis_Top_Agents, Chuck McWhinnie added (WHALE+BUILDER+AUCTION REFERRAL), Adam Kalb added (WHALE+ADVISOR), Lily Fan added (Whale Number One, WHALE, internal only), Angela Boyer-Stump Jarvis_Top_Agents tag verified, Last Touch + Cadence columns added to all rows. 48 entities, 17 columns.
+- [x] Item 8: INTEL tab reordered — Mind Map placeholder (Sprint 12) → Calendar → Nine-Sheet Matrix → Document Library → Intelligence Web. Removed IntelSourceTemplate, FamilyOfficeList, LocalCharityTracker, AttorneyDatabase, IBC_DOCS, Sprint6Banner.
+- [x] Item 9: Perplexity Mastermind Map iframe removed — replaced by Sprint 12 Mind Map placeholder card.
+- [x] Item 10: Nine-Sheet Matrix added to INTEL Layer 3 — all nine canonical sheets numbered, described, Open Sheet buttons.
+- [x] Item 11: James Christie portrait — fixed mobile scaling: clamp(90px, 14vw, 130px) width, centered in left column, alignItems:center on container. Renders correctly on iPhone SE through iPhone 15 Pro Max.

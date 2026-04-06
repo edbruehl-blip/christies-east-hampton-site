@@ -1,118 +1,139 @@
 /**
- * FUTURE TAB — Growth Model, Agent Roster, and 300-Day Arc.
+ * FUTURE TAB — Sprint 11 Item 5 Rebuild
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (headlines) · Source Sans 3 (data) · Barlow Condensed (labels)
- * Data source: Growth Model v2 Google Sheet (manual sync — locked sheet ID)
+ * Data source: Growth Model v2 VOLUME tab (LIVE — service account, publicProcedure)
+ * Governing rule: Sales volume only. No GCI anywhere on this tab or export.
  */
 
-import { MatrixCard } from '@/components/MatrixCard';
-import { useCallback } from 'react';
-
-// ─── 2026 Scorecard ──────────────────────────────────────────────────────────
-const SCORECARD_2026 = [
-  { value: '52', label: 'Podcasts', sub: 'Weekly cadence · Full year' },
-  { value: '12', label: 'Collector Events', sub: 'Monthly · Curated audience' },
-  { value: '12', label: 'Agents', sub: 'Target roster · Dec 2026' },
-  { value: '12', label: 'Raving Fans', sub: 'Institutional advocates' },
-];
-
-// ─── Growth Model v2 Data (synced from sheet) ─────────────────────────────────
-
-const OUTLOOK = [
-  { year: 2026, agents: 15, gci: '$3.95M',  gciNum: 3.95,  avgGci: '$263K', milestone: 'Base case — 15 agents, $3.95M GCI · $158M volume · $1.185M house take by December 2026' },
-  { year: 2027, agents: 6,  gci: '$1.56M',  gciNum: 1.56,  avgGci: '$260K', milestone: 'First team layer' },
-  { year: 2028, agents: 10, gci: '$2.50M',  gciNum: 2.50,  avgGci: '$250K', milestone: 'Operating scale' },
-  { year: 2029, agents: 14, gci: '$3.08M',  gciNum: 3.08,  avgGci: '$220K', milestone: 'Regional authority' },
-  { year: 2030, agents: 18, gci: '$3.60M',  gciNum: 3.60,  avgGci: '$200K', milestone: 'Institutional presence' },
-  { year: 2031, agents: 22, gci: '$4.40M',  gciNum: 4.40,  avgGci: '$200K', milestone: 'Full South Fork coverage' },
-];
-
-const ROSTER = [
-  { name: 'Ed Bruehl',  role: 'Managing Director', status: 'Active',     tier: 'Founding' },
-  { name: 'Seat 2',     role: 'Senior Associate',  status: 'Recruiting', tier: 'Q2 2026' },
-  { name: 'Seat 3',     role: 'Associate',          status: 'Recruiting', tier: 'Q2 2026' },
-  { name: 'Seat 4',     role: 'Associate',          status: 'Target',     tier: 'Q3 2026' },
-  { name: 'Seat 5',     role: 'Associate',          status: 'Target',     tier: 'Q3 2026' },
-  { name: 'Seat 6',     role: 'Associate',          status: 'Target',     tier: 'Q4 2026' },
-];
-
-const ARC_PHASES = [
-  { phase: 'Phase I',   days: '1–90',    label: 'Foundation',    description: 'Establish systems, deploy ANEW calculator, first two agent hires, first three listings.' },
-  { phase: 'Phase II',  days: '91–180',  label: 'Activation',    description: 'First closings, INTEL document library live, Paumanok Map deployed, morning brief cadence locked.' },
-  { phase: 'Phase III', days: '181–270', label: 'Acceleration',  description: 'Six agents operating, Growth Model v2 on pace, first council brief published, podcast launched.' },
-  { phase: 'Phase IV',  days: '271–300', label: 'Consolidation', description: 'Full South Fork market authority established. Annual GCI run rate confirmed. Year 2 plan locked.' },
-];
-
-// Ascension milestones — from Christie's Ascension UPDATED deck (April 2026)
-// Labels match deck exactly: staged milestones, not calendar years
-const ASCENSION_MILESTONES = [
-  { id: 1, label: '1ST 100 DAYS',     period: 'Mar–Jun 2026',  volume: '$2.5M',   status: 'BUILT',     agents: '',         detail: 'Ed Bruehl solo · 2 closings · Base case entry · Systems deployed' },
-  { id: 2, label: '2ND 100 DAYS',     period: 'Jun–Sep 2026',  volume: '$13.62M', status: 'BUILDING',  agents: '',         detail: 'First agent hires · Podcast + events cadence locked · INTEL library live' },
-  { id: 3, label: '3RD 100 DAYS',     period: 'Sep–Dec 2026',  volume: '$20M+',   status: 'LAUNCHING', agents: '',         detail: "Operating scale · South Fork market presence established · Christie's brand deployed" },
-  { id: 4, label: 'END OF 2026',      period: 'December 2026', volume: '$143M+',  status: '',          agents: '15 Agents', detail: 'Institutional listing pipeline · 15 agents operating · $158M volume run rate' },
-  { id: 5, label: 'FULL YEAR 2027',   period: 'Full Season',   volume: '$280M+',  status: '',          agents: '22 Agents', detail: 'Family office relationships active · UHNW collector network · 22 agents' },
-  { id: 6, label: '2028–2031 →',  period: 'EH · Southampton · Westhampton', volume: '$3B', status: '', agents: '', detail: "Full South Fork coverage · Christie's East Hampton as market authority" },
-];
+import { useMemo } from 'react';
+import { trpc } from '@/lib/trpc';
 
 const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
+const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
+const SANS: React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
 
-// CIREG logo (white version for dark backgrounds)
-const CIREG_LOGO = 'https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png';
-// CIREG logo (black version for light backgrounds)
 const CIREG_LOGO_DARK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
 
-function exportAscensionPDF() {
+// ─── Ascension Arc — six bars per approved wireframe ─────────────────────────
+// Sales volume only. No GCI. $1B run rate is horizon text, not a bar.
+const ARC_BARS = [
+  {
+    year: '2025',
+    label: 'Baseline',
+    volume: 15_000_000,
+    displayVolume: '$15M',
+    note: 'Bonita DeWolf\npre-launch baseline',
+    segments: null,
+    isClosed: true,
+    isBaseline: true,
+  },
+  {
+    year: '2026',
+    label: 'Target',
+    volume: 55_000_000,
+    displayVolume: '$55M',
+    note: null,
+    segments: [
+      { label: 'Closed', value: 4_570_000, color: '#1B2A4A' },
+      { label: 'Active', value: 13_620_000, color: '#8a7a5a' },
+      { label: 'Projected', value: 36_810_000, color: 'rgba(200,172,120,0.35)' },
+    ],
+    isClosed: false,
+    isBaseline: false,
+  },
+  {
+    year: '2027',
+    label: '$100M–$110M',
+    volume: 105_000_000,
+    displayVolume: '$100M–$110M',
+    note: null,
+    segments: null,
+    isClosed: false,
+    isBaseline: false,
+  },
+  {
+    year: '2028',
+    label: '$165M',
+    volume: 165_000_000,
+    displayVolume: '$165M',
+    note: null,
+    segments: null,
+    isClosed: false,
+    isBaseline: false,
+  },
+  {
+    year: '2029',
+    label: '$230M',
+    volume: 230_000_000,
+    displayVolume: '$230M',
+    note: null,
+    segments: null,
+    isClosed: false,
+    isBaseline: false,
+  },
+  {
+    year: '2031',
+    label: '$430M',
+    volume: 430_000_000,
+    displayVolume: '$430M',
+    note: null,
+    segments: null,
+    isClosed: false,
+    isBaseline: false,
+  },
+];
+
+const MAX_VOLUME = 430_000_000;
+const CHART_HEIGHT = 220; // px
+
+function fmtVol(n: number): string {
+  if (n >= 1_000_000) return `$${(n / 1_000_000 % 1 === 0 ? (n / 1_000_000).toFixed(0) : (n / 1_000_000).toFixed(2))}M`;
+  if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
+  return `$${n.toLocaleString()}`;
+}
+
+// ─── PDF Export ───────────────────────────────────────────────────────────────
+function exportFuturePDF(volumeAgents: { name: string; proj2026: number; act2026: number; proj2027: number; act2027: number }[], total: { proj2026: number; act2026: number }) {
   const win = window.open('', '_blank');
   if (!win) return;
 
-  const heights = [20, 32, 44, 60, 76, 100];
-  const statusColors: Record<string, string> = {
-    BUILT: '#2D5A3D',
-    BUILDING: '#C8AC78',
-    LAUNCHING: '#1B2A4A',
-  };
-
-  const barsHTML = ASCENSION_MILESTONES.map((m, i) => {
-    const pct = heights[i] ?? 100;
-    const barH = Math.round((pct / 100) * 180);
-    const isFilled = i === 0;
-    const statusBadge = m.status
-      ? `<div style="display:inline-block;margin-top:6px;padding:2px 8px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;background:${statusColors[m.status] ?? '#1B2A4A'};color:#FAF8F4;border-radius:2px;">${m.status}</div>`
-      : m.agents
-      ? `<div style="display:inline-block;margin-top:6px;padding:2px 8px;font-size:8px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif;background:rgba(27,42,74,0.12);color:#1B2A4A;border-radius:2px;">${m.agents}</div>`
-      : '';
+  const barRows = ARC_BARS.map((b, i) => {
+    const pct = (b.volume / MAX_VOLUME) * 100;
+    const barH = Math.round((pct / 100) * 160);
+    let segHtml = '';
+    if (b.segments) {
+      const totalSeg = b.segments.reduce((s, seg) => s + seg.value, 0);
+      segHtml = b.segments.map(seg => {
+        const h = Math.round((seg.value / totalSeg) * barH);
+        return `<div style="width:100%;height:${h}px;background:${seg.color};"></div>`;
+      }).reverse().join('');
+    } else {
+      segHtml = `<div style="width:100%;height:${barH}px;background:${b.isBaseline ? 'rgba(27,42,74,0.18)' : 'rgba(200,172,120,0.22)'};border-top:2px solid ${b.isBaseline ? 'rgba(27,42,74,0.4)' : '#C8AC78'};"></div>`;
+    }
     return `
-      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:220px;">
-        <div style="font-family:'Cormorant Garamond',serif;color:${isFilled ? '#C8AC78' : '#1B2A4A'};font-size:${m.volume.length > 5 ? '13px' : '15px'};font-weight:600;line-height:1;margin-bottom:6px;text-align:center;">${m.volume}</div>
-        <div style="width:100%;height:${barH}px;background:${isFilled ? 'linear-gradient(to top,#1B2A4A 0%,#2a3f5f 100%)' : 'linear-gradient(to top,rgba(27,42,74,0.12) 0%,rgba(27,42,74,0.22) 100%)'};border-top:3px solid ${isFilled ? '#C8AC78' : 'rgba(200,172,120,0.35)'};position:relative;">
-          ${isFilled ? '<div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);font-family:\'Barlow Condensed\',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;">Now</div>' : ''}
-        </div>
-        <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.14em;text-transform:uppercase;margin-top:6px;text-align:center;">${m.label}</div>
-        <div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:9px;line-height:1.3;text-align:center;margin-top:2px;">${m.period}</div>
-        ${statusBadge}
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:190px;padding:0 4px;">
+        <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:11px;font-weight:600;text-align:center;margin-bottom:4px;line-height:1.2;">${b.displayVolume}</div>
+        <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;">${segHtml}</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;text-align:center;">${b.year}</div>
+        ${b.isBaseline ? `<div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:7px;text-align:center;margin-top:2px;line-height:1.2;">Bonita DeWolf<br>pre-launch</div>` : ''}
       </div>`;
   }).join('');
 
-  const arcHTML = ARC_PHASES.map(p => `
-    <div style="border:1px solid rgba(27,42,74,0.12);padding:16px;background:#fff;">
-      <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:4px;">${p.phase} · ${p.label} · Days ${p.days}</div>
-      <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:11px;line-height:1.5;">${p.description}</div>
-    </div>`).join('');
-
-  const scorecardHTML = SCORECARD_2026.map(s => `
-    <div style="border:1px solid rgba(27,42,74,0.12);padding:16px;background:#fff;text-align:center;">
-      <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:28px;font-weight:400;line-height:1;">${s.value}</div>
-      <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;margin-top:4px;">${s.label}</div>
-      <div style="font-family:'Source Sans 3',sans-serif;color:rgba(27,42,74,0.45);font-size:10px;margin-top:2px;">${s.sub}</div>
-    </div>`).join('');
+  const agentRows = volumeAgents.map(a => `
+    <tr style="border-bottom:1px solid rgba(27,42,74,0.08);">
+      <td style="padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:10px;color:#1B2A4A;">${a.name}</td>
+      <td style="padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:10px;color:#C8AC78;text-align:right;">${fmtVol(a.proj2026)}</td>
+      <td style="padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:10px;color:#1B2A4A;font-weight:600;text-align:right;">${a.act2026 > 0 ? fmtVol(a.act2026) : '—'}</td>
+    </tr>`).join('');
 
   win.document.write(`<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8">
-<title>Christie’s East Hampton · The First 300 Days + Ascension</title>
+<title>Christie's East Hampton · Ascension Arc · ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Source+Sans+3:wght@400;600&family=Barlow+Condensed:wght@400;600&display=swap" rel="stylesheet">
 <style>
-  @page { size: A4 landscape; margin: 18mm 20mm; }
+  @page { size: letter landscape; margin: 14mm 18mm; }
   * { box-sizing: border-box; }
   body { font-family: 'Source Sans 3', sans-serif; background: #FAF8F4; color: #1B2A4A; margin: 0; padding: 0; }
   @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
@@ -120,47 +141,122 @@ function exportAscensionPDF() {
 </head><body>
 
 <!-- HEADER -->
-<div style="text-align:center;padding:20px 0 12px;border-bottom:1px solid rgba(200,172,120,0.4);margin-bottom:20px;">
-  <img src="${CIREG_LOGO_DARK}" alt="Christie's International Real Estate Group" style="height:40px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;">
-  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;margin-top:4px;">Christie’s East Hampton · Growth Model</div>
-</div>
-
-<!-- TITLE -->
-<div style="text-align:center;margin-bottom:20px;">
-  <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#1B2A4A;letter-spacing:1px;">The First 300 Days + Ascension</div>
-  <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(27,42,74,0.45);margin-top:4px;">Pro Forma · April 2026 · Ilija Pavlović Review Copy · Targets, Not Actuals</div>
-</div>
-
-<!-- 2026 SCORECARD (TARGETS) -->
-<div style="margin-bottom:20px;">
-  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">2026 Scorecard · Targets</div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-    ${scorecardHTML}
+<div style="display:flex;align-items:center;justify-content:space-between;padding-bottom:10px;border-bottom:1px solid rgba(200,172,120,0.4);margin-bottom:16px;">
+  <img src="${CIREG_LOGO_DARK}" alt="Christie's International Real Estate Group" style="height:32px;">
+  <div style="text-align:right;">
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.3em;text-transform:uppercase;">Christie's East Hampton · Ascension Arc</div>
+    <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(27,42,74,0.4);font-size:7px;letter-spacing:0.2em;text-transform:uppercase;margin-top:2px;">Private &amp; Confidential · ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</div>
   </div>
 </div>
 
-<!-- ASCENSION STAIRCASE -->
-<div style="margin-bottom:20px;">
-  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">Ascension Arc · Sales Volume Trajectory · Staged Milestones</div>
-  <div style="border:1px solid rgba(27,42,74,0.12);background:#fff;padding:20px 24px;">
-    <div style="display:flex;align-items:flex-end;gap:6px;height:220px;">
-      ${barsHTML}
+<!-- TITLE -->
+<div style="margin-bottom:14px;">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;color:#1B2A4A;letter-spacing:0.5px;">The Ascension Arc · $1 Billion Run Rate</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:8px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(27,42,74,0.45);margin-top:3px;">Sales Volume Only · Targets, Not Actuals · Ilija Pavlović Review Copy</div>
+</div>
+
+<!-- ASCENSION ARC CHART -->
+<div style="margin-bottom:14px;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px;">Ascension Arc · Sales Volume Trajectory</div>
+  <div style="border:1px solid rgba(27,42,74,0.1);background:#fff;padding:14px 16px;">
+    <div style="display:flex;align-items:flex-end;gap:6px;height:190px;">
+      ${barRows}
+      <!-- $1B Horizon label -->
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:190px;padding:0 4px;opacity:0.5;">
+        <div style="font-family:'Cormorant Garamond',serif;color:#C8AC78;font-size:10px;font-weight:600;text-align:center;margin-bottom:4px;">$1B<br>Run Rate</div>
+        <div style="width:2px;height:160px;background:repeating-linear-gradient(to bottom,#C8AC78 0,#C8AC78 4px,transparent 4px,transparent 8px);"></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;text-align:center;">2032–2033<br>Horizon</div>
+      </div>
+    </div>
+    <!-- Legend -->
+    <div style="display:flex;gap:16px;margin-top:10px;padding-top:8px;border-top:1px solid rgba(27,42,74,0.06);">
+      <div style="display:flex;align-items:center;gap:4px;"><div style="width:10px;height:10px;background:#1B2A4A;"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#384249;">2026 Closed $4.57M</span></div>
+      <div style="display:flex;align-items:center;gap:4px;"><div style="width:10px;height:10px;background:#8a7a5a;"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#384249;">2026 Active Pipeline $13.62M</span></div>
+      <div style="display:flex;align-items:center;gap:4px;"><div style="width:10px;height:10px;background:rgba(200,172,120,0.35);border:1px solid #C8AC78;"></div><span style="font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;color:#384249;">2026 Projected to $55M Total</span></div>
     </div>
   </div>
 </div>
 
-<!-- 300-DAY ARC -->
-<div style="margin-bottom:20px;">
-  <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:9px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:8px;">300-Day Arc · Execution Phases</div>
-  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
-    ${arcHTML}
+<!-- 300-DAY PROOF -->
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;">
+  <div style="border:1px solid rgba(27,42,74,0.1);background:#fff;padding:10px 12px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">First 100 Days · Dec 2025–Mar 2026</div>
+    <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:20px;font-weight:600;">$4.57M</div>
+    <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:9px;margin-top:3px;line-height:1.4;">Closed volume. Office open. Systems deployed. Ed Bruehl solo.</div>
+    <div style="margin-top:6px;display:inline-block;padding:2px 6px;background:#2D5A3D;color:#FAF8F4;font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;">Closed</div>
+  </div>
+  <div style="border:1px solid rgba(27,42,74,0.1);background:#fff;padding:10px 12px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">Second 100 Days · Mar–May 1 2026</div>
+    <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:20px;font-weight:600;">$13.62M</div>
+    <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:9px;margin-top:3px;line-height:1.4;">Active pipeline. First agent hires. Podcast + events cadence locked.</div>
+    <div style="margin-top:6px;display:inline-block;padding:2px 6px;background:#C8AC78;color:#1B2A4A;font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;">Active</div>
+  </div>
+  <div style="border:1px solid rgba(27,42,74,0.1);background:#fff;padding:10px 12px;">
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">Third 100 Days · May 1–Aug 2026</div>
+    <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:20px;font-weight:600;">$55M</div>
+    <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:9px;margin-top:3px;line-height:1.4;">Projected total. Operating scale. South Fork market presence established.</div>
+    <div style="margin-top:6px;display:inline-block;padding:2px 6px;background:rgba(27,42,74,0.1);color:#1B2A4A;font-family:'Barlow Condensed',sans-serif;font-size:7px;letter-spacing:0.12em;text-transform:uppercase;">Projected</div>
+  </div>
+</div>
+
+<!-- AGENT VOLUME TABLE -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px;">Agent Volume · 2026 · Sales Volume Only</div>
+    <table style="width:100%;border-collapse:collapse;font-size:10px;">
+      <thead>
+        <tr style="border-bottom:1px solid #C8AC78;">
+          <th style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 8px;text-align:left;">Agent</th>
+          <th style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 8px;text-align:right;">Projected</th>
+          <th style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.14em;text-transform:uppercase;padding:4px 8px;text-align:right;">Actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${agentRows}
+        <tr style="border-top:2px solid #C8AC78;">
+          <td style="padding:6px 8px;font-family:'Barlow Condensed',sans-serif;font-size:9px;color:#1B2A4A;letter-spacing:0.1em;text-transform:uppercase;">Total Baseline</td>
+          <td style="padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:10px;color:#C8AC78;text-align:right;font-weight:600;">${fmtVol(total.proj2026)}</td>
+          <td style="padding:6px 8px;font-family:'Source Sans 3',sans-serif;font-size:10px;color:#1B2A4A;text-align:right;font-weight:600;">${total.act2026 > 0 ? fmtVol(total.act2026) : '—'}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PROFIT POOL -->
+  <div>
+    <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.22em;text-transform:uppercase;margin-bottom:6px;">Profit Pool · The Economic Logic</div>
+    <div style="border:1px solid rgba(27,42,74,0.1);background:#fff;padding:10px 12px;">
+      <div style="font-family:'Source Sans 3',sans-serif;color:#384249;font-size:9px;line-height:1.6;">
+        Office breakeven at approximately <strong>$40M</strong> in total sales volume. Every dollar above $40M generates approximately <strong>2% commission</strong> into the profit pool above breakeven.
+      </div>
+      <div style="margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+        <div style="text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:14px;font-weight:600;">$100K</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">Ed · 2026</div>
+          <div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:7px;margin-top:1px;">at $55M</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:14px;font-weight:600;">$400K</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">Ed · 2027</div>
+          <div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:7px;margin-top:1px;">at $100M</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:14px;font-weight:600;">$833K</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:7px;letter-spacing:0.1em;text-transform:uppercase;margin-top:2px;">Ed · 2028</div>
+          <div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:7px;margin-top:1px;">at $165M</div>
+        </div>
+      </div>
+      <div style="font-family:'Source Sans 3',sans-serif;color:rgba(27,42,74,0.5);font-size:8px;margin-top:8px;line-height:1.5;border-top:1px solid rgba(27,42,74,0.06);padding-top:6px;">
+        Jarvis 5% of Ed's share · Angel 5% of Ed's share · Zoila transitions off Ilija's payroll at start of 2027. Dan's Papers and Zoila are not expenses — they are the unlock that makes the third 100 days happen.
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- FOOTER -->
-<div style="border-top:1px solid rgba(200,172,120,0.4);padding-top:12px;margin-top:8px;text-align:center;">
-  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(27,42,74,0.4);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;">Christie’s International Real Estate Group · 26 Park Place, East Hampton NY 11937 · Private &amp; Confidential</div>
-  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(200,172,120,0.5);font-size:8px;letter-spacing:0.14em;text-transform:uppercase;margin-top:3px;">Art. Beauty. Provenance. · Since 1766</div>
+<div style="border-top:1px solid rgba(200,172,120,0.4);padding-top:8px;text-align:center;">
+  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(27,42,74,0.4);font-size:7px;letter-spacing:0.18em;text-transform:uppercase;">Christie's International Real Estate Group · 26 Park Place, East Hampton NY 11937 · Private &amp; Confidential · Sales Volume Only</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;color:rgba(200,172,120,0.5);font-size:6px;letter-spacing:0.14em;text-transform:uppercase;margin-top:2px;">Art. Beauty. Provenance. · Since 1766</div>
 </div>
 
 </body></html>`);
@@ -168,144 +264,211 @@ function exportAscensionPDF() {
   setTimeout(() => { win.focus(); win.print(); }, 800);
 }
 
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
+  const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const agents = volData?.agents ?? [];
+  const total = volData?.total ?? { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 };
+
+  // Derive live 2026 closed and active from volume data
+  const liveAct2026 = useMemo(() => {
+    if (!volData) return 4_570_000; // fallback to brief value
+    return volData.total.act2026 || 4_570_000;
+  }, [volData]);
+
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
 
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Growth Model v2 · 300-Day Arc
+        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          Growth Model v2 · 300-Day Arc · Ascension
         </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
+        <h2 style={{ ...SERIF, color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
           Future
         </h2>
-        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-          Synced from Growth Model v2 · Last updated March 2026
-        </p>
+        <div className="flex items-center gap-3 mt-2">
+          {volData && !volLoading ? (
+            <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              ● Live · Growth Model v2 · VOLUME tab
+            </span>
+          ) : volLoading ? (
+            <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              Loading…
+            </span>
+          ) : null}
+          <span style={{ ...SANS, color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
+            Sales volume only · Private &amp; Confidential
+          </span>
+        </div>
       </div>
 
       <div className="px-6 py-8" style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-        {/* ── 2026 Scorecard ─────────────────────────────────────────────────── */}
-        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          2026 Scorecard
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          {SCORECARD_2026.map(item => (
-            <MatrixCard key={item.label} variant="default" className="p-5">
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '2.5rem', fontWeight: 400, lineHeight: 1 }}>
-                {item.value}
-              </div>
-              <div className="mt-1" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                {item.label}
-              </div>
-              <div className="mt-1" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(27,42,74,0.45)', fontSize: 11 }}>
-                {item.sub}
-              </div>
-            </MatrixCard>
-          ))}
-        </div>
-
         {/* ── Ascension Arc ────────────────────────────────────────────────────── */}
-        <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           Ascension Arc · Sales Volume Trajectory
         </div>
-        <MatrixCard variant="default" className="mb-10 p-6">
-          {/* Ascending staircase bars — navy and gold, Ascension deck logic */}
+        <div className="mb-10 p-6 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+          {/* Chart */}
           <div style={{ overflowX: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, minWidth: 640, height: 240, paddingBottom: 0 }}>
-              {ASCENSION_MILESTONES.map((m, i) => {
-                // Bar heights ascend: 20% → 32% → 44% → 60% → 76% → 100%
-                const heights = [20, 32, 44, 60, 76, 100];
-                const pct = heights[i] ?? 100;
-                const barH = Math.round((pct / 100) * 180);
-                const isFilled = i === 0;
-                const statusColors: Record<string, string> = { BUILT: '#2D5A3D', BUILDING: '#C8AC78', LAUNCHING: '#1B2A4A' };
+            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, minWidth: 700, height: CHART_HEIGHT + 60, paddingBottom: 0 }}>
+              {ARC_BARS.map((bar) => {
+                const pct = (bar.volume / MAX_VOLUME) * 100;
+                const barH = Math.max(12, Math.round((pct / 100) * CHART_HEIGHT));
                 return (
-                  <div key={m.id} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: 240 }}>
-                    {/* Volume label above bar */}
+                  <div key={bar.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60 }}>
+                    {/* Volume label */}
                     <div style={{
-                      fontFamily: '"Cormorant Garamond", serif',
-                      color: isFilled ? '#C8AC78' : '#1B2A4A',
-                      fontSize: m.volume.length > 5 ? '0.9rem' : '1.05rem',
-                      fontWeight: 600, lineHeight: 1, marginBottom: 6, textAlign: 'center',
+                      ...SERIF, color: '#1B2A4A', fontWeight: 600,
+                      fontSize: bar.displayVolume.length > 6 ? '0.82rem' : '1rem',
+                      lineHeight: 1, marginBottom: 6, textAlign: 'center',
                     }}>
-                      {m.volume}
+                      {bar.displayVolume}
                     </div>
-                    {/* Staircase bar */}
-                    <div style={{
-                      width: '100%',
-                      height: barH,
-                      background: isFilled
-                        ? 'linear-gradient(to top, #1B2A4A 0%, #2a3f5f 100%)'
-                        : 'linear-gradient(to top, rgba(27,42,74,0.12) 0%, rgba(27,42,74,0.22) 100%)',
-                      borderTop: `3px solid ${isFilled ? '#C8AC78' : 'rgba(200,172,120,0.35)'}`,
-                      borderLeft: '1px solid rgba(27,42,74,0.08)',
-                      borderRight: '1px solid rgba(27,42,74,0.08)',
-                      position: 'relative',
-                    }}>
-                      {isFilled && (
-                        <div style={{
-                          position: 'absolute', top: 8, left: '50%', transform: 'translateX(-50%)',
-                          ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase',
-                        }}>
-                          Now
-                        </div>
-                      )}
-                    </div>
-                    {/* Milestone label below bar */}
-                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center', lineHeight: 1.2 }}>
-                      {m.label}
-                    </div>
-                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.3, textAlign: 'center', marginTop: 2 }}>
-                      {m.period}
-                    </div>
-                    {m.status && (
-                      <div style={{ marginTop: 4, padding: '2px 6px', fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase', ...LABEL_FONT, background: statusColors[m.status] ?? '#1B2A4A', color: '#FAF8F4', borderRadius: 2 }}>
-                        {m.status}
+                    {/* Bar */}
+                    {bar.segments ? (
+                      // 2026 segmented bar
+                      <div style={{ width: '100%', height: barH, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden', borderTop: '3px solid #C8AC78' }}>
+                        {[...bar.segments].reverse().map((seg) => {
+                          const segH = Math.round((seg.value / bar.volume) * barH);
+                          return (
+                            <div key={seg.label} style={{ width: '100%', height: segH, background: seg.color, flexShrink: 0 }} />
+                          );
+                        })}
                       </div>
+                    ) : (
+                      <div style={{
+                        width: '100%', height: barH,
+                        background: bar.isBaseline
+                          ? 'linear-gradient(to top, rgba(27,42,74,0.15) 0%, rgba(27,42,74,0.22) 100%)'
+                          : 'linear-gradient(to top, rgba(200,172,120,0.18) 0%, rgba(200,172,120,0.28) 100%)',
+                        borderTop: `3px solid ${bar.isBaseline ? 'rgba(27,42,74,0.35)' : '#C8AC78'}`,
+                      }} />
                     )}
-                    {!m.status && m.agents && (
-                      <div style={{ marginTop: 4, padding: '2px 6px', fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase', ...LABEL_FONT, background: 'rgba(27,42,74,0.1)', color: '#1B2A4A', borderRadius: 2 }}>
-                        {m.agents}
+                    {/* Year label */}
+                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
+                      {bar.year}
+                    </div>
+                    {bar.isBaseline && (
+                      <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.65rem', textAlign: 'center', marginTop: 2, lineHeight: 1.3 }}>
+                        Bonita DeWolf<br />pre-launch
                       </div>
                     )}
                   </div>
                 );
               })}
-            </div>
-          </div>
-          {/* Detail rows */}
-          <div className="mt-8 border-t pt-6" style={{ borderColor: 'rgba(27,42,74,0.08)' }}>
-            <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em' }}>
-              Milestone Detail · Ilija ProForma March 2026 v4 · Christie&apos;s Ascension UPDATED
-            </div>
-            <div className="flex flex-col gap-2">
-              {ASCENSION_MILESTONES.map(m => (
-                <div key={m.id} className="flex items-start gap-4 py-2 border-b" style={{ borderColor: 'rgba(27,42,74,0.05)' }}>
-                  <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, minWidth: 80, letterSpacing: '0.1em' }}>{m.label}</div>
-                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1rem', fontWeight: 600, minWidth: 80 }}>{m.volume}</div>
-                  <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8rem', flex: 1 }}>{m.detail}</div>
-                  {m.status && <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>{m.status}</div>}
-                </div>
-              ))}
-            </div>
-          </div>
-        </MatrixCard>
 
-        {/* ── 2026–2031 Outlook Table ────────────────────────────────────────── */}
-        <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          2026–2031 GCI Outlook
+              {/* $1B Horizon — dashed line, NOT a bar */}
+              <div style={{ flex: 0.7, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60, opacity: 0.55 }}>
+                <div style={{ ...SERIF, color: '#C8AC78', fontWeight: 600, fontSize: '0.85rem', textAlign: 'center', marginBottom: 6, lineHeight: 1.2 }}>
+                  $1B<br />Run Rate
+                </div>
+                <div style={{
+                  width: 2, height: CHART_HEIGHT,
+                  background: 'repeating-linear-gradient(to bottom, #C8AC78 0, #C8AC78 5px, transparent 5px, transparent 10px)',
+                }} />
+                <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center', lineHeight: 1.3 }}>
+                  2032–2033<br />Horizon
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Legend */}
+          <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t" style={{ borderColor: 'rgba(27,42,74,0.08)' }}>
+            {[
+              { color: '#1B2A4A', label: `2026 Closed · ${fmtVol(liveAct2026)}` },
+              { color: '#8a7a5a', label: '2026 Active Pipeline · $13.62M' },
+              { color: 'rgba(200,172,120,0.35)', border: '#C8AC78', label: '2026 Projected to $55M Total' },
+            ].map(l => (
+              <div key={l.label} className="flex items-center gap-2">
+                <div style={{ width: 12, height: 12, background: l.color, border: l.border ? `1px solid ${l.border}` : undefined, flexShrink: 0 }} />
+                <span style={{ ...LABEL_FONT, color: '#384249', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{l.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <MatrixCard variant="default" className="mb-10 overflow-x-auto">
-          <table className="w-full text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', borderCollapse: 'collapse' }}>
+
+        {/* ── 300-Day Proof ────────────────────────────────────────────────────── */}
+        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          300-Day Proof
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+          {[
+            {
+              label: 'First 100 Days',
+              period: 'Dec 2025 – Mar 2026',
+              volume: '$4.57M',
+              desc: 'Closed volume. Office open. Systems deployed. Ed Bruehl solo.',
+              badge: 'Closed',
+              badgeBg: '#2D5A3D',
+              badgeColor: '#FAF8F4',
+            },
+            {
+              label: 'Second 100 Days',
+              period: 'Mar – May 1, 2026',
+              volume: '$13.62M',
+              desc: 'Active pipeline. First agent hires. Podcast and events cadence locked.',
+              badge: 'Active',
+              badgeBg: '#C8AC78',
+              badgeColor: '#1B2A4A',
+            },
+            {
+              label: 'Third 100 Days',
+              period: 'May 1 – Aug 2026',
+              volume: '$55M',
+              desc: 'Projected total. Operating scale. South Fork market presence established.',
+              badge: 'Projected',
+              badgeBg: 'rgba(27,42,74,0.1)',
+              badgeColor: '#1B2A4A',
+            },
+          ].map(block => (
+            <div key={block.label} className="p-5 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+              <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+                {block.label}
+              </div>
+              <div style={{ ...LABEL_FONT, color: 'rgba(27,42,74,0.4)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>
+                {block.period}
+              </div>
+              <div style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '2rem', lineHeight: 1 }}>
+                {block.volume}
+              </div>
+              <div className="mt-3 text-sm leading-relaxed" style={{ ...SANS, color: '#384249', fontSize: '0.8rem' }}>
+                {block.desc}
+              </div>
+              <div className="mt-3 inline-block px-2 py-0.5" style={{
+                ...LABEL_FONT, background: block.badgeBg, color: block.badgeColor,
+                fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase',
+              }}>
+                {block.badge}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Agent Volume Table ────────────────────────────────────────────── */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="uppercase" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+            Agent Volume · 2026 · Sales Volume Only
+          </div>
+          {volData && !volLoading && (
+            <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+              ● Live · VOLUME tab
+            </span>
+          )}
+        </div>
+        <div className="mb-10 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #C8AC78' }}>
-                {['Year', 'Agents', 'GCI', 'Avg / Agent', 'Milestone'].map(h => (
+                {['Agent', 'Role', 'Status', '2026 Projected', '2026 Actual', '2027 Projected'].map(h => (
                   <th key={h} className="px-4 py-3 text-left" style={{
-                    ...LABEL_FONT, color: '#C8AC78',
-                    fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase',
+                    ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase',
                   }}>
                     {h}
                   </th>
@@ -313,93 +476,104 @@ export default function FutureTab() {
               </tr>
             </thead>
             <tbody>
-              {OUTLOOK.map((row, i) => (
-                <tr key={row.year} style={{
-                  borderBottom: '1px solid rgba(27,42,74,0.08)',
-                  background: i === 0 ? 'rgba(200,172,120,0.06)' : 'transparent',
+              {(agents.length > 0 ? agents : [
+                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, proj2027: 50_000_000 },
+                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, proj2027: 15_000_000 },
+                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, proj2027: 20_000_000 },
+                { name: 'Sebastian Mobo', role: 'Broker', status: 'Active', proj2026: 3_500_000, act2026: 0, proj2027: 5_000_000 },
+                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, proj2027: 3_000_000 },
+              ]).map((agent, i) => (
+                <tr key={agent.name} style={{
+                  borderBottom: '1px solid rgba(27,42,74,0.06)',
+                  background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)',
                 }}>
-                  <td className="px-4 py-3 font-semibold" style={{
-                    color: '#1B2A4A', fontFamily: '"Cormorant Garamond", serif', fontSize: '1rem',
-                  }}>
-                    {row.year}
+                  <td className="px-4 py-3" style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem' }}>
+                    {agent.name}
                   </td>
-                  <td className="px-4 py-3" style={{ color: '#384249' }}>{row.agents}</td>
-                  <td className="px-4 py-3 font-semibold" style={{ color: '#1B2A4A' }}>{row.gci}</td>
-                  <td className="px-4 py-3" style={{ color: '#384249' }}>{row.avgGci}</td>
-                  <td className="px-4 py-3 text-xs" style={{ color: '#7a8a8e' }}>{row.milestone}</td>
+                  <td className="px-4 py-3 text-sm" style={{ color: '#384249' }}>{agent.role}</td>
+                  <td className="px-4 py-3">
+                    <span className="px-2 py-0.5 text-[9px] uppercase" style={{
+                      ...LABEL_FONT,
+                      background: agent.status === 'Active' ? 'rgba(27,42,74,0.08)' : 'rgba(200,172,120,0.15)',
+                      color: agent.status === 'Active' ? '#1B2A4A' : '#C8AC78',
+                      letterSpacing: '0.1em',
+                    }}>
+                      {agent.status}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3 text-sm" style={{ color: '#C8AC78', fontWeight: 600 }}>
+                    {fmtVol(agent.proj2026)}
+                  </td>
+                  <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#1B2A4A' }}>
+                    {agent.act2026 > 0 ? fmtVol(agent.act2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
+                  </td>
+                  <td className="px-4 py-3 text-sm" style={{ color: '#7a8a8e' }}>
+                    {fmtVol(agent.proj2027)}
+                  </td>
                 </tr>
               ))}
+              {/* Total row */}
+              <tr style={{ borderTop: '2px solid #C8AC78', background: 'rgba(200,172,120,0.05)' }}>
+                <td className="px-4 py-3" colSpan={3} style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
+                  Total Baseline
+                </td>
+                <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#C8AC78' }}>
+                  {fmtVol(total.proj2026 || 55_000_000)}
+                </td>
+                <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#1B2A4A' }}>
+                  {total.act2026 > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
+                </td>
+                <td className="px-4 py-3 text-sm" style={{ color: '#7a8a8e' }}>
+                  {fmtVol(total.proj2027 || 93_000_000)}
+                </td>
+              </tr>
             </tbody>
           </table>
-        </MatrixCard>
-
-        {/* ── Agent Roster ──────────────────────────────────────────────────── */}
-        <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Agent Roster — 2026
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
-          {ROSTER.map(agent => (
-            <MatrixCard key={agent.name} variant={agent.status === 'Active' ? 'active' : 'default'} className="p-4">
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem' }}>
-                {agent.name}
-              </div>
-              <div className="text-sm mt-0.5" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
-                {agent.role}
-              </div>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="px-2 py-0.5 text-[10px] uppercase" style={{
-                  ...LABEL_FONT,
-                  background: agent.status === 'Active' ? '#1B2A4A' : 'rgba(27,42,74,0.08)',
-                  color: agent.status === 'Active' ? '#C8AC78' : '#7a8a8e',
-                  letterSpacing: '0.12em',
-                }}>
-                  {agent.status}
-                </span>
-                <span className="text-[10px]" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.1em' }}>
-                  {agent.tier}
-                </span>
-              </div>
-            </MatrixCard>
-          ))}
         </div>
 
-        {/* ── 300-Day Arc ───────────────────────────────────────────────────── */}
-        <div className="uppercase mb-4" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          300-Day Arc
+        {/* ── Profit Pool ──────────────────────────────────────────────────────── */}
+        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          Profit Pool · The Economic Logic
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
-          {ARC_PHASES.map(phase => (
-            <MatrixCard key={phase.phase} variant="default" className="p-5">
-              <div className="flex items-start gap-4">
-                <div className="shrink-0 flex items-center justify-center border" style={{
-                  width: 56, height: 56,
-                  borderColor: '#C8AC78', background: 'rgba(200,172,120,0.08)',
-                }}>
-                  <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: '0.7rem', letterSpacing: '0.08em', textAlign: 'center', lineHeight: 1.3 }}>
-                    {phase.days}
-                  </span>
+        <div className="p-6 border mb-10" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+          <p className="mb-4 leading-relaxed" style={{ ...SANS, color: '#384249', fontSize: '0.875rem' }}>
+            Office breakeven at approximately <strong style={{ color: '#1B2A4A' }}>$40M</strong> in total sales volume. Every dollar above $40M generates approximately <strong style={{ color: '#1B2A4A' }}>2% commission</strong> into the profit pool above breakeven. Ed negotiates one third of that pool. Paid at year end. Not salary. Not splits. Profit participation.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            {[
+              { year: '2026', volume: '$55M', pool: '$300K', edShare: '$100K', note: 'Pool above $40M is $300K. Ed\'s third is $100K.' },
+              { year: '2027', volume: '$100M', pool: '$1.2M', edShare: '$400K', note: 'Zoila transitions off Ilija\'s payroll. The math now justifies independence.' },
+              { year: '2028', volume: '$165M', pool: '$2.5M', edShare: '$833K', note: 'Angel transitions off Ilija\'s payroll mid-2027. Same logic.' },
+            ].map(row => (
+              <div key={row.year} className="p-4 border" style={{ borderColor: 'rgba(200,172,120,0.3)', background: 'rgba(200,172,120,0.03)' }}>
+                <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+                  {row.year} · {row.volume}
                 </div>
-                <div>
-                  <div className="uppercase text-[10px] mb-1" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.16em' }}>
-                    {phase.phase}{' · '}{phase.label}
-                  </div>
-                  <div className="text-sm leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
-                    {phase.description}
-                  </div>
+                <div style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '1.5rem', lineHeight: 1 }}>
+                  {row.edShare}
+                </div>
+                <div style={{ ...LABEL_FONT, color: '#7a8a8e', fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 2 }}>
+                  Ed's Share · Pool: {row.pool}
+                </div>
+                <div className="mt-3 text-xs leading-relaxed" style={{ ...SANS, color: '#7a8a8e', fontSize: '0.75rem' }}>
+                  {row.note}
                 </div>
               </div>
-            </MatrixCard>
-          ))}
+            ))}
+          </div>
+          <div className="pt-4 border-t text-sm leading-relaxed" style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.8rem', borderColor: 'rgba(27,42,74,0.08)' }}>
+            Jarvis receives 5% of Ed's share · Angel receives 5% of Ed's share · Zoila earns a percentage by year end if she delivers. Dan's Papers at $9K and Zoila on payroll April 15 are not expenses — they are the unlock that makes the third 100 days happen. The third 100 days gets the office from $13.62M active to $55M closed. And $55M closed opens the profit pool that eventually makes everyone independent of Ilija's payroll.
+          </div>
         </div>
 
-        {/* ── Export + Google Sheet link ─────────────────────────────────────────────────────────── */}
-        <div className="flex items-center justify-center gap-4 pb-4">
+        {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
+        <div className="flex items-center justify-center gap-4 pb-8">
           <button
-            onClick={exportAscensionPDF}
+            onClick={() => exportFuturePDF(agents, total)}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
           >
-            ↓ Export PDF · 300 Days + Ascension
+            ↓ Export PDF · Ascension Arc
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
@@ -408,7 +582,7 @@ export default function FutureTab() {
             className="inline-block px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ ...LABEL_FONT, borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em' }}
           >
-            Open Growth Model v2 Sheet
+            Open Growth Model v2
           </a>
         </div>
 

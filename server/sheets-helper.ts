@@ -228,6 +228,55 @@ export async function appendPipelineRow(deal: {
   return { rowNumber: allRows.length };
 }
 
+// ─── Market Matrix Sheet ─────────────────────────────────────────────────────
+const MARKET_MATRIX_SHEET_ID = "176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g";
+const MARKET_MATRIX_TAB = "Market Matrix";
+
+export interface MarketMatrixHamlet {
+  hamlet: string;
+  cisScore: number;
+  median2025: string;       // e.g. "$5,250,000"
+  dollarVolumeShare: string; // e.g. "7%"
+  dollarVolume2025: string;  // e.g. "$408,910,000"
+  sales2025: number;
+  direction4Year: string;   // "Up" | "Down" | "Flat"
+  schoolDistrict: string;
+  median2022: string;
+  median2023: string;
+  median2024: string;
+}
+
+export async function readMarketMatrixRows(): Promise<MarketMatrixHamlet[]> {
+  const sheets = getSheetsClient();
+  let rows: string[][];
+  try {
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: MARKET_MATRIX_SHEET_ID,
+      range: `${MARKET_MATRIX_TAB}!A7:K18`, // Row 7 = headers, rows 8-18 = 11 hamlets
+    });
+    rows = (res.data.values as string[][]) ?? [];
+  } catch {
+    return [];
+  }
+  // Row 0 is the header row — skip it
+  const dataRows = rows.slice(1);
+  return dataRows
+    .filter(r => r && r[0] && r[0].trim())
+    .map(r => ({
+      hamlet:            r[0]  ?? '',
+      cisScore:          parseFloat(r[1] ?? '0') || 0,
+      median2025:        r[2]  ?? '',
+      dollarVolumeShare: r[3]  ?? '',
+      dollarVolume2025:  r[4]  ?? '',
+      sales2025:         parseInt(r[5] ?? '0', 10) || 0,
+      direction4Year:    r[6]  ?? '',
+      schoolDistrict:    r[7]  ?? '',
+      median2022:        r[8]  ?? '',
+      median2023:        r[9]  ?? '',
+      median2024:        r[10] ?? '',
+    }));
+}
+
 // ─── Intelligence Web Sheet ───────────────────────────────────────────────────
 const INTEL_WEB_SHEET_ID = "1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0";
 const INTEL_WEB_TAB = "Intelligence Web";
@@ -283,4 +332,227 @@ export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
       archetypeMatch:  r[13] ?? '',
       audience:        r[14] ?? '',
     }));
+}
+
+// ─── Growth Model v2 Sheet ────────────────────────────────────────────────────
+// Sheet ID: 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag
+// Tabs: ROSTER, ASSUMPTIONS, LEADERBOARD, OUTPUTS, CONTACTS_STAGING
+// Auth: service account (publicProcedure — no session cookie required)
+
+const GROWTH_MODEL_SHEET_ID = "1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag";
+
+export interface GrowthModelOutputRow {
+  year: number;
+  agents: number;
+  existingGci: number;
+  targetedGci: number;
+  organicGci: number;
+  totalGci: number;
+  houseTake: number;
+  avgPerAgent: number;
+}
+
+export interface GrowthModelAgent {
+  name: string;
+  office: string;
+  role: string;
+  status: string;
+  startYear: number;
+  year1Gci: number;
+  gci2026: number;
+  gci2027: number;
+  gci2028: number;
+  gci2029: number;
+  gci2030: number;
+  gci2031: number;
+  split: string;
+  notes: string;
+}
+
+export interface GrowthModelData {
+  outputs: GrowthModelOutputRow[];
+  agents: GrowthModelAgent[];
+  assumptions: { parameter: string; value: string }[];
+  totalGci2026: number;
+  houseTake2026: number;
+  agentCount2026: number;
+}
+
+export async function readGrowthModelData(): Promise<GrowthModelData> {
+  const sheets = getSheetsClient();
+
+  const empty: GrowthModelData = {
+    outputs: [],
+    agents: [],
+    assumptions: [],
+    totalGci2026: 0,
+    houseTake2026: 0,
+    agentCount2026: 0,
+  };
+
+  try {
+    // Read OUTPUTS tab (rows 1-10, cols A-H)
+    const outputsRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "OUTPUTS!A1:H10",
+    });
+    const outputRows = (outputsRes.data.values as string[][]) ?? [];
+    // Row 0 = title, Row 1 = headers, Rows 2-7 = data years
+    const outputs: GrowthModelOutputRow[] = outputRows
+      .slice(2)
+      .filter(r => r && r[0] && !isNaN(parseFloat(r[0])))
+      .map(r => ({
+        year:          parseInt(r[0], 10),
+        agents:        parseInt(r[1] ?? '0', 10) || 0,
+        existingGci:   parseFloat(r[2] ?? '0') || 0,
+        targetedGci:   parseFloat(r[3] ?? '0') || 0,
+        organicGci:    parseFloat(r[4] ?? '0') || 0,
+        totalGci:      parseFloat(r[5] ?? '0') || 0,
+        houseTake:     parseFloat(r[6] ?? '0') || 0,
+        avgPerAgent:   parseFloat(r[7] ?? '0') || 0,
+      }));
+
+    // Read ROSTER tab (rows 1-45, cols A-Q)
+    const rosterRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "ROSTER!A1:Q45",
+    });
+    const rosterRows = (rosterRes.data.values as string[][]) ?? [];
+    // Row 0 = title, Row 1 = headers, Row 2+ = data
+    const agents: GrowthModelAgent[] = rosterRows
+      .slice(2)
+      .filter(r => r && r[0] && r[2] && r[3] && !r[0].includes('SUBTOTAL') && !r[0].includes('ENGINE') && !r[0].includes('TOTAL') && !r[0].includes('HOUSE') && !r[0].includes('AGENT COUNT') && !r[0].includes('EXISTING AGENTS'))
+      .map(r => ({
+        name:      r[0]  ?? '',
+        office:    r[1]  ?? '',
+        role:      r[2]  ?? '',
+        status:    r[3]  ?? '',
+        startYear: parseInt(r[4] ?? '0', 10) || 0,
+        year1Gci:  parseFloat(r[5] ?? '0') || 0,
+        gci2026:   parseFloat(r[8]  ?? '0') || 0,
+        gci2027:   parseFloat(r[9]  ?? '0') || 0,
+        gci2028:   parseFloat(r[10] ?? '0') || 0,
+        gci2029:   parseFloat(r[11] ?? '0') || 0,
+        gci2030:   parseFloat(r[12] ?? '0') || 0,
+        gci2031:   parseFloat(r[13] ?? '0') || 0,
+        split:     r[14] ?? '',
+        notes:     r[16] ?? '',
+      }));
+
+    // Read ASSUMPTIONS tab
+    const assumptionsRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "ASSUMPTIONS!A1:C10",
+    });
+    const assumptionRows = (assumptionsRes.data.values as string[][]) ?? [];
+    const assumptions = assumptionRows
+      .slice(2)
+      .filter(r => r && r[0] && r[1])
+      .map(r => ({ parameter: r[0] ?? '', value: String(r[1] ?? '') }));
+
+    // Summary values from OUTPUTS
+    const row2026 = outputs.find(o => o.year === 2026);
+
+    return {
+      outputs,
+      agents,
+      assumptions,
+      totalGci2026:   row2026?.totalGci   ?? 0,
+      houseTake2026:  row2026?.houseTake  ?? 0,
+      agentCount2026: row2026?.agents     ?? 0,
+    };
+  } catch {
+    return empty;
+  }
+}
+
+// ─── Growth Model v2 — VOLUME tab ────────────────────────────────────────────
+// Reads the VOLUME tab: agent, role, status, start year, projected/actual per year
+// Sales volume only. No GCI. This is the single source for the FUTURE tab agent table.
+
+export interface VolumeAgent {
+  name: string;
+  role: string;
+  status: string;
+  startYear: string;
+  proj2026: number;
+  act2026: number;
+  proj2027: number;
+  act2027: number;
+  proj2028: number;
+  act2028: number;
+}
+
+export interface VolumeTotal {
+  proj2026: number;
+  act2026: number;
+  proj2027: number;
+  act2027: number;
+  proj2028: number;
+  act2028: number;
+}
+
+function parseDollar(s: string | undefined): number {
+  if (!s) return 0;
+  return parseInt(s.replace(/[$,TBD\s]/g, '') || '0', 10) || 0;
+}
+
+export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; total: VolumeTotal }> {
+  const empty = {
+    agents: [],
+    total: { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 },
+  };
+  try {
+    const auth = await getAuth();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: 'VOLUME!A1:J12',
+    });
+    const rows = res.data.values ?? [];
+    if (rows.length < 2) return empty;
+
+    const agents: VolumeAgent[] = [];
+    let total: VolumeTotal = { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 };
+
+    for (let i = 1; i < rows.length; i++) {
+      const r = rows[i];
+      if (!r || !r[0]) continue;
+      const name = String(r[0]).trim();
+      // Skip total row and upside row
+      if (name.startsWith('TOTAL') || name.startsWith('2026 Broker')) continue;
+      // Skip notes row (very long string)
+      if (name.length > 60) continue;
+
+      agents.push({
+        name,
+        role: r[1] ? String(r[1]).trim() : '',
+        status: r[2] ? String(r[2]).trim() : '',
+        startYear: r[3] ? String(r[3]).trim() : '',
+        proj2026: parseDollar(r[4]),
+        act2026:  parseDollar(r[5]),
+        proj2027: parseDollar(r[6]),
+        act2027:  parseDollar(r[7]),
+        proj2028: parseDollar(r[8]),
+        act2028:  parseDollar(r[9]),
+      });
+    }
+
+    // Find TOTAL row
+    const totalRow = rows.find(r => r && String(r[0]).startsWith('TOTAL'));
+    if (totalRow) {
+      total = {
+        proj2026: parseDollar(totalRow[4]),
+        act2026:  parseDollar(totalRow[5]),
+        proj2027: parseDollar(totalRow[6]),
+        act2027:  parseDollar(totalRow[7]),
+        proj2028: parseDollar(totalRow[8]),
+        act2028:  parseDollar(totalRow[9]),
+      };
+    }
+
+    return { agents, total };
+  } catch {
+    return empty;
+  }
 }
