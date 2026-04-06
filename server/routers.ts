@@ -18,7 +18,7 @@ The South Fork is not a market. It is a territory — eleven distinct hamlets, e
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.
 
-The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.
+The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.
 
 The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.
 
@@ -47,7 +47,7 @@ Hamlet Atlas. Eleven hamlets. South Fork. Christie's Intelligence Score classifi
 
 Sagaponack. CIS score: 9.4 out of 10. Median price: 7.5 million dollars. Volume share: 4 percent. Year over year: plus 4 percent.
 
-East Hampton Village. CIS score: 9.2 out of 10. Median price: 5.15 million dollars. Volume share: 12 percent. Year over year: plus 12 percent.
+East Hampton Village. CIS score: 9.2 out of 10. Median price: 5.25 million dollars. Volume share: 12 percent. Year over year: plus 12 percent.
 
 Bridgehampton. CIS score: 9.1 out of 10. Median price: 5.1 million dollars. Volume share: 8 percent. Year over year: plus 8 percent.
 

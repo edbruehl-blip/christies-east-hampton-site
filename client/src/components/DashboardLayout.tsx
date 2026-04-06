@@ -4,7 +4,7 @@
  * Design System: Navy #1B2A4A · Gold #C8AC78 · Charcoal #384249 · Cream #FAF8F4
  * Five-layer instrument panel header — matches production christiesrealestategroupeh.com
  *
- * Layer 1: Tab row — CIREG logo · 6 tabs · PUBLIC toggle · Ed headshot
+ * Layer 1: Tab row — CIREG logo · 6 tabs · Ed headshot (PUBLIC route removed Sprint 11)
  * Layer 2: Institutional ticker — "Stewarding Hamptons legacies…" marquee, 55s loop
  * Layer 3: Primary data strip — S&P 500 · Bitcoin · 30Y Fixed Mtg · Gold
  * Layer 4: Secondary data strip — Silver · VIX · 30Y Treasury · Hamptons Median
@@ -194,7 +194,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     <div className="min-h-screen flex flex-col bg-[var(--color-cream)]">
 
       {/* ══════════════════════════════════════════════════════════════════
-          LAYER 1 — Tab row: CIREG logo · 7 tabs · Ed headshot
+          LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot
           Background: Navy #1B2A4A
       ══════════════════════════════════════════════════════════════════ */}
       <div

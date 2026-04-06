@@ -67,7 +67,7 @@ export async function fetchCronkiteBrief(): Promise<string> {
 }
 
 // ─── ElevenLabs synthesis ─────────────────────────────────────────────────────
-const ELEVENLABS_VOICE_ID = "N2lVS1w4EtoT3dr4eOWO"; // William
+const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as whatsapp-route.ts and tts-route.ts)
 const ELEVENLABS_MODEL    = "eleven_multilingual_v2";
 
 async function synthesiseAudio(text: string): Promise<Buffer> {
@@ -195,7 +195,7 @@ async function handleStatus(to: string): Promise<void> {
     `📊 Christie's East Hampton — Status Report · ${now}\n\n` +
     `Platform: LIVE at christiesrealestategroupeh.com\n` +
     `Pipeline: Active — check PIPE tab for current deals\n` +
-    `Intelligence Web: 43 entities tracked\n` +
+    `Intelligence Web: 48 entities tracked\n` +
     `Next brief: 8:00 AM Eastern\n\n` +
     `Reply NEWS for intelligence brief · PIPE for pipeline · BRIEF for morning brief`
   );
