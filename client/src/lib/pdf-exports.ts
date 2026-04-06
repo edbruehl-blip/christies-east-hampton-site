@@ -1028,3 +1028,152 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
 
   downloadPdf(doc, 'Christies_EH_East_Hampton_Village_Q1_2026.pdf');
 }
+
+// ─── 7. Christie's Letter (P3 — Sprint 12) ────────────────────────────────────
+// Flambeaux standard: white paper, Cormorant Garamond (Helvetica-Bold approx),
+// gold rule top and bottom, italic opening, serif prose body, italic close.
+// Two QR placeholder boxes bottom right. Date block top right.
+// No pull quote block. No bullets. No tables.
+export async function generateChristiesLetter(): Promise<void> {
+  const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+  const { logoImg, qrImg } = await loadPdfAssets();
+
+  const cx = PAGE.w / 2;
+  const ml = PAGE.ml;
+  const mr = PAGE.mr;
+  const cw = PAGE.contentW;
+  let y = 14;
+
+  // ── CIREG logo — centered ─────────────────────────────────────────────────
+  if (logoImg) {
+    try { doc.addImage(logoImg, 'PNG', cx - 22, y, 44, 17); } catch { /* skip */ }
+  } else {
+    doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, y + 10, { align: 'center' });
+  }
+  y = 34;
+
+  // ── Top gold rule ─────────────────────────────────────────────────────────
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.6);
+  doc.line(ml, y, PAGE.w - mr, y);
+  y += 8;
+
+  // ── Date block — right-aligned ────────────────────────────────────────────
+  const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  doc.setFontSize(8);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'normal');
+  doc.text(dateStr, PAGE.w - mr, y, { align: 'right' });
+  y += 10;
+
+  // ── Salutation ────────────────────────────────────────────────────────────
+  doc.setFontSize(13);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'bold');
+  doc.text('To the Families of the East End \u2014', ml, y);
+  y += 10;
+
+  // ── Body paragraphs (Flambeaux: no bullets, no tables, prose only) ────────
+  const BODY_SIZE = 10.5;
+  const LINE_H = 6.2;
+  const PARA_GAP = 5;
+
+  const paras: Array<{ text: string; italic?: boolean }> = [
+    {
+      text: 'The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations \u2014 by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.',
+    },
+    {
+      text: "Christie\u2019s has served that understanding for 259 years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Faberg\u00e9 eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.",
+    },
+    {
+      text: "From fine art appraisals to collection management, from art-secured lending to the auction house relationship that has served collectors for 259 years \u2014 Christie\u2019s brings a depth of service that begins where the closing table ends. Every estate holds a story written in objects, and the families who built these collections deserve an advisor who reads the full page.",
+    },
+    {
+      text: 'When the time comes to understand what you have, how to protect it, and what it might mean to the right buyer \u2014 the conversation is already open.',
+    },
+    {
+      text: 'The door is open whenever you are ready to walk through it.',
+      italic: true,
+    },
+  ];
+
+  for (const para of paras) {
+    doc.setFontSize(BODY_SIZE);
+    doc.setTextColor(...C.charcoal);
+    doc.setFont('helvetica', para.italic ? 'italic' : 'normal');
+    const lines = doc.splitTextToSize(para.text, cw);
+    doc.text(lines, ml, y);
+    y += lines.length * LINE_H + PARA_GAP;
+  }
+
+  y += 4;
+
+  // ── Close ─────────────────────────────────────────────────────────────────
+  doc.setFontSize(BODY_SIZE);
+  doc.setTextColor(...C.charcoal);
+  doc.setFont('helvetica', 'italic');
+  doc.text('With respect and in service \u2014', ml, y);
+  y += LINE_H * 1.6;
+
+  // ── Signature block ───────────────────────────────────────────────────────
+  doc.setFontSize(10);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Ed Bruehl', ml, y);
+  y += 5.5;
+  doc.setFontSize(8.5);
+  doc.setTextColor(...C.charcoal);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Managing Director', ml, y);
+  y += 5;
+  doc.text("Christie\u2019s International Real Estate Group \u00b7 East Hampton", ml, y);
+  y += 10;
+
+  // ── SDG line — small, muted ───────────────────────────────────────────────
+  doc.setFontSize(7.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'italic');
+  doc.text('Soli Deo Gloria.', ml, y);
+
+  // ── Two QR placeholder boxes — bottom right ───────────────────────────────
+  const qrY = PAGE.h - 50;
+  const qrX1 = PAGE.w - mr - 30;
+  const qrX2 = PAGE.w - mr - 14;
+  if (qrImg) {
+    try { doc.addImage(qrImg, 'PNG', qrX1, qrY, 12, 12); } catch {
+      doc.setFillColor(240, 238, 234); doc.rect(qrX1, qrY, 12, 12, 'F');
+    }
+  } else {
+    doc.setFillColor(240, 238, 234); doc.rect(qrX1, qrY, 12, 12, 'F');
+  }
+  doc.setFontSize(5.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
+  doc.text('Website', qrX1 + 6, qrY + 14.5, { align: 'center' });
+
+  doc.setFillColor(240, 238, 234); doc.rect(qrX2 + 2, qrY, 12, 12, 'F');
+  doc.setFontSize(5.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
+  doc.text('Contact', qrX2 + 8, qrY + 14.5, { align: 'center' });
+
+  // ── Bottom gold rule ──────────────────────────────────────────────────────
+  const footerRuleY = PAGE.h - 22;
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.6);
+  doc.line(ml, footerRuleY, PAGE.w - mr, footerRuleY);
+
+  // ── Footer contact line ───────────────────────────────────────────────────
+  doc.setFontSize(7);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'normal');
+  doc.text(
+    '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
+    cx, footerRuleY + 5, { align: 'center' }
+  );
+
+  // ── Private & Confidential ────────────────────────────────────────────────
+  doc.setFontSize(5.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'bold');
+  doc.text('PRIVATE & CONFIDENTIAL', cx, footerRuleY + 10, { align: 'center' });
+
+  downloadPdf(doc, `Christies-EH-Letter-${today().replace(/\s/g, '-')}.pdf`);
+}

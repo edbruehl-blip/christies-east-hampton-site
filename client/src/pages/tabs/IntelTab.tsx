@@ -188,7 +188,7 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'office-pipeline',
     name: 'Office Pipeline',
-    description: 'Live deal tracker — 47 active deals across all eleven hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
+    description: 'Live deal tracker — active deals across all eleven hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
     sheetId: SHEET_IDS.officePipeline,
     badge: 'PIPE Tab',
   },
@@ -209,7 +209,7 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'intel-web-master',
     name: 'Intelligence Web Master',
-    description: '48 entities across RECRUIT, WHALE, COMPETITOR, PARTNER, ATTORNEY, ADVISOR, MEDIA, INSTITUTION, and COUNCIL types. 17 columns including Last Touch and Cadence.',
+    description: '47 entities across RECRUIT, WHALE, COMPETITOR, PARTNER, ATTORNEY, ADVISOR, MEDIA, INSTITUTION, and COUNCIL types. 17 columns including Last Touch and Cadence.',
     sheetId: SHEET_IDS.intelligenceWebMaster,
     badge: 'INTEL Layer 5',
   },
@@ -374,6 +374,21 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     label: 'Council Brief · March 29, 2026 · FINAL',
     description: 'Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.',
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/JBBnSxvSjfkLOjlS.html',
+    pinned: true,
+  },
+  // P2 — Sprint 12: UHNW assets hosted on Manus CDN
+  {
+    id: 'uhnw-backend-strategy',
+    label: 'Modern Day Path · UHNW Backend Strategy · April 2026',
+    description: 'UHNW targeting intelligence — Tier A and Tier B principals, art-secured lending pathway, Christie’s auction house referral architecture, and the Christie’s Neighborhood Card mailer playbook. Art-secured lending terminology applied throughout.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Modern_Day_Path_UHNW_Backend_Strategy_56d7c1aa.pdf',
+    pinned: true,
+  },
+  {
+    id: 'intelligence-web-canonical',
+    label: 'Christie’s Intelligence Web · Canonical Map · April 2026',
+    description: 'Full institutional relationship map — 47 entities across RECRUIT, WHALE, COMPETITOR, PARTNER, ATTORNEY, ADVISOR, MEDIA, INSTITUTION, and COUNCIL types. Interactive spiderweb visualization. Frank Newbold: RELATIONSHIP_INTELLIGENCE · Brand tier.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christies_Intelligence_Web_Locked_7c609b20.html',
     pinned: true,
   },
 ];

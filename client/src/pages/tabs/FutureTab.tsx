@@ -9,82 +9,26 @@
 import { useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
 
+// ─── Council-governed milestone targets ──────────────────────────────────────
+// These values only change with a council decision.
+// The 2026 bar segments are derived live from the VOLUME tab endpoint.
+// One place to update. Not scattered. Not hardcoded inline.
+const MILESTONE_TARGETS = {
+  2025: { volume: 15_000_000, displayVolume: '$15M', label: 'Baseline', note: 'Bonita DeWolf pre-launch baseline', isBaseline: true },
+  2026: { volume: 55_000_000, displayVolume: '$55M', label: 'Target', note: null, isBaseline: false },
+  2027: { volume: 105_000_000, displayVolume: '$100M–$110M', label: '$100M–$110M', note: null, isBaseline: false },
+  2028: { volume: 165_000_000, displayVolume: '$165M', label: '$165M', note: null, isBaseline: false },
+  2029: { volume: 230_000_000, displayVolume: '$230M', label: '$230M', note: null, isBaseline: false },
+  2031: { volume: 430_000_000, displayVolume: '$430M', label: '$430M', note: null, isBaseline: false },
+} as const;
+
 const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
 const SANS: React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
 
 const CIREG_LOGO_DARK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
 
-// ─── Ascension Arc — six bars per approved wireframe ─────────────────────────
-// Sales volume only. No GCI. $1B run rate is horizon text, not a bar.
-const ARC_BARS = [
-  {
-    year: '2025',
-    label: 'Baseline',
-    volume: 15_000_000,
-    displayVolume: '$15M',
-    note: 'Bonita DeWolf\npre-launch baseline',
-    segments: null,
-    isClosed: true,
-    isBaseline: true,
-  },
-  {
-    year: '2026',
-    label: 'Target',
-    volume: 55_000_000,
-    displayVolume: '$55M',
-    note: null,
-    segments: [
-      { label: 'Closed', value: 4_570_000, color: '#1B2A4A' },
-      { label: 'Active', value: 13_620_000, color: '#8a7a5a' },
-      { label: 'Projected', value: 36_810_000, color: 'rgba(200,172,120,0.35)' },
-    ],
-    isClosed: false,
-    isBaseline: false,
-  },
-  {
-    year: '2027',
-    label: '$100M–$110M',
-    volume: 105_000_000,
-    displayVolume: '$100M–$110M',
-    note: null,
-    segments: null,
-    isClosed: false,
-    isBaseline: false,
-  },
-  {
-    year: '2028',
-    label: '$165M',
-    volume: 165_000_000,
-    displayVolume: '$165M',
-    note: null,
-    segments: null,
-    isClosed: false,
-    isBaseline: false,
-  },
-  {
-    year: '2029',
-    label: '$230M',
-    volume: 230_000_000,
-    displayVolume: '$230M',
-    note: null,
-    segments: null,
-    isClosed: false,
-    isBaseline: false,
-  },
-  {
-    year: '2031',
-    label: '$430M',
-    volume: 430_000_000,
-    displayVolume: '$430M',
-    note: null,
-    segments: null,
-    isClosed: false,
-    isBaseline: false,
-  },
-];
-
-const MAX_VOLUME = 430_000_000;
+const MAX_VOLUME = MILESTONE_TARGETS[2031].volume;
 const CHART_HEIGHT = 220; // px
 
 function fmtVol(n: number): string {
@@ -93,8 +37,8 @@ function fmtVol(n: number): string {
   return `$${n.toLocaleString()}`;
 }
 
-// ─── PDF Export ───────────────────────────────────────────────────────────────
-function exportFuturePDF(volumeAgents: { name: string; proj2026: number; act2026: number; proj2027: number; act2027: number }[], total: { proj2026: number; act2026: number }) {
+// ─── PDF Export (generateFutureReport — Sprint 12 P1) ───────────────────────
+function generateFutureReport(volumeAgents: { name: string; proj2026: number; act2026: number; proj2027: number; act2027: number }[], total: { proj2026: number; act2026: number }) {
   const win = window.open('', '_blank');
   if (!win) return;
 
@@ -278,6 +222,33 @@ export default function FutureTab() {
   const liveAct2026 = useMemo(() => {
     if (!volData) return 4_570_000; // fallback to brief value
     return volData.total.act2026 || 4_570_000;
+  }, [volData]);
+
+  // Build ARC_BARS at render time — 2026 segments derived from live VOLUME tab data.
+  // All other bars read from council-governed MILESTONE_TARGETS config.
+  const ARC_BARS = useMemo(() => {
+    const closed2026 = volData?.total.act2026 || 4_570_000;
+    const active2026 = volData?.total.proj2026
+      ? Math.max(0, volData.total.proj2026 - closed2026)
+      : 13_620_000;
+    const projected2026 = Math.max(0, MILESTONE_TARGETS[2026].volume - closed2026 - active2026);
+    return [
+      { year: '2025', ...MILESTONE_TARGETS[2025], segments: null, isClosed: true },
+      {
+        year: '2026',
+        ...MILESTONE_TARGETS[2026],
+        segments: [
+          { label: 'Closed',    value: closed2026,    color: '#1B2A4A' },
+          { label: 'Active',    value: active2026,    color: '#8a7a5a' },
+          { label: 'Projected', value: projected2026, color: 'rgba(200,172,120,0.35)' },
+        ],
+        isClosed: false,
+      },
+      { year: '2027', ...MILESTONE_TARGETS[2027], segments: null, isClosed: false },
+      { year: '2028', ...MILESTONE_TARGETS[2028], segments: null, isClosed: false },
+      { year: '2029', ...MILESTONE_TARGETS[2029], segments: null, isClosed: false },
+      { year: '2031', ...MILESTONE_TARGETS[2031], segments: null, isClosed: false },
+    ];
   }, [volData]);
 
   return (
@@ -569,7 +540,7 @@ export default function FutureTab() {
         {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
         <div className="flex items-center justify-center gap-4 pb-8">
           <button
-            onClick={() => exportFuturePDF(agents, total)}
+            onClick={() => generateFutureReport(agents, total)}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
           >

@@ -10,7 +10,7 @@
  * Note: Sheet is private — rendered via server-side proxy (no iframe, no public sharing required)
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
 
@@ -172,16 +172,34 @@ function InlineStatusEditor({
 // ─── Full Pipeline Table ──────────────────────────────────────────────────────
 
 function PipelineTable() {
-  const { data, isLoading, error, refetch } = trpc.pipe.sheetDeals.useQuery(undefined, {
+  const [lastSyncedAt, setLastSyncedAt] = useState<Date | null>(null);
+  const [secondsAgo, setSecondsAgo] = useState<number>(0);
+
+  const { data, isLoading, error, refetch, dataUpdatedAt } = trpc.pipe.sheetDeals.useQuery(undefined, {
     refetchInterval: 60_000,
     staleTime: 30_000,
     retry: false, // Fail fast on Sheets API errors — show error state immediately
   });
 
+  // Track when data was last successfully fetched
+  useEffect(() => {
+    if (dataUpdatedAt && dataUpdatedAt > 0) {
+      setLastSyncedAt(new Date(dataUpdatedAt));
+    }
+  }, [dataUpdatedAt]);
+
+  // Tick every second to update "Xs ago" display
+  useEffect(() => {
+    if (!lastSyncedAt) return;
+    const tick = () => setSecondsAgo(Math.floor((Date.now() - lastSyncedAt.getTime()) / 1000));
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [lastSyncedAt]);
+
   const updateStatus = trpc.pipe.updateSheetStatus.useMutation({
     onSuccess: () => setTimeout(() => refetch(), 1500),
   });
-
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -261,10 +279,18 @@ function PipelineTable() {
           className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
           style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.14em', textDecoration: 'none' }}
         >
-          Open Full Sheet ↗
+           Open Full Sheet ↗
         </a>
+        {/* Sync indicator */}
+        {lastSyncedAt && (
+          <span
+            className="ml-auto text-[9px] uppercase tracking-widest"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', letterSpacing: '0.12em', whiteSpace: 'nowrap' }}
+          >
+            ↻ Last synced {secondsAgo < 60 ? `${secondsAgo}s ago` : `${Math.floor(secondsAgo / 60)}m ago`}
+          </span>
+        )}
       </div>
-
       {/* Success notification */}
       {updateStatus.isSuccess && (
         <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(27,42,74,0.06)', color: '#1B2A4A', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>

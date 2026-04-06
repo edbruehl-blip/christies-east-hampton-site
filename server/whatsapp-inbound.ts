@@ -195,7 +195,7 @@ async function handleStatus(to: string): Promise<void> {
     `📊 Christie's East Hampton — Status Report · ${now}\n\n` +
     `Platform: LIVE at christiesrealestategroupeh.com\n` +
     `Pipeline: Active — check PIPE tab for current deals\n` +
-    `Intelligence Web: 48 entities tracked\n` +
+    `Intelligence Web: 47 entities tracked\n` +
     `Next brief: 8:00 AM Eastern\n\n` +
     `Reply NEWS for intelligence brief · PIPE for pipeline · BRIEF for morning brief`
   );
@@ -230,6 +230,43 @@ async function handlePipe(to: string): Promise<void> {
   }
 }
 
+async function handleIntel(to: string): Promise<void> {
+  try {
+    const { readIntelWebRows } = await import('./sheets-helper');
+    const entities = await readIntelWebRows();
+
+    // Top 5 Jarvis recruits: audience contains Jarvis_Top_Agents, type = RECRUIT, ordered by tier
+    const jarvisRecruits = entities
+      .filter(e => e.entityType === 'RECRUIT' && e.audience && e.audience.includes('Jarvis_Top_Agents'))
+      .slice(0, 5);
+
+    // Top 3 Whale entities: type = WHALE, audience contains Whale_Intelligence
+    const whales = entities
+      .filter(e => e.entityType === 'WHALE' && e.audience && e.audience.includes('Whale_Intelligence'))
+      .slice(0, 3);
+
+    const dateLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    const recruitLines = jarvisRecruits.length > 0
+      ? jarvisRecruits.map((r, i) => `  ${i + 1}. ${r.entityName} — ${r.currentFirm || 'Independent'} · ${r.tier}${r.status ? ' · ' + r.status : ''}`).join('\n')
+      : '  No Tier 1 Jarvis recruits on file.';
+
+    const whaleLine = whales.length > 0
+      ? whales.map((w, i) => `  ${i + 1}. ${w.entityName}${w.notes ? ' — ' + w.notes.substring(0, 80) + (w.notes.length > 80 ? '…' : '') : ''}`).join('\n')
+      : '  No active whale intelligence on file.';
+
+    await sendTextReply(
+      to,
+      `🕵️ Christie's EH — Intelligence Flash · ${dateLabel}\n\n` +
+      `TOP 5 JARVIS RECRUITS\n${recruitLines}\n\n` +
+      `TOP 3 WHALE INTELLIGENCE\n${whaleLine}\n\n` +
+      `Full Intel Web: christiesrealestategroupeh.com (INTEL tab)`
+    );
+  } catch (err: any) {
+    await sendTextReply(to, `⚠️ Intel data temporarily unavailable: ${err.message ?? 'Unknown error'}. Check INTEL tab directly.`);
+  }
+}
+
 async function handleHelp(to: string): Promise<void> {
   await sendTextReply(
     to,
@@ -237,6 +274,7 @@ async function handleHelp(to: string): Promise<void> {
     `Available commands:\n` +
     `  NEWS   — 14-category intelligence brief (voice)\n` +
     `  PIPE   — Pipeline deal summary\n` +
+    `  INTEL  — Top 5 recruits + top 3 whale intel\n` +
     `  STATUS — Platform status report\n` +
     `  BRIEF  — Morning brief (voice)\n` +
     `  HELP   — This menu\n\n` +
@@ -270,6 +308,8 @@ export function registerWhatsAppInbound(app: Express): void {
         await handleStatus(from);
       } else if (body === "BRIEF" || body === "MORNING") {
         await handleBrief(from);
+      } else if (body === "INTEL" || body === "INTELLIGENCE") {
+        await handleIntel(from);
       } else if (body === "HELP" || body === "?") {
         await handleHelp(from);
       } else {

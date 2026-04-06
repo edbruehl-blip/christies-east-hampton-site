@@ -608,3 +608,17 @@
 - [x] Item 9: Perplexity Mastermind Map iframe removed — replaced by Sprint 12 Mind Map placeholder card.
 - [x] Item 10: Nine-Sheet Matrix added to INTEL Layer 3 — all nine canonical sheets numbered, described, Open Sheet buttons.
 - [x] Item 11: James Christie portrait — fixed mobile scaling: clamp(90px, 14vw, 130px) width, centered in left column, alignItems:center on container. Renders correctly on iPhone SE through iPhone 15 Pro Max.
+
+## Sprint 12 — April 6, 2026
+
+- [x] P0: Wire Ascension Arc 2026 segments to live volData endpoint; extract MILESTONE_TARGETS config object
+- [x] P4: Intelligence Web — Frank Newbold corrected to RELATIONSHIP_INTELLIGENCE/Brand tier in live sheet; entity count 47 verified; all whale tags confirmed
+- [x] P6: PIPE auto-refresh indicator — ↻ Last synced Xs ago live, ticks every second, 60s auto-refresh
+- [x] P7: WhatsApp INTEL command — top 5 Jarvis recruits + top 3 Whale entities, HELP menu updated
+- [x] P8a: Shared content max-width CSS variable — --frame-max-w: 1100px applied to MAPS, PIPE, INTEL (verified)
+- [x] P8b: INTEL hero slot placeholder card — Layer 1 Mind Map placeholder confirmed at id=intel-layer-1
+- [x] P8c: Data current as of timestamp — trpc.market.dataTimestamp.useQuery confirmed live
+- [x] P8d: MAPS + MARKET WhatsApp brief buttons — confirmed live (MAPS line 282, MARKET line 598)
+- [x] P1: generateFutureReport() renamed, auto-print trigger confirmed (window.print() at 800ms already present)
+- [x] P3: generateChristiesLetter() built (Flambeaux standard, Cormorant Garamond, gold rules, two QR placeholders, date block), HOME tab button wired
+- [x] P2: UHNW Backend Strategy PDF + Intelligence Web HTML hosted on Manus CDN, wired to INTEL Layer 4 Document Library

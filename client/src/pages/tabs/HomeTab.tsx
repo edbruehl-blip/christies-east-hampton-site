@@ -21,6 +21,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
+import { generateChristiesLetter } from '@/lib/pdf-exports';
 
 const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
@@ -272,6 +273,27 @@ function SectionWilliam() {
         <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: 11, lineHeight: 1.5, marginTop: 12, opacity: 0.5 }}>
           Tap play to hear William deliver the Christie’s East Hampton founding letter. Audio synthesised via ElevenLabs. Share button copies the MP3 URL to clipboard.
         </p>
+        {/* P3 — Sprint 12: Christie’s Letter PDF export */}
+        <button
+          onClick={() => generateChristiesLetter()}
+          style={{
+            marginTop: 20,
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '9px 20px',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 11,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            color: '#1B2A4A',
+            background: 'rgba(200,172,120,0.08)',
+            border: '1px solid #C8AC78',
+            cursor: 'pointer',
+          }}
+        >
+          ↓ Download Christie’s Letter · PDF
+        </button>
       </div>
     </section>
   );
