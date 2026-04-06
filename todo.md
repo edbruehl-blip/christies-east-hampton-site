@@ -633,3 +633,6 @@
 - [x] S14-2: INTEL Layer 5 — Relationship Intelligence full table with four filters (type, tier, audience, last touch), All Entities tab added to IntelligenceWebTabs, lastTouch + cadence columns now read from sheet
 - [x] S14-3: Hover news panels — intel.entityNews tRPC procedure, Perplexity 30-day news on Mind Map node hover, 5min cache
 - [x] S14-4: QR codes in generateChristiesLetter() — Website QR (christiesrealestategroupeh.com) + Ed vCard QR, navy on cream, 22x22mm, qrcode package installed
+
+## Sprint 15 — Hamlet Photo Refresh (April 6, 2026)
+- [x] S15-1: Upload all 15 Ed hamlet photos to CDN, catalogue best image per hamlet, wire into hamlet-master.ts imageUrl fields

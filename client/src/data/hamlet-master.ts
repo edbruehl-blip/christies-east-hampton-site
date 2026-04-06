@@ -12,7 +12,7 @@
  *   local:  everyday / year-round local (Ed-supplied, one per hamlet)
  *
  * Medians: Saunders 2025 Annual Report — confirmed April 3, 2026
- * Images: Wikimedia Commons (free for commercial use) — wired April 3, 2026
+ * Images: Ed Bruehl original photography — wired April 6, 2026 (replaced Wikimedia)
  * Vibe text: Gemini two-sentence copy — wired April 3, 2026
  */
 
@@ -125,8 +125,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack_beach_79562586.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/01_sagaponack_da3d0919.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack-wolffer-vineyard_f309f7a0.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack-wolffer-vineyard_f309f7a0.jpg',
     vibeText: 'Agricultural heritage meeting the Atlantic. Deeply personal, quiet luxury away from the summer crowds.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -160,8 +160,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_village_main_beach_77916dfb.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/02_east_hampton_village_69834421.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
     vibeText: 'Pristine luxury and immaculate estates. The historical and institutional anchor of the South Fork.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -195,8 +195,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton_mecox_c2a4b82f.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/03_bridgehampton_cd70aff1.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton-beach_e81e7f2f.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton-beach_e81e7f2f.jpg',
     vibeText: 'Sprawling equestrian estates and vineyards. A seamless blend of retained agricultural heritage and refined wealth.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -230,8 +230,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton_coopers_beach_fe6759c5.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/05_southampton_village_da26a626.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
     vibeText: 'Majestic and transformative coastal beauty. The grand, traditional standard of Hamptons estate living.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -265,8 +265,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water_mill_windmill_8a45de1b.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/04_water_mill_8b4c3753.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
     vibeText: 'Historic rustic charm defined by its working mill and waterfronts. Quiet exclusivity centered around Mecox Bay.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -300,8 +300,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag_harbor_marina_f2b1b7c1.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/08_sag_harbor_fa9f5673.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag-harbor-windmill_f12c2f08.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag-harbor-windmill_f12c2f08.jpg',
     vibeText: 'Historic yachting center and maritime heart of the Hamptons. Deep-water marinas bordered by walkable, high-end retail.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -335,8 +335,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett_beach_1a94cf78.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/06_amagansett_74af9d55.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett-beach_630e2eb6.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett-beach_630e2eb6.jpg',
     vibeText: 'Quintessential, relaxed coastal luxury. Classic beach days anchored by immaculate sands and exclusionary privacy.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -373,8 +373,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_cedar_point_df0d3cd5.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/eh_north_cedar_point_df0d3cd5.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-north-sunset_d9c3ca9b.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-north-sunset_d9c3ca9b.jpg',
     vibeText: 'Deep wooded privacy and expansive harbor access. The natural, uncrowded alternative to the village corridors.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -408,8 +408,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs_accabonac_eb4003dc.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/10_springs_a5e1792f.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs-marsh_0e828d75.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs-marsh_0e828d75.jpg',
     vibeText: 'Artistic, intimate, and secluded natural beauty. Quiet Accabonac Creek views totally removed from the highway rush.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -478,8 +478,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'Curbed NY', url: 'https://ny.curbed.com/hamptons' },
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
-    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott_georgica_c2860cc0.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/07_wainscott_6758074b.jpg',
+    photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
     vibeText: 'Spectacular isolation and quiet exclusivity. High-hedged privacy shielding the most discrete estates on the East End.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
