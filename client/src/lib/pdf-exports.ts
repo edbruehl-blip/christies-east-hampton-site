@@ -852,10 +852,10 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
     lastSale: '8 Lily Pond Lane',
     lastSalePrice: '$9.8M',
     lastSaleDate: 'Jan 2025',
-    yoy: '+8.2%',
+    yoy: '+9.2%',
     activeListings: 14,
-    avgDOM: 112,
-    pricePerSqFt: '$1,420',
+    avgDOM: 61,
+    pricePerSqFt: '$1,420 est.',
     absorbRate: '3.2 months',
     characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
   };

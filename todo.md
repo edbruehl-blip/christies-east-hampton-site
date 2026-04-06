@@ -647,3 +647,10 @@
 - [x] S15c-1: Update all 11 hamlet vibeText fields with council-approved final copy
 - [x] S15c-2: Confirm Christie's Letter body copy in generateChristiesLetter() is approved final version
 - [x] S15c-3: Save checkpoint and publish to christiesrealestategroupeh.com
+
+## Sprint 15d — EH Village Static Block Corrections (April 6, 2026)
+- [x] S15d-1: generateEastHamptonVillageReport — change YoY to +9.2%
+- [x] S15d-2: generateEastHamptonVillageReport — change DOM to 61
+- [x] S15d-3: generateEastHamptonVillageReport — change $/sqft to "$1,420 est." (add est. label)
+- [ ] S15d-HOLD: Restaurant data — hold pending Perplexity 11-hamlet delivery
+- [ ] S15d-HOLD: Compass mind map node — hold pending Perplexity brand attribution paste-ready block
