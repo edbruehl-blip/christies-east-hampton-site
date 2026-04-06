@@ -642,3 +642,8 @@
 - [x] S15b-2: Update Montauk vibe text (Atlantic/surf copy)
 - [x] S15b-3: Update EH North vibe text (wetland light copy — remove harbor access)
 - [x] S15b-4: Verify Bonnie Brennan and Ilija Pavlović spellings — already correct in live code
+
+## Sprint 15c — Council-Approved Vibe Text (April 6, 2026)
+- [x] S15c-1: Update all 11 hamlet vibeText fields with council-approved final copy
+- [x] S15c-2: Confirm Christie's Letter body copy in generateChristiesLetter() is approved final version
+- [x] S15c-3: Save checkpoint and publish to christiesrealestategroupeh.com

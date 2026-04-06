@@ -127,7 +127,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack-wolffer-vineyard_f309f7a0.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sagaponack-wolffer-vineyard_f309f7a0.jpg',
-    vibeText: 'Agricultural heritage meeting the Atlantic. Deeply personal, quiet luxury away from the summer crowds.',
+    vibeText: 'Where the vineyard meets the Atlantic and the land holds more value per acre than anywhere on the Eastern Seaboard. Sagaponack is not a town — it is a statement about what you believe property should be.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -162,7 +162,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
-    vibeText: 'Pristine luxury and immaculate estates. The historical and institutional anchor of the South Fork.',
+    vibeText: 'The center of gravity for the South Fork. East Hampton Village is where the private gallery, the oceanfront estate, and the institutional standard all share the same zip code.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -197,7 +197,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton-beach_e81e7f2f.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/bridgehampton-beach_e81e7f2f.jpg',
-    vibeText: 'Sprawling equestrian estates and vineyards. A seamless blend of retained agricultural heritage and refined wealth.',
+    vibeText: 'Where the farm stand sits a quarter mile from the breaking surf and neither one apologizes for the other. Bridgehampton is the bridge between the working land and the wealth that protects it.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -232,7 +232,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
-    vibeText: 'Majestic and transformative coastal beauty. The grand, traditional standard of Hamptons estate living.',
+    vibeText: 'Old money speaks quietly here. Southampton Village is the South Fork\'s most governed hamlet — the architecture, the hedgerows, and the social order all follow rules that predate the highway.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -267,7 +267,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
-    vibeText: 'Historic rustic charm defined by its working mill and waterfronts. Quiet exclusivity centered around Mecox Bay.',
+    vibeText: 'A boardwalk across the marsh and some of the most undervalued acreage on the South Fork. Water Mill rewards the buyer who sees land before address.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -302,7 +302,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag-harbor-windmill_f12c2f08.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/sag-harbor-windmill_f12c2f08.jpg',
-    vibeText: 'Historic yachting center and maritime heart of the Hamptons. Deep-water marinas bordered by walkable, high-end retail.',
+    vibeText: 'The windmill stands where Main Street meets the harbor and the whole village still runs on foot traffic and conversation. Sag Harbor is the East End\'s most walkable hamlet — and the one most likely to surprise you with what sells.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -337,7 +337,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett-beach_630e2eb6.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/amagansett-beach_630e2eb6.jpg',
-    vibeText: 'Quintessential, relaxed coastal luxury. Classic beach days anchored by immaculate sands and exclusionary privacy.',
+    vibeText: 'Sunset over the lifeguard stand and nothing else for miles. Amagansett is the hamlet that still feels like what the entire East End used to be — unhurried, salt-aired, and stubbornly itself.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -410,7 +410,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs-marsh_0e828d75.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/springs-marsh_0e828d75.jpg',
-    vibeText: 'Artistic, intimate, and secluded natural beauty. Quiet Accabonac Creek views totally removed from the highway rush.',
+    vibeText: 'Jackson Pollock painted here because the light was honest and the rent was low. Springs is still where the dock meets the marsh and the land remembers what it was before the money arrived.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -445,7 +445,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/montauk_lighthouse_8f675846.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Montauk_2b5f2ba8.jpg',
-    vibeText: 'Where the Atlantic ends and the surf begins. Montauk is raw, unhurried, and fiercely its own — the East End\'s most authentic hamlet.',
+    vibeText: 'Where the road ends at the lighthouse and the Atlantic begins. Montauk is raw, unhurried, and unapologetically its own — the East End\'s last wild place.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -480,7 +480,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
-    vibeText: 'Spectacular isolation and quiet exclusivity. High-hedged privacy shielding the most discrete estates on the East End.',
+    vibeText: 'A dune path to the ocean and nothing between you and the horizon. Wainscott is the hamlet with the fewest houses, the highest privacy, and the strongest case for long-term appreciation on the South Fork.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
