@@ -66,7 +66,7 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
     // Navigate and wait for all network activity to settle
     await page.goto(reportUrl, {
       waitUntil: 'networkidle0',
-      timeout: 60_000,
+      timeout: 30_000,
     });
 
     // Wait for Cormorant Garamond and Barlow Condensed fonts to load
@@ -77,6 +77,7 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
 
     // Generate PDF — A4 landscape, print background colors preserved
     const pdfBuffer = await page.pdf({
+      timeout: 30_000,
       format: 'A4',
       landscape: true,
       printBackground: true,
@@ -100,9 +101,11 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
       try { await browser.close(); } catch { /* ignore */ }
     }
     console.error('[PDF Route] Error generating PDF:', err);
+    const errMsg = err instanceof Error ? err.message : String(err);
+    console.error('[PDF Route] Full error:', errMsg);
     res.status(500).json({
       error: 'PDF generation failed',
-      message: err instanceof Error ? err.message : String(err),
+      message: errMsg,
     });
   }
 });

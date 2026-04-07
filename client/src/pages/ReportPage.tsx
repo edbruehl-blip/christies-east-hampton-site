@@ -46,7 +46,8 @@ function BackBar() {
       await generateReportPdf();
       toast.success('PDF downloaded successfully');
     } catch (err) {
-      toast.error('PDF generation failed — please try again');
+      const msg = err instanceof Error ? err.message : String(err);
+      toast.error(msg.includes('Unauthorized') ? 'Session expired — please log in again' : `PDF generation failed: ${msg}`);
       console.error('[PDF Download]', err);
     } finally {
       setPdfLoading(false);
@@ -174,7 +175,8 @@ function Section1() {
     } catch (e) {
       console.error(e);
       setPdfState('error');
-      toast.error('PDF generation failed. Please try again.');
+      const msg = e instanceof Error ? e.message : String(e);
+      toast.error(msg.includes('Unauthorized') ? 'Session expired — please log in again' : `PDF generation failed: ${msg}`);
       setTimeout(() => setPdfState('idle'), 3000);
     }
   }

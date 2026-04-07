@@ -654,3 +654,9 @@
 - [x] S15d-3: generateEastHamptonVillageReport — change $/sqft to "$1,420 est." (add est. label)
 - [ ] S15d-HOLD: Restaurant data — hold pending Perplexity 11-hamlet delivery
 - [ ] S15d-HOLD: Compass mind map node — hold pending Perplexity brand attribution paste-ready block
+
+## Sprint 15e — Market Report PDF Export Fix (April 6, 2026)
+- [x] S15e-1: Test /api/pdf/report endpoint directly — capture exact error message
+- [x] S15e-2: Confirm full build clean (pnpm build, not just LSP)
+- [x] S15e-3: Increase Puppeteer timeout to 30s minimum
+- [x] S15e-4: Re-test endpoint after fix, confirm PDF generation succeeds
