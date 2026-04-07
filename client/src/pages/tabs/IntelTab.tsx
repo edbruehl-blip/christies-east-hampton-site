@@ -75,7 +75,7 @@ function CalendarLayer() {
         borderRadius: 2,
         overflow: 'hidden',
         background: '#fff',
-        maxWidth: 900,
+        maxWidth: 'var(--frame-max-w)',
       }}>
         {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>

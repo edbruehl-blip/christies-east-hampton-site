@@ -494,7 +494,7 @@ export default function MarketTab() {
 
       {/* ── Hamptons Market Signal ─────────────────────────────────────────── */}
       <section className="px-6 py-10" style={{ background: '#FAF8F4' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
           <div
             className="uppercase mb-2"
@@ -517,7 +517,7 @@ export default function MarketTab() {
 
       {/* ── Hamlet Tiles by Tier ─────────────────────────────────────────── */}
       <section className="px-6 pb-14" style={{ background: '#FAF8F4' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
           <div className="flex items-center justify-between mb-6">
             <div
@@ -553,7 +553,7 @@ export default function MarketTab() {
 
       {/* P1 — Request Territory Briefing CTA */}
       <section className="px-6 pb-14 pt-2" style={{ background: '#FAF8F4' }}>
-        <div className="mx-auto" style={{ maxWidth: 1100 }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div
             style={{
               background: '#1B2A4A',
@@ -606,7 +606,7 @@ export default function MarketTab() {
 
       {/* Saunders section removed per Sprint 7 polish directive */}
       <section className="hidden" style={{ background: '#1B2A4A' }}>
-        <div className="mx-auto py-10" style={{ maxWidth: 1100 }}>
+        <div className="mx-auto py-10" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div
             className="uppercase mb-2"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}

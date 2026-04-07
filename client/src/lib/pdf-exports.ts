@@ -508,14 +508,49 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
-  const foundingText = 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.\n\nThe South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.\n\nThe Christie\'s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie\'s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.\n\nEvery export from this platform — every market report, every deal brief, every CMA — carries the Christie\'s name because it has earned the right to carry it. The standard is not aspirational. It is operational.';
+  const foundingParas = [
+    "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
+    "The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
+    "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
+    "The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.",
+    "The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
+    "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
+    "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
+    "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
+  ];
   let lY = letterY + 6;
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 190, 175);
-  for (const para of foundingText.split('\n\n')) {
+  for (const para of foundingParas) {
     lY = wrapText(doc, para, PAGE.ml, lY, PAGE.contentW, 5);
     lY += 4;
+  }
+  // Ed signature block — below letter body
+  lY += 4;
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.3);
+  doc.line(PAGE.ml, lY, PAGE.ml + 40, lY);
+  lY += 5;
+  if (edImg) {
+    try { doc.addImage(edImg, 'JPEG', PAGE.ml, lY, 16, 16); } catch { /* skip */ }
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...C.cream);
+    doc.text('Ed Bruehl', PAGE.ml + 20, lY + 6);
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.gold);
+    doc.text('Managing Director · Christie\'s East Hampton', PAGE.ml + 20, lY + 12);
+  } else {
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...C.cream);
+    doc.text('Ed Bruehl', PAGE.ml, lY + 6);
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.gold);
+    doc.text('Managing Director · Christie\'s East Hampton', PAGE.ml, lY + 12);
   }
 
   // Doctrine footer
@@ -616,6 +651,35 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     }
   }
 
+  // Closing doctrine block — fills remaining space on final atlas page
+  // Advance to next row if last card was in left column
+  if (col % 2 !== 0) {
+    cardY += cardH + cardGap;
+  }
+  const doctrineY = cardY + 4;
+  if (doctrineY + 30 < PAGE.h - PAGE.mb) {
+    doc.setDrawColor(...C.gold);
+    doc.setLineWidth(0.3);
+    doc.line(PAGE.ml, doctrineY, PAGE.w - PAGE.mr, doctrineY);
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bolditalic');
+    doc.setTextColor(...C.gold);
+    doc.text('Eleven Hamlets. One Standard.', PAGE.ml, doctrineY + 6);
+    doc.setFontSize(6.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.charcoal);
+    const doctrineLines = [
+      'Springs is the most honest value proposition on the East End — artist roots, waterfront access, and a price corridor that still rewards the patient buyer.',
+      'Montauk is the frontier. The last hamlet. The one that still surprises. Duryea\'s on the water. The lighthouse at the edge of the continent. The buyer who finds Montauk is not looking for a postcode. They are looking for a feeling.',
+      'Wainscott is the quiet one. No village center. No boutiques. Just land, sky, and the kind of privacy that cannot be manufactured. The families who own here do not advertise it.',
+    ];
+    let dY = doctrineY + 12;
+    for (const line of doctrineLines) {
+      dY = wrapText(doc, line, PAGE.ml, dY, PAGE.contentW, 5);
+      dY += 5;
+    }
+  }
+
   const atlasPageNum = doc.getNumberOfPages();
   drawFooter(doc, atlasPageNum, atlasPageNum + 1, qrImg);
 
@@ -630,16 +694,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the South Fork access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 250 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 5.5);
   y += 5;
 
-  y = sectionLabel(doc, "Christie's Intelligence Score Framework", y);
-  y = wrapText(doc, 'Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie\'s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate. The Christie\'s Intelligence Score is not a sales tool — it is a discipline.', PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 5;
-
-  y = sectionLabel(doc, 'Platform Intelligence', y);
-  doc.setFontSize(7.5);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...C.charcoal);
-  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform maintains an eleven-hamlet Christie\'s Intelligence Score matrix updated quarterly, a live capital flow signal with rate environment monitoring, and a full suite of institutional export tools — Deal Brief, CMA, Investment Memo, and ANEW Build Memo. The platform also integrates a podcast and event calendar, an agent recruiting pipeline, and Christie\'s auction calendar data.', PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 6;
+  y += 8;
 
   // Contact card
   doc.setFillColor(240, 238, 234);

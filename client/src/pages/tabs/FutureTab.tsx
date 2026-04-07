@@ -279,7 +279,7 @@ export default function FutureTab() {
         </div>
       </div>
 
-      <div className="px-6 py-8" style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="px-6 py-8" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
 
         {/* ── Ascension Arc ────────────────────────────────────────────────────── */}
         <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>

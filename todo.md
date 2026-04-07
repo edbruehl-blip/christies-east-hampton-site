@@ -701,3 +701,18 @@
 - [x] 10. Market tab: Add refetchInterval 5 min to hamletMatrix query
 - [x] 11. Perplexity news: Add server-side in-memory Map cache with 5-min TTL
 - [x] 12. Document Library: Add April 6 Infrastructure Audit to INTEL Layer 4
+
+## April 6 Directive — Items 13–17
+
+- [ ] 13. Sprint 16 candidates — HOLD (hamlet atlas thumbnails, QR code, org chart PDF, WhatsApp threading)
+- [x] 14a. MAPS tab: remove CIS score number overlay from hero photography on hamlet cards (MAPS tab, not MARKET)
+- [x] 14b. MAPS tab: hamlet card layout already on responsive grid — confirmed, no change needed
+- [x] 15a. HOME tab: move audio player higher (below founding letter, before PDF download button)
+- [x] 15b. MAPS tab: content width already uses var(--frame-max-w) — confirmed
+- [x] 15c. INTEL tab: calendar iframe maxWidth changed from 900 to var(--frame-max-w)
+- [x] 15d. Apply shared max-width CSS variable to all content containers across all six tabs
+- [x] 16a. Market Report PDF Page 4: strip CIS Framework + Platform Intelligence — closing paragraph, headshot, contact, QR codes only
+- [x] 16b. Market Report PDF Page 1: extended to eight paragraphs + Ed signature block with headshot
+- [x] 16c. Market Report PDF Page 3: closing doctrine block added (Springs, Montauk, Wainscott vibe text)
+- [x] 16d. Market Report PDF: Platform Intelligence section removed entirely — no capital flow or rate references remain
+- [x] 17. FUTURE tab GCI/profit pool visibility gate — RESOLVED: site is internal operating system. Profit Pool section stays, clearly labeled. Sales volume anchors all headline figures. No change needed.

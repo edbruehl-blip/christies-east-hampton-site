@@ -161,6 +161,35 @@ function SectionA() {
               </div>
             </div>
 
+            {/* Audio player — immediately below founding letter signature */}
+            <div style={{ marginTop: 28, maxWidth: 560 }}>
+              <WilliamAudioPlayer
+                audioUrl={window.location.origin + '/api/tts/founding-letter'}
+                label="Founding Letter · Christie's East Hampton"
+              />
+            </div>
+            <button
+              onClick={() => generateChristiesLetter()}
+              style={{
+                marginTop: 16,
+                marginBottom: 32,
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '9px 20px',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: '#FAF8F4',
+                background: 'rgba(200,172,120,0.08)',
+                border: '1px solid rgba(200,172,120,0.5)',
+                cursor: 'pointer',
+              }}
+            >
+              ↓ Download Christie's Letter · PDF
+            </button>
+
           </div>
         </div>
       </div>
@@ -308,11 +337,10 @@ export default function HomeTab() {
       <SectionA />
       <SectionB />
       <AuctionHouseServices />
-      <SectionWilliam />
       {/* Estate Advisory Card — one locked copy source, three surfaces */}
       {/* framed=true adds Christie's gold border for HOME tab usage */}
       <div style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px 64px' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
             Estate Advisory
           </div>

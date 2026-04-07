@@ -517,11 +517,6 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.75) 100%)' }} />
-        <div style={{ position: 'absolute', bottom: 8, left: 10 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', textShadow: '0 1px 4px rgba(0,0,0,0.85)' }}>
-            CIS {hamlet.anewScore.toFixed(1)} / 10
-          </div>
-        </div>
         {hamletListings.length > 0 && (
           <div style={{ position: 'absolute', top: 8, right: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
             {hamletListings.length} ACTIVE
@@ -605,9 +600,6 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         <img src={hamlet.imageUrl || hamlet.photo} alt={hamlet.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(27,42,74,0.1) 0%, rgba(27,42,74,0.72) 100%)' }} />
         <div style={{ position: 'absolute', bottom: 0, left: 0, padding: '24px 28px' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            CIS {hamlet.anewScore.toFixed(1)} / 10
-          </div>
           <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '2rem', lineHeight: 1.1 }}>
             {hamlet.name}
           </h3>
