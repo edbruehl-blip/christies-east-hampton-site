@@ -535,6 +535,14 @@ export default function MarketTab() {
               <HamletTile key={hamlet.id} hamlet={hamlet} />
             ))}
           </div>
+
+          {/* Single source attribution — bottom of matrix only (April 7 directive) */}
+          <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
+              Sources: Saunders &amp; Associates 2025 Annual Market Summary &middot; Douglas Elliman 2025 Annual Report &middot; Brown Harris Stevens 2025 Annual Report &middot; Corcoran Group 2025 Annual Report &middot; William Pitt Sotheby’s 2025 Annual Report &middot; The Real Deal &middot; Behind The Hedges &middot; Redfin MLS-backed public records &middot; Christie’s East Hampton internal analysis.
+              Dollar volume figures represent closed residential transactions, South Fork, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
+            </p>
+          </div>
         </div>
       </section>
 

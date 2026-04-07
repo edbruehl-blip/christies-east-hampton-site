@@ -763,3 +763,9 @@
 - [x] 2c. MAPS calculator: CIS Output panel confirmed clean — "Enter your numbers and run the score" placeholder already present
 - [x] 3a. INTEL Layer 2 calendar: wrapped in max-width var(--frame-max-w) container to match mind map width
 - [x] 5a. Market Report PDF: structure outline posted in delivery message for council approval
+
+## April 7 Final Directive — Sprint 18 Items
+
+- [x] Mind Map Item 7c: Add SOCIAL node and PERPLEXITY node with explicit drawn connection (SOCIAL = data field, PERPLEXITY = interpretation engine)
+- [x] Item 2f: Source attribution — one location only (bottom of hamlet matrix in MarketTab)
+- [x] Item 5 GATE: Market Report PDF structure outline posted for council approval (see delivery message)

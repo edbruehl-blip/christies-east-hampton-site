@@ -28,7 +28,7 @@ import { trpc } from "@/lib/trpc";
 
 type NodeType = "HIERARCHY" | "RECRUIT" | "PARTNER" | "WHALE" | "ATTORNEY" | "RELATIONSHIP_INTELLIGENCE";
 type NodeStatus = "ACTIVE" | "WARM" | "COLD";
-type ConnectionStyle = "hierarchy" | "partner" | "recruit" | "whale" | "social";
+type ConnectionStyle = "hierarchy" | "partner" | "recruit" | "whale" | "social" | "intelligence";
 type ViewMode = "full" | "hierarchy" | "recruit" | "whale";
 
 interface MapNode {
@@ -57,7 +57,7 @@ interface TooltipState {
 }
 
 // ─── SVG Canvas dimensions ────────────────────────────────────────────────────
-// viewBox: 0 0 1280 1160
+// viewBox: 0 0 1280 1280 (extended for SOCIAL + PERPLEXITY nodes at y=1140)
 // Left track: x ~200–500  |  Right track: x ~780–1080  |  Ed center: x 640
 
 const NODES: MapNode[] = [
@@ -315,6 +315,22 @@ const NODES: MapNode[] = [
     note: "Property analysis reports Pierre Debbas runs for Ed. Tracked in Office Pipeline Sheet: 'Property Report Date' + 'Property Report Link' columns (pending listings section). Angel manages entries.",
     x: 760, y: 930, r: 12 },
 
+  // ── SOCIAL — bottom left (raw signal collection) ──────────────────────────
+  { id: "social",
+    name: "SOCIAL",
+    title: "Signal Collection · Instagram · YouTube · TikTok · X · LinkedIn · Facebook",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Raw signal collection layer. Ed's presence across all six platforms. Data field only — no interpretation here. Feeds directly into PERPLEXITY for synthesis and territory intelligence.",
+    x: 420, y: 1140, r: 16 },
+
+  // ── PERPLEXITY — bottom center-right (interpretation engine) ─────────────
+  { id: "perplexity",
+    name: "PERPLEXITY",
+    title: "Territory Intelligence Engine · Weekly Report",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Interpretation engine. Receives raw social signals from SOCIAL node. Weekly output: Ed Bruehl Signal · Competitor Moves (Compass, Sotheby's) · Cross Analysis · Recommended Action. No vanity metrics. No generic advice. First report this week.",
+    x: 760, y: 1140, r: 16 },
+
   // ── ATTORNEYS — bottom right ─────────────────────────────────────────────
   { id: "debbas",
     name: "Pierre Debbas",
@@ -414,11 +430,17 @@ const CONNECTIONS: MapConnection[] = [
   { from: "c_esposito",to: "m_esposito", style: "social" },
   // ── EXPORTS — Ed is the operating hub for all PDF exports ────────────────────────
   { from: "ed",        to: "exports",         style: "partner" },
-  // ── PIERRE PROPERTY REPORTS — connected to Pierre Debbas ────────────────────
+  // ── PIERRE PROPERTY REPORTS — connected to Pierre Debbas ──────────────────────
   { from: "debbas",    to: "pierre_reports",  style: "partner" },
   { from: "ed",        to: "pierre_reports",  style: "partner" },
-];
 
+  // ── SOCIAL → PERPLEXITY — EXPLICIT DRAWN CONNECTION (not implied, not soft) ────────
+  // SOCIAL = data field (raw signal collection). PERPLEXITY = interpretation engine.
+  // This connection is the mandate: territory intelligence, weekly, no exceptions.
+  { from: "social",    to: "perplexity",      style: "intelligence" },
+  { from: "ed",        to: "social",          style: "partner" },
+  { from: "ed",        to: "perplexity",      style: "partner" },
+];
 // ─── Color Maps ───────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth: number }> = {
@@ -435,7 +457,8 @@ const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash:
   partner:   { color: "rgba(200,172,120,0.2)",  width: 0.8, dash: "5,4" },
   recruit:   { color: "rgba(45,90,61,0.2)",     width: 0.8, dash: "4,4" },
   whale:     { color: "rgba(123,93,170,0.18)",  width: 0.8, dash: "4,4" },
-  social:    { color: "rgba(250,248,244,0.12)", width: 0.6, dash: "2,3" },
+  social:      { color: "rgba(250,248,244,0.12)", width: 0.6, dash: "2,3" },
+  intelligence: { color: "rgba(200,172,120,0.7)",  width: 2.2, dash: "" },  // explicit drawn connection — SOCIAL → PERPLEXITY
 };
 
 const STATUS_COLORS: Record<NodeStatus, { bg: string; color: string }> = {
@@ -460,6 +483,8 @@ const SECTION_LABELS = [
    { text: "ATTORNEYS",                              x: 980,  y: 808 },
   { text: "PDF EXPORTS · OPERATING INTERFACE",         x: 640,  y: 1040 },
   { text: "PROPERTY REPORTS",                        x: 760,  y: 912  },
+  { text: "SOCIAL · SIGNAL COLLECTION",               x: 420,  y: 1118 },
+  { text: "PERPLEXITY · TERRITORY INTELLIGENCE",      x: 760,  y: 1118 },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
@@ -623,7 +648,7 @@ export function InstitutionalMindMap() {
       {/* SVG Canvas */}
       <div style={{ padding: "0 16px 32px", overflowX: "auto" }}>
         <svg
-          viewBox="0 0 1280 1160"
+          viewBox="0 0 1280 1280"
           style={{ width: "100%", height: "auto", display: "block", minWidth: "640px" }}
           xmlns="http://www.w3.org/2000/svg"
         >
