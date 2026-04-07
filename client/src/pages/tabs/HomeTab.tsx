@@ -16,12 +16,14 @@
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
  */
 
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateChristiesLetter } from '@/lib/pdf-exports';
+import { generateChristiesLetter, generateMarketReport } from '@/lib/pdf-exports';
+import { trpc } from '@/lib/trpc';
 
 // Nine paragraphs — word for word from Christies_EH_Letter_FINAL_LOCKED.pdf
 const FOUNDING_PARAGRAPHS = [
@@ -333,6 +335,22 @@ function SectionWilliam() {
 // SectionC (duplicate footer) removed — DashboardLayout renders the single
 // "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
 export default function HomeTab() {
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const handleMarketReportPdf = async () => {
+    setPdfLoading(true);
+    try {
+      const liveRows = matrixResponse?.hamlets ?? [];
+      await generateMarketReport({ liveRows: liveRows.length > 0 ? liveRows : undefined });
+    } finally {
+      setPdfLoading(false);
+    }
+  };
+
   return (
     <div>
       <SectionA />
@@ -442,6 +460,37 @@ export default function HomeTab() {
               >
                 Open &amp; Print ↗
               </a>
+            </div>
+
+            {/* Market Report PDF — Item 5, council-approved Apr 7 2026 */}
+            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+                Market Report · 4-Page PDF
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
+                Christie's Hamptons Market Report
+              </div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+                Founding letter · eleven-hamlet atlas with live CIS scores and medians · Ed's contact block. Generated from live Market Matrix data at time of download.
+              </p>
+              <button
+                onClick={handleMarketReportPdf}
+                disabled={pdfLoading}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: pdfLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  cursor: pdfLoading ? 'wait' : 'pointer',
+                  opacity: pdfLoading ? 0.6 : 1,
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                {pdfLoading ? 'Generating…' : '↓ Download PDF'}
+              </button>
             </div>
 
           </div>

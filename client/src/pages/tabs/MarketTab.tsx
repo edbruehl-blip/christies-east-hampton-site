@@ -38,14 +38,19 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
 
 // ─── Live overlay types ───────────────────────────────────────────────────────
 
+// LiveMatrixRow mirrors server/sheets-helper.ts MarketMatrixHamlet exactly
 interface LiveMatrixRow {
   hamlet: string;
-  cis: number;
+  cisScore: number;          // was: cis
   median2025: string;
-  volumeShare: number;
-  dollarVolume: string;
+  dollarVolumeShare: string; // was: volumeShare (now string e.g. "7%")
+  dollarVolume2025: string;  // was: dollarVolume
   sales2025: number;
-  direction: string;
+  direction4Year: string;    // was: direction
+  schoolDistrict: string;
+  median2022: string;
+  median2023: string;
+  median2024: string;
 }
 
 // MergedHamlet extends static HamletData with live sheet values.
@@ -73,11 +78,11 @@ function mergeHamletData(
     return {
       ...h,
       liveMedian: match?.median2025 ?? h.medianPriceDisplay,
-      liveCis: (match as any)?.cisScore ?? (match as any)?.cis ?? h.anewScore,
-      liveVolumeShare: parseFloat(String((match as any)?.dollarVolumeShare ?? (match as any)?.volumeShare ?? h.volumeShare)) || h.volumeShare,
-      liveDollarVolume: match?.dollarVolume ?? '',
+      liveCis: match?.cisScore ?? h.anewScore,
+      liveVolumeShare: parseFloat(String(match?.dollarVolumeShare ?? h.volumeShare)) || h.volumeShare,
+      liveDollarVolume: match?.dollarVolume2025 ?? '',
       liveSales: match?.sales2025 ?? 0,
-      liveDirection: match?.direction ?? '',
+      liveDirection: match?.direction4Year ?? '',
       isLive: !!match,
     };
   });

@@ -769,3 +769,13 @@
 - [x] Mind Map Item 7c: Add SOCIAL node and PERPLEXITY node with explicit drawn connection (SOCIAL = data field, PERPLEXITY = interpretation engine)
 - [x] Item 2f: Source attribution — one location only (bottom of hamlet matrix in MarketTab)
 - [x] Item 5 GATE: Market Report PDF structure outline posted for council approval (see delivery message)
+
+## Sprint 19 — Market Report PDF Build (Council Approved)
+
+- [x] PDF Page 1: nine-paragraph letter (locked text from PDF), signature block, Ed headshot placeholder
+- [x] PDF Pages 2–3: eleven hamlet atlas — photo thumbnail, hamlet name, CIS score, median price, volume share, vibe text — live Market Matrix data at generation time
+- [x] PDF Page 4: closing paragraph, headshot, contact block (26 Park Place · 646-752-1233 · email), two QR codes (website + WhatsApp)
+- [x] Wire PDF download button to HOME tab (TAP FOR MARKET REPORT area)
+- [x] Verify end-to-end: live data flows from Market Matrix sheet into PDF at generation time
+- [ ] FUTURE tab: add 2030 bar to Ascension Arc (PDF build complete — unblocked)
+- [ ] FUTURE tab: $1B horizon label legibility (PDF build complete — unblocked)

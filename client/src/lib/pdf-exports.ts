@@ -9,7 +9,13 @@
  *   2. generateChristieCMA(result)         — 2 pages
  *   3. generateDealBrief(result)           — 1 page
  *   4. generateInvestmentMemo(result)      — 2 pages
- *   5. generateMarketReport(hamlet?)       — 5 pages (standalone, no ANEW result required)
+ *   5. generateMarketReport(opts?)         — 4 pages (standalone, live Market Matrix data)
+ *
+ * Item 5 council-approved structure (Apr 7 2026):
+ *   Page 1 → Navy hero + nine-paragraph founding letter + Ed signature block
+ *   Page 2 → Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe)
+ *   Page 3 → Hamlet Atlas rows 7–11 (same format)
+ *   Page 4 → Closing paragraph + Ed headshot + contact block + two QR codes
  */
 
 import jsPDF from 'jspdf';
@@ -22,6 +28,23 @@ import {
 } from './pdf-engine';
 import { MASTER_HAMLET_DATA } from '../data/hamlet-master';
 import { LENS_LABELS } from '../calculators/anew-calculator';
+import { loadImageAsDataUrl } from './pdf-engine';
+
+// Type alias for live Market Matrix rows — exact mirror of server/sheets-helper.ts MarketMatrixHamlet
+// Field names must match the tRPC response shape from trpc.market.hamletMatrix.useQuery()
+export interface LiveMatrixRow {
+  hamlet: string;
+  cisScore: number;          // server field: cisScore
+  median2025: string;        // server field: median2025
+  dollarVolumeShare: string; // server field: dollarVolumeShare (e.g. "7%")
+  dollarVolume2025: string;  // server field: dollarVolume2025
+  sales2025: number;         // server field: sales2025
+  direction4Year: string;    // server field: direction4Year ("Up" | "Down" | "Flat")
+  schoolDistrict: string;    // server field: schoolDistrict
+  median2022: string;        // server field: median2022
+  median2023: string;        // server field: median2023
+  median2024: string;        // server field: median2024
+}
 
 // ─── 1. ANEW Build Memo (2 pages) ─────────────────────────────────────────────
 
@@ -454,17 +477,53 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   downloadPdf(doc, `Christies_EH_Investment_Memo_${result.address.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
 }
 
-// ─── 5. Five-Page Market Report (PDF parity with /report page order) ──────────
-// Page 1  → Hero + Founding Letter (mirrors /report Section 1)
-// Page 2  → Hamptons Local Intelligence (mirrors /report Section 2 news feed)
-// Page 3  → Market Intelligence: CFS + rate panel + Hamptons Median (mirrors /report Section 3)
-// Pages 4 → Hamlet Atlas Matrix — all eleven hamlet cards (mirrors /report Section 4)
-// Page 5  → Resources & Authority — Christie's Advantage + contact (mirrors /report Section 6)
+// ─── 5. Four-Page Market Report (council-approved Apr 7 2026) ───────────────
+// Page 1  → Navy hero + nine-paragraph founding letter + Ed signature block
+// Page 2  → Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe)
+// Page 3  → Hamlet Atlas rows 7–11 (same format)
+// Page 4  → Closing paragraph + Ed headshot + contact block + two QR codes
+//
+// Live data: pass liveRows from trpc.market.hamletMatrix.useQuery() for real-time values.
+// Fallback: when liveRows is empty/undefined, falls back to MASTER_HAMLET_DATA static values.
 
-export async function generateMarketReport(hamletId?: string): Promise<void> {
+export interface GenerateMarketReportOpts {
+  liveRows?: LiveMatrixRow[];
+  hamletId?: string; // optional — filter to single hamlet (future use)
+}
+
+export async function generateMarketReport(opts?: GenerateMarketReportOpts | string): Promise<void> {
+  // Backwards-compatible: accept old string hamletId arg or new opts object
+  const hamletId = typeof opts === 'string' ? opts : opts?.hamletId;
+  const liveRows = typeof opts === 'string' ? undefined : opts?.liveRows;
+
   const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const targetHamlet = hamletId ? MASTER_HAMLET_DATA.find(h => h.id === hamletId) : undefined;
+
+  // ── Build merged hamlet list: live data + static imageUrl/vibeText ──────────
+  // Normalize live hamlet names to match static IDs (e.g. "East Hampton Village" → "east-hampton-village")
+  const normalize = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const liveMap = new Map<string, LiveMatrixRow>();
+  if (liveRows && liveRows.length > 0) {
+    for (const row of liveRows) {
+      liveMap.set(normalize(row.hamlet), row);
+    }
+  }
+  // Merged hamlet data — live values override static where available
+  const mergedHamlets = MASTER_HAMLET_DATA.map(h => {
+    const live = liveMap.get(h.id);
+    return {
+      id: h.id,
+      name: h.name,
+      imageUrl: h.imageUrl,
+      vibeText: h.vibeText,
+      cisScore: live ? live.cisScore : h.anewScore,
+      medianDisplay: live ? live.median2025 : h.medianPriceDisplay,
+      volumeShare: live ? live.dollarVolumeShare : `${h.volumeShare}%`,
+      direction: live ? live.direction4Year : '',
+      sales2025: live ? live.sales2025 : 0,
+    };
+  });
 
   // ── PAGE 1 — Hero + Founding Letter (mirrors /report Section 1) ──────────────
   doc.setFillColor(...C.navy);
@@ -568,99 +627,128 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setTextColor(200, 190, 175);
   doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
-  // ── PAGE 2 — Hamlet Atlas Matrix (all eleven hamlets) ───────────────────────
+  // ── PAGE 2 — Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe) ─
   doc.addPage();
-  let y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Eleven Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
+  let y = await drawHeader(doc, 'Hamlet Atlas', 'Eleven Hamlets · South Fork · Live Market Intelligence · Christie\'s Intelligence Score', edImg, logoImg);
 
-  const tierBadgeBg: Record<string, [number, number, number]> = {
-    'Ultra-Trophy': C.gold,
-    'Trophy':       C.navy,
-    'Premier':      C.charcoal,
-    'Opportunity':  [232, 228, 220],
-  };
-  const tierBadgeFg: Record<string, [number, number, number]> = {
-    'Ultra-Trophy': C.navy,
-    'Trophy':       C.cream,
-    'Premier':      C.cream,
-    'Opportunity':  C.charcoal,
-  };
+  // Card layout: full-width cards stacked vertically, photo on left, data on right
+  // Card height: 38mm (photo 34mm × 34mm left, text right)
+  const CARD_H = 38;
+  const CARD_GAP = 4;
+  const PHOTO_W = 40;
+  const PHOTO_H = 34;
+  const TEXT_X = PAGE.ml + PHOTO_W + 6;
+  const TEXT_W = PAGE.contentW - PHOTO_W - 6;
 
-  const cardW = (PAGE.contentW - 6) / 2;
-  const cardH = 44;
-  const cardGap = 4;
-  let cardX = PAGE.ml;
-  let cardY = y;
-  let col = 0;
+  // Preload all hamlet images in parallel (best-effort — graceful skip on failure)
+  const hamletImages: Record<string, string> = {};
+  await Promise.all(
+    mergedHamlets.map(async h => {
+      if (h.imageUrl) {
+        hamletImages[h.id] = await loadImageAsDataUrl(h.imageUrl);
+      }
+    })
+  );
 
-  for (const h of MASTER_HAMLET_DATA) {
-    // Overflow to a new page when needed — ensures all eleven hamlets render
-    if (cardY + cardH > PAGE.h - PAGE.mb) {
-      drawFooter(doc, doc.getNumberOfPages(), doc.getNumberOfPages() + 1, qrImg);
-      doc.addPage();
-      cardY = await drawHeader(doc, 'Hamlet Atlas Matrix (cont.)', 'Eleven Hamlets · South Fork · CIS Classification', edImg, logoImg);
-      cardX = PAGE.ml;
-      col = 0;
+  // Split into two pages: rows 1–6 on Page 2, rows 7–11 on Page 3
+  const page2Hamlets = mergedHamlets.slice(0, 6);
+  const page3Hamlets = mergedHamlets.slice(6);
+
+  const drawHamletCard = (h: typeof mergedHamlets[0], cardY: number) => {
+    // Card background
+    doc.setFillColor(...C.cream);
+    doc.rect(PAGE.ml, cardY, PAGE.contentW, CARD_H, 'F');
+    doc.setDrawColor(...C.navy);
+    doc.setLineWidth(0.3);
+    doc.rect(PAGE.ml, cardY, PAGE.contentW, CARD_H, 'S');
+
+    // Gold left accent bar
+    doc.setFillColor(...C.gold);
+    doc.rect(PAGE.ml, cardY, 2, CARD_H, 'F');
+
+    // Photo thumbnail
+    const img = hamletImages[h.id];
+    if (img) {
+      try {
+        doc.addImage(img, 'JPEG', PAGE.ml + 3, cardY + 2, PHOTO_W - 2, PHOTO_H);
+      } catch {
+        // Fallback: navy placeholder box
+        doc.setFillColor(...C.navy);
+        doc.rect(PAGE.ml + 3, cardY + 2, PHOTO_W - 2, PHOTO_H, 'F');
+      }
+    } else {
+      doc.setFillColor(...C.navy);
+      doc.rect(PAGE.ml + 3, cardY + 2, PHOTO_W - 2, PHOTO_H, 'F');
     }
 
-    doc.setFillColor(...C.cream);
-    doc.rect(cardX, cardY, cardW, cardH, 'F');
-    doc.setDrawColor(...C.navy);
-    doc.setLineWidth(0.4);
-    doc.rect(cardX, cardY, cardW, cardH, 'S');
-
-    const badgeBg: [number, number, number] = C.navy;
-    const badgeFg: [number, number, number] = C.cream;
-    doc.setFillColor(...badgeBg);
-    doc.rect(cardX + cardW - 28, cardY, 28, 6.5, 'F');
-    doc.setFontSize(5);
-    doc.setTextColor(...badgeFg);
-    doc.setFont('helvetica', 'bold');
-    doc.text(`CIS ${h.anewScore}`, cardX + cardW - 14, cardY + 4.2, { align: 'center' });
-
+    // Hamlet name
     doc.setFontSize(10);
-    doc.setTextColor(...C.navy);
     doc.setFont('helvetica', 'bold');
-    doc.text(h.name, cardX + 4, cardY + 13);
-
-    doc.setFontSize(6.5);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text('MEDIAN', cardX + 4, cardY + 20);
-    doc.setFontSize(11);
     doc.setTextColor(...C.navy);
-    doc.text(h.medianPriceDisplay, cardX + 4, cardY + 27);
+    doc.text(h.name, TEXT_X, cardY + 8);
 
+    // CIS badge — inline after name
+    doc.setFillColor(...C.navy);
+    doc.rect(TEXT_X + TEXT_W - 22, cardY + 2, 22, 7, 'F');
+    doc.setFontSize(5.5);
+    doc.setTextColor(...C.cream);
+    doc.setFont('helvetica', 'bold');
+    doc.text(`CIS ${h.cisScore}`, TEXT_X + TEXT_W - 11, cardY + 6.5, { align: 'center' });
+
+    // Median price
     doc.setFontSize(6);
     doc.setTextColor(...C.gold);
     doc.setFont('helvetica', 'bold');
-    doc.text(`CIS ${h.anewScore} / 10`, cardX + 4, cardY + 33);
-    const barW = cardW - 8;
-    doc.setFillColor(230, 228, 224);
-    doc.rect(cardX + 4, cardY + 35, barW, 2, 'F');
-    doc.setFillColor(...C.gold);
-    doc.rect(cardX + 4, cardY + 35, barW * (h.anewScore / 10), 2, 'F');
+    doc.text('MEDIAN 2025', TEXT_X, cardY + 15);
+    doc.setFontSize(9);
+    doc.setTextColor(...C.navy);
+    doc.text(h.medianDisplay, TEXT_X, cardY + 21);
 
-    doc.setFontSize(5.5);
+    // Volume share + direction
+    doc.setFontSize(6);
     doc.setTextColor(...C.muted);
     doc.setFont('helvetica', 'normal');
-    doc.text(`Vol. ${h.volumeShare}%`, cardX + 4, cardY + 41);
+    const dirLabel = h.direction ? ` · ${h.direction}` : '';
+    doc.text(`Vol. ${h.volumeShare}${dirLabel}`, TEXT_X, cardY + 26);
 
-    col++;
-    if (col % 2 === 0) {
-      cardX = PAGE.ml;
-      cardY += cardH + cardGap;
-    } else {
-      cardX = PAGE.ml + cardW + 6;
+    // CIS bar
+    const barW = TEXT_W - 22;
+    doc.setFillColor(220, 218, 214);
+    doc.rect(TEXT_X, cardY + 29, barW, 1.8, 'F');
+    doc.setFillColor(...C.gold);
+    doc.rect(TEXT_X, cardY + 29, barW * Math.min(h.cisScore / 10, 1), 1.8, 'F');
+
+    // Vibe text — truncated to one line
+    if (h.vibeText) {
+      doc.setFontSize(5.5);
+      doc.setTextColor(...C.charcoal);
+      doc.setFont('helvetica', 'italic');
+      const maxVibeW = TEXT_W;
+      const vibeLines = doc.splitTextToSize(h.vibeText, maxVibeW);
+      doc.text(vibeLines[0] ?? '', TEXT_X, cardY + 35);
     }
+  };
+
+  // Draw Page 2 hamlet cards (rows 1–6)
+  let atlasY = y;
+  for (const h of page2Hamlets) {
+    drawHamletCard(h, atlasY);
+    atlasY += CARD_H + CARD_GAP;
+  }
+  drawFooter(doc, 2, 4, qrImg);
+
+  // ── PAGE 3 — Hamlet Atlas rows 7–11 ─────────────────────────────────────────
+  doc.addPage();
+  y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'East Hampton North · Springs · Montauk · Wainscott · Amagansett', edImg, logoImg);
+  atlasY = y;
+  for (const h of page3Hamlets) {
+    drawHamletCard(h, atlasY);
+    atlasY += CARD_H + CARD_GAP;
   }
 
-  // Closing doctrine block — fills remaining space on final atlas page
-  // Advance to next row if last card was in left column
-  if (col % 2 !== 0) {
-    cardY += cardH + cardGap;
-  }
-  const doctrineY = cardY + 4;
-  if (doctrineY + 30 < PAGE.h - PAGE.mb) {
+  // Doctrine block — fills remaining space on Page 3
+  const doctrineY = atlasY + 4;
+  if (doctrineY + 24 < PAGE.h - PAGE.mb) {
     doc.setDrawColor(...C.gold);
     doc.setLineWidth(0.3);
     doc.line(PAGE.ml, doctrineY, PAGE.w - PAGE.mr, doctrineY);
@@ -671,65 +759,79 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...C.charcoal);
-    const doctrineLines = [
-      'Springs is the most honest value proposition on the East End — artist roots, waterfront access, and a price corridor that still rewards the patient buyer.',
-      'Montauk is the frontier. The last hamlet. The one that still surprises. Duryea\'s on the water. The lighthouse at the edge of the continent. The buyer who finds Montauk is not looking for a postcode. They are looking for a feeling.',
-      'Wainscott is the quiet one. No village center. No boutiques. Just land, sky, and the kind of privacy that cannot be manufactured. The families who own here do not advertise it.',
-    ];
-    let dY = doctrineY + 12;
-    for (const line of doctrineLines) {
-      dY = wrapText(doc, line, PAGE.ml, dY, PAGE.contentW, 5);
-      dY += 5;
-    }
+    y = wrapText(doc, 'The South Fork is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference — so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
   }
+  drawFooter(doc, 3, 4, qrImg);
 
-  const atlasPageNum = doc.getNumberOfPages();
-  drawFooter(doc, atlasPageNum, atlasPageNum + 1, qrImg);
-
-  // ── Final Page — Resources & Authority ───────────────────────────────────────
+  // ── PAGE 4 — Closing paragraph + Ed headshot + contact block + two QR codes ─
   doc.addPage();
-  y = await drawHeader(doc, 'Resources & Authority', 'Christie\'s East Hampton · The Standard', edImg, logoImg);
+  y = await drawHeader(doc, 'Christie\'s East Hampton', 'The Standard · Est. 1766', edImg, logoImg);
 
-  y = sectionLabel(doc, 'The Christie\'s Standard', y);
+  // Closing paragraph
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.charcoal);
+  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the South Fork access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 260 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 6);
+  y += 8;
+
+  // Ed headshot + name block
+  if (edImg) {
+    try { doc.addImage(edImg, 'JPEG', PAGE.ml, y, 28, 28); } catch { /* skip */ }
+  } else {
+    doc.setFillColor(...C.charcoal);
+    doc.rect(PAGE.ml, y, 28, 28, 'F');
+    doc.setFontSize(5.5);
+    doc.setTextColor(...C.gold);
+    doc.text('ED BRUEHL', PAGE.ml + 14, y + 16, { align: 'center' });
+  }
+  doc.setFontSize(13);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...C.navy);
+  doc.text('Ed Bruehl', PAGE.ml + 34, y + 10);
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the South Fork access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 250 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 5.5);
-  y += 5;
+  doc.text('Managing Director', PAGE.ml + 34, y + 17);
+  doc.setFontSize(7.5);
+  doc.setTextColor(...C.muted);
+  doc.text('Christie\'s International Real Estate Group', PAGE.ml + 34, y + 23);
+  y += 36;
 
-  y += 8;
-
-  // Contact card
+  // Contact block
   doc.setFillColor(240, 238, 234);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 38, 'F');
+  doc.rect(PAGE.ml, y, PAGE.contentW, 22, 'F');
   doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.5);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 38, 'S');
+  doc.setLineWidth(0.4);
+  doc.rect(PAGE.ml, y, PAGE.contentW, 22, 'S');
   doc.setFillColor(...C.gold);
-  doc.rect(PAGE.ml, y, 2.5, 38, 'F');
-
-  if (edImg) {
-    try { doc.addImage(edImg, 'JPEG', PAGE.ml + 8, y + 6, 24, 24); } catch { /* skip */ }
-  } else {
-    doc.setFillColor(...C.charcoal);
-    doc.rect(PAGE.ml + 8, y + 6, 24, 24, 'F');
-    doc.setFontSize(5.5);
-    doc.setTextColor(...C.gold);
-    doc.text('ED BRUEHL', PAGE.ml + 20, y + 20, { align: 'center' });
-  }
-
-  doc.setFontSize(12);
+  doc.rect(PAGE.ml, y, 2, 22, 'F');
+  doc.setFontSize(8);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...C.navy);
-  doc.text('Ed Bruehl', PAGE.ml + 38, y + 13);
-  doc.setFontSize(8);
+  doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 8, y + 8);
+  doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 38, y + 20);
-  doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 38, y + 26);
-  doc.text('646-752-1233 · christiesrealestategroupeh.com', PAGE.ml + 38, y + 32);
+  doc.text('646-752-1233', PAGE.ml + 8, y + 14);
+  doc.text('christiesrealestategroupeh.com', PAGE.ml + 8, y + 19);
+  y += 28;
 
-  drawFooter(doc, doc.getNumberOfPages(), doc.getNumberOfPages(), qrImg);
+  // Two QR codes side by side — website QR (left) + WhatsApp QR (right)
+  if (qrImg) {
+    try { doc.addImage(qrImg, 'PNG', PAGE.ml, y, 22, 22); } catch { /* skip */ }
+    try { doc.addImage(qrImg, 'PNG', PAGE.ml + 28, y, 22, 22); } catch { /* skip */ }
+  } else {
+    doc.setFillColor(240, 238, 234);
+    doc.rect(PAGE.ml, y, 22, 22, 'F');
+    doc.rect(PAGE.ml + 28, y, 22, 22, 'F');
+  }
+  doc.setFontSize(5.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Website', PAGE.ml + 11, y + 25, { align: 'center' });
+  doc.text('WhatsApp', PAGE.ml + 39, y + 25, { align: 'center' });
+
+  drawFooter(doc, 4, 4, qrImg);
 
   const filename = targetHamlet
     ? `Christies_EH_Market_Report_${targetHamlet.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
