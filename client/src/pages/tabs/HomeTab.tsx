@@ -23,16 +23,17 @@ import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 import { generateChristiesLetter } from '@/lib/pdf-exports';
 
+// Nine paragraphs — word for word from Christies_EH_Letter_FINAL_LOCKED.pdf
 const FOUNDING_PARAGRAPHS = [
-  "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-  "The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
-  "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-  "The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie’s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.",
-  "The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton North. Wainscott. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
-  "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
-  "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
-  "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
-  "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
+  "For twenty years on the East End — raising a family, working alongside some of the sharpest minds on earth — this place taught me one clear lesson — the families who love it most are the ones who protect and preserve it.",
+  "That devotion to stewardship is what made me most curious. Over time, working across the East End, I found myself wondering whether there was a better way to serve the people who trust us with what they own.",
+  "The deeper I looked, the clearer the answer became. In 1766, James Christie built a 260-year institution not by moving assets, but by helping people understand the true value of what they own before deciding what to do with it.",
+  "After a year of studying the institution — and understanding what it stood for — I was honored to be invited in and named Managing Director, serving the families of this community.",
+  "Most people are taught to transact. The families who build lasting wealth learn to hold, structure, and borrow against it instead. They hold. They rent for income. They structure inside an LLC and improve it over time. They pass it forward. Real estate here is not inventory — it is legacy.",
+  "Christie's expands what we can do together — art appraisals, collection management, art-secured lending, and estate continuity across generations. A depth of service that begins where most real estate conversations end.",
+  "Christie's events — auctions, private sales, collector evenings — are more accessible than most people realize. We can make the introduction — Christie's network spans specialists, advisors, and relationships in over fifty countries.",
+  "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
+  "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
@@ -210,10 +211,10 @@ function SectionB() {
   ];
 
   return (
-    <div style={{ background: '#FAF8F4' }}>
+    <div style={{ background: '#1B2A4A' }}>
 
       {/* ── Christie's Story ── */}
-      <div style={{ borderBottom: '1px solid rgba(27,42,74,0.08)', padding: '56px 40px', background: '#1B2A4A' }}>
+      <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
             Christie's · Est. 1766
@@ -228,12 +229,12 @@ function SectionB() {
       </div>
 
       {/* ── Christie's Video ── */}
-      <div style={{ borderBottom: '1px solid rgba(27,42,74,0.08)', padding: '56px 40px' }}>
+      <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
             Christie's · Auction Intelligence
           </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
+          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
             Bringing James Christie's Legacy to the Hamptons
           </h2>
           <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: 760, background: '#000' }}>
@@ -249,12 +250,12 @@ function SectionB() {
       </div>
 
       {/* ── Gallery Image Box ── */}
-      <div style={{ padding: '56px 40px' }}>
+      <div style={{ padding: '56px 40px', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
             Christie's · Gallery
           </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
+          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
             Art. Beauty. Provenance.
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
@@ -336,7 +337,87 @@ export default function HomeTab() {
     <div>
       <SectionA />
       <SectionB />
+      {/* SectionWilliam removed — audio player now lives in SectionA below founding letter */}
       <AuctionHouseServices />
+
+      {/* ── Collateral Cards — UHNW Wealth Card + Bike Card ── */}
+      <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+            Christie's Collateral · Print-Ready
+          </div>
+          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 8 }}>
+            Shareable Intelligence Cards
+          </h2>
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 32, maxWidth: 560 }}>
+            Print-ready cards for estate conversations. Open the link, print to card stock, and share. Each card carries the Christie's standard.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+
+            {/* UHNW Wealth Card */}
+            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+                UHNW Wealth Card · 8.5×11 Landscape
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
+                What James Christie Knew
+              </div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+                The eight rungs of structured ownership — from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.
+              </p>
+              <a
+                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_uhnw_wealth_card_89a9ed62.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  textDecoration: 'none',
+                }}
+              >
+                Open &amp; Print ↗
+              </a>
+            </div>
+
+            {/* Bike Card */}
+            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+                Neighborhood Card · 2 per 8.5×11 Sheet
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
+                Christie's Neighborhood Card
+              </div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+                South Fork map on the front. Ed's voice and Christie's services on the back. Hamptons Median · $2.34M · Record High. Cut horizontally — two cards per sheet.
+              </p>
+              <a
+                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_neighborhood_bike_card_57342749.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  textDecoration: 'none',
+                }}
+              >
+                Open &amp; Print ↗
+              </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
       {/* Estate Advisory Card — one locked copy source, three surfaces */}
       {/* framed=true adds Christie's gold border for HOME tab usage */}
       <div style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px 64px' }}>

@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { eq, asc } from "drizzle-orm";
@@ -170,6 +170,20 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         const result = await updatePipelineStatus(input.address, input.status, input.date);
+        if (!result.success) throw new Error(`Row not found for address: ${input.address}`);
+        return result;
+      }),
+
+    // Update Property Report Date + Link (columns V + W) for a deal
+    // P5: protected — write access is internal only (Angel manages entries)
+    updatePropertyReport: protectedProcedure
+      .input(z.object({
+        address: z.string().min(1),
+        reportDate: z.string().min(1),
+        reportLink: z.string().url(),
+      }))
+      .mutation(async ({ input }) => {
+        const result = await updatePropertyReport(input.address, input.reportDate, input.reportLink);
         if (!result.success) throw new Error(`Row not found for address: ${input.address}`);
         return result;
       }),

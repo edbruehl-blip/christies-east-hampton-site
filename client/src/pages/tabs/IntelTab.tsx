@@ -37,7 +37,8 @@ const SHEET_IDS = {
 };
 
 function sheetEmbedUrl(id: string) {
-  return `https://docs.google.com/spreadsheets/d/${id}/edit?usp=sharing&rm=minimal&widget=true&headers=false`;
+  // Requires sheet to be published: File → Share → Publish to web → Web page → Publish
+  return `https://docs.google.com/spreadsheets/d/${id}/pub?widget=true&headers=false`;
 }
 
 function sheetOpenUrl(id: string) {
@@ -98,30 +99,44 @@ function CalendarLayer() {
         </div>
 
         {/* Two-panel embed: Podcast left, Event right */}
-        <div className="grid grid-cols-2" style={{ height: 520 }}>
-          <div style={{ borderRight: '1px solid rgba(27,42,74,0.1)', overflow: 'hidden' }}>
-            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
+        {/* NOTE: Sheets must be published to web for iframe embed to work without login. */}
+        {/* File → Share → Publish to web → Entire Document → Web page → Publish */}
+        <div className="grid grid-cols-1 sm:grid-cols-2" style={{ minHeight: 520 }}>
+          <div style={{ borderRight: '1px solid rgba(27,42,74,0.1)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
               Podcast Calendar
             </div>
             <iframe
               src={sheetEmbedUrl(SHEET_IDS.podcast)}
               title="Podcast Calendar"
               width="100%"
-              height="480"
-              style={{ display: 'block', border: 'none' }}
+              style={{ display: 'block', border: 'none', flex: 1, minHeight: 480 }}
             />
+            {/* Fallback link in case sheet is not published */}
+            <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
+              <a href={sheetOpenUrl(SHEET_IDS.podcast)} target="_blank" rel="noopener noreferrer"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                Open Podcast Calendar ↗
+              </a>
+            </div>
           </div>
-          <div style={{ overflow: 'hidden' }}>
-            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
+          <div style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
               Event Calendar
             </div>
             <iframe
               src={sheetEmbedUrl(SHEET_IDS.event)}
               title="Event Calendar"
               width="100%"
-              height="480"
-              style={{ display: 'block', border: 'none' }}
+              style={{ display: 'block', border: 'none', flex: 1, minHeight: 480 }}
             />
+            {/* Fallback link in case sheet is not published */}
+            <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
+              <a href={sheetOpenUrl(SHEET_IDS.event)} target="_blank" rel="noopener noreferrer"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                Open Event Calendar ↗
+              </a>
+            </div>
           </div>
         </div>
       </div>

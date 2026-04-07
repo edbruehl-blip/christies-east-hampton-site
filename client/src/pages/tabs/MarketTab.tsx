@@ -258,14 +258,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             className="absolute inset-0"
             style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.72) 100%)' }}
           />
-          <div className="absolute bottom-3 left-4">
-            <span
-              className="px-2 py-0.5 text-[9px] uppercase tracking-wider"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', background: badge.bg, color: badge.text, letterSpacing: '0.12em' }}
-            >
-              {hamlet.tier}
-            </span>
-          </div>
+          {/* Tier badge removed per April 7 directive — clean photography only */}
         </div>
       )}
 
@@ -368,13 +361,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           </div>
         )}
 
-        {/* Data footnote */}
-        <div
-          className="text-[9px] border-t"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', borderColor: 'rgba(27,42,74,0.06)', letterSpacing: '0.04em', lineHeight: 1.4, paddingTop: hamlet.isLive ? 0 : 4 }}
-        >
-          2025 recorded brokerage transactions &middot; Saunders &amp; Associates annual report cross-referenced William Raveis YE 2025 &middot; Total Hamptons dollar volume $5.922B
-        </div>
+        {/* Per-card source attribution removed per April 7 directive — single citation at matrix footer only */}
       </div>
     </MatrixCard>
   );

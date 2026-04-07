@@ -66,12 +66,14 @@ function PaumanokPlate() {
           pointerEvents: 'none',
         }}
       >
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-          South Fork · East Hampton · Long Island
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
+            South Fork · East Hampton · Long Island
+          </div>
+          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
+            The Territory
+          </h2>
         </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
-          The Territory
-        </h2>
       </div>
       <MapView
         className="w-full h-[420px]"
@@ -438,12 +440,22 @@ function CISCalculatorLayer() {
       <div className="px-6 py-8">
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>Select Lens</div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+          <div className="flex flex-wrap gap-2 mb-8">
             {MODES.map(mode => (
-              <button key={mode.lens} onClick={() => { setActiveLens(mode.lens); setResult(null); }} className="p-4 text-left border transition-all duration-200" style={{ background: activeLens === mode.lens ? '#1B2A4A' : '#fff', borderColor: activeLens === mode.lens ? '#C8AC78' : 'rgba(27,42,74,0.15)', borderLeftWidth: activeLens === mode.lens ? 3 : 1, borderLeftColor: activeLens === mode.lens ? '#C8AC78' : 'rgba(27,42,74,0.15)' }}>
-                <div className="text-lg mb-2" style={{ color: activeLens === mode.lens ? '#C8AC78' : '#1B2A4A' }}>{mode.icon}</div>
-                <div className="font-medium text-sm mb-1" style={{ fontFamily: '"Cormorant Garamond", serif', color: activeLens === mode.lens ? '#FAF8F4' : '#1B2A4A', fontWeight: 600, fontSize: '1rem' }}>{mode.title}</div>
-                <div className="text-xs leading-snug" style={{ fontFamily: '"Source Sans 3", sans-serif', color: activeLens === mode.lens ? 'rgba(250,248,244,0.6)' : '#7a8a8e' }}>{mode.subtitle}</div>
+              <button
+                key={mode.lens}
+                onClick={() => { setActiveLens(mode.lens); setResult(null); }}
+                className="px-4 py-2 text-xs uppercase tracking-wider border transition-all duration-200"
+                style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  letterSpacing: '0.14em',
+                  background: activeLens === mode.lens ? '#1B2A4A' : 'transparent',
+                  color: activeLens === mode.lens ? '#C8AC78' : '#384249',
+                  borderColor: activeLens === mode.lens ? '#C8AC78' : 'rgba(27,42,74,0.2)',
+                  borderLeftWidth: activeLens === mode.lens ? 3 : 1,
+                }}
+              >
+                {mode.icon} {mode.title}
               </button>
             ))}
           </div>
@@ -738,7 +750,7 @@ export default function MapsTab() {
         </div>
 
         <div className="px-6 pb-8">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 16 }}>
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {MASTER_HAMLET_DATA.map(hamlet => (
               <HamletMatrixCard
                 key={hamlet.id}

@@ -27,7 +27,9 @@
  *   R = AUCTION?
  *   S = PRIVATE COLLECTOR
  *   T = ACCESS (KEY)
- *   U = DATE CLOSED     ← close dates go here (column 21, index 20)
+ *   U = DATE CLOSED          ← close dates go here (column 21, index 20)
+ *   V = PROPERTY REPORT DATE  ← Pierre Debbas property report date (column 22, index 21)
+ *   W = PROPERTY REPORT LINK  ← Pierre Debbas property report link (column 23, index 22)
  *
  * Row structure:
  *   Row 1 = blank
@@ -61,7 +63,7 @@ export async function readPipelineRows(): Promise<string[][]> {
   const sheets = getSheetsClient();
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: SHEET_ID,
-    range: `${TAB}!A:U`,  // A through U (21 columns)
+    range: `${TAB}!A:W`,  // A through W (23 columns)
   });
   return (res.data.values as string[][]) ?? [];
 }
@@ -82,6 +84,8 @@ export interface PipelineDeal {
   photos: string;
   zillowShowcase: string;
   dateClosed: string;
+  propertyReportDate: string; // V: Pierre Debbas property report date
+  propertyReportLink: string; // W: Pierre Debbas property report link
   isSectionHeader: boolean; // true for rows like "BUY-SIDE DEALS"
   category: string; // section header label this deal falls under (e.g. "ACTIVE LISTINGS")
 }
@@ -121,7 +125,9 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
       photos:         row[10]?.trim() ?? "",
       zillowShowcase: row[11]?.trim() ?? "",
       // Columns M–T (indices 12–19) are media/marketing fields — not surfaced in the UI
-      dateClosed:     row[20]?.trim() ?? "",  // Column U (index 20)
+      dateClosed:          row[20]?.trim() ?? "",  // Column U (index 20)
+      propertyReportDate:  row[21]?.trim() ?? "",  // Column V (index 21)
+      propertyReportLink:  row[22]?.trim() ?? "",  // Column W (index 22)
       isSectionHeader,
       category: isSectionHeader ? address : currentCategory,
     });
@@ -201,6 +207,28 @@ export async function updatePipelineStatus(
       requestBody: { values: [[dateClosed]] },
     });
   }
+
+  return { success: true, rowNumber };
+}
+
+// ─── Update Property Report columns (V + W) by address ─────────────────────────
+// Column V = PROPERTY REPORT DATE (index 21), Column W = PROPERTY REPORT LINK (index 22)
+export async function updatePropertyReport(
+  address: string,
+  reportDate: string,
+  reportLink: string
+): Promise<{ success: boolean; rowNumber: number | null }> {
+  const rowNumber = await findRowByAddress(address);
+  if (rowNumber === null) return { success: false, rowNumber: null };
+
+  const sheets = getSheetsClient();
+
+  await sheets.spreadsheets.values.update({
+    spreadsheetId: SHEET_ID,
+    range: `${TAB}!V${rowNumber}:W${rowNumber}`,
+    valueInputOption: "USER_ENTERED",
+    requestBody: { values: [[reportDate, reportLink]] },
+  });
 
   return { success: true, rowNumber };
 }

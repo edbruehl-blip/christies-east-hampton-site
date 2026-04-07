@@ -716,3 +716,34 @@
 - [x] 16c. Market Report PDF Page 3: closing doctrine block added (Springs, Montauk, Wainscott vibe text)
 - [x] 16d. Market Report PDF: Platform Intelligence section removed entirely — no capital flow or rate references remain
 - [x] 17. FUTURE tab GCI/profit pool visibility gate — RESOLVED: site is internal operating system. Profit Pool section stays, clearly labeled. Sales volume anchors all headline figures. No change needed.
+
+## April 7 Morning Directive
+
+- [ ] 1a. hamlet-master.ts: Apply 7 CIS score corrections (Southampton Village 9.0, Sag Harbor 8.4, Amagansett 8.9, EH North 8.6, Wainscott 8.7, Springs 6.8, Montauk 8.2)
+- [ ] 1b. hamlet-master.ts: Apply all 11 volume share corrections
+- [ ] 1c. DashboardLayout: Remove YoY % from Hamptons Median — show "$2.34M · South Fork · Q4 2025 · Record High" only
+- [ ] 2a. Remove tier badges (ULTRA-TROPHY, TROPHY, PREMIER, OPPORTUNITY) from MARKET and MAPS hamlet cards
+- [ ] 2b. MAPS hamlet cards: match MARKET tab card size and component exactly
+- [ ] 2c. MAPS satellite map: put inside shared max-width container (currently bleeds wider)
+- [ ] 2d. MAPS calculator: condense four lens buttons to match PIPE tab style; CIS Output panel populates or gets removed
+- [ ] 2e. HOME page: restore navy background (#1B2A4A) behind YouTube embed and all content below it down to Estate Advisory section
+- [ ] 2f. All six tabs: confirm shared max-width CSS variable applied consistently
+- [ ] 2g. Hamlet cards: show Saunders/Raveis citation once at bottom of matrix only, remove from each individual card
+- [ ] 3a. HOME page: add UHNW Wealth Card (front + back, 8.5x11 landscape) in navy section above Estate Advisory
+- [ ] 3b. HOME page: add Bike Card (front + back, two per sheet) in navy section above Estate Advisory
+- [ ] 3c. Both cards: add shareable direct link so Ed can text URL to recipient for printing
+- [ ] 4a. Wainscott last sale "115 Beach Ln · $59M" — hold, do not change, do not remove
+- [ ] 4b. EH North last sale "TBD · TBD" — hide field entirely in display
+- [ ] 5. Market Report PDF: post page structure outline for council confirmation (no build yet)
+- [ ] 6. INTEL Layer 2 calendar: diagnose disappearance and restore
+- [ ] 7a. Mind map: add EXPORTS node with sub-nodes for all PDF exports grouped by category
+- [ ] 7b. Mind map: add PIERRE · PROPERTY REPORTS node
+- [ ] 7c. Office Pipeline Sheet: add two columns — "Property Report Date" and "Property Report Link"
+
+## April 7 Directive — Item 7 Complete (Seven-Item Directive Closed)
+
+- [x] 7a. Mind map: EXPORTS node added — PDF Operating Interface, 12+ sub-nodes, connected to Ed
+- [x] 7b. Mind map: PIERRE · PROPERTY REPORTS node added — connected to Pierre Debbas + Ed
+- [x] 7c. Office Pipeline Sheet: columns V (Property Report Date) + W (Property Report Link) added to PipelineDeal type and sheets-helper.ts
+- [x] 7d. tRPC: pipe.updatePropertyReport procedure wired — protectedProcedure, writes V+W by address match
+- [x] 7e. 35/35 tests passing — sheets-write.test.ts verifies propertyReportDate and propertyReportLink fields in live sheet read

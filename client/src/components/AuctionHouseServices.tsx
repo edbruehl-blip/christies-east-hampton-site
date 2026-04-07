@@ -81,7 +81,7 @@ const SERVICE_TILES: ServiceTile[] = [
 
 export function AuctionHouseServices() {
   return (
-    <div className="px-6 py-12 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#FAF8F4' }}>
+    <div className="px-6 py-12 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
 
         {/* Section header */}
@@ -100,17 +100,17 @@ export function AuctionHouseServices() {
           <div
             style={{
               fontFamily: '"Cormorant Garamond", serif',
-              color: '#1B2A4A',
-              fontWeight: 600,
-              fontSize: '1.5rem',
-              lineHeight: 1.2,
+            color: '#FAF8F4',
+            fontWeight: 600,
+            fontSize: '1.5rem',
+            lineHeight: 1.2,
             }}
           >
             Valuations, Appraisals &amp; Professional Services
           </div>
           <div
             className="mt-2 text-sm max-w-xl"
-            style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', lineHeight: 1.6 }}
+            style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', lineHeight: 1.6 }}
           >
             Christie's has provided valuations and professional advisor services for collections of all sizes and
             categories since 1766. Our team is available to guide you — whatever the circumstances.
@@ -227,8 +227,8 @@ export function AuctionHouseServices() {
               <div
                 className="h-full p-6 border transition-all duration-200"
                 style={{
-                  background: '#fff',
-                  borderColor: 'rgba(27,42,74,0.12)',
+                  background: 'rgba(250,248,244,0.05)',
+                  borderColor: 'rgba(200,172,120,0.2)',
                   borderLeft: '3px solid #C8AC78',
                 }}
               >
@@ -250,7 +250,7 @@ export function AuctionHouseServices() {
                     <div
                       style={{
                         fontFamily: '"Cormorant Garamond", serif',
-                        color: '#1B2A4A',
+                        color: '#FAF8F4',
                         fontWeight: 600,
                         fontSize: '1rem',
                         lineHeight: 1.25,
@@ -274,7 +274,7 @@ export function AuctionHouseServices() {
                 {/* Description */}
                 <div
                   className="text-xs leading-relaxed mb-4"
-                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}
+                  style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}
                 >
                   {tile.description}
                 </div>
@@ -301,11 +301,11 @@ export function AuctionHouseServices() {
             href="https://www.christies.com/en/services"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+            className="inline-block px-8 py-3 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A] hover:border-[#C8AC78]"
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              borderColor: '#C8AC78',
-              color: '#1B2A4A',
+              borderColor: 'rgba(200,172,120,0.5)',
+              color: '#FAF8F4',
               letterSpacing: '0.2em',
             }}
           >
