@@ -786,3 +786,9 @@
 - [x] FUTURE tab: $1B horizon label legibility — opacity removed (was 0.55), font-weight 700, font-size 1rem — legible from across a conference table
 - [x] MacWhinnie name correction: zero references in codebase — clean. Correction is Perplexity-side only.
 - [x] April 7 v7 directive full audit: all seven items confirmed complete across checkpoints 3e115363, ec3c1be4, 1f425d72, 970cb917, and 970cb917+
+
+## Sprint 21 — April 7, 2026
+
+- [x] Item 1: PIPE tab — Add "Add Report" button per deal row, modal with date picker + URL field, calls pipe.updatePropertyReport tRPC procedure
+- [x] Item 2: EXPORTS mind map — nine clickable sub-nodes added (Market Report, Christie's Letter, Hamlet PDFs x11, ANEW Build Memo, Christie CMA, Deal Brief, Investment Memo, UHNW Path Card, FUTURE Pro Forma) — direct PDF triggers from mind map
+- [x] Item 3: Wednesday Circuit Google Calendar — Google Calendar embed added to INTEL Layer 2 as third full-width panel (Calendar ID: b591e65f..., MONTH view, America/New_York, recurring Wednesdays from May 7 2026)

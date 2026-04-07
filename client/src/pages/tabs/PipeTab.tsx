@@ -13,6 +13,99 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
+import { useAuth } from '@/_core/hooks/useAuth';
+
+// ─── Property Report Modal ───────────────────────────────────────────────────
+
+function PropertyReportModal({ address, onClose }: { address: string; onClose: () => void }) {
+  const [reportDate, setReportDate] = useState('');
+  const [reportLink, setReportLink] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const updateReport = trpc.pipe.updatePropertyReport.useMutation({
+    onSuccess: () => {
+      toast.success('Property report logged.');
+      onClose();
+    },
+    onError: (err) => {
+      setError(err.message || 'Failed to save report.');
+    },
+  });
+
+  const handleSubmit = () => {
+    setError(null);
+    if (!reportDate) { setError('Report date is required.'); return; }
+    if (!reportLink) { setError('Report link is required.'); return; }
+    updateReport.mutate({ address, reportDate, reportLink });
+  };
+
+  const inputStyle: React.CSSProperties = {
+    fontFamily: '"Source Sans 3", sans-serif',
+    fontSize: '0.82rem',
+    color: '#384249',
+    border: '1px solid rgba(27,42,74,0.2)',
+    padding: '7px 10px',
+    width: '100%',
+    background: '#fff',
+    outline: 'none',
+  };
+
+  return (
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1000,
+        background: 'rgba(0,0,0,0.45)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+    >
+      <div style={{
+        background: '#FAF8F4',
+        border: '0.5px solid rgba(200,172,120,0.5)',
+        padding: '28px 32px',
+        minWidth: 360,
+        maxWidth: 440,
+        width: '90vw',
+        boxShadow: '0 8px 32px rgba(27,42,74,0.18)',
+      }}>
+        {/* Header */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
+          <div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 4 }}>Property Report</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.05rem', fontWeight: 600, color: '#1B2A4A', lineHeight: 1.3 }}>{address}</div>
+          </div>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#7a8a8e', fontSize: '1.1rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
+        </div>
+        {/* Date field */}
+        <div style={{ marginBottom: 14 }}>
+          <label style={{ display: 'block', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#7a8a8e', marginBottom: 5 }}>Report Date</label>
+          <input type="date" value={reportDate} onChange={e => setReportDate(e.target.value)} style={inputStyle} />
+        </div>
+        {/* URL field */}
+        <div style={{ marginBottom: 18 }}>
+          <label style={{ display: 'block', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', color: '#7a8a8e', marginBottom: 5 }}>Report Link (URL)</label>
+          <input type="url" value={reportLink} onChange={e => setReportLink(e.target.value)} placeholder="https://..." style={inputStyle} />
+        </div>
+        {/* Error */}
+        {error && (
+          <div style={{ marginBottom: 12, fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.78rem', color: '#c0392b', borderLeft: '2px solid #c0392b', paddingLeft: 8 }}>{error}</div>
+        )}
+        {/* Actions */}
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
+          <button
+            onClick={onClose}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '8px 16px', border: '1px solid rgba(27,42,74,0.2)', background: 'transparent', color: '#7a8a8e', cursor: 'pointer' }}
+          >Cancel</button>
+          <button
+            onClick={handleSubmit}
+            disabled={updateReport.isPending}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', padding: '8px 18px', border: '1px solid #1B2A4A', background: updateReport.isPending ? 'rgba(27,42,74,0.5)' : '#1B2A4A', color: '#FAF8F4', cursor: updateReport.isPending ? 'not-allowed' : 'pointer' }}
+          >{updateReport.isPending ? 'Saving…' : 'Log Report'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── Sheet config ─────────────────────────────────────────────────────────────
 
@@ -216,8 +309,10 @@ function PipelineTable() {
     onSuccess: () => setTimeout(() => refetch(), 1500),
   });
   const [editingAddress, setEditingAddress] = useState<string | null>(null);
+  const [reportingAddress, setReportingAddress] = useState<string | null>(null);
   const [filterStatus, setFilterStatus] = useState<string>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const { isAuthenticated } = useAuth();
 
   if (isLoading) {
     return (
@@ -462,15 +557,26 @@ function PipelineTable() {
 
                     {/* Actions column */}
                     <td style={{ padding: '10px 12px', verticalAlign: 'middle' }}>
-                      {!isEditing && (
-                        <button
-                          onClick={() => setEditingAddress(row.address)}
-                          className="text-[8px] uppercase tracking-widest hover:text-[#C8AC78] transition-colors"
-                          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.12em', whiteSpace: 'nowrap' }}
-                        >
-                          Edit Status
-                        </button>
-                      )}
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+                        {!isEditing && (
+                          <button
+                            onClick={() => setEditingAddress(row.address)}
+                            className="text-[8px] uppercase tracking-widest hover:text-[#C8AC78] transition-colors"
+                            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.12em', whiteSpace: 'nowrap', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
+                          >
+                            Edit Status
+                          </button>
+                        )}
+                        {isAuthenticated && !isEditing && (
+                          <button
+                            onClick={() => setReportingAddress(row.address)}
+                            className="text-[8px] uppercase tracking-widest hover:text-[#1B2A4A] transition-colors"
+                            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.12em', whiteSpace: 'nowrap', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
+                          >
+                            + Report
+                          </button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 );
@@ -489,6 +595,14 @@ function PipelineTable() {
           {dealRows.length} deal{dealRows.length !== 1 ? 's' : ''} · refreshes every 60s
         </span>
       </div>
+
+      {/* Property Report Modal */}
+      {reportingAddress && (
+        <PropertyReportModal
+          address={reportingAddress}
+          onClose={() => setReportingAddress(null)}
+        />
+      )}
     </div>
   );
 }

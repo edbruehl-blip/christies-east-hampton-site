@@ -139,6 +139,30 @@ function CalendarLayer() {
             </div>
           </div>
         </div>
+
+        {/* Wednesday Circuit — Google Calendar embed (full-width, below the two-panel grid) */}
+        <div style={{ borderTop: '1px solid rgba(27,42,74,0.12)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
+            <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>
+              Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
+            </div>
+            <a
+              href={`https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab`}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
+            >
+              Open Calendar ↗
+            </a>
+          </div>
+          <iframe
+            src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0"
+            title="Wednesday Circuit Calendar"
+            width="100%"
+            height="520"
+            style={{ display: 'block', border: 'none' }}
+          />
+        </div>
       </div>
       </div>
     </div>
