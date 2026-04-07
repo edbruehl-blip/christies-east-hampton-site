@@ -359,8 +359,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPriceDisplay: '$2.03M',
     anewScore: 8.6,
     volumeShare: 9,  // 9% — $545.4M of $5.922B
-    lastSale: 'TBD',
-    lastSalePrice: 'TBD',
+    lastSale: '',
+    lastSalePrice: '',
     lastSaleDate: '',
     restaurants: {
       anchor: 'Rowdy Hall',

@@ -660,3 +660,15 @@
 - [x] S15e-2: Confirm full build clean (pnpm build, not just LSP)
 - [x] S15e-3: Increase Puppeteer timeout to 30s minimum
 - [x] S15e-4: Re-test endpoint after fix, confirm PDF generation succeeds
+
+## Sprint 15f — Full Export Audit (April 7, 2026)
+- [x] S15f-1: Audit all export buttons — trace every handler across all tabs
+- [x] S15f-2: Fix Market Report Puppeteer route (auth bypass test for real runtime error)
+- [x] S15f-3: Fix any broken hamlet PDF, Christie's Letter, Deal Brief, CMA, ANEW, Investment Memo exports
+- [x] S15f-4: Confirm all buttons working end-to-end
+
+## Sprint 15f — MARKET Tab Fixes (April 6, 2026)
+- [x] S15f-1: Fix Montauk + Wainscott hero photos not rendering on MARKET tab hamlet tiles
+- [x] S15f-2: Fix EH North last sale — remove TBD or populate with real reference sale
+- [x] S15f-3: Verify Wainscott $59M last sale attribution — confirm or correct hamlet assignment
+- [x] S15f-4: Fix Ascension Arc bar scaling — confirm $15M renders visually smaller than $55M
