@@ -190,12 +190,19 @@ async function handleStatus(to: string): Promise<void> {
   const now = new Date().toLocaleDateString("en-US", {
     weekday: "long", month: "long", day: "numeric", year: "numeric",
   });
+  // Live entity count from Intelligence Web sheet (Sprint 16 directive: no hardcoded counts)
+  let entityLabel = 'entity count unavailable';
+  try {
+    const { readIntelWebRows } = await import('./sheets-helper');
+    const entities = await readIntelWebRows();
+    entityLabel = `${entities.length} entities tracked`;
+  } catch { /* fall through to unavailable label */ }
   await sendTextReply(
     to,
     `📊 Christie's East Hampton — Status Report · ${now}\n\n` +
     `Platform: LIVE at christiesrealestategroupeh.com\n` +
     `Pipeline: Active — check PIPE tab for current deals\n` +
-    `Intelligence Web: 47 entities tracked\n` +
+    `Intelligence Web: ${entityLabel}\n` +
     `Next brief: 8:00 AM Eastern\n\n` +
     `Reply NEWS for intelligence brief · PIPE for pipeline · BRIEF for morning brief`
   );
@@ -283,9 +290,10 @@ async function handleHelp(to: string): Promise<void> {
   );
 }
 
-// ─── BRIEF [address] — Address-specific CIS brief ───────────────────────────
-// Hamlet lookup table — inline, no client import needed
-const HAMLET_LOOKUP: Record<string, { name: string; median: string; cis: number; tier: string }> = {
+// ─── BRIEF [address] — Address-specific CIS brief ───────────────────────────────────────────
+// Static fallback lookup — used when Market Matrix sheet is unavailable.
+// Sprint 16 directive: BRIEF command now prefers live readMarketMatrixRows() data.
+const HAMLET_LOOKUP_FALLBACK: Record<string, { name: string; median: string; cis: number; tier: string }> = {
   'sagaponack':            { name: 'Sagaponack',           median: '$8.04M',  cis: 9.4, tier: 'Ultra-Trophy' },
   'east hampton village':  { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
   'east hampton':          { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
@@ -301,12 +309,58 @@ const HAMLET_LOOKUP: Record<string, { name: string; median: string; cis: number;
   'wainscott':             { name: 'Wainscott',            median: '$3.18M',  cis: 8.7, tier: 'Trophy' },
 };
 
-function resolveHamlet(text: string): { name: string; median: string; cis: number; tier: string } | null {
+// CIS tier from score — mirrors hamlet-master.ts logic
+function cisScoreToTier(cis: number): string {
+  if (cis >= 9.3) return 'Ultra-Trophy';
+  if (cis >= 8.7) return 'Trophy';
+  if (cis >= 8.0) return 'Premier';
+  return 'Opportunity';
+}
+
+// Build a live lookup from Market Matrix rows, falling back to static table on error.
+async function buildHamletLookup(): Promise<Record<string, { name: string; median: string; cis: number; tier: string }>> {
+  try {
+    const { readMarketMatrixRows } = await import('./sheets-helper');
+    const rows = await readMarketMatrixRows();
+    if (!rows || rows.length === 0) return HAMLET_LOOKUP_FALLBACK;
+    const live: Record<string, { name: string; median: string; cis: number; tier: string }> = {};
+    for (const row of rows) {
+      if (!row.hamlet) continue;
+      const key = row.hamlet.toLowerCase().trim();
+      const entry = {
+        name:   row.hamlet,
+        median: row.median2025 || '—',
+        cis:    row.cisScore   || 0,
+        tier:   cisScoreToTier(row.cisScore || 0),
+      };
+      live[key] = entry;
+      // Also register common short-form aliases
+      if (key === 'east hampton village') live['east hampton'] = entry;
+      if (key === 'southampton village')  live['southampton']  = entry;
+    }
+    return live;
+  } catch {
+    return HAMLET_LOOKUP_FALLBACK;
+  }
+}
+
+async function resolveHamletLive(text: string): Promise<{ name: string; median: string; cis: number; tier: string } | null> {
+  const lookup = await buildHamletLookup();
   const lower = text.toLowerCase();
   // Longest-match first to avoid 'east hampton' matching before 'east hampton village'
-  const keys = Object.keys(HAMLET_LOOKUP).sort((a, b) => b.length - a.length);
+  const keys = Object.keys(lookup).sort((a, b) => b.length - a.length);
   for (const key of keys) {
-    if (lower.includes(key)) return HAMLET_LOOKUP[key];
+    if (lower.includes(key)) return lookup[key];
+  }
+  return null;
+}
+
+// Synchronous fallback for non-async callers (uses static table only)
+function resolveHamlet(text: string): { name: string; median: string; cis: number; tier: string } | null {
+  const lower = text.toLowerCase();
+  const keys = Object.keys(HAMLET_LOOKUP_FALLBACK).sort((a, b) => b.length - a.length);
+  for (const key of keys) {
+    if (lower.includes(key)) return HAMLET_LOOKUP_FALLBACK[key];
   }
   return null;
 }
@@ -350,7 +404,8 @@ async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
     await sendTextReply(to, `🏛️ Reply BRIEF followed by an address.\nExample: BRIEF 26 Park Place East Hampton`);
     return;
   }
-  const hamlet = resolveHamlet(address);
+  // Try live Market Matrix lookup first (Sprint 16: reflects sheet updates)
+  const hamlet = await resolveHamletLive(address);
   if (hamlet) {
     await sendAddressBriefReply(to, address, hamlet);
     return;
@@ -368,7 +423,7 @@ async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
       ],
     });
     const identified = (res.choices?.[0]?.message?.content ?? '').trim();
-    const resolved = resolveHamlet(identified);
+    const resolved = await resolveHamletLive(identified);
     if (resolved) {
       await sendAddressBriefReply(to, address, resolved);
     } else {

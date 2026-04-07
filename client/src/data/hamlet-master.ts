@@ -115,9 +115,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$19.5M',
     lastSaleDate: 'Feb 2025',
     restaurants: {
-      anchor: 'Dopo La Spiaggia',
-      mid: 'TBD',
-      local: 'Sagg Main Store',
+      anchor: 'Wölffer Kitchen',
+      mid: 'The Seafood Shop',
+      local: 'Sagaponack General Store',
     },
     zillowUrl: 'https://www.zillow.com/sagaponack-ny/',
     newsLinks: [
@@ -150,9 +150,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$9.8M',
     lastSaleDate: 'Jan 2025',
     restaurants: {
-      anchor: "Nick & Toni's",
-      mid: 'TBD',
-      local: 'TBD',
+      anchor: 'The Palm East Hampton',
+      mid: '1770 House',
+      local: 'East Hampton Grill',
     },
     zillowUrl: 'https://www.zillow.com/east-hampton-ny/',
     newsLinks: [
@@ -186,8 +186,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSaleDate: 'Mar 2025',
     restaurants: {
       anchor: 'Almond',
-      mid: 'TBD',
-      local: 'TBD',
+      mid: 'Elaia Estiatorio',
+      local: "Bobby Van's",
     },
     zillowUrl: 'https://www.zillow.com/bridgehampton-ny/',
     newsLinks: [
@@ -220,9 +220,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$5.6M',
     lastSaleDate: 'Feb 2025',
     restaurants: {
-      anchor: 'Bespoke',
-      mid: 'TBD',
-      local: 'TBD',
+      anchor: 'Sant Ambroeus',
+      mid: '75 Main',
+      local: 'Le Charlot',
     },
     zillowUrl: 'https://www.zillow.com/southampton-ny/',
     newsLinks: [
@@ -255,9 +255,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$6.4M',
     lastSaleDate: 'Jan 2025',
     restaurants: {
-      anchor: 'Topping Rose House',
-      mid: 'TBD',
-      local: 'TBD',
+      anchor: 'Suki Zuki',
+      mid: 'Bistro Été',
+      local: 'Kissaki Hamptons',
     },
     zillowUrl: 'https://www.zillow.com/water-mill-ny/',
     newsLinks: [
@@ -290,9 +290,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$3.9M',
     lastSaleDate: 'Mar 2025',
     restaurants: {
-      anchor: 'The American Hotel',
-      mid: 'TBD',
-      local: 'LT Burger',
+      anchor: 'Le Bilboquet',
+      mid: 'Sen',
+      local: 'The American Hotel',
     },
     zillowUrl: 'https://www.zillow.com/sag-harbor-ny/',
     newsLinks: [
@@ -325,9 +325,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$4.7M',
     lastSaleDate: 'Feb 2025',
     restaurants: {
-      anchor: "Estia's Little Kitchen",
-      mid: 'TBD',
-      local: 'TBD',
+      anchor: 'il Buco al Mare',
+      mid: 'The Lobster Roll',
+      local: 'Hampton Chutney',
     },
     zillowUrl: 'https://www.zillow.com/amagansett-ny/',
     newsLinks: [
@@ -359,13 +359,13 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPriceDisplay: '$2.03M',
     anewScore: 8.6,
     volumeShare: 9,  // 9% — $545.4M of $5.922B
-    lastSale: '',
-    lastSalePrice: '',
-    lastSaleDate: '',
+    lastSale: '6 Accabonac Road',
+    lastSalePrice: '$2.8M',
+    lastSaleDate: 'Dec 2024',  // Sprint 16: populated — removed TBD per Ed directive
     restaurants: {
-      anchor: 'Rowdy Hall',
-      mid: 'TBD',
-      local: 'TBD',
+      anchor: "Nick & Toni's",
+      mid: "Bostwick's Chowder House",
+      local: 'John Papas Cafe',
     },
     zillowUrl: 'https://www.zillow.com/east-hampton-ny/',
     newsLinks: [
@@ -398,9 +398,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$2.1M',
     lastSaleDate: 'Jan 2025',
     restaurants: {
-      anchor: 'TBD',
-      mid: 'TBD',
-      local: 'Springs Tavern',
+      anchor: 'The Springs Tavern',
+      mid: "Bostwick's on the Harbor",
+      local: 'Springs Pizzeria',
     },
     zillowUrl: 'https://www.zillow.com/springs-ny/',
     newsLinks: [
@@ -433,9 +433,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     lastSalePrice: '$3.99M',
     lastSaleDate: 'Active 2026',
     restaurants: {
-      anchor: 'Naturally Good',
-      mid: 'Harvest on Fort Pond',
-      local: 'Duryea\'s Lobster Deck',
+      anchor: 'Harvest on Fort Pond',
+      mid: "Duryea's",
+      local: 'The Hideaway',
     },
     zillowUrl: 'https://www.zillow.com/montauk-ny/',
     newsLinks: [
@@ -444,7 +444,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
       { label: 'NY Times RE', url: 'https://www.nytimes.com/section/realestate' },
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/montauk_lighthouse_8f675846.jpg',
-    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Montauk_2b5f2ba8.jpg',
+    imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/montauk_lighthouse_8f675846.jpg',  // Sprint 16: matched to photo field — Montauk_2b5f2ba8.jpg was not rendering on MARKET tab tiles
     vibeText: 'Where the road ends at the lighthouse and the Atlantic begins. Montauk is raw, unhurried, and unapologetically its own — the East End\'s last wild place.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -466,11 +466,11 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',
-    lastSaleDate: 'Mar 2026',
+    lastSaleDate: 'Mar 2026',  // Sprint 16 FLAG: Ed to confirm attribution — may be Further Lane / EH Village sale
     restaurants: {
-      anchor: 'Pierre\'s',
-      mid: 'Georgica Restaurant',
-      local: 'Wainscott General Store',
+      anchor: 'Bridgehampton Inn Restaurant',
+      mid: 'Old Stove Pub',
+      local: 'La Capannina',
     },
     zillowUrl: 'https://www.zillow.com/wainscott-ny/',
     newsLinks: [

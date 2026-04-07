@@ -627,7 +627,7 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setFontSize(8.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  y = wrapText(doc, 'Christie\'s has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family\'s interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the South Fork access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 250 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 5.5);
   y += 5;
 
   y = sectionLabel(doc, "Christie's Intelligence Score Framework", y);
@@ -700,7 +700,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
     yoy: '+9.2%',
     activeListings: 14,
     avgDOM: 61,
-    pricePerSqFt: '$1,420 est.',
+    pricePerSqFt: '$1,420 est.',  // Sprint 16: confirmed correct — YoY +9.2%, DOM 61, est. label present
     absorbRate: '3.2 months',
     characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
   };

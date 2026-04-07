@@ -60,39 +60,54 @@ const COLUMNS = [
 type DealKey = typeof COLUMNS[number]['key'];
 
 // ─── KPI Strip ────────────────────────────────────────────────────────────────
+// Seven-category breakout per Ed Bruehl directive April 6, 2026.
+// Total Book = sum of all categories. Must never read as "Active Pipeline" alone.
 
 function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
-  const active      = deals.filter(d => d.status === 'Active').length;
-  const inContract  = deals.filter(d => d.status === 'In Contract').length;
-  const closed      = deals.filter(d => d.status === 'Closed').length;
-  const totalVol    = deals
-    .filter(d => d.price)
-    .reduce((sum, d) => {
-      const n = parseFloat(d.price.replace(/[^0-9.]/g, ''));
-      return sum + (isNaN(n) ? 0 : n);
-    }, 0);
+  const parsePrice = (p: string) => {
+    const n = parseFloat(p.replace(/[^0-9.]/g, ''));
+    return isNaN(n) ? 0 : n;
+  };
+  const volByCategory = (keywords: string[]) =>
+    deals
+      .filter(d => !d.isSectionHeader && d.price && keywords.some(k => ((d as any).category ?? '').toUpperCase().includes(k.toUpperCase())))
+      .reduce((sum, d) => sum + parsePrice(d.price), 0);
+  const totalBook = deals
+    .filter(d => !d.isSectionHeader && d.price)
+    .reduce((sum, d) => sum + parsePrice(d.price), 0);
   const fmt = (n: number) =>
-    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : n >= 1_000 ? `$${(n / 1_000).toFixed(0)}K` : `$${n}`;
-
-  const kpis = [
-    { label: 'Active',      value: String(active),       dot: '#228B22' },
-    { label: 'In Contract', value: String(inContract),   dot: '#C8AC78' },
-    { label: 'Closed',      value: String(closed),       dot: '#1B2A4A' },
-    { label: 'Total Volume',value: fmt(totalVol),        dot: '#C8AC78' },
-    { label: 'Total Deals', value: String(deals.length), dot: '#7a8a8e' },
+    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M`
+    : n >= 1_000   ? `$${(n / 1_000).toFixed(0)}K`
+    : n > 0        ? `$${n}`
+    : '—';
+  const categories = [
+    { label: 'Active Listings',      vol: volByCategory(['ACTIVE']),                          dot: '#228B22' },
+    { label: 'Quiet Listings',       vol: volByCategory(['QUIET']),                           dot: '#7a8a8e' },
+    { label: 'Offers / Buy-Side',    vol: volByCategory(['OFFER', 'BUY-SIDE', 'BUY SIDE']),  dot: '#C8AC78' },
+    { label: 'Pending Listings',     vol: volByCategory(['PENDING']),                         dot: '#e07b39' },
+    { label: 'In Contract / Closed', vol: volByCategory(['IN CONTRACT', 'CLOSED']),           dot: '#1B2A4A' },
+    { label: 'Rentals',              vol: volByCategory(['RENTAL']),                          dot: '#384249' },
+    { label: 'Inactive',             vol: volByCategory(['INACTIVE', 'DEAD', 'STALLED']),    dot: '#ccc'    },
   ];
-
   return (
-    <div className="flex flex-wrap gap-3 mb-6">
-      {kpis.map(k => (
-        <div key={k.label} className="flex items-center gap-3 px-4 py-3" style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', minWidth: 120 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
-          <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1.1rem', lineHeight: 1 }}>{k.value}</div>
+    <div className="mb-6">
+      {/* Total Book headline */}
+      <div className="flex items-baseline gap-3 mb-3">
+        <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1.6rem', lineHeight: 1 }}>{fmt(totalBook)}</span>
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Total Book</span>
+      </div>
+      {/* Seven-category strip */}
+      <div className="flex flex-wrap gap-2">
+        {categories.map(k => (
+          <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', minWidth: 110 }}>
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
+            <div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1rem', lineHeight: 1 }}>{fmt(k.vol)}</div>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

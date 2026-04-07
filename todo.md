@@ -686,3 +686,18 @@
 - [x] generateMarketReport: fix URL to christiesrealestategroupeh.com on contact card (was christiesrealestategroup.com)
 - [x] generateMarketReport: Ed headshot wired via ED_HEADSHOT_PRIMARY (INlfZDqMHcqOCvuv.jpg, HTTP 200 confirmed)
 - [x] generateMarketReport: convert Platform Intelligence bullet list to prose (Flambeaux standard)
+
+## April 6 Close-of-Day Directive (12 items)
+
+- [x] 1. PDF: Replace Christie's Standard paragraph on Resources page with new closing copy
+- [x] 2. Market tab: Fix Montauk and Wainscott hero photo imageUrl references
+- [x] 3. Market tab: Populate or hide EH North last sale (remove TBD)
+- [x] 4. Market tab: Verify Wainscott last sale attribution (115 Beach Ln $59M)
+- [x] 5. EH Village static data: YoY +9.2%, DOM 61, $/sqft "$1,420 est."
+- [x] 6. hamlet-master.ts: Populate restaurants field for all eleven hamlets
+- [x] 7. PIPE tab: Remove four duplicate rows; display KPI breakout by category
+- [x] 8. FUTURE tab: Confirm bar scaling consistent — $15M visually smaller than $55M
+- [x] 9. WhatsApp: STATUS live entity count; BRIEF connect to readMarketMatrixRows()
+- [x] 10. Market tab: Add refetchInterval 5 min to hamletMatrix query
+- [x] 11. Perplexity news: Add server-side in-memory Map cache with 5-min TTL
+- [x] 12. Document Library: Add April 6 Infrastructure Audit to INTEL Layer 4

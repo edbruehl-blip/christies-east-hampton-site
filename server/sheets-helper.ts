@@ -83,11 +83,13 @@ export interface PipelineDeal {
   zillowShowcase: string;
   dateClosed: string;
   isSectionHeader: boolean; // true for rows like "BUY-SIDE DEALS"
+  category: string; // section header label this deal falls under (e.g. "ACTIVE LISTINGS")
 }
 
 export async function readPipelineDeals(): Promise<PipelineDeal[]> {
   const rows = await readPipelineRows();
-  const deals: PipelineDeal[] = [];
+  const rawDeals: PipelineDeal[] = [];
+  let currentCategory = '';
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
@@ -102,8 +104,9 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
     // Section headers have address text but no price/status
     const hasPrice = !!row[3]?.trim();
     const isSectionHeader = !hasPrice && address.toUpperCase() === address;
+    if (isSectionHeader) currentCategory = address;
 
-    deals.push({
+    rawDeals.push({
       rowNumber: i + 1,
       address,
       town:           row[1]?.trim()  ?? "",
@@ -120,10 +123,31 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
       // Columns M–T (indices 12–19) are media/marketing fields — not surfaced in the UI
       dateClosed:     row[20]?.trim() ?? "",  // Column U (index 20)
       isSectionHeader,
+      category: isSectionHeader ? address : currentCategory,
     });
   }
 
-  return deals;
+  // De-duplicate non-header rows by address (last occurrence wins — preserves most recent status/category)
+  // Addresses that appear in multiple sections (e.g. Pending + Quiet) are collapsed to one row.
+  const lastSeen = new Map<string, PipelineDeal>();
+  for (const d of rawDeals) {
+    if (!d.isSectionHeader) lastSeen.set(d.address.toLowerCase(), d);
+  }
+  const dedupedKeys = new Set<string>();
+  const finalDeals: PipelineDeal[] = [];
+  for (const d of rawDeals) {
+    if (d.isSectionHeader) {
+      finalDeals.push(d);
+    } else {
+      const key = d.address.toLowerCase();
+      const canonical = lastSeen.get(key);
+      if (canonical && !dedupedKeys.has(key)) {
+        dedupedKeys.add(key);
+        finalDeals.push(canonical); // insert the last-seen version at first-occurrence position
+      }
+    }
+  }
+  return finalDeals;
 }
 
 // ─── Find a row by address (column A) and return its row number (1-indexed) ──

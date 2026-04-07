@@ -353,6 +353,13 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christies_Intelligence_Web_Locked_7c609b20.html',
     pinned: true,
   },
+  {
+    id: 'infrastructure-audit-april-2026',
+    label: 'Platform Infrastructure Audit · April 6, 2026',
+    description: 'Full operating manual for the Christie’s East Hampton Intelligence Platform. Nine Google Sheets, six CDN documents, five INTEL tab layers, all tRPC procedures, caching architecture, WhatsApp pipeline, PDF engine, and twelve identified gaps. The canonical reference for how the platform thinks, grows, and reports.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/infrastructure_audit_april6_2026_208e007c.pdf',
+    pinned: true,
+  },
 ];
 
 function DocumentLibrary() {

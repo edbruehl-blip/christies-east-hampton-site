@@ -326,10 +326,25 @@ export const appRouter = router({
      * Used by the Institutional Mind Map hover tooltip to surface live intelligence.
      * Returns a 1-2 sentence summary or null if no news found.
      * publicProcedure: no session cookie required — Perplexity API key is the credential.
+     *
+     * Sprint 16: server-side in-memory cache (5 min TTL) prevents redundant Perplexity calls
+     * when multiple users hover the same node, or the same user revisits the tooltip.
+     * Cache is keyed by normalized entity name and survives across requests within a process.
      */
     entityNews: publicProcedure
       .input(z.object({ entityName: z.string().min(1).max(120) }))
       .query(async ({ input }) => {
+        // ─── Server-side news cache (5-minute TTL, in-process) ─────────────────────────
+        const NEWS_CACHE_TTL_MS = 5 * 60 * 1000;
+        type NewsCacheEntry = { news: string | null; error: string | null; cachedAt: number };
+        const newsCache: Map<string, NewsCacheEntry> =
+          ((globalThis as any).__entityNewsCache ??= new Map<string, NewsCacheEntry>());
+        const cacheKey = input.entityName.toLowerCase().trim();
+        const cached = newsCache.get(cacheKey);
+        if (cached && Date.now() - cached.cachedAt < NEWS_CACHE_TTL_MS) {
+          return { news: cached.news, error: cached.error };
+        }
+        // ────────────────────────────────────────────────────────────────────────────
         try {
           const response = await fetch('https://api.perplexity.ai/chat/completions', {
             method: 'POST',
@@ -354,11 +369,21 @@ export const appRouter = router({
             }),
             signal: AbortSignal.timeout(15000),
           });
-          if (!response.ok) return { news: null, error: 'Perplexity unavailable' };
+          if (!response.ok) {
+            const result = { news: null, error: 'Perplexity unavailable' };
+            newsCache.set(cacheKey, { ...result, cachedAt: Date.now() });
+            return result;
+          }
           const data = await response.json() as { choices: Array<{ message: { content: string } }> };
           const content = data.choices[0]?.message?.content?.trim() ?? '';
-          if (!content || content === 'No recent news.') return { news: null, error: null };
-          return { news: content, error: null };
+          if (!content || content === 'No recent news.') {
+            const result = { news: null, error: null };
+            newsCache.set(cacheKey, { ...result, cachedAt: Date.now() });
+            return result;
+          }
+          const result = { news: content, error: null };
+          newsCache.set(cacheKey, { ...result, cachedAt: Date.now() });
+          return result;
         } catch (err: any) {
           return { news: null, error: err.message ?? 'Failed to fetch news' };
         }

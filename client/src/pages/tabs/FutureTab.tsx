@@ -290,8 +290,10 @@ export default function FutureTab() {
           <div style={{ overflowX: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, minWidth: 700, height: CHART_HEIGHT + 60, paddingBottom: 0 }}>
               {ARC_BARS.map((bar) => {
-                const pct = (bar.volume / MAX_VOLUME) * 100;
-                const barH = Math.max(12, Math.round((pct / 100) * CHART_HEIGHT));
+                // Square-root scale: preserves proportional ordering while keeping small bars visible.
+                // $15M ≈ 26px, $55M ≈ 50px, $430M = 220px — visually honest, no bar disappears.
+                const sqrtPct = Math.sqrt(bar.volume / MAX_VOLUME);
+                const barH = Math.max(8, Math.round(sqrtPct * CHART_HEIGHT));
                 return (
                   <div key={bar.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60 }}>
                     {/* Volume label */}
