@@ -676,3 +676,13 @@
 ## Sprint 15g — Ascension Arc + Market Report Print Fix (April 7, 2026)
 - [x] S15g-1: Remove "Bonita DeWolf pre-launch" sub-label from 2025 bar — make all bars consistent (year label only)
 - [x] S15g-2: Fix Market Report PDF print — diagnose actual Puppeteer/jsPDF runtime error and resolve
+
+## Sprint 16 — Market Report PDF Corrections (April 7, 2026)
+
+- [x] generateMarketReport: remove Page 2 (Hamptons Local Intelligence section) entirely
+- [x] generateMarketReport: remove Page 3 (Capital Flow Signal / Rate Environment / Hamptons Median cards) entirely
+- [x] generateMarketReport: fix hamlet atlas pagination — for-loop with page overflow ensures all eleven hamlets render
+- [x] generateMarketReport: change "Ten-hamlet" to "eleven-hamlet" in Platform Intelligence section
+- [x] generateMarketReport: fix URL to christiesrealestategroupeh.com on contact card (was christiesrealestategroup.com)
+- [x] generateMarketReport: Ed headshot wired via ED_HEADSHOT_PRIMARY (INlfZDqMHcqOCvuv.jpg, HTTP 200 confirmed)
+- [x] generateMarketReport: convert Platform Intelligence bullet list to prose (Flambeaux standard)

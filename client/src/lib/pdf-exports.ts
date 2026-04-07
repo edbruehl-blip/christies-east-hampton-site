@@ -530,162 +530,9 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setTextColor(200, 190, 175);
   doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
-  // ── PAGE 2 — Hamptons Local Intelligence (mirrors /report Section 2 news) ────
+  // ── PAGE 2 — Hamlet Atlas Matrix (all eleven hamlets) ───────────────────────
   doc.addPage();
-  let y = await drawHeader(doc, 'Hamptons Local Intelligence', 'East End · Current Affairs · March 2026', edImg, logoImg);
-
-  const newsItems = [
-    {
-      location: 'East Hampton Town',
-      headline: 'Affordable Housing Overlay Approved on Springs Fireplace Road',
-      body: 'The East Hampton Town Board approved a new affordable housing overlay district along Springs Fireplace Road, adding 48 units of workforce housing. The Planning Board is reviewing a 12-lot subdivision on Accabonac Road with a public hearing scheduled for April. The East Hampton School District reported a 4.2% enrollment increase — the largest in a decade — driven by year-round residency growth.',
-    },
-    {
-      location: 'Southampton Town',
-      headline: 'Short-Term Rental Moratorium Extended Through December 2026',
-      body: 'Southampton Town extended its moratorium on new short-term rental permits through December 2026, citing neighborhood character concerns in Bridgehampton and Water Mill. The Bridgehampton Commons redevelopment proposal — mixed-use retail and residential — received preliminary approval. Southampton Village is advancing a $12M Main Street infrastructure upgrade.',
-    },
-    {
-      location: 'Sag Harbor',
-      headline: 'Watchcase Final Phase Approved · Cinema Restoration on Track',
-      body: 'The Sag Harbor Village Board approved the Watchcase Factory residential conversion final phase, adding 22 luxury units to the historic complex. The Sag Harbor Cinema restoration is on schedule for a summer 2026 reopening. The village is reviewing a proposal to expand the waterfront park along Long Wharf.',
-    },
-  ];
-
-  for (const item of newsItems) {
-    if (y + 32 > PAGE.h - PAGE.mb) break;
-    // Location badge
-    doc.setFillColor(...C.navy);
-    doc.rect(PAGE.ml, y, PAGE.contentW, 6, 'F');
-    doc.setFontSize(6.5);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text(item.location.toUpperCase(), PAGE.ml + 3, y + 4);
-    y += 8;
-    // Headline
-    doc.setFontSize(9);
-    doc.setTextColor(...C.navy);
-    doc.setFont('helvetica', 'bold');
-    y = wrapText(doc, item.headline, PAGE.ml, y, PAGE.contentW, 5.5);
-    y += 2;
-    // Body
-    doc.setFontSize(7.5);
-    doc.setTextColor(...C.charcoal);
-    doc.setFont('helvetica', 'normal');
-    y = wrapText(doc, item.body, PAGE.ml, y, PAGE.contentW, 5);
-    y += 8;
-  }
-
-  drawFooter(doc, 2, 5, qrImg);
-
-  // ── PAGE 3 — Market Intelligence (mirrors /report Section 3) ─────────────────
-  doc.addPage();
-  y = await drawHeader(doc, 'Market Intelligence', 'Capital Flow Signal · Rate Environment · Hamptons Median', edImg, logoImg);
-
-  // Capital Flow Signal panel
-  doc.setFillColor(27, 42, 74);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 18, 'F');
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.5);
-  doc.rect(PAGE.ml, y, PAGE.contentW, 18, 'S');
-  doc.setFontSize(7);
-  doc.setTextColor(...C.gold);
-  doc.setFont('helvetica', 'bold');
-  doc.text('CAPITAL FLOW SIGNAL', PAGE.ml + 4, y + 5);
-  doc.setFontSize(11);
-  doc.setTextColor(...C.cream);
-  doc.text('STRONG INFLOW', PAGE.ml + 4, y + 13);
-  doc.setFontSize(7);
-  doc.setTextColor(200, 190, 175);
-  doc.setFont('helvetica', 'normal');
-  doc.text('Institutional & family office capital flowing at elevated levels · March 2026', PAGE.w - PAGE.mr - 4, y + 13, { align: 'right' });
-  y += 24;
-
-  // Rate environment — two-column metric tiles
-  const rateMetrics = [
-    { label: '30-Year Fixed', value: '6.38%', sub: 'Freddie Mac · March 2026' },
-    { label: '10-Year Treasury', value: '4.81%', sub: 'Current yield' },
-    { label: 'VIX Volatility', value: '30.61', sub: 'Macro uncertainty elevated' },
-    { label: 'Hamptons Median', value: '$2.34M', sub: 'South Fork · Q1 2026 · +7% YoY' },
-  ];
-
-  const tileW = (PAGE.contentW - 6) / 2;
-  let tx = PAGE.ml;
-  let ty = y;
-  rateMetrics.forEach((m, i) => {
-    doc.setFillColor(240, 238, 234);
-    doc.rect(tx, ty, tileW, 20, 'F');
-    doc.setDrawColor(...C.gold);
-    doc.setLineWidth(0.3);
-    doc.rect(tx, ty, tileW, 20, 'S');
-    doc.setFillColor(...C.gold);
-    doc.rect(tx, ty, 2, 20, 'F');
-    doc.setFontSize(6.5);
-    doc.setTextColor(...C.gold);
-    doc.setFont('helvetica', 'bold');
-    doc.text(m.label.toUpperCase(), tx + 5, ty + 6);
-    doc.setFontSize(13);
-    doc.setTextColor(...C.navy);
-    doc.text(m.value, tx + 5, ty + 14);
-    doc.setFontSize(6);
-    doc.setTextColor(...C.muted);
-    doc.setFont('helvetica', 'normal');
-    doc.text(m.sub, tx + 5, ty + 18);
-    if (i % 2 === 0) {
-      tx = PAGE.ml + tileW + 6;
-    } else {
-      tx = PAGE.ml;
-      ty += 26;
-    }
-  });
-  y = ty + 26;
-
-  // Hamlet median summary table
-  y = sectionLabel(doc, 'Hamlet Median Price Summary', y);
-  const avgAnew2 = (MASTER_HAMLET_DATA.reduce((s, h) => s + h.anewScore, 0) / MASTER_HAMLET_DATA.length).toFixed(1);
-  const tblCols = ['Hamlet', 'Median Price', 'CIS Score', 'Vol. Share', 'YoY'];
-  const tblW = [PAGE.contentW * 0.30, PAGE.contentW * 0.22, PAGE.contentW * 0.18, PAGE.contentW * 0.15, PAGE.contentW * 0.15];
-  const rH = 5.5;
-
-  doc.setFillColor(...C.navy);
-  doc.rect(PAGE.ml, y, PAGE.contentW, rH, 'F');
-  doc.setFontSize(6);
-  doc.setTextColor(...C.cream);
-  doc.setFont('helvetica', 'bold');
-  let hx = PAGE.ml + 1.5;
-  tblCols.forEach((col, i) => { doc.text(col, hx, y + 3.5); hx += tblW[i]; });
-  y += rH;
-
-  MASTER_HAMLET_DATA.forEach((h, ri) => {
-    const bg = ri % 2 === 0 ? C.cream : [245, 243, 239] as [number, number, number];
-    doc.setFillColor(...bg);
-    doc.rect(PAGE.ml, y, PAGE.contentW, rH, 'F');
-    doc.setFontSize(6);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...C.charcoal);
-    let rx2 = PAGE.ml + 1.5;
-    const yoyMap: Record<string, string> = {
-      'sagaponack': '+4%', 'east-hampton-village': '+12%', 'bridgehampton': '+8%',
-      'southampton-village': '+14%', 'water-mill': '+7%', 'amagansett': '+9%',
-      'east-hampton': '+18%', 'sag-harbor': '+11%', 'springs': '+17%', 'montauk': '+6%',
-    };
-    [h.name, h.medianPriceDisplay, `${h.anewScore} / 10`, `${h.volumeShare}%`, yoyMap[h.id] ?? '—'].forEach((val, i) => {
-      doc.text(val, rx2, y + 3.5);
-      rx2 += tblW[i];
-    });
-    y += rH;
-  });
-
-  doc.setFontSize(6.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Avg CIS across all eleven hamlets: ${avgAnew2} / 10 · Source: Christie's East Hampton Intelligence Platform · Q1 2026`, PAGE.ml, y + 5);
-
-  drawFooter(doc, 3, 5, qrImg);
-
-  // ── PAGE 4 — Hamlet Atlas Matrix (mirrors /report Section 4 — all 9 hamlets) ─
-  doc.addPage();
-  y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Eleven Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
+  let y = await drawHeader(doc, 'Hamlet Atlas Matrix', 'Eleven Hamlets · South Fork · CIS Classification · Christie\'s Intelligence Score', edImg, logoImg);
 
   const tierBadgeBg: Record<string, [number, number, number]> = {
     'Ultra-Trophy': C.gold,
@@ -707,8 +554,15 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   let cardY = y;
   let col = 0;
 
-  MASTER_HAMLET_DATA.forEach(h => {
-    if (cardY + cardH > PAGE.h - PAGE.mb) return;
+  for (const h of MASTER_HAMLET_DATA) {
+    // Overflow to a new page when needed — ensures all eleven hamlets render
+    if (cardY + cardH > PAGE.h - PAGE.mb) {
+      drawFooter(doc, doc.getNumberOfPages(), doc.getNumberOfPages() + 1, qrImg);
+      doc.addPage();
+      cardY = await drawHeader(doc, 'Hamlet Atlas Matrix (cont.)', 'Eleven Hamlets · South Fork · CIS Classification', edImg, logoImg);
+      cardX = PAGE.ml;
+      col = 0;
+    }
 
     doc.setFillColor(...C.cream);
     doc.rect(cardX, cardY, cardW, cardH, 'F');
@@ -760,11 +614,12 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
     } else {
       cardX = PAGE.ml + cardW + 6;
     }
-  });
+  }
 
-  drawFooter(doc, 4, 5, qrImg);
+  const atlasPageNum = doc.getNumberOfPages();
+  drawFooter(doc, atlasPageNum, atlasPageNum + 1, qrImg);
 
-  // ── PAGE 5 — Resources & Authority (mirrors /report Section 6) ───────────────
+  // ── Final Page — Resources & Authority ───────────────────────────────────────
   doc.addPage();
   y = await drawHeader(doc, 'Resources & Authority', 'Christie\'s East Hampton · The Standard', edImg, logoImg);
 
@@ -780,21 +635,11 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   y += 5;
 
   y = sectionLabel(doc, 'Platform Intelligence', y);
-  const platformItems = [
-    'Ten-hamlet Christie’s Intelligence Score matrix · Updated quarterly',
-    'Live capital flow signal · Rate environment monitoring',
-    'Deal Brief · CMA · Investment Memo · ANEW Build Memo exports',
-    'Podcast & event calendar · Agent recruiting pipeline',
-    'Christie\'s auction calendar integration',
-  ];
-  platformItems.forEach(item => {
-    doc.setFontSize(7.5);
-    doc.setTextColor(...C.charcoal);
-    doc.setFont('helvetica', 'normal');
-    doc.text('·  ' + item, PAGE.ml + 3, y);
-    y += 5.5;
-  });
-  y += 4;
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...C.charcoal);
+  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform maintains an eleven-hamlet Christie\'s Intelligence Score matrix updated quarterly, a live capital flow signal with rate environment monitoring, and a full suite of institutional export tools — Deal Brief, CMA, Investment Memo, and ANEW Build Memo. The platform also integrates a podcast and event calendar, an agent recruiting pipeline, and Christie\'s auction calendar data.', PAGE.ml, y, PAGE.contentW, 5.5);
+  y += 6;
 
   // Contact card
   doc.setFillColor(240, 238, 234);
@@ -824,9 +669,9 @@ export async function generateMarketReport(hamletId?: string): Promise<void> {
   doc.setTextColor(...C.charcoal);
   doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 38, y + 20);
   doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 38, y + 26);
-  doc.text('646-752-1233 · christiesrealestategroup.com', PAGE.ml + 38, y + 32);
+  doc.text('646-752-1233 · christiesrealestategroupeh.com', PAGE.ml + 38, y + 32);
 
-  drawFooter(doc, 5, 5, qrImg);
+  drawFooter(doc, doc.getNumberOfPages(), doc.getNumberOfPages(), qrImg);
 
   const filename = targetHamlet
     ? `Christies_EH_Market_Report_${targetHamlet.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
