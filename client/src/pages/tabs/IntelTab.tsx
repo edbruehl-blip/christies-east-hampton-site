@@ -65,6 +65,7 @@ function MindMapSection() {
 function CalendarLayer() {
   return (
     <div className="px-6 py-8">
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
       {/* Layer label */}
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
         Layer 2 · Master Calendar
@@ -76,7 +77,6 @@ function CalendarLayer() {
         borderRadius: 2,
         overflow: 'hidden',
         background: '#fff',
-        maxWidth: 'var(--frame-max-w)',
       }}>
         {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
@@ -140,11 +140,12 @@ function CalendarLayer() {
           </div>
         </div>
       </div>
+      </div>
     </div>
   );
 }
-
 // ─── Nine-Sheet Matrix (Layer 3 — Sprint 11 Item 10) ─────────────────────────
+
 
 interface SheetEntry {
   id: string;

@@ -522,7 +522,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       }}
     >
       {/* Hamlet photo thumbnail */}
-      <div style={{ height: 120, overflow: 'hidden', position: 'relative' }}>
+      <div style={{ height: 160, overflow: 'hidden', position: 'relative' }}>
         <img
           src={hamlet.imageUrl || hamlet.photo}
           alt={hamlet.name}
@@ -738,18 +738,21 @@ export default function MapsTab() {
       {/* ── Layer 3: Eleven Hamlet Matrix ────────────────────────────────────── */}
       <div style={{ borderBottom: '1px solid rgba(27,42,74,0.12)' }}>
         <div className="px-6 pt-8 pb-4" style={{ background: '#FAF8F4' }}>
-          <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-            Eleven Hamlets · South Fork
+          <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Eleven Hamlets · South Fork
+            </div>
+            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.5rem' }}>
+              Hamlet Intelligence Matrix
+            </h2>
+            <p className="mt-1 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+              Click any hamlet to expand the full intelligence panel. Download individual hamlet PDFs directly from each card.
+            </p>
           </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.5rem' }}>
-            Hamlet Intelligence Matrix
-          </h2>
-          <p className="mt-1 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-            Click any hamlet to expand the full intelligence panel. Download individual hamlet PDFs directly from each card.
-          </p>
         </div>
 
         <div className="px-6 pb-8">
+          <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {MASTER_HAMLET_DATA.map(hamlet => (
               <HamletMatrixCard
@@ -760,6 +763,7 @@ export default function MapsTab() {
                 liveListings={liveListings}
               />
             ))}
+          </div>
           </div>
         </div>
       </div>

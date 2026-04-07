@@ -755,3 +755,11 @@
 - [x] Collateral cards v2 uploaded to CDN (UHNW card, Bike card, Christie's Letter)
 - [x] HomeTab.tsx updated: UHNW + Bike card CDN URLs point to v2 files; Christie's Letter added as third collateral card
 - [x] 35/35 tests passing — propertyReportDate + propertyReportLink fields confirmed in live sheet read
+
+## Sprint 17 — Remaining Open Items (April 7 Directive)
+
+- [x] 2a. MAPS hamlet cards: match MARKET tab card component exactly (same grid minmax, same card height 160px photo, same p-5 body)
+- [x] 2b. MAPS hamlet matrix: wrapped in max-width var(--frame-max-w) container to match MARKET tab
+- [x] 2c. MAPS calculator: CIS Output panel confirmed clean — "Enter your numbers and run the score" placeholder already present
+- [x] 3a. INTEL Layer 2 calendar: wrapped in max-width var(--frame-max-w) container to match mind map width
+- [x] 5a. Market Report PDF: structure outline posted in delivery message for council approval
