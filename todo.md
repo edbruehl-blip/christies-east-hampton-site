@@ -779,3 +779,10 @@
 - [x] Verify end-to-end: live data flows from Market Matrix sheet into PDF at generation time
 - [ ] FUTURE tab: add 2030 bar to Ascension Arc (PDF build complete — unblocked)
 - [ ] FUTURE tab: $1B horizon label legibility (PDF build complete — unblocked)
+
+## Sprint 20 — FUTURE Tab Completion (April 7, 2026)
+
+- [x] FUTURE tab: add 2030 bar to Ascension Arc ($320M milestone target, between 2029 and 2031)
+- [x] FUTURE tab: $1B horizon label legibility — opacity removed (was 0.55), font-weight 700, font-size 1rem — legible from across a conference table
+- [x] MacWhinnie name correction: zero references in codebase — clean. Correction is Perplexity-side only.
+- [x] April 7 v7 directive full audit: all seven items confirmed complete across checkpoints 3e115363, ec3c1be4, 1f425d72, 970cb917, and 970cb917+

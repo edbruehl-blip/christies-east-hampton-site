@@ -20,6 +20,7 @@ const MILESTONE_TARGETS = {
   2027: { volume: 105_000_000, displayVolume: '$100M–$110M', label: '$100M–$110M', note: null, isBaseline: false },
   2028: { volume: 165_000_000, displayVolume: '$165M', label: '$165M', note: null, isBaseline: false },
   2029: { volume: 230_000_000, displayVolume: '$230M', label: '$230M', note: null, isBaseline: false },
+  2030: { volume: 320_000_000, displayVolume: '$320M', label: '$320M', note: null, isBaseline: false },
   2031: { volume: 430_000_000, displayVolume: '$430M', label: '$430M', note: null, isBaseline: false },
 } as const;
 
@@ -248,6 +249,7 @@ export default function FutureTab() {
       { year: '2027', ...MILESTONE_TARGETS[2027], segments: null, isClosed: false },
       { year: '2028', ...MILESTONE_TARGETS[2028], segments: null, isClosed: false },
       { year: '2029', ...MILESTONE_TARGETS[2029], segments: null, isClosed: false },
+      { year: '2030', ...MILESTONE_TARGETS[2030], segments: null, isClosed: false },
       { year: '2031', ...MILESTONE_TARGETS[2031], segments: null, isClosed: false },
     ];
   }, [volData]);
@@ -334,8 +336,8 @@ export default function FutureTab() {
               })}
 
               {/* $1B Horizon — dashed line, NOT a bar */}
-              <div style={{ flex: 0.7, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60, opacity: 0.55 }}>
-                <div style={{ ...SERIF, color: '#C8AC78', fontWeight: 600, fontSize: '0.85rem', textAlign: 'center', marginBottom: 6, lineHeight: 1.2 }}>
+              <div style={{ flex: 0.7, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60 }}>
+                <div style={{ ...SERIF, color: '#C8AC78', fontWeight: 700, fontSize: '1rem', textAlign: 'center', marginBottom: 6, lineHeight: 1.2 }}>
                   $1B<br />Run Rate
                 </div>
                 <div style={{
