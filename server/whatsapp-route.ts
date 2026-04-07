@@ -26,6 +26,7 @@ import { ENV } from "./_core/env";
 import { storagePut } from "./storage";
 import twilio from "twilio";
 import { fetchCronkiteBrief } from "./whatsapp-inbound";
+import { readPipelineDeals } from "./sheets-helper";
 
 // ─── ElevenLabs config ────────────────────────────────────────────────────────
 const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as tts-route.ts)
@@ -79,6 +80,37 @@ async function sendWhatsAppVoiceNote(audioUrl: string, caption: string): Promise
   return message.sid;
 }
 
+// ─── Pipeline summary paragraph ─────────────────────────────────────────────
+
+async function getPipelineSummary(): Promise<string> {
+  try {
+    const deals = await readPipelineDeals();
+    // Filter to active deals only (not Closed, not Withdrawn)
+    const active = deals.filter(d =>
+      !d.isSectionHeader &&
+      d.status &&
+      !d.status.toLowerCase().includes('closed') &&
+      !d.status.toLowerCase().includes('withdrawn') &&
+      !d.status.toLowerCase().includes('expired')
+    );
+    if (active.length === 0) return '';
+    // Sort by status priority: Under Contract > Active > Pending > everything else
+    const priority = (s: string) => {
+      const sl = s.toLowerCase();
+      if (sl.includes('under contract') || sl.includes('contract')) return 0;
+      if (sl.includes('pending')) return 1;
+      if (sl.includes('active')) return 2;
+      return 3;
+    };
+    const sorted = [...active].sort((a, b) => priority(a.status) - priority(b.status));
+    const top3 = sorted.slice(0, 3);
+    const lines = top3.map(d => `${d.address} — ${d.status}`);
+    return `Pipeline update: ${lines.join('. ')}. `;
+  } catch {
+    return '';
+  }
+}
+
 // ─── Core delivery function ───────────────────────────────────────────────────
 
 async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
@@ -86,8 +118,12 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   audioUrl: string;
   textLength: number;
 }> {
-  // All three brief types now use the live Perplexity Cronkite prompt — one source of truth
-  const text = await fetchCronkiteBrief();
+  // Prepend live pipeline summary (address + status only, no GCI) to the Cronkite brief
+  const [cronkiteText, pipelineSummary] = await Promise.all([
+    fetchCronkiteBrief(),
+    getPipelineSummary(),
+  ]);
+  const text = pipelineSummary ? `${pipelineSummary}${cronkiteText}` : cronkiteText;
   const label = type === "morning" ? "morning" : type === "evening" ? "evening" : "test";
   const caption =
     type === "morning"

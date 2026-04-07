@@ -22,7 +22,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateChristiesLetter, generateMarketReport } from '@/lib/pdf-exports';
+import { generateChristiesLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
 
 // Nine paragraphs — word for word from Christies_EH_Letter_FINAL_LOCKED.pdf
@@ -383,23 +383,40 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
                 The eight rungs of structured ownership — from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.
               </p>
-              <a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_card_final_v2_f0243b24.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  textDecoration: 'none',
-                }}
-              >
-                Open &amp; Print ↗
-              </a>
+              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                <a
+                  href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_card_final_v2_f0243b24.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#FAF8F4',
+                    background: 'rgba(200,172,120,0.08)',
+                    border: '1px solid rgba(200,172,120,0.5)',
+                    textDecoration: 'none',
+                  }}
+                >
+                  Open &amp; Print ↗
+                </a>
+                <button
+                  onClick={() => generateUHNWPathCard()}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#FAF8F4',
+                    background: 'rgba(200,172,120,0.08)',
+                    border: '1px solid rgba(200,172,120,0.5)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  ↓ Download PDF
+                </button>
+              </div>
             </div>
 
             {/* Bike Card */}

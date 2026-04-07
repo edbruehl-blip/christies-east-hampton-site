@@ -1444,3 +1444,234 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
 
   downloadPdf(doc, `Christies-EH-Ascension-Arc-${today().replace(/\s/g, '-')}.pdf`);
 }
+
+// ─── 7. UHNW Path Card (1 page, 11x8.5in landscape) ──────────────────────────
+
+const UHNW_RUNGS = [
+  {
+    num: '0', tag: 'The Starting Line', name: 'The Tenant',
+    body: 'You are renting. That is a perfectly valid starting point — every dynasty began somewhere. Build a relationship with your landlord, care for the property, and position yourself for ownership.',
+    hook: '"Let me review your lease and show you how to position yourself as the ideal buyer when the landlord is ready to sell."',
+    hunt: 'High-income renters in Tier 1 Hamptons corridors; young professionals relocating to the East End.',
+    anchor: 'The local who rented a cottage, treated it like gold, and bought it off-market from the retiring landlord five years later.',
+  },
+  {
+    num: '1', tag: 'The First Move', name: 'Lease with Option to Buy',
+    body: 'Lock in today\'s price, keep renting while you save, and buy the home you already live in. Turn your rent into a runway for equity. One agreement. Two possible outcomes.',
+    hook: '"I will negotiate the option-to-buy clause into your next lease. I know how to structure it so the landlord wins too."',
+    hunt: 'Landlords with aging portfolios who want passive income now but a guaranteed exit in 3-5 years.',
+    anchor: 'The Griff Model — a first home purchased for modest value, renovated over two years of sweat equity, kept in the portfolio. The rent covered the mortgage. The appreciation funded the next acquisition.',
+  },
+  {
+    num: '2', tag: 'The Foundation', name: 'Earn & Protect',
+    body: 'Treat your family like a business. Establish a Family LLC. Put your kids on payroll. Fund Roth IRAs as a foundation tool — it grows with you. Protect what you earn from day one.',
+    hook: '"I\'ve set up my own Family LLC and put my daughters on payroll. Let me introduce you to the CPA who built my foundation."',
+    hunt: 'Local business owners, new entrepreneurs, and independent contractors in the Hamptons market.',
+    anchor: 'The tradesman who shifted income into an LLC, hired his teenagers, and funded their Roth IRAs — multi-million dollar tax-free retirement by 50.',
+  },
+  {
+    num: '3', tag: 'The Equity Engine', name: 'Primary Residence',
+    body: 'Own the home you live in. Build equity. Refinance strategically. Use the HELOC as a capital tool, not a credit card. Your primary residence is the foundation of every wealth strategy that follows.',
+    hook: '"I can show you how to use your home equity as a down payment on your next investment property without selling."',
+    hunt: 'Move-up buyers in the $1M-$3M range; families outgrowing their first home.',
+    anchor: 'The Springs family who bought at $850K, refinanced at peak equity, used the HELOC to buy a Montauk rental, and now holds $4M in real estate on a $90K salary.',
+  },
+  {
+    num: '4', tag: 'The Income Layer', name: 'Investment Property',
+    body: 'Buy a second property that pays for itself. Seasonal rentals in the Hamptons generate $80K-$200K annually. Your tenant funds your mortgage. Your equity compounds. Your tax bill shrinks.',
+    hook: '"I know which hamlets have the highest seasonal rental yields. Let me show you the numbers before you decide."',
+    hunt: 'Current homeowners with $200K+ in equity and a desire for passive income.',
+    anchor: 'The Amagansett couple who bought a 3BR cottage for $1.1M, rented it seasonally for $140K/year, paid off the mortgage in 8 years, and now own it free and clear.',
+  },
+  {
+    num: '5', tag: 'The Portfolio', name: 'Multi-Asset Holder',
+    body: 'You own multiple properties. Now you need a strategy. 1031 exchanges. Cost segregation studies. Depreciation. A real estate attorney and a CPA who speak the same language. This is where Christie\'s adds institutional value.',
+    hook: '"Christie\'s has relationships with the top 1031 exchange intermediaries in New York. Let me make an introduction."',
+    hunt: 'Investors with 2+ properties looking to optimize tax position or consolidate into higher-value assets.',
+    anchor: 'The investor who exchanged three modest rentals into a single $4M Bridgehampton estate — one transaction, zero capital gains, and a 40% increase in net rental income.',
+  },
+  {
+    num: '6', tag: 'The Institutional Layer', name: 'Art-Secured Lending',
+    body: 'Your art collection is a balance sheet asset. Christie\'s Financial Services provides non-recourse loans against fine art, jewelry, and collectibles. Liquidity without liquidation. Capital without a sale.',
+    hook: '"Christie\'s can appraise your collection and structure a loan against it. You keep the art. You get the capital."',
+    hunt: 'Collectors with $500K+ in fine art, jewelry, or wine who need liquidity for real estate acquisitions.',
+    anchor: 'The collector who borrowed $2M against a single Basquiat, used it as a down payment on a $10M Southampton estate, and repaid the loan from the first year\'s rental income.',
+  },
+  {
+    num: '7', tag: 'The Legacy', name: 'UHNW Estate',
+    body: 'You are building a dynasty. Irrevocable trusts. Family Limited Partnerships. Charitable remainder trusts. A Christie\'s estate advisor and a generational wealth attorney. This is not a transaction. This is a legacy.',
+    hook: '"I work with the families who have been here for three generations. Let me introduce you to the advisors who protect what they built."',
+    hunt: 'Ultra-high-net-worth families with $20M+ in real estate assets and multi-generational estate planning needs.',
+    anchor: 'The Hamptons family who structured a Qualified Personal Residence Trust in 2005, transferred a $3M estate to their children at a $900K gift tax value, and watched it appreciate to $12M — tax-free.',
+  },
+];
+
+export async function generateUHNWPathCard(): Promise<void> {
+  // Landscape 11x8.5in
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'in', format: [11, 8.5] });
+  const W = 11; const H = 8.5;
+  const ml = 0.3; const mr = 0.3; const mt = 0.18; const mb = 0.18;
+  const usableW = W - ml - mr;
+  const usableH = H - mt - mb;
+
+  // Background
+  doc.setFillColor(249, 245, 239);
+  doc.rect(0, 0, W, H, 'F');
+
+  // Header
+  const headerH = 0.52;
+  doc.setFillColor(56, 66, 73); // #384249
+  doc.rect(0, 0, W, headerH, 'F');
+
+  // Christie's logo text
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.setTextColor(200, 172, 120);
+  doc.text("Christie's", ml + 0.05, mt + 0.22);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6);
+  doc.setTextColor(200, 172, 120);
+  doc.text('International Real Estate', ml + 0.05, mt + 0.34);
+
+  // Title
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(13);
+  doc.setTextColor(249, 245, 239);
+  doc.text('What James Christie Knew', W / 2, mt + 0.22, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6.5);
+  doc.setTextColor(200, 172, 120);
+  doc.text('Ed Bruehl  \u00b7  Managing Director  \u00b7  Christie\'s East Hampton', W / 2, mt + 0.34, { align: 'center' });
+
+  // Quote (right)
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(6.5);
+  doc.setTextColor(249, 245, 239);
+  doc.text('"Wherever you are on this ladder, I am here to help. Let\'s talk."', W - mr - 0.05, mt + 0.22, { align: 'right' });
+
+  // Gold strip
+  const goldY = headerH + 0.04;
+  doc.setFillColor(200, 172, 120);
+  doc.rect(ml, goldY, usableW, 0.14, 'F');
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(5.5);
+  doc.setTextColor(255, 255, 255);
+  doc.text("The Christie's Standard  \u00b7  Through the Lens of James Christie, 1766", W / 2, goldY + 0.095, { align: 'center' });
+
+  // Subtitle
+  const subtitleY = goldY + 0.14 + 0.06;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(5.5);
+  doc.setTextColor(153, 153, 153);
+  doc.text("The Christie's Standard for Ownership, Structure, and Legacy", W / 2, subtitleY, { align: 'center' });
+
+  // Eight rung columns
+  const colsStartY = subtitleY + 0.1;
+  const footerH = 0.38;
+  const colsH = H - colsStartY - footerH - mb - 0.08;
+  const colW = usableW / 8;
+  const colGap = 0.04;
+
+  UHNW_RUNGS.forEach((rung, i) => {
+    const cx = ml + i * (colW + colGap / 8);
+    const cw = colW - colGap / 8;
+
+    // Column background
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(cx, colsStartY, cw, colsH, 0.04, 0.04, 'F');
+
+    let y = colsStartY + 0.1;
+
+    // Rung number
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
+    doc.setTextColor(200, 172, 120);
+    doc.text(rung.num, cx + 0.06, y + 0.12);
+    y += 0.18;
+
+    // Tag
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(5);
+    doc.setTextColor(153, 153, 153);
+    doc.text(rung.tag.toUpperCase(), cx + 0.06, y);
+    y += 0.1;
+
+    // Name
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(7.5);
+    doc.setTextColor(56, 66, 73);
+    const nameLines = doc.splitTextToSize(rung.name, cw - 0.12);
+    doc.text(nameLines, cx + 0.06, y);
+    y += nameLines.length * 0.1 + 0.06;
+
+    // Body
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(5.5);
+    doc.setTextColor(68, 68, 68);
+    const bodyLines = doc.splitTextToSize(rung.body, cw - 0.12);
+    const maxBodyLines = Math.min(bodyLines.length, 7);
+    doc.text(bodyLines.slice(0, maxBodyLines), cx + 0.06, y);
+    y += maxBodyLines * 0.085 + 0.08;
+
+    // Ed's Hook
+    doc.setFillColor(44, 93, 143, 0.08);
+    doc.rect(cx + 0.04, y, cw - 0.08, 0.01, 'F');
+    doc.setDrawColor(44, 93, 143);
+    doc.setLineWidth(0.015);
+    doc.line(cx + 0.04, y, cx + 0.04, y + 0.28);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(4.8);
+    doc.setTextColor(44, 93, 143);
+    doc.text("ED'S HOOK", cx + 0.08, y + 0.07);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(5);
+    doc.setTextColor(68, 68, 68);
+    const hookLines = doc.splitTextToSize(rung.hook, cw - 0.18);
+    doc.text(hookLines.slice(0, 3), cx + 0.08, y + 0.14);
+    y += 0.32;
+
+    // Perplexity Hunt
+    doc.setDrawColor(196, 122, 58);
+    doc.setLineWidth(0.015);
+    doc.line(cx + 0.04, y, cx + 0.04, y + 0.24);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(4.8);
+    doc.setTextColor(196, 122, 58);
+    doc.text('PERPLEXITY HUNT', cx + 0.08, y + 0.07);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(5);
+    doc.setTextColor(102, 102, 102);
+    const huntLines = doc.splitTextToSize(rung.hunt, cw - 0.18);
+    doc.text(huntLines.slice(0, 2), cx + 0.08, y + 0.14);
+    y += 0.28;
+
+    // Wealth Anchor
+    doc.setDrawColor(107, 76, 138);
+    doc.setLineWidth(0.015);
+    doc.line(cx + 0.04, y, cx + 0.04, y + 0.28);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(4.8);
+    doc.setTextColor(107, 76, 138);
+    doc.text('WEALTH ANCHOR', cx + 0.08, y + 0.07);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(5);
+    doc.setTextColor(85, 85, 85);
+    const anchorLines = doc.splitTextToSize(rung.anchor, cw - 0.18);
+    doc.text(anchorLines.slice(0, 3), cx + 0.08, y + 0.14);
+  });
+
+  // Footer strip
+  const footerY = H - footerH - mb;
+  doc.setFillColor(56, 66, 73);
+  doc.rect(0, footerY, W, footerH, 'F');
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(7.5);
+  doc.setTextColor(249, 245, 239);
+  doc.text('"The Christie\'s Standard is not a price point. It is a commitment to the relationship between art, beauty, and provenance."', W / 2, footerY + 0.14, { align: 'center' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(6);
+  doc.setTextColor(200, 172, 120);
+  doc.text('Ed Bruehl  \u00b7  26 Park Place, East Hampton, NY 11937  \u00b7  646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com', W / 2, footerY + 0.26, { align: 'center' });
+
+  downloadPdf(doc, `Christies-UHNW-Path-Card-${today().replace(/\s/g, '-')}.pdf`);
+}

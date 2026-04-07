@@ -792,3 +792,11 @@
 - [x] Item 1: PIPE tab — Add "Add Report" button per deal row, modal with date picker + URL field, calls pipe.updatePropertyReport tRPC procedure
 - [x] Item 2: EXPORTS mind map — nine clickable sub-nodes added (Market Report, Christie's Letter, Hamlet PDFs x11, ANEW Build Memo, Christie CMA, Deal Brief, Investment Memo, UHNW Path Card, FUTURE Pro Forma) — direct PDF triggers from mind map
 - [x] Item 3: Wednesday Circuit Google Calendar — Google Calendar embed added to INTEL Layer 2 as third full-width panel (Calendar ID: b591e65f..., MONTH view, America/New_York, recurring Wednesdays from May 7 2026)
+
+## Sprint 22 — April 7, 2026
+
+- [x] Item 1: INTEL Layer 2 — spreadsheet embeds removed, Wednesday Circuit Google Calendar embed kept, "Open Sheet Matrix" text link added below calendar
+- [ ] Item 2: Social Intelligence credentialing — BLOCKED on Ed's credentials (YouTube first, then Instagram/Facebook via Meta API, then X/LinkedIn). Pending.
+- [x] Item 3: UHNW Path Card — generateUHNWPathCard() built (8-rung landscape PDF), wired to HOME tab with Download PDF button alongside Open & Print
+- [x] Item 4: William morning brief — getPipelineSummary() wired, prepends top-3 active deals (address + status, no GCI) to every brief via Promise.all
+- [x] Item 5: INTEL Document Library — Lash Speaker Packet added as pinned canon document (Stephen Lash Speaker Briefing · July 2026 · Fitzgerald, the Hamptons, and Christie's)

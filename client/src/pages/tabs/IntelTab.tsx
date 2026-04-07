@@ -98,49 +98,7 @@ function CalendarLayer() {
           </a>
         </div>
 
-        {/* Two-panel embed: Podcast left, Event right */}
-        {/* NOTE: Sheets must be published to web for iframe embed to work without login. */}
-        {/* File → Share → Publish to web → Entire Document → Web page → Publish */}
-        <div className="grid grid-cols-1 sm:grid-cols-2" style={{ minHeight: 520 }}>
-          <div style={{ borderRight: '1px solid rgba(27,42,74,0.1)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
-              Podcast Calendar
-            </div>
-            <iframe
-              src={sheetEmbedUrl(SHEET_IDS.podcast)}
-              title="Podcast Calendar"
-              width="100%"
-              style={{ display: 'block', border: 'none', flex: 1, minHeight: 480 }}
-            />
-            {/* Fallback link in case sheet is not published */}
-            <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
-              <a href={sheetOpenUrl(SHEET_IDS.podcast)} target="_blank" rel="noopener noreferrer"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                Open Podcast Calendar ↗
-              </a>
-            </div>
-          </div>
-          <div style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-            <div className="px-3 py-2 text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
-              Event Calendar
-            </div>
-            <iframe
-              src={sheetEmbedUrl(SHEET_IDS.event)}
-              title="Event Calendar"
-              width="100%"
-              style={{ display: 'block', border: 'none', flex: 1, minHeight: 480 }}
-            />
-            {/* Fallback link in case sheet is not published */}
-            <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
-              <a href={sheetOpenUrl(SHEET_IDS.event)} target="_blank" rel="noopener noreferrer"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                Open Event Calendar ↗
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Wednesday Circuit — Google Calendar embed (full-width, below the two-panel grid) */}
+        {/* Wednesday Circuit Google Calendar embed (full-width) */}
         <div style={{ borderTop: '1px solid rgba(27,42,74,0.12)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
           <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
             <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>
@@ -162,6 +120,18 @@ function CalendarLayer() {
             height="520"
             style={{ display: 'block', border: 'none' }}
           />
+        </div>
+
+        {/* Open Sheet Matrix — reference link below calendar */}
+        <div className="px-5 py-3 flex items-center justify-end" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.08)' }}>
+          <a
+            href={`https://docs.google.com/spreadsheets/d/${SHEET_IDS.officePipeline}/edit`}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+          >
+            Open Sheet Matrix ↗
+          </a>
         </div>
       </div>
       </div>
@@ -398,6 +368,13 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     label: 'Platform Infrastructure Audit · April 6, 2026',
     description: 'Full operating manual for the Christie’s East Hampton Intelligence Platform. Nine Google Sheets, six CDN documents, five INTEL tab layers, all tRPC procedures, caching architecture, WhatsApp pipeline, PDF engine, and twelve identified gaps. The canonical reference for how the platform thinks, grows, and reports.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/infrastructure_audit_april6_2026_208e007c.pdf',
+    pinned: true,
+  },
+  {
+    id: 'lash-speaker-packet-july-2026',
+    label: 'Stephen Lash Speaker Briefing · July 2026 · Fitzgerald, the Hamptons, and Christie\'s',
+    description: 'Three-thread research brief for the July 2026 Lash event. Thread 1: Murphy-Fitzgerald East Hampton connection — Sara Wiborg Murphy, The Dunes, Ring Lardner at 15 West End Road, and the direct East Hampton origin of The Great Gatsby. Thread 2: East Hampton board map — chairs of EHHS, Guild Hall, LongHouse, Village Preservation Society, and LVIS, plus cross-board connectors. Thread 3: Christie\'s Long Island auction history — the Goldman Gatsby inscription (GBP 226,800), de Kooning\'s East Hampton studio, and the Riggio/Newhouse/Ross collector relationships.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/lash_speaker_packet_july2026_1b529cb1.pdf',
     pinned: true,
   },
 ];
