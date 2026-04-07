@@ -61,7 +61,7 @@ function generateFutureReport(volumeAgents: { name: string; proj2026: number; ac
         <div style="font-family:'Cormorant Garamond',serif;color:#1B2A4A;font-size:11px;font-weight:600;text-align:center;margin-bottom:4px;line-height:1.2;">${b.displayVolume}</div>
         <div style="width:100%;display:flex;flex-direction:column;justify-content:flex-end;">${segHtml}</div>
         <div style="font-family:'Barlow Condensed',sans-serif;color:#C8AC78;font-size:8px;letter-spacing:0.12em;text-transform:uppercase;margin-top:4px;text-align:center;">${b.year}</div>
-        ${b.isBaseline ? `<div style="font-family:'Source Sans 3',sans-serif;color:#7a8a8e;font-size:7px;text-align:center;margin-top:2px;line-height:1.2;">Bonita DeWolf<br>pre-launch</div>` : ''}
+        
       </div>`;
   }).join('');
 
@@ -326,11 +326,7 @@ export default function FutureTab() {
                     <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
                       {bar.year}
                     </div>
-                    {bar.isBaseline && (
-                      <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.65rem', textAlign: 'center', marginTop: 2, lineHeight: 1.3 }}>
-                        Bonita DeWolf<br />pre-launch
-                      </div>
-                    )}
+                    {/* Bonita DeWolf sub-label removed — all bars show year label only */}
                   </div>
                 );
               })}

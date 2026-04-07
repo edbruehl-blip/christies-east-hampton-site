@@ -672,3 +672,7 @@
 - [x] S15f-2: Fix EH North last sale — remove TBD or populate with real reference sale
 - [x] S15f-3: Verify Wainscott $59M last sale attribution — confirm or correct hamlet assignment
 - [x] S15f-4: Fix Ascension Arc bar scaling — confirm $15M renders visually smaller than $55M
+
+## Sprint 15g — Ascension Arc + Market Report Print Fix (April 7, 2026)
+- [x] S15g-1: Remove "Bonita DeWolf pre-launch" sub-label from 2025 bar — make all bars consistent (year label only)
+- [x] S15g-2: Fix Market Report PDF print — diagnose actual Puppeteer/jsPDF runtime error and resolve

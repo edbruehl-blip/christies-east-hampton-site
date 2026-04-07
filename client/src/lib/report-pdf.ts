@@ -1,32 +1,19 @@
 /**
  * report-pdf.ts
  *
- * Downloads the Market Report PDF by calling the server-side /api/pdf/report
- * endpoint, which uses Puppeteer + system Chromium to render the live /report
- * page and return a pixel-accurate PDF.
+ * Downloads the Market Report PDF using the client-side jsPDF engine.
+ * This is the same approach used for all other PDF exports on the platform
+ * (hamlet PDFs, Christie's Letter, Deal Brief, etc.) and works without
+ * any server dependency or Chromium requirement.
  *
- * This approach bypasses all client-side color-parsing limitations (e.g.,
- * html2canvas cannot handle Tailwind 4's oklch() CSS color functions).
+ * The Puppeteer /api/pdf/report route was removed because the production
+ * deployment container does not have Chromium installed.
  *
- * Called from: ReportPage.tsx Section1 → handleDownload
+ * Called from: ReportPage.tsx → handlePdfDownload + handleDownload
  */
 
+import { generateMarketReport } from './pdf-exports';
+
 export async function generateReportPdf(): Promise<void> {
-  const response = await fetch("/api/pdf/report", { method: "GET" });
-
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "unknown error");
-    throw new Error(`PDF generation failed (${response.status}): ${detail}`);
-  }
-
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Christies_EH_Market_Report.pdf";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  await generateMarketReport();
 }
