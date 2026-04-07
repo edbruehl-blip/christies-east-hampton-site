@@ -366,7 +366,7 @@ export default function HomeTab() {
                 The eight rungs of structured ownership — from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.
               </p>
               <a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_uhnw_wealth_card_89a9ed62.html"
+                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_card_final_v2_f0243b24.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -396,7 +396,37 @@ export default function HomeTab() {
                 South Fork map on the front. Ed's voice and Christie's services on the back. Hamptons Median · $2.34M · Record High. Cut horizontally — two cards per sheet.
               </p>
               <a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_neighborhood_bike_card_57342749.html"
+                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_neighborhood_bike_card_v2_9887d2db.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  textDecoration: 'none',
+                }}
+              >
+                Open &amp; Print ↗
+              </a>
+            </div>
+
+            {/* Christie's Letter */}
+            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+                Christie's Letter · 8.5×11 Portrait
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
+                To the Families of the East End
+              </div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+                Ed's founding letter on the Christie's standard — nine paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
+              </p>
+              <a
+                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_letter_export_v2_e2501976.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

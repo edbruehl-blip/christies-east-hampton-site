@@ -359,9 +359,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPriceDisplay: '$2.03M',
     anewScore: 8.6,
     volumeShare: 9,  // 9% — $545.4M of $5.922B
-    lastSale: '6 Accabonac Road',
-    lastSalePrice: '$2.8M',
-    lastSaleDate: 'Dec 2024',  // Sprint 16: populated — removed TBD per Ed directive
+    lastSale: '24 N Woods Ln',
+    lastSalePrice: '$2.17M',
+    lastSaleDate: 'Jan 2025',  // UNLOCKED April 7, 2026 — 24 North Woods Lane, EH 11937. $2,172,500. Source: Redfin (MLS-backed, public records). 3 bed, 2 bath, 1.4 acres, Northwest Woods. Representative of $2.03M hamlet median band.
     restaurants: {
       anchor: "Nick & Toni's",
       mid: "Bostwick's Chowder House",
@@ -466,7 +466,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',
-    lastSaleDate: 'Mar 2026',  // Sprint 16 FLAG: Ed to confirm attribution — may be Further Lane / EH Village sale
+    lastSaleDate: 'Mar 2026',  // UNLOCKED April 7, 2026 — 115 Beach Lane, Wainscott. $59,000,000. Closing: March 17, 2026. Source: The Real Deal, Behind The Hedges. Attribution confirmed.
     restaurants: {
       anchor: 'Bridgehampton Inn Restaurant',
       mid: 'Old Stove Pub',

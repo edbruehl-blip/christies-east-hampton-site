@@ -747,3 +747,11 @@
 - [x] 7c. Office Pipeline Sheet: columns V (Property Report Date) + W (Property Report Link) added to PipelineDeal type and sheets-helper.ts
 - [x] 7d. tRPC: pipe.updatePropertyReport procedure wired — protectedProcedure, writes V+W by address match
 - [x] 7e. 35/35 tests passing — sheets-write.test.ts verifies propertyReportDate and propertyReportLink fields in live sheet read
+
+## April 7 Final Unlock — Zero Placeholders
+
+- [x] EH North last sale unlocked: 24 N Woods Ln · $2.17M · Jan 2025 · Source: Redfin MLS-backed
+- [x] Wainscott last sale flag comment removed: 115 Beach Ln · $59M · Mar 2026 · Source: The Real Deal, Behind The Hedges — attribution confirmed
+- [x] Collateral cards v2 uploaded to CDN (UHNW card, Bike card, Christie's Letter)
+- [x] HomeTab.tsx updated: UHNW + Bike card CDN URLs point to v2 files; Christie's Letter added as third collateral card
+- [x] 35/35 tests passing — propertyReportDate + propertyReportLink fields confirmed in live sheet read
