@@ -4,18 +4,14 @@
  * Typography: Cormorant Garamond (headlines) · Source Sans 3 (data) · Barlow Condensed (labels)
  * Data source: Growth Model v2 VOLUME tab (LIVE — service account, publicProcedure)
  *
- * GCI GATE (Sprint 26 Item 1):
- *   - Unauthenticated: Ascension Arc + 300-Day Proof + Volume-only agent table (no GCI columns)
- *   - Authenticated: Full view including GCI columns, Profit Pool, ANEW Homes profit, Verified Numbers
- *   - Server procedure stays publicProcedure (service account is the credential)
- *   - Gate is client-side only — GCI data does not render without a valid session
+ * Auth gate removed April 8, 2026 — full platform open for review phase.
+ * Gate restores before podcast, Dan's Papers, client presentations, wider distribution.
  */
 
 import { useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
-import { useAuth } from '@/_core/hooks/useAuth';
-import { getLoginUrl } from '@/const';
 import { generateFutureReportPDF } from '@/lib/pdf-exports';
+import '@/styles/future-print.css';
 
 // ─── Council-governed milestone targets ──────────────────────────────────────
 const MILESTONE_TARGETS = {
@@ -41,45 +37,7 @@ function fmtVol(n: number): string {
   return `$${n.toLocaleString()}`;
 }
 
-// ─── GCI Locked Placeholder ──────────────────────────────────────────────────
-// Shown in place of any GCI/internal section when user is not authenticated
-function GciLockedPlaceholder({ label }: { label: string }) {
-  return (
-    <div className="mb-10 p-8 border text-center" style={{
-      background: 'rgba(27,42,74,0.02)',
-      borderColor: 'rgba(200,172,120,0.3)',
-      borderStyle: 'dashed',
-    }}>
-      <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
-        {label}
-      </div>
-      <div style={{ fontSize: '1.5rem', marginBottom: 8 }}>🔒</div>
-      <div style={{ ...SERIF, color: '#1B2A4A', fontSize: '1rem', fontWeight: 400, marginBottom: 6 }}>
-        Internal Data — Authentication Required
-      </div>
-      <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16, maxWidth: 400, margin: '0 auto 16px' }}>
-        GCI figures and compensation data are internal only. Sign in to view.
-      </div>
-      <a
-        href={getLoginUrl()}
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          padding: '9px 20px',
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-          color: '#FAF8F4',
-          background: '#1B2A4A',
-          border: '1px solid #C8AC78',
-          textDecoration: 'none',
-        }}
-      >
-        Sign In to View
-      </a>
-    </div>
-  );
-}
-
-// ─── Pro Forma Button Component ─────────────────────────────────────────────
+// ─── Pro Forma Button Component ─────────────────────────────────────────────────────────────────
 function ProFormaButton() {
   const generateProForma = trpc.future.generateProForma.useMutation();
 
@@ -122,8 +80,6 @@ function ProFormaButton() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
-  const { isAuthenticated, loading: authLoading } = useAuth();
-
   const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
     retry: false,
     staleTime: 5 * 60 * 1000,
@@ -194,11 +150,7 @@ export default function FutureTab() {
           <span style={{ ...SANS, color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
             Sales volume only · Private &amp; Confidential
           </span>
-          {!authLoading && !isAuthenticated && (
-            <span style={{ ...LABEL_FONT, color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-              · GCI data requires sign-in
-            </span>
-          )}
+
         </div>
       </div>
 
@@ -301,7 +253,7 @@ export default function FutureTab() {
         {/* Unauthenticated: volume columns only. Authenticated: + GCI columns */}
         <div className="flex items-center justify-between mb-3">
           <div className="uppercase" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-            Agent Volume · 2026 · {isAuthenticated ? 'Sales Volume + GCI' : 'Sales Volume'}
+            Agent Volume · 2026 · Sales Volume + GCI
           </div>
           {volData && !volLoading && (
             <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
@@ -310,7 +262,7 @@ export default function FutureTab() {
           )}
         </div>
         <div className="mb-10 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse', minWidth: isAuthenticated ? 800 : 600 }}>
+          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 800 }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #C8AC78' }}>
                 <th className="px-4 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Agent</th>
@@ -319,10 +271,8 @@ export default function FutureTab() {
                 <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.3)' }}>Proj Vol 2026</th>
                 <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act Vol 2026</th>
                 <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Gap</th>
-                {isAuthenticated && <>
-                  <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Proj GCI 2026</th>
-                  <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act GCI 2026</th>
-                </>}
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Proj GCI 2026</th>
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act GCI 2026</th>
               </tr>
             </thead>
             <tbody>
@@ -351,14 +301,12 @@ export default function FutureTab() {
                         </span>
                       : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
                   </td>
-                  {isAuthenticated && <>
-                    <td className="px-3 py-3 text-sm text-right" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                      {(agent.projGci2026 ?? 0) > 0 ? fmtVol(agent.projGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
-                    </td>
-                    <td className="px-3 py-3 text-sm text-right" style={{ color: '#384249' }}>
-                      {(agent.actGci2026 ?? 0) > 0 ? fmtVol(agent.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
-                    </td>
-                  </>}
+                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
+                    {(agent.projGci2026 ?? 0) > 0 ? fmtVol(agent.projGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
+                  </td>
+                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#384249' }}>
+                    {(agent.actGci2026 ?? 0) > 0 ? fmtVol(agent.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
+                  </td>
                 </tr>
               ))}
               {/* ANEW Homes row */}
@@ -371,10 +319,8 @@ export default function FutureTab() {
                 <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>—</td>
                 <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.25)' }}>—</td>
                 <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
-                {isAuthenticated && <>
-                  <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
-                  <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
-                </>}
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
               </tr>
               {/* Total row */}
               <tr style={{ borderTop: '2px solid #C8AC78', background: 'rgba(200,172,120,0.05)' }}>
@@ -397,14 +343,12 @@ export default function FutureTab() {
                       : <span style={{ color: '#C8AC78' }}>{fmtVol(gap)}</span>;
                   })()}
                 </td>
-                {isAuthenticated && <>
-                  <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                    {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.08M'}
-                  </td>
-                  <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#384249' }}>
-                    {(total.actGci2026 ?? 0) > 0 ? fmtVol(total.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
-                  </td>
-                </>}
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
+                  {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.08M'}
+                </td>
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#384249' }}>
+                  {(total.actGci2026 ?? 0) > 0 ? fmtVol(total.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -414,10 +358,7 @@ export default function FutureTab() {
         <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           Profit Pool · 2026–2031 Projection
         </div>
-        {!authLoading && !isAuthenticated ? (
-          <GciLockedPlaceholder label="Profit Pool · Internal Data" />
-        ) : isAuthenticated ? (
-          <>
+        <>
             <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
               <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
                 ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS · Governing principle, not yet contractual *
@@ -476,22 +417,13 @@ export default function FutureTab() {
                 GCI data lives only in this section, clearly labeled as internal. Targets above are MODEL projections, not guarantees.
               </p>
             </div>
-          </>
-        ) : (
-          // Auth still loading — show subtle placeholder
-          <div className="mb-10 p-6 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(200,172,120,0.2)' }}>
-            <div style={{ ...LABEL_FONT, color: 'rgba(200,172,120,0.4)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Loading…</div>
-          </div>
-        )}
+        </>
 
         {/* ── Verified Numbers — GATED ─────────────────────────────────────────── */}
         <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           Verified Numbers · April 7, 2026
         </div>
-        {!authLoading && !isAuthenticated ? (
-          <GciLockedPlaceholder label="Verified Numbers · Internal Data" />
-        ) : isAuthenticated ? (
-          <>
+        <>
             <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
               <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
                 ★ INTERNAL ONLY · Growth trajectory labeled as MODEL — not a guarantee
@@ -514,17 +446,13 @@ export default function FutureTab() {
                 </div>
               ))}
             </div>
-          </>
-        ) : null}
+        </>
 
         {/* ── ANEW Homes Net Build Profit — GATED ─────────────────────────────── */}
         <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           ANEW Homes · Net Build Profit
         </div>
-        {!authLoading && !isAuthenticated ? (
-          <GciLockedPlaceholder label="ANEW Homes · Internal Data" />
-        ) : isAuthenticated ? (
-          <>
+        <>
             <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(200,172,120,0.06)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
               <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
                 ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS
@@ -577,8 +505,7 @@ export default function FutureTab() {
                 <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All four participants aware and agreeable.
               </div>
             </div>
-          </>
-        ) : null}
+        </>
 
         {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
         <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
@@ -602,6 +529,14 @@ export default function FutureTab() {
         </div>
 
       </div>
+
+      {/* ── Print Footer — hidden on screen, visible in print ──────────────────── */}
+      <div className="future-print-footer">
+        <span className="footer-left">Ed Bruehl · Managing Director</span>
+        <span className="footer-center">Christie’s International Real Estate Group East Hampton</span>
+        <span className="footer-right">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+      </div>
+
     </div>
   );
 }

@@ -944,3 +944,22 @@
 - [x] 3B: MARKET tab — tier badges confirmed navy/gold/charcoal only, no green buttons
 - [x] 3B: MAPS tab — satellite map inside var(--frame-max-w) container confirmed
 - [x] 3B: Market Report — Sag Harbor pagination confirmed clean (Wainscott fix applied Sprint 27)
+
+## Sprint 28B — April 8, 2026 (Auth Gate Removal + Print Pro Forma)
+
+### Auth Gate Removal
+- [x] Remove isAuthenticated gate from FUTURE tab Profit Pool section
+- [x] Remove isAuthenticated gate from FUTURE tab Verified Numbers section
+- [x] Remove isAuthenticated gate from FUTURE tab ANEW Homes section
+- [x] Remove isAuthenticated gate from FUTURE tab agent GCI columns
+- [x] Remove GciLockedPlaceholder components entirely from FUTURE tab
+- [x] Verify no other auth gates exist on PIPE, INTEL, MARKET, MAPS, HOME tabs (PrivateTabGate now passthrough)
+- [x] Confirm full platform open — no "Sign in to view" anywhere
+
+### Print Pro Forma — FUTURE Tab
+- [x] Add @media print stylesheet to FUTURE tab (future-print.css)
+- [x] Hide nav bar, tab buttons, ticker, social bar in print
+- [x] Force white background with navy/gold preserved in print
+- [x] Ensure Ascension Arc, 300-day grid, agent table, Profit Pool, ANEW panel all print
+- [x] Add footer: Ed Bruehl · Managing Director · Christie's International Real Estate Group East Hampton · [date]
+- [x] Test print to PDF and confirm clean multi-page output
