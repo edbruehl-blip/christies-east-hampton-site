@@ -210,6 +210,49 @@ function generateFutureReport(volumeAgents: { name: string; proj2026: number; ac
   setTimeout(() => { win.focus(); win.print(); }, 800);
 }
 
+// ─── Pro Forma Button Component ─────────────────────────────────────────────
+// Calls the server-side generateProForma mutation, decodes base64 PDF, triggers download
+function ProFormaButton() {
+  const generateProForma = trpc.future.generateProForma.useMutation();
+
+  const handleGenerate = async () => {
+    try {
+      const result = await generateProForma.mutateAsync();
+      // Decode base64 PDF and trigger browser download
+      const byteChars = atob(result.pdf);
+      const byteNums = new Array(byteChars.length);
+      for (let i = 0; i < byteChars.length; i++) {
+        byteNums[i] = byteChars.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNums);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const date = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+      a.download = `Christies_EH_ProForma_${date}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Pro forma generation failed:', err);
+      alert('Pro forma generation failed. Please try again.');
+    }
+  };
+
+  return (
+    <button
+      onClick={handleGenerate}
+      disabled={generateProForma.isPending}
+      className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] disabled:opacity-50 disabled:cursor-not-allowed"
+      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)' }}
+    >
+      {generateProForma.isPending ? '⏳ Generating…' : '↓ Generate Pro Forma · 4-Page PDF'}
+    </button>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
   const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
@@ -555,7 +598,7 @@ export default function FutureTab() {
             Paid at year end. Not salary. Not splits. Profit participation.
           </p>
         </div>
-        {/* 2026-2031 table */}
+        {/* 2026-2031 table — volumes read from live VOLUME tab via volumeData query */}
         <div className="mb-4 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
           <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
             <thead>
@@ -569,12 +612,12 @@ export default function FutureTab() {
             </thead>
             <tbody>
               {[
-                { year: '2026', vol: 55_000_000 },
-                { year: '2027', vol: 105_000_000 },
-                { year: '2028', vol: 165_000_000 },
-                { year: '2029', vol: 230_000_000 },
-                { year: '2030', vol: 320_000_000 },
-                { year: '2031', vol: 430_000_000 },
+                { year: '2026', vol: total.proj2026 || 55_000_000 },
+                { year: '2027', vol: total.proj2027 || 93_000_000 },
+                { year: '2028', vol: total.proj2028 || 133_000_000 },
+                { year: '2029', vol: total.proj2029 || 230_000_000 },
+                { year: '2030', vol: total.proj2030 || 320_000_000 },
+                { year: '2031', vol: total.proj2031 || 430_000_000 },
               ].map((row, i) => {
                 const BREAKEVEN = 40_000_000;
                 const aboveBreakeven = Math.max(0, row.vol - BREAKEVEN);
@@ -715,7 +758,7 @@ export default function FutureTab() {
         </div>
 
         {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
-        <div className="flex items-center justify-center gap-4 pb-8">
+        <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
           <button
             onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026 })}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
@@ -723,6 +766,7 @@ export default function FutureTab() {
           >
             ↓ Export PDF · Ascension Arc
           </button>
+          <ProFormaButton />
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
             target="_blank"

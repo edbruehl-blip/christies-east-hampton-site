@@ -855,3 +855,9 @@
 - [x] KPI-1: Reconcile OUTPUTS KPI strip in Google Sheet — $3,125,000 → $3,080,000 (confirmed all 11 cells updated)
 - [x] VOL-1: VOLUME tab 4-column structure (Proj Vol / Act Vol / Proj GCI / Act GCI) confirmed wired to sheet
 - [x] VOL-2: ANEW Homes separate row under Ed Bruehl in VOLUME tab confirmed — static row, clearly labeled Custom Build · Ed Bruehl exclusively
+
+## Sprint 24 — April 7, 2026 (Evening)
+- [x] S24-1: Recompute ROSTER subtotals after Sandy/Jan/Zoila corrections — verified $1,755,000 (Ed $750K + 8 agents). All 13 OUTPUTS cells confirmed at $3,080,000 / $1,755,000 / $924,000
+- [x] S24-2: Profit Pool table wired to live VOLUME tab data — formula (Volume - $40M) × 2%, splits Ed 30% / Ilija 65% / Christie's RE 5%. VOLUME tab extended to 2029-2031 in Google Sheet
+- [x] S24-3: ANEW Homes rows added to VOLUME tab (rows 12-13) — Y1 $50K / Y2 $100K net profit through 2031, INTERNAL ONLY label, separate from Christie's commission
+- [x] S24-4: generateProForma built — 4-page PDF via Puppeteer, Christie's standard (Cormorant Garamond, navy, gold), live data from Growth Model v2. ProFormaButton wired to FUTURE tab export row. 35/35 passing

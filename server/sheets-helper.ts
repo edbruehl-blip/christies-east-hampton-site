@@ -558,6 +558,12 @@ export interface VolumeTotal {
   act2028: number;
   projGci2028: number;
   actGci2028: number;
+  proj2029: number;
+  act2029: number;
+  proj2030: number;
+  act2030: number;
+  proj2031: number;
+  act2031: number;
 }
 
 function parseDollar(s: string | undefined): number {
@@ -572,15 +578,18 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
       proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
       proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
+      proj2029: 0, act2029: 0,
+      proj2030: 0, act2030: 0,
+      proj2031: 0, act2031: 0,
     },
   };
   try {
     const auth = await getAuth();
     const sheets = google.sheets({ version: 'v4', auth });
-    // Columns A–P: 4 meta cols + 4 data cols per year (proj vol, act vol, proj GCI, act GCI) × 3 years
+    // Columns A–V: 4 meta cols + 2 data cols per year (proj vol, act vol) × 6 years
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: 'VOLUME!A1:P20',
+      range: 'VOLUME!A1:V20',
     });
     const rows = res.data.values ?? [];
     if (rows.length < 2) return empty;
@@ -590,6 +599,9 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
       proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
       proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
+      proj2029: 0, act2029: 0,
+      proj2030: 0, act2030: 0,
+      proj2031: 0, act2031: 0,
     };
 
     for (let i = 1; i < rows.length; i++) {
@@ -627,6 +639,14 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
     }
 
     // Find TOTAL row
+    // VOLUME tab column layout (0-indexed):
+    // 0=Name 1=Role 2=Status 3=Start
+    // 4=ProjVol2026 5=ActVol2026 6=ProjGCI2026 7=ActGCI2026
+    // 8=ProjVol2027 9=ActVol2027 10=ProjGCI2027 11=ActGCI2027
+    // 12=ProjVol2028 13=ActVol2028 14=ProjGCI2028 15=ActGCI2028
+    // 16=ProjVol2029 17=ActVol2029
+    // 18=ProjVol2030 19=ActVol2030
+    // 20=ProjVol2031 21=ActVol2031
     const totalRow = rows.find(r => r && String(r[0]).startsWith('TOTAL'));
     if (totalRow) {
       total = {
@@ -642,6 +662,12 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
         act2028:     parseDollar(totalRow[13]),
         projGci2028: parseDollar(totalRow[14]),
         actGci2028:  parseDollar(totalRow[15]),
+        proj2029:    parseDollar(totalRow[16]),
+        act2029:     parseDollar(totalRow[17]),
+        proj2030:    parseDollar(totalRow[18]),
+        act2030:     parseDollar(totalRow[19]),
+        proj2031:    parseDollar(totalRow[20]),
+        act2031:     parseDollar(totalRow[21]),
       };
     }
 

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
 import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
+import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { eq, asc } from "drizzle-orm";
@@ -457,6 +458,13 @@ export const appRouter = router({
     volumeData: publicProcedure
       .query(async () => {
         return readGrowthModelVolume();
+      }),
+    // Generate the 4-page institutional pro forma PDF
+    // Returns base64-encoded PDF bytes for client-side download
+    generateProForma: publicProcedure
+      .mutation(async () => {
+        const pdfBuffer = await generateProFormaPDF();
+        return { pdf: pdfBuffer.toString('base64') };
       }),
   }),
 
