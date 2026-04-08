@@ -533,19 +533,31 @@ export interface VolumeAgent {
   startYear: string;
   proj2026: number;
   act2026: number;
+  projGci2026: number;
+  actGci2026: number;
   proj2027: number;
   act2027: number;
+  projGci2027: number;
+  actGci2027: number;
   proj2028: number;
   act2028: number;
+  projGci2028: number;
+  actGci2028: number;
 }
 
 export interface VolumeTotal {
   proj2026: number;
   act2026: number;
+  projGci2026: number;
+  actGci2026: number;
   proj2027: number;
   act2027: number;
+  projGci2027: number;
+  actGci2027: number;
   proj2028: number;
   act2028: number;
+  projGci2028: number;
+  actGci2028: number;
 }
 
 function parseDollar(s: string | undefined): number {
@@ -556,20 +568,29 @@ function parseDollar(s: string | undefined): number {
 export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; total: VolumeTotal }> {
   const empty = {
     agents: [],
-    total: { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 },
+    total: {
+      proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
+      proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
+      proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
+    },
   };
   try {
     const auth = await getAuth();
     const sheets = google.sheets({ version: 'v4', auth });
+    // Columns A–P: 4 meta cols + 4 data cols per year (proj vol, act vol, proj GCI, act GCI) × 3 years
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: 'VOLUME!A1:J12',
+      range: 'VOLUME!A1:P20',
     });
     const rows = res.data.values ?? [];
     if (rows.length < 2) return empty;
 
     const agents: VolumeAgent[] = [];
-    let total: VolumeTotal = { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 };
+    let total: VolumeTotal = {
+      proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
+      proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
+      proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
+    };
 
     for (let i = 1; i < rows.length; i++) {
       const r = rows[i];
@@ -580,17 +601,28 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       // Skip notes row (very long string)
       if (name.length > 60) continue;
 
+      // Column layout (0-indexed):
+      // 0=Name 1=Role 2=Status 3=StartYear
+      // 4=ProjVol2026 5=ActVol2026 6=ProjGCI2026 7=ActGCI2026
+      // 8=ProjVol2027 9=ActVol2027 10=ProjGCI2027 11=ActGCI2027
+      // 12=ProjVol2028 13=ActVol2028 14=ProjGCI2028 15=ActGCI2028
       agents.push({
         name,
         role: r[1] ? String(r[1]).trim() : '',
         status: r[2] ? String(r[2]).trim() : '',
         startYear: r[3] ? String(r[3]).trim() : '',
-        proj2026: parseDollar(r[4]),
-        act2026:  parseDollar(r[5]),
-        proj2027: parseDollar(r[6]),
-        act2027:  parseDollar(r[7]),
-        proj2028: parseDollar(r[8]),
-        act2028:  parseDollar(r[9]),
+        proj2026:    parseDollar(r[4]),
+        act2026:     parseDollar(r[5]),
+        projGci2026: parseDollar(r[6]),
+        actGci2026:  parseDollar(r[7]),
+        proj2027:    parseDollar(r[8]),
+        act2027:     parseDollar(r[9]),
+        projGci2027: parseDollar(r[10]),
+        actGci2027:  parseDollar(r[11]),
+        proj2028:    parseDollar(r[12]),
+        act2028:     parseDollar(r[13]),
+        projGci2028: parseDollar(r[14]),
+        actGci2028:  parseDollar(r[15]),
       });
     }
 
@@ -598,12 +630,18 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
     const totalRow = rows.find(r => r && String(r[0]).startsWith('TOTAL'));
     if (totalRow) {
       total = {
-        proj2026: parseDollar(totalRow[4]),
-        act2026:  parseDollar(totalRow[5]),
-        proj2027: parseDollar(totalRow[6]),
-        act2027:  parseDollar(totalRow[7]),
-        proj2028: parseDollar(totalRow[8]),
-        act2028:  parseDollar(totalRow[9]),
+        proj2026:    parseDollar(totalRow[4]),
+        act2026:     parseDollar(totalRow[5]),
+        projGci2026: parseDollar(totalRow[6]),
+        actGci2026:  parseDollar(totalRow[7]),
+        proj2027:    parseDollar(totalRow[8]),
+        act2027:     parseDollar(totalRow[9]),
+        projGci2027: parseDollar(totalRow[10]),
+        actGci2027:  parseDollar(totalRow[11]),
+        proj2028:    parseDollar(totalRow[12]),
+        act2028:     parseDollar(totalRow[13]),
+        projGci2028: parseDollar(totalRow[14]),
+        actGci2028:  parseDollar(totalRow[15]),
       };
     }
 

@@ -269,13 +269,6 @@ const NODES: MapNode[] = [
     x: 270, y: 990, r: 13 },
 
   // ── RECRUITS — bottom center-left ───────────────────────────────────────
-  { id: "clark",
-    name: "Marilyn Clark",
-    title: "Sotheby's Bridgehampton · Archetype",
-    type: "RECRUIT", status: "WARM",
-    note: "WARM. East Hampton native. 26+ year producer. Archetype match.",
-    x: 340, y: 800, r: 13 },
-
   { id: "brenneman",
     name: "Debbie Brenneman",
     title: "Corcoran East Hampton · Tier 1",
@@ -486,7 +479,6 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ed", to: "murray",            style: "whale" },
 
   // ── Ed to recruits ───────────────────────────────────────────────────────
-  { from: "ed", to: "clark",             style: "recruit" },
   { from: "ed", to: "brenneman",         style: "recruit" },
   { from: "ed", to: "c_esposito",        style: "recruit" },
   { from: "ed", to: "m_esposito",        style: "recruit" },

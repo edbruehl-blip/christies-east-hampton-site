@@ -358,6 +358,110 @@ export default function HomeTab() {
       {/* SectionWilliam removed — audio player now lives in SectionA below founding letter */}
       <AuctionHouseServices />
 
+      {/* ── THE PLATFORM Section ── */}
+      <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', padding: 'clamp(80px, 10vw, 120px) 40px' }}>
+        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+
+          {/* Title */}
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+            Christie's East Hampton
+          </div>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: 'clamp(1.6rem, 3vw, 2rem)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 400, marginBottom: 0 }}>
+            The Platform
+          </div>
+          <div style={{ height: 1, background: '#C8AC78', maxWidth: 480, margin: '14px 0 40px', opacity: 0.7 }} />
+
+          {/* Main headline */}
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)', lineHeight: 1.2, fontWeight: 400, marginBottom: 48, maxWidth: 760 }}>
+            This is not a real estate website. It is a live operating system.
+          </div>
+
+          {/* Two-column grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(32px, 5vw, 64px)', marginBottom: 64 }}>
+
+            {/* Left — intro paragraph */}
+            <div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: 'clamp(1rem, 1.5vw, 1.125rem)', lineHeight: 1.8, margin: 0 }}>
+                Market intelligence. Pipeline. Relationships. Team rhythm. Content. Growth. Everything speaks to everything else in one place. If it matters, it lives here. If it is not here, it does not exist.
+              </p>
+            </div>
+
+            {/* Right — six system blocks */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+
+              {/* HOME */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Home
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  The opening move. The letter. The market signal. William — delivering a daily brief.
+                </p>
+              </div>
+
+              {/* MARKET */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Market
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  All eleven hamlets scored through the Christie's Intelligence Score. Verified data. No opinion.
+                </p>
+              </div>
+
+              {/* PIPE */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Pipe
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  The live deal engine. Every opportunity, every status, every next step.
+                </p>
+              </div>
+
+              {/* MAPS */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Maps
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  Geography as usable intelligence. Hamlet data on a live map with a deal calculator.
+                </p>
+              </div>
+
+              {/* INTEL */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Intel
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  The spiderweb. Every relationship and institutional connection mapped for use.
+                </p>
+              </div>
+
+              {/* FUTURE */}
+              <div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+                  Future
+                </div>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
+                  The Ascension Arc. Sales volume by year, built agent by agent. Conservative. Structured. Real.
+                </p>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Bottom tagline */}
+          <div style={{ textAlign: 'center', paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.15)' }}>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.8rem', lineHeight: 1.6, margin: 0, letterSpacing: '0.04em' }}>
+              This is not brokerage. This is an intelligence-driven estate advisory platform under the Christie's standard.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
       {/* ── Collateral Cards — UHNW Wealth Card + Bike Card ── */}
       <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
         <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>

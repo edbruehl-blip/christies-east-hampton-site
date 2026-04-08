@@ -800,3 +800,51 @@
 - [x] Item 3: UHNW Path Card — generateUHNWPathCard() built (8-rung landscape PDF), wired to HOME tab with Download PDF button alongside Open & Print
 - [x] Item 4: William morning brief — getPipelineSummary() wired, prepends top-3 active deals (address + status, no GCI) to every brief via Promise.all
 - [x] Item 5: INTEL Document Library — Lash Speaker Packet added as pinned canon document (Stephen Lash Speaker Briefing · July 2026 · Fitzgerald, the Hamptons, and Christie's)
+
+## Sprint 23 — April 7, 2026 · Growth Model Corrections (Full Council Directive)
+
+### Section A — Data Corrections
+- [ ] A1: OUTPUTS display — agent count 18 → 16
+- [ ] A2: OUTPUTS note — "9 existing (incl. Scott Smith pending June 1) + 3 targeted + 4 organic"
+- [ ] A3a: ROSTER — Sandy Busch Y1 GCI $50K → $25K
+- [ ] A3b: ROSTER — Jan Jaeger Y1 GCI $50K → $25K
+- [ ] A3c: ROSTER — Zoila Ortega Astor 2026 GCI $60K → $65K; 2027 GCI → $150K; broker by March 2027
+- [ ] A3d: Recalculate EXISTING SUBTOTAL and downstream formulas
+- [ ] A4: ASSUMPTIONS — replace $825K institutional referral line with governance note
+- [ ] A5: OUTPUTS 2026 GCI BREAKDOWN — remove institutional/referral line + total GCI + house take; replace with "Agent Production GCI 2026: $3,125,000"
+- [ ] A6: Remove all Marilyn Clark references (InstitutionalMindMap.tsx: node + connection)
+
+### Section B — Profit Pool Formula (rebuild)
+- [ ] B1: Replace existing Profit Pool prose with 2026-2031 table
+- [ ] B2: Formula: Pool = (Total Sales Volume - $40M) × 2%; if volume < $40M, pool = $0
+- [ ] B3: Splits: Ed 30%, Ilija 65%, Christie's RE Rights 5%
+- [ ] B4: Show per year: Total Sales Volume, Volume Above Breakeven, Pool, Ed Share, Ilija Share, Christie's RE Rights
+- [ ] B5: Label: "INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS. Governing principle, not yet contractual. *"
+
+### Section C — VOLUME Tab Restructure
+- [ ] C1: Add projGci + actGci fields to VolumeAgent interface in sheets-helper.ts
+- [ ] C2: Update readGrowthModelVolume() to read 4 columns per year (proj vol, act vol, proj GCI, act GCI)
+- [ ] C3: Update FutureTab agent table to show Proj GCI + Actual GCI columns
+- [ ] C4: Running totals: Proj Volume vs Actual Volume, Proj GCI vs Actual GCI, gap visible
+
+### Section D — Ilija Defensible Numbers Panel
+- [ ] D1: Add "Verified Numbers as of April 7, 2026" panel to FUTURE tab
+- [ ] D2: Show: $4.57M closed, $34.7M active pipeline, 9 named team members, Flambeaux $6.5M, $55M baseline, growth trajectory labeled as MODEL
+
+## Sprint 23 — April 7, 2026 · Track One Completion + Track Two
+
+### Track One Remaining
+- [x] T1-1: ANEW Homes — separate row under Ed Bruehl in VOLUME tab (4-column structure, "ANEW Homes — Ed Bruehl exclusively", custom build income with Scott Smith)
+- [x] T1-2: Update FutureTab agent table total row label to "9 existing incl. Scott Smith pending June 1 + 3 targeted + 4 organic"
+
+### Track Two — HOME Page: THE PLATFORM Section
+- [x] T2-1: Build THE PLATFORM section on HOME page (below YouTube/William, above UHNW Card)
+- [x] T2-2: Title "THE PLATFORM" — Cormorant Garamond, ~28-32px, all caps, thin gold rule (#C8AC78)
+- [x] T2-3: Main headline: "This is not a real estate website. It is a live operating system."
+- [x] T2-4: Two-column grid (desktop) / single column (mobile), navy background (#1B2A4A)
+- [x] T2-5: Left column: intro paragraph per directive
+- [x] T2-6: Right column: 6 system blocks (HOME, MARKET, PIPE, MAPS, INTEL, FUTURE) with exact directive copy
+- [x] T2-7: Bottom tagline: "This is not brokerage. This is an intelligence-driven estate advisory platform under the Christie's standard."
+
+### Calendar Integration
+- [x] CAL-1: Calendar already embedded in INTEL Layer 2 with correct calendar ID — confirmed matches public link provided

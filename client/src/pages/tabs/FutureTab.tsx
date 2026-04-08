@@ -218,7 +218,11 @@ export default function FutureTab() {
   });
 
   const agents = volData?.agents ?? [];
-  const total = volData?.total ?? { proj2026: 0, act2026: 0, proj2027: 0, act2027: 0, proj2028: 0, act2028: 0 };
+  const total = volData?.total ?? {
+    proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
+    proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
+    proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
+  };
 
   // Derive live 2026 closed and active from volume data
   const liveAct2026 = useMemo(() => {
@@ -426,7 +430,7 @@ export default function FutureTab() {
         {/* ── Agent Volume Table ────────────────────────────────────────────── */}
         <div className="flex items-center justify-between mb-3">
           <div className="uppercase" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-            Agent Volume · 2026 · Sales Volume Only
+            Agent Volume · 2026 · Sales Volume + GCI
           </div>
           {volData && !volLoading && (
             <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
@@ -435,35 +439,35 @@ export default function FutureTab() {
           )}
         </div>
         <div className="mb-10 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse' }}>
+          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 800 }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #C8AC78' }}>
-                {['Agent', 'Role', 'Status', '2026 Projected', '2026 Actual', '2027 Projected'].map(h => (
-                  <th key={h} className="px-4 py-3 text-left" style={{
-                    ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase',
-                  }}>
-                    {h}
-                  </th>
-                ))}
+                <th className="px-4 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Agent</th>
+                <th className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Role</th>
+                <th className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Status</th>
+                {/* 2026 columns */}
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.3)' }}>Proj Vol 2026</th>
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act Vol 2026</th>
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Proj GCI 2026</th>
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act GCI 2026</th>
               </tr>
             </thead>
             <tbody>
               {(agents.length > 0 ? agents : [
-                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, proj2027: 50_000_000 },
-                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, proj2027: 15_000_000 },
-                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, proj2027: 20_000_000 },
-                { name: 'Sebastian Mobo', role: 'Broker', status: 'Active', proj2026: 3_500_000, act2026: 0, proj2027: 5_000_000 },
-                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, proj2027: 3_000_000 },
+                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, projGci2026: 900_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 150_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, projGci2026: 450_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 45_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
               ]).map((agent, i) => (
                 <tr key={agent.name} style={{
                   borderBottom: '1px solid rgba(27,42,74,0.06)',
                   background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)',
                 }}>
-                  <td className="px-4 py-3" style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem' }}>
+                  <td className="px-4 py-3" style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.9rem' }}>
                     {agent.name}
                   </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: '#384249' }}>{agent.role}</td>
-                  <td className="px-4 py-3">
+                  <td className="px-3 py-3 text-sm" style={{ color: '#384249' }}>{agent.role}</td>
+                  <td className="px-3 py-3">
                     <span className="px-2 py-0.5 text-[9px] uppercase" style={{
                       ...LABEL_FONT,
                       background: agent.status === 'Active' ? 'rgba(27,42,74,0.08)' : 'rgba(200,172,120,0.15)',
@@ -473,30 +477,59 @@ export default function FutureTab() {
                       {agent.status}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: '#C8AC78', fontWeight: 600 }}>
+                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>
                     {fmtVol(agent.proj2026)}
                   </td>
-                  <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#1B2A4A' }}>
-                    {agent.act2026 > 0 ? fmtVol(agent.act2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
+                  <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
+                    {(agent.act2026 ?? 0) > 0 ? fmtVol(agent.act2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
                   </td>
-                  <td className="px-4 py-3 text-sm" style={{ color: '#7a8a8e' }}>
-                    {fmtVol(agent.proj2027)}
+                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#8a7a5a' }}>
+                    {(agent.projGci2026 ?? 0) > 0 ? fmtVol(agent.projGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
+                  </td>
+                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#384249' }}>
+                    {(agent.actGci2026 ?? 0) > 0 ? fmtVol(agent.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
                   </td>
                 </tr>
               ))}
+              {/* ANEW Homes — Ed Bruehl exclusively */}
+              <tr style={{ borderBottom: '1px solid rgba(200,172,120,0.2)', background: 'rgba(200,172,120,0.04)' }}>
+                <td className="px-4 py-3" style={{ ...SERIF, color: '#8a7a5a', fontWeight: 600, fontSize: '0.85rem' }}>
+                  ANEW Homes
+                </td>
+                <td className="px-3 py-3 text-sm" style={{ color: '#7a8a8e' }}>Custom Build · Ed Bruehl exclusively</td>
+                <td className="px-3 py-3">
+                  <span className="px-2 py-0.5 text-[9px] uppercase" style={{
+                    ...LABEL_FONT,
+                    background: 'rgba(200,172,120,0.15)',
+                    color: '#C8AC78',
+                    letterSpacing: '0.1em',
+                  }}>
+                    Active
+                  </span>
+                </td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>
+                  —
+                </td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.25)' }}>—</td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
+              </tr>
               {/* Total row */}
               <tr style={{ borderTop: '2px solid #C8AC78', background: 'rgba(200,172,120,0.05)' }}>
                 <td className="px-4 py-3" colSpan={3} style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  Total Baseline
+                  Total · 16 Agents (9 existing incl. Scott Smith pending June 1 + 3 targeted + 4 organic)
                 </td>
-                <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#C8AC78' }}>
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#C8AC78', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>
                   {fmtVol(total.proj2026 || 55_000_000)}
                 </td>
-                <td className="px-4 py-3 text-sm font-semibold" style={{ color: '#1B2A4A' }}>
-                  {total.act2026 > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
+                  {(total.act2026 ?? 0) > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
                 </td>
-                <td className="px-4 py-3 text-sm" style={{ color: '#7a8a8e' }}>
-                  {fmtVol(total.proj2027 || 93_000_000)}
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a' }}>
+                  {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.13M'}
+                </td>
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#384249' }}>
+                  {(total.actGci2026 ?? 0) > 0 ? fmtVol(total.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
                 </td>
               </tr>
             </tbody>
@@ -504,38 +537,124 @@ export default function FutureTab() {
         </div>
 
         {/* ── Profit Pool ──────────────────────────────────────────────────────── */}
-        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Profit Pool · The Economic Logic
+        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          Profit Pool · 2026–2031 Projection
         </div>
-        <div className="p-6 border mb-10" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <p className="mb-4 leading-relaxed" style={{ ...SANS, color: '#384249', fontSize: '0.875rem' }}>
-            Office breakeven at approximately <strong style={{ color: '#1B2A4A' }}>$40M</strong> in total sales volume. Every dollar above $40M generates approximately <strong style={{ color: '#1B2A4A' }}>2% commission</strong> into the profit pool above breakeven. Ed negotiates one third of that pool. Paid at year end. Not salary. Not splits. Profit participation.
+        {/* INTERNAL ONLY banner */}
+        <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
+          <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS · Governing principle, not yet contractual *
+          </span>
+        </div>
+        {/* Formula explanation */}
+        <div className="mb-4 px-4 py-3 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+          <p style={{ ...SANS, color: '#384249', fontSize: '0.8rem', lineHeight: 1.65, margin: 0 }}>
+            Formula: Pool = (Total Sales Volume − <strong style={{ color: '#1B2A4A' }}>$40M breakeven</strong>) × <strong style={{ color: '#1B2A4A' }}>2%</strong>.
+            If volume &lt; $40M, pool = $0.&nbsp;&nbsp;
+            Split: <strong style={{ color: '#1B2A4A' }}>Ed Bruehl 30%</strong> · <strong style={{ color: '#1B2A4A' }}>Ilija 65%</strong> · <strong style={{ color: '#1B2A4A' }}>Christie's RE Rights 5%</strong>.
+            Paid at year end. Not salary. Not splits. Profit participation.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-            {[
-              { year: '2026', volume: '$55M', pool: '$300K', edShare: '$100K', note: 'Pool above $40M is $300K. Ed\'s third is $100K.' },
-              { year: '2027', volume: '$100M', pool: '$1.2M', edShare: '$400K', note: 'Zoila transitions off Ilija\'s payroll. The math now justifies independence.' },
-              { year: '2028', volume: '$165M', pool: '$2.5M', edShare: '$833K', note: 'Angel transitions off Ilija\'s payroll mid-2027. Same logic.' },
-            ].map(row => (
-              <div key={row.year} className="p-4 border" style={{ borderColor: 'rgba(200,172,120,0.3)', background: 'rgba(200,172,120,0.03)' }}>
-                <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
-                  {row.year} · {row.volume}
-                </div>
-                <div style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '1.5rem', lineHeight: 1 }}>
-                  {row.edShare}
-                </div>
-                <div style={{ ...LABEL_FONT, color: '#7a8a8e', fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase', marginTop: 2 }}>
-                  Ed's Share · Pool: {row.pool}
-                </div>
-                <div className="mt-3 text-xs leading-relaxed" style={{ ...SANS, color: '#7a8a8e', fontSize: '0.75rem' }}>
-                  {row.note}
-                </div>
+        </div>
+        {/* 2026-2031 table */}
+        <div className="mb-4 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+          <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
+            <thead>
+              <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
+                {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (30%)', 'Ilija (65%)', "Christie's RE (5%)"].map(h => (
+                  <th key={h} className="px-3 py-3 text-left" style={{
+                    ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600,
+                  }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { year: '2026', vol: 55_000_000 },
+                { year: '2027', vol: 105_000_000 },
+                { year: '2028', vol: 165_000_000 },
+                { year: '2029', vol: 230_000_000 },
+                { year: '2030', vol: 320_000_000 },
+                { year: '2031', vol: 430_000_000 },
+              ].map((row, i) => {
+                const BREAKEVEN = 40_000_000;
+                const aboveBreakeven = Math.max(0, row.vol - BREAKEVEN);
+                const pool = aboveBreakeven * 0.02;
+                const edShare = pool * 0.30;
+                const ilijaShare = pool * 0.65;
+                const christiesShare = pool * 0.05;
+                return (
+                  <tr key={row.year} style={{
+                    borderBottom: '1px solid rgba(27,42,74,0.06)',
+                    background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)',
+                  }}>
+                    <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
+                    <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.vol)}</td>
+                    <td className="px-3 py-3" style={{ ...SANS, color: aboveBreakeven > 0 ? '#1B2A4A' : 'rgba(27,42,74,0.3)', fontSize: '0.85rem' }}>
+                      {aboveBreakeven > 0 ? fmtVol(aboveBreakeven) : '—'}
+                    </td>
+                    <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#C8AC78', fontSize: '0.85rem' }}>
+                      {pool > 0 ? fmtVol(pool) : '$0'}
+                    </td>
+                    <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem' }}>
+                      {edShare > 0 ? fmtVol(edShare) : '$0'}
+                    </td>
+                    <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>
+                      {ilijaShare > 0 ? fmtVol(ilijaShare) : '$0'}
+                    </td>
+                    <td className="px-3 py-3" style={{ ...SANS, color: '#7a8a8e', fontSize: '0.85rem' }}>
+                      {christiesShare > 0 ? fmtVol(christiesShare) : '$0'}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
+          <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
+            * Governing principle only — not yet contractual. Pool activates above $40M total sales volume.
+            GCI data lives only in this section, clearly labeled as internal. Targets above are MODEL projections, not guarantees.
+          </p>
+        </div>
+
+                {/* ── Ilija Defensible Numbers ─────────────────────────────────────────── */}
+        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          Verified Numbers · April 7, 2026
+        </div>
+        <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
+          <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            ★ INTERNAL ONLY · Growth trajectory labeled as MODEL — not a guarantee
+          </span>
+        </div>
+        <div className="mb-10 grid grid-cols-2 md:grid-cols-3 gap-4">
+          {[
+            { label: 'Closed Volume 2026', value: '$4,570,000', note: 'Verified actuals · Ed Bruehl solo · First 100 days', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4', valColor: '#2D5A3D' },
+            { label: 'Active Pipeline', value: '$34,700,000', note: 'Named deals in active pipeline as of April 7, 2026', badge: 'Active', badgeBg: 'rgba(200,172,120,0.2)', badgeColor: '#C8AC78', valColor: '#C8AC78' },
+            { label: 'Named Team Members', value: '9', note: 'On payroll or contracted as of April 7, 2026', badge: 'Verified', badgeBg: 'rgba(27,42,74,0.08)', badgeColor: '#1B2A4A', valColor: '#1B2A4A' },
+            { label: 'Flambeaux Listing', value: '$6,500,000', note: 'Flambeaux · Active listing · Anchor deal for Q2 2026', badge: 'Active', badgeBg: 'rgba(200,172,120,0.2)', badgeColor: '#C8AC78', valColor: '#8a7a5a' },
+            { label: '2026 Baseline Target', value: '$55,000,000', note: 'Full-year sales volume target · MODEL projection', badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.4)' },
+            { label: 'Growth Trajectory', value: '$430M by 2031', note: 'Ascension arc · Council-governed · MODEL projections only', badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.3)' },
+          ].map(item => (
+            <div key={item.label} className="p-4 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+              <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
+                {item.label}
               </div>
-            ))}
-          </div>
-          <div className="pt-4 border-t text-sm leading-relaxed" style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.8rem', borderColor: 'rgba(27,42,74,0.08)' }}>
-            Jarvis receives 5% of Ed's share · Angel receives 5% of Ed's share · Zoila earns a percentage by year end if she delivers. Dan's Papers at $9K and Zoila on payroll April 15 are not expenses — they are the unlock that makes the third 100 days happen. The third 100 days gets the office from $13.62M active to $55M closed. And $55M closed opens the profit pool that eventually makes everyone independent of Ilija's payroll.
-          </div>
+              <div style={{ ...SERIF, color: item.valColor, fontWeight: 600, fontSize: '1.4rem', lineHeight: 1.1, marginBottom: 4 }}>
+                {item.value}
+              </div>
+              <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', lineHeight: 1.5, marginBottom: 6 }}>
+                {item.note}
+              </div>
+              <span className="inline-block px-2 py-0.5" style={{
+                ...LABEL_FONT,
+                background: item.badgeBg,
+                color: item.badgeColor,
+                fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase',
+              }}>
+                {item.badge}
+              </span>
+            </div>
+          ))}
         </div>
 
         {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
