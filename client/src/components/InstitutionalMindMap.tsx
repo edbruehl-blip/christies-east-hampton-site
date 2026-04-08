@@ -316,9 +316,9 @@ const NODES: MapNode[] = [
   // ── EXPORTS sub-nodes — nine clickable PDF triggers ───────────────────────
   { id: "exp_market",
     name: "Market Report",
-    title: "Four-Page PDF · Live Market Matrix Data",
+    title: "Five-Page PDF · Live Market Matrix Data",
     type: "EXPORT_NODE", status: "ACTIVE",
-    note: "Generates the four-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
+    note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
     x: 420, y: 1160, r: 10,
     clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: () => generateMarketReport() } },
 

@@ -9,13 +9,14 @@
  *   2. generateChristieCMA(result)         — 2 pages
  *   3. generateDealBrief(result)           — 1 page
  *   4. generateInvestmentMemo(result)      — 2 pages
- *   5. generateMarketReport(opts?)         — 4 pages (standalone, live Market Matrix data)
+ *   5. generateMarketReport(opts?)         — 5 pages (standalone, live Market Matrix data)
  *
- * Item 5 council-approved structure (Apr 7 2026):
+ * Item 5 council-approved structure (Apr 7 2026, updated Sprint 25):
  *   Page 1 → Navy hero + nine-paragraph founding letter + Ed signature block
- *   Page 2 → Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe)
- *   Page 3 → Hamlet Atlas rows 7–11 (same format)
- *   Page 4 → Closing paragraph + Ed headshot + contact block + two QR codes
+ *   Page 2 → Hamlet Atlas rows 1–5 (photo thumbnail, CIS, median, vol, vibe)
+ *   Page 3 → Hamlet Atlas rows 6–10 (same format)
+ *   Page 4 → Hamlet Atlas row 11 (Wainscott) + doctrine block
+ *   Page 5 → Closing paragraph + Ed headshot + contact block + two QR codes
  */
 
 import jsPDF from 'jspdf';
@@ -650,10 +651,13 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     })
   );
 
-  // Split into two pages: rows 1–5 on Page 2, rows 6–11 on Page 3
+  // Split across three atlas pages: rows 1–5 on Page 2, rows 6–10 on Page 3, row 11 (Wainscott) on Page 4
   // Sag Harbor (row 6) was overflowing Page 2 footer — moved to Page 3 (Sprint 24 fix)
+  // Wainscott (row 11) was overflowing Page 3 footer — moved to Page 4 (Sprint 25 fix)
+  // Math: CARD_H=38, CARD_GAP=4, header y=56, footer rule at 275 → 5 cards = 262mm (fits), 6 = 304mm (overflow 29mm)
   const page2Hamlets = mergedHamlets.slice(0, 5);
-  const page3Hamlets = mergedHamlets.slice(5);
+  const page3Hamlets = mergedHamlets.slice(5, 10);
+  const page4Hamlets = mergedHamlets.slice(10);
 
   const drawHamletCard = (h: typeof mergedHamlets[0], cardY: number) => {
     // Card background
@@ -730,25 +734,35 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     }
   };
 
-  // Draw Page 2 hamlet cards (rows 1–6)
+  // Draw Page 2 hamlet cards (rows 1–5)
   let atlasY = y;
   for (const h of page2Hamlets) {
     drawHamletCard(h, atlasY);
     atlasY += CARD_H + CARD_GAP;
   }
-  drawFooter(doc, 2, 4, qrImg);
+  drawFooter(doc, 2, 5, qrImg);
 
-  // ── PAGE 3 — Hamlet Atlas rows 7–11 ─────────────────────────────────────────
+  // ── PAGE 3 — Hamlet Atlas rows 6–10 ─────────────────────────────────────────
   doc.addPage();
-  y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'East Hampton North · Springs · Montauk · Wainscott · Amagansett', edImg, logoImg);
+  y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'Sag Harbor · Amagansett · East Hampton North · Springs · Montauk', edImg, logoImg);
   atlasY = y;
   for (const h of page3Hamlets) {
     drawHamletCard(h, atlasY);
     atlasY += CARD_H + CARD_GAP;
   }
+  drawFooter(doc, 3, 5, qrImg);
 
-  // Doctrine block — fills remaining space on Page 3
-  const doctrineY = atlasY + 4;
+  // ── PAGE 4 — Hamlet Atlas row 11 (Wainscott) + doctrine block ────────────────
+  doc.addPage();
+  y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'Wainscott · The Final Hamlet', edImg, logoImg);
+  atlasY = y;
+  for (const h of page4Hamlets) {
+    drawHamletCard(h, atlasY);
+    atlasY += CARD_H + CARD_GAP;
+  }
+
+  // Doctrine block — fills remaining space on Page 4 after Wainscott card
+  const doctrineY = atlasY + 8;
   if (doctrineY + 24 < PAGE.h - PAGE.mb) {
     doc.setDrawColor(...C.gold);
     doc.setLineWidth(0.3);
@@ -762,9 +776,9 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     doc.setTextColor(...C.charcoal);
     y = wrapText(doc, 'The South Fork is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference — so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
   }
-  drawFooter(doc, 3, 4, qrImg);
+  drawFooter(doc, 4, 5, qrImg);
 
-  // ── PAGE 4 — Closing paragraph + Ed headshot + contact block + two QR codes ─
+  // ── PAGE 5 — Closing paragraph + Ed headshot + contact block + two QR codes ─
   doc.addPage();
   y = await drawHeader(doc, 'Christie\'s East Hampton', 'The Standard · Est. 1766', edImg, logoImg);
 
@@ -832,8 +846,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.text('Website', PAGE.ml + 11, y + 25, { align: 'center' });
   doc.text('WhatsApp', PAGE.ml + 39, y + 25, { align: 'center' });
 
-  drawFooter(doc, 4, 4, qrImg);
-
+   drawFooter(doc, 5, 5, qrImg);
   const filename = targetHamlet
     ? `Christies_EH_Market_Report_${targetHamlet.name.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`
     : 'Christies_EH_Market_Report.pdf';

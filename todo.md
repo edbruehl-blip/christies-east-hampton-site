@@ -869,3 +869,9 @@
 - [x] VF-4: Market Report PDF Page 2 — Sag Harbor moved to Page 3 (5/6 split), no longer cut off at footer
 - [x] VF-5: Market Report PDF Page 4 — QR code re-uploaded to permanent CDN (d2xsxph8kpxj0f.cloudfront.net), URL updated in pdf-engine.ts
 - [x] VF-6: Market Report PDF Page 4 — Ed headshot re-uploaded to permanent CDN (403 session URL fixed), cdn-assets.ts updated
+
+## Sprint 25 — April 7, 2026 (Council Audit Fixes)
+
+- [x] S25-1: Market Report PDF — Wainscott (row 11) overflowing Page 3 footer by 29mm — split atlas 5/5/1 across Pages 2/3/4, Wainscott on Page 4 with doctrine block, closing on Page 5. PDF now 5 pages.
+- [x] S25-2: TypeScript cleanup — removed dead `generateFutureReport` function (was referencing hook-scoped `ARC_BARS` from module scope), fixed `total` fallback to include 2029-2031 fields, fixed `whatsapp-inbound.ts` `.trim()` on union type. TypeScript: 0 errors (was 11).
+- [x] S25-3: 35/35 tests passing. TypeScript clean.

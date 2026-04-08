@@ -586,7 +586,7 @@ export default function HomeTab() {
             {/* Market Report PDF — Item 5, council-approved Apr 7 2026 */}
             <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                Market Report · 4-Page PDF
+                Market Report · 5-Page PDF
               </div>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
                 Christie's Hamptons Market Report

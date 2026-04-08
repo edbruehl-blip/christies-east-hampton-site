@@ -383,7 +383,7 @@ async function sendAddressBriefReply(
       },
     ],
   });
-  const positioning = (res.choices?.[0]?.message?.content ?? '').trim();
+  const positioning = (typeof res.choices?.[0]?.message?.content === 'string' ? res.choices[0].message.content : '').trim();
   await sendTextReply(
     to,
     `🏛️ CHRISTIE'S EAST HAMPTON · ADDRESS BRIEF\n\n` +
@@ -422,7 +422,7 @@ async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
         { role: 'user', content: `Address: ${address}` },
       ],
     });
-    const identified = (res.choices?.[0]?.message?.content ?? '').trim();
+    const identified = (typeof res.choices?.[0]?.message?.content === 'string' ? res.choices[0].message.content : '').trim();
     const resolved = await resolveHamletLive(identified);
     if (resolved) {
       await sendAddressBriefReply(to, address, resolved);
