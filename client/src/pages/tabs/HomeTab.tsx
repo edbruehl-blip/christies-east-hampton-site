@@ -37,6 +37,7 @@ const FOUNDING_PARAGRAPHS = [
   "Christie's events — auctions, private sales, collector evenings — are more accessible than most people realize. We can make the introduction — Christie's network spans specialists, advisors, and relationships in over fifty countries.",
   "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
   "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
+  "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
@@ -143,13 +144,13 @@ function SectionA() {
               {FOUNDING_PARAGRAPHS.map((para, i) => (
                 <p key={i} style={{
                   fontFamily: '"Source Sans 3", sans-serif',
-                  color: i === 8 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
+                  color: i === 9 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
                   fontSize: '0.875rem',
                   lineHeight: 1.72,
-                  marginBottom: i === 8 ? 0 : 13,
-                  fontStyle: i === 8 ? 'italic' : 'normal',
-                  borderLeft: i === 8 ? '2px solid rgba(200,172,120,0.4)' : 'none',
-                  paddingLeft: i === 8 ? 10 : 0,
+                  marginBottom: i === 9 ? 0 : 13,
+                  fontStyle: i === 9 ? 'italic' : 'normal',
+                  borderLeft: i === 9 ? '2px solid rgba(200,172,120,0.4)' : 'none',
+                  paddingLeft: i === 9 ? 10 : 0,
                 }}>
                   {para}
                 </p>

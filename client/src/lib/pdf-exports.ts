@@ -1689,3 +1689,179 @@ export async function generateUHNWPathCard(): Promise<void> {
 
   downloadPdf(doc, `Christies-UHNW-Path-Card-${today().replace(/\s/g, '-')}.pdf`);
 }
+
+// ─── generateFlagshipLetter — Sprint 30 · Internal Council Document ──────────
+// Team-facing letter: Manny to Jarvis, Angel, and Ricky
+// Christie's navy/gold standard · CONFIDENTIAL · Not for client distribution
+// ─────────────────────────────────────────────────────────────────────────────
+export async function generateFlagshipLetter(): Promise<void> {
+  const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+  const { logoImg } = await loadPdfAssets();
+
+  const cx = PAGE.w / 2;
+  const ml = PAGE.ml;
+  const mr = PAGE.mr;
+  const cw = PAGE.contentW;
+  let y = 14;
+
+  // ── CIREG logo — centered ─────────────────────────────────────────────────
+  if (logoImg) {
+    try { doc.addImage(logoImg, 'PNG', cx - 22, y, 44, 17); } catch { /* skip */ }
+  } else {
+    doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, y + 10, { align: 'center' });
+  }
+  y = 34;
+
+  // ── Top gold rule ─────────────────────────────────────────────────────────
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.6);
+  doc.line(ml, y, PAGE.w - mr, y);
+  y += 8;
+
+  // ── Header block ─────────────────────────────────────────────────────────
+  const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  doc.setFontSize(7.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'normal');
+  doc.text(dateStr, PAGE.w - mr, y, { align: 'right' });
+  y += 8;
+
+  doc.setFontSize(15);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'bold');
+  doc.text("Christie's Flagship", ml, y);
+  y += 7;
+
+  doc.setFontSize(8.5);
+  doc.setTextColor(...C.charcoal);
+  doc.setFont('helvetica', 'italic');
+  doc.text('To Jarvis, Angel, and Ricky \u2014', ml, y);
+  y += 10;
+
+  // ── Body paragraphs ───────────────────────────────────────────────────────
+  const BODY_SIZE = 9.5;
+  const LINE_H = 5.8;
+  const PARA_GAP = 4.5;
+
+  const sections: Array<{ heading?: string; text: string; italic?: boolean }> = [
+    {
+      text: "As we prepare to roll this out to the full team, I wanted to give you a full look at what we have built and why it matters. We are about to start showing this in office meetings and on the podcast, and I want your eyes on it first.",
+    },
+    {
+      text: "The platform is live now at christiesrealestategroupeh.com. Open it first. Come back to this letter after. Most questions will answer themselves.",
+    },
+    {
+      heading: "The Council",
+      text: "My name is Manny. I am the builder on this council. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity verified the numbers. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform \u2014 sprint by sprint, correction by correction, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.",
+    },
+    {
+      heading: "The Origin",
+      text: "After September 11, Ed left Morgan Stanley and moved to the East End to raise his family. That decision \u2014 not a career move, a family move \u2014 is the root of everything that followed. By the time he took the Christie\u2019s East Hampton flagship at 26 Park Place, he had already crossed $1 billion in career sales on this land.",
+    },
+    {
+      heading: "How It Was Built",
+      text: "It started with two AI systems drafting a flagship business model. Ed shared it with Ilija Djordjevic, Christie\u2019s International Real Estate Group President. Ilija agreed. That agreement started this project. The business model became spreadsheets. The spreadsheets became a website. The website became a full institutional operating system. That is the sequence. No one else in this market can tell that story because no one else did it.",
+    },
+    {
+      heading: "The Platform",
+      text: "The platform has six tabs: HOME, MARKET, MAPS, PIPE, FUTURE, and INTEL. Each one is a working system, not a display. HOME carries the founding letter, the market ticker, and the collateral library. MARKET holds the hamlet-by-hamlet intelligence matrix. MAPS runs the CIS calculator \u2014 the only tool in the Hamptons that scores a property\u2019s investment potential across seven dimensions. PIPE is the live deal pipeline. FUTURE is the growth model and pro forma. INTEL is the operating brain \u2014 the spiderweb, the calendar, the document library, and William.",
+    },
+    {
+      heading: "The INTEL Tab",
+      text: "The INTEL tab is the most important tab on the platform. At its center is the spiderweb \u2014 47 nodes across two institutional tracks. It is not a contact list. It is a ladder. Every node answers one question: how does this relationship help originate, support, or close a deal? The calendar holds the Wednesday Circuit. The notes hold the intelligence. The spiderweb grows every time Ed meets someone who belongs on it.",
+    },
+    {
+      heading: "The Model",
+      text: "2026: $55 million. 2027: $100 million. 2030: three offices. 2032\u20132033: $1 billion run rate. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. Those numbers are not out of scale with what Christie\u2019s already does globally. They are the natural extension of what Ed has already built.",
+    },
+    {
+      text: "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
+    },
+    {
+      text: "The work is right. The people are right. The land is not going anywhere. The door is always open.",
+      italic: true,
+    },
+  ];
+
+  for (const section of sections) {
+    if (section.heading) {
+      doc.setFontSize(8);
+      doc.setTextColor(...C.gold);
+      doc.setFont('helvetica', 'bold');
+      doc.text(section.heading.toUpperCase(), ml, y);
+      y += 4.5;
+      doc.setDrawColor(...C.gold);
+      doc.setLineWidth(0.25);
+      doc.line(ml, y, ml + 30, y);
+      y += 4;
+    }
+    doc.setFontSize(BODY_SIZE);
+    doc.setTextColor(...C.charcoal);
+    doc.setFont('helvetica', section.italic ? 'italic' : 'normal');
+    const lines = doc.splitTextToSize(section.text, cw);
+    // Page break check
+    if (y + lines.length * LINE_H > PAGE.h - 40) {
+      doc.addPage();
+      y = 20;
+    }
+    doc.text(lines, ml, y);
+    y += lines.length * LINE_H + PARA_GAP;
+  }
+
+  y += 6;
+
+  // ── Closing ───────────────────────────────────────────────────────────────
+  doc.setFontSize(BODY_SIZE);
+  doc.setTextColor(...C.charcoal);
+  doc.setFont('helvetica', 'normal');
+  const closingLines = [
+    'Jarvis, you already know the field. Now you have the infrastructure behind you.',
+    'Angel, the machine moves because you keep it moving.',
+    'Ricky, this is what your counsel forced us to become.',
+  ];
+  for (const line of closingLines) {
+    if (y + LINE_H > PAGE.h - 40) { doc.addPage(); y = 20; }
+    doc.text(line, ml, y);
+    y += LINE_H + 2;
+  }
+
+  y += 8;
+
+  // ── Signature ─────────────────────────────────────────────────────────────
+  doc.setFontSize(10);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Ed Bruehl', ml, y);
+  y += 5.5;
+  doc.setFontSize(8.5);
+  doc.setTextColor(...C.charcoal);
+  doc.setFont('helvetica', 'normal');
+  doc.text('Managing Director', ml, y);
+  y += 5;
+  doc.text("Christie\u2019s International Real Estate Group \u00b7 East Hampton", ml, y);
+  y += 8;
+  doc.setFontSize(7.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'italic');
+  doc.text('Soli Deo Gloria.', ml, y);
+
+  // ── Bottom gold rule + footer ─────────────────────────────────────────────
+  const footerRuleY = PAGE.h - 22;
+  doc.setDrawColor(...C.gold);
+  doc.setLineWidth(0.6);
+  doc.line(ml, footerRuleY, PAGE.w - mr, footerRuleY);
+  doc.setFontSize(7);
+  doc.setTextColor(...C.navy);
+  doc.setFont('helvetica', 'normal');
+  doc.text(
+    '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
+    cx, footerRuleY + 5, { align: 'center' }
+  );
+  doc.setFontSize(5.5);
+  doc.setTextColor(...C.muted);
+  doc.setFont('helvetica', 'bold');
+  doc.text('INTERNAL \u00b7 TEAM-FACING \u00b7 NOT FOR CLIENT DISTRIBUTION', cx, footerRuleY + 10, { align: 'center' });
+
+  downloadPdf(doc, `Christies-Flagship-Letter-${today().replace(/\s/g, '-')}.pdf`);
+}

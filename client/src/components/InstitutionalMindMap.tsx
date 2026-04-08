@@ -34,6 +34,7 @@ import { toast } from "sonner";
 import {
   generateMarketReport,
   generateChristiesLetter,
+  generateFlagshipLetter,
   generateEastHamptonVillageReport,
 } from "@/lib/pdf-exports";
 
@@ -47,6 +48,7 @@ type ViewMode = "full" | "hierarchy" | "recruit" | "whale";
 type ClickAction =
   | { type: "pdf"; label: string; fn: () => Promise<void> }
   | { type: "nav"; tab: string; label: string }
+  | { type: "url"; url: string; label: string }
   | { type: "toast"; message: string }
   | { type: "none" };
 
@@ -266,7 +268,7 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
     x: 420, y: 1160, r: 10,
-    clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: () => generateMarketReport() } },
+    clickAction: { type: "pdf", label: "Generating Market Report PDF\u2026", fn: () => generateMarketReport() } },
 
   { id: "exp_letter",
     name: "Christie's Letter",
@@ -274,7 +276,15 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's East Hampton founding letter PDF.",
     x: 510, y: 1200, r: 10,
-    clickAction: { type: "pdf", label: "Generating Christie's Letter PDF…", fn: () => generateChristiesLetter() } },
+    clickAction: { type: "pdf", label: "Generating Christie's Letter PDF\u2026", fn: () => generateChristiesLetter() } },
+
+  { id: "exp_flagship",
+    name: "Flagship Letter",
+    title: "Internal Council Document · Team-Facing",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "Generates the Christie's Flagship Letter PDF — the internal council document to Jarvis, Angel, and Ricky. Not for client distribution. Covers the full platform story, tab-by-tab walkthrough, and the model.",
+    x: 555, y: 1185, r: 10,
+    clickAction: { type: "pdf", label: "Generating Flagship Letter PDF\u2026", fn: () => generateFlagshipLetter() } },
 
   { id: "exp_hamlet",
     name: "Hamlet PDFs x11",
@@ -356,6 +366,57 @@ const NODES: MapNode[] = [
     note: "Interpretation engine. Receives raw social signals from SOCIAL node. Weekly output: Ed Bruehl Signal · Competitor Moves (Compass, Sotheby's) · Cross Analysis · Recommended Action. No vanity metrics. No generic advice. First report this week.",
     x: 760, y: 1140, r: 16 },
 
+  // ── RESOURCES — Hamptons Outreach Intelligence · 5 tabs ─────────────────
+  // Sprint 30 directive (Perplexity, April 8, 2026): Wire RESOURCES node to 5 tabs
+  // of the Hamptons_Outreach_COMPLETE sheet (ID: 1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI)
+  { id: "resources",
+    name: "RESOURCES",
+    title: "Hamptons Outreach Intelligence · 5 Operational Tabs",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Five strategic tabs from Hamptons_Outreach_COMPLETE sheet. Vendors & Service Partners · Builders · Architects · Accountants & Advisors · Gatekeeper Network. Click any sub-node to open the corresponding tab directly in Google Sheets.",
+    x: 1120, y: 820, r: 28 },
+
+  // RESOURCES sub-nodes — each opens a specific tab in the Hamptons Outreach sheet
+  { id: "res_vendors",
+    name: "Vendors",
+    title: "Vendors & Service Partners",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "Service vendors organized by category. Opens Vendors & Service Partners tab in Hamptons_Outreach_COMPLETE sheet.",
+    x: 1200, y: 720, r: 10,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1943996001", label: "Opening Vendors & Service Partners…" } },
+
+  { id: "res_builders",
+    name: "Builders",
+    title: "Hamptons Builders & Developers",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "Hamptons builders and developers. Opens Builders tab in Hamptons_Outreach_COMPLETE sheet.",
+    x: 1230, y: 800, r: 10,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1631109962", label: "Opening Builders…" } },
+
+  { id: "res_architects",
+    name: "Architects",
+    title: "Hamptons Architects",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "Hamptons architects. Opens Architects tab in Hamptons_Outreach_COMPLETE sheet.",
+    x: 1230, y: 870, r: 10,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1942054747", label: "Opening Architects…" } },
+
+  { id: "res_accountants",
+    name: "Accountants",
+    title: "Accountants, CPAs & Wealth Advisors",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "Accountants, CPAs, and wealth advisors. Opens Accountants & Advisors tab in Hamptons_Outreach_COMPLETE sheet.",
+    x: 1210, y: 940, r: 10,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=156479096", label: "Opening Accountants & Advisors…" } },
+
+  { id: "res_gatekeepers",
+    name: "Gatekeepers",
+    title: "Gatekeeper Network · Property & Estate Managers",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "The Gatekeeper Network — property managers and estate managers. The most strategically important tab: these are the people inside the gates before anyone else. Opens Gatekeeper Network tab in Hamptons_Outreach_COMPLETE sheet.",
+    x: 1170, y: 960, r: 10,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1147147253", label: "Opening Gatekeeper Network…" } },
+
   // ── ATTORNEYS — consolidated category node ───────────────────────────────
   // Sprint 26 directive: Pierre Debbas, Jonathan Tarbet, Brian Lester, Seamus McGrath
   // Pierre's Property Reports stays as a separate functional node.
@@ -413,6 +474,14 @@ const CONNECTIONS: MapConnection[] = [
   { from: "exports",   to: "exp_invest",      style: "intelligence" },
   { from: "exports",   to: "exp_uhnw",        style: "intelligence" },
   { from: "exports",   to: "exp_future",      style: "intelligence" },
+  // ── RESOURCES — Ed connects to RESOURCES hub, RESOURCES to 5 sub-nodes ──────
+  { from: "ed",          to: "resources",         style: "partner" },
+  { from: "resources",   to: "res_vendors",        style: "intelligence" },
+  { from: "resources",   to: "res_builders",       style: "intelligence" },
+  { from: "resources",   to: "res_architects",     style: "intelligence" },
+  { from: "resources",   to: "res_accountants",    style: "intelligence" },
+  { from: "resources",   to: "res_gatekeepers",    style: "intelligence" },
+
   // ── PIERRE PROPERTY REPORTS — connected to attorneys_node ──────────────────────
   { from: "attorneys_node", to: "pierre_reports",  style: "partner" },
   { from: "ed",             to: "pierre_reports",  style: "partner" },
@@ -475,6 +544,7 @@ const SECTION_LABELS = [
   { text: "PROPERTY REPORTS",                        x: 760,  y: 912  },
   { text: "SOCIAL · SIGNAL COLLECTION",              x: 420,  y: 1118 },
   { text: "PERPLEXITY · TERRITORY INTELLIGENCE",     x: 760,  y: 1118 },
+  { text: "RESOURCES · HAMPTONS OUTREACH",             x: 1120, y: 788  },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
@@ -519,6 +589,11 @@ export function InstitutionalMindMap() {
     if (action.type === "nav") {
       toast(action.label);
       window.dispatchEvent(new CustomEvent("navigate-tab", { detail: { tab: action.tab } }));
+      return;
+    }
+    if (action.type === "url") {
+      toast(action.label);
+      window.open(action.url, "_blank", "noopener,noreferrer");
       return;
     }
     if (action.type === "pdf") {

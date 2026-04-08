@@ -211,6 +211,7 @@ interface SheetEntry {
   description: string;
   sheetId: string;
   badge?: string;
+  tabGid?: string; // Optional GID for linking to a specific tab within the sheet
 }
 
 const NINE_SHEETS: SheetEntry[] = [
@@ -273,9 +274,39 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'hamptons-outreach',
     name: 'Hamptons Outreach Intelligence',
-    description: 'UHNW targeting intelligence — Tier A and Tier B principals, outreach sequence, campaign playbook, and Christie\'s Neighborhood Card mailer list.',
+    description: 'UHNW targeting intelligence — Tier A and Tier B principals, outreach sequence, campaign playbook, and Christie\'s Neighborhood Card mailer list. Master sheet with 10 tabs.',
     sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
     badge: 'Internal',
+  },
+  // ── 4 Operational Tabs from Hamptons_Outreach_COMPLETE (Perplexity directive, April 8, 2026)
+  // These are active operational documents Angel uses weekly. Must be accessible from Layer 3.
+  {
+    id: 'outreach-uhnw-oceanfront',
+    name: 'UHNW Oceanfront · 314-Property Outreach List',
+    description: '314 oceanfront UHNW principals — Tier A and Tier B. Column T: MAGAZINE TIER 1 (being populated by Perplexity). Active outreach campaign list. Angel uses weekly.',
+    sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
+    badge: 'Outreach · Active',
+  },
+  {
+    id: 'outreach-campaign-playbook',
+    name: 'Campaign Playbook · Outreach Structure',
+    description: 'Outreach campaign structure and playbook. Governs the oceanfront letter campaign sequence, timing, and follow-up protocol.',
+    sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
+    badge: 'Outreach · Active',
+  },
+  {
+    id: 'outreach-proof-points',
+    name: 'Proof Points · Oceanfront Auction Letter',
+    description: 'Proof points for the oceanfront auction letter campaign. Christie\'s credentials, comparable sales, and institutional authority statements.',
+    sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
+    badge: 'Outreach · Active',
+  },
+  {
+    id: 'outreach-sop-angel-astra',
+    name: 'SOP — Angel & Astra · Weekly Mail Campaign',
+    description: 'Standard operating procedure for the weekly mail campaign. Angel and Astra\'s weekly production schedule, mailing cadence, and execution checklist.',
+    sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
+    badge: 'SOP · Angel & Astra',
   },
 ];
 
@@ -290,7 +321,7 @@ function NineSheetMatrix() {
           Canonical Data Sources
         </div>
         <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-          All nine Google Sheets powering the Christie's East Hampton platform. Each opens directly in Google Sheets.
+          Thirteen Google Sheets powering the Christie's East Hampton platform — nine canonical data sources plus four active operational tabs from the Hamptons Outreach Intelligence sheet. Each opens directly in Google Sheets.
         </div>
 
         <div className="grid grid-cols-1 gap-3" style={{ maxWidth: 860 }}>
@@ -348,7 +379,9 @@ function NineSheetMatrix() {
 
               {/* Open button */}
               <a
-                href={sheetOpenUrl(sheet.sheetId)}
+                href={sheet.tabGid
+                  ? `https://docs.google.com/spreadsheets/d/${sheet.sheetId}/edit#gid=${sheet.tabGid}`
+                  : sheetOpenUrl(sheet.sheetId)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shrink-0 inline-block px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"

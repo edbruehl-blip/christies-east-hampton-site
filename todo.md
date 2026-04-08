@@ -1026,3 +1026,35 @@
 - [x] Apply to YouTube embed on HOME
 - [x] Google Calendar on INTEL: already correctly framed with Christie's card wrapper (no double-frame)
 - [x] Satellite map on MAPS: already correctly framed with gold border + navy header overlay (no double-frame)
+
+## Sprint 30 — April 8, 2026
+
+### Task 7 — HOME Letter Sentence Addition
+- [ ] Add one sentence before "The door is always open" line in HomeTab founding letter
+
+### Task 8 — Flagship Letter in EXPORTS
+- [ ] Confirm or add Christie's Flagship letter PDF to EXPORTS node on INTEL mind map
+
+### Task 1 — Council Sheet: Rick Moeser
+- [ ] Write Rick Moeser row to Council sheet (ID: 1rlZId6j-bhuFd0E3eD-pMtY_f5DIn0J9OmIP2TP8zWw)
+
+### Task 2 — MEDIA Tab in Intelligence Web Master
+- [ ] Create MEDIA tab in Intelligence Web Master sheet (ID: 1eELH_ZVBMB2wBa9sqQM0Bfxtzu80Am0d21UiIXJpAO0)
+- [ ] Write schema headers and 6 seed rows
+- [ ] Wire MEDIA node on mind map to read from this tab
+
+### Task 3 — COMPETITORS Node
+- [ ] Add/update COMPETITORS node with 10 firms + URLs only (no agent names)
+
+### Task 4 — CPS1 Node Content
+- [ ] Update CPS1 node (under Ilija) with 6 entries: Ricardo, Dominican Republic deal, Aubri, Jonathan Wilhelm, Mayacama Golf Club, Flambeaux Wine
+
+### Task 5 — AUCTION REFERRALS Node
+- [ ] Add AUCTION_REFERRALS node between Ed and Christie's Auction House
+- [ ] Add Doug Biviano and Chuck McWhinnie as hover entries with status badges
+- [ ] Add both to Intelligence Web Master sheet tagged AUCTION_REFERRAL, ACTIVE
+- [ ] Wire status progression: SUBMITTED → UNDER REVIEW → CONSIGNED → SOLD
+
+### Task 6 — FAMILY AND FRIENDS Node
+- [ ] Add FAMILY_FRIENDS node (first-ring, same size as business category nodes)
+- [ ] Seed with Richard Bruehl and Miranda Bruehl
