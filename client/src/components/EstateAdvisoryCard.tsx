@@ -109,19 +109,31 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
                 <span>{item}</span>
               </div>
             ))}
-            <a
-              href="https://wa.me/16312397190?text=BRIEF"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-block', marginTop: 12,
-                background: '#1B2A4A', color: '#FAF8F4',
-                ...LABEL_FONT, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
-                textDecoration: 'none', padding: '10px 20px',
-              }}
-            >
-              Request Briefing via WhatsApp →
-            </a>
+            <div style={{ display: 'flex', gap: 10, marginTop: 12, flexWrap: 'wrap' }}>
+              <a
+                href="tel:6467521233"
+                style={{
+                  display: 'inline-block',
+                  background: '#1B2A4A', color: '#FAF8F4',
+                  ...LABEL_FONT, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
+                  textDecoration: 'none', padding: '10px 20px',
+                }}
+              >
+                646-752-1233
+              </a>
+              <a
+                href="mailto:edbruehl@christiesrealestategroup.com"
+                style={{
+                  display: 'inline-block',
+                  background: 'transparent', color: '#1B2A4A',
+                  border: '1px solid rgba(27,42,74,0.3)',
+                  ...LABEL_FONT, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
+                  textDecoration: 'none', padding: '10px 20px',
+                }}
+              >
+                Email Ed →
+              </a>
+            </div>
           </div>
         </div>
 

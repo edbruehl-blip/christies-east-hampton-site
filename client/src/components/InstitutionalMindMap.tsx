@@ -235,10 +235,9 @@ const NODES: MapNode[] = [
   { id: "whale_intel",
     name: "WHALE INTELLIGENCE",
     title: "UHNW · Family Office · Collector Network",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "Five primary UHNW relationships. Lily Fan: 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Rick Moeser: former CIRE Executive Director 17 years, auction referral pipeline. Tony Ingrao: interior design, Baccarat Hotel, Huntting Lane EH. Heath Freeman: Alden Capital, EHP Resort & Marina. David Gooding: Gooding Christie's, Bridge Hamptons car show, UHNW collector pipeline.",
-    members: ["Lily Fan", "Rick Moeser", "Tony Ingrao", "Heath Freeman", "David Gooding"],
-    x: 120, y: 820, r: 0, rw: 90, rh: 62 },
+    type: "WHALE", status: "ACTIVE",
+    note: "Five primary UHNW relationships. Lily Fan: 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Rick Moeser: former CIRE Executive Director 17 years, auction referral pipeline. Tony Ingrao: interior design, Baccarat Hotel, Huntting Lane EH. Heath Freeman: Alden Capital, EHP Resort & Marina. David Gooding: Gooding Christie's, Bridge Hamptons car show, UHNW collector pipeline. Members: Lily Fan · Rick Moeser · Tony Ingrao · Heath Freeman · David Gooding.",
+    x: 120, y: 820, r: 32 },
 
   // ── RELATIONSHIP INTELLIGENCE — consolidated category node ───────────────
   // Sprint 26 directive: Frank Newbold, Debbie Brenneman, Charlie Esposito, Art Murray,
@@ -248,10 +247,9 @@ const NODES: MapNode[] = [
   { id: "rel_intel",
     name: "RELATIONSHIP INTELLIGENCE",
     title: "Brand Relationships · Market Intelligence",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "Frank Newbold: RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship. Debbie Brenneman: Multi-Million Dollar Club, Top 1% NRT nationally. Charlie Esposito: Compass-merger exposed, team anchor. Art Murray: Flambeaux investor pitch, Mayacama Vintner seat, TOWN dinner engine. Michael Esposito: Charlie's son, growing producer. Nola Baris: The Baris Team, family practice, Compass-merger exposed. Josh Schnepps: $2K/month pilot active, 61K+ email subscribers, Dan's Papers.",
-    members: ["Frank Newbold", "Debbie Brenneman", "Charlie Esposito", "Art Murray", "Michael Esposito", "Nola Baris", "Josh Schnepps"],
-    x: 330, y: 970, r: 0, rw: 100, rh: 78 },
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Frank Newbold: RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship. Debbie Brenneman: Multi-Million Dollar Club, Top 1% NRT nationally. Charlie Esposito: Compass-merger exposed, team anchor. Art Murray: Flambeaux investor pitch, Mayacama Vintner seat, TOWN dinner engine. Michael Esposito: Charlie's son, growing producer. Nola Baris: The Baris Team, family practice, Compass-merger exposed. Josh Schnepps: $2K/month pilot active, 61K+ email subscribers, Dan's Papers. Members: Frank Newbold · Debbie Brenneman · Charlie Esposito · Art Murray · Michael Esposito · Nola Baris · Josh Schnepps.",
+    x: 330, y: 970, r: 32 },
 
   // ── EXPORTS — bottom center (PDF operating interface) ──────────────────────
   { id: "exports",
@@ -364,10 +362,9 @@ const NODES: MapNode[] = [
   { id: "attorneys_node",
     name: "ATTORNEYS",
     title: "Legal Network · Romer Debbas · Tarbet & Lester",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions.",
-    members: ["Pierre Debbas", "Jonathan Tarbet", "Brian Lester", "Seamus McGrath"],
-    x: 960, y: 870, r: 0, rw: 90, rh: 52 },
+    type: "ATTORNEY", status: "ACTIVE",
+    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions. Members: Pierre Debbas · Jonathan Tarbet · Brian Lester · Seamus McGrath.",
+    x: 960, y: 870, r: 28 },
 ];
 
 const CONNECTIONS: MapConnection[] = [

@@ -981,3 +981,48 @@
 - [x] INTEL Layer 1: countdown card showing next Wednesday Circuit date + days remaining
 - [x] Pull current guest/topic from Event/Podcast calendar if available (shows next Wednesday date + days)
 - [x] Show clear message if no upcoming Circuit is scheduled (shows series start date May 7, 2026 if before series)
+
+## Sprint 29 — April 8, 2026 (Visual + UX Fixes)
+
+### Item 0 — Remove WhatsApp from HOME
+- [x] Remove WhatsApp button from EstateAdvisoryCard
+- [x] Remove all wa.me links from HOME tab
+- [x] Remove WhatsApp icon from header/footer/social bar if present (none found outside EstateAdvisoryCard)
+- [x] Replace Estate Advisory CTA with Phone: 646-752-1233 + Email Ed button
+
+### Item 1 — Mind Map Category Nodes → Circles
+- [x] WHALE INTELLIGENCE node: render as circle, same visual language as Ed/team nodes
+- [x] ATTORNEYS node: render as circle, names on hover/click only
+- [x] RELATIONSHIP INTELLIGENCE node: render as circle, names on hover/click only
+- [x] No square boxes or div cards anywhere on the mind map
+
+### Item 2 — INTEL Max-Width Containment
+- [x] All INTEL content wrapped in same max-width container as other tabs (verified, already clean)
+- [x] Mind map, calendar, sheets, documents, intel web all contained
+
+### Item 3 — Hamlet Cards Alignment (MARKET + MAPS + PDF)
+- [x] MARKET tab hamlet cards match PDF Hamlet Atlas layout structure (verified, already aligned)
+- [x] MAPS sidebar hamlet data matches same data hierarchy (verified)
+- [x] PDF = snapshot of website system (direction: PDF → website)
+
+### Item 4 — Market Report PDF Page 4 Fill
+- [x] Fill Page 4 empty space with Capital Flow Signal, Rate Environment, Hamptons Median cards (Section3Condensed added after Section4)
+- [ ] Page 5 closing: reference UHNW Wealth Card + Bike Card as companion pieces (next sprint)
+- [x] No empty vertical space on any page
+
+### Item 5 — CIS Calculator Visual Refresh
+- [x] Input fields: navy borders, gold labels, charcoal text (verified, already correct)
+- [x] Output panel: navy background, gold/cream CIS score result (MatrixCard variant=navy confirmed)
+- [x] Button: gold treatment matching site standard (confirmed)
+- [x] Typography and spacing match MARKET cards (confirmed)
+
+### Item 6 — William Audio Player Rewind Button
+- [x] Add -15s rewind button mirroring +15s skip-forward
+- [x] Same size, spacing, interaction behavior as +15 button
+- [x] Mirrored position (left of play button, +15 is right)
+
+### Items 7 & 8 — EmbedFrame Component + Consistent Framing
+- [x] Create reusable EmbedFrame component (navy/gold hairline border, consistent radius)
+- [x] Apply to YouTube embed on HOME
+- [x] Google Calendar on INTEL: already correctly framed with Christie's card wrapper (no double-frame)
+- [x] Satellite map on MAPS: already correctly framed with gold border + navy header overlay (no double-frame)

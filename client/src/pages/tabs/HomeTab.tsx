@@ -18,6 +18,7 @@
 
 import { useState } from 'react';
 import { useLocation } from 'wouter';
+import { EmbedFrame } from '@/components/EmbedFrame';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
@@ -239,15 +240,15 @@ function SectionB() {
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
             Bringing James Christie's Legacy to the Hamptons
           </h2>
-          <div style={{ position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', maxWidth: 760, background: '#000' }}>
+          <EmbedFrame aspectRatio="56.25%" style={{ maxWidth: 760 }}>
             <iframe
               src="https://www.youtube.com/embed/DEVo7NabIy8"
               title="Bringing James Christie's Legacy to the Hamptons"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
             />
-          </div>
+          </EmbedFrame>
         </div>
       </div>
 

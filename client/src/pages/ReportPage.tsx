@@ -1610,6 +1610,85 @@ function Section4() {
   );
 }
 
+// ─── SECTION 3B · Market Intelligence (Page 4 fill) ────────────────────────
+// Placed after the Hamlet Atlas to fill the empty space on Page 4 after Wainscott.
+// Per Sprint 29 directive: use the Capital Flow Signal, Rate Environment, and
+// Hamptons Median cards to fill the empty vertical space — no compression.
+function Section3Condensed() {
+  const [ticker, setTicker] = useState<TickerData>({
+    sp500Change: 0,
+    vix: 18.5,
+    treasury10y: 4.35,
+    mortgage30y: 6.82,
+    loaded: false,
+  });
+
+  useEffect(() => {
+    async function fetchTicker() {
+      try {
+        const [, marketRes] = await Promise.allSettled([
+          Promise.resolve(),
+          fetch('/api/market-data'),
+        ]);
+        let mortgage30y = 6.38;
+        let treasury10y = 4.81;
+        let vix = 30.61;
+        if (marketRes.status === 'fulfilled') {
+          const mkt = await marketRes.value.json();
+          if (mkt?.mortgage) { const p = parseFloat(String(mkt.mortgage).replace('%', '')); if (!isNaN(p)) mortgage30y = p; }
+          if (mkt?.treasury) { const p = parseFloat(String(mkt.treasury).replace('%', '')); if (!isNaN(p)) treasury10y = p; }
+          if (mkt?.vix) { const p = parseFloat(String(mkt.vix).replace('%', '')); if (!isNaN(p)) vix = p; }
+        }
+        setTicker({ sp500Change: 0, vix, treasury10y, mortgage30y, loaded: true });
+      } catch {
+        setTicker((t) => ({ ...t, loaded: true }));
+      }
+    }
+    fetchTicker();
+  }, []);
+
+  return (
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="3" title="Market Intelligence · Capital Flow" />
+        <div
+          className="grid gap-6"
+          style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
+        >
+          {/* Capital Flow Signal */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Capital Flow Signal</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>INSTITUTIONAL<br />INFLOW</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>Capital is moving into the South Fork from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.</div>
+          </div>
+
+          {/* Rate Environment */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Rate Environment</div>
+            {[
+              { label: '30-Year Fixed', value: `${ticker.mortgage30y.toFixed(2)}%` },
+              { label: '10-Year Treasury', value: `${ticker.treasury10y.toFixed(2)}%` },
+            ].map((row) => (
+              <div key={row.label} className="flex justify-between items-center py-2" style={{ borderBottom: '1px solid rgba(200,172,120,0.1)' }}>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{row.label}</span>
+                <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 13, fontWeight: 600 }}>{row.value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Hamptons Median */}
+          <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>South Fork · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Eleven distinct corridors, eleven distinct buyers.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ─── SECTION 5 · IDEAS / CIS Intelligence ────────────────────────────────────
 function Section5() {
   return (
@@ -2315,6 +2394,7 @@ export default function ReportPage() {
       <Section1 />
       <Section3 />
       <Section4 />
+      <Section3Condensed />
       <Section5 />
       <AuctionGallery />
       <YouTubeMatrix />

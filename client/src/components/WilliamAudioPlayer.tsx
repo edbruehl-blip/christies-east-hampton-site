@@ -136,6 +136,12 @@ export function WilliamAudioPlayer({ audioUrl, label, autoPlay = false }: Willia
     }
   }, [state, handlePlay, handlePause]);
 
+  // ── -15s rewind ──────────────────────────────────────────────────────────
+  const handleRewind15 = useCallback(() => {
+    if (!audioRef.current) return;
+    audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 15);
+  }, []);
+
   // ── 15s fast-forward ─────────────────────────────────────────────────────
   const handleForward15 = useCallback(() => {
     if (!audioRef.current) return;
@@ -249,6 +255,33 @@ export function WilliamAudioPlayer({ audioUrl, label, autoPlay = false }: Willia
               <polygon points="5,3 19,12 5,21" />
             </svg>
           )}
+        </button>
+
+        {/* -15s rewind — 44×44 touch target */}
+        <button
+          onClick={handleRewind15}
+          disabled={!isActive}
+          aria-label="Rewind 15 seconds"
+          title="-15s"
+          style={{
+            width: 44,
+            height: 44,
+            borderRadius: "50%",
+            background: "transparent",
+            border: "1.5px solid rgba(200,172,120,0.25)",
+            color: isActive ? "#C8AC78" : "rgba(200,172,120,0.3)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: isActive ? "pointer" : "not-allowed",
+            flexShrink: 0,
+            fontSize: 10,
+            letterSpacing: "0.04em",
+            fontWeight: 700,
+            transition: "color 0.15s, border-color 0.15s",
+          }}
+        >
+          −15
         </button>
 
         {/* +15s fast-forward — 44×44 touch target */}
