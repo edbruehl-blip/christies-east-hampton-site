@@ -474,6 +474,13 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/lash_speaker_packet_july2026_1b529cb1.pdf',
     pinned: true,
   },
+  {
+    id: 'broker-onboarding-final',
+    label: 'Broker Onboarding — What You Are Walking Into',
+    description: 'Confidential · Internal Use Only. Five sections: What This Office Is, What You Are Joining, The Five Roles, The Deal Flow, The Wednesday Circuit, and The Christie’s Standard. Issued by Ed Bruehl, Managing Director. Christie’s International Real Estate Group · East Hampton.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christie_Broker_Onboarding_FINAL_d7d66dab.pdf',
+    pinned: true,
+  },
 ];
 
 function DocumentLibrary() {
