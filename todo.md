@@ -1059,6 +1059,8 @@
 - [ ] Add FAMILY_FRIENDS node (first-ring, same size as business category nodes)
 - [ ] Seed with Richard Bruehl and Miranda Bruehl
 
-## Sprint 32 Queue — April 8, 2026
+## Sprint 32 — April 8, 2026
 
-- [ ] HOME tab letter addition: After the AI council paragraph and before the Christie's services paragraph, insert: "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed."
+- [x] HOME tab letter: Added two sentences after "Everything I found along the way..." and before closing line. Updated closing to "The door is always open whenever you are ready to walk through it." (HomeTab.tsx + foundingParas PDF)
+- [x] Evening brief pipeline prepend: Updated to include town field. Format: "138A Montauk Highway, West Hampton — In Contract." Confirmed live via test (SID MM4d6c7f08e3966aad35fa55d73c0f374a)
+- [x] Flagship letter PDF rebuilt from Christie_Flagship_Letter_VERIFIED_FINAL.md — all 8 council-approved edits incorporated: intelligence layer chapter, six primary tabs + export layer, podcast visibility, INTEL action line, Angel operational truth, broker recruiting line, William line strengthened, Perplexity title corrected to Intelligence Officer

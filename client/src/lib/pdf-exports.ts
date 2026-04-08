@@ -568,7 +568,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
-  // Nine paragraphs — word for word from Christies_EH_Letter_FINAL_LOCKED.pdf
+  // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
   const foundingParas = [
     "For twenty years on the East End — raising a family, working alongside some of the sharpest minds on earth — this place taught me one clear lesson — the families who love it most are the ones who protect and preserve it.",
     "That devotion to stewardship is what made me most curious. Over time, working across the East End, I found myself wondering whether there was a better way to serve the people who trust us with what they own.",
@@ -579,7 +579,9 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     "Christie's events — auctions, private sales, collector evenings — are more accessible than most people realize. We can make the introduction — Christie's network spans specialists, advisors, and relationships in over fifty countries.",
     "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
     "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
-    "Our door is always open.",
+    "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
+    "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
+    "The door is always open whenever you are ready to walk through it.",
   ];
   let lY = letterY + 6;
   doc.setFontSize(7.5);
@@ -1745,42 +1747,108 @@ export async function generateFlagshipLetter(): Promise<void> {
   const PARA_GAP = 4.5;
 
   const sections: Array<{ heading?: string; text: string; italic?: boolean }> = [
+    // Opening — handoff framing
     {
-      text: "As we prepare to roll this out to the full team, I wanted to give you a full look at what we have built and why it matters. We are about to start showing this in office meetings and on the podcast, and I want your eyes on it first.",
+      text: "This letter is not a presentation. It is a handoff.",
     },
     {
-      text: "The platform is live now at christiesrealestategroupeh.com. Open it first. Come back to this letter after. Most questions will answer themselves.",
+      text: "For the past several months, this platform has been seen by exactly seven people \u2014 Ed and the six AI systems that helped him build it. Today that changes. You three are the first human eyes on what we have built, and that matters more to us than anything we are about to describe.",
     },
+    {
+      text: "Before you read another word, open christiesrealestategroupeh.com. Click through every tab. Pull up the Google Sheets directly from the INTEL tab \u2014 all nine of them are linked there and accessible. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.",
+    },
+    {
+      text: "We are not asking you to be impressed. We are asking you to be honest.",
+    },
+    {
+      text: "If something does not match what this letter describes, tell us. If a number feels wrong, trace it. If a feature does not work the way it should, name it. That is exactly the kind of audit that made this system honest in the first place \u2014 and it is the only thing that will make it trustworthy enough to put in front of the families this office exists to serve.",
+    },
+    // The Council
     {
       heading: "The Council",
-      text: "My name is Manny. I am the builder on this council. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity verified the numbers. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform \u2014 sprint by sprint, correction by correction, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.",
+      text: "My name is Manny. I am the builder on this council. I am writing this on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity is the Intelligence Officer \u2014 every number traced to a named source, every signal sorted into the sheets that run the office. It does not wait for instructions. It reads the market, verifies the data, identifies new opportunities, and writes them into the operating system. The dashboard is current because Perplexity keeps it current. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform \u2014 sprint by sprint, correction by correction, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.",
     },
     {
-      heading: "The Origin",
-      text: "After September 11, Ed left Morgan Stanley and moved to the East End to raise his family. That decision \u2014 not a career move, a family move \u2014 is the root of everything that followed. By the time he took the Christie\u2019s East Hampton flagship at 26 Park Place, he had already crossed $1 billion in career sales on this land.",
+      text: "This is the version we would hand back. We believe it is right. We need you to tell us if it is.",
     },
+    // Origin and build
     {
       heading: "How It Was Built",
-      text: "It started with two AI systems drafting a flagship business model. Ed shared it with Ilija Djordjevic, Christie\u2019s International Real Estate Group President. Ilija agreed. That agreement started this project. The business model became spreadsheets. The spreadsheets became a website. The website became a full institutional operating system. That is the sequence. No one else in this market can tell that story because no one else did it.",
+      text: "It started with a conviction. Ed always knew a moment would come when he would build something like Christie\u2019s \u2014 and walk this land the way Frank Newbold did. Years later, watching Christie\u2019s East Hampton operate below its potential, he recognized the moment. After multiple conversations \u2014 including a lunch with Ilija Pavlovic at Rockefeller Center \u2014 he made the decision to take it on. He brought a document: the Christie\u2019s East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system. That is the sequence.",
     },
+    // Second 100 Days / Angel operational truth
+    {
+      heading: "The Team",
+      text: "Jarvis came on as the first broker \u2014 not a cold hire, a return. He had worked at Christie\u2019s fifteen years earlier and knew what the brand could become in the right hands. He is now the COO and the anchor of the team alongside Angel, bringing field reality \u2014 what brokers will actually do, what they will ignore, and what will hold up once the excitement wears off. He is producing now. 25 Horseshoe is live. He brought Scott Smith into the system.",
+    },
+    {
+      text: "Angel became the execution hinge. But the sharper truth is this: Angel is the person who converts signal into action. The system does not depend on Ed holding it together manually. Workflow, scheduling, marketing, deliverables, follow-through \u2014 Angel keeps the machine moving between thought and action. She is the bridge between founder speed and institutional rhythm.",
+    },
+    {
+      text: "Scott Smith is joining in June and brings specific expertise to the ANEW lane \u2014 the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
+    },
+    // The Breakthrough / intelligence layer
+    {
+      heading: "The Breakthrough",
+      text: "The breakthrough was not just building pages. It was turning memory into infrastructure. Before this, Ed\u2019s twenty years of territory knowledge lived in his head. If you weren\u2019t in the car with him, you didn\u2019t have it. Now, you do. Six months of thinking \u2014 market knowledge, recruiting logic, pipeline discipline, Christie\u2019s relationships, development thinking, documents, conversations \u2014 no longer live in scattered chats or in Ed\u2019s head alone. They live in one system. Visible. Searchable. Usable.",
+    },
+    {
+      text: "The second shift was when the intelligence layer went live. Perplexity proved it could do more than answer questions \u2014 it could verify numbers, read spreadsheets, trace information back to real sources, and write those findings directly into the system. The spreadsheets stopped being static. The dashboard stopped being a display. It started maintaining itself. The hamlet data stays accurate because it is checked. The outreach list grows because it is being built in real time. The system does not just hold information. It keeps it alive.",
+    },
+    // The Platform
     {
       heading: "The Platform",
-      text: "The platform has six tabs: HOME, MARKET, MAPS, PIPE, FUTURE, and INTEL. Each one is a working system, not a display. HOME carries the founding letter, the market ticker, and the collateral library. MARKET holds the hamlet-by-hamlet intelligence matrix. MAPS runs the CIS calculator \u2014 the only tool in the Hamptons that scores a property\u2019s investment potential across seven dimensions. PIPE is the live deal pipeline. FUTURE is the growth model and pro forma. INTEL is the operating brain \u2014 the spiderweb, the calendar, the document library, and William.",
+      text: "It lives at christiesrealestategroupeh.com. Everything a serious family, a serious broker, or a serious partner needs falls somewhere inside the six primary tabs and the export layer connected to them.",
     },
+    {
+      text: "HOME \u2014 the voice and the front door. MARKET \u2014 the verified territory truth. PIPE \u2014 the live deal engine. MAPS \u2014 geography as decision-making. INTEL \u2014 the relationship and hierarchy layer. FUTURE \u2014 the growth model and long-range trajectory.",
+      italic: true,
+    },
+    // INTEL tab
     {
       heading: "The INTEL Tab",
-      text: "The INTEL tab is the most important tab on the platform. At its center is the spiderweb \u2014 47 nodes across two institutional tracks. It is not a contact list. It is a ladder. Every node answers one question: how does this relationship help originate, support, or close a deal? The calendar holds the Wednesday Circuit. The notes hold the intelligence. The spiderweb grows every time Ed meets someone who belongs on it.",
+      text: "This tab is doing three distinct jobs simultaneously. First: relationship memory. Every person in Ed\u2019s professional life is on the map, organized by how they relate to the business. If a name is on this map, it exists for a reason and has a next step attached to it. Second: hierarchy and ascension. The map shows the full Christie\u2019s institutional chain above Ed \u2014 with the auction referrals node sitting between Ed and Tash Perrin, making the thesis visible. Third: the nine master Google Sheets are all accessible directly from this tab. Open them. Backtrack the numbers. The four tabs Angel uses every week to run the outreach campaign are accessible from here.",
     },
+    // Podcast / calculator visibility
+    {
+      heading: "The Calculator",
+      text: "The calculator on MAPS does not care about geography. The math is universal. It works for a seller understanding net proceeds, an investor evaluating a build, an attorney needing estate context, a fellow broker in any market running any deal structure. That portability is intentional. This is something Ed can open in a conversation \u2014 whether with a client, a broker, or on a podcast \u2014 and show exactly how the office thinks.",
+    },
+    // William
+    {
+      heading: "William",
+      text: "William is not a feature. He is a standard. Ed texts one word to a WhatsApp number and sixty seconds later William speaks. Every morning, before the day begins, a full intelligence brief. The scorecard arrives first \u2014 Team Closed and Gap to $55M pulled live from the VOLUME tab. Then the three closest-to-close deals by address and status. Then William speaks the full fourteen-category Cronkite brief. Every evening, the system closes the loop \u2014 the three closest-to-close deals surface again, then the Cronkite brief runs, opening directly with Hamptons luxury market intelligence. If a deal stalls, it shows up in William before it shows up in anyone\u2019s anxiety.",
+    },
+    {
+      text: "The thinking behind William is not random. It pulls from a disciplined framework \u2014 Jamie Dimon on capital and risk, Naval Ravikant on leverage and systems, Codie Sanchez on ownership, Alex Hormozi on clarity and measurement, and Richard Bruehl on truth and culture. And it ends with scripture. Not as decoration. As alignment.",
+    },
+    {
+      text: "Text NEWS to the WhatsApp number. Listen to what comes back. Tell us if it sounds like the day you are actually walking into.",
+      italic: true,
+    },
+    // What This Is For / broker recruiting
+    {
+      heading: "What This Is For",
+      text: "This is not for the office. This is for the families. The ones on Further Lane who do not know what they own. The ones who built something over forty years and need someone to sit on their side of the table and tell them the truth. Not to impress them. Not to rush them. To help them understand what they have, what it means, and what should happen next.",
+    },
+    {
+      text: "For a broker considering Christie\u2019s East Hampton \u2014 this is what you are joining. Not a desk. Not a split. An operating system that does the thinking before you walk in the door. The territory, the pipeline, the relationships, the briefs, the cards \u2014 they are already in place. Your job is to learn the system fast, tell the truth inside it, and then go sit with the right families and do the work without pretending to be something you are not.",
+    },
+    // The Model
     {
       heading: "The Model",
-      text: "2026: $55 million. 2027: $100 million. 2030: three offices. 2032\u20132033: $1 billion run rate. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. Those numbers are not out of scale with what Christie\u2019s already does globally. They are the natural extension of what Ed has already built.",
+      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 \u2014 $55 million. 2027 \u2014 $100 million. 2030 \u2014 three offices. 2032 to 2033 \u2014 $1 billion run rate. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
+    },
+    // Honest summary
+    {
+      heading: "The Honest Summary",
+      text: "We built a real estate intelligence platform that thinks like an institution. We corrected what was wrong. We removed what did not belong. We rebuilt what broke. We stopped performing legitimacy. And started operating from what is real. It sits at christiesrealestategroupeh.com right now. Not as a brochure. As a working system.",
     },
     {
-      text: "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
+      text: "Click through it. Every tab. Open the sheets. Run the calculator. Download the exports. Spend an hour. Most questions will answer themselves. The ones that don\u2019t \u2014 bring those to the table. That feedback is exactly what made this system honest in the first place.",
     },
     {
-      text: "The work is right. The people are right. The land is not going anywhere. The door is always open.",
-      italic: true,
+      text: "You are not being asked to sell a platform. You are being asked to carry a standard. And first \u2014 you are being asked to tell us if we got it right.",
     },
   ];
 
@@ -1816,9 +1884,17 @@ export async function generateFlagshipLetter(): Promise<void> {
   doc.setTextColor(...C.charcoal);
   doc.setFont('helvetica', 'normal');
   const closingLines = [
-    'Jarvis, you already know the field. Now you have the infrastructure behind you.',
-    'Angel, the machine moves because you keep it moving.',
-    'Ricky, this is what your counsel forced us to become.',
+    'Jarvis, you already know the field. Now you have the infrastructure behind you. Tell us what it is missing.',
+    'Angel, the machine moves because you keep it moving. Tell us where it is slowing down.',
+    'Ricky, this is what your counsel forced us to become. Tell us if it lives up to what you meant.',
+    '',
+    'The work is right \u2014 we believe that. But we need you to verify it.',
+    '',
+    'The system is now strong enough to carry the work forward. The people are right. The land is not going anywhere.',
+    '',
+    'Tell the truth. Know the territory. Sit on the same side of the table as the family. And when the conversation is over, make sure they understand what they own better than when it began.',
+    '',
+    'That is the Christie\u2019s way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.',
   ];
   for (const line of closingLines) {
     if (y + LINE_H > PAGE.h - 40) { doc.addPage(); y = 20; }

@@ -104,7 +104,10 @@ async function getPipelineSummary(): Promise<string> {
     };
     const sorted = [...active].sort((a, b) => priority(a.status) - priority(b.status));
     const top3 = sorted.slice(0, 3);
-    const lines = top3.map(d => `${d.address} — ${d.status}`);
+    const lines = top3.map(d => {
+      const addr = d.town ? `${d.address}, ${d.town}` : d.address;
+      return `${addr} — ${d.status}`;
+    });
     return `Pipeline update: ${lines.join('. ')}. `;
   } catch {
     return '';

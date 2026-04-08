@@ -26,7 +26,7 @@ import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 import { generateChristiesLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
 
-// Nine paragraphs — word for word from Christies_EH_Letter_FINAL_LOCKED.pdf
+// Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
 const FOUNDING_PARAGRAPHS = [
   "For twenty years on the East End — raising a family, working alongside some of the sharpest minds on earth — this place taught me one clear lesson — the families who love it most are the ones who protect and preserve it.",
   "That devotion to stewardship is what made me most curious. Over time, working across the East End, I found myself wondering whether there was a better way to serve the people who trust us with what they own.",
@@ -38,6 +38,8 @@ const FOUNDING_PARAGRAPHS = [
   "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
   "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
   "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
+  "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
+  "The door is always open whenever you are ready to walk through it.",
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
@@ -144,13 +146,13 @@ function SectionA() {
               {FOUNDING_PARAGRAPHS.map((para, i) => (
                 <p key={i} style={{
                   fontFamily: '"Source Sans 3", sans-serif',
-                  color: i === 9 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
+                  color: i === 11 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
                   fontSize: '0.875rem',
                   lineHeight: 1.72,
-                  marginBottom: i === 9 ? 0 : 13,
-                  fontStyle: i === 9 ? 'italic' : 'normal',
-                  borderLeft: i === 9 ? '2px solid rgba(200,172,120,0.4)' : 'none',
-                  paddingLeft: i === 9 ? 10 : 0,
+                  marginBottom: i === 11 ? 0 : 13,
+                  fontStyle: i === 11 ? 'italic' : 'normal',
+                  borderLeft: i === 11 ? '2px solid rgba(200,172,120,0.4)' : 'none',
+                  paddingLeft: i === 11 ? 10 : 0,
                 }}>
                   {para}
                 </p>
