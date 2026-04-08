@@ -318,6 +318,7 @@ export default function FutureTab() {
                 <th className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Status</th>
                 <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.3)' }}>Proj Vol 2026</th>
                 <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act Vol 2026</th>
+                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Gap</th>
                 {isAuthenticated && <>
                   <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Proj GCI 2026</th>
                   <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act GCI 2026</th>
@@ -343,6 +344,13 @@ export default function FutureTab() {
                   <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
                     {(agent.act2026 ?? 0) > 0 ? fmtVol(agent.act2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
                   </td>
+                  <td className="px-3 py-3 text-sm text-right" style={{ borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
+                    {(agent.act2026 ?? 0) > 0
+                      ? <span style={{ color: (agent.proj2026 - agent.act2026) <= 0 ? '#2D5A3D' : '#C8AC78', fontWeight: 600 }}>
+                          {(agent.proj2026 - agent.act2026) <= 0 ? '✓ On Track' : fmtVol(agent.proj2026 - agent.act2026)}
+                        </span>
+                      : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
+                  </td>
                   {isAuthenticated && <>
                     <td className="px-3 py-3 text-sm text-right" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
                       {(agent.projGci2026 ?? 0) > 0 ? fmtVol(agent.projGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
@@ -362,6 +370,7 @@ export default function FutureTab() {
                 </td>
                 <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>—</td>
                 <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.25)' }}>—</td>
+                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
                 {isAuthenticated && <>
                   <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
                   <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
@@ -377,6 +386,16 @@ export default function FutureTab() {
                 </td>
                 <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
                   {(total.act2026 ?? 0) > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
+                </td>
+                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
+                  {(() => {
+                    const proj = total.proj2026 || 55_000_000;
+                    const act = total.act2026 || liveAct2026;
+                    const gap = proj - act;
+                    return gap <= 0
+                      ? <span style={{ color: '#2D5A3D' }}>✓ On Track</span>
+                      : <span style={{ color: '#C8AC78' }}>{fmtVol(gap)}</span>;
+                  })()}
                 </td>
                 {isAuthenticated && <>
                   <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>

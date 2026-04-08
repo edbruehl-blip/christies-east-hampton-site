@@ -320,11 +320,11 @@ const NODES: MapNode[] = [
 
   { id: "exp_uhnw",
     name: "UHNW Path Card",
-    title: "Coming Sprint 22",
-    type: "EXPORT_NODE", status: "COLD",
-    note: "UHNW Path Card PDF export. Coming Sprint 22.",
+    title: "Live · Click to Download",
+    type: "EXPORT_NODE", status: "ACTIVE",
+    note: "UHNW Path Card PDF — Live. Eight rungs of structured ownership from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.",
     x: 890, y: 1100, r: 10,
-    clickAction: { type: "toast", message: "UHNW Path Card PDF — Coming Sprint 22" } },
+    clickAction: { type: "nav", tab: "home", label: "Navigate to HOME tab to download UHNW Path Card" } },
 
   { id: "exp_future",
     name: "FUTURE Pro Forma",

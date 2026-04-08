@@ -921,3 +921,26 @@
 - [x] Item 3A: Screenshot A — authenticated FUTURE tab with Profit Pool and GCI visible
 - [x] Item 3B: Screenshot B — unauthenticated FUTURE tab with GCI gate (lock icon + Sign In CTA)
 - [x] Item 3C: Screenshot C — Market Report Page 5 with Ed headshot and QR codes from CDN
+
+## Sprint 28 — April 8, 2026 (Full Council Directive)
+
+### Tier 1 — Trust
+- [x] 1A: GCI gate production verification — incognito test on christiesrealestategroupeh.com FUTURE tab
+- [x] 1B: ROSTER F8 Zoila Ortega Astor $60K → $65K; F14 EXISTING SUBTOTAL fix to =SUM(F5:F13) = $1,755,000 [NOTE: Sheet-side fix — Ed to update directly in Growth Model v2 ROSTER tab]
+- [x] 1C: Agent count confirmed 16 everywhere (OUTPUTS tab, FUTURE tab display, all labels)
+- [x] 1C: Marilyn Clark confirmed removed from FutureTab and mind map — zero occurrences in codebase
+- [x] 1D: HOME collateral links — all four verified 200 OK (UHNW Card, Bike Card, Christie's Letter, Market Report dynamic)
+
+### Tier 2 — Make the Machine Alive
+- [x] 2A: FUTURE tab agent table shows all 5 columns: Proj Vol, Act Vol, Gap (all users), Proj GCI, Act GCI (auth only)
+- [x] 2B: Profit Pool wired to live VOLUME tab totals (proj2026-2031), behind GCI auth gate
+- [x] 2C: Profit Pool recalculates from live VOLUME tab totals — formula confirmed correct
+
+### Tier 3 — Institutional Polish
+- [x] 3A: Mind map — category nodes verified correct (WHALE, ATTORNEYS, RELATIONSHIP INTEL all clean)
+- [x] 3A: Mind map — Frank Newbold: RELATIONSHIP_INTELLIGENCE confirmed, never RECRUIT
+- [x] 3A: Mind map — no floating individual nodes outside category nodes
+- [x] 3A: Mind map — UHNW Path Card node updated to ACTIVE · Live · Click to Download → navigates to HOME
+- [x] 3B: MARKET tab — tier badges confirmed navy/gold/charcoal only, no green buttons
+- [x] 3B: MAPS tab — satellite map inside var(--frame-max-w) container confirmed
+- [x] 3B: Market Report — Sag Harbor pagination confirmed clean (Wainscott fix applied Sprint 27)
