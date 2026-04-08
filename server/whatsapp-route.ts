@@ -137,13 +137,15 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   audioUrl: string;
   textLength: number;
 }> {
-  // Prepend scorecard + pipeline summary to the Cronkite brief (morning only)
+  // Prepend scorecard + pipeline summary to the Cronkite brief
+  // Morning: Scorecard → Pipeline → Cronkite
+  // Evening: Pipeline (3 closest-to-close, no GCI) → Cronkite
   const [cronkiteText, pipelineSummary, scorecardLine] = await Promise.all([
     fetchCronkiteBrief(),
-    getPipelineSummary(),
+    (type === 'morning' || type === 'evening') ? getPipelineSummary() : Promise.resolve(''),
     type === 'morning' ? getVolumeScorecardLine() : Promise.resolve(''),
   ]);
-  // Morning: Scorecard → Pipeline → Cronkite
+  // Assemble: morning gets scorecard first; evening gets pipeline first; test gets Cronkite only
   const text = [scorecardLine, pipelineSummary, cronkiteText].filter(Boolean).join('');
   const label = type === "morning" ? "morning" : type === "evening" ? "evening" : "test";
   const caption =

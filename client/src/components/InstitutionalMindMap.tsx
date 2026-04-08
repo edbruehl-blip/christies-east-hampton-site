@@ -202,34 +202,132 @@ const NODES: MapNode[] = [
     note: "$1B+ career sales. 20+ years East End. Managing Director, Christie's East Hampton. 26 Park Place. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain.",
     x: 640, y: 730, r: 32 },
 
-  // ── CHRISTIE'S EAST HAMPTON TEAM ─────────────────────────────────────────
-  { id: "jarvis",
-    name: "Jarvis Slade Jr.",
-    title: "COO · Operations",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Former COO, CIRE global. Former President, A&K. 50/50 origination partner. Operations anchor.",
-    x: 480, y: 840, r: 15 },
+  // ── FLAGSHIP TEAM — Ed's personal equity team (Sprint 31 directive) ─────────
+  { id: "flagship_team",
+    name: "FLAGSHIP TEAM",
+    title: "Ed's Personal Equity Team · Direct Responsibility",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Ed's personal team — equity, ownership, direct responsibility in the model. Jarvis Slade — COO. Angel Theodore — full-time intelligence and operations. Zoila Ortega Astor — joins April 15. Scott Smith — joins June 1.",
+    x: 480, y: 860, r: 28,
+    members: ["Jarvis Slade — COO", "Angel Theodore", "Zoila *April 15", "Scott Smith *June 1"],
+    rw: 72, rh: 42 },
 
-  { id: "zoila",
-    name: "Zoila Ortega Astor",
-    title: "Office Manager",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Office operations, client relations, culture.",
-    x: 590, y: 860, r: 13 },
+  // ── EAST HAMPTON OFFICE — 26 Park Place staff (Sprint 31 directive) ─────────
+  { id: "eh_office",
+    name: "EAST HAMPTON OFFICE",
+    title: "26 Park Place · Christie's Standard Daily",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Office staff carrying the Christie's standard at 26 Park Place every day. Bonita DeWolf · Sebastian Mobo · Sandy Busch · Jan Jaeger.",
+    x: 700, y: 860, r: 28,
+    members: ["Bonita DeWolf", "Sebastian Mobo", "Sandy Busch", "Jan Jaeger"],
+    rw: 72, rh: 42 },
 
-  { id: "angel",
-    name: "Angel Theodore",
-    title: "Junior Partner",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Intelligence and operations. Full-time.",
-    x: 700, y: 860, r: 13 },
+  // ── ANEW HOMES — Sprint 31 ─────────────────────────────────────────────────
+  { id: "anew_homes",
+    name: "ANEW HOMES",
+    title: "New Construction Division · Lily Fan Anchor",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "New construction division. Lily Fan anchor deal: 140 Hands Creek Road. ANEW calculator lives in the ANEW tab. Tracks build cost, GCI, pro forma. Feeds ANEW Build Memo PDF export.",
+    x: 120, y: 970, r: 28,
+    members: ["Lily Fan — Anchor", "140 Hands Creek Rd", "ANEW Calculator"],
+    rw: 60, rh: 38,
+    clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW tab" } },
 
-  { id: "sebastian",
-    name: "Sebastian Mobo",
-    title: "Broker",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Christie's East Hampton broker.",
-    x: 590, y: 960, r: 11 },
+  // ── COUNCIL — Sprint 31 ────────────────────────────────────────────────────
+  { id: "council_node",
+    name: "COUNCIL",
+    title: "Full Council · Jarvis · Angel · Ricky",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "The full council. Jarvis Slade, Angel Theodore, Ricky (Rick Moeser). Internal operating council for Christie's East Hampton. Receives the Flagship Letter. Strategic operating body.",
+    x: 480, y: 970, r: 28,
+    members: ["Jarvis Slade", "Angel Theodore", "Rick Moeser"],
+    rw: 60, rh: 38,
+    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1rlZId6j-bhuFd0E3eD-pMtY_f5DIn0J9OmIP2TP8zWw/edit", label: "Opening Council Sheet…" } },
+
+  // ── COMPETITORS — Sprint 31 ────────────────────────────────────────────────
+  { id: "competitors_node",
+    name: "COMPETITORS",
+    title: "Compass · Sotheby's · Corcoran · Brown Harris",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Primary competitive landscape on the East End. Compass: largest agent count, Anywhere merger exposure. Sotheby's International Realty: luxury brand competitor. Corcoran: Hamptons market share. Brown Harris Stevens: legacy East End presence. Perplexity monitors weekly.",
+    x: 330, y: 1080, r: 28,
+    members: ["Compass", "Sotheby's IR", "Corcoran", "Brown Harris Stevens"],
+    rw: 68, rh: 38 },
+
+  // ── PODCAST — Sprint 31 ────────────────────────────────────────────────────
+  { id: "podcast_node",
+    name: "PODCAST",
+    title: "The Bruehl Report · Pierre Debbas Co-Host",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "The Bruehl Report. Ed Bruehl and Pierre Debbas co-hosts. Episode 1 is live. Platform for brand amplification, attorney relationship deepening, and UHNW audience reach.",
+    x: 120, y: 1080, r: 28,
+    members: ["Ed Bruehl — Host", "Pierre Debbas — Co-Host", "Ep. 1 Live"],
+    rw: 60, rh: 38 },
+
+  // ── INTEL LIBRARY — Sprint 31 ─────────────────────────────────────────────
+  { id: "intel_library",
+    name: "INTEL LIBRARY",
+    title: "Nine Sheets · Hamptons Intelligence Archive",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "The nine Google Sheets that form the intelligence backbone of Christie's East Hampton. Market Matrix · Pipeline · Growth Model · Intel Web · Hamptons Outreach · Proof Points · Campaign Playbook · SOP Angel & Astra · UHNW Oceanfront. Accessible from INTEL Layer 3.",
+    x: 640, y: 970, r: 20,
+    clickAction: { type: "nav", tab: "intel", label: "Navigate to INTEL tab — Nine Sheets" } },
+
+  // ── WILLIAM — Sprint 31 ───────────────────────────────────────────────────
+  { id: "william_node",
+    name: "WILLIAM",
+    title: "WhatsApp Intelligence Agent · 8 AM & 8 PM",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "William: the WhatsApp intelligence agent. Delivers morning brief at 8 AM (scorecard + pipeline + Cronkite) and evening brief at 8 PM (Cronkite only). Powered by Perplexity API. Twilio WhatsApp delivery. Responds to inbound commands: BRIEF, PIPELINE, STATUS.",
+    x: 760, y: 970, r: 28,
+    members: ["8 AM Morning Brief", "8 PM Evening Brief", "Inbound Commands"],
+    rw: 60, rh: 38 },
+
+  // ── RECRUITING — Sprint 31 ────────────────────────────────────────────────
+  { id: "recruiting_node",
+    name: "RECRUITING",
+    title: "Jarvis Pipeline · Agent Acquisition",
+    type: "CATEGORY", status: "WARM",
+    note: "Agent recruiting pipeline managed by Jarvis Slade. Target: experienced East End producers exposed by Compass-Anywhere merger. Debbie Brenneman, Charlie Esposito, Nola Baris tracked in Relationship Intelligence. Warm status: active conversations, no signed agreements yet.",
+    x: 200, y: 860, r: 28,
+    members: ["Jarvis Pipeline", "Compass-Exposed Targets", "East End Producers"],
+    rw: 60, rh: 38 },
+
+  // ── MEDIA — Sprint 31 ─────────────────────────────────────────────────────
+  { id: "media_node",
+    name: "MEDIA",
+    title: "Dan's Papers · Josh Schnepps · $2K/Month Pilot",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Media relationships and earned press. Josh Schnepps: Dan's Papers, $2K/month pilot active, 61K+ email subscribers. The Bruehl Report podcast. Social signal layer (SOCIAL node). Perplexity weekly territory intelligence report.",
+    x: 200, y: 970, r: 28,
+    members: ["Dan's Papers — Josh Schnepps", "$2K/Month Pilot", "The Bruehl Report"],
+    rw: 60, rh: 38 },
+
+  // ── FAMILY AND FRIENDS — Sprint 31 ───────────────────────────────────────
+  { id: "family_node",
+    name: "FAMILY & FRIENDS",
+    title: "Personal Network · Referral Layer",
+    type: "CATEGORY", status: "WARM",
+    note: "Ed's personal network — family and close friends who form the innermost referral layer. Not tracked in the pipeline sheet. Warm status: present but not formally activated in the operating model yet.",
+    x: 640, y: 860, r: 28,
+    members: ["Personal Network", "Referral Layer"],
+    rw: 60, rh: 32 },
+
+  // ── AUCTION REFERRALS — Sprint 31 ─────────────────────────────────────────
+  { id: "auction_referrals",
+    name: "AUCTION REFERRALS",
+    title: "Christie's Auction House → Ed · Referral Pipeline",
+    type: "PARTNER", status: "WARM",
+    note: "Referral pipeline from Christie's auction house relationships to Ed's real estate operation. Rick Moeser: former CIRE Executive Director 17 years, primary auction referral node. Tash Perrin: trusts and estates, estate advisory bridge. Stephen Lash: senior institutional relationship, 50-year Christie's tenure. Warm: pipeline established, first referrals pending.",
+    x: 480, y: 590, r: 18 },
+
+  // ── TINA-MARIE POULIN — under Tash Perrin (Sprint 31) ────────────────────
+  { id: "tina_marie",
+    name: "Tina-Marie Poulin",
+    title: "Christie's · Tash Perrin Network",
+    type: "HIERARCHY", status: "WARM",
+    note: "Tina-Marie Poulin. Christie's, within Tash Perrin's network. Warm status: relationship identified, not yet formally activated in the operating model.",
+    x: 60, y: 480, r: 11 },
 
   // ── WHALE INTELLIGENCE — consolidated category node ──────────────────────
   // Sprint 26 directive: Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
@@ -451,11 +549,24 @@ const CONNECTIONS: MapConnection[] = [
   { from: "sherri",    to: "ed",         style: "hierarchy" },
   { from: "ilija",     to: "ed",         style: "hierarchy" },
 
-  // ── Ed's team ────────────────────────────────────────────────────────────
-  { from: "ed", to: "jarvis",            style: "hierarchy" },
-  { from: "ed", to: "zoila",             style: "hierarchy" },
-  { from: "ed", to: "angel",             style: "hierarchy" },
-  { from: "ed", to: "sebastian",         style: "hierarchy" },
+  // ── Ed's team (Sprint 31: two consolidated nodes) ────────────────────────
+  { from: "ed", to: "flagship_team",     style: "hierarchy" },
+  { from: "ed", to: "eh_office",         style: "hierarchy" },
+  { from: "ed", to: "family_node",       style: "hierarchy" },
+  { from: "ed", to: "recruiting_node",   style: "recruit" },
+  { from: "ed", to: "media_node",        style: "partner" },
+  { from: "ed", to: "anew_homes",        style: "partner" },
+  { from: "ed", to: "council_node",      style: "hierarchy" },
+  { from: "ed", to: "competitors_node",  style: "partner" },
+  { from: "ed", to: "podcast_node",      style: "partner" },
+  { from: "ed", to: "intel_library",     style: "intelligence" },
+  { from: "ed", to: "william_node",      style: "partner" },
+  // ── Tash → Tina-Marie ────────────────────────────────────────────────────
+  { from: "tash", to: "tina_marie",      style: "hierarchy" },
+  // ── Auction Referrals — between Ed and Christie's auction house ───────────
+  { from: "tash",   to: "auction_referrals", style: "partner" },
+  { from: "lash",   to: "auction_referrals", style: "partner" },
+  { from: "auction_referrals", to: "ed",     style: "partner" },
 
   // ── Ed to category nodes ─────────────────────────────────────────────────
   { from: "ed", to: "whale_intel",       style: "whale" },
@@ -506,9 +617,19 @@ const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth:
 
 // Category node sub-type colors (keyed by id)
 const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColor: string }> = {
-  whale_intel:     { fill: "#2A1A3D", stroke: "#7B5DAA", headerColor: "#9B7EC8" },
-  rel_intel:       { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
-  attorneys_node:  { fill: "#0d2a3d", stroke: "#2a7aad", headerColor: "#7BA4D4" },
+  whale_intel:       { fill: "#2A1A3D", stroke: "#7B5DAA", headerColor: "#9B7EC8" },
+  rel_intel:         { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
+  attorneys_node:    { fill: "#0d2a3d", stroke: "#2a7aad", headerColor: "#7BA4D4" },
+  flagship_team:     { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  eh_office:         { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  anew_homes:        { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", headerColor: "#c8ac78" },
+  council_node:      { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  competitors_node:  { fill: "#2A1A1A", stroke: "rgba(200,100,100,0.5)", headerColor: "rgba(255,200,200,0.9)" },
+  podcast_node:      { fill: "#1A1A2A", stroke: "rgba(120,172,200,0.6)", headerColor: "rgba(180,225,255,0.9)" },
+  william_node:      { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#c8ac78" },
+  recruiting_node:   { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
+  media_node:        { fill: "#2A1A2A", stroke: "rgba(200,120,200,0.6)", headerColor: "rgba(235,185,235,0.9)" },
+  family_node:       { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" },
 };
 
 const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash: string }> = {
@@ -537,6 +658,17 @@ const SECTION_LABELS = [
   { text: "@PROPERTIES · CIRE BRAND",                x: 990,  y: 318 },
   { text: "CIREG TRI-STATE",                         x: 990,  y: 448 },
   { text: "CHRISTIE\'S EAST HAMPTON",                x: 640,  y: 698 },
+  { text: "FLAGSHIP TEAM",                           x: 480,  y: 808 },
+  { text: "EAST HAMPTON OFFICE",                     x: 700,  y: 808 },
+  { text: "AUCTION REFERRALS",                       x: 480,  y: 558 },
+  { text: "RECRUITING",                              x: 200,  y: 808 },
+  { text: "MEDIA",                                   x: 200,  y: 918 },
+  { text: "ANEW HOMES",                              x: 120,  y: 918 },
+  { text: "COUNCIL",                                 x: 480,  y: 918 },
+  { text: "INTEL LIBRARY",                           x: 640,  y: 918 },
+  { text: "WILLIAM",                                 x: 760,  y: 918 },
+  { text: "PODCAST",                                 x: 120,  y: 1028 },
+  { text: "COMPETITORS",                             x: 330,  y: 1028 },
   { text: "WHALE INTELLIGENCE",                      x: 120,  y: 748 },
   { text: "RELATIONSHIP INTELLIGENCE",               x: 330,  y: 888 },
   { text: "ATTORNEYS",                               x: 960,  y: 808 },
@@ -943,7 +1075,7 @@ export function InstitutionalMindMap() {
                       x={node.x}
                       y={node.y + node.r + 15}
                       textAnchor="middle"
-                      fill={isEd ? "#c8ac78" : isHier ? "rgba(250,248,244,0.85)" : "rgba(250,248,244,0.7)"}
+                      fill={isEd ? "#c8ac78" : isHier ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.85)"}
                       fontSize={isEd ? "13" : isHier ? "11" : "10"}
                       fontWeight={isEd ? "600" : isHier ? "500" : "400"}
                       fontFamily="Inter, sans-serif"
