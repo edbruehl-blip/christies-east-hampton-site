@@ -650,9 +650,10 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     })
   );
 
-  // Split into two pages: rows 1–6 on Page 2, rows 7–11 on Page 3
-  const page2Hamlets = mergedHamlets.slice(0, 6);
-  const page3Hamlets = mergedHamlets.slice(6);
+  // Split into two pages: rows 1–5 on Page 2, rows 6–11 on Page 3
+  // Sag Harbor (row 6) was overflowing Page 2 footer — moved to Page 3 (Sprint 24 fix)
+  const page2Hamlets = mergedHamlets.slice(0, 5);
+  const page3Hamlets = mergedHamlets.slice(5);
 
   const drawHamletCard = (h: typeof mergedHamlets[0], cardY: number) => {
     // Card background
@@ -1510,67 +1511,66 @@ export async function generateUHNWPathCard(): Promise<void> {
   // Landscape 11x8.5in
   const doc = new jsPDF({ orientation: 'landscape', unit: 'in', format: [11, 8.5] });
   const W = 11; const H = 8.5;
-  const ml = 0.3; const mr = 0.3; const mt = 0.18; const mb = 0.18;
+  const ml = 0.25; const mr = 0.25; const mt = 0.15; const mb = 0.12;
   const usableW = W - ml - mr;
-  const usableH = H - mt - mb;
 
   // Background
   doc.setFillColor(249, 245, 239);
   doc.rect(0, 0, W, H, 'F');
 
-  // Header
-  const headerH = 0.52;
+  // Header — tighter at 0.44in
+  const headerH = 0.44;
   doc.setFillColor(56, 66, 73); // #384249
   doc.rect(0, 0, W, headerH, 'F');
 
   // Christie's logo text
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
+  doc.setFontSize(10);
   doc.setTextColor(200, 172, 120);
-  doc.text("Christie's", ml + 0.05, mt + 0.22);
+  doc.text("Christie's", ml + 0.05, mt + 0.18);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6);
+  doc.setFontSize(5.5);
   doc.setTextColor(200, 172, 120);
-  doc.text('International Real Estate', ml + 0.05, mt + 0.34);
+  doc.text('International Real Estate', ml + 0.05, mt + 0.29);
 
   // Title
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
+  doc.setFontSize(12);
   doc.setTextColor(249, 245, 239);
-  doc.text('What James Christie Knew', W / 2, mt + 0.22, { align: 'center' });
+  doc.text('What James Christie Knew', W / 2, mt + 0.18, { align: 'center' });
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
+  doc.setFontSize(6);
   doc.setTextColor(200, 172, 120);
-  doc.text('Ed Bruehl  \u00b7  Managing Director  \u00b7  Christie\'s East Hampton', W / 2, mt + 0.34, { align: 'center' });
+  doc.text('Ed Bruehl  \u00b7  Managing Director  \u00b7  Christie\'s East Hampton', W / 2, mt + 0.30, { align: 'center' });
 
   // Quote (right)
   doc.setFont('helvetica', 'italic');
-  doc.setFontSize(6.5);
+  doc.setFontSize(6);
   doc.setTextColor(249, 245, 239);
-  doc.text('"Wherever you are on this ladder, I am here to help. Let\'s talk."', W - mr - 0.05, mt + 0.22, { align: 'right' });
+  doc.text('"Wherever you are on this ladder, I am here to help. Let\'s talk."', W - mr - 0.05, mt + 0.18, { align: 'right' });
 
-  // Gold strip
-  const goldY = headerH + 0.04;
+  // Gold strip — immediately below header
+  const goldY = headerH + 0.02;
   doc.setFillColor(200, 172, 120);
-  doc.rect(ml, goldY, usableW, 0.14, 'F');
+  doc.rect(ml, goldY, usableW, 0.12, 'F');
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(5.5);
+  doc.setFontSize(5);
   doc.setTextColor(255, 255, 255);
-  doc.text("The Christie's Standard  \u00b7  Through the Lens of James Christie, 1766", W / 2, goldY + 0.095, { align: 'center' });
+  doc.text("The Christie's Standard  \u00b7  Through the Lens of James Christie, 1766", W / 2, goldY + 0.082, { align: 'center' });
 
-  // Subtitle
-  const subtitleY = goldY + 0.14 + 0.06;
+  // Subtitle — very tight
+  const subtitleY = goldY + 0.12 + 0.04;
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(5.5);
+  doc.setFontSize(5);
   doc.setTextColor(153, 153, 153);
   doc.text("The Christie's Standard for Ownership, Structure, and Legacy", W / 2, subtitleY, { align: 'center' });
 
-  // Eight rung columns
-  const colsStartY = subtitleY + 0.1;
-  const footerH = 0.38;
-  const colsH = H - colsStartY - footerH - mb - 0.08;
+  // Eight rung columns — maximise available height
+  const colsStartY = subtitleY + 0.07;
+  const footerH = 0.32;
+  const colsH = H - colsStartY - footerH - mb - 0.04;
   const colW = usableW / 8;
-  const colGap = 0.04;
+  const colGap = 0.035;
 
   UHNW_RUNGS.forEach((rung, i) => {
     const cx = ml + i * (colW + colGap / 8);

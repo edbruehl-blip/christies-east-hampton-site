@@ -35,7 +35,7 @@ export const JAMES_CHRISTIE_PORTRAIT_FALLBACK =
 // BACKUP: pasted_file_vnfACK — alternate crop, same wardrobe
 //   → on CDN, NOT wired in
 export const ED_HEADSHOT_PRIMARY =
-  `${CDN}/INlfZDqMHcqOCvuv.jpg`;   // ← 5A89ABA9 confirmed PRIMARY (ed-headshot-backup upload)
+  'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/ed-headshot-primary_0f6df1af.jpg';   // ← 5A89ABA9 confirmed PRIMARY — permanent webdev CDN (re-uploaded Sprint 24)
 export const ED_HEADSHOT_BACKUP =
   `${CDN}/mwkFCPLJUOiqVvyC.jpg`;  // ← pasted_file_vnfACK, not wired
 

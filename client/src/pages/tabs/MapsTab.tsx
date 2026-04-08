@@ -729,9 +729,12 @@ export default function MapsTab() {
   return (
     <div style={{ background: '#FAF8F4', minHeight: '100vh' }}>
 
-      {/* ── Layer 1: Paumanok Aerial Plate (static, no zoom) ─────────────── */}
-      <PaumanokPlate />
-
+      {/* ── Layer 1: Paumanok Aerial Plate (static, no zoom) ─────────────────── */}
+      <div className="px-6" style={{ background: '#FAF8F4' }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <PaumanokPlate />
+        </div>
+      </div>
       {/* ── Layer 2: CIS Calculator ───────────────────────────────────────── */}
       <CISCalculatorLayer />
 

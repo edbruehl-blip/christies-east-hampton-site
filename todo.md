@@ -861,3 +861,11 @@
 - [x] S24-2: Profit Pool table wired to live VOLUME tab data — formula (Volume - $40M) × 2%, splits Ed 30% / Ilija 65% / Christie's RE 5%. VOLUME tab extended to 2029-2031 in Google Sheet
 - [x] S24-3: ANEW Homes rows added to VOLUME tab (rows 12-13) — Y1 $50K / Y2 $100K net profit through 2031, INTERNAL ONLY label, separate from Christie's commission
 - [x] S24-4: generateProForma built — 4-page PDF via Puppeteer, Christie's standard (Cormorant Garamond, navy, gold), live data from Growth Model v2. ProFormaButton wired to FUTURE tab export row. 35/35 passing
+
+## Sprint 24 Visual Fixes — April 7, 2026
+- [x] VF-1: Green button removed from MARKET tab — replaced with navy/gold brand standard button
+- [x] VF-2: Satellite map constrained inside max-w-7xl container on MAPS tab — no longer bleeds edge-to-edge
+- [x] VF-3: UHNW Card PDF layout fixed — tighter header, increased column height, all 8 rungs render fully
+- [x] VF-4: Market Report PDF Page 2 — Sag Harbor moved to Page 3 (5/6 split), no longer cut off at footer
+- [x] VF-5: Market Report PDF Page 4 — QR code re-uploaded to permanent CDN (d2xsxph8kpxj0f.cloudfront.net), URL updated in pdf-engine.ts
+- [x] VF-6: Market Report PDF Page 4 — Ed headshot re-uploaded to permanent CDN (403 session URL fixed), cdn-assets.ts updated

@@ -292,7 +292,7 @@ export function downloadPdf(doc: jsPDF, filename: string) {
 
 // ─── Pre-load both CDN images ─────────────────────────────────────────────────
 
-const QR_LINKTREE_URL = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/PyhWsQjMFaamcdei.png';
+const QR_LINKTREE_URL = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/qr-linktree_61501da5.png'; // permanent webdev CDN (re-uploaded Sprint 24)
 
 export async function loadPdfAssets(): Promise<{ edImg: string; logoImg: string; qrImg: string }> {
   const [edImg, logoImg, qrImg] = await Promise.all([
