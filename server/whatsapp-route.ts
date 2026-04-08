@@ -26,7 +26,7 @@ import { ENV } from "./_core/env";
 import { storagePut } from "./storage";
 import twilio from "twilio";
 import { fetchCronkiteBrief } from "./whatsapp-inbound";
-import { readPipelineDeals } from "./sheets-helper";
+import { readPipelineDeals, readGrowthModelVolume } from "./sheets-helper";
 
 // ─── ElevenLabs config ────────────────────────────────────────────────────────
 const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as tts-route.ts)
@@ -111,6 +111,25 @@ async function getPipelineSummary(): Promise<string> {
   }
 }
 
+// ─── Volume scorecard line for morning brief ────────────────────────────────
+// "Team Closed: $X.XXM · Gap to $55M: $YY.YYM"
+
+async function getVolumeScorecardLine(): Promise<string> {
+  try {
+    const { total } = await readGrowthModelVolume();
+    const TARGET_2026 = 55_000_000;
+    const closed = total.act2026 ?? 0;
+    const gap = Math.max(0, TARGET_2026 - closed);
+    const fmtM = (n: number) => `$${(n / 1_000_000).toFixed(2)}M`;
+    if (closed === 0) {
+      return `Team Closed: $0 · Gap to $55M: ${fmtM(TARGET_2026)}. `;
+    }
+    return `Team Closed: ${fmtM(closed)} · Gap to $55M: ${fmtM(gap)}. `;
+  } catch {
+    return '';
+  }
+}
+
 // ─── Core delivery function ───────────────────────────────────────────────────
 
 async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
@@ -118,12 +137,14 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   audioUrl: string;
   textLength: number;
 }> {
-  // Prepend live pipeline summary (address + status only, no GCI) to the Cronkite brief
-  const [cronkiteText, pipelineSummary] = await Promise.all([
+  // Prepend scorecard + pipeline summary to the Cronkite brief (morning only)
+  const [cronkiteText, pipelineSummary, scorecardLine] = await Promise.all([
     fetchCronkiteBrief(),
     getPipelineSummary(),
+    type === 'morning' ? getVolumeScorecardLine() : Promise.resolve(''),
   ]);
-  const text = pipelineSummary ? `${pipelineSummary}${cronkiteText}` : cronkiteText;
+  // Morning: Scorecard → Pipeline → Cronkite
+  const text = [scorecardLine, pipelineSummary, cronkiteText].filter(Boolean).join('');
   const label = type === "morning" ? "morning" : type === "evening" ? "evening" : "test";
   const caption =
     type === "morning"

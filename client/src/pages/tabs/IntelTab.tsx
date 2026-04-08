@@ -17,10 +17,74 @@
  * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
+
+// ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
+// Recurring every Wednesday from May 7, 2026
+
+function WednesdayCircuitCountdown() {
+  const { daysUntil, nextDate, isToday } = useMemo(() => {
+    const now = new Date();
+    // Find next Wednesday (day 3) on or after May 7, 2026
+    const seriesStart = new Date('2026-05-07T00:00:00');
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    // If today is before series start, count to series start
+    let target = new Date(seriesStart);
+    if (today >= seriesStart) {
+      // Find the next Wednesday on or after today
+      target = new Date(today);
+      const dow = target.getDay(); // 0=Sun, 3=Wed
+      const daysToWed = (3 - dow + 7) % 7;
+      target.setDate(target.getDate() + daysToWed);
+    }
+    const diffMs = target.getTime() - today.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+    const dateStr = target.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    return { daysUntil: diffDays, nextDate: dateStr, isToday: diffDays === 0 };
+  }, []);
+
+  const LABEL: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
+  const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
+  const SANS: React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
+
+  return (
+    <div style={{
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 16,
+      background: 'rgba(200,172,120,0.08)',
+      border: '1px solid rgba(200,172,120,0.3)',
+      padding: '8px 16px',
+      marginTop: 12,
+    }}>
+      <div style={{ textAlign: 'center', minWidth: 48 }}>
+        <div style={{ ...SERIF, color: '#C8AC78', fontSize: isToday ? '1.5rem' : '2rem', fontWeight: 600, lineHeight: 1 }}>
+          {isToday ? 'TODAY' : daysUntil}
+        </div>
+        {!isToday && (
+          <div style={{ ...LABEL, color: 'rgba(200,172,120,0.6)', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 2 }}>
+            days
+          </div>
+        )}
+      </div>
+      <div style={{ width: 1, height: 32, background: 'rgba(200,172,120,0.2)' }} />
+      <div>
+        <div style={{ ...LABEL, color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 3 }}>
+          Wednesday Circuit
+        </div>
+        <div style={{ ...SANS, color: 'rgba(250,248,244,0.75)', fontSize: '0.8rem' }}>
+          {nextDate}
+        </div>
+        <div style={{ ...SANS, color: 'rgba(250,248,244,0.35)', fontSize: '0.7rem', marginTop: 2 }}>
+          Recurring weekly · Christie's East Hampton
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── Source-of-Truth Sheet IDs (locked April 1, 2026) ─────────────────────────
 
@@ -511,13 +575,18 @@ export default function IntelTab() {
 
       {/* Header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Operating Control Room · Intelligence · Documents · SOPs
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Operating Control Room · Intelligence · Documents · SOPs
+            </div>
+            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
+            <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
+              Mind Map · Calendar · Nine-Sheet Matrix · Canon Documents · Intelligence Web.
+            </p>
+          </div>
+          <WednesdayCircuitCountdown />
         </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
-        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-          Mind Map · Calendar · Nine-Sheet Matrix · Canon Documents · Intelligence Web.
-        </p>
       </div>
 
       {/* Sticky section navigator */}

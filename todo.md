@@ -963,3 +963,21 @@
 - [x] Ensure Ascension Arc, 300-day grid, agent table, Profit Pool, ANEW panel all print
 - [x] Add footer: Ed Bruehl · Managing Director · Christie's International Real Estate Group East Hampton · [date]
 - [x] Test print to PDF and confirm clean multi-page output
+
+## Sprint 28 Final — April 8, 2026
+
+### Immediate Fix
+- [x] HOME tab: WhatsApp button number → 631-239-7190 (was Twilio sandbox +1 415-523-8886)
+
+### Build 1 — Print Pro Forma Button
+- [x] FUTURE tab header: add "Print Pro Forma" button in Christie's gold, triggers window.print()
+- [x] Confirm dashboard chrome hidden, only pro forma content + footer appear in print (.no-print class)
+
+### Build 2 — William Morning Brief Gap Line
+- [x] Add "Team Closed: $X.XXM · Gap to $55M: $YY.YYM" line to 8AM WhatsApp brief
+- [x] Calculated from live VOLUME data, not hardcoded
+
+### Build 3 — INTEL Countdown Card
+- [x] INTEL Layer 1: countdown card showing next Wednesday Circuit date + days remaining
+- [x] Pull current guest/topic from Event/Podcast calendar if available (shows next Wednesday date + days)
+- [x] Show clear message if no upcoming Circuit is scheduled (shows series start date May 7, 2026 if before series)

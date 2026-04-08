@@ -129,31 +129,54 @@ export default function FutureTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
 
-      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      {/* ── Header ──────────────────────────────────────────────────────────────────── */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Growth Model v2 · 300-Day Arc · Ascension
-        </div>
-        <h2 style={{ ...SERIF, color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
-          Future
-        </h2>
-        <div className="flex items-center gap-3 mt-2">
-          {volData && !volLoading ? (
-            <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-              ● Live · Growth Model v2 · VOLUME tab
-            </span>
-          ) : volLoading ? (
-            <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-              Loading…
-            </span>
-          ) : null}
-          <span style={{ ...SANS, color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
-            Sales volume only · Private &amp; Confidential
-          </span>
-
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+              Growth Model v2 · 300-Day Arc · Ascension
+            </div>
+            <h2 style={{ ...SERIF, color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
+              Future
+            </h2>
+            <div className="flex items-center gap-3 mt-2">
+              {volData && !volLoading ? (
+                <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  ● Live · Growth Model v2 · VOLUME tab
+                </span>
+              ) : volLoading ? (
+                <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                  Loading…
+                </span>
+              ) : null}
+              <span style={{ ...SANS, color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
+                Sales volume only · Private &amp; Confidential
+              </span>
+            </div>
+          </div>
+          {/* Print Pro Forma button */}
+          <button
+            onClick={() => window.print()}
+            className="no-print"
+            style={{
+              ...LABEL_FONT,
+              background: '#C8AC78',
+              color: '#1B2A4A',
+              border: 'none',
+              padding: '9px 18px',
+              fontSize: 10,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              cursor: 'pointer',
+              fontWeight: 700,
+              alignSelf: 'center',
+              flexShrink: 0,
+            }}
+          >
+            ↓ Print Pro Forma
+          </button>
         </div>
       </div>
-
       <div className="px-6 py-8" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
 
         {/* ── Ascension Arc ────────────────────────────────────────────────────── */}

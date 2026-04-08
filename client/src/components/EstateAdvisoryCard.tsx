@@ -110,7 +110,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
               </div>
             ))}
             <a
-              href="https://wa.me/14155238886?text=BRIEF"
+              href="https://wa.me/16312397190?text=BRIEF"
               target="_blank"
               rel="noopener noreferrer"
               style={{

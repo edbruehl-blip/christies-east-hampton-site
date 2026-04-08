@@ -22,7 +22,7 @@
     color-adjust: exact !important;
   }
 
-  /* ── Hide all dashboard chrome ───────────────────────────────────────────── */
+  /* ── Hide all dashboard chrome ────────────────────────────────────────────────────── */
   /* Nav, tabs, ticker, social bar, header controls */
   header,
   nav,
@@ -30,6 +30,7 @@
   [data-ticker],
   [data-social-bar],
   [data-no-print],
+  .no-print,
   .tab-bar,
   .ticker-strip,
   .social-strip,
