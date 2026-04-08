@@ -526,7 +526,7 @@ export default function FutureTab() {
                   {(total.act2026 ?? 0) > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
                 </td>
                 <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a' }}>
-                  {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.13M'}
+                  {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.08M'}
                 </td>
                 <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#384249' }}>
                   {(total.actGci2026 ?? 0) > 0 ? fmtVol(total.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
@@ -655,6 +655,63 @@ export default function FutureTab() {
               </span>
             </div>
           ))}
+        </div>
+
+        {/* ── ANEW Homes Net Build Profit ──────────────────────────────────────── */}
+        <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          ANEW Homes · Net Build Profit
+        </div>
+        <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(200,172,120,0.06)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
+          <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS
+          </span>
+          <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', marginTop: 4 }}>
+            ANEW Homes — Morton steel-frame custom builds. Products: Ranch · Cottage · Legacy Land Play · ADU Garage Living Unit.
+            ADU drives Year 1 income — construction management fees on client land, no land acquisition required.
+            Net profit after ALL build costs. Separate from Christie's commission income entirely.
+          </div>
+        </div>
+        <div className="mb-4 overflow-x-auto">
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'inherit' }}>
+            <thead>
+              <tr style={{ background: '#1B2A4A' }}>
+                {['Participant', 'Share', 'Year 1 Net ($50K pool)', 'Year 2 Net ($100K pool)', 'Notes'].map(h => (
+                  <th key={h} style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '8px 12px', textAlign: 'left', whiteSpace: 'nowrap' }}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { name: 'Ed Bruehl', share: '45%', y1: '$22,500', y2: '$45,000', note: 'Managing partner · ANEW Homes lead' },
+                { name: 'Scott Smith', share: '45%', y1: '$22,500', y2: '$45,000', note: 'Build operations partner · pending June 1' },
+                { name: 'Jarvis Slade', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+                { name: 'Angel Theodore', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+              ].map((row, i) => (
+                <tr key={row.name} style={{ background: i % 2 === 0 ? '#fff' : 'rgba(27,42,74,0.03)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
+                  <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.85rem', padding: '8px 12px' }}>{row.name}</td>
+                  <td style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.1em', padding: '8px 12px' }}>{row.share}</td>
+                  <td style={{ ...SERIF, color: '#2D5A3D', fontWeight: 600, fontSize: '0.9rem', padding: '8px 12px' }}>{row.y1}</td>
+                  <td style={{ ...SERIF, color: '#2D5A3D', fontWeight: 600, fontSize: '0.9rem', padding: '8px 12px' }}>{row.y2}</td>
+                  <td style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', padding: '8px 12px' }}>{row.note}</td>
+                </tr>
+              ))}
+              <tr style={{ background: 'rgba(27,42,74,0.06)', borderTop: '2px solid rgba(27,42,74,0.15)' }}>
+                <td style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '8px 12px', fontWeight: 700 }}>TOTAL</td>
+                <td style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 9, letterSpacing: '0.1em', padding: '8px 12px' }}>100%</td>
+                <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', padding: '8px 12px' }}>$50,000</td>
+                <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', padding: '8px 12px' }}>$100,000</td>
+                <td style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', padding: '8px 12px' }}>Net build profit after all costs</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mb-10 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(27,42,74,0.1)', borderLeftWidth: 2 }}>
+          <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.6 }}>
+            <strong style={{ color: '#1B2A4A' }}>Label:</strong> ANEW Homes — Net Build Profit · Separate from Christie's commission income.
+          </div>
+          <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.6, marginTop: 2 }}>
+            <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All four participants aware and agreeable.
+          </div>
         </div>
 
         {/* ── Export + Sheet Link ────────────────────────────────────────────── */}

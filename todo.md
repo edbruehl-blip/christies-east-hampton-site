@@ -848,3 +848,10 @@
 
 ### Calendar Integration
 - [x] CAL-1: Calendar already embedded in INTEL Layer 2 with correct calendar ID — confirmed matches public link provided
+
+## Sprint 23 Addition — April 7, 2026 (Evening Directive)
+- [x] ANEW-1: Add ANEW Homes Net Build Profit panel to FUTURE tab — Y1 $50K / Y2 $100K, 4-person split (Ed 45%, Scott 45%, Jarvis 5%, Angel 5%), INTERNAL ONLY label, asterisk footnote
+- [x] ANEW-2: Each participant's share shown in individual income lines within the panel
+- [x] KPI-1: Reconcile OUTPUTS KPI strip in Google Sheet — $3,125,000 → $3,080,000 (confirmed all 11 cells updated)
+- [x] VOL-1: VOLUME tab 4-column structure (Proj Vol / Act Vol / Proj GCI / Act GCI) confirmed wired to sheet
+- [x] VOL-2: ANEW Homes separate row under Ed Bruehl in VOLUME tab confirmed — static row, clearly labeled Custom Build · Ed Bruehl exclusively
