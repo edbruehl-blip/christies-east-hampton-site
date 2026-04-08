@@ -147,6 +147,8 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   ]);
   // Assemble: morning gets scorecard first; evening gets pipeline first; test gets Cronkite only
   const text = [scorecardLine, pipelineSummary, cronkiteText].filter(Boolean).join('');
+  // Debug: log the first 200 chars so we can verify pipeline prepend in server logs
+  console.log(`[William ${type}] text preview (first 200): ${text.slice(0, 200)}`);
   const label = type === "morning" ? "morning" : type === "evening" ? "evening" : "test";
   const caption =
     type === "morning"

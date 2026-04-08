@@ -1058,3 +1058,7 @@
 ### Task 6 — FAMILY AND FRIENDS Node
 - [ ] Add FAMILY_FRIENDS node (first-ring, same size as business category nodes)
 - [ ] Seed with Richard Bruehl and Miranda Bruehl
+
+## Sprint 32 Queue — April 8, 2026
+
+- [ ] HOME tab letter addition: After the AI council paragraph and before the Christie's services paragraph, insert: "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed."

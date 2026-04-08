@@ -329,6 +329,16 @@ const NODES: MapNode[] = [
     note: "Tina-Marie Poulin. Christie's, within Tash Perrin's network. Warm status: relationship identified, not yet formally activated in the operating model.",
     x: 60, y: 480, r: 11 },
 
+  // ── CPS 1 — International Projects Pipeline under Ilija (Sprint 31 final node) ──
+  { id: "cps1",
+    name: "CPS 1",
+    title: "International Projects Pipeline · CIREG Tri-State · NY AG Framework",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "International projects pipeline flowing through CIREG Tri-State using the CPS-1 and CPS-12 New York Attorney General framework. Reference and pipeline tracking node. Ricardo (Lisbon) — CIREG international referral, active. Dominican Republic — development/investment through CIREG international network, active. Jonathan Wilhelm — Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality network. Mayacama Golf Club — through Wilhelm, resort UHNW hospitality. Flambeaux Wine — through Art Murray, TOWN dinner series, links Wilhelm and Murray through Mayacama/Flambeaux relationship.",
+    x: 1100, y: 490, r: 28,
+    members: ["Ricardo (Lisbon) — Active", "Dominican Republic — Active", "Jonathan Wilhelm · Mayacama", "Mayacama Golf Club", "Flambeaux Wine · Art Murray"],
+    rw: 72, rh: 52 },
+
   // ── WHALE INTELLIGENCE — consolidated category node ──────────────────────
   // Sprint 26 directive: Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
   // Collapsed from 5 individual nodes into one category node.
@@ -548,6 +558,9 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ilija",     to: "sherri",     style: "hierarchy" },
   { from: "sherri",    to: "ed",         style: "hierarchy" },
   { from: "ilija",     to: "ed",         style: "hierarchy" },
+  // ── CPS 1 — under Ilija, secondary connection from WHALE INTELLIGENCE ──────────
+  { from: "ilija",      to: "cps1",       style: "hierarchy" },
+  { from: "whale_intel", to: "cps1",      style: "intelligence" },
 
   // ── Ed's team (Sprint 31: two consolidated nodes) ────────────────────────
   { from: "ed", to: "flagship_team",     style: "hierarchy" },
@@ -630,6 +643,7 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   recruiting_node:   { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
   media_node:        { fill: "#2A1A2A", stroke: "rgba(200,120,200,0.6)", headerColor: "rgba(235,185,235,0.9)" },
   family_node:       { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" },
+  cps1:              { fill: "#1A2A3A", stroke: "rgba(120,172,220,0.7)", headerColor: "rgba(180,220,255,0.9)" },
 };
 
 const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash: string }> = {
@@ -677,6 +691,7 @@ const SECTION_LABELS = [
   { text: "SOCIAL · SIGNAL COLLECTION",              x: 420,  y: 1118 },
   { text: "PERPLEXITY · TERRITORY INTELLIGENCE",     x: 760,  y: 1118 },
   { text: "RESOURCES · HAMPTONS OUTREACH",             x: 1120, y: 788  },
+  { text: "CPS 1 · INTERNATIONAL PIPELINE",             x: 1100, y: 438  },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
