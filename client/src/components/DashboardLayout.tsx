@@ -453,13 +453,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
               <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#C8AC78", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
             </>
           )}
-          {/* Data current as of — Sheets API freshness */}
-          {dataCurrentLabel && (
-            <>
-              <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
-              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "rgba(200,172,120,0.65)", letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{dataCurrentLabel}</span>
-            </>
-          )}
+          {/* Data current as of label removed — Sprint 33 directive */}
         </div>
       </div>
 
