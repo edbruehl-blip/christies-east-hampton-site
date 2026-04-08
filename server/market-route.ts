@@ -61,7 +61,7 @@ let mortgageCache: { rate: string; fetchedAt: number } = {
   fetchedAt: 0,
 };
 
-async function fetchMortgageRate(): Promise<string> {
+export async function fetchMortgageRate(): Promise<string> {
   const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
   const now = Date.now();
   if (now - mortgageCache.fetchedAt < CACHE_TTL_MS) {

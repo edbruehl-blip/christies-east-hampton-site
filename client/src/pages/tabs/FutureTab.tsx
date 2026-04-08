@@ -10,7 +10,7 @@
 
 import { useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
-import { generateFutureReportPDF } from '@/lib/pdf-exports';
+import { generateFutureReportPDF, generateCardStockExport } from '@/lib/pdf-exports';
 import '@/styles/future-print.css';
 
 // ─── Council-governed milestone targets ──────────────────────────────────────
@@ -237,6 +237,22 @@ export default function FutureTab() {
               </div>
             </div>
           </div>
+          {/* $1B Horizon footnote — Item 5 */}
+          <div className="mt-4 px-4 py-2 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.4)', background: 'rgba(200,172,120,0.03)' }}>
+            <p style={{ ...SANS, color: 'rgba(27,42,74,0.55)', fontSize: '0.72rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
+              Three-office model at current growth assumptions. Horizon marker based on compound trajectory. Conservative single-office arithmetic reaches $430M by 2031.
+            </p>
+          </div>
+          {/* Assumptions Box — Item 6 */}
+          <div className="mt-4 px-4 py-3 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(27,42,74,0.12)' }}>
+            <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 8, fontWeight: 700 }}>Model Assumptions — Base Case</div>
+            <div style={{ ...SANS, color: '#384249', fontSize: '0.75rem', lineHeight: 1.8 }}>
+              — Agent GCI growth rate: 20% annually, $1M personal cap<br />
+              — House take: 30% of gross commissions on volume above $40M breakeven<br />
+              — Southampton office: opens 2028<br />
+              — Westhampton office: opens 2030
+            </div>
+          </div>
           {/* Legend */}
           <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t" style={{ borderColor: 'rgba(27,42,74,0.08)' }}>
             {[
@@ -259,7 +275,7 @@ export default function FutureTab() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
           {[
             { label: 'First 100 Days', period: 'Dec 2025 – Mar 2026', volume: '$4.57M', desc: 'Closed volume. Office open. Systems deployed. Ed Bruehl solo.', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4' },
-            { label: 'Second 100 Days', period: 'Mar – May 1, 2026', volume: '$13.62M', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
+            { label: 'Second 100 Days', period: 'Mar – May 1, 2026', volume: '$13.62M', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked. Media partnership negotiated from $115K ask to $9K pilot. Proof-of-value before expansion.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
             { label: 'Third 100 Days', period: 'May 1 – Aug 2026', volume: '$55M', desc: 'Projected total. Operating scale. South Fork market presence established.', badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
           ].map(block => (
             <div key={block.label} className="p-5 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
@@ -300,10 +316,15 @@ export default function FutureTab() {
             </thead>
             <tbody>
               {(agents.length > 0 ? agents : [
-                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, projGci2026: 900_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 150_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, projGci2026: 450_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 45_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, projGci2026: 750_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 330_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, projGci2026: 350_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Sebastian Mobo', role: 'Agent', status: 'Active', proj2026: 3_000_000, act2026: 0, projGci2026: 100_000, actGci2026: 0, proj2027: 5_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 50_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Zoila Ortega Astor', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Angel Theodore', role: 'Mktg Coord + Sales', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Sandy Busch', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 25_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Jan Jaeger', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 25_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2024' },
               ]).map((agent, i) => (
                 <tr key={agent.name} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
                   <td className="px-4 py-3" style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.9rem' }}>{agent.name}</td>
@@ -376,6 +397,52 @@ export default function FutureTab() {
             </tbody>
           </table>
         </div>
+
+        {/* ── Managing Director Total Projected Income ─────────────────────── */}
+        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          Managing Director — Total Projected Income · Internal Only
+        </div>
+        <>
+            <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
+              <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+                ★ INTERNAL ONLY — GOVERNING PRINCIPLE, NOT YET CONTRACTUAL
+              </span>
+            </div>
+            <div className="mb-4 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
+              <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
+                <thead>
+                  <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
+                    {['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'ANEW (Ed 45%)', 'Total'].map(h => (
+                      <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { year: '2026', gci: '$750,000', pool: '$90,000', anew: '$22,500', total: '$862,500' },
+                    { year: '2027', gci: '$900,000', pool: '$318,000', anew: '$45,000', total: '$1,263,000' },
+                    { year: '2028', gci: '$1,000,000 (cap)', pool: '$558,000', anew: '$67,500', total: '$1,625,500' },
+                    { year: '2029', gci: '$1,000,000 (cap)', pool: '$1,140,000', anew: '$90,000', total: '$2,230,000' },
+                    { year: '2030', gci: '$1,000,000 (cap)', pool: '$1,680,000', anew: '$112,500', total: '$2,792,500' },
+                    { year: '2031', gci: '$1,000,000 (cap)', pool: '$2,340,000', anew: '$135,000', total: '$3,475,000' },
+                  ].map((row, i) => (
+                    <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
+                      <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem', fontWeight: 600 }}>{row.gci}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{row.pool}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#8a7a5a', fontSize: '0.85rem' }}>{row.anew}</td>
+                      <td className="px-3 py-3 font-bold" style={{ ...SERIF, color: '#1B2A4A', fontSize: '0.9rem' }}>{row.total}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
+              <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
+                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 30%. ANEW grows at approximately $50K/year net build profit × 45%.
+              </p>
+            </div>
+        </>
 
         {/* ── Profit Pool — GATED ──────────────────────────────────────────────── */}
         <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
@@ -528,16 +595,34 @@ export default function FutureTab() {
                 <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All four participants aware and agreeable.
               </div>
             </div>
-        </>
+        </>        {/* ── Pipeline Disclosure Footnote — Item 4 ───────────────────────── */}
+        <div className="mb-6 px-4 py-3 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.04)' }}>
+          <p style={{ ...SANS, color: '#384249', fontSize: '0.78rem', lineHeight: 1.65, margin: 0 }}>
+            Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.
+          </p>
+        </div>
 
-        {/* ── Export + Sheet Link ────────────────────────────────────────────── */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
+        {/* ── AI Council Platform Note — Item 8 ────────────────────────────── */}
+        <div className="mb-6 px-4 py-3 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(27,42,74,0.1)' }}>
+          <p style={{ ...SANS, color: '#384249', fontSize: '0.78rem', lineHeight: 1.65, margin: 0, fontStyle: 'italic' }}>
+            Christie’s East Hampton operates the most integrated AI intelligence platform of any Christie’s affiliate office globally.
+          </p>
+        </div>
+
+        {/* ── Export + Sheet Link ────────────────────────────────────────────────── */}       <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
           <button
             onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026 })}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
           >
             ↓ Export PDF · Ascension Arc
+          </button>
+          <button
+            onClick={() => generateCardStockExport({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026 })}
+            className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.06)' }}
+          >
+            ↓ Export Card · Dark Layout
           </button>
           <ProFormaButton />
           <a

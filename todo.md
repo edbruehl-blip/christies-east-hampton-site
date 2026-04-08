@@ -1064,3 +1064,16 @@
 - [x] HOME tab letter: Added two sentences after "Everything I found along the way..." and before closing line. Updated closing to "The door is always open whenever you are ready to walk through it." (HomeTab.tsx + foundingParas PDF)
 - [x] Evening brief pipeline prepend: Updated to include town field. Format: "138A Montauk Highway, West Hampton — In Contract." Confirmed live via test (SID MM4d6c7f08e3966aad35fa55d73c0f374a)
 - [x] Flagship letter PDF rebuilt from Christie_Flagship_Letter_VERIFIED_FINAL.md — all 8 council-approved edits incorporated: intelligence layer chapter, six primary tabs + export layer, podcast visibility, INTEL action line, Angel operational truth, broker recruiting line, William line strengthened, Perplexity title corrected to Intelligence Officer
+
+## Sprint 34 — April 8, 2026
+
+- [ ] Item 1: Zoila ROSTER label — $60K is salary from Ilija, label correctly in FUTURE tab agent table
+- [ ] Item 2: Managing Director Total table — 6 years, 3 income streams, after Profit Pool section
+- [ ] Item 3: Wire projected GCI from ROSTER to agent table — 9 agents, no zeros
+- [ ] Item 4: Pipeline disclosure footnote — $13.62M exclusive / $34.7M total book
+- [ ] Item 5: $1B horizon footnote — compound trajectory, conservative base $430M by 2031
+- [ ] Item 6: Assumptions box — 4 lines at bottom of Ascension Arc
+- [ ] Item 7: Dan's Papers line — "negotiated from $115K ask to $9K pilot"
+- [ ] Item 8: AI council sentence — "most integrated AI intelligence platform of any Christie's affiliate globally"
+- [ ] Item 9: Data source audit — LIVE vs HARDCODED for all 5 priority surfaces
+- [ ] Card-stock export: Export Card button on FUTURE tab, 8.5x11 print layout, front + back

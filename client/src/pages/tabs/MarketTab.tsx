@@ -391,7 +391,7 @@ function RateEnvironment() {
         <div
           style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
         >
-          6.38%
+          {liveMortgageRate}
         </div>
         <div
           className="mt-1"
@@ -459,6 +459,12 @@ function RateEnvironment() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MarketTab() {
+  const { data: mortgageData } = trpc.market.mortgageRate.useQuery(undefined, {
+    staleTime: 24 * 60 * 60 * 1000, // 24h — matches FRED cache
+    retry: false,
+  });
+  const liveMortgageRate = mortgageData?.rate ?? '6.38%';
+
   const { data: matrixResponse, isLoading: matrixLoading } = trpc.market.hamletMatrix.useQuery(undefined, {
     retry: false,
     staleTime: 5 * 60 * 1000,

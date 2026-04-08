@@ -1941,3 +1941,310 @@ export async function generateFlagshipLetter(): Promise<void> {
 
   downloadPdf(doc, `Christies-Flagship-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
+
+// ─── generateCardStockExport — Sprint 34 · 2-page 8.5×11 portrait card-stock ──
+// Front page: Ascension Arc staircase · 300-Day Proof · Pipeline
+// Back page:  Profit Pool · Managing Director Total · ANEW · Agent GCI
+// Dark navy background · gold typography · Christie's branding
+// ─────────────────────────────────────────────────────────────────────────────
+export async function generateCardStockExport(input: FutureReportInput): Promise<void> {
+  const { agents, total, liveAct2026 = 0 } = input;
+  const { logoImg } = await loadPdfAssets();
+
+  const CS = {
+    navy:    [27,  42,  74]  as [number, number, number],
+    gold:    [200, 172, 120] as [number, number, number],
+    cream:   [250, 248, 244] as [number, number, number],
+    muted:   [140, 154, 160] as [number, number, number],
+    darkBg:  [18,  28,  52]  as [number, number, number],
+    midBg:   [22,  35,  65]  as [number, number, number],
+  };
+
+  const P = { w: 215.9, h: 279.4, ml: 14, mr: 14, mt: 14, mb: 16 };
+  const cw = P.w - P.ml - P.mr;
+
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
+
+  // ══ PAGE 1 ══════════════════════════════════════════════════════════════════
+  doc.setFillColor(...CS.darkBg);
+  doc.rect(0, 0, P.w, P.h, 'F');
+
+  doc.setDrawColor(...CS.gold);
+  doc.setLineWidth(1.2);
+  doc.line(P.ml, P.mt, P.w - P.mr, P.mt);
+
+  let py = P.mt + 5;
+
+  if (logoImg) doc.addImage(logoImg, 'PNG', P.ml, py, 16, 16);
+
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CS.gold);
+  doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", P.ml + 20, py + 5);
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...CS.muted);
+  doc.text('East Hampton · 26 Park Place · 646-752-1233', P.ml + 20, py + 10);
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CS.gold);
+  doc.text('PRIVATE & CONFIDENTIAL', P.w - P.mr, py + 5, { align: 'right' });
+  doc.setFontSize(5.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...CS.muted);
+  doc.text(today(), P.w - P.mr, py + 10, { align: 'right' });
+
+  py += 22;
+
+  // Section title
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CS.cream);
+  doc.text('ASCENSION ARC', P.ml, py);
+  doc.setFontSize(6.5);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...CS.gold);
+  doc.text("Sales Volume Trajectory · Christie's East Hampton", P.ml, py + 6);
+  py += 13;
+
+  // Staircase bars
+  const MILESTONES = [
+    { year: '2025', vol: 15_000_000,   disp: '$15M',  base: true  },
+    { year: '2026', vol: 55_000_000,   disp: '$55M',  base: false },
+    { year: '2027', vol: 105_000_000,  disp: '$105M', base: false },
+    { year: '2028', vol: 165_000_000,  disp: '$165M', base: false },
+    { year: '2029', vol: 230_000_000,  disp: '$230M', base: false },
+    { year: '2031', vol: 430_000_000,  disp: '$430M', base: false },
+    { year: '2032+', vol: 1_000_000_000, disp: '$1B', base: false },
+  ];
+  const MAXVOL = 1_000_000_000;
+  const CHART_H = 40;
+  const barW = (cw - (MILESTONES.length - 1) * 2) / MILESTONES.length;
+  const closed26 = total.act2026 || liveAct2026 || 4_570_000;
+  const active26 = Math.max(0, (total.proj2026 || 55_000_000) - closed26);
+
+  MILESTONES.forEach((bar, i) => {
+    const bx = P.ml + i * (barW + 2);
+    const bh = Math.max(4, Math.round(Math.sqrt(bar.vol / MAXVOL) * CHART_H));
+    const by = py + CHART_H - bh;
+
+    if (bar.year === '2026') {
+      const closedH = Math.round((closed26 / bar.vol) * bh);
+      const activeH = Math.round((active26 / bar.vol) * bh);
+      const projH = Math.max(0, bh - closedH - activeH);
+      if (projH > 0) { doc.setFillColor(40, 55, 90); doc.rect(bx, by, barW, projH, 'F'); }
+      doc.setFillColor(140, 120, 80); doc.rect(bx, by + projH, barW, activeH, 'F');
+      doc.setFillColor(...CS.gold); doc.rect(bx, by + projH + activeH, barW, closedH, 'F');
+    } else if (bar.year === '2032+') {
+      doc.setDrawColor(...CS.gold); doc.setLineWidth(0.4); doc.rect(bx, by, barW, bh, 'S');
+    } else if (bar.base) {
+      doc.setFillColor(35, 50, 80); doc.rect(bx, by, barW, bh, 'F');
+    } else {
+      doc.setFillColor(30, 45, 75); doc.rect(bx, by, barW, bh, 'F');
+      doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.rect(bx, by, barW, bh, 'S');
+    }
+
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+    doc.text(bar.disp, bx + barW / 2, by - 1.5, { align: 'center' });
+    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+    doc.text(bar.year, bx + barW / 2, py + CHART_H + 5, { align: 'center' });
+  });
+
+  py += CHART_H + 10;
+
+  // $1B footnote
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+  doc.text('Three-office model at current growth assumptions. Horizon marker based on compound trajectory. Conservative single-office arithmetic reaches $430M by 2031.', P.ml, py, { maxWidth: cw });
+  py += 7;
+
+  // Assumptions box
+  doc.setFillColor(...CS.midBg);
+  doc.rect(P.ml, py, cw, 18, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.rect(P.ml, py, cw, 18, 'S');
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('MODEL ASSUMPTIONS — BASE CASE', P.ml + 3, py + 4);
+  const assumptions = [
+    '— Agent GCI growth rate: 20% annually, $1M personal cap',
+    '— House take: 30% of gross commissions on volume above $40M breakeven',
+    '— Southampton office: opens 2028  ·  Westhampton office: opens 2030',
+  ];
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  assumptions.forEach((line, i) => { doc.text(line, P.ml + 3, py + 8 + i * 3.5); });
+  py += 22;
+
+  // 300-Day Proof
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('300-DAY PROOF', P.ml, py);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+  doc.text("Operational milestones · First 300 days of Christie's East Hampton", P.ml, py + 4.5);
+  py += 9;
+
+  const PROOF = [
+    { label: 'First 100 Days', items: ["Christie's affiliate agreement executed", 'Office at 26 Park Place secured', 'William AI brief system live — 8 AM & 8 PM daily', 'Intelligence platform: 6 tabs, 21 mind map nodes', 'Flagship letter approved by full council'] },
+    { label: 'Second 100 Days', items: ['Jarvis Slade onboarded', 'Bonita DeWolf onboarded', 'ANEW Homes framework established', 'Media partnership: $115K ask → $9K pilot', 'Ilija Pavlovic partnership structured'] },
+    { label: 'Third 100 Days', items: ['Southampton office site selection', 'Podcast: The Bruehl Report — Episode 1 live', 'UHNW Oceanfront 314-property outreach launched', 'First CIREG international referral closed', 'Recruiting pipeline: 3 targeted agents'] },
+  ];
+
+  const blockW = (cw - 4) / 3;
+  const blockH = 36;
+  PROOF.forEach((block, i) => {
+    const bx = P.ml + i * (blockW + 2);
+    doc.setFillColor(...CS.midBg); doc.rect(bx, py, blockW, blockH, 'F');
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+    doc.text(block.label.toUpperCase(), bx + 3, py + 4.5);
+    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+    block.items.forEach((item, j) => {
+      const lines = doc.splitTextToSize(`· ${item}`, blockW - 5);
+      lines.forEach((line: string, k: number) => {
+        doc.text(line, bx + 3, py + 9 + j * 5 + k * 3);
+      });
+    });
+  });
+  py += blockH + 5;
+
+  // Pipeline disclosure
+  doc.setFillColor(25, 38, 68); doc.rect(P.ml, py, cw, 9, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.line(P.ml, py, P.ml, py + 9);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.text('Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.', P.ml + 3, py + 5.5, { maxWidth: cw - 6 });
+  py += 13;
+
+  // AI platform note
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);
+  doc.text("Christie's East Hampton operates the most integrated AI intelligence platform of any Christie's affiliate office globally.", P.ml, py, { maxWidth: cw });
+
+  // Page 1 footer
+  const fp1 = P.h - P.mb;
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.6); doc.line(P.ml, fp1, P.w - P.mr, fp1);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+  doc.text("Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766", P.w / 2, fp1 + 4, { align: 'center' });
+  doc.setFontSize(5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('1 / 2', P.w - P.mr, fp1 + 4, { align: 'right' });
+
+  // ══ PAGE 2 ══════════════════════════════════════════════════════════════════
+  doc.addPage();
+  doc.setFillColor(...CS.darkBg); doc.rect(0, 0, P.w, P.h, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(1.2); doc.line(P.ml, P.mt, P.w - P.mr, P.mt);
+
+  py = P.mt + 5;
+  doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text("CHRISTIE'S EAST HAMPTON · INTERNAL PRO FORMA", P.ml, py + 5);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+  doc.text('INTERNAL ONLY — GOVERNING PRINCIPLE, NOT YET CONTRACTUAL', P.w - P.mr, py + 5, { align: 'right' });
+  py += 14;
+
+  const rowH = 5.5;
+
+  // Helper: draw a simple table
+  const drawTable = (headers: string[], colWidths: number[], rows: string[][], startY: number): number => {
+    let ty = startY;
+    doc.setFillColor(30, 45, 80); doc.rect(P.ml, ty, cw, rowH, 'F');
+    let cx2 = P.ml + 2;
+    headers.forEach((h, i) => {
+      doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+      doc.text(h, cx2, ty + 3.8);
+      cx2 += colWidths[i];
+    });
+    ty += rowH;
+    rows.forEach((row, ri) => {
+      doc.setFillColor(ri % 2 === 0 ? 22 : 26, ri % 2 === 0 ? 35 : 40, ri % 2 === 0 ? 65 : 72);
+      doc.rect(P.ml, ty, cw, rowH, 'F');
+      cx2 = P.ml + 2;
+      row.forEach((cell, ci) => {
+        const isBold = ci === row.length - 1;
+        doc.setFontSize(5.5);
+        doc.setFont('helvetica', isBold ? 'bold' : 'normal');
+        doc.setTextColor(isBold ? CS.gold[0] : CS.cream[0], isBold ? CS.gold[1] : CS.cream[1], isBold ? CS.gold[2] : CS.cream[2]);
+        doc.text(cell, cx2, ty + 3.8);
+        cx2 += colWidths[ci];
+      });
+      ty += rowH;
+    });
+    return ty;
+  };
+
+  // Profit Pool
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('PROFIT POOL · THE ECONOMIC LOGIC', P.ml, py);
+  py += 6;
+  py = drawTable(
+    ['Year', 'Volume', 'Pool', 'Ed 30%', 'Note'],
+    [cw * 0.1, cw * 0.12, cw * 0.16, cw * 0.16, cw * 0.46],
+    [
+      ['2026', '$55M',  '$300K',  '$90K',    'Year 1 baseline'],
+      ['2027', '$100M', '$1.2M',  '$360K',   'Stabilized'],
+      ['2028', '$165M', '$2.5M',  '$750K',   'Southampton opens'],
+      ['2029', '$230M', '$3.8M',  '$1.14M',  'Scale phase'],
+      ['2030', '$300M', '$5.2M',  '$1.56M',  'Westhampton opens'],
+      ['2031', '$430M', '$7.8M',  '$2.34M',  'Three-office model'],
+    ],
+    py
+  );
+  py += 7;
+
+  // Managing Director Total
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('MANAGING DIRECTOR — TOTAL PROJECTED INCOME', P.ml, py);
+  py += 6;
+  py = drawTable(
+    ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'ANEW (Ed 45%)', 'Total'],
+    [cw * 0.1, cw * 0.22, cw * 0.22, cw * 0.18, cw * 0.28],
+    [
+      ['2026', '$750,000',         '$90,000',    '$22,500',  '$862,500'],
+      ['2027', '$900,000',         '$318,000',   '$45,000',  '$1,263,000'],
+      ['2028', '$1,000,000 (cap)', '$558,000',   '$67,500',  '$1,625,500'],
+      ['2029', '$1,000,000 (cap)', '$1,140,000', '$90,000',  '$2,230,000'],
+      ['2030', '$1,000,000 (cap)', '$1,680,000', '$112,500', '$2,792,500'],
+      ['2031', '$1,000,000 (cap)', '$2,340,000', '$135,000', '$3,475,000'],
+    ],
+    py
+  );
+  py += 7;
+
+  // Agent GCI
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('AGENT GCI · PROJECTED 2026', P.ml, py);
+  py += 6;
+  const gciRows = (agents.length > 0
+    ? agents.map(a => [a.name, fmtVolFuture(a.projGci2026 ?? 0), (a.actGci2026 ?? 0) > 0 ? fmtVolFuture(a.actGci2026 ?? 0) : '—'])
+    : [
+        ['Ed Bruehl',         '$750,000', '—'],
+        ['Jarvis Slade',       '$330,000', '—'],
+        ['Bonita DeWolf',      '$350,000', '—'],
+        ['Sebastian Mobo',     '$100,000', '—'],
+        ['Scott Smith',        '$50,000',  '—'],
+        ['Zoila Ortega Astor', '$60,000 *','—'],
+        ['Angel Theodore',     '$60,000',  '—'],
+        ['Sandy Busch',        '$25,000',  '—'],
+        ['Jan Jaeger',         '$25,000',  '—'],
+      ]) as string[][];
+  py = drawTable(
+    ['Agent', 'Projected GCI 2026', 'Actual GCI 2026'],
+    [cw * 0.45, cw * 0.27, cw * 0.28],
+    gciRows,
+    py
+  );
+  py += 6;
+
+  // ANEW + Zoila note
+  doc.setFillColor(...CS.midBg); doc.rect(P.ml, py, cw, 12, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.line(P.ml, py, P.ml, py + 12);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('ANEW HOMES · NET BUILD PROFIT', P.ml + 3, py + 4);
+  doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.text('Ed 45% · Ilija 45% · Ricky 10% · Net build profit after all costs · ~$50K/year growth · Governing principle — not yet formalized.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
+  py += 15;
+
+  doc.setFontSize(5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);
+  doc.text('* Zoila Ortega Astor $60K is salary from Ilija — not production GCI. ROSTER tab F8 labeled accordingly.', P.ml, py, { maxWidth: cw });
+
+  // Page 2 footer
+  const fp2 = P.h - P.mb;
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.6); doc.line(P.ml, fp2, P.w - P.mr, fp2);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
+  doc.text("Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766", P.w / 2, fp2 + 4, { align: 'center' });
+  doc.setFontSize(5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.text('2 / 2', P.w - P.mr, fp2 + 4, { align: 'right' });
+
+  downloadPdf(doc, `Christies-EH-Card-Stock-${today().replace(/\s/g, '-')}.pdf`);
+}

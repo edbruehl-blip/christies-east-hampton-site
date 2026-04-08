@@ -421,6 +421,19 @@ export const appRouter = router({
     }),
 
     /**
+     * Returns the live 30Y fixed mortgage rate from FRED (Freddie Mac PMMS).
+     * Same source as the nav bar ticker. 24-hour cache.
+     */
+    mortgageRate: publicProcedure.query(async () => {
+      try {
+        const { fetchMortgageRate } = await import('./market-route');
+        const rate = await fetchMortgageRate();
+        return { rate, error: null as string | null };
+      } catch (err: any) {
+        return { rate: '6.38%', error: (err as Error).message ?? 'FRED unavailable' };
+      }
+    }),
+    /**
      * Returns the timestamp of the last successful Sheets API call.
      * Used to display "Data current as of [date]" on the HOME market strip.
      */
