@@ -910,3 +910,14 @@
 - [ ] S26-6b: Neighborhood Bike Card confirmed v2 on CDN
 - [ ] S26-6c: Christies Letter locked PDF
 - [ ] S26-6d: Market Report 5-page version
+
+## Sprint 27 — April 8, 2026
+
+- [x] Item 1: ROSTER tab — Sandy Busch Y1 GCI corrected to $25,000 (was already correct in sheet)
+- [x] Item 1: ROSTER tab — Jan Jaeger Y1 GCI corrected to $25,000 (was already correct in sheet)
+- [x] Item 1: ROSTER tab — EXISTING SUBTOTAL recalculated
+- [x] Item 2: VOLUME tab — projGci + actGci columns added per year (2026-2031), 28 columns total
+- [x] Item 2: Server sheets-helper.ts updated to read 4-column-per-year layout
+- [x] Item 3A: Screenshot A — authenticated FUTURE tab with Profit Pool and GCI visible
+- [x] Item 3B: Screenshot B — unauthenticated FUTURE tab with GCI gate (lock icon + Sign In CTA)
+- [x] Item 3C: Screenshot C — Market Report Page 5 with Ed headshot and QR codes from CDN

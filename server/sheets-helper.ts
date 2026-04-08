@@ -523,8 +523,8 @@ export async function readGrowthModelData(): Promise<GrowthModelData> {
 }
 
 // ─── Growth Model v2 — VOLUME tab ────────────────────────────────────────────
-// Reads the VOLUME tab: agent, role, status, start year, projected/actual per year
-// Sales volume only. No GCI. This is the single source for the FUTURE tab agent table.
+// Reads the VOLUME tab: agent, role, status, start year, projected/actual/GCI per year
+// Sprint 27: GCI columns added. Layout is now 4 cols per year (proj vol, act vol, proj GCI, act GCI).
 
 export interface VolumeAgent {
   name: string;
@@ -543,6 +543,18 @@ export interface VolumeAgent {
   act2028: number;
   projGci2028: number;
   actGci2028: number;
+  proj2029: number;
+  act2029: number;
+  projGci2029: number;
+  actGci2029: number;
+  proj2030: number;
+  act2030: number;
+  projGci2030: number;
+  actGci2030: number;
+  proj2031: number;
+  act2031: number;
+  projGci2031: number;
+  actGci2031: number;
 }
 
 export interface VolumeTotal {
@@ -560,10 +572,16 @@ export interface VolumeTotal {
   actGci2028: number;
   proj2029: number;
   act2029: number;
+  projGci2029: number;
+  actGci2029: number;
   proj2030: number;
   act2030: number;
+  projGci2030: number;
+  actGci2030: number;
   proj2031: number;
   act2031: number;
+  projGci2031: number;
+  actGci2031: number;
 }
 
 function parseDollar(s: string | undefined): number {
@@ -572,46 +590,43 @@ function parseDollar(s: string | undefined): number {
 }
 
 export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; total: VolumeTotal }> {
-  const empty = {
+    const empty = {
     agents: [],
     total: {
       proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
       proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
       proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
-      proj2029: 0, act2029: 0,
-      proj2030: 0, act2030: 0,
-      proj2031: 0, act2031: 0,
+      proj2029: 0, act2029: 0, projGci2029: 0, actGci2029: 0,
+      proj2030: 0, act2030: 0, projGci2030: 0, actGci2030: 0,
+      proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
     },
   };
   try {
     const auth = await getAuth();
     const sheets = google.sheets({ version: 'v4', auth });
-    // VOLUME tab column layout (0-indexed):
+    // VOLUME tab column layout (0-indexed) — Sprint 27: 4 cols per year:
     // 0=Name 1=Role 2=Status 3=Start
-    // 4=ProjVol2026 5=ActVol2026
-    // 6=ProjVol2027 7=ActVol2027
-    // 8=ProjVol2028 9=ActVol2028
-    // 10=ProjVol2029 11=ActVol2029
-    // 12=ProjVol2030 13=ActVol2030
-    // 14=ProjVol2031 15=ActVol2031
-    // NOTE (Sprint 26 Item 3): When Manny adds GCI columns to the VOLUME sheet,
-    // the layout will become 4 cols per year (proj vol, act vol, proj GCI, act GCI).
-    // At that point, update this mapping and expand the range to 'VOLUME!A1:AH20'.
+    // 4=ProjVol2026  5=ActVol2026  6=ProjGCI2026  7=ActGCI2026
+    // 8=ProjVol2027  9=ActVol2027  10=ProjGCI2027 11=ActGCI2027
+    // 12=ProjVol2028 13=ActVol2028 14=ProjGCI2028 15=ActGCI2028
+    // 16=ProjVol2029 17=ActVol2029 18=ProjGCI2029 19=ActGCI2029
+    // 20=ProjVol2030 21=ActVol2030 22=ProjGCI2030 23=ActGCI2030
+    // 24=ProjVol2031 25=ActVol2031 26=ProjGCI2031 27=ActGCI2031
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: 'VOLUME!A1:P20',
+      range: 'VOLUME!A1:AB20',
     });
     const rows = res.data.values ?? [];
     if (rows.length < 2) return empty;
 
     const agents: VolumeAgent[] = [];
-    let total: VolumeTotal = {
+      let total: VolumeTotal = {
       proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
       proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0,
       proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0,
-      proj2029: 0, act2029: 0,
-      proj2030: 0, act2030: 0,
-      proj2031: 0, act2031: 0,
+      proj2029: 0, act2029: 0, projGci2029: 0, actGci2029: 0,
+      proj2030: 0, act2030: 0, projGci2030: 0, actGci2030: 0,
+      proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
     };
 
     for (let i = 1; i < rows.length; i++) {
@@ -623,7 +638,7 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       // Skip notes row (very long string)
       if (name.length > 60) continue;
 
-      // Actual column layout: 4 meta + 2 vol cols per year (no GCI columns in sheet yet)
+      // Sprint 27: 4-col-per-year layout (proj vol, act vol, proj GCI, act GCI)
       agents.push({
         name,
         role: r[1] ? String(r[1]).trim() : '',
@@ -631,41 +646,59 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
         startYear: r[3] ? String(r[3]).trim() : '',
         proj2026:    parseDollar(r[4]),
         act2026:     parseDollar(r[5]),
-        projGci2026: 0, // GCI columns not yet in sheet — add after Manny updates VOLUME tab
-        actGci2026:  0,
-        proj2027:    parseDollar(r[6]),
-        act2027:     parseDollar(r[7]),
-        projGci2027: 0,
-        actGci2027:  0,
-        proj2028:    parseDollar(r[8]),
-        act2028:     parseDollar(r[9]),
-        projGci2028: 0,
-        actGci2028:  0,
+        projGci2026: parseDollar(r[6]),
+        actGci2026:  parseDollar(r[7]),
+        proj2027:    parseDollar(r[8]),
+        act2027:     parseDollar(r[9]),
+        projGci2027: parseDollar(r[10]),
+        actGci2027:  parseDollar(r[11]),
+        proj2028:    parseDollar(r[12]),
+        act2028:     parseDollar(r[13]),
+        projGci2028: parseDollar(r[14]),
+        actGci2028:  parseDollar(r[15]),
+        proj2029:    parseDollar(r[16]),
+        act2029:     parseDollar(r[17]),
+        projGci2029: parseDollar(r[18]),
+        actGci2029:  parseDollar(r[19]),
+        proj2030:    parseDollar(r[20]),
+        act2030:     parseDollar(r[21]),
+        projGci2030: parseDollar(r[22]),
+        actGci2030:  parseDollar(r[23]),
+        proj2031:    parseDollar(r[24]),
+        act2031:     parseDollar(r[25]),
+        projGci2031: parseDollar(r[26]),
+        actGci2031:  parseDollar(r[27]),
       });
     }
 
-    // Find TOTAL row — 2 vol cols per year (no GCI in sheet yet)
+    // Find TOTAL row — Sprint 27: 4-col-per-year layout
     const totalRow = rows.find(r => r && String(r[0]).startsWith('TOTAL'));
     if (totalRow) {
       total = {
         proj2026:    parseDollar(totalRow[4]),
         act2026:     parseDollar(totalRow[5]),
-        projGci2026: 0, // GCI not yet in sheet
-        actGci2026:  0,
-        proj2027:    parseDollar(totalRow[6]),
-        act2027:     parseDollar(totalRow[7]),
-        projGci2027: 0,
-        actGci2027:  0,
-        proj2028:    parseDollar(totalRow[8]),
-        act2028:     parseDollar(totalRow[9]),
-        projGci2028: 0,
-        actGci2028:  0,
-        proj2029:    parseDollar(totalRow[10]),
-        act2029:     parseDollar(totalRow[11]),
-        proj2030:    parseDollar(totalRow[12]),
-        act2030:     parseDollar(totalRow[13]),
-        proj2031:    parseDollar(totalRow[14]),
-        act2031:     parseDollar(totalRow[15]),
+        projGci2026: parseDollar(totalRow[6]),
+        actGci2026:  parseDollar(totalRow[7]),
+        proj2027:    parseDollar(totalRow[8]),
+        act2027:     parseDollar(totalRow[9]),
+        projGci2027: parseDollar(totalRow[10]),
+        actGci2027:  parseDollar(totalRow[11]),
+        proj2028:    parseDollar(totalRow[12]),
+        act2028:     parseDollar(totalRow[13]),
+        projGci2028: parseDollar(totalRow[14]),
+        actGci2028:  parseDollar(totalRow[15]),
+        proj2029:    parseDollar(totalRow[16]),
+        act2029:     parseDollar(totalRow[17]),
+        projGci2029: parseDollar(totalRow[18]),
+        actGci2029:  parseDollar(totalRow[19]),
+        proj2030:    parseDollar(totalRow[20]),
+        act2030:     parseDollar(totalRow[21]),
+        projGci2030: parseDollar(totalRow[22]),
+        actGci2030:  parseDollar(totalRow[23]),
+        proj2031:    parseDollar(totalRow[24]),
+        act2031:     parseDollar(totalRow[25]),
+        projGci2031: parseDollar(totalRow[26]),
+        actGci2031:  parseDollar(totalRow[27]),
       };
     }
 
