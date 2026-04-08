@@ -875,3 +875,38 @@
 - [x] S25-1: Market Report PDF — Wainscott (row 11) overflowing Page 3 footer by 29mm — split atlas 5/5/1 across Pages 2/3/4, Wainscott on Page 4 with doctrine block, closing on Page 5. PDF now 5 pages.
 - [x] S25-2: TypeScript cleanup — removed dead `generateFutureReport` function (was referencing hook-scoped `ARC_BARS` from module scope), fixed `total` fallback to include 2029-2031 fields, fixed `whatsapp-inbound.ts` `.trim()` on union type. TypeScript: 0 errors (was 11).
 - [x] S25-3: 35/35 tests passing. TypeScript clean.
+
+## Sprint 26 — April 7, 2026 (Council Directive)
+### Item 1 — GCI Visibility Gate
+- [ ] S26-1a: Wrap Profit Pool table in auth check — unauthenticated visitors see Ascension Arc + volume only
+- [ ] S26-1b: Wrap agent GCI figures in auth check
+- [ ] S26-1c: Wrap internal compensation splits in auth check
+- [ ] S26-1d: Unauthenticated view shows GCI-locked placeholder
+### Item 2 — Roster Corrections
+- [ ] S26-2a: Sandy Busch Y1 GCI 50000 to 25000
+- [ ] S26-2b: Jan Jaeger Y1 GCI 50000 to 25000
+- [ ] S26-2c: Agent count label 18 to 16
+- [ ] S26-2d: Remove Marilyn Clark from InstitutionalMindMap
+### Item 3 — VOLUME Tab GCI Columns
+- [ ] S26-3a: Add projGci + actGci to VolumeAgent interface
+- [ ] S26-3b: Update readGrowthModelVolume to read 4 columns per year
+- [ ] S26-3c: FutureTab agent table shows Proj GCI + Actual GCI columns
+- [ ] S26-3d: Running totals with gap visible
+### Item 4 — Visual Fixes
+- [ ] S26-4a: MARKET tab green button verify navy/gold
+- [ ] S26-4b: MAPS satellite map constrained to max-w container
+- [ ] S26-4c: UHNW card PDF all 8 rungs render
+- [ ] S26-4d: Market Report Sag Harbor completes cleanly
+- [ ] S26-4e: Market Report QR codes render from CDN
+- [ ] S26-4f: Market Report Ed headshot renders from CDN
+### Item 5 — Mind Map Consolidation
+- [ ] S26-5a: Collapse Whale nodes into WHALE INTELLIGENCE category node
+- [ ] S26-5b: Collapse Attorney nodes into ATTORNEYS category node
+- [ ] S26-5c: Collapse Recruit nodes into RELATIONSHIP INTELLIGENCE category node
+- [ ] S26-5d: Frank Newbold doctrine RELATIONSHIP_INTELLIGENCE never RECRUIT
+- [ ] S26-5e: Remove floating individual nodes now inside category nodes
+### Item 6 — HOME Collateral Links
+- [ ] S26-6a: UHNW Wealth Card points to corrected layout
+- [ ] S26-6b: Neighborhood Bike Card confirmed v2 on CDN
+- [ ] S26-6c: Christies Letter locked PDF
+- [ ] S26-6d: Market Report 5-page version

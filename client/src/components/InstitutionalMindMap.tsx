@@ -2,7 +2,7 @@
  * InstitutionalMindMap
  * ─────────────────────────────────────────────────────────────────────────────
  * INTEL Layer 1 · Institutional Mind Map
- * Sprint 14 rebuild — two parallel tracks, Cerutti removed, corrected org structure
+ * Sprint 26 rebuild — category node consolidation per council directive
  *
  * LEFT TRACK — Auction House / Family Side:
  *   Artémis S.A. → FHP (Board Chair) → Bonnie Brennan (CEO)
@@ -14,9 +14,16 @@
  *
  * Ed Bruehl sits at the bottom center where both tracks converge.
  *
+ * CATEGORY NODES (Sprint 26 directive):
+ *   WHALE INTELLIGENCE  — Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
+ *   ATTORNEYS           — Pierre Debbas, Jonathan Tarbet, Brian Lester, Seamus McGrath
+ *   RELATIONSHIP INTEL  — Frank Newbold, Debbie Brenneman, Charlie Esposito, Art Murray,
+ *                         Michael Esposito, Nola Baris, Josh Schnepps
+ *
  * Architecture:
  *  - Pure SVG rendered in React — no iframe, no canvas, no external lib
  *  - Hover: tooltip + connected-line highlight + dim unconnected nodes
+ *  - Category nodes: rounded rectangle with member names listed inside
  *  - View toggle: Full Web | Hierarchy Only | Recruits | Whales
  * ─────────────────────────────────────────────────────────────────────────────
  */
@@ -32,7 +39,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type NodeType = "HIERARCHY" | "RECRUIT" | "PARTNER" | "WHALE" | "ATTORNEY" | "RELATIONSHIP_INTELLIGENCE" | "EXPORT_NODE";
+type NodeType = "HIERARCHY" | "RECRUIT" | "PARTNER" | "WHALE" | "ATTORNEY" | "RELATIONSHIP_INTELLIGENCE" | "EXPORT_NODE" | "CATEGORY";
 type NodeStatus = "ACTIVE" | "WARM" | "COLD";
 type ConnectionStyle = "hierarchy" | "partner" | "recruit" | "whale" | "social" | "intelligence";
 type ViewMode = "full" | "hierarchy" | "recruit" | "whale";
@@ -53,6 +60,11 @@ interface MapNode {
   x: number;
   y: number;
   r: number;
+  // Category nodes: render as rounded rect with member names inside
+  members?: string[];
+  // For rect nodes: half-width and half-height
+  rw?: number;
+  rh?: number;
   clickAction?: ClickAction;
 }
 
@@ -129,14 +141,6 @@ const NODES: MapNode[] = [
     type: "HIERARCHY", status: "ACTIVE",
     note: "President, Christie's Asia Pacific + Global Luxury (Jan 2026). At Christie's since 1996 (~30 years). Fourth-generation jeweler from Mumbai. Relocated to Hong Kong Jan 2026. One of the world's most recognized auctioneers.",
     x: 460, y: 390, r: 16 },
-
-  // Gooding — auction house partner bridge
-  { id: "gooding",
-    name: "David Gooding",
-    title: "President, Gooding Christie's",
-    type: "PARTNER", status: "ACTIVE",
-    note: "Automotive auction division acquired by Christie's 2025. The Bridge Hamptons car show. UHNW collector pipeline. Gooding & Company rebranded as Gooding Christie's.",
-    x: 110, y: 510, r: 14 },
 
   // ── RIGHT TRACK — Real Estate Operating Side ─────────────────────────────
 
@@ -225,85 +229,29 @@ const NODES: MapNode[] = [
     note: "Christie's East Hampton broker.",
     x: 590, y: 960, r: 11 },
 
-  // ── WHALES — left cluster ────────────────────────────────────────────────
-  { id: "lily",
-    name: "Lily Fan",
-    title: "Family Office · Private",
-    type: "WHALE", status: "ACTIVE",
-    note: "Whale #1. 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Family office principal.",
-    x: 100, y: 650, r: 17 },
+  // ── WHALE INTELLIGENCE — consolidated category node ──────────────────────
+  // Sprint 26 directive: Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
+  // Collapsed from 5 individual nodes into one category node.
+  { id: "whale_intel",
+    name: "WHALE INTELLIGENCE",
+    title: "UHNW · Family Office · Collector Network",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Five primary UHNW relationships. Lily Fan: 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Rick Moeser: former CIRE Executive Director 17 years, auction referral pipeline. Tony Ingrao: interior design, Baccarat Hotel, Huntting Lane EH. Heath Freeman: Alden Capital, EHP Resort & Marina. David Gooding: Gooding Christie's, Bridge Hamptons car show, UHNW collector pipeline.",
+    members: ["Lily Fan", "Rick Moeser", "Tony Ingrao", "Heath Freeman", "David Gooding"],
+    x: 120, y: 820, r: 0, rw: 90, rh: 62 },
 
-  { id: "moeser",
-    name: "Rick Moeser",
-    title: "Premier Estate Properties · UHNW",
-    type: "WHALE", status: "ACTIVE",
-    note: "Former CIRE Executive Director 17 years. UHNW intelligence source. Auction referral pipeline.",
-    x: 100, y: 750, r: 14 },
-
-  { id: "ingrao",
-    name: "Tony Ingrao",
-    title: "Principal, Ingrao Inc.",
-    type: "WHALE", status: "ACTIVE",
-    note: "Interior design. Baccarat Hotel. Huntting Lane EH. UHNW buyer network.",
-    x: 130, y: 840, r: 13 },
-
-  { id: "schnepps",
-    name: "Josh Schnepps",
-    title: "CEO, Schnepps Media · Dan's Papers",
-    type: "WHALE", status: "ACTIVE",
-    note: "$2K/month pilot active. Heath Freeman connection. 61K+ email subscribers. Dan's Papers.",
-    x: 185, y: 930, r: 14 },
-
-  { id: "freeman",
-    name: "Heath Freeman",
-    title: "Alden Capital · EHP Resort",
-    type: "WHALE", status: "ACTIVE",
-    note: "Owns EHP Resort & Marina, Harbor Bistro. Josh Schnepps' closest friend. Alden Capital.",
-    x: 130, y: 1010, r: 14 },
-
-  { id: "murray",
-    name: "Art Murray",
-    title: "Flambeaux Wine · TOWN Dinners",
-    type: "WHALE", status: "ACTIVE",
-    note: "Flambeaux investor pitch. Mayacama Vintner seat. TOWN dinner engine.",
-    x: 270, y: 990, r: 13 },
-
-  // ── RECRUITS — bottom center-left ───────────────────────────────────────
-  { id: "brenneman",
-    name: "Debbie Brenneman",
-    title: "Corcoran East Hampton · Tier 1",
-    type: "RECRUIT", status: "COLD",
-    note: "Multi-Million Dollar Club. Top 1% NRT nationally. Neighbor at 51 Main St.",
-    x: 340, y: 890, r: 13 },
-
-  { id: "c_esposito",
-    name: "Charlie Esposito",
-    title: "Corcoran East Hampton · Tier 1",
-    type: "RECRUIT", status: "COLD",
-    note: "Compass-merger exposed. Team anchor. Negotiating specialist.",
-    x: 280, y: 960, r: 12 },
-
-  { id: "m_esposito",
-    name: "Michael Esposito",
-    title: "Corcoran East Hampton · Tier 2",
-    type: "RECRUIT", status: "COLD",
-    note: "Charlie's son. Growing producer. Avg sale $3.42M.",
-    x: 370, y: 1000, r: 11 },
-
-  { id: "baris",
-    name: "Nola Baris",
-    title: "Sotheby's East Hampton · Archetype",
-    type: "RECRUIT", status: "COLD",
-    note: "The Baris Team. Family practice. Educator-turned-broker. Compass-merger exposed.",
-    x: 310, y: 1050, r: 11 },
-
-  // Frank Newbold — RELATIONSHIP_INTELLIGENCE (not a recruit, comes through the brand)
-  { id: "newbold",
-    name: "Frank Newbold",
-    title: "Christie's International RE · Brand",
-    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
-    note: "RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship.",
-    x: 450, y: 790, r: 13 },
+  // ── RELATIONSHIP INTELLIGENCE — consolidated category node ───────────────
+  // Sprint 26 directive: Frank Newbold, Debbie Brenneman, Charlie Esposito, Art Murray,
+  //   Michael Esposito, Nola Baris, Josh Schnepps
+  // Frank Newbold doctrine: RELATIONSHIP_INTELLIGENCE. Never RECRUIT. Never cold outreach.
+  //   He comes through the brand.
+  { id: "rel_intel",
+    name: "RELATIONSHIP INTELLIGENCE",
+    title: "Brand Relationships · Market Intelligence",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Frank Newbold: RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship. Debbie Brenneman: Multi-Million Dollar Club, Top 1% NRT nationally. Charlie Esposito: Compass-merger exposed, team anchor. Art Murray: Flambeaux investor pitch, Mayacama Vintner seat, TOWN dinner engine. Michael Esposito: Charlie's son, growing producer. Nola Baris: The Baris Team, family practice, Compass-merger exposed. Josh Schnepps: $2K/month pilot active, 61K+ email subscribers, Dan's Papers.",
+    members: ["Frank Newbold", "Debbie Brenneman", "Charlie Esposito", "Art Murray", "Michael Esposito", "Nola Baris", "Josh Schnepps"],
+    x: 330, y: 970, r: 0, rw: 100, rh: 78 },
 
   // ── EXPORTS — bottom center (PDF operating interface) ──────────────────────
   { id: "exports",
@@ -386,7 +334,7 @@ const NODES: MapNode[] = [
     x: 880, y: 1060, r: 10,
     clickAction: { type: "nav", tab: "future", label: "Navigate to FUTURE tab to set up pro forma" } },
 
-  // ── PIERRE PROPERTY REPORTS — connected to Pierre Debbas ─────────────────
+  // ── PIERRE PROPERTY REPORTS — connected to attorneys_node ─────────────────
   { id: "pierre_reports",
     name: "Pierre · Property Reports",
     title: "Romer Debbas LLP · Property Analysis",
@@ -410,34 +358,16 @@ const NODES: MapNode[] = [
     note: "Interpretation engine. Receives raw social signals from SOCIAL node. Weekly output: Ed Bruehl Signal · Competitor Moves (Compass, Sotheby's) · Cross Analysis · Recommended Action. No vanity metrics. No generic advice. First report this week.",
     x: 760, y: 1140, r: 16 },
 
-  // ── ATTORNEYS — bottom right ─────────────────────────────────────────────
-  { id: "debbas",
-    name: "Pierre Debbas",
-    title: "Romer Debbas LLP · Podcast Co-Host",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "Manhattan + Hamptons RE law. Co-host The Bruehl Report. Ep. 1 live.",
-    x: 870, y: 840, r: 15 },
-
-  { id: "lester",
-    name: "Brian Lester",
-    title: "Tarbet & Lester PLLC · Partner",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "Trusts, estates, RE litigation. East Hampton. Every major transaction.",
-    x: 940, y: 930, r: 13 },
-
-  { id: "tarbet",
-    name: "Jonathan Tarbet",
-    title: "Tarbet & Lester PLLC · Founding Partner",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "Land use, zoning, EH Town history. 132 N Main St East Hampton.",
-    x: 1040, y: 880, r: 13 },
-
-  { id: "mcgrath",
-    name: "Seamus McGrath",
-    title: "Tarbet & Lester PLLC · Associate",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "RE law. East Hampton. Active on East End transactions.",
-    x: 1000, y: 970, r: 11 },
+  // ── ATTORNEYS — consolidated category node ───────────────────────────────
+  // Sprint 26 directive: Pierre Debbas, Jonathan Tarbet, Brian Lester, Seamus McGrath
+  // Pierre's Property Reports stays as a separate functional node.
+  { id: "attorneys_node",
+    name: "ATTORNEYS",
+    title: "Legal Network · Romer Debbas · Tarbet & Lester",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions.",
+    members: ["Pierre Debbas", "Jonathan Tarbet", "Brian Lester", "Seamus McGrath"],
+    x: 960, y: 870, r: 0, rw: 90, rh: 52 },
 ];
 
 const CONNECTIONS: MapConnection[] = [
@@ -451,7 +381,6 @@ const CONNECTIONS: MapConnection[] = [
   { from: "brennan",   to: "lash",       style: "hierarchy" },
   { from: "brennan",   to: "pradels",    style: "hierarchy" },
   { from: "brennan",   to: "kadakia",    style: "hierarchy" },
-  { from: "tash",      to: "gooding",    style: "partner" },
   { from: "tash",      to: "ed",         style: "partner" },
   { from: "lash",      to: "ed",         style: "partner" },
 
@@ -470,42 +399,11 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ed", to: "angel",             style: "hierarchy" },
   { from: "ed", to: "sebastian",         style: "hierarchy" },
 
-  // ── Ed to whales ─────────────────────────────────────────────────────────
-  { from: "ed", to: "lily",              style: "whale" },
-  { from: "ed", to: "moeser",            style: "whale" },
-  { from: "ed", to: "ingrao",            style: "whale" },
-  { from: "ed", to: "schnepps",          style: "whale" },
-  { from: "ed", to: "freeman",           style: "whale" },
-  { from: "ed", to: "murray",            style: "whale" },
+  // ── Ed to category nodes ─────────────────────────────────────────────────
+  { from: "ed", to: "whale_intel",       style: "whale" },
+  { from: "ed", to: "rel_intel",         style: "recruit" },
+  { from: "ed", to: "attorneys_node",    style: "partner" },
 
-  // ── Ed to recruits ───────────────────────────────────────────────────────
-  { from: "ed", to: "brenneman",         style: "recruit" },
-  { from: "ed", to: "c_esposito",        style: "recruit" },
-  { from: "ed", to: "m_esposito",        style: "recruit" },
-  { from: "ed", to: "baris",             style: "recruit" },
-
-  // Frank Newbold — brand relationship bridge
-  { from: "ed", to: "newbold",           style: "partner" },
-
-  // ── Ed to attorneys ──────────────────────────────────────────────────────
-  { from: "ed", to: "debbas",            style: "partner" },
-  { from: "ed", to: "lester",            style: "partner" },
-  { from: "ed", to: "tarbet",            style: "partner" },
-  { from: "ed", to: "mcgrath",           style: "partner" },
-
-  // Attorney cluster internal
-  { from: "debbas",    to: "lester",     style: "social" },
-  { from: "lester",    to: "tarbet",     style: "social" },
-  { from: "lester",    to: "mcgrath",    style: "social" },
-  { from: "tarbet",    to: "mcgrath",    style: "social" },
-
-  // Whale cross-connections
-  { from: "murray",    to: "schnepps",   style: "social" },
-  { from: "schnepps",  to: "freeman",    style: "social" },
-
-  // Recruit cluster — same firm
-  { from: "brenneman", to: "c_esposito", style: "social" },
-  { from: "c_esposito",to: "m_esposito", style: "social" },
   // ── EXPORTS — Ed is the operating hub for all PDF exports ──────────────────────
   { from: "ed",        to: "exports",         style: "partner" },
   // EXPORTS sub-node connections
@@ -518,13 +416,11 @@ const CONNECTIONS: MapConnection[] = [
   { from: "exports",   to: "exp_invest",      style: "intelligence" },
   { from: "exports",   to: "exp_uhnw",        style: "intelligence" },
   { from: "exports",   to: "exp_future",      style: "intelligence" },
-  // ── PIERRE PROPERTY REPORTS — connected to Pierre Debbas ──────────────────────
-  { from: "debbas",    to: "pierre_reports",  style: "partner" },
-  { from: "ed",        to: "pierre_reports",  style: "partner" },
+  // ── PIERRE PROPERTY REPORTS — connected to attorneys_node ──────────────────────
+  { from: "attorneys_node", to: "pierre_reports",  style: "partner" },
+  { from: "ed",             to: "pierre_reports",  style: "partner" },
 
   // ── SOCIAL → PERPLEXITY — EXPLICIT DRAWN CONNECTION (not implied, not soft) ────────
-  // SOCIAL = data field (raw signal collection). PERPLEXITY = interpretation engine.
-  // This connection is the mandate: territory intelligence, weekly, no exceptions.
   { from: "social",    to: "perplexity",      style: "intelligence" },
   { from: "ed",        to: "social",          style: "partner" },
   { from: "ed",        to: "perplexity",      style: "partner" },
@@ -539,6 +435,14 @@ const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth:
   ATTORNEY:                 { fill: "#0d2a3d", stroke: "#2a7aad", strokeWidth: 1.5 },
   RELATIONSHIP_INTELLIGENCE:{ fill: "#2A1F2A", stroke: "#9B7EC8", strokeWidth: 1.5 },
   EXPORT_NODE:              { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", strokeWidth: 1.2 },
+  CATEGORY:                 { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 1.8 },
+};
+
+// Category node sub-type colors (keyed by id)
+const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColor: string }> = {
+  whale_intel:     { fill: "#2A1A3D", stroke: "#7B5DAA", headerColor: "#9B7EC8" },
+  rel_intel:       { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
+  attorneys_node:  { fill: "#0d2a3d", stroke: "#2a7aad", headerColor: "#7BA4D4" },
 };
 
 const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash: string }> = {
@@ -547,7 +451,7 @@ const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash:
   recruit:   { color: "rgba(45,90,61,0.2)",     width: 0.8, dash: "4,4" },
   whale:     { color: "rgba(123,93,170,0.18)",  width: 0.8, dash: "4,4" },
   social:      { color: "rgba(250,248,244,0.12)", width: 0.6, dash: "2,3" },
-  intelligence: { color: "rgba(200,172,120,0.7)",  width: 2.2, dash: "" },  // explicit drawn connection — SOCIAL → PERPLEXITY
+  intelligence: { color: "rgba(200,172,120,0.7)",  width: 2.2, dash: "" },
 };
 
 const STATUS_COLORS: Record<NodeStatus, { bg: string; color: string }> = {
@@ -567,13 +471,13 @@ const SECTION_LABELS = [
   { text: "@PROPERTIES · CIRE BRAND",                x: 990,  y: 318 },
   { text: "CIREG TRI-STATE",                         x: 990,  y: 448 },
   { text: "CHRISTIE\'S EAST HAMPTON",                x: 640,  y: 698 },
-  { text: "WHALES",                                  x: 115,  y: 618 },
-  { text: "RECRUITS",                                x: 330,  y: 768 },
-   { text: "ATTORNEYS",                              x: 980,  y: 808 },
-  { text: "PDF EXPORTS · OPERATING INTERFACE",         x: 640,  y: 1040 },
+  { text: "WHALE INTELLIGENCE",                      x: 120,  y: 748 },
+  { text: "RELATIONSHIP INTELLIGENCE",               x: 330,  y: 888 },
+  { text: "ATTORNEYS",                               x: 960,  y: 808 },
+  { text: "PDF EXPORTS · OPERATING INTERFACE",       x: 640,  y: 1040 },
   { text: "PROPERTY REPORTS",                        x: 760,  y: 912  },
-  { text: "SOCIAL · SIGNAL COLLECTION",               x: 420,  y: 1118 },
-  { text: "PERPLEXITY · TERRITORY INTELLIGENCE",      x: 760,  y: 1118 },
+  { text: "SOCIAL · SIGNAL COLLECTION",              x: 420,  y: 1118 },
+  { text: "PERPLEXITY · TERRITORY INTELLIGENCE",     x: 760,  y: 1118 },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
@@ -581,8 +485,8 @@ const SECTION_LABELS = [
 function isNodeVisible(node: MapNode, view: ViewMode): boolean {
   if (view === "full") return true;
   if (view === "hierarchy") return node.type === "HIERARCHY";
-  if (view === "recruit")   return node.type === "HIERARCHY" || node.type === "RECRUIT" || node.type === "RELATIONSHIP_INTELLIGENCE";
-  if (view === "whale")     return node.type === "HIERARCHY" || node.type === "WHALE";
+  if (view === "recruit")   return node.type === "HIERARCHY" || node.type === "RECRUIT" || node.type === "RELATIONSHIP_INTELLIGENCE" || node.type === "CATEGORY";
+  if (view === "whale")     return node.type === "HIERARCHY" || node.type === "WHALE" || (node.type === "CATEGORY" && node.id === "whale_intel");
   return true;
 }
 
@@ -591,6 +495,12 @@ function isConnectionVisible(conn: MapConnection, view: ViewMode): boolean {
   const to   = NODES.find(n => n.id === conn.to);
   if (!from || !to) return false;
   return isNodeVisible(from, view) && isNodeVisible(to, view);
+}
+
+// ─── Helper: get the anchor point of a node (center for circles, center for rects) ──
+
+function nodeCenter(node: MapNode): { x: number; y: number } {
+  return { x: node.x, y: node.y };
 }
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -611,12 +521,11 @@ export function InstitutionalMindMap() {
     }
     if (action.type === "nav") {
       toast(action.label);
-      // Navigate to the tab by dispatching a custom event the parent can listen to
       window.dispatchEvent(new CustomEvent("navigate-tab", { detail: { tab: action.tab } }));
       return;
     }
     if (action.type === "pdf") {
-      if (generatingId) return; // prevent double-click
+      if (generatingId) return;
       setGeneratingId(node.id);
       toast(action.label);
       try {
@@ -726,11 +635,11 @@ export function InstitutionalMindMap() {
       }}>
         {[
           { label: "Hierarchy",    color: "#c8ac78" },
-          { label: "Recruit",      color: "#2D5A3D" },
           { label: "Partner",      color: "#c8ac78" },
-          { label: "Whale",        color: "#7B5DAA" },
-          { label: "Attorney",     color: "#2a7aad" },
-          { label: "Relationship", color: "#9B7EC8" },
+          { label: "Whale Intel",  color: "#7B5DAA" },
+          { label: "Attorneys",    color: "#2a7aad" },
+          { label: "Rel. Intel",   color: "#6FCF97" },
+          { label: "Exports",      color: "rgba(200,172,120,0.6)" },
         ].map(item => (
           <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "5px", fontSize: "9px", letterSpacing: "1.2px", textTransform: "uppercase", color: "rgba(250,248,244,0.4)" }}>
             <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: item.color, flexShrink: 0 }} />
@@ -759,7 +668,7 @@ export function InstitutionalMindMap() {
               transition: "all 0.2s",
             }}
           >
-            {v === "full" ? "Full Web" : v === "hierarchy" ? "Hierarchy Only" : v === "recruit" ? "Recruits" : "Whales"}
+            {v === "full" ? "Full Web" : v === "hierarchy" ? "Hierarchy Only" : v === "recruit" ? "Rel. Intel" : "Whales"}
           </button>
         ))}
       </div>
@@ -799,8 +708,10 @@ export function InstitutionalMindMap() {
           {/* Connections */}
           <g>
             {CONNECTIONS.filter(c => isConnectionVisible(c, view)).map((conn, i) => {
-              const from = NODES.find(n => n.id === conn.from)!;
-              const to   = NODES.find(n => n.id === conn.to)!;
+              const fromNode = NODES.find(n => n.id === conn.from)!;
+              const toNode   = NODES.find(n => n.id === conn.to)!;
+              const fc = nodeCenter(fromNode);
+              const tc = nodeCenter(toNode);
               const ls   = LINE_STYLES[conn.style];
               const isHighlighted = connected
                 ? (connected.has(conn.from) && connected.has(conn.to))
@@ -808,8 +719,8 @@ export function InstitutionalMindMap() {
               return (
                 <line
                   key={i}
-                  x1={from.x} y1={from.y}
-                  x2={to.x}   y2={to.y}
+                  x1={fc.x} y1={fc.y}
+                  x2={tc.x} y2={tc.y}
                   stroke={ls.color}
                   strokeWidth={isHighlighted ? ls.width + (hoveredId ? 0.8 : 0) : ls.width}
                   strokeDasharray={ls.dash || undefined}
@@ -826,6 +737,8 @@ export function InstitutionalMindMap() {
             const isEd    = node.id === "ed";
             const isHier  = node.type === "HIERARCHY";
             const dimmed  = connected ? !connected.has(node.id) : false;
+            const isCategory = node.type === "CATEGORY" && node.members && node.rw && node.rh;
+            const catColors = isCategory ? CATEGORY_COLORS[node.id] : null;
 
             return (
               <g
@@ -840,63 +753,135 @@ export function InstitutionalMindMap() {
                 onMouseMove={handleNodeMove}
                 onClick={() => handleNodeClick(node)}
               >
-                {/* Ed glow ring */}
-                {isEd && (
-                  <circle
-                    cx={node.x} cy={node.y}
-                    r={node.r + 10}
-                    fill="none"
-                    stroke="rgba(200,172,120,0.12)"
-                    strokeWidth="5"
-                  />
+                {/* ── CATEGORY NODE — rounded rectangle with member names ── */}
+                {isCategory && node.rw && node.rh && catColors ? (
+                  <>
+                    {/* Outer glow rect */}
+                    <rect
+                      x={node.x - node.rw - 3} y={node.y - node.rh - 3}
+                      width={(node.rw + 3) * 2} height={(node.rh + 3) * 2}
+                      rx="10" ry="10"
+                      fill="none"
+                      stroke={catColors.stroke}
+                      strokeWidth="0.5"
+                      opacity="0.3"
+                    />
+                    {/* Main rect */}
+                    <rect
+                      x={node.x - node.rw} y={node.y - node.rh}
+                      width={node.rw * 2} height={node.rh * 2}
+                      rx="8" ry="8"
+                      fill={catColors.fill}
+                      stroke={catColors.stroke}
+                      strokeWidth="1.8"
+                      style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
+                    />
+                    {/* Top accent bar */}
+                    <rect
+                      x={node.x - node.rw} y={node.y - node.rh}
+                      width={node.rw * 2} height="3"
+                      rx="2" ry="0"
+                      fill={catColors.stroke}
+                      opacity="0.6"
+                    />
+                    {/* Category title */}
+                    <text
+                      x={node.x}
+                      y={node.y - node.rh + 16}
+                      textAnchor="middle"
+                      fill={catColors.headerColor}
+                      fontSize="9"
+                      fontWeight="700"
+                      fontFamily="Inter, sans-serif"
+                      letterSpacing="2"
+                    >
+                      {node.name}
+                    </text>
+                    {/* Divider line */}
+                    <line
+                      x1={node.x - node.rw + 8} y1={node.y - node.rh + 20}
+                      x2={node.x + node.rw - 8} y2={node.y - node.rh + 20}
+                      stroke={catColors.stroke}
+                      strokeWidth="0.5"
+                      opacity="0.5"
+                    />
+                    {/* Member names */}
+                    {node.members!.map((name, idx) => (
+                      <text
+                        key={name}
+                        x={node.x}
+                        y={node.y - node.rh! + 32 + idx * 13}
+                        textAnchor="middle"
+                        fill="rgba(250,248,244,0.75)"
+                        fontSize="9"
+                        fontFamily="Inter, sans-serif"
+                        letterSpacing="0.3"
+                      >
+                        {name}
+                      </text>
+                    ))}
+                  </>
+                ) : (
+                  <>
+                    {/* Ed glow ring */}
+                    {isEd && (
+                      <circle
+                        cx={node.x} cy={node.y}
+                        r={node.r + 10}
+                        fill="none"
+                        stroke="rgba(200,172,120,0.12)"
+                        strokeWidth="5"
+                      />
+                    )}
+
+                    {/* Artémis outer ring */}
+                    {node.id === "artemis" && (
+                      <circle
+                        cx={node.x} cy={node.y}
+                        r={node.r + 6}
+                        fill="none"
+                        stroke="rgba(200,172,120,0.2)"
+                        strokeWidth="1"
+                        strokeDasharray="4,3"
+                      />
+                    )}
+
+                    {/* Main circle */}
+                    <circle
+                      cx={node.x} cy={node.y}
+                      r={node.r}
+                      fill={colors.fill}
+                      stroke={colors.stroke}
+                      strokeWidth={colors.strokeWidth}
+                      style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
+                    />
+
+                    {/* Artémis crown ◆ */}
+                    {node.id === "artemis" && (
+                      <text x={node.x} y={node.y - node.r - 7} textAnchor="middle" fill="#c8ac78" fontSize="12">◆</text>
+                    )}
+
+                    {/* FHP crown ▲ */}
+                    {node.id === "pinault" && (
+                      <text x={node.x} y={node.y - node.r - 6} textAnchor="middle" fill="#c8ac78" fontSize="12">▲</text>
+                    )}
+
+                    {/* Node label */}
+                    <text
+                      x={node.x}
+                      y={node.y + node.r + 15}
+                      textAnchor="middle"
+                      fill={isEd ? "#c8ac78" : isHier ? "rgba(250,248,244,0.85)" : "rgba(250,248,244,0.7)"}
+                      fontSize={isEd ? "13" : isHier ? "11" : "10"}
+                      fontWeight={isEd ? "600" : isHier ? "500" : "400"}
+                      fontFamily="Inter, sans-serif"
+                      letterSpacing="0.5"
+                      style={{ filter: hoveredId === node.id ? "brightness(1.3)" : undefined }}
+                    >
+                      {node.name}
+                    </text>
+                  </>
                 )}
-
-                {/* Artémis outer ring */}
-                {node.id === "artemis" && (
-                  <circle
-                    cx={node.x} cy={node.y}
-                    r={node.r + 6}
-                    fill="none"
-                    stroke="rgba(200,172,120,0.2)"
-                    strokeWidth="1"
-                    strokeDasharray="4,3"
-                  />
-                )}
-
-                {/* Main circle */}
-                <circle
-                  cx={node.x} cy={node.y}
-                  r={node.r}
-                  fill={colors.fill}
-                  stroke={colors.stroke}
-                  strokeWidth={colors.strokeWidth}
-                  style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
-                />
-
-                {/* Artémis crown ◆ */}
-                {node.id === "artemis" && (
-                  <text x={node.x} y={node.y - node.r - 7} textAnchor="middle" fill="#c8ac78" fontSize="12">◆</text>
-                )}
-
-                {/* FHP crown ▲ */}
-                {node.id === "pinault" && (
-                  <text x={node.x} y={node.y - node.r - 6} textAnchor="middle" fill="#c8ac78" fontSize="12">▲</text>
-                )}
-
-                {/* Node label */}
-                <text
-                  x={node.x}
-                  y={node.y + node.r + 15}
-                  textAnchor="middle"
-                  fill={isEd ? "#c8ac78" : isHier ? "rgba(250,248,244,0.85)" : "rgba(250,248,244,0.7)"}
-                  fontSize={isEd ? "13" : isHier ? "11" : "10"}
-                  fontWeight={isEd ? "600" : isHier ? "500" : "400"}
-                  fontFamily="Inter, sans-serif"
-                  letterSpacing="0.5"
-                  style={{ filter: hoveredId === node.id ? "brightness(1.3)" : undefined }}
-                >
-                  {node.name}
-                </text>
               </g>
             );
           })}
@@ -948,31 +933,18 @@ export function InstitutionalMindMap() {
           {/* Live news panel */}
           <div style={{ marginTop: "10px", paddingTop: "10px", borderTop: "1px solid rgba(200,172,120,0.15)" }}>
             <div style={{ fontSize: "8px", letterSpacing: "1.5px", textTransform: "uppercase", color: "rgba(200,172,120,0.5)", marginBottom: "5px" }}>
-              30-Day Intelligence
+              Live Intelligence
             </div>
             {newsFetching ? (
               <div style={{ fontSize: "11px", color: "rgba(250,248,244,0.3)", fontStyle: "italic" }}>Fetching…</div>
             ) : newsData?.news ? (
-              <div style={{ fontSize: "11px", color: "rgba(250,248,244,0.65)", lineHeight: 1.6 }}>{newsData.news}</div>
+              <div style={{ fontSize: "11px", color: "rgba(250,248,244,0.6)", lineHeight: 1.5 }}>{newsData.news}</div>
             ) : (
-              <div style={{ fontSize: "11px", color: "rgba(250,248,244,0.25)", fontStyle: "italic" }}>No recent news.</div>
+              <div style={{ fontSize: "11px", color: "rgba(250,248,244,0.25)", fontStyle: "italic" }}>No recent intelligence</div>
             )}
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <div style={{
-        textAlign: "center",
-        padding: "8px 24px 16px",
-        borderTop: "1px solid rgba(200,172,120,0.1)",
-        fontSize: "9px",
-        letterSpacing: "2px",
-        textTransform: "uppercase",
-        color: "rgba(250,248,244,0.25)",
-      }}>
-        {NODES.length} nodes · Two Parallel Tracks · Intelligence Web Master · April 2026
-      </div>
     </div>
   );
 }

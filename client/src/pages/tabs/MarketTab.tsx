@@ -361,7 +361,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             className="text-[9px] pt-1 border-t flex items-center gap-1"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', borderColor: 'rgba(27,42,74,0.06)', letterSpacing: '0.04em', lineHeight: 1.4 }}
           >
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#4caf50', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#C8AC78', display: 'inline-block', flexShrink: 0 }} />
             Live &middot; Market Matrix
           </div>
         )}
@@ -527,7 +527,7 @@ export default function MarketTab() {
             )}
             {!matrixLoading && matrixRows && (
               <div className="flex items-center gap-1.5">
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#4caf50', display: 'inline-block' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#C8AC78', display: 'inline-block' }} />
                 <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}>
                   Live &middot; Market Matrix
                 </span>

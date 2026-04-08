@@ -55,7 +55,12 @@ const _imgCache: Record<string, string> = {};
 export async function loadImageAsDataUrl(url: string): Promise<string> {
   if (_imgCache[url]) return _imgCache[url];
   try {
-    const res = await fetch(url, { mode: 'cors' });
+    // Route external CDN URLs through the server-side image proxy to avoid CORS failures.
+    // Same-origin URLs (relative paths) are fetched directly.
+    const fetchUrl = url.startsWith('http')
+      ? `/api/img-proxy?url=${encodeURIComponent(url)}`
+      : url;
+    const res = await fetch(fetchUrl, { mode: 'cors' });
     const blob = await res.blob();
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

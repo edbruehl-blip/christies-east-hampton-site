@@ -56,7 +56,7 @@ function PaumanokPlate() {
   const mapRef = useRef<google.maps.Map | null>(null);
 
   return (
-    <div className="relative w-full" style={{ borderBottom: '2px solid #C8AC78' }}>
+    <div className="relative w-full" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', borderBottom: '2px solid #C8AC78' }}>
       {/* Header overlay — gradient fades into the map */}
       <div
         style={{

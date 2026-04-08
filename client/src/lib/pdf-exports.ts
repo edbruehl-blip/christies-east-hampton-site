@@ -1579,15 +1579,16 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.text("The Christie's Standard for Ownership, Structure, and Legacy", W / 2, subtitleY, { align: 'center' });
 
   // Eight rung columns — maximise available height
+  // Formula: colW = (usableW - 7*gap) / 8 ensures column 8 never overflows right margin
   const colsStartY = subtitleY + 0.07;
   const footerH = 0.32;
   const colsH = H - colsStartY - footerH - mb - 0.04;
-  const colW = usableW / 8;
-  const colGap = 0.035;
+  const colGap = 0.04;
+  const colW = (usableW - 7 * colGap) / 8; // 1.2775in per column
 
   UHNW_RUNGS.forEach((rung, i) => {
-    const cx = ml + i * (colW + colGap / 8);
-    const cw = colW - colGap / 8;
+    const cx = ml + i * (colW + colGap);
+    const cw = colW;
 
     // Column background
     doc.setFillColor(255, 255, 255);

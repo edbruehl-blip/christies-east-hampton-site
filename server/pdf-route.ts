@@ -110,4 +110,32 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
   }
 });
 
+// ── Image proxy — allows browser-side jsPDF to fetch CDN images without CORS errors ──
+// Usage: GET /api/img-proxy?url=<encoded-url>
+router.get('/api/img-proxy', async (req: Request, res: Response) => {
+  const url = req.query.url as string;
+  if (!url || !url.startsWith('http')) {
+    res.status(400).json({ error: 'Missing or invalid url parameter' });
+    return;
+  }
+  try {
+    const upstream = await fetch(url);
+    if (!upstream.ok) {
+      res.status(502).json({ error: `Upstream returned ${upstream.status}` });
+      return;
+    }
+    const contentType = upstream.headers.get('content-type') ?? 'application/octet-stream';
+    const buffer = Buffer.from(await upstream.arrayBuffer());
+    res.set({
+      'Content-Type': contentType,
+      'Cache-Control': 'public, max-age=86400',
+      'Access-Control-Allow-Origin': '*',
+    });
+    res.send(buffer);
+  } catch (err) {
+    console.error('[img-proxy] Error fetching', url, err);
+    res.status(500).json({ error: 'Proxy fetch failed' });
+  }
+});
+
 export default router;
