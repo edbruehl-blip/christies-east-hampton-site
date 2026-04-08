@@ -427,10 +427,10 @@ export const appRouter = router({
     mortgageRate: publicProcedure.query(async () => {
       try {
         const { fetchMortgageRate } = await import('./market-route');
-        const rate = await fetchMortgageRate();
-        return { rate, error: null as string | null };
+        const { rate, date } = await fetchMortgageRate();
+        return { rate, date, error: null as string | null };
       } catch (err: any) {
-        return { rate: '6.38%', error: (err as Error).message ?? 'FRED unavailable' };
+        return { rate: '6.38%', date: '', error: (err as Error).message ?? 'FRED unavailable' };
       }
     }),
     /**

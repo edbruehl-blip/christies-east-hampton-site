@@ -1077,3 +1077,10 @@
 - [ ] Item 8: AI council sentence — "most integrated AI intelligence platform of any Christie's affiliate globally"
 - [ ] Item 9: Data source audit — LIVE vs HARDCODED for all 5 priority surfaces
 - [ ] Card-stock export: Export Card button on FUTURE tab, 8.5x11 print layout, front + back
+
+## Sprint 35 — April 8, 2026
+
+- [ ] HOTFIX: Replace agent table with correct 9 office team members (remove Tash, Lash, Ilija, Ricky; add Bonita DeWolf, Scott Smith, Sandy Busch, Jan Jaeger)
+- [ ] Item 1: Publish after hotfix confirmed
+- [ ] Item 2: Restore GCI auth gate on FUTURE tab (GCI columns, Profit Pool, MD Total, ANEW behind isAuthenticated)
+- [ ] Item 3: Wire FRED timestamp to MARKET tab Rate Environment sub-label

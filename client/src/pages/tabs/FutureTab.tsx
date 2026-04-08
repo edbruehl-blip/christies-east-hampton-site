@@ -4,8 +4,8 @@
  * Typography: Cormorant Garamond (headlines) · Source Sans 3 (data) · Barlow Condensed (labels)
  * Data source: Growth Model v2 VOLUME tab (LIVE — service account, publicProcedure)
  *
- * Auth gate removed April 8, 2026 — full platform open for review phase.
- * Gate restores before podcast, Dan's Papers, client presentations, wider distribution.
+ * Auth gate deferred — site is private, URL in hands of core team only.
+ * Gate restores when URL goes wider (Ed will flag). One targeted edit to restore.
  */
 
 import { useMemo } from 'react';
@@ -444,7 +444,7 @@ export default function FutureTab() {
             </div>
         </>
 
-        {/* ── Profit Pool — GATED ──────────────────────────────────────────────── */}
+        {/* ── Profit Pool ──────────────────────────────────────────────────────── */}
         <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           Profit Pool · 2026–2031 Projection
         </div>
@@ -509,7 +509,7 @@ export default function FutureTab() {
             </div>
         </>
 
-        {/* ── Verified Numbers — GATED ─────────────────────────────────────────── */}
+        {/* ── Verified Numbers ─────────────────────────────────────────── */}
         <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           Verified Numbers · April 7, 2026
         </div>
@@ -538,7 +538,7 @@ export default function FutureTab() {
             </div>
         </>
 
-        {/* ── ANEW Homes Net Build Profit — GATED ─────────────────────────────── */}
+        {/* ── ANEW Homes Net Build Profit ───────────────────────────────────── */}
         <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           ANEW Homes · Net Build Profit
         </div>

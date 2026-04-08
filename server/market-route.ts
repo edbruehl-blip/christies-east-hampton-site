@@ -56,16 +56,17 @@ async function fetchBTC(): Promise<{ price: number; change: number } | null> {
 // ─── Mortgage rate cache ─────────────────────────────────────────────────────
 // FRED series MORTGAGE30US — Freddie Mac PMMS, updated weekly on Thursdays.
 // Cache for 24 hours to avoid hammering the endpoint on every page load.
-let mortgageCache: { rate: string; fetchedAt: number } = {
+let mortgageCache: { rate: string; date: string; fetchedAt: number } = {
   rate: "6.38%",   // last known value — overwritten on first successful fetch
+  date: "",         // FRED observation date, e.g. "2025-03-27"
   fetchedAt: 0,
 };
 
-export async function fetchMortgageRate(): Promise<string> {
+export async function fetchMortgageRate(): Promise<{ rate: string; date: string }> {
   const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
   const now = Date.now();
-  if (now - mortgageCache.fetchedAt < CACHE_TTL_MS) {
-    return mortgageCache.rate;
+  if (now - mortgageCache.fetchedAt < CACHE_TTL_MS && mortgageCache.fetchedAt > 0) {
+    return { rate: mortgageCache.rate, date: mortgageCache.date };
   }
   try {
     // FRED public CSV endpoint — no API key required
@@ -84,15 +85,16 @@ export async function fetchMortgageRate(): Promise<string> {
       const val = parseFloat(parts[1]);
       if (!isNaN(val)) {
         const formatted = `${val.toFixed(2)}%`;
-        mortgageCache = { rate: formatted, fetchedAt: now };
-        return formatted;
+        const observationDate = parts[0]?.trim() ?? "";
+        mortgageCache = { rate: formatted, date: observationDate, fetchedAt: now };
+        return { rate: formatted, date: observationDate };
       }
     }
     throw new Error("No valid rate found in FRED CSV");
   } catch (err) {
     console.warn("[market-route] FRED mortgage fetch failed, using cached value:", err);
     // Return stale cache or last known fallback — never return null
-    return mortgageCache.rate;
+    return { rate: mortgageCache.rate, date: mortgageCache.date };
   }
 }
 
@@ -108,6 +110,8 @@ export function registerMarketRoute(app: Express) {
         fetchYF("%5ETYX"),    // 30Y Treasury yield
         fetchBTC(),           // Bitcoin
       ]);
+
+      const mortgageData = await fetchMortgageRate();
 
       const payload: Record<string, string | null> = {
         sp500: sp
@@ -129,7 +133,8 @@ export function registerMarketRoute(app: Express) {
           ? `$${btc.price.toLocaleString("en-US", { maximumFractionDigits: 0 })} (${btc.change >= 0 ? "+" : ""}${btc.change.toFixed(2)}%)`
           : null,
         // 30Y Fixed Mortgage — Freddie Mac PMMS via FRED (series MORTGAGE30US, 24h cache)
-        mortgage: await fetchMortgageRate(),
+        mortgage: mortgageData.rate,
+        mortgageDate: mortgageData.date,
         updatedAt: new Date().toISOString(),
       };
 

@@ -374,7 +374,19 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
 
 // ─── Rate Environment sidebar ─────────────────────────────────────────────────
 
-function RateEnvironment() {
+function RateEnvironment({ liveMortgageRate, mortgageDate }: { liveMortgageRate: string; mortgageDate: string }) {
+  // Format FRED observation date ("2025-03-27") → "March 27, 2025"
+  const formattedDate = (() => {
+    if (!mortgageDate) return 'Freddie Mac PMMS';
+    try {
+      const [year, month, day] = mortgageDate.split('-').map(Number);
+      const d = new Date(year, month - 1, day);
+      return `Freddie Mac · ${d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}`;
+    } catch {
+      return 'Freddie Mac PMMS';
+    }
+  })();
+
   return (
     <div className="flex flex-col gap-4">
       {/* Mortgage corridor */}
@@ -397,7 +409,7 @@ function RateEnvironment() {
           className="mt-1"
           style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
         >
-          Freddie Mac weekly avg &middot; March 2026
+          {formattedDate}
         </div>
       </div>
 
@@ -464,6 +476,7 @@ export default function MarketTab() {
     retry: false,
   });
   const liveMortgageRate = mortgageData?.rate ?? '6.38%';
+  const mortgageDate = mortgageData?.date ?? '';
 
   const { data: matrixResponse, isLoading: matrixLoading } = trpc.market.hamletMatrix.useQuery(undefined, {
     retry: false,
@@ -554,6 +567,19 @@ export default function MarketTab() {
               Dollar volume figures represent closed residential transactions, South Fork, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* ── Rate Environment ────────────────────────────────────────────── */}
+      <section className="px-6 pb-10" style={{ background: '#FAF8F4' }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div
+            className="uppercase mb-4"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+          >
+            Rate Environment
+          </div>
+          <RateEnvironment liveMortgageRate={liveMortgageRate} mortgageDate={mortgageDate} />
         </div>
       </section>
 
