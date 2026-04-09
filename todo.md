@@ -1096,7 +1096,7 @@
 - [ ] Item 3: Align card stock export styling to FUTURE tab visual language
 - [ ] Confirm all items with screenshots before closing Sprint 36
 
-## Sprint 36 — AnewHomes Corrections (Apr 9, 2026)
+## Sprint 36 — AnewHomes Corrections + Pro Forma Fix (Apr 9, 2026)
 
 - [x] Item 1: AnewHomes rename (ANEW Homes → AnewHomes) across all surfaces
 - [x] Item 1: Split corrected from 45%/45%/5%/5% (4 people) to 40%/40%/5%/5%/5%/5% (6 people — added Ricky + Pool/Future)
@@ -1106,3 +1106,7 @@
 - [x] Item 2: 2028 volume default corrected from $133M to $165M (all three surfaces)
 - [x] Item 2: Profit pool column header renamed from "Ilija (65%)" to "Partnership (65%)"
 - [x] Item 2: Ed's compensation totals recalculated across all 6 years
+- [x] Sprint 36 Final Fix 1: Profit pool table volumes corrected — 2027 $100M (pool $1.2M, Ed $360K), 2028 $165M (pool $2.5M, Ed $750K)
+- [x] Sprint 36 Final Fix 1: Math.max floor applied — sheet can only go up, never below doctrine targets
+- [x] Sprint 36 Final Fix 2: Generate Pro Forma button fixed — Chromium path corrected from /usr/bin/chromium-browser to /usr/bin/chromium
+- [x] Sprint 36 Final Fix 2: PDF generation confirmed working — 444KB, 4 pages, clean generation from button path
