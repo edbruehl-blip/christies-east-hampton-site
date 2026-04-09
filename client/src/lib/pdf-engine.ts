@@ -141,6 +141,142 @@ export async function drawHeader(
   return 56; // y start for body (generous spacing after header)
 }
 
+// ─── Universal PDF header (Sprint 41 consolidation) ─────────────────────────
+
+/**
+ * drawPdfHeader — single shared header for every PDF export.
+ *
+ * Variants:
+ *   'standard'  — centered logo, gold rule, title + subtitle block (portrait, white bg)
+ *                 Used by: ANEW Build, CMA, Deal Brief, Investment Memo, EH Village, Broker Onboarding
+ *   'letter'    — centered logo, gold rule, no title block (portrait, white bg, letter format)
+ *                 Used by: Christie's Letter, Flagship Letter
+ *   'navy-bar'  — full-width navy band, left-aligned logo, gold rule (portrait)
+ *                 Used by: Market Report p1, Card Stock p1
+ *   'landscape' — left-aligned logo, gold rule, centered title (landscape)
+ *                 Used by: Ascension Arc
+ *
+ * Always uses LOGO_BLACK_B64 from loadPdfAssets() — never a CDN URL.
+ * Returns the Y coordinate where body content should begin.
+ */
+export function drawPdfHeader(
+  doc: jsPDF,
+  logoImgData: string,
+  opts: {
+    variant: 'standard' | 'letter' | 'navy-bar' | 'landscape';
+    title?: string;
+    subtitle?: string;
+    /** Page width override for landscape (default: PAGE.w) */
+    pageW?: number;
+    /** Page margin override (default: PAGE.ml) */
+    ml?: number;
+    mr?: number;
+  },
+): number {
+  const {
+    variant,
+    title = '',
+    subtitle = '',
+    pageW = PAGE.w,
+    ml = PAGE.ml,
+    mr = PAGE.mr,
+  } = opts;
+  const cx = pageW / 2;
+  const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  if (variant === 'navy-bar') {
+    // ── Navy header bar (portrait) ──────────────────────────────────────────
+    doc.setFillColor(...C.navy);
+    doc.rect(0, 0, pageW, 28, 'F');
+    doc.setDrawColor(...C.gold);
+    doc.setLineWidth(0.8);
+    doc.line(ml, 28, pageW - mr, 28);
+    const py = 6;
+    if (logoImgData) {
+      try { doc.addImage(logoImgData, 'PNG', ml, py, 16, 16); } catch { /* skip */ }
+    }
+    doc.setFontSize(7);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(...C.gold);
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", ml + 20, py + 5);
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.cream);
+    doc.text('East Hampton · 26 Park Place · 646-752-1233', ml + 20, py + 10);
+    if (title) {
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...C.cream);
+      doc.text(title, pageW - mr, py + 5, { align: 'right' });
+    }
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...C.cream);
+    doc.text(dateStr, pageW - mr, py + 10, { align: 'right' });
+    return 34; // y start for body
+  }
+
+  if (variant === 'landscape') {
+    // ── Landscape header ────────────────────────────────────────────────────
+    doc.setDrawColor(...C.gold);
+    doc.setLineWidth(0.8);
+    doc.line(ml, 8, pageW - mr, 8);
+    if (logoImgData) {
+      try { doc.addImage(logoImgData, 'PNG', ml, 10, 44, 10); } catch {
+        doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+        doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", ml, 17);
+      }
+    }
+    if (title) {
+      doc.setFontSize(13); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
+      doc.text(title, cx, 15, { align: 'center' });
+    }
+    doc.setFontSize(7); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
+    doc.text(dateStr, pageW - mr, 13, { align: 'right' });
+    if (subtitle) doc.text(subtitle, pageW - mr, 17.5, { align: 'right' });
+    doc.setDrawColor(...C.gold); doc.setLineWidth(0.3);
+    doc.line(ml, 22, pageW - mr, 22);
+    return 26; // y start for body
+  }
+
+  if (variant === 'letter') {
+    // ── Letter format (Christie's Letter, Flagship Letter) ──────────────────
+    if (logoImgData) {
+      try { doc.addImage(logoImgData, 'PNG', cx - 22, 14, 44, 17); } catch { /* skip */ }
+    } else {
+      doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
+      doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 24, { align: 'center' });
+    }
+    doc.setDrawColor(...C.gold); doc.setLineWidth(0.6);
+    doc.line(ml, 34, pageW - mr, 34);
+    return 42; // y start for body (caller adds date block)
+  }
+
+  // ── Standard (default) ────────────────────────────────────────────────────
+  // Centered logo, gold rule, title + subtitle, date right-aligned
+  if (logoImgData) {
+    try { doc.addImage(logoImgData, 'PNG', cx - 22, 8, 44, 17); } catch { /* skip */ }
+  } else {
+    doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
+    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 18, { align: 'center' });
+  }
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.5);
+  doc.line(ml, 28, pageW - mr, 28);
+  if (title) {
+    doc.setFontSize(15); doc.setTextColor(...C.gold); doc.setFont('helvetica', 'bold');
+    doc.text(title, cx, 38, { align: 'center' });
+  }
+  if (subtitle) {
+    doc.setFontSize(8); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
+    doc.text(subtitle, cx, 45, { align: 'center' });
+  }
+  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3);
+  doc.line(ml, 50, pageW - mr, 50);
+  doc.setFontSize(6.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
+  doc.text(dateStr, pageW - mr, 45, { align: 'right' });
+  return 56;
+}
+
 // ─── Shared footer ────────────────────────────────────────────────────────────
 
 export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number, qrImg = '') {

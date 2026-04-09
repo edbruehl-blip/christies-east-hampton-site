@@ -22,7 +22,7 @@
 import jsPDF from 'jspdf';
 import {
   C, PAGE,
-  drawHeader, drawFooter, sectionLabel, kvRow,
+  drawHeader, drawPdfHeader, drawFooter, sectionLabel, kvRow,
   drawScoreBadge, drawHamletCompsTable,
   loadPdfAssets, downloadPdf, fmtUSD, fmtPct, today, wrapText,
   type AnewOutput,
@@ -527,6 +527,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   });
 
   // ── PAGE 1 — Hero + Founding Letter (mirrors /report Section 1) ──────────────
+  // Full-page navy hero — drawPdfHeader handles logo placement (base64, no CDN)
   doc.setFillColor(...C.navy);
   doc.rect(0, 0, PAGE.w, PAGE.h, 'F');
 
@@ -539,6 +540,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setFont('helvetica', 'bold');
   doc.text('CHRISTIE\'S · EST. 1766', PAGE.w / 2, 27, { align: 'center' });
 
+  // Logo — centered, 64mm wide on navy hero (base64, no CDN call)
   if (logoImg) {
     try { doc.addImage(logoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26); } catch { /* skip */ }
   }
@@ -1059,28 +1061,14 @@ export async function generateChristiesLetter(): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const { logoImg, qrImg } = await loadPdfAssets();
 
-  const cx = PAGE.w / 2;
   const ml = PAGE.ml;
   const mr = PAGE.mr;
   const cw = PAGE.contentW;
-  let y = 14;
 
-  // ── CIREG logo — centered ─────────────────────────────────────────────────
-  if (logoImg) {
-    try { doc.addImage(logoImg, 'PNG', cx - 22, y, 44, 17); } catch { /* skip */ }
-  } else {
-    doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
-    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, y + 10, { align: 'center' });
-  }
-  y = 34;
+  // ── Shared header — letter variant (base64 logo, gold rule) ──────────────────────
+  let y = drawPdfHeader(doc, logoImg, { variant: 'letter' });
 
-  // ── Top gold rule ─────────────────────────────────────────────────────────
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.6);
-  doc.line(ml, y, PAGE.w - mr, y);
-  y += 8;
-
-  // ── Date block — right-aligned ────────────────────────────────────────────
+  // ── Date block — right-aligned ────────────────────────────────────────────────
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   doc.setFontSize(8);
   doc.setTextColor(...C.muted);
@@ -1212,14 +1200,14 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.text(
     '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
-    cx, footerRuleY + 5, { align: 'center' }
+    PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
 
-  // ── Private & Confidential ────────────────────────────────────────────────
+  // ── Private & Confidential ─────────────────────────────────────────────────────
   doc.setFontSize(5.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'bold');
-  doc.text('PRIVATE & CONFIDENTIAL', cx, footerRuleY + 10, { align: 'center' });
+  doc.text('PRIVATE & CONFIDENTIAL', PAGE.w / 2, footerRuleY + 10, { align: 'center' });
 
   downloadPdf(doc, `Christies-EH-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
@@ -1264,28 +1252,15 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
   const { logoImg } = await loadPdfAssets();
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'letter' });
 
-  // Gold rule top
-  doc.setDrawColor(...C.gold); doc.setLineWidth(0.8);
-  doc.line(LP.ml, 8, LP.w - LP.mr, 8);
-
-  // Logo
-  try {
-    doc.addImage(logoImg, 'PNG', LP.ml, 10, 44, 10);
-  } catch {
-    doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
-    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", LP.ml, 17);
-  }
-
-  // Title
-  doc.setFontSize(13); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
-  doc.text('THE ASCENSION ARC \u00b7 $1 BILLION RUN RATE', LP.w / 2, 15, { align: 'center' });
-  doc.setFontSize(7); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
-  doc.text(today(), LP.w - LP.mr, 13, { align: 'right' });
-  doc.text('Private & Confidential', LP.w - LP.mr, 17.5, { align: 'right' });
-  doc.setDrawColor(...C.gold); doc.setLineWidth(0.3);
-  doc.line(LP.ml, 22, LP.w - LP.mr, 22);
-
-  let y = 26;
+  // ── Shared header — landscape variant (base64 logo, gold rule) ──────────────────────
+  let y = drawPdfHeader(doc, logoImg, {
+    variant: 'landscape',
+    title: 'THE ASCENSION ARC \u00b7 $1 BILLION RUN RATE',
+    subtitle: 'Private & Confidential',
+    pageW: LP.w,
+    ml: LP.ml,
+    mr: LP.mr,
+  });
 
   // ── Arc bars section label ──────────────────────────────────────────────────
   doc.setFontSize(6.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.gold);
@@ -1702,28 +1677,14 @@ export async function generateFlagshipLetter(): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const { logoImg } = await loadPdfAssets();
 
-  const cx = PAGE.w / 2;
   const ml = PAGE.ml;
   const mr = PAGE.mr;
   const cw = PAGE.contentW;
-  let y = 14;
 
-  // ── CIREG logo — centered ─────────────────────────────────────────────────
-  if (logoImg) {
-    try { doc.addImage(logoImg, 'PNG', cx - 22, y, 44, 17); } catch { /* skip */ }
-  } else {
-    doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
-    doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, y + 10, { align: 'center' });
-  }
-  y = 34;
+  // ── Shared header — letter variant (base64 logo, gold rule) ──────────────────────
+  let y = drawPdfHeader(doc, logoImg, { variant: 'letter' });
 
-  // ── Top gold rule ─────────────────────────────────────────────────────────
-  doc.setDrawColor(...C.gold);
-  doc.setLineWidth(0.6);
-  doc.line(ml, y, PAGE.w - mr, y);
-  y += 8;
-
-  // ── Header block ─────────────────────────────────────────────────────────
+  // ── Header block ─────────────────────────────────────────────────────
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   doc.setFontSize(7.5);
   doc.setTextColor(...C.muted);
@@ -1934,12 +1895,12 @@ export async function generateFlagshipLetter(): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.text(
     '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
-    cx, footerRuleY + 5, { align: 'center' }
+    PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
   doc.setFontSize(5.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'bold');
-  doc.text('INTERNAL \u00b7 TEAM-FACING \u00b7 NOT FOR CLIENT DISTRIBUTION', cx, footerRuleY + 10, { align: 'center' });
+  doc.text('INTERNAL \u00b7 TEAM-FACING \u00b7 NOT FOR CLIENT DISTRIBUTION', PAGE.w / 2, footerRuleY + 10, { align: 'center' });
 
   downloadPdf(doc, `Christies-Flagship-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
@@ -1972,36 +1933,18 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
 
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
 
-  // ══ PAGE 1 ══════════════════════════════════════════════════════════════════
+  // ══ PAGE 1 ═══════════════════════════════════════════════════════════════════════════
   // Light background — matches FUTURE tab design system
   doc.setFillColor(...CS.white);
   doc.rect(0, 0, P.w, P.h, 'F');
-  // Navy header bar
-  doc.setFillColor(...CS.hdrBg);
-  doc.rect(0, 0, P.w, 28, 'F');
-  doc.setDrawColor(...CS.gold);
-  doc.setLineWidth(0.8);
-  doc.line(P.ml, 28, P.w - P.mr, 28);
-  let py = 6;
-  if (logoImg) doc.addImage(logoImg, 'PNG', P.ml, py, 16, 16);
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...CS.gold);
-  doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", P.ml + 20, py + 5);
-  doc.setFontSize(6);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...CS.cream);
-  doc.text('East Hampton · 26 Park Place · 646-752-1233', P.ml + 20, py + 10);
-  doc.setFontSize(6);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...CS.gold);
-  doc.text('PRIVATE & CONFIDENTIAL', P.w - P.mr, py + 5, { align: 'right' });
-  doc.setFontSize(5.5);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...CS.cream);
-  doc.text(today(), P.w - P.mr, py + 10, { align: 'right' });
-  py = 36;
-  // Section title
+  // ── Shared header — navy-bar variant (base64 logo, gold rule) ──────────────────────
+  let py = drawPdfHeader(doc, logoImg, {
+    variant: 'navy-bar',
+    title: 'PRIVATE & CONFIDENTIAL',
+    pageW: P.w,
+    ml: P.ml,
+    mr: P.mr,
+  });
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...CS.navy);

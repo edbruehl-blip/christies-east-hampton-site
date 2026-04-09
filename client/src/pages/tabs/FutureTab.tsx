@@ -626,7 +626,7 @@ export default function FutureTab() {
 
         {/* ── Export + Sheet Link ────────────────────────────────────────────────── */}       <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
           <button
-            onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026 })}
+            onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
           >

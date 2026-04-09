@@ -1188,3 +1188,13 @@
 - [x] 259 years -> 260 years in whatsapp-inbound.ts LLM prompt
 - [x] Flagship Letter export card added to HOME beside Market Report
 - [x] TypeScript: 0 errors
+
+## Sprint 41 Final Close (April 9, 2026)
+- [x] Ascension Arc PDF: added kpis: liveKpis to generateFutureReportPDF() call — all three exports now read live KPIs at export time
+- [x] Logo consolidation: built drawPdfHeader() universal helper in pdf-engine.ts with four variants (standard, letter, navy-bar, landscape)
+- [x] Christie's Letter: replaced inline logo block with drawPdfHeader('letter')
+- [x] Flagship Letter: replaced inline logo block with drawPdfHeader('letter')
+- [x] Ascension Arc PDF: replaced inline logo/header block with drawPdfHeader('landscape')
+- [x] Card Stock PDF page 1: replaced inline navy-bar block with drawPdfHeader('navy-bar')
+- [x] Market Report page 1: annotated as base64-confirmed (intentional hero layout, no CDN calls)
+- [x] TypeScript: 0 errors across all files
