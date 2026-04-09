@@ -1279,7 +1279,7 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
   doc.text('THE ASCENSION ARC \u00b7 $1 BILLION RUN RATE', LP.w / 2, 15, { align: 'center' });
   doc.setFontSize(7); doc.setFont('helvetica', 'normal'); doc.setTextColor(...C.muted);
   doc.text(today(), LP.w - LP.mr, 13, { align: 'right' });
-  doc.text('Private & Confidential \u00b7 Ilija Pavlovi\u0107 Review Copy', LP.w - LP.mr, 17.5, { align: 'right' });
+  doc.text('Private & Confidential', LP.w - LP.mr, 17.5, { align: 'right' });
   doc.setDrawColor(...C.gold); doc.setLineWidth(0.3);
   doc.line(LP.ml, 22, LP.w - LP.mr, 22);
 
@@ -1955,9 +1955,14 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     navy:    [27,  42,  74]  as [number, number, number],
     gold:    [200, 172, 120] as [number, number, number],
     cream:   [250, 248, 244] as [number, number, number],
-    muted:   [140, 154, 160] as [number, number, number],
-    darkBg:  [18,  28,  52]  as [number, number, number],
-    midBg:   [22,  35,  65]  as [number, number, number],
+    muted:   [120, 130, 140] as [number, number, number],
+    white:   [255, 255, 255] as [number, number, number],
+    row1:    [250, 248, 244] as [number, number, number],
+    row2:    [244, 242, 238] as [number, number, number],
+    hdrBg:   [27,  42,  74]  as [number, number, number],  // navy header bar
+    // Legacy aliases kept for bar chart colours
+    darkBg:  [27,  42,  74]  as [number, number, number],
+    midBg:   [240, 237, 232] as [number, number, number],
   };
 
   const P = { w: 215.9, h: 279.4, ml: 14, mr: 14, mt: 14, mb: 16 };
@@ -1966,24 +1971,24 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
 
   // ══ PAGE 1 ══════════════════════════════════════════════════════════════════
-  doc.setFillColor(...CS.darkBg);
+  // Light background — matches FUTURE tab design system
+  doc.setFillColor(...CS.white);
   doc.rect(0, 0, P.w, P.h, 'F');
-
+  // Navy header bar
+  doc.setFillColor(...CS.hdrBg);
+  doc.rect(0, 0, P.w, 28, 'F');
   doc.setDrawColor(...CS.gold);
-  doc.setLineWidth(1.2);
-  doc.line(P.ml, P.mt, P.w - P.mr, P.mt);
-
-  let py = P.mt + 5;
-
+  doc.setLineWidth(0.8);
+  doc.line(P.ml, 28, P.w - P.mr, 28);
+  let py = 6;
   if (logoImg) doc.addImage(logoImg, 'PNG', P.ml, py, 16, 16);
-
   doc.setFontSize(7);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(...CS.gold);
   doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", P.ml + 20, py + 5);
   doc.setFontSize(6);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...CS.muted);
+  doc.setTextColor(...CS.cream);
   doc.text('East Hampton · 26 Park Place · 646-752-1233', P.ml + 20, py + 10);
   doc.setFontSize(6);
   doc.setFont('helvetica', 'bold');
@@ -1991,15 +1996,13 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('PRIVATE & CONFIDENTIAL', P.w - P.mr, py + 5, { align: 'right' });
   doc.setFontSize(5.5);
   doc.setFont('helvetica', 'normal');
-  doc.setTextColor(...CS.muted);
+  doc.setTextColor(...CS.cream);
   doc.text(today(), P.w - P.mr, py + 10, { align: 'right' });
-
-  py += 22;
-
+  py = 36;
   // Section title
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...CS.cream);
+  doc.setTextColor(...CS.navy);
   doc.text('ASCENSION ARC', P.ml, py);
   doc.setFontSize(6.5);
   doc.setFont('helvetica', 'normal');
@@ -2032,22 +2035,21 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
       const closedH = Math.round((closed26 / bar.vol) * bh);
       const activeH = Math.round((active26 / bar.vol) * bh);
       const projH = Math.max(0, bh - closedH - activeH);
-      if (projH > 0) { doc.setFillColor(40, 55, 90); doc.rect(bx, by, barW, projH, 'F'); }
-      doc.setFillColor(140, 120, 80); doc.rect(bx, by + projH, barW, activeH, 'F');
+      if (projH > 0) { doc.setFillColor(200, 195, 185); doc.rect(bx, by, barW, projH, 'F'); }
+      doc.setFillColor(180, 155, 100); doc.rect(bx, by + projH, barW, activeH, 'F');
       doc.setFillColor(...CS.gold); doc.rect(bx, by + projH + activeH, barW, closedH, 'F');
     } else if (bar.year === '2032+') {
-      doc.setDrawColor(...CS.gold); doc.setLineWidth(0.4); doc.rect(bx, by, barW, bh, 'S');
+      doc.setDrawColor(...CS.navy); doc.setLineWidth(0.4); doc.rect(bx, by, barW, bh, 'S');
     } else if (bar.base) {
-      doc.setFillColor(35, 50, 80); doc.rect(bx, by, barW, bh, 'F');
+      doc.setFillColor(180, 185, 195); doc.rect(bx, by, barW, bh, 'F');
     } else {
-      doc.setFillColor(30, 45, 75); doc.rect(bx, by, barW, bh, 'F');
+      doc.setFillColor(...CS.navy); doc.rect(bx, by, barW, bh, 'F');
       doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.rect(bx, by, barW, bh, 'S');
     }
-
-    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
     doc.text(bar.disp, bx + barW / 2, by - 1.5, { align: 'center' });
     doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
-    doc.text(bar.year, bx + barW / 2, py + CHART_H + 5, { align: 'center' });
+    doc.text(bar.year, bx + barW / 2, py + CHART_H + 5, { align: 'center' });;
   });
 
   py += CHART_H + 10;
@@ -2073,7 +2075,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += 22;
 
   // 300-Day Proof
-  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('300-DAY PROOF', P.ml, py);
   doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
   doc.text("Operational milestones · First 300 days of Christie's East Hampton", P.ml, py + 4.5);
@@ -2081,7 +2083,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
 
   const PROOF = [
     { label: 'First 100 Days', items: ["Christie's affiliate agreement executed", 'Office at 26 Park Place secured', 'William AI brief system live — 8 AM & 8 PM daily', 'Intelligence platform: 6 tabs, 21 mind map nodes', 'Flagship letter approved by full council'] },
-    { label: 'Second 100 Days', items: ['Jarvis Slade onboarded', 'Bonita DeWolf onboarded', 'ANEW Homes framework established', 'Media partnership: $115K ask → $9K pilot', 'Ilija Pavlovic partnership structured'] },
+    { label: 'Second 100 Days', items: ['Jarvis Slade onboarded', 'Bonita DeWolf onboarded', 'AnewHomes framework established', 'Media partnership: $115K ask → $9K pilot', 'Ilija Pavlovic partnership structured'] },
     { label: 'Third 100 Days', items: ['Southampton office site selection', 'Podcast: The Bruehl Report — Episode 1 live', 'UHNW Oceanfront 314-property outreach launched', 'First CIREG international referral closed', 'Recruiting pipeline: 3 targeted agents'] },
   ];
 
@@ -2090,9 +2092,10 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   PROOF.forEach((block, i) => {
     const bx = P.ml + i * (blockW + 2);
     doc.setFillColor(...CS.midBg); doc.rect(bx, py, blockW, blockH, 'F');
-    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+    doc.setDrawColor(...CS.gold); doc.setLineWidth(0.4); doc.line(bx, py, bx, py + blockH);
+    doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
     doc.text(block.label.toUpperCase(), bx + 3, py + 4.5);
-    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+    doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
     block.items.forEach((item, j) => {
       const lines = doc.splitTextToSize(`· ${item}`, blockW - 5);
       lines.forEach((line: string, k: number) => {
@@ -2103,15 +2106,18 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += blockH + 5;
 
   // Pipeline disclosure
-  doc.setFillColor(25, 38, 68); doc.rect(P.ml, py, cw, 9, 'F');
-  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.line(P.ml, py, P.ml, py + 9);
-  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.setFillColor(...CS.row1); doc.rect(P.ml, py, cw, 9, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.5); doc.line(P.ml, py, P.ml, py + 9);
+  doc.setDrawColor(...CS.muted); doc.setLineWidth(0.2); doc.rect(P.ml, py, cw, 9, 'S');
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
   doc.text('Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.', P.ml + 3, py + 5.5, { maxWidth: cw - 6 });
   py += 13;
 
   // AI platform note
   doc.setFontSize(5.5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);
   doc.text("Christie's East Hampton operates the most integrated AI intelligence platform of any Christie's affiliate office globally.", P.ml, py, { maxWidth: cw });
+  // Gold accent line under body
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.line(P.ml, py + 7, P.w - P.mr, py + 7);
 
   // Page 1 footer
   const fp1 = P.h - P.mb;
@@ -2121,24 +2127,27 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.setFontSize(5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
   doc.text('1 / 2', P.w - P.mr, fp1 + 4, { align: 'right' });
 
-  // ══ PAGE 2 ══════════════════════════════════════════════════════════════════
+   // ══ PAGE 2 ══════════════════════════════════════════════════════════════════
   doc.addPage();
-  doc.setFillColor(...CS.darkBg); doc.rect(0, 0, P.w, P.h, 'F');
-  doc.setDrawColor(...CS.gold); doc.setLineWidth(1.2); doc.line(P.ml, P.mt, P.w - P.mr, P.mt);
-
-  py = P.mt + 5;
+  // Light background — matches FUTURE tab design system
+  doc.setFillColor(...CS.white); doc.rect(0, 0, P.w, P.h, 'F');
+  // Navy header bar
+  doc.setFillColor(...CS.hdrBg); doc.rect(0, 0, P.w, 28, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.8); doc.line(P.ml, 28, P.w - P.mr, 28);
+  py = 11;
   doc.setFontSize(7); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
-  doc.text("CHRISTIE'S EAST HAMPTON · INTERNAL PRO FORMA", P.ml, py + 5);
-  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.muted);
-  doc.text('INTERNAL ONLY — GOVERNING PRINCIPLE, NOT YET CONTRACTUAL', P.w - P.mr, py + 5, { align: 'right' });
-  py += 14;
+  doc.text("CHRISTIE'S EAST HAMPTON · INTERNAL PRO FORMA", P.ml, py);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.text('INTERNAL ONLY — GOVERNING PRINCIPLE, NOT YET CONTRACTUAL', P.w - P.mr, py, { align: 'right' });
+  py = 36;
 
   const rowH = 5.5;
 
   // Helper: draw a simple table
   const drawTable = (headers: string[], colWidths: number[], rows: string[][], startY: number): number => {
     let ty = startY;
-    doc.setFillColor(30, 45, 80); doc.rect(P.ml, ty, cw, rowH, 'F');
+    // Navy header bar — matches FUTURE tab table header style
+    doc.setFillColor(...CS.hdrBg); doc.rect(P.ml, ty, cw, rowH, 'F');
     let cx2 = P.ml + 2;
     headers.forEach((h, i) => {
       doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
@@ -2147,14 +2156,19 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     });
     ty += rowH;
     rows.forEach((row, ri) => {
-      doc.setFillColor(ri % 2 === 0 ? 22 : 26, ri % 2 === 0 ? 35 : 40, ri % 2 === 0 ? 65 : 72);
+      // Alternating cream/off-white rows — matches FUTURE tab
+      doc.setFillColor(...(ri % 2 === 0 ? CS.row1 : CS.row2));
       doc.rect(P.ml, ty, cw, rowH, 'F');
+      // Subtle row border
+      doc.setDrawColor(220, 218, 214); doc.setLineWidth(0.15);
+      doc.line(P.ml, ty + rowH, P.ml + cw, ty + rowH);
       cx2 = P.ml + 2;
       row.forEach((cell, ci) => {
         const isBold = ci === row.length - 1;
         doc.setFontSize(5.5);
         doc.setFont('helvetica', isBold ? 'bold' : 'normal');
-        doc.setTextColor(isBold ? CS.gold[0] : CS.cream[0], isBold ? CS.gold[1] : CS.cream[1], isBold ? CS.gold[2] : CS.cream[2]);
+        // Last column in gold-accent navy, rest in navy
+        doc.setTextColor(isBold ? CS.gold[0] : CS.navy[0], isBold ? CS.gold[1] : CS.navy[1], isBold ? CS.gold[2] : CS.navy[2]);
         doc.text(cell, cx2, ty + 3.8);
         cx2 += colWidths[ci];
       });
@@ -2164,7 +2178,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   };
 
   // Profit Pool
-  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('PROFIT POOL · THE ECONOMIC LOGIC', P.ml, py);
   py += 6;
   py = drawTable(
@@ -2175,7 +2189,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
       ['2027', '$100M', '$1.2M',  '$360K',   'Stabilized'],
       ['2028', '$165M', '$2.5M',  '$750K',   'Southampton opens'],
       ['2029', '$230M', '$3.8M',  '$1.14M',  'Scale phase'],
-      ['2030', '$300M', '$5.2M',  '$1.56M',  'Westhampton opens'],
+      ['2030', '$320M', '$5.6M',  '$1.68M',  'Westhampton opens'],
       ['2031', '$430M', '$7.8M',  '$2.34M',  'Three-office model'],
     ],
     py
@@ -2183,7 +2197,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += 7;
 
   // Managing Director Total
-  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('MANAGING DIRECTOR — TOTAL PROJECTED INCOME', P.ml, py);
   py += 6;
   py = drawTable(
@@ -2202,7 +2216,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += 7;
 
   // Agent GCI
-  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
+  doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('AGENT GCI · PROJECTED 2026', P.ml, py);
   py += 6;
   const gciRows = (agents.length > 0
@@ -2227,11 +2241,12 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += 6;
 
   // ANEW + Zoila note
-  doc.setFillColor(...CS.midBg); doc.rect(P.ml, py, cw, 12, 'F');
-  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.3); doc.line(P.ml, py, P.ml, py + 12);
-  doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
-  doc.text('ANEW HOMES · NET BUILD PROFIT', P.ml + 3, py + 4);
-  doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.setFillColor(...CS.row1); doc.rect(P.ml, py, cw, 12, 'F');
+  doc.setDrawColor(...CS.gold); doc.setLineWidth(0.5); doc.line(P.ml, py, P.ml, py + 12);
+  doc.setDrawColor(220, 218, 214); doc.setLineWidth(0.2); doc.rect(P.ml, py, cw, 12, 'S');
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
+  doc.text('AnewHomes \u00b7 Net Build Profit', P.ml + 3, py + 4);
+  doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
   doc.text('Ed 40% · Scott Smith 40% · Angel Theodore 5% · Jarvis Slade 5% · Ricky 5% · Pool/Future 5% · Net build profit after all costs · ~$50K Y1 / $100K Y2 · Governing principle — not yet formalized.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
   py += 15;
 

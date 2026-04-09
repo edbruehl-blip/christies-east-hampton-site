@@ -2,13 +2,13 @@
  * Pro Forma PDF Generator — Christie's East Hampton
  * Sprint 24 · April 7, 2026
  *
- * Generates a 4-page institutional pro forma PDF for Ed Bruehl / Ilija.
+ * Generates a 4-page institutional pro forma PDF for Ed Bruehl.
  * Pulls live data from Growth Model v2 at time of generation.
  * Uses Puppeteer + Chromium to render HTML → PDF (Christie's visual standard).
  *
  * Page 1 — The Ascension Arc
  * Page 2 — The Machine (Agent Roster)
- * Page 3 — The Economics (Profit Pool + ANEW Homes)
+ * Page 3 — The Economics (Profit Pool + AnewHomes)
  * Page 4 — Defensible Numbers + Ed contact
  */
 

@@ -637,6 +637,8 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       if (name.startsWith('TOTAL') || name.startsWith('2026 Broker')) continue;
       // Skip notes row (very long string)
       if (name.length > 60) continue;
+      // Skip AnewHomes — separate income stream, not an agent row (Sprint 37)
+      if (name.toUpperCase().includes('ANEW')) continue;
 
       // Sprint 27: 4-col-per-year layout (proj vol, act vol, proj GCI, act GCI)
       agents.push({

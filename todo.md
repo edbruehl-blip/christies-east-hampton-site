@@ -1110,3 +1110,13 @@
 - [x] Sprint 36 Final Fix 1: Math.max floor applied — sheet can only go up, never below doctrine targets
 - [x] Sprint 36 Final Fix 2: Generate Pro Forma button fixed — Chromium path corrected from /usr/bin/chromium-browser to /usr/bin/chromium
 - [x] Sprint 36 Final Fix 2: PDF generation confirmed working — 444KB, 4 pages, clean generation from button path
+
+## Sprint 37 — Polish (Apr 9, 2026)
+
+- [ ] Item 1: Update VOLUME sheet proj2027=$100M, proj2028=$165M via Sheets API
+- [ ] Item 2: Fix Card Stock 2030 volume to $320M / pool $5.6M / Ed $1.68M
+- [ ] Item 3: Remove Ilija from Ascension Arc PDF header — screenshot
+- [x] Item 4: Remove Ilija from proforma-generator.ts code comment line 5
+- [x] Item 5: Collapse duplicate AnewHomes row in agent table
+- [x] Item 6: Normalize AnewHomes spelling across all surfaces
+- [ ] Item 7: Align Card Stock styling to FUTURE tab visual language — screenshot

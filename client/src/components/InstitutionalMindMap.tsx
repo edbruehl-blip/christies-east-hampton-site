@@ -222,9 +222,9 @@ const NODES: MapNode[] = [
     members: ["Bonita DeWolf", "Sebastian Mobo", "Sandy Busch", "Jan Jaeger"],
     rw: 72, rh: 42 },
 
-  // ── ANEW HOMES — Sprint 31 ─────────────────────────────────────────────────
+  // ── AnewHomes — Sprint 31 ─────────────────────────────────────────────────
   { id: "anew_homes",
-    name: "ANEW HOMES",
+    name: "AnewHomes",
     title: "New Construction Division · Lily Fan Anchor",
     type: "CATEGORY", status: "ACTIVE",
     note: "New construction division. Lily Fan anchor deal: 140 Hands Creek Road. ANEW calculator lives in the ANEW tab. Tracks build cost, GCI, pro forma. Feeds ANEW Build Memo PDF export.",
@@ -677,7 +677,7 @@ const SECTION_LABELS = [
   { text: "AUCTION REFERRALS",                       x: 480,  y: 558 },
   { text: "RECRUITING",                              x: 200,  y: 808 },
   { text: "MEDIA",                                   x: 200,  y: 918 },
-  { text: "ANEW HOMES",                              x: 120,  y: 918 },
+  { text: "AnewHomes",                              x: 120,  y: 918 },
   { text: "COUNCIL",                                 x: 480,  y: 918 },
   { text: "INTEL LIBRARY",                           x: 640,  y: 918 },
   { text: "WILLIAM",                                 x: 760,  y: 918 },

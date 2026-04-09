@@ -21,8 +21,8 @@ export interface PdfAsset {
 export const CANON_PDF_ASSETS: PdfAsset[] = [
   {
     id: "anew-council-brief",
-    label: "ANEW Homes Council Brief",
-    filename: "ANEW_Homes_Council_Brief.pdf",
+    label: "AnewHomes Council Brief",
+    filename: "AnewHomes_Council_Brief.pdf",
     url: null,
     canon: true,
     requiredThisSprint: true,

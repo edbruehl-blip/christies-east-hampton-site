@@ -538,7 +538,7 @@ export default function FutureTab() {
             </div>
         </>
 
-        {/* ── ANEW Homes Net Build Profit ───────────────────────────────────── */}
+        {/* ── AnewHomes Net Build Profit ───────────────────────────────────────────── */}
         <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
           AnewHomes · Net Build Profit
         </div>
@@ -597,7 +597,9 @@ export default function FutureTab() {
                 <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All six participants aware and agreeable.
               </div>
             </div>
-        </>        {/* ── Pipeline Disclosure Footnote — Item 4 ───────────────────────── */}
+        </>
+
+        {/* ── Pipeline Disclosure Footnote — Item 4 ─────────────────────── */}
         <div className="mb-6 px-4 py-3 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.04)' }}>
           <p style={{ ...SANS, color: '#384249', fontSize: '0.78rem', lineHeight: 1.65, margin: 0 }}>
             Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.
@@ -624,7 +626,7 @@ export default function FutureTab() {
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.06)' }}
           >
-            ↓ Export Card · Dark Layout
+            ↓ Export Card · Light Layout
           </button>
           <ProFormaButton />
           <a
