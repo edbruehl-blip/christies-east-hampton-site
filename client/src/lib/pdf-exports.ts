@@ -1105,10 +1105,10 @@ export async function generateChristiesLetter(): Promise<void> {
       text: 'The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations \u2014 by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.',
     },
     {
-      text: "Christie\u2019s has served that understanding for 259 years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Faberg\u00e9 eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.",
+      text: "Christie’s has served that understanding for 260 years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Faberg\u00e9 eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.",
     },
     {
-      text: "From fine art appraisals to collection management, from art-secured lending to the auction house relationship that has served collectors for 259 years \u2014 Christie\u2019s brings a depth of service that begins where the closing table ends. Every estate holds a story written in objects, and the families who built these collections deserve an advisor who reads the full page.",
+      text: "From fine art appraisals to collection management, from art-secured lending to the auction house relationship that has served collectors for 260 years \u2014 Christie\u2019s brings a depth of service that begins where the closing table ends. Every estate holds a story written in objects, and the families who built these collections deserve an advisor who reads the full page.",
     },
     {
       text: 'When the time comes to understand what you have, how to protect it, and what it might mean to the right buyer \u2014 the conversation is already open.',
@@ -1825,7 +1825,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "The thinking behind William is not random. It pulls from a disciplined framework \u2014 Jamie Dimon on capital and risk, Naval Ravikant on leverage and systems, Codie Sanchez on ownership, Alex Hormozi on clarity and measurement, and Richard Bruehl on truth and culture. And it ends with scripture. Not as decoration. As alignment.",
     },
     {
-      text: "Text NEWS to the WhatsApp number. Listen to what comes back. Tell us if it sounds like the day you are actually walking into.",
+      text: "Text NEWS to 631-239-7190 anytime you want a market brief. William responds immediately.",
       italic: true,
     },
     // What This Is For / broker recruiting

@@ -23,7 +23,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateChristiesLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
+import { generateChristiesLetter, generateFlagshipLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
 
 // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
@@ -340,10 +340,20 @@ function SectionWilliam() {
 // "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
 export default function HomeTab() {
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [flagshipLoading, setFlagshipLoading] = useState(false);
   const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
+
+  const handleFlagshipLetterPdf = async () => {
+    setFlagshipLoading(true);
+    try {
+      await generateFlagshipLetter();
+    } finally {
+      setFlagshipLoading(false);
+    }
+  };
 
   const handleMarketReportPdf = async () => {
     setPdfLoading(true);
@@ -585,6 +595,37 @@ export default function HomeTab() {
               >
                 Open &amp; Print ↗
               </a>
+            </div>
+
+            {/* Flagship Letter PDF */}
+            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+                Flagship Letter · Council Document
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
+                Christie's Flagship Letter
+              </div>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+                The founding document — origin story, team, platform, model, and William. Council-approved internal record.
+              </p>
+              <button
+                onClick={handleFlagshipLetterPdf}
+                disabled={flagshipLoading}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: flagshipLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  cursor: flagshipLoading ? 'wait' : 'pointer',
+                  opacity: flagshipLoading ? 0.6 : 1,
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                {flagshipLoading ? 'Generating…' : '↓ Download PDF'}
+              </button>
             </div>
 
             {/* Market Report PDF — Item 5, council-approved Apr 7 2026 */}

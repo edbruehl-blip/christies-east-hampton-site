@@ -1180,3 +1180,11 @@
 - [x] pipe.getKpis live test: $19.32M active, $22.07M book, 13 deals
 - [x] Listings persist to DB without image_url error confirmed
 - [ ] Save Sprint 41 checkpoint and Publish
+
+## Sprint 41 Text Fixes (April 9, 2026)
+- [x] Broker Onboarding PDF William line updated to 631-239-7190 with "William responds immediately."
+- [x] 259 years -> 260 years in pdf-exports.ts (2 occurrences)
+- [x] 259 years -> 260 years in InstitutionalMindMap.tsx
+- [x] 259 years -> 260 years in whatsapp-inbound.ts LLM prompt
+- [x] Flagship Letter export card added to HOME beside Market Report
+- [x] TypeScript: 0 errors

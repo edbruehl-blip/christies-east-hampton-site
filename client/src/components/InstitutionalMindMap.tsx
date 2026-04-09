@@ -112,7 +112,7 @@ const NODES: MapNode[] = [
     name: "Bonnie Brennan",
     title: "CEO, Christie's",
     type: "HIERARCHY", status: "ACTIVE",
-    note: "CEO since Feb 1, 2025. First American woman to lead Christie's in 259 years. Former President, Americas (48% of global sales). $6.2B in 2025 sales (+6% YoY). Overseeing Rockefeller Center HQ renovation.",
+    note: "CEO since Feb 1, 2025. First American woman to lead Christie's in 260 years. Former President, Americas (48% of global sales). $6.2B in 2025 sales (+6% YoY). Overseeing Rockefeller Center HQ renovation.",
     x: 310, y: 270, r: 20 },
 
   // Relationship layer
