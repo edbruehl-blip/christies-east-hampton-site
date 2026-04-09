@@ -516,10 +516,6 @@ function SectionWilliam() {
 export default function HomeTab() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [flagshipLoading, setFlagshipLoading] = useState(false);
-  // Audio player URLs — versioned scripts locked to PDF content (Sprint 42 Item 1)
-  const christiesLetterAudioUrl = window.location.origin + '/api/tts/christies-letter';
-  const flagshipLetterAudioUrl = window.location.origin + '/api/tts/flagship-letter';
-  const marketReportAudioUrl = window.location.origin + '/api/tts/market-report';
   const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,

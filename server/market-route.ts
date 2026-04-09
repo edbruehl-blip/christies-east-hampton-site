@@ -8,12 +8,12 @@
  */
 import type { Express } from "express";
 
-interface YFResult {
+export interface YFResult {
   price: number;
   change: number;
 }
 
-async function fetchYF(symbol: string): Promise<YFResult | null> {
+export async function fetchYF(symbol: string): Promise<YFResult | null> {
   try {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
     const res = await fetch(url, {
