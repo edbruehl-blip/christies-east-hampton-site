@@ -353,9 +353,9 @@ export default function FutureTab() {
                   </td>
                 </tr>
               ))}
-              {/* ANEW Homes row */}
+              {/* AnewHomes row */}
               <tr style={{ borderBottom: '1px solid rgba(200,172,120,0.2)', background: 'rgba(200,172,120,0.04)' }}>
-                <td className="px-4 py-3" style={{ ...SERIF, color: '#8a7a5a', fontWeight: 600, fontSize: '0.85rem' }}>ANEW Homes</td>
+                <td className="px-4 py-3" style={{ ...SERIF, color: '#8a7a5a', fontWeight: 600, fontSize: '0.85rem' }}>AnewHomes</td>
                 <td className="px-3 py-3 text-sm" style={{ color: '#7a8a8e' }}>Custom Build · Ed Bruehl exclusively</td>
                 <td className="px-3 py-3">
                   <span className="px-2 py-0.5 text-[9px] uppercase" style={{ ...LABEL_FONT, background: 'rgba(200,172,120,0.15)', color: '#C8AC78', letterSpacing: '0.1em' }}>Active</span>
@@ -412,19 +412,19 @@ export default function FutureTab() {
               <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'ANEW (Ed 45%)', 'Total'].map(h => (
+                    {['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 40%)', 'Total'].map(h => (
                       <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    { year: '2026', gci: '$750,000', pool: '$90,000', anew: '$22,500', total: '$862,500' },
-                    { year: '2027', gci: '$900,000', pool: '$318,000', anew: '$45,000', total: '$1,263,000' },
-                    { year: '2028', gci: '$1,000,000 (cap)', pool: '$558,000', anew: '$67,500', total: '$1,625,500' },
-                    { year: '2029', gci: '$1,000,000 (cap)', pool: '$1,140,000', anew: '$90,000', total: '$2,230,000' },
-                    { year: '2030', gci: '$1,000,000 (cap)', pool: '$1,680,000', anew: '$112,500', total: '$2,792,500' },
-                    { year: '2031', gci: '$1,000,000 (cap)', pool: '$2,340,000', anew: '$135,000', total: '$3,475,000' },
+                    { year: '2026', gci: '$750,000', pool: '$90,000', anew: '$20,000', total: '$860,000' },
+                    { year: '2027', gci: '$900,000', pool: '$360,000', anew: '$40,000', total: '$1,300,000' },
+                    { year: '2028', gci: '$1,000,000 (cap)', pool: '$750,000', anew: '$60,000', total: '$1,810,000' },
+                    { year: '2029', gci: '$1,000,000 (cap)', pool: '$1,140,000', anew: '$80,000', total: '$2,220,000' },
+                    { year: '2030', gci: '$1,000,000 (cap)', pool: '$1,680,000', anew: '$100,000', total: '$2,780,000' },
+                    { year: '2031', gci: '$1,000,000 (cap)', pool: '$2,340,000', anew: '$120,000', total: '$3,460,000' },
                   ].map((row, i) => (
                     <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
                       <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
@@ -439,7 +439,7 @@ export default function FutureTab() {
             </div>
             <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
               <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
-                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 30%. ANEW grows at approximately $50K/year net build profit × 45%.
+                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 30%. AnewHomes grows at approximately $50K/year net build profit × Ed 40% share.
               </p>
             </div>
         </>
@@ -466,7 +466,7 @@ export default function FutureTab() {
               <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (30%)', 'Ilija (65%)', "Christie's RE (5%)"].map(h => (
+                    {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (30%)', 'Partnership (65%)', "Christie's RE (5%)"].map(h => (
                       <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
                     ))}
                   </tr>
@@ -474,8 +474,8 @@ export default function FutureTab() {
                 <tbody>
                   {[
                     { year: '2026', vol: total.proj2026 || 55_000_000 },
-                    { year: '2027', vol: total.proj2027 || 93_000_000 },
-                    { year: '2028', vol: total.proj2028 || 133_000_000 },
+                    { year: '2027', vol: total.proj2027 || 100_000_000 },
+                    { year: '2028', vol: total.proj2028 || 165_000_000 },
                     { year: '2029', vol: total.proj2029 || 230_000_000 },
                     { year: '2030', vol: total.proj2030 || 320_000_000 },
                     { year: '2031', vol: total.proj2031 || 430_000_000 },
@@ -540,7 +540,7 @@ export default function FutureTab() {
 
         {/* ── ANEW Homes Net Build Profit ───────────────────────────────────── */}
         <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          ANEW Homes · Net Build Profit
+          AnewHomes · Net Build Profit
         </div>
         <>
             <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(200,172,120,0.06)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
@@ -548,7 +548,7 @@ export default function FutureTab() {
                 ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS
               </span>
               <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', marginTop: 4 }}>
-                ANEW Homes — Morton steel-frame custom builds. Products: Ranch · Cottage · Legacy Land Play · ADU Garage Living Unit.
+                AnewHomes — Morton steel-frame custom builds. Products: Ranch · Cottage · Legacy Land Play · ADU Garage Living Unit.
                 ADU drives Year 1 income — construction management fees on client land, no land acquisition required.
                 Net profit after ALL build costs. Separate from Christie's commission income entirely.
               </div>
@@ -564,10 +564,12 @@ export default function FutureTab() {
                 </thead>
                 <tbody>
                   {[
-                    { name: 'Ed Bruehl', share: '45%', y1: '$22,500', y2: '$45,000', note: 'Managing partner · ANEW Homes lead' },
-                    { name: 'Scott Smith', share: '45%', y1: '$22,500', y2: '$45,000', note: 'Build operations partner · pending June 1' },
-                    { name: 'Jarvis Slade', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+                    { name: 'Ed Bruehl', share: '40%', y1: '$20,000', y2: '$40,000', note: 'Managing partner · AnewHomes lead' },
+                    { name: 'Scott Smith', share: '40%', y1: '$20,000', y2: '$40,000', note: 'Build operations partner · pending June 1' },
                     { name: 'Angel Theodore', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+                    { name: 'Jarvis Slade', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+                    { name: 'Ricky (Richard Bruehl)', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Advisory participant' },
+                    { name: 'Pool / Future', share: '5%', y1: '$2,500', y2: '$5,000', note: 'Reserved for future participants' },
                   ].map((row, i) => (
                     <tr key={row.name} style={{ background: i % 2 === 0 ? '#fff' : 'rgba(27,42,74,0.03)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
                       <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.85rem', padding: '8px 12px' }}>{row.name}</td>
@@ -589,10 +591,10 @@ export default function FutureTab() {
             </div>
             <div className="mb-10 px-4 py-3 border" style={{ background: 'rgba(200,172,120,0.04)', borderColor: 'rgba(200,172,120,0.3)' }}>
               <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
-                <strong style={{ color: '#1B2A4A' }}>Label:</strong> ANEW Homes — Net Build Profit · Separate from Christie's commission income.
+                <strong style={{ color: '#1B2A4A' }}>Label:</strong> AnewHomes — Net Build Profit · Ed Bruehl exclusively · Separate from Christie's commission income.
               </div>
               <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.6, marginTop: 2 }}>
-                <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All four participants aware and agreeable.
+                <strong style={{ color: '#1B2A4A' }}>*</strong> Governing principle — not yet formalized. All six participants aware and agreeable.
               </div>
             </div>
         </>        {/* ── Pipeline Disclosure Footnote — Item 4 ───────────────────────── */}

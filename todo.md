@@ -1084,3 +1084,25 @@
 - [ ] Item 1: Publish after hotfix confirmed
 - [ ] Item 2: Restore GCI auth gate on FUTURE tab (GCI columns, Profit Pool, MD Total, ANEW behind isAuthenticated)
 - [ ] Item 3: Wire FRED timestamp to MARKET tab Rate Environment sub-label
+
+## Sprint 36 — Corrections (April 9, 2026)
+
+- [ ] Item 1: AnewHomes equity split correction — Ed 40%, Scott 40%, Angel 5%, Jarvis 5%, Ricky 5%, Pool 5% — apply to FutureTab.tsx, proforma-generator.ts, card stock PDF, all references
+- [ ] Item 1: Rename "ANEW Homes" → "AnewHomes" (one word, capital A, capital H) everywhere
+- [ ] Item 1: Update Managing Director Total table in FutureTab.tsx with corrected 40% ANEW column and new totals
+- [ ] Item 1: Update compensation table footnote to reflect 40% ANEW share
+- [ ] Item 2: Diagnose 4-page pro forma PDF render issue and fix
+- [ ] Item 2: Update 4-page pro forma volumes to $100M (2027) and $165M (2028)
+- [ ] Item 3: Align card stock export styling to FUTURE tab visual language
+- [ ] Confirm all items with screenshots before closing Sprint 36
+
+## Sprint 36 — AnewHomes Corrections (Apr 9, 2026)
+
+- [x] Item 1: AnewHomes rename (ANEW Homes → AnewHomes) across all surfaces
+- [x] Item 1: Split corrected from 45%/45%/5%/5% (4 people) to 40%/40%/5%/5%/5%/5% (6 people — added Ricky + Pool/Future)
+- [x] Item 1: Ed's AnewHomes column corrected in compensation table (was 45%, now 40%)
+- [x] Item 1: All three surfaces updated: FutureTab.tsx, proforma-generator.ts, pdf-exports.ts
+- [x] Item 2: 2027 volume default corrected from $93M to $100M (all three surfaces)
+- [x] Item 2: 2028 volume default corrected from $133M to $165M (all three surfaces)
+- [x] Item 2: Profit pool column header renamed from "Ilija (65%)" to "Partnership (65%)"
+- [x] Item 2: Ed's compensation totals recalculated across all 6 years

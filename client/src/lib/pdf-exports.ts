@@ -1398,7 +1398,7 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
       name: 'TOTAL', role: '', status: '',
       proj2026: total.proj2026 || 55_000_000,
       act2026:  total.act2026 > 0 ? total.act2026 : liveAct2026,
-      proj2027: total.proj2027 || 93_000_000,
+      proj2027: total.proj2027 || 100_000_000,
       act2027:  0,
     },
   ];
@@ -2187,15 +2187,15 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('MANAGING DIRECTOR — TOTAL PROJECTED INCOME', P.ml, py);
   py += 6;
   py = drawTable(
-    ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'ANEW (Ed 45%)', 'Total'],
+    ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 40%)', 'Total'],
     [cw * 0.1, cw * 0.22, cw * 0.22, cw * 0.18, cw * 0.28],
     [
-      ['2026', '$750,000',         '$90,000',    '$22,500',  '$862,500'],
-      ['2027', '$900,000',         '$318,000',   '$45,000',  '$1,263,000'],
-      ['2028', '$1,000,000 (cap)', '$558,000',   '$67,500',  '$1,625,500'],
-      ['2029', '$1,000,000 (cap)', '$1,140,000', '$90,000',  '$2,230,000'],
-      ['2030', '$1,000,000 (cap)', '$1,680,000', '$112,500', '$2,792,500'],
-      ['2031', '$1,000,000 (cap)', '$2,340,000', '$135,000', '$3,475,000'],
+      ['2026', '$750,000',         '$90,000',    '$20,000',  '$860,000'],
+      ['2027', '$900,000',         '$360,000',   '$40,000',  '$1,300,000'],
+      ['2028', '$1,000,000 (cap)', '$750,000',   '$60,000',  '$1,810,000'],
+      ['2029', '$1,000,000 (cap)', '$1,140,000', '$80,000',  '$2,220,000'],
+      ['2030', '$1,000,000 (cap)', '$1,680,000', '$100,000', '$2,780,000'],
+      ['2031', '$1,000,000 (cap)', '$2,340,000', '$120,000', '$3,460,000'],
     ],
     py
   );
@@ -2232,7 +2232,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.gold);
   doc.text('ANEW HOMES · NET BUILD PROFIT', P.ml + 3, py + 4);
   doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
-  doc.text('Ed 45% · Ilija 45% · Ricky 10% · Net build profit after all costs · ~$50K/year growth · Governing principle — not yet formalized.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
+  doc.text('Ed 40% · Scott Smith 40% · Angel Theodore 5% · Jarvis Slade 5% · Ricky 5% · Pool/Future 5% · Net build profit after all costs · ~$50K Y1 / $100K Y2 · Governing principle — not yet formalized.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
   py += 15;
 
   doc.setFontSize(5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);

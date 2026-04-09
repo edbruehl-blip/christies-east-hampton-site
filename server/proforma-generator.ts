@@ -56,8 +56,8 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   // Volume projections per year
   const outlookYears = [
     { year: '2026', vol: total.proj2026 || 55_000_000 },
-    { year: '2027', vol: total.proj2027 || 93_000_000 },
-    { year: '2028', vol: total.proj2028 || 133_000_000 },
+    { year: '2027', vol: total.proj2027 || 100_000_000 },
+    { year: '2028', vol: total.proj2028 || 165_000_000 },
     { year: '2029', vol: total.proj2029 || 230_000_000 },
     { year: '2030', vol: total.proj2030 || 320_000_000 },
     { year: '2031', vol: total.proj2031 || 430_000_000 },
@@ -633,11 +633,11 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <td colspan="3" style="color:#1B2A4A;font-weight:600">TOTAL (Baseline)</td>
         <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2026 || 55_000_000)}</td>
         <td style="color:#1B2A4A;font-weight:600">${fmtDollar(total.act2026 || 4_570_000)}</td>
-        <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2027 || 93_000_000)}</td>
+        <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2027 || 100_000_000)}</td>
         <td style="color:rgba(56,66,73,0.3)">—</td>
       </tr>
       <tr class="anew-row">
-        <td colspan="3" style="color:#8a7a5a;font-style:italic">ANEW Homes — Custom Build · Ed Bruehl exclusively</td>
+        <td colspan="3" style="color:#8a7a5a;font-style:italic">AnewHomes — Custom Build · Ed Bruehl exclusively</td>
         <td style="color:#8a7a5a">$50K net*</td>
         <td style="color:rgba(56,66,73,0.3)">—</td>
         <td style="color:#8a7a5a">$100K net*</td>
@@ -647,7 +647,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   </table>
 
   <div class="footnote">
-    * ANEW Homes figures are net build profit, not sales volume. Separate from Christie's commission income.
+    * AnewHomes figures are net build profit, not sales volume. Separate from Christie's commission income.
     Agent count: 9 existing (including Scott Smith pending June 1) + 3 targeted + 4 organic = 16 for 2026.
     All projections labeled MODEL. Actual columns update as deals close in PIPE.
     Scott Smith start date pending June 1, 2026 confirmation.
@@ -675,7 +675,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="section-label">Page 3 of 4</div>
   <div class="page-title">The Economics</div>
-  <div class="page-subtitle">Profit Pool · Ed's Three Income Streams · ANEW Homes Split</div>
+  <div class="page-subtitle">Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
   <div class="internal-banner">★ INTERNAL ONLY — GCI and Profit Pool · Not for External Documents · Governing Principle *</div>
 
@@ -683,7 +683,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:8px 10px;margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.6">
     Formula: Pool = (Total Sales Volume − <strong>$40M breakeven</strong>) × <strong>2%</strong>.
     If volume &lt; $40M, pool = $0.
-    Split: <strong>Ed Bruehl 30%</strong> · <strong>Ilija 65%</strong> · <strong>Christie's RE Rights 5%</strong>.
+    Split: <strong>Ed Bruehl 30%</strong> · <strong>Partnership 65%</strong> · <strong>Christie's RE Rights 5%</strong>.
     Paid at year end. Not salary. Not splits. Profit participation.
   </div>
 
@@ -695,7 +695,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <th>Above $40M</th>
         <th>Pool (2%)</th>
         <th>Ed (30%)</th>
-        <th>Ilija (65%)</th>
+        <th>Partnership (65%)</th>
         <th>Christie's RE (5%)</th>
       </tr>
     </thead>
@@ -714,33 +714,41 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <span class="value">${fmtFull(pool2026.ed)}*</span>
       </div>
       <div class="econ-line">
-        <span class="label">ANEW Homes Net Build Profit (45%)</span>
-        <span class="value">$22,500*</span>
+        <span class="label">AnewHomes Net Build Profit (Ed 40%)</span>
+        <span class="value">$20,000*</span>
       </div>
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total 2026 (MODEL)</span>
-          <span class="value" style="color:#C8AC78">${fmtFull(750_000 + pool2026.ed + 22_500)}*</span>
+          <span class="value" style="color:#C8AC78">${fmtFull(750_000 + pool2026.ed + 20_000)}*</span>
         </div>
       </div>
     </div>
 
     <div class="econ-block">
-      <div class="econ-block-title">ANEW Homes · Net Build Profit Split</div>
+      <div class="econ-block-title">AnewHomes · Net Build Profit Split</div>
       <div class="econ-line">
-        <span class="label">Ed Bruehl (45%)</span>
-        <span class="value">$22,500 Y1 / $45,000 Y2*</span>
+        <span class="label">Ed Bruehl (40%)</span>
+        <span class="value">$20,000 Y1 / $40,000 Y2*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Scott Smith (45%)</span>
-        <span class="value">$22,500 Y1 / $45,000 Y2*</span>
+        <span class="label">Scott Smith (40%)</span>
+        <span class="value">$20,000 Y1 / $40,000 Y2*</span>
+      </div>
+      <div class="econ-line">
+        <span class="label">Angel Theodore (5%)</span>
+        <span class="value">$2,500 Y1 / $5,000 Y2*</span>
       </div>
       <div class="econ-line">
         <span class="label">Jarvis Slade (5%)</span>
         <span class="value">$2,500 Y1 / $5,000 Y2*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Angel Theodore (5%)</span>
+        <span class="label">Ricky (Richard Bruehl) (5%)</span>
+        <span class="value">$2,500 Y1 / $5,000 Y2*</span>
+      </div>
+      <div class="econ-line">
+        <span class="label">Pool / Future (5%)</span>
         <span class="value">$2,500 Y1 / $5,000 Y2*</span>
       </div>
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
@@ -755,9 +763,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="footnote">
     * Governing principle only — not yet contractual. All figures labeled MODEL.
     Profit pool activates above $40M total sales volume.
-    ANEW Homes: Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
+    AnewHomes: Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
     Net profit after ALL build costs. Separate from Christie's commission income entirely.
-    All four ANEW participants aware and agreeable. Not yet formalized.
+    All six AnewHomes participants aware and agreeable. Not yet formalized.
   </div>
 
   <div class="page-footer">
