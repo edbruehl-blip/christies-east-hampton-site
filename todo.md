@@ -1229,3 +1229,10 @@
 - [x] Screenshot: HOME buttons showing three labels in order
 - [x] Screenshot: /report buttons showing three labels in order
 - [x] Confirm Pro Forma generates successfully — 442KB PDF, 5.7 seconds, downloads clean
+
+## Sprint 43 — AnewHomes Equity Correction (April 9, 2026)
+- [x] FUTURE tab: Update AnewHomes equity split to Ed 35% / Scott 35% / Richard 10% / Jarvis 5% / Angel 5% / Zoila 5%* / Pool 5% with Y1/Y2 dollar amounts and Zoila asterisk footnote
+- [x] FUTURE tab: Update MD Total AnewHomes column to 35% share ($17,500 / $35,000 / $52,500 / $70,000 / $87,500 / $105,000 across 2026–2031)
+- [x] Card Stock PDF: Same equity split and MD Total AnewHomes correction
+- [x] Pro Forma PDF: Same equity split and MD Total AnewHomes correction
+- [x] Screenshot: FUTURE tab showing updated AnewHomes equity table

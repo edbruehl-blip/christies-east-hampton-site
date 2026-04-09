@@ -721,13 +721,13 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <span class="value">${fmtFull(pool2026.ed)}*</span>
       </div>
       <div class="econ-line">
-        <span class="label">AnewHomes Net Build Profit (Ed 40%)</span>
-        <span class="value">$20,000*</span>
+        <span class="label">AnewHomes Net Build Profit (Ed 35%)</span>
+        <span class="value">$17,500*</span>
       </div>
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total 2026 (MODEL)</span>
-          <span class="value" style="color:#C8AC78">${fmtFull(600_000 + pool2026.ed + 20_000)}*</span>
+          <span class="value" style="color:#C8AC78">${fmtFull(600_000 + pool2026.ed + 17_500)}*</span>
         </div>
       </div>
     </div>
@@ -735,23 +735,27 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     <div class="econ-block">
       <div class="econ-block-title">AnewHomes · Net Build Profit Split</div>
       <div class="econ-line">
-        <span class="label">Ed Bruehl (40%)</span>
-        <span class="value">$20,000 Y1 / $40,000 Y2*</span>
+        <span class="label">Ed Bruehl (35%)</span>
+        <span class="value">$17,500 Y1 / $35,000 Y2*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Scott Smith (40%)</span>
-        <span class="value">$20,000 Y1 / $40,000 Y2*</span>
+        <span class="label">Scott Smith (35%)</span>
+        <span class="value">$17,500 Y1 / $35,000 Y2*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Angel Theodore (5%)</span>
-        <span class="value">$2,500 Y1 / $5,000 Y2*</span>
+        <span class="label">Richard Bruehl (10%)</span>
+        <span class="value">$5,000 Y1 / $10,000 Y2*</span>
       </div>
       <div class="econ-line">
         <span class="label">Jarvis Slade (5%)</span>
         <span class="value">$2,500 Y1 / $5,000 Y2*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Ricky (Richard Bruehl) (5%)</span>
+        <span class="label">Angel Theodore (5%)</span>
+        <span class="value">$2,500 Y1 / $5,000 Y2*</span>
+      </div>
+      <div class="econ-line">
+        <span class="label">Zoila Ortega Astor (5%†)</span>
         <span class="value">$2,500 Y1 / $5,000 Y2*</span>
       </div>
       <div class="econ-line">
@@ -772,7 +776,8 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     Profit pool activates above $40M total sales volume.
     AnewHomes: Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
     Net profit after ALL build costs. Separate from Christie's commission income entirely.
-    All six AnewHomes participants aware and agreeable. Not yet formalized.
+    All seven AnewHomes participants aware and agreeable. Not yet formalized.
+    † Zoila Ortega Astor vests at six months. Reverts to pool if she does not make the cut.
   </div>
 
   <div class="page-footer">
