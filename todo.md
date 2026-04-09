@@ -1120,3 +1120,15 @@
 - [x] Item 5: Collapse duplicate AnewHomes row in agent table
 - [x] Item 6: Normalize AnewHomes spelling across all surfaces
 - [ ] Item 7: Align Card Stock styling to FUTURE tab visual language — screenshot
+
+## Sprint 38 — 2% Commission Lock
+- [x] Update ROSTER tab: 5 agents at 2% GCI (Ed $600K, Jarvis $100K, Bonita $300K, Sebastian $70K, Scott $30K)
+- [x] Update Managing Director Total table: $600K 2026 GCI, corrected 6-year trajectory (cap hits 2029)
+- [x] Update 4-page pro forma generator with corrected GCI numbers
+- [x] Update Card Stock PDF export with corrected GCI numbers
+- [x] Confirm no orphaned $750K anywhere in the model
+- [x] Screenshot ROSTER tab with 2% GCI
+- [x] Screenshot Managing Director Total table with $600K / $710K 2026
+- [x] Fresh pro forma PDF export
+- [x] Fresh Card Stock PDF export
+- [x] Checkpoint and Publish

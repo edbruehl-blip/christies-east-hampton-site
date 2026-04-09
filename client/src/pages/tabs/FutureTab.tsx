@@ -316,11 +316,11 @@ export default function FutureTab() {
             </thead>
             <tbody>
               {(agents.length > 0 ? agents : [
-                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, projGci2026: 750_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 330_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, projGci2026: 350_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Sebastian Mobo', role: 'Agent', status: 'Active', proj2026: 3_000_000, act2026: 0, projGci2026: 100_000, actGci2026: 0, proj2027: 5_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 50_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 30_000_000, act2026: 4_570_000, projGci2026: 600_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 100_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 15_000_000, act2026: 0, projGci2026: 300_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
+                { name: 'Sebastian Mobo', role: 'Agent', status: 'Active', proj2026: 3_500_000, act2026: 0, projGci2026: 70_000, actGci2026: 0, proj2027: 5_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
+                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 30_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
                 { name: 'Zoila Ortega Astor', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
                 { name: 'Angel Theodore', role: 'Mktg Coord + Sales', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
                 { name: 'Sandy Busch', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 25_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
@@ -419,9 +419,9 @@ export default function FutureTab() {
                 </thead>
                 <tbody>
                   {[
-                    { year: '2026', gci: '$750,000', pool: '$90,000', anew: '$20,000', total: '$860,000' },
-                    { year: '2027', gci: '$900,000', pool: '$360,000', anew: '$40,000', total: '$1,300,000' },
-                    { year: '2028', gci: '$1,000,000 (cap)', pool: '$750,000', anew: '$60,000', total: '$1,810,000' },
+                    { year: '2026', gci: '$600,000', pool: '$90,000', anew: '$20,000', total: '$710,000' },
+                    { year: '2027', gci: '$720,000', pool: '$360,000', anew: '$40,000', total: '$1,120,000' },
+                    { year: '2028', gci: '$864,000', pool: '$750,000', anew: '$60,000', total: '$1,674,000' },
                     { year: '2029', gci: '$1,000,000 (cap)', pool: '$1,140,000', anew: '$80,000', total: '$2,220,000' },
                     { year: '2030', gci: '$1,000,000 (cap)', pool: '$1,680,000', anew: '$100,000', total: '$2,780,000' },
                     { year: '2031', gci: '$1,000,000 (cap)', pool: '$2,340,000', anew: '$120,000', total: '$3,460,000' },

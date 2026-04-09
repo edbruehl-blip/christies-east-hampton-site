@@ -2204,9 +2204,9 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 40%)', 'Total'],
     [cw * 0.1, cw * 0.22, cw * 0.22, cw * 0.18, cw * 0.28],
     [
-      ['2026', '$750,000',         '$90,000',    '$20,000',  '$860,000'],
-      ['2027', '$900,000',         '$360,000',   '$40,000',  '$1,300,000'],
-      ['2028', '$1,000,000 (cap)', '$750,000',   '$60,000',  '$1,810,000'],
+      ['2026', '$600,000',         '$90,000',    '$20,000',  '$710,000'],
+      ['2027', '$720,000',         '$360,000',   '$40,000',  '$1,120,000'],
+      ['2028', '$864,000',         '$750,000',   '$60,000',  '$1,674,000'],
       ['2029', '$1,000,000 (cap)', '$1,140,000', '$80,000',  '$2,220,000'],
       ['2030', '$1,000,000 (cap)', '$1,680,000', '$100,000', '$2,780,000'],
       ['2031', '$1,000,000 (cap)', '$2,340,000', '$120,000', '$3,460,000'],
@@ -2219,19 +2219,37 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('AGENT GCI · PROJECTED 2026', P.ml, py);
   py += 6;
+  // Hardcoded 2% GCI values (commission rate locked at 2% per Sprint 38 directive)
+  const HARDCODED_GCI: Record<string, string> = {
+    'Ed Bruehl': '$600,000',
+    'Jarvis Slade': '$100,000',
+    'Bonita DeWolf': '$300,000',
+    'Sebastian Mobo': '$70,000',
+    'Scott Smith': '$30,000',
+    'Zoila Ortega Astor': '$60,000 *',
+    'Angel Theodore': '$60,000',
+    'Sandy Busch': '$25,000',
+    'Jan Jaeger': '$25,000',
+  };
+  const FALLBACK_GCI_ROWS = [
+    ['Ed Bruehl',         '$600,000', '—'],
+    ['Jarvis Slade',       '$100,000', '—'],
+    ['Bonita DeWolf',      '$300,000', '—'],
+    ['Sebastian Mobo',     '$70,000',  '—'],
+    ['Scott Smith',        '$30,000',  '—'],
+    ['Zoila Ortega Astor', '$60,000 *','—'],
+    ['Angel Theodore',     '$60,000',  '—'],
+    ['Sandy Busch',        '$25,000',  '—'],
+    ['Jan Jaeger',         '$25,000',  '—'],
+  ];
   const gciRows = (agents.length > 0
-    ? agents.map(a => [a.name, fmtVolFuture(a.projGci2026 ?? 0), (a.actGci2026 ?? 0) > 0 ? fmtVolFuture(a.actGci2026 ?? 0) : '—'])
-    : [
-        ['Ed Bruehl',         '$750,000', '—'],
-        ['Jarvis Slade',       '$330,000', '—'],
-        ['Bonita DeWolf',      '$350,000', '—'],
-        ['Sebastian Mobo',     '$100,000', '—'],
-        ['Scott Smith',        '$50,000',  '—'],
-        ['Zoila Ortega Astor', '$60,000 *','—'],
-        ['Angel Theodore',     '$60,000',  '—'],
-        ['Sandy Busch',        '$25,000',  '—'],
-        ['Jan Jaeger',         '$25,000',  '—'],
-      ]) as string[][];
+    ? agents.map(a => [
+        a.name,
+        // Use hardcoded 2% value if live projGci2026 is zero or missing
+        (a.projGci2026 ?? 0) > 0 ? fmtVolFuture(a.projGci2026 ?? 0) : (HARDCODED_GCI[a.name] ?? fmtVolFuture(0)),
+        (a.actGci2026 ?? 0) > 0 ? fmtVolFuture(a.actGci2026 ?? 0) : '—'
+      ])
+    : FALLBACK_GCI_ROWS) as string[][];
   py = drawTable(
     ['Agent', 'Projected GCI 2026', 'Actual GCI 2026'],
     [cw * 0.45, cw * 0.27, cw * 0.28],
