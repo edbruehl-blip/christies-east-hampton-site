@@ -16,12 +16,13 @@
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
  */
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 import { EmbedFrame } from '@/components/EmbedFrame';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
-import { WilliamAudioPlayer } from '@/components/WilliamAudioPlayer';
+// WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 import { generateChristiesLetter, generateFlagshipLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
@@ -43,12 +44,108 @@ const FOUNDING_PARAGRAPHS = [
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
+type HomeAudioChannel = 'founding' | 'christies' | 'flagship' | 'market';
+
 function SectionA() {
   const [, navigate] = useLocation();
 
   const auctionRoomSrc = GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
+
+  // ── Inline audio state machine (fetch-blob pattern — same as /report Section1) ──
+  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
+  const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('founding');
+  const [audioProgress, setAudioProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
+  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  function fmtTime(s: number) {
+    if (!isFinite(s) || isNaN(s)) return '0:00';
+    return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  }
+
+  function stopAudio() {
+    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
+    setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0);
+  }
+
+  function togglePause() {
+    const a = audioRef.current;
+    if (!a) return;
+    if (audioState === 'playing') { a.pause(); setAudioState('paused'); }
+    else if (audioState === 'paused') { a.play(); setAudioState('playing'); }
+  }
+
+  function handleRewind() {
+    const a = audioRef.current;
+    if (a) a.currentTime = Math.max(0, a.currentTime - 15);
+  }
+
+  function handleForward() {
+    const a = audioRef.current;
+    if (a) a.currentTime = Math.min(a.duration || 0, a.currentTime + 15);
+  }
+
+  function handleShare() {
+    const ep = audioChannel === 'founding' ? '/api/tts/founding-letter'
+      : audioChannel === 'christies' ? '/api/tts/christies-letter'
+      : audioChannel === 'flagship' ? '/api/tts/flagship-letter'
+      : '/api/tts/market-report';
+    navigator.clipboard.writeText(window.location.origin + ep)
+      .then(() => { setShareState('copied'); setTimeout(() => setShareState('idle'), 2500); })
+      .catch(() => toast.error('Could not copy link.'));
+  }
+
+  function handleScrub(e: React.MouseEvent<HTMLDivElement>) {
+    const a = audioRef.current;
+    if (!a || !a.duration) return;
+    const r = e.currentTarget.getBoundingClientRect();
+    a.currentTime = ((e.clientX - r.left) / r.width) * a.duration;
+  }
+
+  async function handleListen(channel: HomeAudioChannel) {
+    if (audioState === 'playing' && audioChannel === channel) { stopAudio(); return; }
+    if (audioState === 'playing' || audioState === 'loading') stopAudio();
+    setAudioChannel(channel);
+    setAudioState('loading');
+    setAudioProgress(0);
+    const endpoint = channel === 'founding' ? '/api/tts/founding-letter'
+      : channel === 'christies' ? '/api/tts/christies-letter'
+      : channel === 'flagship' ? '/api/tts/flagship-letter'
+      : '/api/tts/market-report';
+    try {
+      const res = await fetch(endpoint);
+      if (!res.ok) throw new Error(`TTS error ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audioRef.current = audio;
+      audio.onloadedmetadata = () => setAudioDuration(audio.duration);
+      audio.ontimeupdate = () => {
+        if (audio.duration) {
+          setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
+          setCurrentTime(audio.currentTime);
+        }
+      };
+      audio.onended = () => { setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0); URL.revokeObjectURL(url); };
+      audio.onerror = () => { setAudioState('error'); toast.error('Audio playback failed.'); setTimeout(() => setAudioState('idle'), 3000); };
+      await audio.play();
+      setAudioState('playing');
+    } catch (e) {
+      console.error(e);
+      setAudioState('error');
+      toast.error('Audio generation failed. Please try again.');
+      setTimeout(() => setAudioState('idle'), 3000);
+    }
+  }
+
+  const channelLabel = audioChannel === 'founding' ? 'Founding Letter'
+    : audioChannel === 'christies' ? "James Christie's Letter"
+    : audioChannel === 'flagship' ? 'Flagship Letter'
+    : 'Market Intelligence Brief';
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
@@ -168,24 +265,94 @@ function SectionA() {
               </div>
             </div>
 
-            {/* Audio players — immediately below founding letter signature (Sprint 42 Item 1) */}
-            <div style={{ marginTop: 28, maxWidth: 560, display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <WilliamAudioPlayer
-                audioUrl={window.location.origin + '/api/tts/founding-letter'}
-                label="Founding Letter · Christie's East Hampton"
-              />
-              <WilliamAudioPlayer
-                audioUrl={window.location.origin + '/api/tts/christies-letter'}
-                label="Listen · James Christie's Letter"
-              />
-              <WilliamAudioPlayer
-                audioUrl={window.location.origin + '/api/tts/flagship-letter'}
-                label="Listen · Christie's Flagship Letter"
-              />
-              <WilliamAudioPlayer
-                audioUrl={window.location.origin + '/api/tts/market-report'}
-                label="Listen · Market Intelligence Brief"
-              />
+            {/* ── William Audio Player — inline fetch-blob pattern (same as /report) ── */}
+            <div style={{ marginTop: 28, maxWidth: 520 }}>
+              {/* Four trigger buttons — idle or error state */}
+              {(audioState === 'idle' || audioState === 'error') && (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                  {(['founding', 'christies', 'flagship', 'market'] as const).map((ch) => {
+                    const labels: Record<HomeAudioChannel, string> = {
+                      founding: 'Founding Letter',
+                      christies: "James Christie's Letter",
+                      flagship: 'Flagship Letter',
+                      market: 'Market Brief',
+                    };
+                    return (
+                      <button
+                        key={ch}
+                        onClick={() => handleListen(ch)}
+                        style={{
+                          background: 'none',
+                          border: '1px solid rgba(200,172,120,0.28)',
+                          color: 'rgba(200,172,120,0.75)',
+                          fontFamily: '"Barlow Condensed", sans-serif',
+                          fontSize: 9,
+                          letterSpacing: '0.2em',
+                          textTransform: 'uppercase',
+                          padding: '9px 10px',
+                          cursor: 'pointer',
+                          lineHeight: 1.3,
+                          transition: 'all 0.2s',
+                        }}
+                      >
+                        {audioState === 'error' && audioChannel === ch ? '⚠ Retry' : `▶ ${labels[ch]}`}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+              {/* Expanded player — loading / playing / paused */}
+              {(audioState === 'loading' || audioState === 'playing' || audioState === 'paused') && (
+                <div style={{ border: '1px solid rgba(200,172,120,0.45)', background: 'rgba(200,172,120,0.06)', padding: '12px 16px' }}>
+                  {/* Status row */}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap', gap: 8 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      {audioState === 'loading' ? (
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8AC78" strokeWidth="2.5" style={{ flexShrink: 0, animation: 'spin 1s linear infinite' }}>
+                          <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
+                          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
+                        </svg>
+                      ) : (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 14 }}>
+                          {[0.6, 1, 0.75, 1, 0.5].map((h, i) => (
+                            <span key={i} style={{ display: 'block', width: 3, borderRadius: 2, background: '#C8AC78', height: `${h * 100}%`, animation: `wave-bar 0.8s ease-in-out ${i * 0.12}s infinite alternate` }} />
+                          ))}
+                        </div>
+                      )}
+                      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+                        {audioState === 'loading' ? 'Synthesizing…' : channelLabel}
+                      </span>
+                    </div>
+                    {/* Controls — only when playing or paused */}
+                    {(audioState === 'playing' || audioState === 'paused') && (
+                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                        <button onClick={handleRewind} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>↺ −15</button>
+                        <button onClick={togglePause} style={{ background: 'rgba(200,172,120,0.15)', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>{audioState === 'paused' ? '▶ Resume' : '⏸ Pause'}</button>
+                        <button onClick={handleForward} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>+15 ↻</button>
+                        <button onClick={stopAudio} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>◼ Stop</button>
+                        <button onClick={handleShare} style={{ background: shareState === 'copied' ? 'rgba(5,150,105,0.15)' : 'rgba(200,172,120,0.1)', border: `1px solid ${shareState === 'copied' ? 'rgba(5,150,105,0.6)' : 'rgba(200,172,120,0.3)'}`, color: shareState === 'copied' ? '#6ee7b7' : '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer', transition: 'all 0.2s' }}>{shareState === 'copied' ? '✓ Copied' : '↗ Share'}</button>
+                      </div>
+                    )}
+                  </div>
+                  {/* Scrub bar + time */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <div onClick={handleScrub} style={{ flex: 1, height: 5, background: 'rgba(200,172,120,0.15)', borderRadius: 3, overflow: 'hidden', cursor: (audioState === 'playing' || audioState === 'paused') ? 'pointer' : 'default', position: 'relative' }}>
+                      <div style={{ height: '100%', background: '#C8AC78', borderRadius: 3, width: `${audioProgress}%`, transition: 'width 0.4s linear' }} />
+                    </div>
+                    {(audioState === 'playing' || audioState === 'paused') && audioDuration > 0 && (
+                      <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(200,172,120,0.6)', whiteSpace: 'nowrap', minWidth: 64, textAlign: 'right' }}>{fmtTime(currentTime)} / {fmtTime(audioDuration)}</span>
+                    )}
+                  </div>
+                  {audioState === 'loading' && (
+                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 10, marginTop: 6, textAlign: 'center' }}>Downloading audio…</div>
+                  )}
+                </div>
+              )}
+              {/* CSS keyframes for wave-bar and spin */}
+              <style>{`
+                @keyframes wave-bar { from { transform: scaleY(0.4); } to { transform: scaleY(1); } }
+                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+              `}</style>
             </div>
             <button
               onClick={() => generateChristiesLetter()}
@@ -594,12 +761,6 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Ed's founding letter on the Christie's standard — nine paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
               </p>
-              <div style={{ marginBottom: 16 }}>
-                <WilliamAudioPlayer
-                  audioUrl={christiesLetterAudioUrl}
-                  label="Listen · James Christie's Letter"
-                />
-              </div>
               <a
                 href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_letter_export_v2_e2501976.html"
                 target="_blank"
@@ -630,12 +791,6 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Origin story — platform, team, and model.
               </p>
-              <div style={{ marginBottom: 16 }}>
-                <WilliamAudioPlayer
-                  audioUrl={flagshipLetterAudioUrl}
-                  label="Listen · Christie's Flagship Letter"
-                />
-              </div>
               <button
                 onClick={handleFlagshipLetterPdf}
                 disabled={flagshipLoading}
@@ -667,12 +822,6 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Founding letter · eleven-hamlet atlas with live CIS scores and medians · Ed's contact block. Generated from live Market Matrix data at time of download.
               </p>
-              <div style={{ marginBottom: 16 }}>
-                <WilliamAudioPlayer
-                  audioUrl={marketReportAudioUrl}
-                  label="Listen · Market Intelligence Brief"
-                />
-              </div>
               <button
                 onClick={handleMarketReportPdf}
                 disabled={pdfLoading}
