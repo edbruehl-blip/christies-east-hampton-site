@@ -1236,3 +1236,14 @@
 - [x] Card Stock PDF: Same equity split and MD Total AnewHomes correction
 - [x] Pro Forma PDF: Same equity split and MD Total AnewHomes correction
 - [x] Screenshot: FUTURE tab showing updated AnewHomes equity table
+
+## Sprint 43 Council Directives (April 9, 2026)
+- [x] Item 1: Audio buttons — Christie's Letter / Flagship Letter / Market Brief (already complete)
+- [x] Item 7: AnewHomes equity 35/35/10/5/5/5/5 (already complete)
+- [x] Item 2: South Fork → East End — replace every instance across all six tabs, all PDFs/exports, chart titles, map labels, audio scripts (zero remaining occurrences)
+- [x] Item 2a: Closing line in Market Report PDF: "give every family on the East End access…" (updated)
+- [x] Item 3: CIS Calculator empty state on MAPS — designed placeholder with ghost metric cards (All-In Cost, Exit Price, Spread, Spread %)
+- [x] Item 4: Eleven Hamlets donut chart — one-page portrait PDF export button added below donut ring on MARKET tab
+- [x] Item 5: INTEL mind map — INTEL LIBRARY r=20→r=28, EXPORTS r=18→r=28; FAMILY & FRIENDS populated with Richard Bruehl, Bruehl Family Network, Close Friends Circle
+- [x] Item 6: Pro Forma 4-page button — confirmed stable, 442KB PDF, 5.7 seconds, downloads clean
+- [x] Confirmations: HOME + /report screenshots done, South Fork sweep confirmed zero, CIS placeholder confirmed, MARKET PDF button live, mind map normalized, Pro Forma stable

@@ -1,5 +1,5 @@
 /**
- * MARKET TAB — South Fork market intelligence dashboard.
+ * MARKET TAB — East End market intelligence dashboard.
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
@@ -15,10 +15,12 @@
  * Falls back to static hamlet-master.ts values if sheet is unavailable.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { trpc } from '@/lib/trpc';
+import { generateElevenHamletsPDF, type LiveMatrixRow as PdfLiveMatrixRow } from '@/lib/pdf-exports';
+import { toast } from 'sonner';
 
 // ─── Tier color palette ───────────────────────────────────────────────────────
 
@@ -236,6 +238,48 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
         </div>
       </div>
     </div>
+  );
+}
+
+// ─── Eleven Hamlets PDF Export Button ───────────────────────────────────────
+
+function ElevenHamletsPdfButton({ liveRows }: { liveRows?: LiveMatrixRow[] }) {
+  const [loading, setLoading] = useState(false);
+
+  const handleExport = async () => {
+    setLoading(true);
+    const toastId = toast.loading('Generating Eleven Hamlets PDF…');
+    try {
+      await generateElevenHamletsPDF(liveRows as PdfLiveMatrixRow[] | undefined);
+      toast.success('PDF downloaded', { id: toastId });
+    } catch (err) {
+      console.error('Eleven Hamlets PDF error:', err);
+      toast.error('PDF generation failed', { id: toastId });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleExport}
+      disabled={loading}
+      style={{
+        fontFamily: '"Barlow Condensed", sans-serif',
+        letterSpacing: '0.18em',
+        fontSize: 11,
+        textTransform: 'uppercase',
+        background: '#1B2A4A',
+        color: '#C8AC78',
+        border: '1px solid rgba(200,172,120,0.3)',
+        padding: '10px 24px',
+        cursor: loading ? 'wait' : 'pointer',
+        opacity: loading ? 0.7 : 1,
+        transition: 'opacity 0.2s',
+      }}
+    >
+      {loading ? 'Generating…' : '▼ Export Eleven Hamlets PDF'}
+    </button>
   );
 }
 
@@ -517,11 +561,16 @@ export default function MarketTab() {
             className="mb-8"
             style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
-            Eleven-Hamlet Volume Distribution &middot; South Fork Territory
+            Eleven-Hamlet Volume Distribution &middot; East End Territory
           </h2>
 
           <div className="flex justify-center">
             <HamletDonut data={mergedData} />
+          </div>
+
+          {/* One-page PDF export button */}
+          <div className="flex justify-center mt-6">
+            <ElevenHamletsPdfButton liveRows={matrixRows ?? undefined} />
           </div>
         </div>
       </section>
@@ -564,7 +613,7 @@ export default function MarketTab() {
           <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
               Sources: Saunders &amp; Associates 2025 Annual Market Summary &middot; Douglas Elliman 2025 Annual Report &middot; Brown Harris Stevens 2025 Annual Report &middot; Corcoran Group 2025 Annual Report &middot; William Pitt Sotheby’s 2025 Annual Report &middot; The Real Deal &middot; Behind The Hedges &middot; Redfin MLS-backed public records &middot; Christie’s East Hampton internal analysis.
-              Dollar volume figures represent closed residential transactions, South Fork, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
+              Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
             </p>
           </div>
         </div>

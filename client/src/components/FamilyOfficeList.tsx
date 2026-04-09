@@ -48,7 +48,7 @@ const PRINCIPALS: FamilyOfficePrincipal[] = [
     familyOffice: "Access Industries",
     property: "408 Further Lane — $115M (2025), single-parcel Hamptons record",
     netWorth: "$35B+",
-    christiesAngle: "Highest recent transaction on the South Fork. Warner Music / culture overlap.",
+    christiesAngle: "Highest recent transaction on the East End. Warner Music / culture overlap.",
     approach: "Multi-sector: Warner Music, film, energy, tech",
   },
   {
@@ -126,7 +126,7 @@ const PRINCIPALS: FamilyOfficePrincipal[] = [
     tierLabel: "European Family Offices",
     name: "Swiss / German / UK Pattern",
     familyOffice: "Multiple unnamed offices",
-    property: "Increasing off-market acquisitions across the South Fork",
+    property: "Increasing off-market acquisitions across the East End",
     netWorth: "Undisclosed",
     christiesAngle: "Christie's 1766 provenance is the warm introduction. Private client network only.",
     approach: "Motivated by geopolitical uncertainty, USD diversification",
@@ -135,7 +135,7 @@ const PRINCIPALS: FamilyOfficePrincipal[] = [
   {
     id: "druckenmiller",
     tier: 5,
-    tierLabel: "Broader South Fork",
+    tierLabel: "Broader East End",
     name: "Stan Druckenmiller",
     familyOffice: "Duquesne Family Office (~$4.49B AUM)",
     property: "Southampton area presence",
@@ -146,7 +146,7 @@ const PRINCIPALS: FamilyOfficePrincipal[] = [
   {
     id: "griffin",
     tier: 5,
-    tierLabel: "Broader South Fork",
+    tierLabel: "Broader East End",
     name: "Ken Griffin",
     familyOffice: "Griffin Family Office (Citadel)",
     property: "Meadow Lane, Southampton — $84M Calvin Klein compound (2020)",
@@ -179,7 +179,7 @@ James Christie opened the doors at Pall Mall in 1766 with a single conviction: t
 
 That principle has guided every transaction Christie's has conducted for 260 years — and it is the standard we carry into the East Hampton market today.
 
-The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Your presence at ${principal.property.split("—")[0].trim()} places you at the center of the most concentrated wealth corridor in the northeastern United States.
+The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Your presence at ${principal.property.split("—")[0].trim()} places you at the center of the most concentrated wealth corridor in the northeastern United States.
 
 Christie's International Real Estate Group represents the institutional standard in this market. Our Christie's Intelligence Score evaluates every property on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. There is no gray area in institutional real estate.
 
@@ -239,7 +239,7 @@ export function FamilyOfficeList() {
           Family Office Intelligence
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 4 }}>
-          UHNW Principal Registry · South Fork
+          UHNW Principal Registry · East End
         </div>
         <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem' }}>
           12 principals across 5 tiers. Select any principal to view the Christie's letter template or add to the Office Pipeline.

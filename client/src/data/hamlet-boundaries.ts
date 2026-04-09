@@ -1,5 +1,5 @@
 /**
- * HAMLET_BOUNDARIES — Approximate polygon boundaries for all 10 South Fork hamlets.
+ * HAMLET_BOUNDARIES — Approximate polygon boundaries for all 10 East End hamlets.
  * Used by MapsTab PaumanokPlate to render semi-transparent overlay polygons on the
  * Google Maps satellite view. Coordinates are [lng, lat] per GeoJSON spec.
  *

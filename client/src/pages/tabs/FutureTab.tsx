@@ -287,7 +287,7 @@ export default function FutureTab() {
           {[
             { label: 'First 100 Days', period: 'Dec 2025 – Mar 2026', volume: '$4.57M', desc: 'Closed volume. Office open. Systems deployed. Ed Bruehl solo.', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4' },
             { label: 'Second 100 Days', period: 'Mar – May 1, 2026', volume: '$13.62M', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked. Media partnership negotiated from $115K ask to $9K pilot. Proof-of-value before expansion.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
-            { label: 'Third 100 Days', period: 'May 1 – Aug 2026', volume: '$55M', desc: 'Projected total. Operating scale. South Fork market presence established.', badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
+            { label: 'Third 100 Days', period: 'May 1 – Aug 2026', volume: '$55M', desc: 'Projected total. Operating scale. East End market presence established.', badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
           ].map(block => (
             <div key={block.label} className="p-5 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
               <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{block.label}</div>

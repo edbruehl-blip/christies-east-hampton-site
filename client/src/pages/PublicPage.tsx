@@ -41,11 +41,11 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
 
 const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-  "The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
+  "The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
   "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
   "The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.",
-  "The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton North. Wainscott. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
-  "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
+  "The eleven hamlets of the East End represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton North. Wainscott. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
+  "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the East End.",
   "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
 ];
 
@@ -313,7 +313,7 @@ function HamletMarketSection() {
           Hamptons Market Intelligence
         </div>
         <h2 className="mb-2" style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}>
-          Eleven-Hamlet Territory · South Fork
+          Eleven-Hamlet Territory · East End
         </h2>
         <p className="mb-10" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.8rem', maxWidth: 620, lineHeight: 1.6 }}>
           Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume $5.922B.

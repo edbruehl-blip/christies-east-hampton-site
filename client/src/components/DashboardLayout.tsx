@@ -13,7 +13,7 @@
  * Data sources (matching production):
  *   Server proxy /api/market-data: S&P, Treasury, Gold, Silver, VIX, Bitcoin, Mortgage
  *   Open-Meteo: East Hampton weather (lat 40.9637, lng -72.1848)
- *   Hamptons Median: static $2.34M · South Fork · Q4 2025 · Record High (no YoY until verified single-source)
+ *   Hamptons Median: static $2.34M · East End · Q4 2025 · Record High (no YoY until verified single-source)
  */
 
 import { useState, useEffect, type ReactNode } from "react";
@@ -398,7 +398,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {market.vix && market.treasury && <Sep />}
           <DataItem label="30Y Treasury" value={market.treasury} />
           <Sep />
-          <DataItem label="Hamptons Median · South Fork · Q4 2025 · Record High" value="$2.34M" gold />
+          <DataItem label="Hamptons Median · East End · Q4 2025 · Record High" value="$2.34M" gold />
         </div>
 
         {/* ══════════════════════════════════════════════════════════════

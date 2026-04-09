@@ -34,25 +34,25 @@ const ATTORNEYS: Attorney[] = [
     id: 'brian-lester',
     contact: 'Brian Lester',
     firm: 'Tarbet and Lester',
-    specialty: 'Real Estate Transactions · Estate Planning · South Fork',
+    specialty: 'Real Estate Transactions · Estate Planning · East End',
     tier: 'TIER 1',
     tierLabel: 'Active',
-    notes: 'South Fork specialist. Attorney network connection. Active referral relationship.',
+    notes: 'East End specialist. Attorney network connection. Active referral relationship.',
   },
   {
     id: 'jonathan-tarbet',
     contact: 'Jonathan Tarbet',
     firm: 'Tarbet and Lester',
-    specialty: 'Real Estate Transactions · Estate Planning · South Fork',
+    specialty: 'Real Estate Transactions · Estate Planning · East End',
     tier: 'TIER 1',
     tierLabel: 'Active',
-    notes: 'Founding partner. South Fork institutional knowledge. Attorney network connection.',
+    notes: 'Founding partner. East End institutional knowledge. Attorney network connection.',
   },
   {
     id: 'seamus-mcgrath',
     contact: 'Seamus McGrath',
     firm: 'Tarbet and Lester',
-    specialty: 'Real Estate Transactions · South Fork',
+    specialty: 'Real Estate Transactions · East End',
     tier: 'TIER 1',
     tierLabel: 'Active',
     notes: 'Attorney network connection. Active referral relationship.',
@@ -76,7 +76,7 @@ export function AttorneyDatabase() {
             Attorney Database
           </div>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
-            Real Estate Counsel · South Fork
+            Real Estate Counsel · East End
           </div>
         </div>
         <span

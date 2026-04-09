@@ -1,5 +1,5 @@
 /**
- * MASTER_HAMLET_DATA — Single source of truth for all eleven South Fork hamlets.
+ * MASTER_HAMLET_DATA — Single source of truth for all eleven East End hamlets.
  * Every tab, every PDF, every calculator pulls from this file only.
  * Do not modify medians or CIS scores without Ed's explicit approval.
  *
@@ -162,7 +162,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/east-hampton-village-main-beach_5716160d.jpg',
-    vibeText: 'The center of gravity for the South Fork. East Hampton Village is where the private gallery, the oceanfront estate, and the institutional standard all share the same zip code.',
+    vibeText: 'The center of gravity for the East End. East Hampton Village is where the private gallery, the oceanfront estate, and the institutional standard all share the same zip code.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -232,7 +232,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/southampton-village-jobs-lane_b32dd92c.jpg',
-    vibeText: 'Old money speaks quietly here. Southampton Village is the South Fork\'s most governed hamlet — the architecture, the hedgerows, and the social order all follow rules that predate the highway.',
+    vibeText: 'Old money speaks quietly here. Southampton Village is the East End\'s most governed hamlet — the architecture, the hedgerows, and the social order all follow rules that predate the highway.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -267,7 +267,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/water-mill-boardwalk_f48a235e.jpg',
-    vibeText: 'A boardwalk across the marsh and some of the most undervalued acreage on the South Fork. Water Mill rewards the buyer who sees land before address.',
+    vibeText: 'A boardwalk across the marsh and some of the most undervalued acreage on the East End. Water Mill rewards the buyer who sees land before address.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
@@ -480,7 +480,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
-    vibeText: 'A dune path to the ocean and nothing between you and the horizon. Wainscott is the hamlet with the fewest houses, the highest privacy, and the strongest case for long-term appreciation on the South Fork.',
+    vibeText: 'A dune path to the ocean and nothing between you and the horizon. Wainscott is the hamlet with the fewest houses, the highest privacy, and the strongest case for long-term appreciation on the East End.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },

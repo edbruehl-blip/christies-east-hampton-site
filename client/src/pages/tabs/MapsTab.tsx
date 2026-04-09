@@ -68,7 +68,7 @@ function PaumanokPlate() {
       >
         <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            South Fork · East Hampton · Long Island
+            East End · East Hampton · Long Island
           </div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
             The Territory
@@ -81,7 +81,7 @@ function PaumanokPlate() {
         initialZoom={9}
         onMapReady={(map) => {
           mapRef.current = map;
-          // Satellite aerial view — full North+South Fork
+          // Satellite aerial view — full East End
           map.setMapTypeId('satellite');
           map.setTilt(0);
 
@@ -475,10 +475,28 @@ function CISCalculatorLayer() {
               {result ? (
                 <ResultsPanel result={result} onExport={handleExport} />
               ) : (
-                <MatrixCard variant="default" className="p-8 flex items-center justify-center min-h-[300px]">
-                  <div className="text-center">
-                    <div className="text-4xl mb-4" style={{ color: 'rgba(27,42,74,0.15)' }}>◈</div>
-                    <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(27,42,74,0.4)', fontSize: '1.125rem' }}>Enter your numbers and run the score</div>
+                <MatrixCard variant="default" className="p-8 min-h-[300px]" style={{ background: '#1B2A4A', border: '1px solid rgba(200,172,120,0.15)' }}>
+                  <div className="flex flex-col justify-between h-full" style={{ minHeight: 280 }}>
+                    {/* Header */}
+                    <div>
+                      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie’s Intelligence Score</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem', lineHeight: 1.3 }}>Your score will appear here</div>
+                    </div>
+                    {/* Instruction */}
+                    <div className="my-6" style={{ borderTop: '1px solid rgba(200,172,120,0.12)', borderBottom: '1px solid rgba(200,172,120,0.12)', padding: '16px 0' }}>
+                      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.8125rem', lineHeight: 1.7 }}>
+                        Enter land value, construction cost, carry, and exit price on the left to calculate your Christie’s Intelligence Score.
+                      </div>
+                    </div>
+                    {/* Ghost score card */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {['All-In Cost', 'Exit Price', 'Spread', 'Spread %'].map(label => (
+                        <div key={label} style={{ background: 'rgba(250,248,244,0.04)', padding: '10px 12px' }}>
+                          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.4)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
+                          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.15)', fontSize: '0.875rem' }}>———</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </MatrixCard>
               )}
@@ -743,7 +761,7 @@ export default function MapsTab() {
         <div className="px-6 pt-8 pb-4" style={{ background: '#FAF8F4' }}>
           <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
             <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-              Eleven Hamlets · South Fork
+              Eleven Hamlets · East End
             </div>
             <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.5rem' }}>
               Hamlet Intelligence Matrix

@@ -701,10 +701,10 @@ function Section1() {
         </h2>
         {[
           "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-          'The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
+          'The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
           "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",          'The Christie\'s Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie\'s institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.',
-          'The eleven hamlets of the South Fork represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
-          "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the South Fork.",
+          'The eleven hamlets of the East End represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
+          "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the East End.",
           "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
           "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
           'Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.',
@@ -1227,7 +1227,7 @@ function Section3() {
                 maxWidth: 220,
               }}
             >
-              Capital is moving into the South Fork from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.
+              Capital is moving into the East End from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.
             </div>
           </div>
 
@@ -1326,7 +1326,7 @@ function Section3() {
                 marginTop: 8,
               }}
             >
-              South Fork · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report
+              East End · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report
             </div>
             <div
               style={{
@@ -1678,7 +1678,7 @@ function Section3Condensed() {
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Capital Flow Signal</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>INSTITUTIONAL<br />INFLOW</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>Capital is moving into the South Fork from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>Capital is moving into the East End from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.</div>
           </div>
 
           {/* Rate Environment */}
@@ -1699,7 +1699,7 @@ function Section3Condensed() {
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>South Fork · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>East End · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Eleven distinct corridors, eleven distinct buyers.</div>
           </div>
         </div>

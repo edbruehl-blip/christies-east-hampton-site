@@ -257,7 +257,7 @@ export function buildMarketReportNewsletter(params: {
               Christie's East Hampton
             </div>
             <p style="color: #1B2A4A; font-size: 14px; line-height: 1.7; margin: 0;">
-              The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Christie's East Hampton carries the standard that James Christie established in 1766: the family's interest comes before the sale.
+              The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Christie's East Hampton carries the standard that James Christie established in 1766: the family's interest comes before the sale.
             </p>
             <div style="margin-top: 20px;">
               <a href="https://www.christiesrealestategroupeh.com" style="display: inline-block; padding: 12px 24px; background: #1B2A4A; color: #C8AC78; text-decoration: none; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-family: Arial, sans-serif;">

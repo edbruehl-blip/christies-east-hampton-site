@@ -9,7 +9,7 @@ Art. Beauty. Provenance. Since 1766.
 
 Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
 
-The South Fork is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
+The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every family meeting on the East End. Not to impress. To serve.
 
@@ -107,12 +107,12 @@ The door is open whenever you are ready to walk through it.`;
 
 // ─── Market Intelligence Brief — static fallback ──────────────────────────────
 // Used when live data is unavailable. The dynamic endpoint assembles fresh data each call.
-const MARKET_REPORT_FALLBACK = `Good morning. Here is your Christie's East Hampton market brief. South Fork, 2026.
+const MARKET_REPORT_FALLBACK = `Good morning. Here is your Christie's East Hampton market brief. East End, 2026.
 
-The Hamptons Median is 2.34 million dollars across all eleven hamlets, South Fork, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
+The Hamptons Median is 2.34 million dollars across all eleven hamlets, East End, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
 
 Hamlet Atlas.
-Sagaponack. Median: 7.5 million dollars. Year-over-year volume: plus 4 percent. Sagaponack remains the most land-constrained, price-dense hamlet on the South Fork. Generational asset territory.
+Sagaponack. Median: 7.5 million dollars. Year-over-year volume: plus 4 percent. Sagaponack remains the most land-constrained, price-dense hamlet on the East End. Generational asset territory.
 East Hampton Village. Median: 5.15 million dollars. Year-over-year volume: plus 12 percent. The institutional core of the Hamptons market. South of the Highway commands a premium of 30 to 45 percent over comparable properties north of the highway.
 Bridgehampton. Median: 5.1 million dollars. Year-over-year volume: plus 8 percent. The most active trophy corridor. New construction is driving absorption.
 Southampton Village. Median: 3.55 million dollars. Year-over-year volume: plus 14 percent. The strongest volume growth in the trophy tier.
@@ -120,9 +120,9 @@ Water Mill. Median: 4.2 million dollars. Year-over-year volume: plus 7 percent. 
 Amagansett. Median: 4.25 million dollars. Year-over-year volume: plus 9 percent. The emerging premier corridor.
 East Hampton North. Median: 2.03 million dollars. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix.
 Wainscott. Median: 3.18 million dollars. Year-over-year volume: plus 10 percent. A quiet, land-rich corridor between East Hampton Village and Bridgehampton.
-Sag Harbor. Median: 2.85 million dollars. Year-over-year volume: plus 11 percent. The most walkable hamlet on the South Fork.
+Sag Harbor. Median: 2.85 million dollars. Year-over-year volume: plus 11 percent. The most walkable hamlet on the East End.
 Springs. Median: 1.35 million dollars. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End.
-Montauk. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. The eastern anchor of the South Fork.
+Montauk. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. The eastern anchor of the East End.
 
 Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Here to serve you the way James Christie did, since 1766.`;
 
@@ -252,7 +252,7 @@ async function buildDynamicMarketBrief(): Promise<string> {
   // 3. Assemble the spoken brief
   const marketSection = perplexityNarrative
     ? `Market Intelligence. ${perplexityNarrative}`
-    : "Market Intelligence. No new named Hamptons transactions have been confirmed in the past 30 days. The verified 2026 South Fork median remains 2.34 million dollars.";
+    : "Market Intelligence. No new named Hamptons transactions have been confirmed in the past 30 days. The verified 2026 East End median remains 2.34 million dollars.";
 
   const script = `Good morning. Here is your Christie's East Hampton market brief. ${today}.
 

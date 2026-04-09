@@ -417,7 +417,7 @@ async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
       messages: [
         {
           role: 'system',
-          content: 'You are a South Fork real estate expert. Given an address, identify which hamlet it belongs to from this list ONLY: Sagaponack, East Hampton Village, Bridgehampton, Southampton Village, Water Mill, Sag Harbor, Amagansett, East Hampton North, Springs, Montauk, Wainscott. Reply with ONLY the hamlet name from the list, nothing else.',
+          content: 'You are a East End real estate expert. Given an address, identify which hamlet it belongs to from this list ONLY: Sagaponack, East Hampton Village, Bridgehampton, Southampton Village, Water Mill, Sag Harbor, Amagansett, East Hampton North, Springs, Montauk, Wainscott. Reply with ONLY the hamlet name from the list, nothing else.',
         },
         { role: 'user', content: `Address: ${address}` },
       ],

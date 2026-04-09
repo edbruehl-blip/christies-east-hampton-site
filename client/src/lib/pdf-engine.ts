@@ -382,7 +382,7 @@ export function drawScoreBadge(doc: jsPDF, score: number, verdict: string, x: nu
 // ─── Hamlet comps table ───────────────────────────────────────────────────────
 
 export function drawHamletCompsTable(doc: jsPDF, y: number): number {
-  y = sectionLabel(doc, 'South Fork Market Comps', y);
+  y = sectionLabel(doc, 'East End Market Comps', y);
 
   const rows = MASTER_HAMLET_DATA.map(h => [
     h.name,

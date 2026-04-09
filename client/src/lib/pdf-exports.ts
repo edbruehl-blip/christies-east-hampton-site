@@ -124,7 +124,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
 
   // ── PAGE 2 ──
   doc.addPage();
-  y = await drawHeader(doc, 'ANEW Build Memo', 'South Fork Market Context', edImg, logoImg);
+  y = await drawHeader(doc, 'ANEW Build Memo', 'East End Market Context', edImg, logoImg);
 
   y = drawHamletCompsTable(doc, y);
 
@@ -218,7 +218,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   // Recommendation
   y = sectionLabel(doc, 'Christie\'s Recommendation', y);
   const recText = result.spread > 0
-    ? `Based on current South Fork market conditions and the Christie's Intelligence Score model, this property presents a ${result.verdict.toLowerCase()} opportunity. The ${result.spreadPctDisplay} spread against all-in basis supports the estimated value of ${result.exitDisplay}. Christie's East Hampton recommends proceeding with confidence.`
+    ? `Based on current East End market conditions and the Christie's Intelligence Score model, this property presents a ${result.verdict.toLowerCase()} opportunity. The ${result.spreadPctDisplay} spread against all-in basis supports the estimated value of ${result.exitDisplay}. Christie's East Hampton recommends proceeding with confidence.`
     : `Current market conditions indicate a negative spread of ${result.spreadDisplay} against all-in basis. Christie's East Hampton recommends a pricing review before proceeding. The CIS score of ${result.score} reflects current market headwinds in ${result.hamletName}.`;
 
   doc.setFontSize(8.5);
@@ -230,7 +230,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
 
   // ── PAGE 2 — Full hamlet comps ──
   doc.addPage();
-  y = await drawHeader(doc, 'Christie\'s CMA', 'South Fork Hamlet Comparison', edImg, logoImg);
+  y = await drawHeader(doc, 'Christie\'s CMA', 'East End Hamlet Comparison', edImg, logoImg);
   y = drawHamletCompsTable(doc, y);
 
   // Agent certification block
@@ -448,7 +448,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 
   // ── PAGE 2 — Market context ──
   doc.addPage();
-  y = await drawHeader(doc, 'Investment Memorandum', 'South Fork Market Context', edImg, logoImg);
+  y = await drawHeader(doc, 'Investment Memorandum', 'East End Market Context', edImg, logoImg);
   y = drawHamletCompsTable(doc, y);
 
   y = sectionLabel(doc, 'Christie\'s Advantage', y);
@@ -634,7 +634,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
 
   // ── PAGE 2 — Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe) ─
   doc.addPage();
-  let y = await drawHeader(doc, 'Hamlet Atlas', 'Eleven Hamlets · South Fork · Live Market Intelligence · Christie\'s Intelligence Score', edImg, logoImg);
+  let y = await drawHeader(doc, 'Hamlet Atlas', 'Eleven Hamlets · East End · Live Market Intelligence · Christie\'s Intelligence Score', edImg, logoImg);
 
   // Card layout: full-width cards stacked vertically, photo on left, data on right
   // Card height: 38mm (photo 34mm × 34mm left, text right)
@@ -778,7 +778,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...C.charcoal);
-    y = wrapText(doc, 'The South Fork is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference — so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
+    y = wrapText(doc, 'The East End is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference — so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
   }
   drawFooter(doc, 4, 5, qrImg);
 
@@ -790,7 +790,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setFontSize(9);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the South Fork access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 260 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 6);
+  y = wrapText(doc, 'The Christie\'s East Hampton Intelligence Platform exists for one reason: to give every family on the East End access to the same standard of analysis, counsel, and representation that Christie\'s has delivered for over 260 years. The data is the starting point. The relationship is the work.', PAGE.ml, y, PAGE.contentW, 6);
   y += 8;
 
   // Ed headshot + name block
@@ -880,7 +880,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
     avgDOM: 61,
     pricePerSqFt: '$1,420 est.',  // Sprint 16: confirmed correct — YoY +9.2%, DOM 61, est. label present
     absorbRate: '3.2 months',
-    characterNote: 'The institutional anchor of the South Fork. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
+    characterNote: 'The institutional anchor of the East End. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
   };
 
   // ── Page 1: Cover ─────────────────────────────────────────────────────────
@@ -997,7 +997,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   y += 8;
 
   const anewItems: [string, string][] = [
-    ['A · Acquisition', 'High-CIS corridors command 15–25% premium over comparable South Fork hamlets. Entry price discipline is non-negotiable.'],
+    ['A · Acquisition', 'High-CIS corridors command 15–25% premium over comparable East End hamlets. Entry price discipline is non-negotiable.'],
     ['N · New Construction', 'New construction comps at $1,400–$1,600/sq ft. Land value alone in the Georgica corridor exceeds $3M/acre.'],
     ['E · Exit Pricing', 'Exit pricing supported by persistent UHNW demand. Median hold period 4–7 years. Liquidity risk is low in high-CIS hamlets.'],
     ['W · Wealth Transfer', 'Estate and trust activity is the primary transaction driver. Christie\'s brand authority is the differentiating factor in this conversation.'],
@@ -2225,4 +2225,206 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('2 / 2', P.w - P.mr, fp2 + 4, { align: 'right' });
 
   downloadPdf(doc, `Christies-EH-Card-Stock-${today().replace(/\s/g, '-')}.pdf`);
+}
+
+// ─── 7. Eleven Hamlets Volume Distribution — One-Page Donut Chart PDF ──────────
+// Council directive: April 9, 2026 — one-page PDF, donut chart + legend table + header/footer.
+// Draws the donut ring in jsPDF using arc math (no canvas dependency).
+
+export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Promise<void> {
+  const { jsPDF: JsPDF } = await import('jspdf');
+  const doc = new JsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  // ── Assets ──────────────────────────────────────────────────────────────────
+  const { edImg, logoImg, qrImg } = await loadPdfAssets();
+
+  // ── Page constants ───────────────────────────────────────────────────────────
+  const P = PAGE;
+  const CN = C;
+
+  // ── Header ───────────────────────────────────────────────────────────────────
+  let y = await drawHeader(
+    doc,
+    'Eleven Hamlets · East End',
+    'Volume Distribution · 2025 · Christie\'s Intelligence Score',
+    edImg,
+    logoImg,
+  );
+
+  // ── Merge static + live data ─────────────────────────────────────────────────
+  const TIER_HEX: Record<string, [number, number, number]> = {
+    'Ultra-Trophy': [200, 172, 120],  // gold
+    'Trophy':       [27,  42,  74],   // navy
+    'Premier':      [56,  66,  73],   // charcoal
+    'Opportunity':  [122, 138, 142],  // muted
+  };
+
+  const hamlets = MASTER_HAMLET_DATA.map(h => {
+    const match = liveRows?.find(r => r.hamlet.toLowerCase().replace(/[^a-z]/g, '') === h.name.toLowerCase().replace(/[^a-z]/g, ''));
+    const liveShare = match ? parseFloat(String(match.dollarVolumeShare)) || h.volumeShare : h.volumeShare;
+    const liveMedian = match?.median2025 ?? h.medianPriceDisplay;
+    const liveCis = match?.cisScore ?? h.anewScore;
+    return { ...h, liveShare, liveMedian, liveCis };
+  });
+
+  const total = hamlets.reduce((s, h) => s + h.liveShare, 0);
+
+  // ── Donut ring — pure jsPDF arcs ─────────────────────────────────────────────
+  // Center: horizontally centered, vertically positioned below header
+  const cx = P.w / 2;
+  const cy = y + 52;
+  const outerR = 42;
+  const innerR = 25;
+  const GAP_DEG = 1.5;
+
+  let cursor = -90; // start at 12 o'clock
+  for (const h of hamlets) {
+    const span = (h.liveShare / total) * 360;
+    const start = cursor + GAP_DEG / 2;
+    const end = cursor + span - GAP_DEG / 2;
+    const color = TIER_HEX[h.tier] ?? [122, 138, 142];
+
+    // Draw filled arc segment using jsPDF ellipse approximation
+    // jsPDF doesn't have native arc-to-arc, so we use lines + ellipse segments
+    const STEPS = Math.max(4, Math.round(span / 6));
+    const toRad = (deg: number) => (deg * Math.PI) / 180;
+
+    // Build outer arc points
+    const outerPts: [number, number][] = [];
+    for (let i = 0; i <= STEPS; i++) {
+      const a = toRad(start + (end - start) * (i / STEPS));
+      outerPts.push([cx + outerR * Math.cos(a), cy + outerR * Math.sin(a)]);
+    }
+    // Build inner arc points (reverse)
+    const innerPts: [number, number][] = [];
+    for (let i = STEPS; i >= 0; i--) {
+      const a = toRad(start + (end - start) * (i / STEPS));
+      innerPts.push([cx + innerR * Math.cos(a), cy + innerR * Math.sin(a)]);
+    }
+
+    doc.setFillColor(...color);
+    doc.setDrawColor(...color);
+    doc.setLineWidth(0.1);
+
+    // Move to first outer point, draw outer arc, connect to inner arc
+    const allPts = [...outerPts, ...innerPts];
+    if (allPts.length >= 2) {
+      (doc as any).lines(
+        allPts.slice(1).map((pt, i) => [pt[0] - allPts[i][0], pt[1] - allPts[i][1]]),
+        allPts[0][0],
+        allPts[0][1],
+        [1, 1],
+        'FD',
+        true,
+      );
+    }
+
+    cursor += span;
+  }
+
+  // ── Center label ─────────────────────────────────────────────────────────────
+  doc.setFontSize(7.5);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CN.navy);
+  doc.text('HAMPTONS', cx, cy - 4, { align: 'center' });
+  doc.text('MARKET', cx, cy + 3, { align: 'center' });
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...CN.gold);
+  doc.text('SIGNAL', cx, cy + 9, { align: 'center' });
+
+  // ── Legend table — right of donut ─────────────────────────────────────────────
+  const legendX = cx + outerR + 12;
+  const legendW = P.w - P.mr - legendX;
+  let ly = cy - outerR + 2;
+
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CN.gold);
+  doc.text('HAMLET', legendX, ly);
+  doc.text('VOL%', legendX + legendW * 0.52, ly, { align: 'right' });
+  doc.text('MEDIAN', legendX + legendW, ly, { align: 'right' });
+  ly += 3;
+  doc.setDrawColor(...CN.gold);
+  doc.setLineWidth(0.3);
+  doc.line(legendX, ly, legendX + legendW, ly);
+  ly += 4;
+
+  const sortedHamlets = [...hamlets].sort((a, b) => b.liveShare - a.liveShare);
+  for (const h of sortedHamlets) {
+    const color = TIER_HEX[h.tier] ?? [122, 138, 142];
+    // Tier color swatch
+    doc.setFillColor(...color);
+    doc.rect(legendX, ly - 2.5, 2.5, 2.5, 'F');
+    // Hamlet name
+    doc.setFontSize(5.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...CN.navy);
+    const shortName = h.name
+      .replace('East Hampton Village', 'EH Village')
+      .replace('Southampton Village', 'Southampton')
+      .replace('East Hampton North', 'EH North');
+    doc.text(shortName, legendX + 4, ly, { maxWidth: legendW * 0.48 });
+    // Volume share
+    doc.setTextColor(...CN.charcoal);
+    doc.text(`${h.liveShare}%`, legendX + legendW * 0.52, ly, { align: 'right' });
+    // Median
+    doc.setTextColor(...CN.gold);
+    doc.text(h.liveMedian, legendX + legendW, ly, { align: 'right' });
+    ly += 5.5;
+  }
+
+  // ── Dominant corridor callout ─────────────────────────────────────────────────
+  const dominant = sortedHamlets[0];
+  const dominantY = cy + outerR + 10;
+  doc.setFillColor(...CN.navy);
+  doc.rect(P.ml, dominantY, P.contentW, 14, 'F');
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CN.gold);
+  doc.text('DOMINANT CORRIDOR', P.ml + 4, dominantY + 5);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CN.cream);
+  doc.text(`${dominant.name} · ${dominant.liveShare}% of East End dollar volume`, P.ml + 4, dominantY + 11);
+
+  // ── Tier legend ───────────────────────────────────────────────────────────────
+  const tierY = dominantY + 22;
+  doc.setFontSize(6);
+  doc.setFont('helvetica', 'bold');
+  doc.setTextColor(...CN.gold);
+  doc.text('TIER KEY', P.ml, tierY);
+  let tx = P.ml + 20;
+  const tiers: Array<{ label: string; color: [number, number, number] }> = [
+    { label: 'Ultra-Trophy', color: [200, 172, 120] },
+    { label: 'Trophy',       color: [27, 42, 74] },
+    { label: 'Premier',      color: [56, 66, 73] },
+    { label: 'Opportunity',  color: [122, 138, 142] },
+  ];
+  for (const t of tiers) {
+    doc.setFillColor(...t.color);
+    doc.rect(tx, tierY - 2.5, 3, 3, 'F');
+    doc.setFontSize(5.5);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(...CN.charcoal);
+    doc.text(t.label, tx + 4.5, tierY);
+    tx += 32;
+  }
+
+  // ── Source attribution ────────────────────────────────────────────────────────
+  const srcY = tierY + 8;
+  doc.setFontSize(5);
+  doc.setFont('helvetica', 'italic');
+  doc.setTextColor(...CN.muted);
+  doc.text(
+    'Sources: Saunders & Associates 2025 · Douglas Elliman 2025 · Brown Harris Stevens 2025 · Corcoran Group 2025 · William Pitt Sotheby\'s 2025. Dollar volume represents closed residential transactions, East End, Jan–Dec 2025.',
+    P.ml,
+    srcY,
+    { maxWidth: P.contentW },
+  );
+
+  // ── Footer ────────────────────────────────────────────────────────────────────
+  drawFooter(doc, 1, 1, qrImg);
+
+  downloadPdf(doc, `Christies-EH-Eleven-Hamlets-${today().replace(/\s/g, '-')}.pdf`);
 }
