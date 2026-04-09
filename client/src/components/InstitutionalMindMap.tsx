@@ -146,6 +146,27 @@ const NODES: MapNode[] = [
 
   // ── RIGHT TRACK — Real Estate Operating Side ─────────────────────────────
 
+  // ── DUAL CHRISTIE'S NODES (Sprint 42 directive) ───────────────────────────────────────
+  // Node A: CIREG Tri-State Affiliate (Ilija's operating chain — Ed's direct employer)
+  { id: "cireg_affiliate",
+    name: "CIREG TRI-STATE",
+    title: "Christie's International Real Estate Group · Exclusive NY/NJ/CT Affiliate",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "AFFILIATE_TRI_STATE. Christie's International Real Estate Group (CIREG) — Ilija Pavlović's exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Ed's direct operating chain. Profit pool, AnewHomes lane, and CPS 1 all flow through this node.",
+    x: 1100, y: 50, r: 52,
+    members: ["Ilija Pavlović — Owner/CEO", "Tri-State Offices", "Profit Pool", "AnewHomes Lane"],
+    rw: 52, rh: 52 },
+
+  // Node B: Christie's International Real Estate Global Network
+  { id: "cire_global",
+    name: "CIRE GLOBAL",
+    title: "Christie's International Real Estate · Global Network",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "GLOBAL_NETWORK. Christie's International Real Estate — 100+ affiliate firms in 50 countries. Gavin Swartzman (President, June 2025). Stephen Lash (Chairman Emeritus). Tash Perrin (Regional President, Americas). @properties Chicago (WATCH status — sold to Compass Jan 2025 for $444M, Wong & Golden remain as Co-CEOs).",
+    x: 840, y: 50, r: 52,
+    members: ["Gavin Swartzman", "Stephen Lash", "Tash Perrin", "@props Chicago (WATCH)"],
+    rw: 52, rh: 52 },
+
   // CIH / Reffkin
   { id: "cih",
     name: "CIH / Robert Reffkin",
@@ -550,6 +571,12 @@ const CONNECTIONS: MapConnection[] = [
   { from: "tash",      to: "ed",         style: "partner" },
   { from: "lash",      to: "ed",         style: "partner" },
 
+  // ── DUAL CHRISTIE'S NODES — top-level connections (Sprint 42) ─────────────
+  { from: "cireg_affiliate", to: "cih",        style: "hierarchy" },
+  { from: "cireg_affiliate", to: "ilija",      style: "hierarchy" },
+  { from: "cire_global",     to: "swartzman",  style: "hierarchy" },
+  { from: "cire_global",     to: "atprops",    style: "hierarchy" },
+
   // ── RIGHT TRACK — Real Estate Operating ─────────────────────────────────
   { from: "cih",       to: "atprops",    style: "hierarchy" },
   { from: "atprops",   to: "swartzman",  style: "hierarchy" },
@@ -644,6 +671,9 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   media_node:        { fill: "#2A1A2A", stroke: "rgba(200,120,200,0.6)", headerColor: "rgba(235,185,235,0.9)" },
   family_node:       { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" },
   cps1:              { fill: "#1A2A3A", stroke: "rgba(120,172,220,0.7)", headerColor: "rgba(180,220,255,0.9)" },
+  // Sprint 42 dual Christie's nodes
+  cireg_affiliate:   { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  cire_global:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#c8ac78" },
 };
 
 const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash: string }> = {
@@ -972,74 +1002,74 @@ export function InstitutionalMindMap() {
                 onMouseMove={handleNodeMove}
                 onClick={() => handleNodeClick(node)}
               >
-                {/* ── CATEGORY NODE — rounded rectangle with member names ── */}
+                {/* ── CATEGORY NODE — circle with member names inside ── */}
                 {isCategory && node.rw && node.rh && catColors ? (
-                  <>
-                    {/* Outer glow rect */}
-                    <rect
-                      x={node.x - node.rw - 3} y={node.y - node.rh - 3}
-                      width={(node.rw + 3) * 2} height={(node.rh + 3) * 2}
-                      rx="10" ry="10"
-                      fill="none"
-                      stroke={catColors.stroke}
-                      strokeWidth="0.5"
-                      opacity="0.3"
-                    />
-                    {/* Main rect */}
-                    <rect
-                      x={node.x - node.rw} y={node.y - node.rh}
-                      width={node.rw * 2} height={node.rh * 2}
-                      rx="8" ry="8"
-                      fill={catColors.fill}
-                      stroke={catColors.stroke}
-                      strokeWidth="1.8"
-                      style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
-                    />
-                    {/* Top accent bar */}
-                    <rect
-                      x={node.x - node.rw} y={node.y - node.rh}
-                      width={node.rw * 2} height="3"
-                      rx="2" ry="0"
-                      fill={catColors.stroke}
-                      opacity="0.6"
-                    />
-                    {/* Category title */}
-                    <text
-                      x={node.x}
-                      y={node.y - node.rh + 16}
-                      textAnchor="middle"
-                      fill={catColors.headerColor}
-                      fontSize="9"
-                      fontWeight="700"
-                      fontFamily="Inter, sans-serif"
-                      letterSpacing="2"
-                    >
-                      {node.name}
-                    </text>
-                    {/* Divider line */}
-                    <line
-                      x1={node.x - node.rw + 8} y1={node.y - node.rh + 20}
-                      x2={node.x + node.rw - 8} y2={node.y - node.rh + 20}
-                      stroke={catColors.stroke}
-                      strokeWidth="0.5"
-                      opacity="0.5"
-                    />
-                    {/* Member names */}
-                    {node.members!.map((name, idx) => (
-                      <text
-                        key={name}
-                        x={node.x}
-                        y={node.y - node.rh! + 32 + idx * 13}
-                        textAnchor="middle"
-                        fill="rgba(250,248,244,0.75)"
-                        fontSize="9"
-                        fontFamily="Inter, sans-serif"
-                        letterSpacing="0.3"
-                      >
-                        {name}
-                      </text>
-                    ))}
-                  </>
+                  (() => {
+                    // Use rw as the circle radius (circles only — no rectangles)
+                    const cr = node.rw;
+                    const memberCount = node.members!.length;
+                    // Title sits at top of circle; members spaced below
+                    const titleY = node.y - cr + 18;
+                    const membersStartY = titleY + 16;
+                    return (
+                      <>
+                        {/* Outer glow ring */}
+                        <circle
+                          cx={node.x} cy={node.y}
+                          r={cr + 4}
+                          fill="none"
+                          stroke={catColors.stroke}
+                          strokeWidth="0.5"
+                          opacity="0.3"
+                        />
+                        {/* Main circle */}
+                        <circle
+                          cx={node.x} cy={node.y}
+                          r={cr}
+                          fill={catColors.fill}
+                          stroke={catColors.stroke}
+                          strokeWidth="1.8"
+                          style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
+                        />
+                        {/* Category title */}
+                        <text
+                          x={node.x}
+                          y={titleY}
+                          textAnchor="middle"
+                          fill={catColors.headerColor}
+                          fontSize="8"
+                          fontWeight="700"
+                          fontFamily="Inter, sans-serif"
+                          letterSpacing="1.5"
+                        >
+                          {node.name}
+                        </text>
+                        {/* Divider arc line */}
+                        <line
+                          x1={node.x - cr * 0.6} y1={titleY + 5}
+                          x2={node.x + cr * 0.6} y2={titleY + 5}
+                          stroke={catColors.stroke}
+                          strokeWidth="0.5"
+                          opacity="0.5"
+                        />
+                        {/* Member names */}
+                        {node.members!.map((name, idx) => (
+                          <text
+                            key={name}
+                            x={node.x}
+                            y={membersStartY + idx * 12}
+                            textAnchor="middle"
+                            fill="rgba(250,248,244,0.75)"
+                            fontSize="8"
+                            fontFamily="Inter, sans-serif"
+                            letterSpacing="0.3"
+                          >
+                            {name}
+                          </text>
+                        ))}
+                      </>
+                    );
+                  })()
                 ) : (
                   <>
                     {/* Ed glow ring */}

@@ -341,6 +341,10 @@ function SectionWilliam() {
 export default function HomeTab() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [flagshipLoading, setFlagshipLoading] = useState(false);
+  // Audio player URLs — versioned scripts locked to PDF content (Sprint 42 Item 1)
+  const christiesLetterAudioUrl = window.location.origin + '/api/tts/christies-letter';
+  const flagshipLetterAudioUrl = window.location.origin + '/api/tts/flagship-letter';
+  const marketReportAudioUrl = window.location.origin + '/api/tts/market-report';
   const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
@@ -575,9 +579,15 @@ export default function HomeTab() {
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
                 To the Families of the East End
               </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Ed's founding letter on the Christie's standard — nine paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
               </p>
+              <div style={{ marginBottom: 16 }}>
+                <WilliamAudioPlayer
+                  audioUrl={christiesLetterAudioUrl}
+                  label="Listen · James Christie's Letter"
+                />
+              </div>
               <a
                 href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_letter_export_v2_e2501976.html"
                 target="_blank"
@@ -605,9 +615,15 @@ export default function HomeTab() {
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
                 Christie's Flagship Letter
               </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
-                The founding document — origin story, team, platform, model, and William. Council-approved internal record.
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
+                Origin story — platform, team, and model.
               </p>
+              <div style={{ marginBottom: 16 }}>
+                <WilliamAudioPlayer
+                  audioUrl={flagshipLetterAudioUrl}
+                  label="Listen · Christie's Flagship Letter"
+                />
+              </div>
               <button
                 onClick={handleFlagshipLetterPdf}
                 disabled={flagshipLoading}
@@ -636,9 +652,15 @@ export default function HomeTab() {
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
                 Christie's Hamptons Market Report
               </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
+              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Founding letter · eleven-hamlet atlas with live CIS scores and medians · Ed's contact block. Generated from live Market Matrix data at time of download.
               </p>
+              <div style={{ marginBottom: 16 }}>
+                <WilliamAudioPlayer
+                  audioUrl={marketReportAudioUrl}
+                  label="Listen · Market Intelligence Brief"
+                />
+              </div>
               <button
                 onClick={handleMarketReportPdf}
                 disabled={pdfLoading}

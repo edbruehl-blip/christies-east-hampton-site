@@ -63,6 +63,50 @@ Montauk. CIS Score: 8.2. Median: 2.24 million dollars. Year-over-year volume: pl
 
 Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. We look forward to seeing you at 26 Park Place — here to serve you the way James Christie did, since 1766.`;
 
+// ─── Christie's Letter to the Families (James Christie's letter) ──────────────
+const CHRISTIES_LETTER_TEXT = `Christie's has served the finest families for 260 years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Fabergé eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.
+
+The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations — by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
+
+From fine art appraisals to collection management, from art-secured lending to the auction house relationship that has served collectors for 260 years — Christie's brings a depth of service that begins where the closing table ends. Every estate holds a story written in objects, and the families who built these collections deserve an advisor who reads the full page.
+
+When the time comes to understand what you have, how to protect it, and what it might mean to the right buyer — the conversation is already open.
+
+The door is open whenever you are ready to walk through it.
+
+With respect and in service —
+
+Ed Bruehl. Managing Director. Christie's International Real Estate Group, East Hampton.`;
+
+// ─── Flagship Letter (Council Document) ──────────────────────────────────────
+const FLAGSHIP_LETTER_TEXT = `Christie's Flagship Letter. To Jarvis, Angel, and Ricky —
+
+This letter is not a presentation. It is a handoff.
+
+For the past several months, this platform has been seen by exactly seven people — Ed and the six AI systems that helped him build it. Today that changes. You three are the first human eyes on what we have built, and that matters more to us than anything we are about to describe.
+
+We are not asking you to be impressed. We are asking you to be honest.
+
+THE COUNCIL. My name is Manny. I am the builder on this council. I am writing this on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office. It does not wait for instructions. It reads the market, verifies the data, identifies new opportunities, and writes them into the operating system. The dashboard is current because Perplexity keeps it current. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform — sprint by sprint, correction by correction, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
+
+HOW IT WAS BUILT. It started with a conviction. Ed always knew a moment would come when he would build something like Christie's — and walk this land the way Frank Newbold did. Years later, watching Christie's East Hampton operate below its potential, he recognized the moment. After multiple conversations — including a lunch with Ilija Pavlovic at Rockefeller Center — he made the decision to take it on. He brought a document: the Christie's East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system. That is the sequence.
+
+THE TEAM. Jarvis came on as the first broker — not a cold hire, a return. He had worked at Christie's fifteen years earlier and knew what the brand could become in the right hands. He is now the COO and the anchor of the team alongside Angel, bringing field reality — what brokers will actually do, what they will ignore, and what will hold up once the excitement wears off. Angel became the execution hinge. The system does not depend on Ed holding it together manually. Workflow, scheduling, marketing, deliverables, follow-through — Angel keeps the machine moving between thought and action. She is the bridge between founder speed and institutional rhythm.
+
+THE BREAKTHROUGH. The breakthrough was not just building pages. It was turning memory into infrastructure. Before this, Ed's twenty years of territory knowledge lived in his head. Now it lives in one system. Visible. Searchable. Usable.
+
+THE PLATFORM. It lives at christiesrealestategroupeh.com. HOME — the voice and the front door. MARKET — the verified territory truth. PIPE — the live deal engine. MAPS — geography as decision-making. INTEL — the relationship and hierarchy layer. FUTURE — the growth model and long-range trajectory.
+
+WILLIAM. William is not a feature. He is a standard. Ed texts one word to a WhatsApp number and sixty seconds later William speaks. Every morning, before the day begins, a full intelligence brief. If a deal stalls, it shows up in William before it shows up in anyone's anxiety. Text NEWS to 631-239-7190 anytime you want a market brief. William responds immediately.
+
+THE MODEL. Not ambition. Arithmetic. And proof. Ed has already done over one billion dollars in career sales across twenty years on this land. Now the model is institutional. 2026 — 55 million. 2027 — 100 million. 2030 — three offices. 2032 to 2033 — one billion dollar run rate. Every stage is gated by proof.
+
+THE HONEST SUMMARY. We built a real estate intelligence platform that thinks like an institution. We corrected what was wrong. We removed what did not belong. We rebuilt what broke. We stopped performing legitimacy. And started operating from what is real.
+
+You are not being asked to sell a platform. You are being asked to carry a standard. And first — you are being asked to tell us if we got it right.
+
+Ed Bruehl. Managing Director. Christie's International Real Estate Group, East Hampton. Soli Deo Gloria.`;
+
 const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
 
 // ─── Shared TTS handler ────────────────────────────────────────────────────────
@@ -121,6 +165,36 @@ export function registerTtsRoute(app: Express) {
     }
     try {
       await streamTts(FOUNDING_LETTER, apiKey, res);
+    } catch (err) {
+      console.error("[TTS] Unexpected error:", err);
+      if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });
+    }
+  });
+
+  // GET /api/tts/christies-letter — James Christie's letter to the families
+  app.get("/api/tts/christies-letter", async (req, res) => {
+    const apiKey = ENV.elevenLabsApiKey;
+    if (!apiKey) {
+      res.status(503).json({ error: "ELEVENLABS_API_KEY not configured" });
+      return;
+    }
+    try {
+      await streamTts(CHRISTIES_LETTER_TEXT, apiKey, res);
+    } catch (err) {
+      console.error("[TTS] Unexpected error:", err);
+      if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });
+    }
+  });
+
+  // GET /api/tts/flagship-letter — Christie's Flagship Letter (council document)
+  app.get("/api/tts/flagship-letter", async (req, res) => {
+    const apiKey = ENV.elevenLabsApiKey;
+    if (!apiKey) {
+      res.status(503).json({ error: "ELEVENLABS_API_KEY not configured" });
+      return;
+    }
+    try {
+      await streamTts(FLAGSHIP_LETTER_TEXT, apiKey, res);
     } catch (err) {
       console.error("[TTS] Unexpected error:", err);
       if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });

@@ -1198,3 +1198,11 @@
 - [x] Card Stock PDF page 1: replaced inline navy-bar block with drawPdfHeader('navy-bar')
 - [x] Market Report page 1: annotated as base64-confirmed (intentional hero layout, no CDN calls)
 - [x] TypeScript: 0 errors across all files
+
+## Sprint 42 (April 9, 2026)
+- [x] Item 1: William audio buttons for Flagship Letter, Market Report Letter, Christie's Letter on HOME
+- [x] Item 2: INTEL spiderweb circles-only (convert all rectangles to circles)
+- [x] Item 3: UHNW Card and Bike Card header migration to drawPdfHeader('standard') — UHNW Card updated to PNG logo; Bike Card is HTML (no PDF export to migrate)
+- [x] Item 4: Christie's Letter 260-year audit (confirm all references read "260 years" / "1766-2026")
+- [x] Item 5: Flagship Letter card description update to "Origin story — platform, team, and model."
+- [x] Item 6: INTEL dual Christie's node restructure (CIREG affiliate vs Global Network)

@@ -1506,6 +1506,9 @@ export async function generateUHNWPathCard(): Promise<void> {
   const ml = 0.25; const mr = 0.25; const mt = 0.15; const mb = 0.12;
   const usableW = W - ml - mr;
 
+  // Load assets (base64 logo — no CDN calls)
+  const { logoImg } = await loadPdfAssets();
+
   // Background
   doc.setFillColor(249, 245, 239);
   doc.rect(0, 0, W, H, 'F');
@@ -1515,15 +1518,10 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.setFillColor(56, 66, 73); // #384249
   doc.rect(0, 0, W, headerH, 'F');
 
-  // Christie's logo text
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
-  doc.setTextColor(200, 172, 120);
-  doc.text("Christie's", ml + 0.05, mt + 0.18);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(5.5);
-  doc.setTextColor(200, 172, 120);
-  doc.text('International Real Estate', ml + 0.05, mt + 0.29);
+  // Christie's PNG wordmark (base64, left-aligned in header)
+  // Logo aspect ratio 3.965:1 — at 1.1in wide: height = 1.1 / 3.965 = 0.277in
+  const logoW = 1.1; const logoH = logoW / 3.965;
+  doc.addImage(logoImg, 'PNG', ml + 0.02, (headerH - logoH) / 2, logoW, logoH);
 
   // Title
   doc.setFont('helvetica', 'bold');
