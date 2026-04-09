@@ -107,7 +107,7 @@ The door is open whenever you are ready to walk through it.`;
 
 // ─── Market Intelligence Brief — static fallback ──────────────────────────────
 // Used when live data is unavailable. The dynamic endpoint assembles fresh data each call.
-const MARKET_REPORT_FALLBACK = `Market Intelligence Brief. Christie's East Hampton. South Fork, 2026.
+const MARKET_REPORT_FALLBACK = `Good morning. Here is your Christie's East Hampton market brief. South Fork, 2026.
 
 The Hamptons Median is 2.34 million dollars across all eleven hamlets, South Fork, first quarter 2026. This represents a 7 percent year-over-year increase driven by East Hampton Village, Southampton Village, and Bridgehampton.
 
@@ -254,7 +254,7 @@ async function buildDynamicMarketBrief(): Promise<string> {
     ? `Market Intelligence. ${perplexityNarrative}`
     : "Market Intelligence. No new named Hamptons transactions have been confirmed in the past 30 days. The verified 2026 South Fork median remains 2.34 million dollars.";
 
-  const script = `Market Intelligence Brief. Christie's East Hampton. ${today}.
+  const script = `Good morning. Here is your Christie's East Hampton market brief. ${today}.
 
 ${marketSection}
 

@@ -1220,3 +1220,12 @@
 - [x] HOME audio button grid corrected from 1fr 1fr to 1fr 1fr 1fr (3 buttons, 3 columns)
 - [x] Server health confirmed — running clean, fetchYF export verified, listings sync confirmed
 - [ ] Visual QA: Flagship Letter PDF page one screenshot (permanent rule — stays open until Ed uploads screenshot)
+
+## Sprint 43 Night Session (April 9, 2026)
+- [x] Standardize HOME audio button labels: Christie's Letter, Flagship Letter, Market Brief (same order, same routes)
+- [x] Standardize /report audio button labels: Christie's Letter, Flagship Letter, Market Brief (same order, same routes)
+- [x] Verify audio routes: christies-letter → "The East End holds more than real estate", flagship-letter → "Welcome to the Christie's East Hampton flagship dashboard", market-report → "Good morning. Here is your Christie's East Hampton market brief"
+- [x] Fix broken 4-page Pro Forma export button on FUTURE tab — confirmed 442KB PDF downloads correctly
+- [x] Screenshot: HOME buttons showing three labels in order
+- [x] Screenshot: /report buttons showing three labels in order
+- [x] Confirm Pro Forma generates successfully — 442KB PDF, 5.7 seconds, downloads clean

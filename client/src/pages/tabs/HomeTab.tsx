@@ -140,9 +140,9 @@ function SectionA() {
     }
   }
 
-  const channelLabel = audioChannel === 'christies' ? "James Christie's Letter"
+  const channelLabel = audioChannel === 'christies' ? "Christie's Letter"
     : audioChannel === 'flagship' ? 'Flagship Letter'
-    : 'Market Intelligence Brief';
+    : 'Market Brief';
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
@@ -269,9 +269,9 @@ function SectionA() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
                   {(['christies', 'flagship', 'market'] as const).map((ch) => {
                     const labels: Record<HomeAudioChannel, string> = {
-                      christies: "James Christie's Letter",
+                      christies: "Christie's Letter",
                       flagship: 'Flagship Letter',
-                      market: 'Market Intelligence Brief',
+                      market: 'Market Brief',
                     };
                     return (
                       <button

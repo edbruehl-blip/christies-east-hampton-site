@@ -415,7 +415,7 @@ function Section1() {
         {/* ── Triple William TTS Buttons (Sprint 42 Item 1) ── */}
         {audioState === 'idle' || audioState === 'error' ? (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
-            {/* Button 1 — James Christie's Letter */}
+            {/* Button 1 — Christie's Letter */}
             <button
               onClick={() => handleListen('christies')}
               style={{
@@ -432,7 +432,7 @@ function Section1() {
                 lineHeight: 1.3,
               }}
             >
-              {audioState === 'error' && audioChannel === 'christies' ? '⚠ Retry' : "▶ Listen · James Christie's Letter"}
+              {audioState === 'error' && audioChannel === 'christies' ? '⚠ Retry' : "▶ Christie's Letter"}
             </button>
             {/* Button 2 — Flagship Letter */}
             <button
@@ -451,7 +451,7 @@ function Section1() {
                 lineHeight: 1.3,
               }}
             >
-              {audioState === 'error' && audioChannel === 'flagship' ? '⚠ Retry' : '▶ Listen · Flagship Letter'}
+              {audioState === 'error' && audioChannel === 'flagship' ? '⚠ Retry' : '▶ Flagship Letter'}
             </button>
             {/* Button 3 — Market Report */}
             <button
@@ -470,7 +470,7 @@ function Section1() {
                 lineHeight: 1.3,
               }}
             >
-              {audioState === 'error' && audioChannel === 'report' ? '⚠ Retry' : '▶ Listen · Market Report'}
+              {audioState === 'error' && audioChannel === 'report' ? '⚠ Retry' : '▶ Market Brief'}
             </button>
           </div>
         ) : (
@@ -508,7 +508,7 @@ function Section1() {
                 }}>
                   {audioState === 'loading'
                     ? 'Synthesizing Audio… Please Wait'
-                    : audioChannel === 'christies' ? "Playing James Christie's Letter" : audioChannel === 'flagship' ? 'Playing Flagship Letter' : 'Playing Market Report'}
+                    : audioChannel === 'christies' ? "Playing Christie's Letter" : audioChannel === 'flagship' ? 'Playing Flagship Letter' : 'Playing Market Brief'}
                 </span>
               </div>
               {(audioState === 'playing' || audioState === 'paused') && (
