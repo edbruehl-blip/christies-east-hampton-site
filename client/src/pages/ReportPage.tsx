@@ -152,7 +152,7 @@ function Section1() {
   const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
   // Dual William: track state per audio channel
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
-  const [audioChannel, setAudioChannel] = useState<'letter' | 'report' | 'flagship'>('letter');
+  const [audioChannel, setAudioChannel] = useState<'christies' | 'report' | 'flagship'>('christies');
   const [audioProgress, setAudioProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -226,7 +226,7 @@ function Section1() {
 
   const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
   function handleShare() {
-    const endpoint = audioChannel === 'letter' ? '/api/tts/founding-letter' : audioChannel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
+    const endpoint = audioChannel === 'christies' ? '/api/tts/christies-letter' : audioChannel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
     const fullUrl = window.location.origin + endpoint;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setShareState('copied');
@@ -244,7 +244,7 @@ function Section1() {
     audio.currentTime = pct * audio.duration;
   }
 
-  async function handleListen(channel: 'letter' | 'report' | 'flagship') {
+  async function handleListen(channel: 'christies' | 'report' | 'flagship') {
     // If already playing the same channel, stop
     if (audioState === 'playing' && audioChannel === channel) {
       stopAudio();
@@ -257,7 +257,7 @@ function Section1() {
     setAudioChannel(channel);
     setAudioState('loading');
     setAudioProgress(0);
-    const endpoint = channel === 'letter' ? '/api/tts/founding-letter' : channel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
+    const endpoint = channel === 'christies' ? '/api/tts/christies-letter' : channel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -415,9 +415,9 @@ function Section1() {
         {/* ── Triple William TTS Buttons (Sprint 42 Item 1) ── */}
         {audioState === 'idle' || audioState === 'error' ? (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
-            {/* Button 1 — Founding Letter */}
+            {/* Button 1 — James Christie's Letter */}
             <button
-              onClick={() => handleListen('letter')}
+              onClick={() => handleListen('christies')}
               style={{
                 background: 'none',
                 border: '1px solid rgba(200,172,120,0.28)',
@@ -432,7 +432,7 @@ function Section1() {
                 lineHeight: 1.3,
               }}
             >
-              {audioState === 'error' && audioChannel === 'letter' ? '⚠ Retry' : '▶ Listen · Founding Letter'}
+              {audioState === 'error' && audioChannel === 'christies' ? '⚠ Retry' : "▶ Listen · James Christie's Letter"}
             </button>
             {/* Button 2 — Flagship Letter */}
             <button
@@ -508,7 +508,7 @@ function Section1() {
                 }}>
                   {audioState === 'loading'
                     ? 'Synthesizing Audio… Please Wait'
-                    : audioChannel === 'letter' ? 'Playing Founding Letter' : audioChannel === 'flagship' ? 'Playing Flagship Letter' : 'Playing Market Report'}
+                    : audioChannel === 'christies' ? "Playing James Christie's Letter" : audioChannel === 'flagship' ? 'Playing Flagship Letter' : 'Playing Market Report'}
                 </span>
               </div>
               {(audioState === 'playing' || audioState === 'paused') && (

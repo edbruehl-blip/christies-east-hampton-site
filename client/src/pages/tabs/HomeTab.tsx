@@ -44,7 +44,7 @@ const FOUNDING_PARAGRAPHS = [
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
-type HomeAudioChannel = 'founding' | 'christies' | 'flagship' | 'market';
+type HomeAudioChannel = 'christies' | 'flagship' | 'market';
 
 function SectionA() {
   const [, navigate] = useLocation();
@@ -55,7 +55,7 @@ function SectionA() {
 
   // ── Inline audio state machine (fetch-blob pattern — same as /report Section1) ──
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
-  const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('founding');
+  const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('christies');
   const [audioProgress, setAudioProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [audioDuration, setAudioDuration] = useState(0);
@@ -90,8 +90,7 @@ function SectionA() {
   }
 
   function handleShare() {
-    const ep = audioChannel === 'founding' ? '/api/tts/founding-letter'
-      : audioChannel === 'christies' ? '/api/tts/christies-letter'
+    const ep = audioChannel === 'christies' ? '/api/tts/christies-letter'
       : audioChannel === 'flagship' ? '/api/tts/flagship-letter'
       : '/api/tts/market-report';
     navigator.clipboard.writeText(window.location.origin + ep)
@@ -112,8 +111,7 @@ function SectionA() {
     setAudioChannel(channel);
     setAudioState('loading');
     setAudioProgress(0);
-    const endpoint = channel === 'founding' ? '/api/tts/founding-letter'
-      : channel === 'christies' ? '/api/tts/christies-letter'
+    const endpoint = channel === 'christies' ? '/api/tts/christies-letter'
       : channel === 'flagship' ? '/api/tts/flagship-letter'
       : '/api/tts/market-report';
     try {
@@ -142,8 +140,7 @@ function SectionA() {
     }
   }
 
-  const channelLabel = audioChannel === 'founding' ? 'Founding Letter'
-    : audioChannel === 'christies' ? "James Christie's Letter"
+  const channelLabel = audioChannel === 'christies' ? "James Christie's Letter"
     : audioChannel === 'flagship' ? 'Flagship Letter'
     : 'Market Intelligence Brief';
 
@@ -270,9 +267,8 @@ function SectionA() {
               {/* Four trigger buttons — idle or error state */}
               {(audioState === 'idle' || audioState === 'error') && (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                  {(['founding', 'christies', 'flagship', 'market'] as const).map((ch) => {
+                  {(['christies', 'flagship', 'market'] as const).map((ch) => {
                     const labels: Record<HomeAudioChannel, string> = {
-                      founding: 'Founding Letter',
                       christies: "James Christie's Letter",
                       flagship: 'Flagship Letter',
                       market: 'Market Intelligence Brief',
