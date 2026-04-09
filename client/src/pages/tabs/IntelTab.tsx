@@ -413,6 +413,13 @@ interface DocItem {
 
 const DOCUMENT_LIBRARY: DocItem[] = [
   {
+    id: 'broker-onboarding-final',
+    label: 'Broker Onboarding — What You Are Walking Into',
+    description: 'Confidential · Internal Use Only. Five sections: What This Office Is, What You Are Joining, The Five Roles, The Deal Flow, The Wednesday Circuit, and The Christie\'s Standard. Issued by Ed Bruehl, Managing Director. Christie\'s International Real Estate Group · East Hampton.',
+    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christie_Broker_Onboarding_FINAL_d7d66dab.pdf',
+    pinned: true,
+  },
+  {
     id: 'org-chart-v2',
     label: 'CIREG Ecosystem · Organizational Map · April 2, 2026',
     description: 'Five-tier institutional hierarchy: Artémis / Pinault Family → Christie\'s Auction House → CIH → CIREG Tri-State → Christie\'s East Hampton Flagship. CIREG Brand Guidelines compliant. Guillaume Cerutti marked departed March 30, 2026.',
@@ -434,8 +441,9 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   },
   {
     id: 'market-report-live-v2',
-    label: 'Christie\'s Hamptons Live Market Report · v2 · March 2026',
+    label: 'Christie\'s Hamptons Live Market Report · v2 · April 2026',
     description: 'Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.',
+
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
   },
   {
@@ -472,13 +480,6 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     label: 'Stephen Lash Speaker Briefing · July 2026 · Fitzgerald, the Hamptons, and Christie\'s',
     description: 'Three-thread research brief for the July 2026 Lash event. Thread 1: Murphy-Fitzgerald East Hampton connection — Sara Wiborg Murphy, The Dunes, Ring Lardner at 15 West End Road, and the direct East Hampton origin of The Great Gatsby. Thread 2: East Hampton board map — chairs of EHHS, Guild Hall, LongHouse, Village Preservation Society, and LVIS, plus cross-board connectors. Thread 3: Christie\'s Long Island auction history — the Goldman Gatsby inscription (GBP 226,800), de Kooning\'s East Hampton studio, and the Riggio/Newhouse/Ross collector relationships.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/lash_speaker_packet_july2026_1b529cb1.pdf',
-    pinned: true,
-  },
-  {
-    id: 'broker-onboarding-final',
-    label: 'Broker Onboarding — What You Are Walking Into',
-    description: 'Confidential · Internal Use Only. Five sections: What This Office Is, What You Are Joining, The Five Roles, The Deal Flow, The Wednesday Circuit, and The Christie’s Standard. Issued by Ed Bruehl, Managing Director. Christie’s International Real Estate Group · East Hampton.',
-    url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christie_Broker_Onboarding_FINAL_d7d66dab.pdf',
     pinned: true,
   },
 ];
