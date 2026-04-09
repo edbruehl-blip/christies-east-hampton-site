@@ -20,7 +20,7 @@
  */
 
 import jsPDF from 'jspdf';
-import { ED_HEADSHOT_PRIMARY, LOGO_BLACK } from './cdn-assets';
+import { ED_HEADSHOT_PRIMARY, LOGO_BLACK_B64 } from './cdn-assets';
 import { MASTER_HAMLET_DATA } from '../data/hamlet-master';
 import type { AnewOutput } from '../calculators/anew-calculator';
 
@@ -300,9 +300,10 @@ export function downloadPdf(doc: jsPDF, filename: string) {
 const QR_LINKTREE_URL = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/qr-linktree_61501da5.png'; // permanent webdev CDN (re-uploaded Sprint 24)
 
 export async function loadPdfAssets(): Promise<{ edImg: string; logoImg: string; qrImg: string }> {
-  const [edImg, logoImg, qrImg] = await Promise.all([
+  // Logo is base64-embedded — no CDN fetch needed, always renders cleanly
+  const logoImg = LOGO_BLACK_B64;
+  const [edImg, qrImg] = await Promise.all([
     loadImageAsDataUrl(ED_HEADSHOT_PRIMARY),
-    loadImageAsDataUrl(LOGO_BLACK),
     loadImageAsDataUrl(QR_LINKTREE_URL),
   ]);
   return { edImg, logoImg, qrImg };

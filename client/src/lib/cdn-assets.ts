@@ -56,6 +56,11 @@ export const LOGO_WHITE =
 export const LOGO_BLACK =
   `https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png`;  // Official CIREG black lockup
 
+// ── Base64-embedded logo variants (no CDN dependency — always renders in PDFs) ──
+// These are the same images as above, embedded directly for offline/print reliability.
+// Import is at top of file — see logo-b64.ts
+export { CIREG_LOGO_WHITE_B64 as LOGO_WHITE_B64, CIREG_LOGO_BLACK_B64 as LOGO_BLACK_B64 } from './logo-b64';
+
 // ── JPG variants on manuscdn.com (white bg — use only where bg matches) ────────
 export const LOGO_WHITE_JPG =
   `${CDN}/PThZZiXUXghWnEeT.jpg`;            // White text, white bg — NOT for nav

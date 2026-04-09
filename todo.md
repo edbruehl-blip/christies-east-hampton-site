@@ -1132,3 +1132,30 @@
 - [x] Fresh pro forma PDF export
 - [x] Fresh Card Stock PDF export
 - [x] Checkpoint and Publish
+
+## Sprint 41 — Post-Audit Infrastructure (April 9, 2026)
+- [ ] S41-P1: FUTURE tab public-safe mode — toggle to hide GCI/profit pool/MD Total/AnewHomes in public mode, keep full economics in internal mode
+- [ ] S41-P2: Persist MAPS listings to database table (id, address, price, hamlet, url, imageUrl, syncedAt)
+- [ ] S41-P2b: Add manual sync trigger for listings refresh post-deploy
+- [ ] S41-P3: Wire exclusive pipeline total, total relationship book, closed volume live into Card Stock PDF at export time
+- [ ] S41-P3b: Wire same KPIs live into 4-page Pro Forma PDF at export time
+- [ ] S41-P3c: Wire same KPIs live into Ascension Arc PDF at export time
+- [ ] S41-F1: Document hamlet classifier default-to-north fallback logic in code comments
+- [ ] S41-F2: Document Card Stock GCI fallback waterfall in code comments
+- [ ] S41-F3: Rename "Nine-Sheet Matrix" to "Source Documents" everywhere in UI and code
+- [ ] S41-F4: Add Google Calendar cookie prompt helper copy in INTEL Layer 2
+- [ ] S41-F5: Label stale mortgage rate as "cached — FRED unavailable" when fallback is used
+- [ ] S41-M1: FUTURE tables horizontal scroll on mobile
+- [ ] S41-M2: Ascension Arc chart no-clip on mobile
+- [ ] S41-M3: INTEL mind map container scrollable on mobile
+- [ ] S41-M4: MARKET chart labels adjusted for mobile
+- [ ] S41-M5: HOME ticker no right-edge clip on mobile
+
+## Sprint 41 Corrected — Logo Fix + Full Visibility
+- [x] Revert public-safe mode — FUTURE tab stays fully visible (no auth gating, no filtered views)
+- [x] Base64-encode Christie's wordmark PNG for offline embedding in all PDFs
+- [x] Embed base64 logo in pdf-exports.ts (Market Report, Ascension Arc, Card Stock, Pro Forma)
+- [x] Embed base64 logo in proforma-generator.ts (4-page server-side pro forma)
+- [x] Fix Model Assumptions BASE CASE text color (cream-on-cream invisible bug)
+- [x] Confirm all PDF exports show clean crisp logo with screenshot
+- [ ] Checkpoint and Publish

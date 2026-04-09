@@ -2070,7 +2070,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     '— House take: 30% of gross commissions on volume above $40M breakeven',
     '— Southampton office: opens 2028  ·  Westhampton office: opens 2030',
   ];
-  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.cream);
+  doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
   assumptions.forEach((line, i) => { doc.text(line, P.ml + 3, py + 8 + i * 3.5); });
   py += 22;
 
