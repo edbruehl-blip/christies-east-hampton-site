@@ -168,11 +168,23 @@ function SectionA() {
               </div>
             </div>
 
-            {/* Audio player — immediately below founding letter signature */}
-            <div style={{ marginTop: 28, maxWidth: 560 }}>
+            {/* Audio players — immediately below founding letter signature (Sprint 42 Item 1) */}
+            <div style={{ marginTop: 28, maxWidth: 560, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <WilliamAudioPlayer
                 audioUrl={window.location.origin + '/api/tts/founding-letter'}
                 label="Founding Letter · Christie's East Hampton"
+              />
+              <WilliamAudioPlayer
+                audioUrl={window.location.origin + '/api/tts/christies-letter'}
+                label="Listen · James Christie's Letter"
+              />
+              <WilliamAudioPlayer
+                audioUrl={window.location.origin + '/api/tts/flagship-letter'}
+                label="Listen · Christie's Flagship Letter"
+              />
+              <WilliamAudioPlayer
+                audioUrl={window.location.origin + '/api/tts/market-report'}
+                label="Listen · Market Intelligence Brief"
               />
             </div>
             <button

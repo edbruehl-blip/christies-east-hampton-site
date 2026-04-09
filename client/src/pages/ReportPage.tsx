@@ -152,7 +152,7 @@ function Section1() {
   const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
   // Dual William: track state per audio channel
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
-  const [audioChannel, setAudioChannel] = useState<'letter' | 'report'>('letter');
+  const [audioChannel, setAudioChannel] = useState<'letter' | 'report' | 'flagship'>('letter');
   const [audioProgress, setAudioProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -226,7 +226,7 @@ function Section1() {
 
   const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
   function handleShare() {
-    const endpoint = audioChannel === 'letter' ? '/api/tts/founding-letter' : '/api/tts/market-report';
+    const endpoint = audioChannel === 'letter' ? '/api/tts/founding-letter' : audioChannel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
     const fullUrl = window.location.origin + endpoint;
     navigator.clipboard.writeText(fullUrl).then(() => {
       setShareState('copied');
@@ -244,7 +244,7 @@ function Section1() {
     audio.currentTime = pct * audio.duration;
   }
 
-  async function handleListen(channel: 'letter' | 'report') {
+  async function handleListen(channel: 'letter' | 'report' | 'flagship') {
     // If already playing the same channel, stop
     if (audioState === 'playing' && audioChannel === channel) {
       stopAudio();
@@ -257,7 +257,7 @@ function Section1() {
     setAudioChannel(channel);
     setAudioState('loading');
     setAudioProgress(0);
-    const endpoint = channel === 'letter' ? '/api/tts/founding-letter' : '/api/tts/market-report';
+    const endpoint = channel === 'letter' ? '/api/tts/founding-letter' : channel === 'flagship' ? '/api/tts/flagship-letter' : '/api/tts/market-report';
     try {
       const response = await fetch(endpoint);
       if (!response.ok) {
@@ -412,9 +412,9 @@ function Section1() {
           </span>
         </button>
 
-        {/* ── Dual William TTS Buttons ── */}
+        {/* ── Triple William TTS Buttons (Sprint 42 Item 1) ── */}
         {audioState === 'idle' || audioState === 'error' ? (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
             {/* Button 1 — Founding Letter */}
             <button
               onClick={() => handleListen('letter')}
@@ -434,7 +434,26 @@ function Section1() {
             >
               {audioState === 'error' && audioChannel === 'letter' ? '⚠ Retry' : '▶ Listen · Founding Letter'}
             </button>
-            {/* Button 2 — Market Report */}
+            {/* Button 2 — Flagship Letter */}
+            <button
+              onClick={() => handleListen('flagship')}
+              style={{
+                background: 'none',
+                border: '1px solid rgba(200,172,120,0.28)',
+                color: 'rgba(200,172,120,0.75)',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 9,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                padding: '9px 10px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                lineHeight: 1.3,
+              }}
+            >
+              {audioState === 'error' && audioChannel === 'flagship' ? '⚠ Retry' : '▶ Listen · Flagship Letter'}
+            </button>
+            {/* Button 3 — Market Report */}
             <button
               onClick={() => handleListen('report')}
               style={{
@@ -489,7 +508,7 @@ function Section1() {
                 }}>
                   {audioState === 'loading'
                     ? 'Synthesizing Audio… Please Wait'
-                    : audioChannel === 'letter' ? 'Playing Founding Letter' : 'Playing Market Report'}
+                    : audioChannel === 'letter' ? 'Playing Founding Letter' : audioChannel === 'flagship' ? 'Playing Flagship Letter' : 'Playing Market Report'}
                 </span>
               </div>
               {(audioState === 'playing' || audioState === 'paused') && (
