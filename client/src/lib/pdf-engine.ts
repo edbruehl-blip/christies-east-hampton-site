@@ -193,7 +193,8 @@ export function drawPdfHeader(
     doc.line(ml, 28, pageW - mr, 28);
     const py = 6;
     if (logoImgData) {
-      try { doc.addImage(logoImgData, 'PNG', ml, py, 16, 16); } catch { /* skip */ }
+      // Navy bar: 16×4mm logo (aspect 3.965:1) left-aligned
+      try { doc.addImage(logoImgData, 'PNG', ml, py + 4, 16, 4); } catch { /* skip */ }
     }
     doc.setFontSize(7);
     doc.setFont('helvetica', 'bold');
@@ -222,7 +223,8 @@ export function drawPdfHeader(
     doc.setLineWidth(0.8);
     doc.line(ml, 8, pageW - mr, 8);
     if (logoImgData) {
-      try { doc.addImage(logoImgData, 'PNG', ml, 10, 44, 10); } catch {
+      // Landscape: 44×11mm logo (aspect 3.965:1) left-aligned
+      try { doc.addImage(logoImgData, 'PNG', ml, 10, 44, 11); } catch {
         doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(...C.navy);
         doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", ml, 17);
       }
@@ -241,21 +243,22 @@ export function drawPdfHeader(
 
   if (variant === 'letter') {
     // ── Letter format (Christie's Letter, Flagship Letter) ──────────────────
+    // 44×17mm at Y=8 matches the working drawHeader() dimensions exactly
     if (logoImgData) {
-      try { doc.addImage(logoImgData, 'PNG', cx - 22, 14, 44, 17); } catch { /* skip */ }
+      try { doc.addImage(logoImgData, 'PNG', cx - 22, 8, 44, 17); } catch { /* skip */ }
     } else {
       doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
-      doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 24, { align: 'center' });
+      doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 18, { align: 'center' });
     }
     doc.setDrawColor(...C.gold); doc.setLineWidth(0.6);
-    doc.line(ml, 34, pageW - mr, 34);
-    return 42; // y start for body (caller adds date block)
+    doc.line(ml, 28, pageW - mr, 28);
+    return 36; // y start for body (caller adds date block)
   }
 
   // ── Standard (default) ────────────────────────────────────────────────────
   // Centered logo, gold rule, title + subtitle, date right-aligned
   if (logoImgData) {
-    try { doc.addImage(logoImgData, 'PNG', cx - 22, 8, 44, 17); } catch { /* skip */ }
+    try { doc.addImage(logoImgData, 'PNG', cx - 22, 8, 44, 11); } catch { /* skip */ }
   } else {
     doc.setFontSize(9); doc.setTextColor(...C.navy); doc.setFont('helvetica', 'bold');
     doc.text("CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP", cx, 18, { align: 'center' });
