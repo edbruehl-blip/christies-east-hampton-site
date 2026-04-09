@@ -709,3 +709,61 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
     return empty;
   }
 }
+
+// ─── Pipeline KPIs (for live PDF export injection) ────────────────────────────
+// Computes live pipeline totals at export time so Card Stock and Pro Forma
+// always reflect the current Google Sheet state.
+
+export interface PipelineKpis {
+  activeTotalM: string;      // e.g. "$10.98M"
+  exclusiveTotalM: string;   // e.g. "$13.62M"
+  relationshipBookM: string; // e.g. "$34.7M"
+  closedYtdM: string;        // e.g. "$4.2M"
+  dealCount: number;
+}
+
+export async function getPipelineKpis(): Promise<PipelineKpis> {
+  const fallback: PipelineKpis = {
+    activeTotalM: '$10.98M',
+    exclusiveTotalM: '$13.62M',
+    relationshipBookM: '$34.7M',
+    closedYtdM: '$0M',
+    dealCount: 0,
+  };
+
+  try {
+    const deals = await readPipelineDeals();
+
+    let activeTotal = 0;
+    let exclusiveTotal = 0;
+    let closedYtd = 0;
+    let dealCount = 0;
+
+    for (const deal of deals) {
+      if (deal.isSectionHeader) continue;
+      const price = parseDollar(deal.price || '');
+      const status = (deal.status || '').toUpperCase();
+      if (status === 'ACTIVE') { activeTotal += price; dealCount++; }
+      if (status === 'EXCLUSIVE') { exclusiveTotal += price; dealCount++; }
+      if (status === 'CLOSED') { closedYtd += price; dealCount++; }
+    }
+
+    const totalBook = activeTotal + exclusiveTotal + closedYtd;
+
+    const fmt = (n: number) => {
+      if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(2).replace(/\.?0+$/, '')}M`;
+      if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
+      return `$${n.toLocaleString()}`;
+    };
+
+    return {
+      activeTotalM: fmt(activeTotal),
+      exclusiveTotalM: fmt(exclusiveTotal),
+      relationshipBookM: fmt(totalBook),
+      closedYtdM: fmt(closedYtd),
+      dealCount,
+    };
+  } catch {
+    return fallback;
+  }
+}

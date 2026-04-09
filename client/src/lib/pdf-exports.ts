@@ -1233,6 +1233,8 @@ export interface FutureReportInput {
   agents: { name: string; role?: string; status?: string; proj2026: number; act2026: number; proj2027: number; act2027: number }[];
   total: { proj2026: number; act2026: number; proj2027: number; act2027: number };
   liveAct2026?: number;
+  // Sprint 41 Priority 3: live pipeline KPIs injected from Google Sheet at export time
+  kpis?: { exclusiveTotalM: string; activeTotalM: string; relationshipBookM: string };
 }
 
 const FUTURE_MILESTONES = [
@@ -1355,7 +1357,7 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
 
   const proofBlocks = [
     { label: 'First 100 Days',  period: 'Nov 2025 \u2013 Feb 2026', volume: '$4.57M',  badge: 'Closed',    badgeC: C.navy as [number, number, number] },
-    { label: 'Second 100 Days', period: 'Mar \u2013 May 1, 2026',   volume: '$13.62M', badge: 'Active',    badgeC: C.gold as [number, number, number] },
+    { label: 'Second 100 Days', period: 'Mar \u2013 May 1, 2026',   volume: input.kpis?.exclusiveTotalM ?? '$13.62M', badge: 'Active',    badgeC: C.gold as [number, number, number] },
     { label: 'Third 100 Days',  period: 'May 1 \u2013 Aug 2026',    volume: '$55M',    badge: 'Projected', badgeC: C.muted as [number, number, number] },
   ];
   const blockW = proofW / 3 - 2;
@@ -2110,7 +2112,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.setDrawColor(...CS.gold); doc.setLineWidth(0.5); doc.line(P.ml, py, P.ml, py + 9);
   doc.setDrawColor(...CS.muted); doc.setLineWidth(0.2); doc.rect(P.ml, py, cw, 9, 'S');
   doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
-  doc.text('Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.', P.ml + 3, py + 5.5, { maxWidth: cw - 6 });
+  doc.text(`Active pipeline: ${input.kpis?.exclusiveTotalM ?? '$13.62M'} in exclusive listings. Total relationship book including quiet listings and buy-side representation: ${input.kpis?.relationshipBookM ?? '$34.7M'}.`, P.ml + 3, py + 5.5, { maxWidth: cw - 6 });
   py += 13;
 
   // AI platform note
@@ -2246,8 +2248,8 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     ? agents.map(a => [
         a.name,
         // Use hardcoded 2% value if live projGci2026 is zero or missing
-        (a.projGci2026 ?? 0) > 0 ? fmtVolFuture(a.projGci2026 ?? 0) : (HARDCODED_GCI[a.name] ?? fmtVolFuture(0)),
-        (a.actGci2026 ?? 0) > 0 ? fmtVolFuture(a.actGci2026 ?? 0) : '—'
+        ((a as any).projGci2026 ?? 0) > 0 ? fmtVolFuture((a as any).projGci2026 ?? 0) : (HARDCODED_GCI[a.name] ?? fmtVolFuture(0)),
+        ((a as any).actGci2026 ?? 0) > 0 ? fmtVolFuture((a as any).actGci2026 ?? 0) : '—'
       ])
     : FALLBACK_GCI_ROWS) as string[][];
   py = drawTable(

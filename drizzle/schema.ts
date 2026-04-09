@@ -42,3 +42,24 @@ export const pipeline = mysqlTable("pipeline", {
 
 export type PipelineEntry = typeof pipeline.$inferSelect;
 export type InsertPipelineEntry = typeof pipeline.$inferInsert;
+
+// ─── Listings Table (MAPS tab — Sprint 41 DB persistence) ───────────────────
+// NOTE: Column names match the existing DB table (camelCase, from prior migration)
+export const listings = mysqlTable('listings', {
+  id:           int('id').autoincrement().primaryKey(),
+  address:      varchar('address', { length: 255 }).notNull(),
+  price:        varchar('price', { length: 64 }).notNull().default(''),
+  hamlet:       varchar('hamlet', { length: 64 }).notNull().default('East Hampton North'),
+  url:          text('url').notNull(),
+  imageUrl:     text('imageUrl'),
+  beds:         varchar('beds', { length: 16 }),
+  baths:        varchar('baths', { length: 16 }),
+  sqft:         varchar('sqft', { length: 32 }),
+  status:       varchar('status', { length: 32 }).notNull().default('Active'),
+  syncedAt:     timestamp('syncedAt').defaultNow().notNull(),
+  createdAt:    timestamp('createdAt').defaultNow().notNull(),
+  updatedAt:    timestamp('updatedAt').defaultNow().onUpdateNow().notNull(),
+});
+
+export type Listing = typeof listings.$inferSelect;
+export type InsertListing = typeof listings.$inferInsert;

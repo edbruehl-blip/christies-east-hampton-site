@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis } from './sheets-helper';
 import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
@@ -152,6 +152,11 @@ export const appRouter = router({
     // Auth: GOOGLE_SERVICE_ACCOUNT_JSON is the auth layer — no session cookie required.
     // The service account credential handles Google Sheets access server-side.
     // Write procedures (updateSheetStatus, appendSheet) remain protectedProcedure.
+    // Live pipeline KPIs for PDF export injection (Sprint 41)
+    getKpis: publicProcedure.query(async () => {
+      return await getPipelineKpis();
+    }),
+
     sheetDeals: publicProcedure.query(async () => {
       try {
         const deals = await readPipelineDeals();

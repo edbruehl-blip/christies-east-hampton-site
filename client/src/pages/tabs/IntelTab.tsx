@@ -184,6 +184,13 @@ function CalendarLayer() {
             height="520"
             style={{ display: 'block', border: 'none' }}
           />
+          {/* Cookie hint — Google Calendar requires third-party cookies */}
+          <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.03)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
+            <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+              If the calendar appears blank, your browser may be blocking third-party cookies. Use 
+              <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
+            </span>
+          </div>
         </div>
 
         {/* Open Sheet Matrix — reference link below calendar */}
@@ -315,7 +322,7 @@ function NineSheetMatrix() {
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 3 · Nine-Sheet Matrix
+          Layer 3 · Thirteen-Sheet Matrix
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
           Canonical Data Sources
@@ -555,7 +562,7 @@ function IntelligenceWebLayer() {
 const INTEL_SECTIONS = [
   { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
   { id: 'intel-layer-2', label: 'Layer 2 · Calendar' },
-  { id: 'intel-layer-3', label: 'Layer 3 · Nine Sheets' },
+  { id: 'intel-layer-3', label: 'Layer 3 · Thirteen Sheets' },
   { id: 'intel-layer-4', label: 'Layer 4 · Documents' },
   { id: 'intel-layer-5', label: 'Layer 5 · Intel Web' },
 ];
@@ -623,7 +630,7 @@ export default function IntelTab() {
             </div>
             <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
             <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-              Mind Map · Calendar · Nine-Sheet Matrix · Canon Documents · Intelligence Web.
+              Mind Map · Calendar · Thirteen-Sheet Matrix · Canon Documents · Intelligence Web.
             </p>
           </div>
           <WednesdayCircuitCountdown />

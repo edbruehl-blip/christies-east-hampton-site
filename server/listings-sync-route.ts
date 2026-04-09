@@ -1,6 +1,7 @@
 /**
  * LISTINGS SYNC ROUTE
  * Sprint 5 — April 1, 2026
+ * Sprint 41 — DB persistence added April 9, 2026
  *
  * Fetches Ed Bruehl's active listings from Christie's Real Estate Group API
  * and maps them to the ten EELE hamlets for the MAPS tab.
@@ -13,10 +14,15 @@
  * Also called by the 6AM daily cron in server/_core/index.ts
  *
  * Returns: { listings: EeleListing[], byHamlet: Record<string, EeleListing[]>, syncedAt: string }
+ *
+ * Sprint 41: Listings are now persisted to the `listings` DB table so they survive
+ * server restarts. The in-memory cache is kept as a fast read-through layer.
  */
 
 import express from 'express';
 import * as cheerio from 'cheerio';
+import { getDb } from './db';
+import { listings as listingsTable } from '../drizzle/schema';
 
 const router = express.Router();
 
@@ -48,11 +54,10 @@ const HAMLET_KEYWORDS: Record<string, string[]> = {
   'southampton-village':   ['southampton'],
   'sag-harbor':            ['sag harbor'],
   'amagansett':            ['amagansett'],
+  'east-hampton-village':  ['east hampton village', 'e hampton village'],
+  'wainscott':             ['wainscott'],
   'springs':               ['springs'],
   'montauk':               ['montauk'],
-  'wainscott':             ['wainscott'],
-  // east-hampton-village covers East Hampton Village (south of highway)
-  'east-hampton-village':  ['east hampton village'],
   // east-hampton-north covers East Hampton Town / north of highway / Hampton Bays
   'east-hampton-north':    ['east hampton', 'e hampton', 'hampton bays'],
 };
@@ -138,10 +143,63 @@ function parseListings(html: string): EeleListing[] {
   return listings;
 }
 
-// ─── In-memory cache ──────────────────────────────────────────────────────────
+// ─── In-memory cache (fast read-through over DB) ──────────────────────────────
 
 let cachedListings: EeleListing[] = [];
 let lastSyncAt: string | null = null;
+
+// ─── DB helpers ───────────────────────────────────────────────────────────────
+
+async function loadFromDb(): Promise<EeleListing[]> {
+  try {
+    const db = await getDb();
+    if (!db) return [];
+    const rows = await db.select().from(listingsTable);
+    return rows.map(r => ({
+      address: r.address,
+      price: r.price,
+      // beds/baths stored as varchar in DB, EeleListing expects number|null
+      beds: r.beds != null ? parseFloat(r.beds) || null : null,
+      baths: r.baths != null ? parseFloat(r.baths) || null : null,
+      sqft: r.sqft ?? 'N/A',
+      url: r.url,
+      placeholder: false as const,
+      hamlet: r.hamlet,
+      imageUrl: r.imageUrl ?? undefined,
+      // propertyType not stored in DB schema — omit
+    } as EeleListing));
+  } catch {
+    return [];
+  }
+}
+
+async function persistToDb(items: EeleListing[]): Promise<void> {
+  const now = Math.floor(Date.now() / 1000);
+  try {
+    const db = await getDb();
+    if (!db) { console.warn('[Listings] DB not available, skipping persist'); return; }
+    // Clear old listings and insert fresh batch
+    await db.delete(listingsTable);
+    if (items.length > 0) {
+      await db.insert(listingsTable).values(
+        items.map(item => ({
+          address: item.address,
+          price: item.price,
+          hamlet: item.hamlet ?? 'East Hampton North',
+          url: item.url,
+          imageUrl: item.imageUrl ?? null,
+          beds: item.beds !== null ? String(item.beds) : null,
+          baths: item.baths !== null ? String(item.baths) : null,
+          sqft: item.sqft ?? null,
+          status: 'Active',
+        }))
+      );
+    }
+    console.log(`[Listings Sync] ${items.length} listings persisted to DB`);
+  } catch (err) {
+    console.error('[Listings Sync] DB persist failed:', err);
+  }
+}
 
 // ─── Sync function (exported for cron use) ───────────────────────────────────
 
@@ -185,12 +243,26 @@ export async function syncListings(): Promise<{ listings: EeleListing[]; syncedA
     // Already raw HTML — parse directly
   }
 
-  const listings = parseListings(listingHtml);
-  cachedListings = listings;
+  const items = parseListings(listingHtml);
+  cachedListings = items;
   lastSyncAt = new Date().toISOString();
 
-  console.log(`[Listings Sync] ${listings.length} active listings synced at ${lastSyncAt}`);
-  return { listings, syncedAt: lastSyncAt };
+  // Persist to DB so listings survive server restarts
+  await persistToDb(items);
+
+  console.log(`[Listings Sync] ${items.length} active listings synced at ${lastSyncAt}`);
+  return { listings: items, syncedAt: lastSyncAt };
+}
+
+// ─── Bootstrap: load from DB on startup ──────────────────────────────────────
+
+export async function bootstrapListingsCache(): Promise<void> {
+  const dbListings = await loadFromDb();
+  if (dbListings.length > 0) {
+    cachedListings = dbListings;
+    lastSyncAt = new Date().toISOString();
+    console.log(`[Listings] Loaded ${dbListings.length} listings from DB cache`);
+  }
 }
 
 // ─── Routes ───────────────────────────────────────────────────────────────────
@@ -199,7 +271,14 @@ export async function syncListings(): Promise<{ listings: EeleListing[]; syncedA
 router.get('/', async (_req, res) => {
   try {
     if (cachedListings.length === 0) {
-      await syncListings();
+      // Try DB first, then live sync
+      const dbListings = await loadFromDb();
+      if (dbListings.length > 0) {
+        cachedListings = dbListings;
+        lastSyncAt = new Date().toISOString();
+      } else {
+        await syncListings();
+      }
     }
 
     // Group by hamlet

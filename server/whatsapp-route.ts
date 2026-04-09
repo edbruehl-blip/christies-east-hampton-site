@@ -232,33 +232,8 @@ export function registerWhatsAppRoute(app: Express): void {
 // Called once from server/_core/index.ts after server starts.
 
 export async function startWhatsAppScheduler(): Promise<void> {
-  try {
-    const cron = await import("node-cron");
-
-    // 8:00 AM Eastern — morning brief
-    cron.schedule("0 8 * * *", async () => {
-      console.log("[WhatsApp] Firing morning brief...");
-      try {
-        const result = await deliverBrief("morning");
-        console.log(`[WhatsApp] Morning brief sent — SID: ${result.sid}`);
-      } catch (err) {
-        console.error("[WhatsApp] Morning brief failed:", err);
-      }
-    }, { timezone: "America/New_York" });
-
-    // 8:00 PM Eastern — evening summary
-    cron.schedule("0 20 * * *", async () => {
-      console.log("[WhatsApp] Firing evening summary...");
-      try {
-        const result = await deliverBrief("evening");
-        console.log(`[WhatsApp] Evening summary sent — SID: ${result.sid}`);
-      } catch (err) {
-        console.error("[WhatsApp] Evening summary failed:", err);
-      }
-    }, { timezone: "America/New_York" });
-
-    console.log("[WhatsApp] Scheduler started — 8AM morning brief + 8PM evening summary (America/New_York)");
-  } catch (err) {
-    console.warn("[WhatsApp] node-cron not available, scheduler skipped:", err);
-  }
+  // SPRINT 41: Automated 8AM/8PM cron disabled by Ed Bruehl directive.
+  // Manual /api/whatsapp/test-morning and /api/whatsapp/test-evening endpoints remain active.
+  // Re-enable by restoring the cron.schedule blocks below.
+  console.log("[WhatsApp] Scheduler disabled — automated cron off. Manual test endpoints active.");
 }

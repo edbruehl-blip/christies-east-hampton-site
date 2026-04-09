@@ -1159,3 +1159,24 @@
 - [x] Fix Model Assumptions BASE CASE text color (cream-on-cream invisible bug)
 - [x] Confirm all PDF exports show clean crisp logo with screenshot
 - [ ] Checkpoint and Publish
+## Sprint 41 Priority 3 — Live KPI Injection into PDF Exports (April 9, 2026)
+- [x] Add getPipelineKpis() to sheets-helper.ts — reads PIPE Sheet, computes exclusive/active/book totals
+- [x] Fix isSectionHeader bug in getPipelineKpis (was isHeader — field doesn't exist)
+- [x] Add pipe.getKpis tRPC procedure to routers.ts (publicProcedure)
+- [x] Update FutureReportInput interface in pdf-exports.ts to accept optional kpis parameter
+- [x] Update generateCardStockExport() to inject live exclusiveTotalM into Second 100 Days block
+- [x] Update generateCardStockExport() to inject live exclusiveTotalM + relationshipBookM into pipeline disclosure text
+- [x] Update FutureTab.tsx to call trpc.pipe.getKpis.useQuery() and pass liveKpis to Card Stock export
+- [x] Update proforma-generator.ts to call getPipelineKpis() at export time (parallel with Growth Model fetch)
+- [x] Inject live KPIs into pro forma arc bar active segment width
+- [x] Inject live KPIs into pro forma KPI strip card (Active Pipeline)
+- [x] Inject live KPIs into pro forma footnote (Active verified actual)
+- [x] Inject live KPIs into pro forma Page 4 Defensible Numbers grid
+- [x] Inject live KPIs into pro forma MODEL Assumptions paragraph
+- [x] Fix listings-sync-route.ts TypeScript errors (beds/baths type cast, propertyType omit)
+- [x] Fix pdf-exports.ts GCI field TypeScript errors (as any cast)
+- [x] Fix DB migration mismatch — mark migrations 0001/0002 as applied, update SQL to camelCase
+- [x] TypeScript: 0 errors confirmed
+- [x] pipe.getKpis live test: $19.32M active, $22.07M book, 13 deals
+- [x] Listings persist to DB without image_url error confirmed
+- [ ] Save Sprint 41 checkpoint and Publish

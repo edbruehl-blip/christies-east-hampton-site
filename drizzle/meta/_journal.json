@@ -15,6 +15,13 @@
       "when": 1774927441030,
       "tag": "0001_dizzy_tusk",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775755548763,
+      "tag": "0002_mixed_marvel_zombies",
+      "breakpoints": true
     }
   ]
 }

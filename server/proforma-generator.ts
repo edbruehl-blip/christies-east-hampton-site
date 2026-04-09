@@ -13,7 +13,7 @@
  */
 
 import puppeteer from 'puppeteer-core';
-import { readGrowthModelData, readGrowthModelVolume } from './sheets-helper';
+import { readGrowthModelData, readGrowthModelVolume, getPipelineKpis } from './sheets-helper';
 
 const CDN = "https://files.manuscdn.com/user_upload_by_module/session_file/115914870";
 const ED_HEADSHOT = `${CDN}/INlfZDqMHcqOCvuv.jpg`;
@@ -43,11 +43,15 @@ function profitPool(vol: number): { above: number; pool: number; ed: number; ili
 }
 
 export async function generateProFormaPDF(): Promise<Buffer> {
-  // Fetch live data
-  const [gmData, volData] = await Promise.all([
+  // Fetch live data (Sprint 41: includes live pipeline KPIs)
+  const [gmData, volData, pipeKpis] = await Promise.all([
     readGrowthModelData(),
     readGrowthModelVolume(),
+    getPipelineKpis(),
   ]);
+  // Live pipeline KPI strings — fall back to last-known values if sheet unavailable
+  const activePipelineStr = pipeKpis.relationshipBookM;  // total relationship book
+  const exclusiveStr      = pipeKpis.exclusiveTotalM;     // exclusive listings volume
 
   const total = volData.total;
   const agents = volData.agents;
@@ -455,7 +459,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     const pct = Math.min(100, (vol / maxVol) * 100);
     const isMilestone = vol >= 1_000_000_000;
     const closedPct = year === '2026' ? Math.min(pct, (4_570_000 / maxVol) * 100) : 0;
-    const activePct = year === '2026' ? Math.min(pct - closedPct, (34_700_000 / maxVol) * 100) : 0;
+    // Use live exclusive volume for the active segment width (Sprint 41)
+    const activeRaw = parseFloat(pipeKpis.exclusiveTotalM.replace(/[^0-9.]/g, '')) * 1_000_000;
+    const activePct = year === '2026' ? Math.min(pct - closedPct, (activeRaw / maxVol) * 100) : 0;
     const projPct = pct - closedPct - activePct;
 
     if (year === '2026') {
@@ -547,7 +553,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     </div>
     <div class="kpi-card">
       <div class="kpi-label">Active Pipeline</div>
-      <div class="kpi-value">$34.7M</div>
+      <div class="kpi-value">${activePipelineStr}</div>
       <div class="kpi-sub">Live as of ${generatedAt}</div>
     </div>
     <div class="kpi-card">
@@ -580,7 +586,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   </div>
 
   <div class="footnote">
-    * All projections labeled MODEL. 2026 Closed ($4.57M) and Active ($34.7M) are verified actuals.
+    * All projections labeled MODEL. 2026 Closed ($4.57M) and Active (${exclusiveStr}) are verified actuals.
     2026 baseline ($55M) and all outer years are governing-principle projections, not guarantees.
     Data source: Growth Model v2 · Christie's East Hampton · INTERNAL ONLY.
   </div>
@@ -800,7 +806,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="def-note">Verified · First 100 days, office closed</div>
     </div>
     <div class="def-card">
-      <div class="def-value">$34.7M</div>
+      <div class="def-value">${activePipelineStr}</div>
       <div class="def-label">Active Pipeline</div>
       <div class="def-note">Live as of ${generatedAt}</div>
     </div>
@@ -829,7 +835,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:10px 14px;margin-bottom:14px">
     <div class="section-label" style="margin-bottom:6px">Growth Trajectory — MODEL Assumptions</div>
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.7">
-      All figures beyond verified actuals ($4.57M closed, $34.7M active) are governing-principle projections.
+      All figures beyond verified actuals ($4.57M closed, ${exclusiveStr} active) are governing-principle projections.
       The $55M 2026 baseline assumes 5 named agents at stated volume. Targeted hires ($375K each × 3) and
       organic adds ($50K each × 4) are upside above the baseline. The $40M profit pool breakeven is a
       governing principle, not a contractual threshold. All outer-year projections (2027–2031) are MODEL

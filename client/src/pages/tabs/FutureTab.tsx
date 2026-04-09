@@ -85,6 +85,17 @@ export default function FutureTab() {
     staleTime: 5 * 60 * 1000,
   });
 
+  // Sprint 41 Priority 3: live pipeline KPIs for Card Stock PDF export
+  const { data: kpisData } = trpc.pipe.getKpis.useQuery(undefined, {
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+  const liveKpis = kpisData ? {
+    exclusiveTotalM: kpisData.exclusiveTotalM,
+    activeTotalM: kpisData.activeTotalM,
+    relationshipBookM: kpisData.relationshipBookM,
+  } : undefined;
+
   const agents = volData?.agents ?? [];
   const total = volData?.total ?? {
     proj2026: 0, act2026: 0, projGci2026: 0, actGci2026: 0,
@@ -622,7 +633,7 @@ export default function FutureTab() {
             ↓ Export PDF · Ascension Arc
           </button>
           <button
-            onClick={() => generateCardStockExport({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026 })}
+            onClick={() => generateCardStockExport({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
             className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.06)' }}
           >

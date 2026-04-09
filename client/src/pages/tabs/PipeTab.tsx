@@ -163,7 +163,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
   };
   const volByCategory = (keywords: string[]) =>
     deals
-      .filter(d => !d.isSectionHeader && d.price && keywords.some(k => ((d as any).category ?? '').toUpperCase().includes(k.toUpperCase())))
+      .filter(d => !d.isSectionHeader && d.price && keywords.some(k => ((d as any).status ?? '').toUpperCase().includes(k.toUpperCase())))
       .reduce((sum, d) => sum + parsePrice(d.price), 0);
   const totalBook = deals
     .filter(d => !d.isSectionHeader && d.price)
@@ -174,7 +174,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
     : n > 0        ? `$${n}`
     : '—';
   const categories = [
-    { label: 'Active Listings',      vol: volByCategory(['ACTIVE']),                          dot: '#228B22' },
+    { label: 'Active Listings',      vol: volByCategory(['ACTIVE', 'EXCLUSIVE']),             dot: '#228B22' },
     { label: 'Quiet Listings',       vol: volByCategory(['QUIET']),                           dot: '#7a8a8e' },
     { label: 'Offers / Buy-Side',    vol: volByCategory(['OFFER', 'BUY-SIDE', 'BUY SIDE']),  dot: '#C8AC78' },
     { label: 'Pending Listings',     vol: volByCategory(['PENDING']),                         dot: '#e07b39' },
