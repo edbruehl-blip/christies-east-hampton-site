@@ -275,7 +275,7 @@ function SectionA() {
                       founding: 'Founding Letter',
                       christies: "James Christie's Letter",
                       flagship: 'Flagship Letter',
-                      market: 'Market Brief',
+                      market: 'Market Intelligence Brief',
                     };
                     return (
                       <button

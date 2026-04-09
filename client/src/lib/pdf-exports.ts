@@ -1713,7 +1713,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "This letter is not a presentation. It is a handoff.",
     },
     {
-      text: "For the past several months, this platform has been seen by exactly seven people \u2014 Ed and the six AI systems that helped him build it. Today that changes. You three are the first human eyes on what we have built, and that matters more to us than anything we are about to describe.",
+      text: "For the past several months, this platform existed in one conversation at a time — Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.",
     },
     {
       text: "Before you read another word, open christiesrealestategroupeh.com. Click through every tab. Pull up the Google Sheets directly from the INTEL tab \u2014 all nine of them are linked there and accessible. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.",
@@ -1746,7 +1746,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "Angel became the execution hinge. But the sharper truth is this: Angel is the person who converts signal into action. The system does not depend on Ed holding it together manually. Workflow, scheduling, marketing, deliverables, follow-through \u2014 Angel keeps the machine moving between thought and action. She is the bridge between founder speed and institutional rhythm.",
     },
     {
-      text: "Scott Smith is joining in June and brings specific expertise to the ANEW lane \u2014 the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
+      text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane — the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
     },
     // The Breakthrough / intelligence layer
     {
@@ -1778,7 +1778,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // William
     {
       heading: "William",
-      text: "William is not a feature. He is a standard. Ed texts one word to a WhatsApp number and sixty seconds later William speaks. Every morning, before the day begins, a full intelligence brief. The scorecard arrives first \u2014 Team Closed and Gap to $55M pulled live from the VOLUME tab. Then the three closest-to-close deals by address and status. Then William speaks the full fourteen-category Cronkite brief. Every evening, the system closes the loop \u2014 the three closest-to-close deals surface again, then the Cronkite brief runs, opening directly with Hamptons luxury market intelligence. If a deal stalls, it shows up in William before it shows up in anyone\u2019s anxiety.",
+      text: "William is the voice of this system. When you text NEWS, he answers on demand with the brief you need in that moment. He does not speak on a schedule. He only speaks when you ask him to, and he always tells the truth.",
     },
     {
       text: "The thinking behind William is not random. It pulls from a disciplined framework \u2014 Jamie Dimon on capital and risk, Naval Ravikant on leverage and systems, Codie Sanchez on ownership, Alex Hormozi on clarity and measurement, and Richard Bruehl on truth and culture. And it ends with scripture. Not as decoration. As alignment.",
@@ -1853,7 +1853,9 @@ export async function generateFlagshipLetter(): Promise<void> {
     '',
     'The system is now strong enough to carry the work forward. The people are right. The land is not going anywhere.',
     '',
-    'Tell the truth. Know the territory. Sit on the same side of the table as the family. And when the conversation is over, make sure they understand what they own better than when it began.',
+    'Tell the truth. Know the territory. Sit on the same side of the table as the family.',
+    '',
+    'Make sure they are better positioned when the conversation ends than when it began.',
     '',
     'That is the Christie\u2019s way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.',
   ];

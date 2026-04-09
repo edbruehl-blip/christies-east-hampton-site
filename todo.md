@@ -1206,3 +1206,11 @@
 - [x] Item 4: Christie's Letter 260-year audit (confirm all references read "260 years" / "1766-2026")
 - [x] Item 5: Flagship Letter card description update to "Origin story — platform, team, and model."
 - [x] Item 6: INTEL dual Christie's node restructure (CIREG affiliate vs Global Network)
+
+## Post-Sprint 41 Flagship Letter Directive (April 9, 2026)
+- [x] Flagship Letter: Replace opening paragraph with council-approved text
+- [x] Flagship Letter: Replace William section (remove all scheduled brief references)
+- [x] Flagship Letter: Fix final paragraph before closing
+- [x] Flagship Letter: Fix "ANEW lane" → "AnewHomes lane" in Team section
+- [x] Lock updated Flagship Letter as single source for both PDF and TTS audio
+- [x] Confirm HOME audio buttons (Flagship, Market Report, James Christie) are working

@@ -83,7 +83,7 @@ const FLAGSHIP_LETTER_TEXT = `Christie's Flagship Letter. To Jarvis, Angel, and 
 
 This letter is not a presentation. It is a handoff.
 
-For the past several months, this platform has been seen by exactly seven people — Ed and the six AI systems that helped him build it. Today that changes. You three are the first human eyes on what we have built, and that matters more to us than anything we are about to describe.
+For the past several months, this platform existed in one conversation at a time — Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.
 
 We are not asking you to be impressed. We are asking you to be honest.
 
@@ -97,13 +97,13 @@ THE BREAKTHROUGH. The breakthrough was not just building pages. It was turning m
 
 THE PLATFORM. It lives at christiesrealestategroupeh.com. HOME — the voice and the front door. MARKET — the verified territory truth. PIPE — the live deal engine. MAPS — geography as decision-making. INTEL — the relationship and hierarchy layer. FUTURE — the growth model and long-range trajectory.
 
-WILLIAM. William is not a feature. He is a standard. Ed texts one word to a WhatsApp number and sixty seconds later William speaks. Every morning, before the day begins, a full intelligence brief. If a deal stalls, it shows up in William before it shows up in anyone's anxiety. Text NEWS to 631-239-7190 anytime you want a market brief. William responds immediately.
+WILLIAM. William is the voice of this system. When you text NEWS, he answers on demand with the brief you need in that moment. He does not speak on a schedule. He only speaks when you ask him to, and he always tells the truth.
 
 THE MODEL. Not ambition. Arithmetic. And proof. Ed has already done over one billion dollars in career sales across twenty years on this land. Now the model is institutional. 2026 — 55 million. 2027 — 100 million. 2030 — three offices. 2032 to 2033 — one billion dollar run rate. Every stage is gated by proof.
 
 THE HONEST SUMMARY. We built a real estate intelligence platform that thinks like an institution. We corrected what was wrong. We removed what did not belong. We rebuilt what broke. We stopped performing legitimacy. And started operating from what is real.
 
-You are not being asked to sell a platform. You are being asked to carry a standard. And first — you are being asked to tell us if we got it right.
+Tell the truth. Know the territory. Sit on the same side of the table as the family. Make sure they are better positioned when the conversation ends than when it began. You are not being asked to sell a platform. You are being asked to carry a standard. And first — you are being asked to tell us if we got it right.
 
 Ed Bruehl. Managing Director. Christie's International Real Estate Group, East Hampton. Soli Deo Gloria.`;
 
