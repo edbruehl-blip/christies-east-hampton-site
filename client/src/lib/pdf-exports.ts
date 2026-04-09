@@ -2149,12 +2149,12 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 35%)', 'Total'],
     [cw * 0.1, cw * 0.22, cw * 0.22, cw * 0.18, cw * 0.28],
     [
-      ['2026', '$600,000',         '$90,000',    '$17,500',  '$707,500'],
-      ['2027', '$720,000',         '$360,000',   '$35,000',  '$1,115,000'],
-      ['2028', '$864,000',         '$750,000',   '$52,500',  '$1,666,500'],
-      ['2029', '$1,000,000 (cap)', '$1,140,000', '$70,000',  '$2,210,000'],
-      ['2030', '$1,000,000 (cap)', '$1,680,000', '$87,500',  '$2,767,500'],
-      ['2031', '$1,000,000 (cap)', '$2,340,000', '$105,000', '$3,445,000'],
+      ['2026', '$660,000',         '$90,000',    '$17,500',  '$767,500'],
+      ['2027', '$792,000',         '$360,000',   '$52,500',  '$1,204,500'],
+      ['2028', '$950,400',         '$750,000',   '$105,000', '$1,805,400'],
+      ['2029', '$1,000,000 (cap)', '$1,140,000', '$115,500', '$2,255,500'],
+      ['2030', '$1,000,000 (cap)', '$1,680,000', '$127,050', '$2,807,050'],
+      ['2031', '$1,000,000 (cap)', '$2,340,000', '$139,755', '$3,479,755'],
     ],
     py
   );
@@ -2166,9 +2166,9 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   py += 6;
   // Hardcoded 2% GCI values (commission rate locked at 2% per Sprint 38 directive)
   const HARDCODED_GCI: Record<string, string> = {
-    'Ed Bruehl': '$600,000',
+    'Ed Bruehl': '$660,000',
     'Jarvis Slade': '$100,000',
-    'Bonita DeWolf': '$300,000',
+    'Bonita DeWolf': '$240,000',
     'Sebastian Mobo': '$70,000',
     'Scott Smith': '$30,000',
     'Zoila Ortega Astor': '$60,000 *',
@@ -2177,9 +2177,9 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
     'Jan Jaeger': '$25,000',
   };
   const FALLBACK_GCI_ROWS = [
-    ['Ed Bruehl',         '$600,000', '—'],
+    ['Ed Bruehl',         '$660,000', '—'],
     ['Jarvis Slade',       '$100,000', '—'],
-    ['Bonita DeWolf',      '$300,000', '—'],
+    ['Bonita DeWolf',      '$240,000', '—'],
     ['Sebastian Mobo',     '$70,000',  '—'],
     ['Scott Smith',        '$30,000',  '—'],
     ['Zoila Ortega Astor', '$60,000 *','—'],
@@ -2210,7 +2210,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.setFontSize(5.5); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('AnewHomes \u00b7 Net Build Profit', P.ml + 3, py + 4);
   doc.setFontSize(5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
-  doc.text('Ed 35% · Scott Smith 35% · Richard Bruehl 10% · Jarvis Slade 5% · Angel Theodore 5% · Zoila Ortega Astor 5%* · Pool/Future 5% · Net build profit after all costs · ~$50K Y1 / $100K Y2 · *Zoila vests at six months; reverts to pool if she does not make the cut.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
+  doc.text('Ed 35% · Scott Smith 35% · Richard Bruehl 10% · Jarvis Slade 5% · Angel Theodore 5% · Zoila Ortega Astor 5%* · Pool/Future 5% · Net build profit after all costs · Y1 $50K pool / Y2 $150K pool / Y3 $300K / Y4+ 10% annual compounding · *Zoila vests at six months; reverts to pool if she does not make the cut.', P.ml + 3, py + 8, { maxWidth: cw - 6 });
   py += 15;
 
   doc.setFontSize(5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);

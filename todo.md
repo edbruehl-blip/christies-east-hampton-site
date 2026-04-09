@@ -1247,3 +1247,25 @@
 - [x] Item 5: INTEL mind map — INTEL LIBRARY r=20→r=28, EXPORTS r=18→r=28; FAMILY & FRIENDS populated with Richard Bruehl, Bruehl Family Network, Close Friends Circle
 - [x] Item 6: Pro Forma 4-page button — confirmed stable, 442KB PDF, 5.7 seconds, downloads clean
 - [x] Confirmations: HOME + /report screenshots done, South Fork sweep confirmed zero, CIS placeholder confirmed, MARKET PDF button live, mind map normalized, Pro Forma stable
+
+## Sprint 43 — Pro Forma Math Corrections (April 9, 2026)
+- [ ] FUTURE tab: Agent Volume Table 2026 — Ed $33M / Jarvis $5M / Bonita $12M / Sebastian $3.5M / Scott $1.5M / Total $55M
+- [ ] FUTURE tab: MD Total six-year table — 2026 $767,500 / 2027 $1,204,500 / 2028 $1,805,400 / 2029 $2,255,500 / 2030 $2,807,050 / 2031 $3,479,755
+- [ ] FUTURE tab: AnewHomes pool growth curve — Y1 $50K / Y2 $150K / Y3 $300K / Y4+ 10% annual compounding from $300K
+- [ ] Card Stock PDF: same three tables updated
+- [ ] Pro Forma PDF: same three tables updated
+- [ ] Screenshot: MD Total table on FUTURE tab
+
+## Sprint 43 — Pro Forma Math Corrections (April 9, 2026)
+- [x] Agent Volume Table 2026: Ed $30M→$33M, Bonita $15M→$12M, Total $55M confirmed — FUTURE tab, Card Stock, Pro Forma
+- [x] MD Total six-year table: all six rows corrected (GCI, Pool, AnewHomes, Total) — FUTURE tab, Card Stock, Pro Forma
+  - 2026: GCI $660K · Pool $90K · ANEW $17,500 · Total $767,500
+  - 2027: GCI $792K · Pool $360K · ANEW $52,500 · Total $1,204,500
+  - 2028: GCI $950,400 · Pool $750K · ANEW $105K · Total $1,805,400
+  - 2029: GCI $1M cap · Pool $1,140K · ANEW $115,500 · Total $2,255,500
+  - 2030: GCI $1M cap · Pool $1,680K · ANEW $127,050 · Total $2,807,050
+  - 2031: GCI $1M cap · Pool $2,340K · ANEW $139,755 · Total $3,479,755
+- [x] AnewHomes pool growth curve: Y1 $50K · Y2 $150K · Y3 $300K · Y4+ 10% annual compounding from $300K
+- [x] AnewHomes Y2 individual amounts updated to $150K pool basis (Ed/Scott $52,500 · Richard $15K · others $7,500)
+- [x] Pro Forma page 3 GCI updated: $600K→$660K, AnewHomes Y2 $35K→$52,500, Total pool footnote $100K→$150K
+- [x] Screenshot: MD Total table confirmed — all six rows showing council-verified numbers
