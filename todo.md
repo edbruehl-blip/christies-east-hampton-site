@@ -1214,3 +1214,9 @@
 - [x] Flagship Letter: Fix "ANEW lane" → "AnewHomes lane" in Team section
 - [x] Lock updated Flagship Letter as single source for both PDF and TTS audio
 - [x] Confirm HOME audio buttons (Flagship, Market Report, James Christie) are working
+
+## Sprint 42 Close-Out Audit (April 9, 2026)
+- [x] Full close-out audit completed — CLOSE_OUT_AUDIT_APR9_2026.md written
+- [x] HOME audio button grid corrected from 1fr 1fr to 1fr 1fr 1fr (3 buttons, 3 columns)
+- [x] Server health confirmed — running clean, fetchYF export verified, listings sync confirmed
+- [ ] Visual QA: Flagship Letter PDF page one screenshot (permanent rule — stays open until Ed uploads screenshot)

@@ -264,9 +264,9 @@ function SectionA() {
 
             {/* ── William Audio Player — inline fetch-blob pattern (same as /report) ── */}
             <div style={{ marginTop: 28, maxWidth: 520 }}>
-              {/* Four trigger buttons — idle or error state */}
+              {/* Three trigger buttons — idle or error state */}
               {(audioState === 'idle' || audioState === 'error') && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
                   {(['christies', 'flagship', 'market'] as const).map((ch) => {
                     const labels: Record<HomeAudioChannel, string> = {
                       christies: "James Christie's Letter",
