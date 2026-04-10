@@ -122,10 +122,13 @@ let flagshipCachePromise: Promise<Buffer | null> | null = null;
 async function generateFlagshipAudio(apiKey: string): Promise<Buffer | null> {
   try {
     console.log('[TTS] Pre-generating flagship letter audio cache...');
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 120_000); // 2 min timeout
     const elevenRes = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
       {
         method: 'POST',
+        signal: controller.signal,
         headers: {
           'xi-api-key': apiKey,
           'Content-Type': 'application/json',
@@ -133,11 +136,12 @@ async function generateFlagshipAudio(apiKey: string): Promise<Buffer | null> {
         },
         body: JSON.stringify({
           text: FLAGSHIP_LETTER_TEXT,
-          model_id: 'eleven_multilingual_v2',
+          model_id: 'eleven_turbo_v2',
           voice_settings: { stability: 0.55, similarity_boost: 0.75 },
         }),
       }
     );
+    clearTimeout(timeout);
     if (!elevenRes.ok) {
       const errText = await elevenRes.text();
       console.error(`[TTS] Cache generation failed ${elevenRes.status}: ${errText}`);
