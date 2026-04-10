@@ -1274,3 +1274,11 @@
 - [ ] PIPE: Update Office Pipeline Google Sheet — 25 Horseshoe Road $5.75M IN CONTRACT, 191 Bull Path $3.3M ACTIVE LISTING
 - [ ] LAYOUT: Fix max-width inconsistency — match all content section containers to map container width (one global CSS value)
 - [ ] CIS: Output panel font — increase weight to medium/semibold and bump size so labels and values read clearly on score generation
+
+## Sprint 43 — Floating Dashboard Introduction Button (April 9, 2026)
+- [ ] Build FloatingDashboardIntro component: gold #C8AC78 bg, charcoal #384249 text, small caps, play icon, "Dashboard Introduction" label, 44px min tap target
+- [ ] Behavior: plays Flagship Letter audio, stops any other audio first, shows "Preparing your brief" loading state, one audio at a time
+- [ ] Mount in App.tsx: fixed bottom-right, z-index above all content, all tabs/pages
+- [ ] Remove Flagship Letter button from HOME tab (drops to 2 buttons: Christie's Letter + Market Brief)
+- [ ] Remove Flagship Letter button from /report page (drops to 2 buttons: Christie's Letter + Market Brief)
+- [ ] Screenshots: mobile and laptop confirming floating button on at least two different tabs

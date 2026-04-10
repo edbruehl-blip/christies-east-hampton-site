@@ -44,7 +44,7 @@ const FOUNDING_PARAGRAPHS = [
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
-type HomeAudioChannel = 'christies' | 'flagship' | 'market';
+type HomeAudioChannel = 'christies' | 'market';
 
 function SectionA() {
   const [, navigate] = useLocation();
@@ -91,7 +91,6 @@ function SectionA() {
 
   function handleShare() {
     const ep = audioChannel === 'christies' ? '/api/tts/christies-letter'
-      : audioChannel === 'flagship' ? '/api/tts/flagship-letter'
       : '/api/tts/market-report';
     navigator.clipboard.writeText(window.location.origin + ep)
       .then(() => { setShareState('copied'); setTimeout(() => setShareState('idle'), 2500); })
@@ -112,7 +111,6 @@ function SectionA() {
     setAudioState('loading');
     setAudioProgress(0);
     const endpoint = channel === 'christies' ? '/api/tts/christies-letter'
-      : channel === 'flagship' ? '/api/tts/flagship-letter'
       : '/api/tts/market-report';
     try {
       const res = await fetch(endpoint);
@@ -141,7 +139,6 @@ function SectionA() {
   }
 
   const channelLabel = audioChannel === 'christies' ? "Christie's Letter"
-    : audioChannel === 'flagship' ? 'Flagship Letter'
     : 'Market Brief';
 
   return (
@@ -264,13 +261,12 @@ function SectionA() {
 
             {/* ── William Audio Player — inline fetch-blob pattern (same as /report) ── */}
             <div style={{ marginTop: 28, maxWidth: 520 }}>
-              {/* Three trigger buttons — idle or error state */}
+              {/* Two trigger buttons — idle or error state (Flagship Letter moved to floating button) */}
               {(audioState === 'idle' || audioState === 'error') && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 6 }}>
-                  {(['christies', 'flagship', 'market'] as const).map((ch) => {
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+                  {(['christies', 'market'] as const).map((ch) => {
                     const labels: Record<HomeAudioChannel, string> = {
                       christies: "Christie's Letter",
-                      flagship: 'Flagship Letter',
                       market: 'Market Brief',
                     };
                     return (

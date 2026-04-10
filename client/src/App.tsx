@@ -17,6 +17,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardLayout, type TabId } from "./components/DashboardLayout";
+import { FloatingDashboardIntro } from "./components/FloatingDashboardIntro";
 
 // Tab pages
 import HomeTab   from "./pages/tabs/HomeTab";
@@ -60,6 +61,8 @@ function App() {
             <Route path="/report" component={ReportPage} />
             <Route component={Dashboard} />
           </Switch>
+          {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}
+          <FloatingDashboardIntro />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
