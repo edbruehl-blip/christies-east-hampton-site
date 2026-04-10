@@ -65,7 +65,7 @@ For anyone stepping into Christie's East Hampton — whether as a broker, a part
 
 This is not for the office. This is for the families. The ones on Further Lane and Old Montauk Highway — two different markets, two different buyers, one platform serving both — who do not know what they own. The ones who built something over forty years and need someone to sit on their side of the table and tell them the truth. Not to impress them. Not to rush them. To help them understand what they have, what it means, and what should happen next.
 
-This is still being built. We would love your feedback, your questions, and your honest read on where it falls short. That kind of honesty is exactly what made this system worth sharing in the first place.
+This is still being built. We would love your feedback, your questions, and your honest read on where it falls short.
 
 Tell the truth. Know the territory. Sit on the same side of the table as the family. Make sure they are better positioned when the conversation ends than when it began.
 
