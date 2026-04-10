@@ -399,7 +399,7 @@ const NODES: MapNode[] = [
     title: "Founding Letter PDF",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's East Hampton founding letter PDF.",
-    x: 160, y: 1800, r: 10,
+    x: 160, y: 1800, r: 18,
     clickAction: { type: "pdf", label: "Generating Christie's Letter PDF…", fn: () => generateChristiesLetter() } },
 
   { id: "exp_flagship",
@@ -407,7 +407,7 @@ const NODES: MapNode[] = [
     title: "Internal Council Document",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's Flagship Letter PDF — the internal council document.",
-    x: 240, y: 1860, r: 10,
+    x: 240, y: 1860, r: 18,
     clickAction: { type: "pdf", label: "Generating Flagship Letter PDF…", fn: () => generateFlagshipLetter() } },
 
   { id: "exp_market",
@@ -415,7 +415,7 @@ const NODES: MapNode[] = [
     title: "Five-Page PDF · Live Market Matrix Data",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
-    x: 340, y: 1920, r: 10,
+    x: 340, y: 1920, r: 18,
     clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: () => generateMarketReport() } },
 
   { id: "exp_hamlet",
@@ -423,7 +423,7 @@ const NODES: MapNode[] = [
     title: "All Eleven Hamlets",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the East Hampton Village Report PDF covering all eleven hamlets.",
-    x: 460, y: 1960, r: 10,
+    x: 460, y: 1960, r: 18,
     clickAction: { type: "pdf", label: "Generating Hamlet PDFs…", fn: () => generateEastHamptonVillageReport() } },
 
   { id: "exp_anew",
@@ -431,7 +431,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the ANEW Build Memo PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 700, y: 1960, r: 10,
+    x: 700, y: 1960, r: 18,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_cma",
@@ -439,7 +439,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Christie's CMA PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 800, y: 1920, r: 10,
+    x: 800, y: 1920, r: 18,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_uhnw",
@@ -447,7 +447,7 @@ const NODES: MapNode[] = [
     title: "Live · Click to Download",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "UHNW Path Card PDF — Live. Eight rungs of structured ownership from tenant to trust.",
-    x: 880, y: 1870, r: 10,
+    x: 880, y: 1870, r: 18,
     clickAction: { type: "nav", tab: "home", label: "Navigate to HOME tab to download UHNW Path Card" } },
 
   { id: "exp_invest",
@@ -455,7 +455,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Investment Memo PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 940, y: 1830, r: 10,
+    x: 940, y: 1830, r: 18,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_brief",
@@ -463,7 +463,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Deal Brief PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 980, y: 1790, r: 10,
+    x: 980, y: 1790, r: 18,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_future",
@@ -471,7 +471,7 @@ const NODES: MapNode[] = [
     title: "Requires FUTURE Tab Input",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the FUTURE Pro Forma PDF. Requires FUTURE tab input data.",
-    x: 1000, y: 1750, r: 10,
+    x: 1000, y: 1750, r: 18,
     clickAction: { type: "nav", tab: "future", label: "Navigate to FUTURE tab to set up pro forma" } },
 
   // ── RESOURCES sub-nodes ───────────────────────────────────────────────────
@@ -480,7 +480,7 @@ const NODES: MapNode[] = [
     title: "Vendors & Service Partners",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Service vendors organized by category. Opens Vendors & Service Partners tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1100, y: 1780, r: 10,
+    x: 1100, y: 1780, r: 18,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1943996001", label: "Opening Vendors & Service Partners…" } },
 
   { id: "res_builders",
@@ -488,7 +488,7 @@ const NODES: MapNode[] = [
     title: "Hamptons Builders & Developers",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Hamptons builders and developers. Opens Builders tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1200, y: 1830, r: 10,
+    x: 1200, y: 1830, r: 18,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1631109962", label: "Opening Builders…" } },
 
   { id: "res_architects",
@@ -496,7 +496,7 @@ const NODES: MapNode[] = [
     title: "Hamptons Architects",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Hamptons architects. Opens Architects tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1360, y: 1830, r: 10,
+    x: 1360, y: 1830, r: 18,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1942054747", label: "Opening Architects…" } },
 
   { id: "res_accountants",
@@ -504,7 +504,7 @@ const NODES: MapNode[] = [
     title: "Accountants, CPAs & Wealth Advisors",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Accountants, CPAs, and wealth advisors. Opens Accountants & Advisors tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1480, y: 1800, r: 10,
+    x: 1480, y: 1800, r: 18,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=156479096", label: "Opening Accountants & Advisors…" } },
 
   { id: "res_gatekeepers",
@@ -512,7 +512,7 @@ const NODES: MapNode[] = [
     title: "Gatekeeper Network · Property & Estate Managers",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "The Gatekeeper Network — property managers and estate managers. The most strategically important tab: these are the people inside the gates before anyone else.",
-    x: 1560, y: 1760, r: 10,
+    x: 1560, y: 1760, r: 18,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1147147253", label: "Opening Gatekeeper Network…" } },
 ];
 
@@ -591,14 +591,14 @@ const CONNECTIONS: MapConnection[] = [
 // ─── Color Maps ───────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth: number }> = {
-  HIERARCHY:                { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 1.8 },
-  RECRUIT:                  { fill: "#1A3D2A", stroke: "#2D5A3D", strokeWidth: 1.5 },
-  PARTNER:                  { fill: "#2A1F0A", stroke: "#c8ac78", strokeWidth: 1.5 },
-  WHALE:                    { fill: "#2A1A3D", stroke: "#7B5DAA", strokeWidth: 1.5 },
-  ATTORNEY:                 { fill: "#0d2a3d", stroke: "#2a7aad", strokeWidth: 1.5 },
-  RELATIONSHIP_INTELLIGENCE:{ fill: "#2A1F2A", stroke: "#9B7EC8", strokeWidth: 1.5 },
-  EXPORT_NODE:              { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", strokeWidth: 1.2 },
-  CATEGORY:                 { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 1.8 },
+  HIERARCHY:                { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 2.5 },
+  RECRUIT:                  { fill: "#1A3D2A", stroke: "#2D5A3D", strokeWidth: 2.0 },
+  PARTNER:                  { fill: "#2A1F0A", stroke: "#c8ac78", strokeWidth: 2.0 },
+  WHALE:                    { fill: "#2A1A3D", stroke: "#7B5DAA", strokeWidth: 2.0 },
+  ATTORNEY:                 { fill: "#0d2a3d", stroke: "#2a7aad", strokeWidth: 2.0 },
+  RELATIONSHIP_INTELLIGENCE:{ fill: "#2A1F2A", stroke: "#9B7EC8", strokeWidth: 2.0 },
+  EXPORT_NODE:              { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", strokeWidth: 1.8 },
+  CATEGORY:                 { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 2.5 },
 };
 
 const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColor: string }> = {
@@ -636,12 +636,12 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
 };
 
 const LINE_STYLES: Record<ConnectionStyle, { color: string; width: number; dash: string }> = {
-  hierarchy:   { color: "rgba(200,172,120,0.45)", width: 1.8, dash: "" },
-  partner:     { color: "rgba(200,172,120,0.2)",  width: 0.8, dash: "5,4" },
-  recruit:     { color: "rgba(45,90,61,0.2)",     width: 0.8, dash: "4,4" },
-  whale:       { color: "rgba(123,93,170,0.18)",  width: 0.8, dash: "4,4" },
-  social:      { color: "rgba(250,248,244,0.12)", width: 0.6, dash: "2,3" },
-  intelligence:{ color: "rgba(200,172,120,0.7)",  width: 2.2, dash: "" },
+  hierarchy:   { color: "rgba(200,172,120,0.55)", width: 2.5, dash: "" },
+  partner:     { color: "rgba(200,172,120,0.35)",  width: 1.4, dash: "5,4" },
+  recruit:     { color: "rgba(45,90,61,0.35)",     width: 1.4, dash: "4,4" },
+  whale:       { color: "rgba(123,93,170,0.30)",  width: 1.4, dash: "4,4" },
+  social:      { color: "rgba(250,248,244,0.22)", width: 1.0, dash: "2,3" },
+  intelligence:{ color: "rgba(200,172,120,0.8)",  width: 3.0, dash: "" },
 };
 
 const STATUS_COLORS: Record<NodeStatus, { bg: string; color: string }> = {
@@ -861,10 +861,10 @@ export function InstitutionalMindMap() {
           />
 
           {/* Track labels */}
-          <text x={300} y={60} textAnchor="middle" fill="rgba(200,172,120,0.3)" fontSize="11" letterSpacing="2" fontFamily="Inter, sans-serif" style={{ textTransform: "uppercase" }}>
+          <text x={300} y={60} textAnchor="middle" fill="rgba(200,172,120,0.4)" fontSize="14" letterSpacing="2" fontFamily="Inter, sans-serif" style={{ textTransform: "uppercase" }}>
             AUCTION HOUSE TRACK
           </text>
-          <text x={1500} y={60} textAnchor="middle" fill="rgba(200,172,120,0.3)" fontSize="11" letterSpacing="2" fontFamily="Inter, sans-serif" style={{ textTransform: "uppercase" }}>
+          <text x={1500} y={60} textAnchor="middle" fill="rgba(200,172,120,0.4)" fontSize="14" letterSpacing="2" fontFamily="Inter, sans-serif" style={{ textTransform: "uppercase" }}>
             REAL ESTATE TRACK
           </text>
 
@@ -950,7 +950,7 @@ export function InstitutionalMindMap() {
                           textAnchor="middle"
                           dominantBaseline="middle"
                           fill="rgba(255,255,255,1.0)"
-                          fontSize="13"
+                          fontSize="17"
                           fontWeight="600"
                           fontFamily="Inter, sans-serif"
                           letterSpacing="0.8"
@@ -970,10 +970,10 @@ export function InstitutionalMindMap() {
                           <text
                             key={name}
                             x={node.x}
-                            y={membersStartY + idx * 12}
+                            y={membersStartY + idx * 14}
                             textAnchor="middle"
                             fill="rgba(255,255,255,0.97)"
-                            fontSize="11"
+                            fontSize="14"
                             fontFamily="Inter, sans-serif"
                             letterSpacing="0.3"
                           >
@@ -1013,7 +1013,7 @@ export function InstitutionalMindMap() {
                       textAnchor="middle"
                       dominantBaseline="middle"
                       fill={isEd ? "#c8ac78" : "rgba(255,255,255,1.0)"}
-                      fontSize={isEd ? "14" : node.r < 20 ? "10" : "13"}
+                      fontSize={isEd ? "18" : node.r < 20 ? "13" : "17"}
                       fontWeight={isEd ? "700" : "600"}
                       fontFamily="Inter, sans-serif"
                       letterSpacing="0.5"
