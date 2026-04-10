@@ -249,7 +249,7 @@ const NODES: MapNode[] = [
     title: "International Projects Pipeline · CIREG Tri-State · NY AG Framework",
     type: "CATEGORY", status: "ACTIVE",
     note: "International projects pipeline flowing through CIREG Tri-State using the CPS-1 and CPS-12 New York Attorney General framework. Reference and pipeline tracking node. Ricardo (Lisbon) — CIREG international referral, active. Dominican Republic — development/investment through CIREG international network, active. Jonathan Wilhelm — Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality network. Mayacama Golf Club — through Wilhelm, resort UHNW hospitality. Flambeaux Wine — through Art Murray, TOWN dinner series, links Wilhelm and Murray through Mayacama/Flambeaux relationship.",
-    x: 1547, y: 672, r: 52,
+    x: 1364, y: 882, r: 52,
     members: ["Ricardo (Lisbon) — Active", "Dominican Republic — Active", "Jonathan Wilhelm · Mayacama", "Flambeaux Wine · Art Murray"],
     rw: 52, rh: 52 },
 
@@ -500,7 +500,7 @@ const CONNECTIONS: MapConnection[] = [
 // ─── Color Maps ───────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth: number }> = {
-  HIERARCHY:                { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 2.5 },
+  HIERARCHY:                { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 1.8 },
   RECRUIT:                  { fill: "#1A3D2A", stroke: "#2D5A3D", strokeWidth: 1.5 },
   PARTNER:                  { fill: "#2A1F0A", stroke: "#c8ac78", strokeWidth: 1.5 },
   WHALE:                    { fill: "#2A1A3D", stroke: "#7B5DAA", strokeWidth: 1.5 },
@@ -569,7 +569,7 @@ const SECTION_LABELS = [
   { text: "SOCIAL · SIGNAL COLLECTION",                x: 591,  y: 1490 },
   { text: "PERPLEXITY · TERRITORY INTELLIGENCE",       x: 1069, y: 1490 },
   { text: "RESOURCES · HAMPTONS OUTREACH",             x: 1575, y: 1040 },
-  { text: "CPS 1 · INTERNATIONAL PIPELINE",            x: 1547, y: 600  },
+  { text: "CPS 1 · INTERNATIONAL PIPELINE",            x: 1364, y: 810  },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
@@ -792,8 +792,8 @@ export function InstitutionalMindMap() {
               x={lbl.x}
               y={lbl.y}
               textAnchor="middle"
-              fill="rgba(200,172,120,0.55)"
-              fontSize="12"
+              fill="rgba(200,172,120,0.95)"
+              fontSize="20"
               letterSpacing="2.5"
               fontFamily="'Cormorant Garamond', serif"
               style={{ textTransform: "uppercase" }}
@@ -884,8 +884,8 @@ export function InstitutionalMindMap() {
                           x={node.x}
                           y={titleY}
                           textAnchor="middle"
-                          fill="rgba(255,255,255,0.97)"
-                          fontSize="11"
+                          fill="rgba(255,255,255,1.0)"
+                          fontSize="18"
                           fontWeight="700"
                           fontFamily="Inter, sans-serif"
                           letterSpacing="1.5"
@@ -907,8 +907,8 @@ export function InstitutionalMindMap() {
                             x={node.x}
                             y={membersStartY + idx * 12}
                             textAnchor="middle"
-                            fill="rgba(255,255,255,0.92)"
-                            fontSize="9.5"
+                            fill="rgba(255,255,255,0.97)"
+                          fontSize="13"
                             fontFamily="Inter, sans-serif"
                             letterSpacing="0.3"
                           >
@@ -946,8 +946,8 @@ export function InstitutionalMindMap() {
                       x={node.x}
                       y={node.y + node.r + 15}
                       textAnchor="middle"
-                      fill={isEd ? "#c8ac78" : "rgba(255,255,255,0.97)"}
-                      fontSize={isEd ? "15" : isHier ? "13" : "12"}
+                      fill={isEd ? "#c8ac78" : "rgba(255,255,255,1.0)"}
+                      fontSize={isEd ? "22" : isHier ? "20" : "19"}
                       fontWeight={isEd ? "700" : isHier ? "600" : "500"}
                       fontFamily="Inter, sans-serif"
                       letterSpacing="0.5"
