@@ -1294,3 +1294,25 @@
 - [ ] Change 8: Floating Dashboard Introduction button — debug click handler, confirm audio plays
 - [ ] Screenshot: Full-web INTEL tab confirming restructure
 - [ ] Confirmation: Floating button plays correctly
+
+## Manny Directive — April 9, 2026
+
+- [ ] ONE: Fix Dashboard Introduction floating button — debug desktop click trigger, confirm audio plays on laptop and mobile
+- [ ] TWO: INTEL Mind Map — rename FLAGSHIP TEAM → ED BRUEHL node (Jarvis Slade COO/Agent, Angel Theodore Operations, Zoila Ortega Astor Office Director April 15, Scott Smith Joining June 1, Richard Bruehl Strategic Mentor AnewHomes 10%)
+- [ ] TWO: INTEL Mind Map — kill COUNCIL node entirely (circle, label, spreadsheet link removed)
+- [ ] TWO: INTEL Mind Map — restore Julien Pradels inside Christie's Auction House node (Regional President, Americas)
+- [ ] TWO: INTEL Mind Map — update Rahul Kadakia title: President, Asia-Pacific, based Hong Kong
+- [ ] TWO: INTEL Mind Map — move Bonnie Brennan to left track only (under Guillaume Cerutti, not CIRE chain)
+- [ ] TWO: INTEL Mind Map — add Richard Bruehl to ANEW HOMES node (10% equity, Strategic Mentor)
+- [ ] TWO: INTEL Mind Map — two-track hierarchy: left (Auction House), right (CIRE), no crossover line between tracks
+- [ ] TWO: INTEL Mind Map — all first-ring nodes identical diameter, Ed stays largest center node
+- [ ] TWO: INTEL Mind Map — hover standard: top 5 people, one Perplexity news link, one next step, in-tab only, mobile-safe
+- [ ] THREE: FUTURE tab — apply verified agent volumes (Ed $33M, Jarvis $5M, Bonita $12M, Sebastian $3.5M, Scott $1.5M = $55M total)
+- [ ] THREE: FUTURE tab — apply AnewHomes equity split (Ed 35%, Scott 35%, Richard 10%, Jarvis 5%, Angel 5%, Zoila 5%* vesting, Pool 5%)
+- [ ] THREE: FUTURE tab — AnewHomes pool growth curve (Y1 $50K, Y2 $150K, Y3 $300K, Y4+ 10% annual compounding)
+- [ ] THREE: FUTURE tab — six-year Managing Director Total table with exact directive numbers
+- [ ] FOUR: Language cleanup — confirm and replace all "South Fork" with "East End" across all tabs and PDFs
+- [ ] FOUR: Confirm Market Report PDF founding letter closing line reads "East End" not "South Fork"
+- [ ] FIVE: Pipeline — add 25 Horseshoe Road $5.75M IN CONTRACT (wire confirmed, expected close 5 weeks)
+- [ ] FIVE: Pipeline — add 191 Bull Path $3.3M ACTIVE LISTING (live April 10, open houses this weekend)
+- [ ] SIX: Return all five confirmation screenshots before sprint closes

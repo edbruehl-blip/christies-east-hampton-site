@@ -106,9 +106,9 @@ const NODES: MapNode[] = [
     name: "CHRISTIE'S AUCTION HOUSE",
     title: "Christie's International · 260 Years · Artémis / Pinault Family",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Christie's International — 260 years, founded 1766. Ultimate parent: Artémis S.A. (Pinault family). François-Henri Pinault: Board Chair (effective March 27–30, 2026). Bonnie Brennan: CEO since Feb 1, 2025 — first American woman to lead Christie's. $6.2B in 2025 sales. Tash Perrin: Deputy Chairman International, Trusts & Estates, auction referral bridge. Stephen Lash: Chairman Emeritus, 50-year tenure, Ed's senior institutional relationship. Rahul Kadakia: President APAC + Global Luxury, fourth-generation jeweler, jewelry auction referral pathway — Doug Biviano brooch. Tina-Marie Poulin: Tash Perrin network.",
+    note: "Christie's International — 260 years, founded 1766. Ultimate parent: Artémis S.A. (Pinault family). François-Henri Pinault: Board Chair (effective March 27–30, 2026). Guillaume Cerutti: CEO Christie's International. Bonnie Brennan: President Americas — first American woman in that role. $6.2B in 2025 sales. Julien Pradels: Regional President Americas — Ed's direct auction house contact. Tash Perrin: Deputy Chairman International, Trusts & Estates, auction referral bridge. Stephen Lash: Chairman Emeritus, 50-year tenure, Ed's senior institutional relationship. Rahul Kadakia: President Asia-Pacific, based Hong Kong, fourth-generation jeweler, jewelry auction referral pathway.",
     x: 310, y: 220, r: 52,
-    members: ["Artémis / F-H Pinault (Board)", "Bonnie Brennan (CEO)", "Tash Perrin (Deputy Chair)", "Stephen Lash (Chair Emeritus)", "Rahul Kadakia (APAC + Luxury)", "Tina-Marie Poulin"],
+    members: ["Artémis / F-H Pinault (Board)", "Guillaume Cerutti (CEO)", "Julien Pradels (Reg. President Americas)", "Tash Perrin (Deputy Chair)", "Stephen Lash (Chair Emeritus)", "Rahul Kadakia (President APAC · HK)"],
     rw: 52, rh: 52 },
 
   // ── RIGHT TRACK — CIRE GLOBAL (institutional node) ───────────────────────────
@@ -141,15 +141,15 @@ const NODES: MapNode[] = [
     note: "$1B+ career sales. 20+ years East End. Managing Director, Christie's East Hampton. 26 Park Place. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain.",
     x: 640, y: 680, r: 32 },
 
-  // ── FLAGSHIP TEAM — Ed's personal equity team ────────────────────────────────
+  // ── ED BRUEHL NODE — Ed's personal orbit: inner circle, equity participants ────
   { id: "flagship_team",
-    name: "FLAGSHIP TEAM",
-    title: "Ed's Personal Equity Team · Direct Responsibility",
+    name: "ED BRUEHL",
+    title: "Ed's Personal Orbit · Inner Circle · Equity Participants",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Ed's personal team — equity, ownership, direct responsibility in the model. Jarvis Slade — COO. Angel Theodore — full-time intelligence and operations. Zoila Ortega Astor — joins April 15. Scott Smith — joins June 1.",
+    note: "Ed's personal orbit — equity, ownership, direct responsibility in the model. Jarvis Slade — COO and Agent. Angel Theodore — Operations. Zoila Ortega Astor — Office Director, joins April 15. Scott Smith — joins June 1. Richard Bruehl — Strategic Mentor, holds 10% AnewHomes equity.",
     x: 480, y: 820, r: 28,
-    members: ["Jarvis Slade — COO", "Angel Theodore", "Zoila *April 15", "Scott Smith *June 1"],
-    rw: 52, rh: 42 },
+    members: ["Jarvis Slade — COO & Agent", "Angel Theodore — Operations", "Zoila Ortega Astor *Apr 15", "Scott Smith *June 1", "Richard Bruehl — Mentor 10%"],
+    rw: 52, rh: 52 },
 
   // ── EAST HAMPTON OFFICE — 26 Park Place staff ────────────────────────────────
   { id: "eh_office",
@@ -166,23 +166,13 @@ const NODES: MapNode[] = [
     name: "AnewHomes",
     title: "New Construction Division · Lily Fan Anchor",
     type: "CATEGORY", status: "ACTIVE",
-    note: "New construction division. Lily Fan anchor deal: 140 Hands Creek Road. ANEW calculator lives in the ANEW tab. Tracks build cost, GCI, pro forma. Feeds ANEW Build Memo PDF export.",
+    note: "New construction division. Lily Fan anchor deal: 140 Hands Creek Road. ANEW calculator lives in the ANEW tab. Tracks build cost, GCI, pro forma. Feeds ANEW Build Memo PDF export. Richard Bruehl holds 10% equity as Strategic Mentor.",
     x: 120, y: 940, r: 28,
-    members: ["Lily Fan — Anchor", "140 Hands Creek Rd", "ANEW Calculator"],
+    members: ["Lily Fan — Anchor", "140 Hands Creek Rd", "Richard Bruehl — 10% Equity"],
     rw: 52, rh: 38,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW tab" } },
 
-  // ── COUNCIL ────────────────────────────────────────────────────────────────────
-  // Ten members total. Ed at center.
-  { id: "council_node",
-    name: "COUNCIL",
-    title: "Full Council · Ten Members · Ed at Center",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "The full council. Ed Bruehl at center. Ten members: Claude, Perplexity, ChatGPT, Grok, Gemini, Manny, William, Richard Bruehl, Angel Theodore, Jarvis Slade. Receives the Flagship Letter. Strategic operating body for Christie's East Hampton.",
-    x: 480, y: 940, r: 28,
-    members: ["Claude · Perplexity · ChatGPT", "Grok · Gemini · Manny", "William · Richard Bruehl", "Angel Theodore · Jarvis Slade"],
-    rw: 52, rh: 38,
-    clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1rlZId6j-bhuFd0E3eD-pMtY_f5DIn0J9OmIP2TP8zWw/edit", label: "Opening Council Sheet…" } },
+  // COUNCIL NODE REMOVED — internal infrastructure, not on institutional map
 
   // ── COMPETITORS ────────────────────────────────────────────────────────────────
   { id: "competitors_node",
@@ -469,7 +459,7 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ed", to: "recruiting_node",   style: "recruit" },
   { from: "ed", to: "media_node",        style: "partner" },
   { from: "ed", to: "anew_homes",        style: "partner" },
-  { from: "ed", to: "council_node",      style: "hierarchy" },
+  // council_node removed
   { from: "ed", to: "competitors_node",  style: "partner" },
   { from: "ed", to: "podcast_node",      style: "partner" },
   { from: "ed", to: "intel_library",     style: "intelligence" },
@@ -525,10 +515,10 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   whale_intel:       { fill: "#2A1A3D", stroke: "#7B5DAA", headerColor: "#9B7EC8" },
   rel_intel:         { fill: "#1A3D2A", stroke: "#2D5A3D", headerColor: "#6FCF97" },
   attorneys_node:    { fill: "#0d2a3d", stroke: "#2a7aad", headerColor: "#7BA4D4" },
-  flagship_team:     { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  flagship_team:     { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" }, // ED BRUEHL node
   eh_office:         { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
   anew_homes:        { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", headerColor: "#c8ac78" },
-  council_node:      { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
+  // council_node removed
   competitors_node:  { fill: "#2A1A1A", stroke: "rgba(200,100,100,0.5)", headerColor: "rgba(255,200,200,0.9)" },
   podcast_node:      { fill: "#1A1A2A", stroke: "rgba(120,172,200,0.6)", headerColor: "rgba(180,225,255,0.9)" },
   william_node:      { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#c8ac78" },
@@ -562,12 +552,12 @@ const SECTION_LABELS = [
   { text: "CIRE GLOBAL · 100+ AFFILIATES · 50 COUNTRIES", x: 970, y: 128 },
   { text: "CIREG TRI-STATE · NY/NJ/CT",                x: 970,  y: 408 },
   { text: "CHRISTIE'S EAST HAMPTON",                   x: 640,  y: 648 },
-  { text: "FLAGSHIP TEAM",                             x: 480,  y: 768 },
+  { text: "ED BRUEHL · INNER CIRCLE",                   x: 480,  y: 768 },
   { text: "EAST HAMPTON OFFICE",                       x: 700,  y: 768 },
   { text: "RECRUITING",                                x: 200,  y: 768 },
   { text: "MEDIA",                                     x: 200,  y: 888 },
   { text: "AnewHomes",                                 x: 120,  y: 888 },
-  { text: "COUNCIL",                                   x: 480,  y: 888 },
+  // COUNCIL label removed
   { text: "INTEL LIBRARY",                             x: 640,  y: 888 },
   { text: "WILLIAM",                                   x: 760,  y: 888 },
   { text: "PODCAST",                                   x: 120,  y: 998 },

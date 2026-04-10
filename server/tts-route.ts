@@ -31,7 +31,7 @@ Jarvis Slade is the COO and the anchor of the team — bringing field reality, w
 
 The breakthrough was turning memory into infrastructure. Before this, Ed's twenty years of territory knowledge lived in his head. Now it lives in one system. Visible. Searchable. Usable.
 
-It lives at christiesrealestategroupeh.com. Six primary tabs: HOME, the voice and the front door. MARKET, the verified territory truth. PIPE, the live deal engine. MAPS, geography as decision-making. INTEL, the relationship and hierarchy layer. FUTURE, the growth model and long-range trajectory.
+It lives at christiesrealestategroupeh.com. Six primary tabs: HOME is the voice and the front door — the founding letter, the Christie's story, and William ready to brief you on demand. MARKET is the verified territory truth — eleven hamlets, live data, Christie's Intelligence Scores for every community on the East End. MAPS is geography as decision-making — the full territory visible, with a calculator that scores any deal across four investment lenses. PIPE is the live deal engine — every active listing, every negotiation, every closed deal in one place. FUTURE is the growth model — where the office is going, the economics behind it, and the trajectory through 2031. INTEL is the relationship and hierarchy layer — every person, every institution, and every connection that makes this office what it is.
 
 The INTEL tab does three distinct jobs. First: relationship memory — every person in Ed's professional life on the map, organized by how they relate to the business. Second: hierarchy and ascension — the full Christie's institutional chain above Ed, with the auction referrals node making the thesis visible. Third: the master Google Sheets are all accessible directly from this tab.
 
@@ -42,6 +42,8 @@ William is the voice of this system. When you text NEWS, he answers on demand. H
 Not ambition. Arithmetic. And proof. Ed has already done over one billion dollars in career sales across twenty years on this land. Now the model is institutional. 2026, fifty-five million dollars. 2027, one hundred million. 2030, three offices. 2032 to 2033, one billion dollar run rate. Every stage is gated by proof.
 
 This is not for the office. This is for the families. The ones on Further Lane who do not know what they own. The ones who built something over forty years and need someone to sit on their side of the table and tell them the truth.
+
+This is still being built. We would love your feedback, your questions, and your honest read on where it falls short.
 
 Tell the truth. Know the territory. Sit on the same side of the table as the family. Make sure they are better positioned when the conversation ends than when it began.
 
@@ -88,6 +90,54 @@ Montauk. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. Th
 Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Here to serve you the way James Christie did, since 1766.`;
 
 const VOICE_ID = "fjnwTZkKtQOJaYzGLa6n";
+
+// ─── Server-side audio cache ──────────────────────────────────────────────────
+// Pre-generates flagship letter audio once on startup so the button is instant.
+// Avoids desktop fetch timeout caused by ElevenLabs latency (8–15s for 4K chars).
+let flagshipAudioCache: Buffer | null = null;
+let flagshipCachePromise: Promise<Buffer | null> | null = null;
+
+async function generateFlagshipAudio(apiKey: string): Promise<Buffer | null> {
+  try {
+    console.log('[TTS] Pre-generating flagship letter audio cache...');
+    const elevenRes = await fetch(
+      `https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}`,
+      {
+        method: 'POST',
+        headers: {
+          'xi-api-key': apiKey,
+          'Content-Type': 'application/json',
+          Accept: 'audio/mpeg',
+        },
+        body: JSON.stringify({
+          text: FLAGSHIP_LETTER_TEXT,
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: { stability: 0.55, similarity_boost: 0.75 },
+        }),
+      }
+    );
+    if (!elevenRes.ok) {
+      const errText = await elevenRes.text();
+      console.error(`[TTS] Cache generation failed ${elevenRes.status}: ${errText}`);
+      return null;
+    }
+    const arrayBuffer = await elevenRes.arrayBuffer();
+    const buf = Buffer.from(arrayBuffer);
+    console.log(`[TTS] Flagship letter audio cached — ${buf.length} bytes`);
+    return buf;
+  } catch (err) {
+    console.error('[TTS] Cache generation error:', err);
+    return null;
+  }
+}
+
+export function warmFlagshipCache(apiKey: string) {
+  if (flagshipCachePromise) return; // already warming
+  flagshipCachePromise = generateFlagshipAudio(apiKey).then(buf => {
+    flagshipAudioCache = buf;
+    return buf;
+  });
+}
 
 // ─── Shared TTS handler ────────────────────────────────────────────────────────
 async function streamTts(text: string, apiKey: string, res: import("express").Response) {
@@ -260,6 +310,8 @@ export function registerTtsRoute(app: Express) {
   });
 
   // GET /api/tts/flagship-letter — Christie's Flagship Letter (council document)
+  // Serves from in-memory cache for instant response on desktop and mobile.
+  // Falls back to live streaming if cache is still warming.
   app.get("/api/tts/flagship-letter", async (req, res) => {
     const apiKey = ENV.elevenLabsApiKey;
     if (!apiKey) {
@@ -267,6 +319,29 @@ export function registerTtsRoute(app: Express) {
       return;
     }
     try {
+      // Serve from cache if available
+      if (flagshipAudioCache) {
+        res.setHeader('Content-Type', 'audio/mpeg');
+        res.setHeader('Content-Length', flagshipAudioCache.length);
+        res.setHeader('Cache-Control', 'no-store');
+        res.end(flagshipAudioCache);
+        return;
+      }
+      // Cache still warming — wait for it (up to 30s)
+      if (flagshipCachePromise) {
+        const buf = await Promise.race([
+          flagshipCachePromise,
+          new Promise<null>(resolve => setTimeout(() => resolve(null), 30000)),
+        ]);
+        if (buf) {
+          res.setHeader('Content-Type', 'audio/mpeg');
+          res.setHeader('Content-Length', buf.length);
+          res.setHeader('Cache-Control', 'no-store');
+          res.end(buf);
+          return;
+        }
+      }
+      // Cache unavailable — fall back to live stream
       await streamTts(FLAGSHIP_LETTER_TEXT, apiKey, res);
     } catch (err) {
       console.error("[TTS] Unexpected error:", err);
