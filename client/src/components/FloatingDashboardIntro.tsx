@@ -60,7 +60,7 @@ export function FloatingDashboardIntro() {
     setStatus('loading');
 
     try {
-      const res = await fetch('/api/tts/flagship-letter', { method: 'POST' });
+      const res = await fetch('/api/tts/flagship-letter', { method: 'GET' });
       if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
 
       const blob = await res.blob();
