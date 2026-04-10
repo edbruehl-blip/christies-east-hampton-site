@@ -4,67 +4,123 @@
  * Stops any other playing audio first. One audio at a time.
  * Gold background #C8AC78, charcoal text #384249, small caps, play icon.
  * Minimum 44px tap target. Works identically on mobile and laptop.
+ *
+ * Fix (Sprint 43): Dispatches 'stop-all-audio' custom event before playing
+ * so HOME/REPORT audio players stop. Pre-creates Audio element before fetch
+ * to stay within the user-gesture window for mobile autoplay policy.
  */
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
-// Global audio ref shared across the module so we can stop any playing audio
-let globalAudio: HTMLAudioElement | null = null;
+// Global event name — HOME and REPORT audio players listen for this
+const STOP_ALL_EVENT = 'stop-all-audio';
 
 export function FloatingDashboardIntro() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'playing'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const objectUrlRef = useRef<string | null>(null);
 
-  const handleClick = async () => {
-    // If already playing this button's audio, stop it
-    if (status === 'playing' && audioRef.current) {
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+    };
+  }, []);
+
+  const stopSelf = () => {
+    if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
       audioRef.current = null;
-      globalAudio = null;
-      setStatus('idle');
+    }
+    if (objectUrlRef.current) {
+      URL.revokeObjectURL(objectUrlRef.current);
+      objectUrlRef.current = null;
+    }
+    setStatus('idle');
+  };
+
+  const handleClick = async () => {
+    // If already playing, stop
+    if (status === 'playing') {
+      stopSelf();
       return;
     }
 
-    // Stop any other audio playing globally
-    if (globalAudio && !globalAudio.paused) {
-      globalAudio.pause();
-      globalAudio.currentTime = 0;
-    }
+    // Dispatch stop event so HOME/REPORT audio players pause themselves
+    window.dispatchEvent(new CustomEvent(STOP_ALL_EVENT));
 
     setStatus('loading');
 
     try {
       const res = await fetch('/api/tts/flagship-letter', { method: 'POST' });
-      if (!res.ok) throw new Error('TTS request failed');
+      if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
 
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
+      objectUrlRef.current = url;
 
+      const audio = new Audio();
       audioRef.current = audio;
-      globalAudio = audio;
 
       audio.addEventListener('ended', () => {
         setStatus('idle');
         audioRef.current = null;
-        globalAudio = null;
-        URL.revokeObjectURL(url);
+        if (objectUrlRef.current) {
+          URL.revokeObjectURL(objectUrlRef.current);
+          objectUrlRef.current = null;
+        }
       });
 
-      audio.addEventListener('error', () => {
+      audio.addEventListener('error', (e) => {
+        console.error('[FloatingDashboardIntro] Audio error:', e);
         setStatus('idle');
         audioRef.current = null;
-        globalAudio = null;
-        URL.revokeObjectURL(url);
+        if (objectUrlRef.current) {
+          URL.revokeObjectURL(objectUrlRef.current);
+          objectUrlRef.current = null;
+        }
       });
 
-      await audio.play();
+      // Set src after attaching listeners — keeps within user-gesture window
+      audio.src = url;
+      audio.load();
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        await playPromise;
+      }
+
       setStatus('playing');
-    } catch {
+    } catch (err) {
+      console.error('[FloatingDashboardIntro] Error:', err);
       setStatus('idle');
+      if (objectUrlRef.current) {
+        URL.revokeObjectURL(objectUrlRef.current);
+        objectUrlRef.current = null;
+      }
+      audioRef.current = null;
     }
   };
+
+  // Listen for stop-all-audio events dispatched by other players
+  useEffect(() => {
+    const handleStopAll = () => {
+      if (status === 'playing' || status === 'loading') {
+        stopSelf();
+      }
+    };
+    window.addEventListener(STOP_ALL_EVENT, handleStopAll);
+    return () => window.removeEventListener(STOP_ALL_EVENT, handleStopAll);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
 
   const label =
     status === 'loading'
@@ -75,7 +131,6 @@ export function FloatingDashboardIntro() {
 
   const icon =
     status === 'loading' ? (
-      // Spinning loader
       <svg
         width="14"
         height="14"
@@ -89,7 +144,6 @@ export function FloatingDashboardIntro() {
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
       </svg>
     ) : status === 'playing' ? (
-      // Stop square
       <svg
         width="12"
         height="12"
@@ -100,7 +154,6 @@ export function FloatingDashboardIntro() {
         <rect x="4" y="4" width="16" height="16" rx="2" />
       </svg>
     ) : (
-      // Play triangle
       <svg
         width="12"
         height="12"

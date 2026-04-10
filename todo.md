@@ -1282,3 +1282,15 @@
 - [ ] Remove Flagship Letter button from HOME tab (drops to 2 buttons: Christie's Letter + Market Brief)
 - [ ] Remove Flagship Letter button from /report page (drops to 2 buttons: Christie's Letter + Market Brief)
 - [ ] Screenshots: mobile and laptop confirming floating button on at least two different tabs
+
+## Sprint 43 — INTEL Mind Map Restructure (April 9, 2026)
+- [ ] Change 1: Remove Julien Pradels standalone node entirely
+- [ ] Change 2: Christie's Auction House node — Bonnie Brennan, Tash Perrin, Stephen Lash, Rahul Kadakia (hierarchy order); remove all four standalone nodes; add Rahul Kadakia to Intelligence Web sheet
+- [ ] Change 3: CIRE GLOBAL node — Gavin Swartzman, Thad Wong, Mike Golden; no standalone nodes
+- [ ] Change 4: CIH/Reffkin node — confirm unchanged
+- [ ] Change 5: COUNCIL node — Claude, Perplexity, ChatGPT, Grok, Gemini, Manny, William, Richard Bruehl, Angel Theodore, Jarvis Slade (Ed center, 10 members)
+- [ ] Change 6: All first-ring nodes identical diameter
+- [ ] Change 7: Empty nodes — populate or remove; no decorative circles
+- [ ] Change 8: Floating Dashboard Introduction button — debug click handler, confirm audio plays
+- [ ] Screenshot: Full-web INTEL tab confirming restructure
+- [ ] Confirmation: Floating button plays correctly

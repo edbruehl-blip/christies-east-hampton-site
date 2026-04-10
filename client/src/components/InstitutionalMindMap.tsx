@@ -1,29 +1,40 @@
-/**
+/*
  * InstitutionalMindMap
  * ─────────────────────────────────────────────────────────────────────────────
  * INTEL Layer 1 · Institutional Mind Map
- * Sprint 26 rebuild — category node consolidation per council directive
+ * Sprint 43 rebuild — global no-standalone-individual rule applied
  *
- * LEFT TRACK — Auction House / Family Side:
- *   Artémis S.A. → FHP (Board Chair) → Bonnie Brennan (CEO)
- *   → Relationship layer: Tash Perrin, Stephen Lash, Julien Pradels, Rahul Kadakia
+ * GLOBAL RULE (locked permanently):
+ *   No individual person has a standalone node anywhere on the map.
+ *   Every person lives inside their categorical or institutional node.
+ *   Ed Bruehl is the only standalone individual at the center.
+ *
+ * LEFT TRACK — Auction House Side:
+ *   CHRISTIE'S AUCTION HOUSE (Artémis/Pinault, Bonnie Brennan, Tash Perrin,
+ *   Stephen Lash, Rahul Kadakia, Tina-Marie Poulin)
  *
  * RIGHT TRACK — Real Estate Operating Side:
- *   CIH / Robert Reffkin → @properties / Thad Wong & Mike Golden
- *   → CIRE / Gavin Swartzman → CIREG / Ilija Pavlović → Sherri Balassone
+ *   CIRE GLOBAL (Robert Reffkin/CIH, Thad Wong, Mike Golden, Gavin Swartzman)
+ *   → CIREG TRI-STATE (Ilija Pavlović, Sherri Balassone, Melissa True)
  *
  * Ed Bruehl sits at the bottom center where both tracks converge.
  *
- * CATEGORY NODES (Sprint 26 directive):
- *   WHALE INTELLIGENCE  — Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
+ * CATEGORY NODES:
+ *   WHALE INTELLIGENCE  — Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman,
+ *                         David Gooding, Jonathan Wilhelm, Art Murray, Josh Schnepps
  *   ATTORNEYS           — Pierre Debbas, Jonathan Tarbet, Brian Lester, Seamus McGrath
- *   RELATIONSHIP INTEL  — Frank Newbold, Debbie Brenneman, Charlie Esposito, Art Murray,
- *                         Michael Esposito, Nola Baris, Josh Schnepps
+ *   RELATIONSHIP INTEL  — Frank Newbold, Debbie Brenneman, Charlie Esposito,
+ *                         Art Murray, Michael Esposito, Nola Baris, Josh Schnepps
+ *   FAMILY & FRIENDS    — Richard Bruehl, Miranda Bruehl
+ *   RECRUITING          — Jarvis Pipeline, Compass-Exposed Targets, East End Producers
+ *   MEDIA               — Josh Schnepps / Dan's Papers, The Bruehl Report
+ *   COUNCIL             — Claude, Perplexity, ChatGPT, Grok, Gemini, Manny, William,
+ *                         Richard Bruehl, Angel Theodore, Jarvis Slade (Ed at center)
  *
  * Architecture:
  *  - Pure SVG rendered in React — no iframe, no canvas, no external lib
  *  - Hover: tooltip + connected-line highlight + dim unconnected nodes
- *  - Category nodes: rounded rectangle with member names listed inside
+ *  - Category nodes: circles with member names listed inside
  *  - View toggle: Full Web | Hierarchy Only | Recruits | Whales
  * ─────────────────────────────────────────────────────────────────────────────
  */
@@ -62,9 +73,9 @@ interface MapNode {
   x: number;
   y: number;
   r: number;
-  // Category nodes: render as rounded rect with member names inside
+  // Category nodes: render as circle with member names inside
   members?: string[];
-  // For rect nodes: half-width and half-height
+  // For category nodes: half-width and half-height (rw used as circle radius)
   rw?: number;
   rh?: number;
   clickAction?: ClickAction;
@@ -89,338 +100,240 @@ interface TooltipState {
 
 const NODES: MapNode[] = [
 
-  // ── CROWN — Artémis S.A. ────────────────────────────────────────────────────
-  { id: "artemis",
-    name: "Artémis S.A.",
-    title: "Pinault Family Holding Company · Paris",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Ultimate parent of Christie's global brand. François Pinault (père, founder) + François-Henri Pinault (fils, Managing Partner). Acquired Christie's 1998. Wholly family-owned. ~€28B asset base.",
-    x: 640, y: 60, r: 24 },
+  // ── LEFT TRACK — Christie's Auction House (institutional node) ───────────────
+  // All auction house individuals live inside this node. No standalone circles.
+  { id: "auction_house",
+    name: "CHRISTIE'S AUCTION HOUSE",
+    title: "Christie's International · 260 Years · Artémis / Pinault Family",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Christie's International — 260 years, founded 1766. Ultimate parent: Artémis S.A. (Pinault family). François-Henri Pinault: Board Chair (effective March 27–30, 2026). Bonnie Brennan: CEO since Feb 1, 2025 — first American woman to lead Christie's. $6.2B in 2025 sales. Tash Perrin: Deputy Chairman International, Trusts & Estates, auction referral bridge. Stephen Lash: Chairman Emeritus, 50-year tenure, Ed's senior institutional relationship. Rahul Kadakia: President APAC + Global Luxury, fourth-generation jeweler, jewelry auction referral pathway — Doug Biviano brooch. Tina-Marie Poulin: Tash Perrin network.",
+    x: 310, y: 220, r: 52,
+    members: ["Artémis / F-H Pinault (Board)", "Bonnie Brennan (CEO)", "Tash Perrin (Deputy Chair)", "Stephen Lash (Chair Emeritus)", "Rahul Kadakia (APAC + Luxury)", "Tina-Marie Poulin"],
+    rw: 52, rh: 52 },
 
-  // ── LEFT TRACK — Auction House / Family Side ─────────────────────────────
+  // ── RIGHT TRACK — CIRE GLOBAL (institutional node) ───────────────────────────
+  // All CIRE Global individuals live inside this node. No standalone circles.
+  { id: "cire_global",
+    name: "CIRE GLOBAL",
+    title: "Christie's International Real Estate · Global Network · 100+ Affiliates",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "Christie's International Real Estate — 100+ affiliate firms in 50 countries. Robert Reffkin / CIH: Chairman & CEO, Compass International Holdings. Compass–Anywhere merger closed Jan 9, 2026 (~$1.6B deal). CIH controls CIRE brand license, @properties, Sotheby's IR, Coldwell Banker, Century 21, Corcoran, ERA, BHGRE. 340,000 agents, 120 countries. Thad Wong + Mike Golden: @properties Co-Founders & Co-CEOs, acquired CIRE brand license Nov 2021, sold @properties to Compass Jan 2025 for $444M, remained as Co-CEOs. Gavin Swartzman: President (Global) CIRE since June 2025, former CEO Peerage Realty Partners.",
+    x: 970, y: 220, r: 52,
+    members: ["Robert Reffkin / CIH (Chair)", "Thad Wong (Co-CEO)", "Mike Golden (Co-CEO)", "Gavin Swartzman (President)"],
+    rw: 52, rh: 52 },
 
-  // Governance tier
-  { id: "pinault",
-    name: "François-Henri Pinault",
-    title: "Board Chair, Christie's · Artémis",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Board Chair, Christie's (effective March 27–30, 2026, replacing Cerutti). Managing Partner, Artémis. Former Kering CEO (stepped down Sept 2025). Tightest family control of Christie's in a decade.",
-    x: 310, y: 160, r: 22 },
-
-  // Operations tier
-  { id: "brennan",
-    name: "Bonnie Brennan",
-    title: "CEO, Christie's",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "CEO since Feb 1, 2025. First American woman to lead Christie's in 260 years. Former President, Americas (48% of global sales). $6.2B in 2025 sales (+6% YoY). Overseeing Rockefeller Center HQ renovation.",
-    x: 310, y: 270, r: 20 },
-
-  // Relationship layer
-  { id: "tash",
-    name: "Tash Perrin",
-    title: "Deputy Chairman, International",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Deputy Chairman, Christie's International (since June 2020). At Christie's since 1998. Trusts, Estates & Appraisals. Conducted Rockefeller Collection sale ($106.9M). Bridge to estate advisory.",
-    x: 110, y: 390, r: 17 },
-
-  { id: "lash",
-    name: "Stephen Lash",
-    title: "Chairman Emeritus",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Chairman Emeritus, Christie's New York. At Christie's since 1976 (~50 years). Founded Christie's North American operations. Orchestrated Bloch-Bauer/Klimt sale ($300M). Ed's senior institutional relationship.",
-    x: 220, y: 390, r: 16 },
-
-  { id: "pradels",
-    name: "Julien Pradels",
-    title: "Regional President, Americas",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Regional President, Americas (Spring 2025). Succeeded Bonnie Brennan in this role. At Christie's since 2011. Launched Christie's first Shanghai auction (2013). Overseeing Rockefeller Center HQ renovation.",
-    x: 340, y: 390, r: 16 },
-
-  { id: "kadakia",
-    name: "Rahul Kadakia",
-    title: "President, APAC + Global Luxury",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "President, Christie's Asia Pacific + Global Luxury (Jan 2026). At Christie's since 1996 (~30 years). Fourth-generation jeweler from Mumbai. Relocated to Hong Kong Jan 2026. One of the world's most recognized auctioneers.",
-    x: 460, y: 390, r: 16 },
-
-  // ── RIGHT TRACK — Real Estate Operating Side ─────────────────────────────
-
-  // ── DUAL CHRISTIE'S NODES (Sprint 42 directive) ───────────────────────────────────────
-  // Node A: CIREG Tri-State Affiliate (Ilija's operating chain — Ed's direct employer)
+  // ── CIREG TRI-STATE (institutional node) ─────────────────────────────────────
+  // All CIREG individuals live inside this node. No standalone circles.
   { id: "cireg_affiliate",
     name: "CIREG TRI-STATE",
     title: "Christie's International Real Estate Group · Exclusive NY/NJ/CT Affiliate",
     type: "CATEGORY", status: "ACTIVE",
-    note: "AFFILIATE_TRI_STATE. Christie's International Real Estate Group (CIREG) — Ilija Pavlović's exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Ed's direct operating chain. Profit pool, AnewHomes lane, and CPS 1 all flow through this node.",
-    x: 1100, y: 50, r: 52,
-    members: ["Ilija Pavlović — Owner/CEO", "Tri-State Offices", "Profit Pool", "AnewHomes Lane"],
+    note: "Christie's International Real Estate Group (CIREG) — Ilija Pavlović's exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Ed's direct operating chain. Profit pool, AnewHomes lane, and CPS 1 all flow through this node. Sherri Balassone: VP Corporate Broker / BOR for East Hampton, licensed NY Bar attorney, legal and compliance anchor. Melissa True: Christie's NYC Flatiron, father Richard True (Palm Beach builder), key referral node.",
+    x: 970, y: 490, r: 52,
+    members: ["Ilija Pavlović (Owner/CEO)", "Sherri Balassone (VP/BOR)", "Melissa True (NYC Flatiron)"],
     rw: 52, rh: 52 },
 
-  // Node B: Christie's International Real Estate Global Network
-  { id: "cire_global",
-    name: "CIRE GLOBAL",
-    title: "Christie's International Real Estate · Global Network",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "GLOBAL_NETWORK. Christie's International Real Estate — 100+ affiliate firms in 50 countries. Gavin Swartzman (President, June 2025). Stephen Lash (Chairman Emeritus). Tash Perrin (Regional President, Americas). @properties Chicago (WATCH status — sold to Compass Jan 2025 for $444M, Wong & Golden remain as Co-CEOs).",
-    x: 840, y: 50, r: 52,
-    members: ["Gavin Swartzman", "Stephen Lash", "Tash Perrin", "@props Chicago (WATCH)"],
-    rw: 52, rh: 52 },
-
-  // CIH / Reffkin
-  { id: "cih",
-    name: "CIH / Robert Reffkin",
-    title: "CIH Chairman & CEO",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Chairman & CEO, Compass International Holdings (CIH). Compass–Anywhere merger closed Jan 9, 2026 (~$1.6B deal). CIH controls CIRE brand license, @properties, Sotheby's IR, Coldwell Banker, Century 21, Corcoran, ERA, BHGRE. 340,000 agents, 120 countries.",
-    x: 970, y: 160, r: 22 },
-
-  // @properties / Wong & Golden
-  { id: "atprops",
-    name: "Thad Wong / Mike Golden",
-    title: "@properties Co-CEOs",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Co-Founders & Co-CEOs, @properties Christie's International Real Estate. Acquired CIRE brand license Nov 2021 for long-term global license. Sold @properties to Compass Jan 2025 for $444M. Remained as Co-CEOs. 25-year partnership built on total trust.",
-    x: 970, y: 270, r: 20 },
-
-  // CIRE / Swartzman
-  { id: "swartzman",
-    name: "Gavin Swartzman",
-    title: "CIRE President",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "President (Global), Christie's International Real Estate (June 2025). Former CEO, Peerage Realty Partners (11 years). Reports to Wong & Golden. Oversees 100+ affiliate firms in 50 countries. Swanepoel Power 200.",
-    x: 970, y: 380, r: 18 },
-
-  // CIREG / Ilija
-  { id: "ilija",
-    name: "Ilija Pavlović",
-    title: "CIREG Owner & CEO",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "Owner, President & CEO, CIREG Tri-State. Exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Appointed Ed Bruehl Nov 2025. Built CIREG from 3 offices (2017) to regional powerhouse.",
-    x: 970, y: 490, r: 20 },
-
-  // Melissa True — CIREG colleague
-  { id: "melissa",
-    name: "Melissa True",
-    title: "Team Leader · CIREG NYC Flatiron",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "CIREG colleague. Christie's NYC Flatiron office. Father: Richard True, Palm Beach builder. Key referral node between CIREG and Ed's East Hampton operation.",
-    x: 1080, y: 590, r: 14 },
-
-  // Sherri Balassone
-  { id: "sherri",
-    name: "Sherri Balassone",
-    title: "VP & BOR",
-    type: "HIERARCHY", status: "ACTIVE",
-    note: "VP Corporate Broker / BOR for East Hampton. Licensed NY Bar attorney. Sherri is the legal and compliance anchor for Christie's East Hampton.",
-    x: 970, y: 600, r: 16 },
-
-  // ── ED — center bridge ───────────────────────────────────────────────────
+  // ── ED — center bridge ───────────────────────────────────────────────────────
   { id: "ed",
     name: "Ed Bruehl",
     title: "Managing Director",
     type: "HIERARCHY", status: "ACTIVE",
     note: "$1B+ career sales. 20+ years East End. Managing Director, Christie's East Hampton. 26 Park Place. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain.",
-    x: 640, y: 730, r: 32 },
+    x: 640, y: 680, r: 32 },
 
-  // ── FLAGSHIP TEAM — Ed's personal equity team (Sprint 31 directive) ─────────
+  // ── FLAGSHIP TEAM — Ed's personal equity team ────────────────────────────────
   { id: "flagship_team",
     name: "FLAGSHIP TEAM",
     title: "Ed's Personal Equity Team · Direct Responsibility",
     type: "CATEGORY", status: "ACTIVE",
     note: "Ed's personal team — equity, ownership, direct responsibility in the model. Jarvis Slade — COO. Angel Theodore — full-time intelligence and operations. Zoila Ortega Astor — joins April 15. Scott Smith — joins June 1.",
-    x: 480, y: 860, r: 28,
+    x: 480, y: 820, r: 28,
     members: ["Jarvis Slade — COO", "Angel Theodore", "Zoila *April 15", "Scott Smith *June 1"],
-    rw: 72, rh: 42 },
+    rw: 52, rh: 42 },
 
-  // ── EAST HAMPTON OFFICE — 26 Park Place staff (Sprint 31 directive) ─────────
+  // ── EAST HAMPTON OFFICE — 26 Park Place staff ────────────────────────────────
   { id: "eh_office",
     name: "EAST HAMPTON OFFICE",
     title: "26 Park Place · Christie's Standard Daily",
     type: "CATEGORY", status: "ACTIVE",
     note: "Office staff carrying the Christie's standard at 26 Park Place every day. Bonita DeWolf · Sebastian Mobo · Sandy Busch · Jan Jaeger.",
-    x: 700, y: 860, r: 28,
+    x: 700, y: 820, r: 28,
     members: ["Bonita DeWolf", "Sebastian Mobo", "Sandy Busch", "Jan Jaeger"],
-    rw: 72, rh: 42 },
+    rw: 52, rh: 42 },
 
-  // ── AnewHomes — Sprint 31 ─────────────────────────────────────────────────
+  // ── AnewHomes ─────────────────────────────────────────────────────────────────
   { id: "anew_homes",
     name: "AnewHomes",
     title: "New Construction Division · Lily Fan Anchor",
     type: "CATEGORY", status: "ACTIVE",
     note: "New construction division. Lily Fan anchor deal: 140 Hands Creek Road. ANEW calculator lives in the ANEW tab. Tracks build cost, GCI, pro forma. Feeds ANEW Build Memo PDF export.",
-    x: 120, y: 970, r: 28,
+    x: 120, y: 940, r: 28,
     members: ["Lily Fan — Anchor", "140 Hands Creek Rd", "ANEW Calculator"],
-    rw: 60, rh: 38,
+    rw: 52, rh: 38,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW tab" } },
 
-  // ── COUNCIL — Sprint 31 ────────────────────────────────────────────────────
+  // ── COUNCIL ────────────────────────────────────────────────────────────────────
+  // Ten members total. Ed at center.
   { id: "council_node",
     name: "COUNCIL",
-    title: "Full Council · Jarvis · Angel · Ricky",
+    title: "Full Council · Ten Members · Ed at Center",
     type: "CATEGORY", status: "ACTIVE",
-    note: "The full council. Jarvis Slade, Angel Theodore, Ricky (Rick Moeser). Internal operating council for Christie's East Hampton. Receives the Flagship Letter. Strategic operating body.",
-    x: 480, y: 970, r: 28,
-    members: ["Jarvis Slade", "Angel Theodore", "Rick Moeser"],
-    rw: 60, rh: 38,
+    note: "The full council. Ed Bruehl at center. Ten members: Claude, Perplexity, ChatGPT, Grok, Gemini, Manny, William, Richard Bruehl, Angel Theodore, Jarvis Slade. Receives the Flagship Letter. Strategic operating body for Christie's East Hampton.",
+    x: 480, y: 940, r: 28,
+    members: ["Claude · Perplexity · ChatGPT", "Grok · Gemini · Manny", "William · Richard Bruehl", "Angel Theodore · Jarvis Slade"],
+    rw: 52, rh: 38,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1rlZId6j-bhuFd0E3eD-pMtY_f5DIn0J9OmIP2TP8zWw/edit", label: "Opening Council Sheet…" } },
 
-  // ── COMPETITORS — Sprint 31 ────────────────────────────────────────────────
+  // ── COMPETITORS ────────────────────────────────────────────────────────────────
   { id: "competitors_node",
     name: "COMPETITORS",
     title: "Compass · Sotheby's · Corcoran · Brown Harris",
     type: "CATEGORY", status: "ACTIVE",
     note: "Primary competitive landscape on the East End. Compass: largest agent count, Anywhere merger exposure. Sotheby's International Realty: luxury brand competitor. Corcoran: Hamptons market share. Brown Harris Stevens: legacy East End presence. Perplexity monitors weekly.",
-    x: 330, y: 1080, r: 28,
+    x: 330, y: 1050, r: 28,
     members: ["Compass", "Sotheby's IR", "Corcoran", "Brown Harris Stevens"],
-    rw: 68, rh: 38 },
+    rw: 52, rh: 38 },
 
-  // ── PODCAST — Sprint 31 ────────────────────────────────────────────────────
+  // ── PODCAST ────────────────────────────────────────────────────────────────────
   { id: "podcast_node",
     name: "PODCAST",
     title: "The Bruehl Report · Pierre Debbas Co-Host",
     type: "CATEGORY", status: "ACTIVE",
     note: "The Bruehl Report. Ed Bruehl and Pierre Debbas co-hosts. Episode 1 is live. Platform for brand amplification, attorney relationship deepening, and UHNW audience reach.",
-    x: 120, y: 1080, r: 28,
+    x: 120, y: 1050, r: 28,
     members: ["Ed Bruehl — Host", "Pierre Debbas — Co-Host", "Ep. 1 Live"],
-    rw: 60, rh: 38 },
+    rw: 52, rh: 38 },
 
-  // ── INTEL LIBRARY — Sprint 31 ─────────────────────────────────────────────
+  // ── INTEL LIBRARY ─────────────────────────────────────────────────────────────
   { id: "intel_library",
     name: "INTEL LIBRARY",
     title: "Nine Sheets · Hamptons Intelligence Archive",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "The nine Google Sheets that form the intelligence backbone of Christie's East Hampton. Market Matrix · Pipeline · Growth Model · Intel Web · Hamptons Outreach · Proof Points · Campaign Playbook · SOP Angel & Astra · UHNW Oceanfront. Accessible from INTEL Layer 3.",
-    x: 640, y: 970, r: 28,
+    x: 640, y: 940, r: 28,
     clickAction: { type: "nav", tab: "intel", label: "Navigate to INTEL tab — Nine Sheets" } },
 
-  // ── WILLIAM — Sprint 31 ───────────────────────────────────────────────────
+  // ── WILLIAM ────────────────────────────────────────────────────────────────────
   { id: "william_node",
     name: "WILLIAM",
     title: "WhatsApp Intelligence Agent · 8 AM & 8 PM",
     type: "CATEGORY", status: "ACTIVE",
     note: "William: the WhatsApp intelligence agent. Delivers morning brief at 8 AM (scorecard + pipeline + Cronkite) and evening brief at 8 PM (Cronkite only). Powered by Perplexity API. Twilio WhatsApp delivery. Responds to inbound commands: BRIEF, PIPELINE, STATUS.",
-    x: 760, y: 970, r: 28,
+    x: 760, y: 940, r: 28,
     members: ["8 AM Morning Brief", "8 PM Evening Brief", "Inbound Commands"],
-    rw: 60, rh: 38 },
+    rw: 52, rh: 38 },
 
-  // ── RECRUITING — Sprint 31 ────────────────────────────────────────────────
+  // ── RECRUITING ────────────────────────────────────────────────────────────────
   { id: "recruiting_node",
     name: "RECRUITING",
     title: "Jarvis Pipeline · Agent Acquisition",
     type: "CATEGORY", status: "WARM",
     note: "Agent recruiting pipeline managed by Jarvis Slade. Target: experienced East End producers exposed by Compass-Anywhere merger. Debbie Brenneman, Charlie Esposito, Nola Baris tracked in Relationship Intelligence. Warm status: active conversations, no signed agreements yet.",
-    x: 200, y: 860, r: 28,
+    x: 200, y: 820, r: 28,
     members: ["Jarvis Pipeline", "Compass-Exposed Targets", "East End Producers"],
-    rw: 60, rh: 38 },
+    rw: 52, rh: 38 },
 
-  // ── MEDIA — Sprint 31 ─────────────────────────────────────────────────────
+  // ── MEDIA ─────────────────────────────────────────────────────────────────────
   { id: "media_node",
     name: "MEDIA",
     title: "Dan's Papers · Josh Schnepps · $2K/Month Pilot",
     type: "CATEGORY", status: "ACTIVE",
     note: "Media relationships and earned press. Josh Schnepps: Dan's Papers, $2K/month pilot active, 61K+ email subscribers. The Bruehl Report podcast. Social signal layer (SOCIAL node). Perplexity weekly territory intelligence report.",
-    x: 200, y: 970, r: 28,
+    x: 200, y: 940, r: 28,
     members: ["Dan's Papers — Josh Schnepps", "$2K/Month Pilot", "The Bruehl Report"],
-    rw: 60, rh: 38 },
+    rw: 52, rh: 38 },
 
-  // ── FAMILY AND FRIENDS — Sprint 31 ───────────────────────────────────────
+  // ── FAMILY AND FRIENDS ────────────────────────────────────────────────────────
   { id: "family_node",
     name: "FAMILY & FRIENDS",
     title: "Personal Network · Referral Layer",
     type: "CATEGORY", status: "WARM",
     note: "Ed's personal network — family and close friends who form the innermost referral layer. Not tracked in the pipeline sheet. Warm status: present but not formally activated in the operating model yet.",
-    x: 640, y: 860, r: 28,
-    members: ["Richard Bruehl", "Bruehl Family Network", "Close Friends Circle"],
-    rw: 60, rh: 38 },
+    x: 640, y: 820, r: 28,
+    members: ["Richard Bruehl", "Miranda Bruehl", "Close Friends Circle"],
+    rw: 52, rh: 38 },
 
-  // ── AUCTION REFERRALS — Sprint 31 ─────────────────────────────────────────
-  { id: "auction_referrals",
-    name: "AUCTION REFERRALS",
-    title: "Christie's Auction House → Ed · Referral Pipeline",
-    type: "PARTNER", status: "WARM",
-    note: "Referral pipeline from Christie's auction house relationships to Ed's real estate operation. Rick Moeser: former CIRE Executive Director 17 years, primary auction referral node. Tash Perrin: trusts and estates, estate advisory bridge. Stephen Lash: senior institutional relationship, 50-year Christie's tenure. Warm: pipeline established, first referrals pending.",
-    x: 480, y: 590, r: 18 },
-
-  // ── TINA-MARIE POULIN — under Tash Perrin (Sprint 31) ────────────────────
-  { id: "tina_marie",
-    name: "Tina-Marie Poulin",
-    title: "Christie's · Tash Perrin Network",
-    type: "HIERARCHY", status: "WARM",
-    note: "Tina-Marie Poulin. Christie's, within Tash Perrin's network. Warm status: relationship identified, not yet formally activated in the operating model.",
-    x: 60, y: 480, r: 11 },
-
-  // ── CPS 1 — International Projects Pipeline under Ilija (Sprint 31 final node) ──
+  // ── CPS 1 — International Projects Pipeline ───────────────────────────────────
   { id: "cps1",
     name: "CPS 1",
     title: "International Projects Pipeline · CIREG Tri-State · NY AG Framework",
     type: "CATEGORY", status: "ACTIVE",
     note: "International projects pipeline flowing through CIREG Tri-State using the CPS-1 and CPS-12 New York Attorney General framework. Reference and pipeline tracking node. Ricardo (Lisbon) — CIREG international referral, active. Dominican Republic — development/investment through CIREG international network, active. Jonathan Wilhelm — Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality network. Mayacama Golf Club — through Wilhelm, resort UHNW hospitality. Flambeaux Wine — through Art Murray, TOWN dinner series, links Wilhelm and Murray through Mayacama/Flambeaux relationship.",
     x: 1100, y: 490, r: 28,
-    members: ["Ricardo (Lisbon) — Active", "Dominican Republic — Active", "Jonathan Wilhelm · Mayacama", "Mayacama Golf Club", "Flambeaux Wine · Art Murray"],
-    rw: 72, rh: 52 },
+    members: ["Ricardo (Lisbon) — Active", "Dominican Republic — Active", "Jonathan Wilhelm · Mayacama", "Flambeaux Wine · Art Murray"],
+    rw: 52, rh: 52 },
 
-  // ── WHALE INTELLIGENCE — consolidated category node ──────────────────────
-  // Sprint 26 directive: Lily Fan, Rick Moeser, Tony Ingrao, Heath Freeman, David Gooding
-  // Collapsed from 5 individual nodes into one category node.
+  // ── WHALE INTELLIGENCE — consolidated category node ──────────────────────────
+  // All whales live inside this node. No individual whale circles.
   { id: "whale_intel",
     name: "WHALE INTELLIGENCE",
     title: "UHNW · Family Office · Collector Network",
     type: "WHALE", status: "ACTIVE",
-    note: "Five primary UHNW relationships. Lily Fan: 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Rick Moeser: former CIRE Executive Director 17 years, auction referral pipeline. Tony Ingrao: interior design, Baccarat Hotel, Huntting Lane EH. Heath Freeman: Alden Capital, EHP Resort & Marina. David Gooding: Gooding Christie's, Bridge Hamptons car show, UHNW collector pipeline. Members: Lily Fan · Rick Moeser · Tony Ingrao · Heath Freeman · David Gooding.",
-    x: 120, y: 820, r: 32 },
+    note: "Primary UHNW relationships. Lily Fan: 140 Hands Creek (ANEW), 18 Tara Rd, $20–22M Brooklyn portfolio. Rick Moeser: former CIRE Executive Director 17 years, auction referral pipeline. Tony Ingrao: interior design, Baccarat Hotel, Huntting Lane EH. Heath Freeman: Alden Capital, EHP Resort & Marina. David Gooding: Gooding Christie's, Bridge Hamptons car show, UHNW collector pipeline. Jonathan Wilhelm: Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality. Art Murray: Flambeaux investor pitch, TOWN dinner engine. Josh Schnepps: Dan's Papers, 61K+ email subscribers.",
+    x: 120, y: 790, r: 32,
+    members: ["Lily Fan", "Rick Moeser", "Tony Ingrao", "Heath Freeman", "David Gooding", "Jonathan Wilhelm", "Art Murray"],
+    rw: 52, rh: 52 },
 
-  // ── RELATIONSHIP INTELLIGENCE — consolidated category node ───────────────
-  // Sprint 26 directive: Frank Newbold, Debbie Brenneman, Charlie Esposito, Art Murray,
-  //   Michael Esposito, Nola Baris, Josh Schnepps
-  // Frank Newbold doctrine: RELATIONSHIP_INTELLIGENCE. Never RECRUIT. Never cold outreach.
-  //   He comes through the brand.
+  // ── RELATIONSHIP INTELLIGENCE — consolidated category node ────────────────────
   { id: "rel_intel",
     name: "RELATIONSHIP INTELLIGENCE",
     title: "Brand Relationships · Market Intelligence",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
-    note: "Frank Newbold: RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship. Debbie Brenneman: Multi-Million Dollar Club, Top 1% NRT nationally. Charlie Esposito: Compass-merger exposed, team anchor. Art Murray: Flambeaux investor pitch, Mayacama Vintner seat, TOWN dinner engine. Michael Esposito: Charlie's son, growing producer. Nola Baris: The Baris Team, family practice, Compass-merger exposed. Josh Schnepps: $2K/month pilot active, 61K+ email subscribers, Dan's Papers. Members: Frank Newbold · Debbie Brenneman · Charlie Esposito · Art Murray · Michael Esposito · Nola Baris · Josh Schnepps.",
-    x: 330, y: 970, r: 32 },
+    note: "Frank Newbold: RELATIONSHIP_INTELLIGENCE — comes through the brand. Not cold outreach. Not Jarvis pipeline. Brand-level relationship. Debbie Brenneman: Multi-Million Dollar Club, Top 1% NRT nationally. Charlie Esposito: Compass-merger exposed, team anchor. Art Murray: Flambeaux investor pitch, Mayacama Vintner seat, TOWN dinner engine. Michael Esposito: Charlie's son, growing producer. Nola Baris: The Baris Team, family practice, Compass-merger exposed. Josh Schnepps: $2K/month pilot active, 61K+ email subscribers, Dan's Papers.",
+    x: 330, y: 940, r: 32,
+    members: ["Frank Newbold", "Debbie Brenneman", "Charlie Esposito", "Art Murray", "Michael Esposito", "Nola Baris", "Josh Schnepps"],
+    rw: 52, rh: 52 },
 
-  // ── EXPORTS — bottom center (PDF operating interface) ──────────────────────
+  // ── ATTORNEYS — consolidated category node ────────────────────────────────────
+  // All attorneys live inside this node. No standalone circles.
+  { id: "attorneys_node",
+    name: "ATTORNEYS",
+    title: "Legal Network · Romer Debbas · Tarbet & Lester",
+    type: "ATTORNEY", status: "ACTIVE",
+    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Property analysis reports tracked in Pipeline Sheet. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions.",
+    x: 960, y: 840, r: 28,
+    members: ["Pierre Debbas", "Jonathan Tarbet", "Brian Lester", "Seamus McGrath"],
+    rw: 52, rh: 38 },
+
+  // ── EXPORTS — bottom center (PDF operating interface) ─────────────────────────
   { id: "exports",
     name: "EXPORTS",
     title: "PDF Operating Interface · All Reports",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "All PDF exports generated by the platform. Click any sub-node to generate the PDF directly. Market Report · Christie's Letter · Hamlet PDFs x11 · ANEW Build Memo · Christie CMA · Deal Brief · Investment Memo · UHNW Path Card · FUTURE Pro Forma.",
-    x: 640, y: 1060, r: 28 },
+    x: 640, y: 1030, r: 28 },
 
-  // ── EXPORTS sub-nodes — nine clickable PDF triggers ───────────────────────
+  // ── EXPORTS sub-nodes — nine clickable PDF triggers ───────────────────────────
   { id: "exp_market",
     name: "Market Report",
     title: "Five-Page PDF · Live Market Matrix Data",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
-    x: 420, y: 1160, r: 10,
-    clickAction: { type: "pdf", label: "Generating Market Report PDF\u2026", fn: () => generateMarketReport() } },
+    x: 420, y: 1130, r: 10,
+    clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: () => generateMarketReport() } },
 
   { id: "exp_letter",
     name: "Christie's Letter",
     title: "Founding Letter PDF",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's East Hampton founding letter PDF.",
-    x: 510, y: 1200, r: 10,
-    clickAction: { type: "pdf", label: "Generating Christie's Letter PDF\u2026", fn: () => generateChristiesLetter() } },
+    x: 510, y: 1170, r: 10,
+    clickAction: { type: "pdf", label: "Generating Christie's Letter PDF…", fn: () => generateChristiesLetter() } },
 
   { id: "exp_flagship",
     name: "Flagship Letter",
     title: "Internal Council Document · Team-Facing",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's Flagship Letter PDF — the internal council document to Jarvis, Angel, and Ricky. Not for client distribution. Covers the full platform story, tab-by-tab walkthrough, and the model.",
-    x: 555, y: 1185, r: 10,
-    clickAction: { type: "pdf", label: "Generating Flagship Letter PDF\u2026", fn: () => generateFlagshipLetter() } },
+    x: 555, y: 1155, r: 10,
+    clickAction: { type: "pdf", label: "Generating Flagship Letter PDF…", fn: () => generateFlagshipLetter() } },
 
   { id: "exp_hamlet",
     name: "Hamlet PDFs x11",
     title: "East Hampton Village Report · All Hamlets",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the East Hampton Village Report PDF covering all eleven hamlets.",
-    x: 590, y: 1220, r: 10,
+    x: 590, y: 1190, r: 10,
     clickAction: { type: "pdf", label: "Generating Hamlet PDFs…", fn: () => generateEastHamptonVillageReport() } },
 
   { id: "exp_anew",
@@ -428,7 +341,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the ANEW Build Memo PDF. Requires a deal to be loaded in the ANEW calculator first. Click to navigate to ANEW.",
-    x: 670, y: 1220, r: 10,
+    x: 670, y: 1190, r: 10,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_cma",
@@ -436,7 +349,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Christie's CMA PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 750, y: 1200, r: 10,
+    x: 750, y: 1170, r: 10,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_brief",
@@ -444,7 +357,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Deal Brief PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 820, y: 1175, r: 10,
+    x: 820, y: 1145, r: 10,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_invest",
@@ -452,7 +365,7 @@ const NODES: MapNode[] = [
     title: "Requires Deal Loaded in ANEW Calculator",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the Investment Memo PDF. Requires a deal to be loaded in the ANEW calculator first.",
-    x: 870, y: 1140, r: 10,
+    x: 870, y: 1110, r: 10,
     clickAction: { type: "nav", tab: "anew", label: "Navigate to ANEW to load a deal first" } },
 
   { id: "exp_uhnw",
@@ -460,7 +373,7 @@ const NODES: MapNode[] = [
     title: "Live · Click to Download",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "UHNW Path Card PDF — Live. Eight rungs of structured ownership from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.",
-    x: 890, y: 1100, r: 10,
+    x: 890, y: 1070, r: 10,
     clickAction: { type: "nav", tab: "home", label: "Navigate to HOME tab to download UHNW Path Card" } },
 
   { id: "exp_future",
@@ -468,42 +381,32 @@ const NODES: MapNode[] = [
     title: "Requires FUTURE Tab Input",
     type: "EXPORT_NODE", status: "WARM",
     note: "Generates the FUTURE Pro Forma PDF. Requires FUTURE tab input data. Click to navigate to FUTURE tab.",
-    x: 880, y: 1060, r: 10,
+    x: 880, y: 1030, r: 10,
     clickAction: { type: "nav", tab: "future", label: "Navigate to FUTURE tab to set up pro forma" } },
 
-  // ── PIERRE PROPERTY REPORTS — connected to attorneys_node ─────────────────
-  { id: "pierre_reports",
-    name: "Pierre · Property Reports",
-    title: "Romer Debbas LLP · Property Analysis",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "Property analysis reports Pierre Debbas runs for Ed. Tracked in Office Pipeline Sheet: 'Property Report Date' + 'Property Report Link' columns (pending listings section). Angel manages entries.",
-    x: 760, y: 930, r: 12 },
-
-  // ── SOCIAL — bottom left (raw signal collection) ──────────────────────────
+  // ── SOCIAL — bottom left (raw signal collection) ──────────────────────────────
   { id: "social",
     name: "SOCIAL",
     title: "Signal Collection · Instagram · YouTube · TikTok · X · LinkedIn · Facebook",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "Raw signal collection layer. Ed's presence across all six platforms. Data field only — no interpretation here. Feeds directly into PERPLEXITY for synthesis and territory intelligence.",
-    x: 420, y: 1140, r: 16 },
+    x: 420, y: 1110, r: 16 },
 
-  // ── PERPLEXITY — bottom center-right (interpretation engine) ─────────────
+  // ── PERPLEXITY — bottom center-right (interpretation engine) ──────────────────
   { id: "perplexity",
     name: "PERPLEXITY",
     title: "Territory Intelligence Engine · Weekly Report",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "Interpretation engine. Receives raw social signals from SOCIAL node. Weekly output: Ed Bruehl Signal · Competitor Moves (Compass, Sotheby's) · Cross Analysis · Recommended Action. No vanity metrics. No generic advice. First report this week.",
-    x: 760, y: 1140, r: 16 },
+    x: 760, y: 1110, r: 16 },
 
-  // ── RESOURCES — Hamptons Outreach Intelligence · 5 tabs ─────────────────
-  // Sprint 30 directive (Perplexity, April 8, 2026): Wire RESOURCES node to 5 tabs
-  // of the Hamptons_Outreach_COMPLETE sheet (ID: 1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI)
+  // ── RESOURCES — Hamptons Outreach Intelligence · 5 tabs ──────────────────────
   { id: "resources",
     name: "RESOURCES",
     title: "Hamptons Outreach Intelligence · 5 Operational Tabs",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "Five strategic tabs from Hamptons_Outreach_COMPLETE sheet. Vendors & Service Partners · Builders · Architects · Accountants & Advisors · Gatekeeper Network. Click any sub-node to open the corresponding tab directly in Google Sheets.",
-    x: 1120, y: 820, r: 28 },
+    x: 1120, y: 790, r: 28 },
 
   // RESOURCES sub-nodes — each opens a specific tab in the Hamptons Outreach sheet
   { id: "res_vendors",
@@ -511,7 +414,7 @@ const NODES: MapNode[] = [
     title: "Vendors & Service Partners",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Service vendors organized by category. Opens Vendors & Service Partners tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1200, y: 720, r: 10,
+    x: 1200, y: 690, r: 10,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1943996001", label: "Opening Vendors & Service Partners…" } },
 
   { id: "res_builders",
@@ -519,7 +422,7 @@ const NODES: MapNode[] = [
     title: "Hamptons Builders & Developers",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Hamptons builders and developers. Opens Builders tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1230, y: 800, r: 10,
+    x: 1230, y: 770, r: 10,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1631109962", label: "Opening Builders…" } },
 
   { id: "res_architects",
@@ -527,7 +430,7 @@ const NODES: MapNode[] = [
     title: "Hamptons Architects",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Hamptons architects. Opens Architects tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1230, y: 870, r: 10,
+    x: 1230, y: 840, r: 10,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1942054747", label: "Opening Architects…" } },
 
   { id: "res_accountants",
@@ -535,7 +438,7 @@ const NODES: MapNode[] = [
     title: "Accountants, CPAs & Wealth Advisors",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Accountants, CPAs, and wealth advisors. Opens Accountants & Advisors tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1210, y: 940, r: 10,
+    x: 1210, y: 910, r: 10,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=156479096", label: "Opening Accountants & Advisors…" } },
 
   { id: "res_gatekeepers",
@@ -543,53 +446,23 @@ const NODES: MapNode[] = [
     title: "Gatekeeper Network · Property & Estate Managers",
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "The Gatekeeper Network — property managers and estate managers. The most strategically important tab: these are the people inside the gates before anyone else. Opens Gatekeeper Network tab in Hamptons_Outreach_COMPLETE sheet.",
-    x: 1170, y: 960, r: 10,
+    x: 1170, y: 930, r: 10,
     clickAction: { type: "url", url: "https://docs.google.com/spreadsheets/d/1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI/edit#gid=1147147253", label: "Opening Gatekeeper Network…" } },
-
-  // ── ATTORNEYS — consolidated category node ───────────────────────────────
-  // Sprint 26 directive: Pierre Debbas, Jonathan Tarbet, Brian Lester, Seamus McGrath
-  // Pierre's Property Reports stays as a separate functional node.
-  { id: "attorneys_node",
-    name: "ATTORNEYS",
-    title: "Legal Network · Romer Debbas · Tarbet & Lester",
-    type: "ATTORNEY", status: "ACTIVE",
-    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions. Members: Pierre Debbas · Jonathan Tarbet · Brian Lester · Seamus McGrath.",
-    x: 960, y: 870, r: 28 },
 ];
 
 const CONNECTIONS: MapConnection[] = [
-  // ── Crown → both tracks ──────────────────────────────────────────────────
-  { from: "artemis",   to: "pinault",    style: "hierarchy" },
-  { from: "artemis",   to: "cih",        style: "hierarchy" },
+  // ── LEFT TRACK — Auction House → Ed ─────────────────────────────────────────
+  { from: "auction_house",    to: "ed",              style: "hierarchy" },
 
-  // ── LEFT TRACK — Auction House / Family ─────────────────────────────────
-  { from: "pinault",   to: "brennan",    style: "hierarchy" },
-  { from: "brennan",   to: "tash",       style: "hierarchy" },
-  { from: "brennan",   to: "lash",       style: "hierarchy" },
-  { from: "brennan",   to: "pradels",    style: "hierarchy" },
-  { from: "brennan",   to: "kadakia",    style: "hierarchy" },
-  { from: "tash",      to: "ed",         style: "partner" },
-  { from: "lash",      to: "ed",         style: "partner" },
+  // ── RIGHT TRACK — CIRE Global → CIREG → Ed ──────────────────────────────────
+  { from: "cire_global",      to: "cireg_affiliate", style: "hierarchy" },
+  { from: "cireg_affiliate",  to: "ed",              style: "hierarchy" },
 
-  // ── DUAL CHRISTIE'S NODES — top-level connections (Sprint 42) ─────────────
-  { from: "cireg_affiliate", to: "cih",        style: "hierarchy" },
-  { from: "cireg_affiliate", to: "ilija",      style: "hierarchy" },
-  { from: "cire_global",     to: "swartzman",  style: "hierarchy" },
-  { from: "cire_global",     to: "atprops",    style: "hierarchy" },
+  // ── CPS 1 — under CIREG, secondary connection from WHALE INTELLIGENCE ─────────
+  { from: "cireg_affiliate",  to: "cps1",            style: "hierarchy" },
+  { from: "whale_intel",      to: "cps1",            style: "intelligence" },
 
-  // ── RIGHT TRACK — Real Estate Operating ─────────────────────────────────
-  { from: "cih",       to: "atprops",    style: "hierarchy" },
-  { from: "atprops",   to: "swartzman",  style: "hierarchy" },
-  { from: "swartzman", to: "ilija",      style: "hierarchy" },
-  { from: "ilija",     to: "melissa",    style: "hierarchy" },
-  { from: "ilija",     to: "sherri",     style: "hierarchy" },
-  { from: "sherri",    to: "ed",         style: "hierarchy" },
-  { from: "ilija",     to: "ed",         style: "hierarchy" },
-  // ── CPS 1 — under Ilija, secondary connection from WHALE INTELLIGENCE ──────────
-  { from: "ilija",      to: "cps1",       style: "hierarchy" },
-  { from: "whale_intel", to: "cps1",      style: "intelligence" },
-
-  // ── Ed's team (Sprint 31: two consolidated nodes) ────────────────────────
+  // ── Ed's team ────────────────────────────────────────────────────────────────
   { from: "ed", to: "flagship_team",     style: "hierarchy" },
   { from: "ed", to: "eh_office",         style: "hierarchy" },
   { from: "ed", to: "family_node",       style: "hierarchy" },
@@ -601,23 +474,17 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ed", to: "podcast_node",      style: "partner" },
   { from: "ed", to: "intel_library",     style: "intelligence" },
   { from: "ed", to: "william_node",      style: "partner" },
-  // ── Tash → Tina-Marie ────────────────────────────────────────────────────
-  { from: "tash", to: "tina_marie",      style: "hierarchy" },
-  // ── Auction Referrals — between Ed and Christie's auction house ───────────
-  { from: "tash",   to: "auction_referrals", style: "partner" },
-  { from: "lash",   to: "auction_referrals", style: "partner" },
-  { from: "auction_referrals", to: "ed",     style: "partner" },
 
-  // ── Ed to category nodes ─────────────────────────────────────────────────
+  // ── Ed to category nodes ─────────────────────────────────────────────────────
   { from: "ed", to: "whale_intel",       style: "whale" },
   { from: "ed", to: "rel_intel",         style: "recruit" },
   { from: "ed", to: "attorneys_node",    style: "partner" },
 
-  // ── EXPORTS — Ed is the operating hub for all PDF exports ──────────────────────
+  // ── EXPORTS — Ed is the operating hub for all PDF exports ─────────────────────
   { from: "ed",        to: "exports",         style: "partner" },
-  // EXPORTS sub-node connections
   { from: "exports",   to: "exp_market",      style: "intelligence" },
   { from: "exports",   to: "exp_letter",      style: "intelligence" },
+  { from: "exports",   to: "exp_flagship",    style: "intelligence" },
   { from: "exports",   to: "exp_hamlet",      style: "intelligence" },
   { from: "exports",   to: "exp_anew",        style: "intelligence" },
   { from: "exports",   to: "exp_cma",         style: "intelligence" },
@@ -625,7 +492,8 @@ const CONNECTIONS: MapConnection[] = [
   { from: "exports",   to: "exp_invest",      style: "intelligence" },
   { from: "exports",   to: "exp_uhnw",        style: "intelligence" },
   { from: "exports",   to: "exp_future",      style: "intelligence" },
-  // ── RESOURCES — Ed connects to RESOURCES hub, RESOURCES to 5 sub-nodes ──────
+
+  // ── RESOURCES — Ed connects to RESOURCES hub, RESOURCES to 5 sub-nodes ────────
   { from: "ed",          to: "resources",         style: "partner" },
   { from: "resources",   to: "res_vendors",        style: "intelligence" },
   { from: "resources",   to: "res_builders",       style: "intelligence" },
@@ -633,15 +501,12 @@ const CONNECTIONS: MapConnection[] = [
   { from: "resources",   to: "res_accountants",    style: "intelligence" },
   { from: "resources",   to: "res_gatekeepers",    style: "intelligence" },
 
-  // ── PIERRE PROPERTY REPORTS — connected to attorneys_node ──────────────────────
-  { from: "attorneys_node", to: "pierre_reports",  style: "partner" },
-  { from: "ed",             to: "pierre_reports",  style: "partner" },
-
-  // ── SOCIAL → PERPLEXITY — EXPLICIT DRAWN CONNECTION (not implied, not soft) ────────
+  // ── SOCIAL → PERPLEXITY ───────────────────────────────────────────────────────
   { from: "social",    to: "perplexity",      style: "intelligence" },
   { from: "ed",        to: "social",          style: "partner" },
   { from: "ed",        to: "perplexity",      style: "partner" },
 ];
+
 // ─── Color Maps ───────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth: number }> = {
@@ -671,7 +536,8 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   media_node:        { fill: "#2A1A2A", stroke: "rgba(200,120,200,0.6)", headerColor: "rgba(235,185,235,0.9)" },
   family_node:       { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" },
   cps1:              { fill: "#1A2A3A", stroke: "rgba(120,172,220,0.7)", headerColor: "rgba(180,220,255,0.9)" },
-  // Sprint 42 dual Christie's nodes
+  // Institutional nodes
+  auction_house:     { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
   cireg_affiliate:   { fill: "#1b2a4a", stroke: "#c8ac78", headerColor: "#e8d4a0" },
   cire_global:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#c8ac78" },
 };
@@ -692,43 +558,35 @@ const STATUS_COLORS: Record<NodeStatus, { bg: string; color: string }> = {
 };
 
 const SECTION_LABELS = [
-  { text: "ARTÉMIS · PINAULT FAMILY",               x: 640,  y: 28  },
-  { text: "AUCTION HOUSE · FAMILY SIDE",             x: 290,  y: 128 },
-  { text: "REAL ESTATE OPERATING SIDE",              x: 990,  y: 128 },
-  { text: "GOVERNANCE",                              x: 290,  y: 210 },
-  { text: "OPERATIONS",                              x: 290,  y: 318 },
-  { text: "RELATIONSHIP LAYER",                      x: 290,  y: 358 },
-  { text: "CIH · COMPASS INTL HOLDINGS",             x: 990,  y: 210 },
-  { text: "@PROPERTIES · CIRE BRAND",                x: 990,  y: 318 },
-  { text: "CIREG TRI-STATE",                         x: 990,  y: 448 },
-  { text: "CHRISTIE\'S EAST HAMPTON",                x: 640,  y: 698 },
-  { text: "FLAGSHIP TEAM",                           x: 480,  y: 808 },
-  { text: "EAST HAMPTON OFFICE",                     x: 700,  y: 808 },
-  { text: "AUCTION REFERRALS",                       x: 480,  y: 558 },
-  { text: "RECRUITING",                              x: 200,  y: 808 },
-  { text: "MEDIA",                                   x: 200,  y: 918 },
-  { text: "AnewHomes",                              x: 120,  y: 918 },
-  { text: "COUNCIL",                                 x: 480,  y: 918 },
-  { text: "INTEL LIBRARY",                           x: 640,  y: 918 },
-  { text: "WILLIAM",                                 x: 760,  y: 918 },
-  { text: "PODCAST",                                 x: 120,  y: 1028 },
-  { text: "COMPETITORS",                             x: 330,  y: 1028 },
-  { text: "WHALE INTELLIGENCE",                      x: 120,  y: 748 },
-  { text: "RELATIONSHIP INTELLIGENCE",               x: 330,  y: 888 },
-  { text: "ATTORNEYS",                               x: 960,  y: 808 },
-  { text: "PDF EXPORTS · OPERATING INTERFACE",       x: 640,  y: 1040 },
-  { text: "PROPERTY REPORTS",                        x: 760,  y: 912  },
-  { text: "SOCIAL · SIGNAL COLLECTION",              x: 420,  y: 1118 },
-  { text: "PERPLEXITY · TERRITORY INTELLIGENCE",     x: 760,  y: 1118 },
-  { text: "RESOURCES · HAMPTONS OUTREACH",             x: 1120, y: 788  },
-  { text: "CPS 1 · INTERNATIONAL PIPELINE",             x: 1100, y: 438  },
+  { text: "AUCTION HOUSE · ARTÉMIS / PINAULT FAMILY",  x: 310,  y: 128 },
+  { text: "CIRE GLOBAL · 100+ AFFILIATES · 50 COUNTRIES", x: 970, y: 128 },
+  { text: "CIREG TRI-STATE · NY/NJ/CT",                x: 970,  y: 408 },
+  { text: "CHRISTIE'S EAST HAMPTON",                   x: 640,  y: 648 },
+  { text: "FLAGSHIP TEAM",                             x: 480,  y: 768 },
+  { text: "EAST HAMPTON OFFICE",                       x: 700,  y: 768 },
+  { text: "RECRUITING",                                x: 200,  y: 768 },
+  { text: "MEDIA",                                     x: 200,  y: 888 },
+  { text: "AnewHomes",                                 x: 120,  y: 888 },
+  { text: "COUNCIL",                                   x: 480,  y: 888 },
+  { text: "INTEL LIBRARY",                             x: 640,  y: 888 },
+  { text: "WILLIAM",                                   x: 760,  y: 888 },
+  { text: "PODCAST",                                   x: 120,  y: 998 },
+  { text: "COMPETITORS",                               x: 330,  y: 998 },
+  { text: "WHALE INTELLIGENCE",                        x: 120,  y: 738 },
+  { text: "RELATIONSHIP INTELLIGENCE",                 x: 330,  y: 888 },
+  { text: "ATTORNEYS",                                 x: 960,  y: 788 },
+  { text: "PDF EXPORTS · OPERATING INTERFACE",         x: 640,  y: 1000 },
+  { text: "SOCIAL · SIGNAL COLLECTION",                x: 420,  y: 1088 },
+  { text: "PERPLEXITY · TERRITORY INTELLIGENCE",       x: 760,  y: 1088 },
+  { text: "RESOURCES · HAMPTONS OUTREACH",             x: 1120, y: 758  },
+  { text: "CPS 1 · INTERNATIONAL PIPELINE",            x: 1100, y: 438  },
 ];
 
 // ─── View filter logic ────────────────────────────────────────────────────────
 
 function isNodeVisible(node: MapNode, view: ViewMode): boolean {
   if (view === "full") return true;
-  if (view === "hierarchy") return node.type === "HIERARCHY";
+  if (view === "hierarchy") return node.type === "HIERARCHY" || node.type === "CATEGORY";
   if (view === "recruit")   return node.type === "HIERARCHY" || node.type === "RECRUIT" || node.type === "RELATIONSHIP_INTELLIGENCE" || node.type === "CATEGORY";
   if (view === "whale")     return node.type === "HIERARCHY" || node.type === "WHALE" || (node.type === "CATEGORY" && node.id === "whale_intel");
   return true;
@@ -741,7 +599,7 @@ function isConnectionVisible(conn: MapConnection, view: ViewMode): boolean {
   return isNodeVisible(from, view) && isNodeVisible(to, view);
 }
 
-// ─── Helper: get the anchor point of a node (center for circles, center for rects) ──
+// ─── Helper: get the anchor point of a node ───────────────────────────────────
 
 function nodeCenter(node: MapNode): { x: number; y: number } {
   return { x: node.x, y: node.y };
@@ -925,13 +783,13 @@ export function InstitutionalMindMap() {
       {/* SVG Canvas */}
       <div style={{ padding: "0 16px 32px", overflowX: "auto" }}>
         <svg
-          viewBox="0 0 1280 1280"
+          viewBox="0 0 1280 1240"
           style={{ width: "100%", height: "auto", display: "block", minWidth: "640px" }}
           xmlns="http://www.w3.org/2000/svg"
         >
           {/* Track divider — vertical dashed center line */}
           <line
-            x1={640} y1={80} x2={640} y2={700}
+            x1={640} y1={80} x2={640} y2={650}
             stroke="rgba(200,172,120,0.08)"
             strokeWidth="1"
             strokeDasharray="6,6"
@@ -987,7 +845,9 @@ export function InstitutionalMindMap() {
             const isHier  = node.type === "HIERARCHY";
             const dimmed  = connected ? !connected.has(node.id) : false;
             const isCategory = node.type === "CATEGORY" && node.members && node.rw && node.rh;
-            const catColors = isCategory ? CATEGORY_COLORS[node.id] : null;
+            // Also treat WHALE/ATTORNEY/RELATIONSHIP_INTELLIGENCE nodes with members as category-style
+            const isMemberNode = !isCategory && node.members && node.rw && node.rh;
+            const catColors = CATEGORY_COLORS[node.id] ?? null;
 
             return (
               <g
@@ -1002,13 +862,11 @@ export function InstitutionalMindMap() {
                 onMouseMove={handleNodeMove}
                 onClick={() => handleNodeClick(node)}
               >
-                {/* ── CATEGORY NODE — circle with member names inside ── */}
-                {isCategory && node.rw && node.rh && catColors ? (
+                {/* ── CATEGORY / MEMBER NODE — circle with member names inside ── */}
+                {(isCategory || isMemberNode) && node.rw && catColors ? (
                   (() => {
-                    // Use rw as the circle radius (circles only — no rectangles)
                     const cr = node.rw;
                     const memberCount = node.members!.length;
-                    // Title sits at top of circle; members spaced below
                     const titleY = node.y - cr + 18;
                     const membersStartY = titleY + 16;
                     return (
@@ -1060,7 +918,7 @@ export function InstitutionalMindMap() {
                             y={membersStartY + idx * 12}
                             textAnchor="middle"
                             fill="rgba(250,248,244,0.75)"
-                            fontSize="8"
+                            fontSize="7.5"
                             fontFamily="Inter, sans-serif"
                             letterSpacing="0.3"
                           >
@@ -1083,18 +941,6 @@ export function InstitutionalMindMap() {
                       />
                     )}
 
-                    {/* Artémis outer ring */}
-                    {node.id === "artemis" && (
-                      <circle
-                        cx={node.x} cy={node.y}
-                        r={node.r + 6}
-                        fill="none"
-                        stroke="rgba(200,172,120,0.2)"
-                        strokeWidth="1"
-                        strokeDasharray="4,3"
-                      />
-                    )}
-
                     {/* Main circle */}
                     <circle
                       cx={node.x} cy={node.y}
@@ -1104,16 +950,6 @@ export function InstitutionalMindMap() {
                       strokeWidth={colors.strokeWidth}
                       style={{ filter: hoveredId === node.id ? "brightness(1.4)" : undefined }}
                     />
-
-                    {/* Artémis crown ◆ */}
-                    {node.id === "artemis" && (
-                      <text x={node.x} y={node.y - node.r - 7} textAnchor="middle" fill="#c8ac78" fontSize="12">◆</text>
-                    )}
-
-                    {/* FHP crown ▲ */}
-                    {node.id === "pinault" && (
-                      <text x={node.x} y={node.y - node.r - 6} textAnchor="middle" fill="#c8ac78" fontSize="12">▲</text>
-                    )}
 
                     {/* Node label */}
                     <text
