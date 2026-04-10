@@ -792,8 +792,8 @@ export function InstitutionalMindMap() {
               x={lbl.x}
               y={lbl.y}
               textAnchor="middle"
-              fill="rgba(200,172,120,0.3)"
-              fontSize="10"
+              fill="rgba(200,172,120,0.55)"
+              fontSize="12"
               letterSpacing="2.5"
               fontFamily="'Cormorant Garamond', serif"
               style={{ textTransform: "uppercase" }}
@@ -884,31 +884,31 @@ export function InstitutionalMindMap() {
                           x={node.x}
                           y={titleY}
                           textAnchor="middle"
-                          fill={catColors.headerColor}
-                          fontSize="8"
+                          fill="rgba(255,255,255,0.97)"
+                          fontSize="11"
                           fontWeight="700"
                           fontFamily="Inter, sans-serif"
                           letterSpacing="1.5"
                         >
                           {node.name}
                         </text>
-                        {/* Divider arc line */}
-                        <line
+                        {/* Divider arc line — only visible on hover */}
+                        {hoveredId === node.id && <line
                           x1={node.x - cr * 0.6} y1={titleY + 5}
                           x2={node.x + cr * 0.6} y2={titleY + 5}
                           stroke={catColors.stroke}
                           strokeWidth="0.5"
                           opacity="0.5"
-                        />
-                        {/* Member names */}
-                        {node.members!.map((name, idx) => (
+                        />}
+                        {/* Member names — only visible on hover */}
+                        {hoveredId === node.id && node.members!.map((name, idx) => (
                           <text
                             key={name}
                             x={node.x}
                             y={membersStartY + idx * 12}
                             textAnchor="middle"
-                            fill="rgba(250,248,244,0.75)"
-                            fontSize="7.5"
+                            fill="rgba(255,255,255,0.92)"
+                            fontSize="9.5"
                             fontFamily="Inter, sans-serif"
                             letterSpacing="0.3"
                           >
@@ -946,9 +946,9 @@ export function InstitutionalMindMap() {
                       x={node.x}
                       y={node.y + node.r + 15}
                       textAnchor="middle"
-                      fill={isEd ? "#c8ac78" : isHier ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.85)"}
-                      fontSize={isEd ? "13" : isHier ? "11" : "10"}
-                      fontWeight={isEd ? "600" : isHier ? "500" : "400"}
+                      fill={isEd ? "#c8ac78" : "rgba(255,255,255,0.97)"}
+                      fontSize={isEd ? "15" : isHier ? "13" : "12"}
+                      fontWeight={isEd ? "700" : isHier ? "600" : "500"}
                       fontFamily="Inter, sans-serif"
                       letterSpacing="0.5"
                       style={{ filter: hoveredId === node.id ? "brightness(1.3)" : undefined }}
