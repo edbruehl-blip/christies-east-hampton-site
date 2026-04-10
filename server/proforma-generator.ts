@@ -36,8 +36,8 @@ function profitPool(vol: number): { above: number; pool: number; ed: number; ili
   return {
     above,
     pool,
-    ed: pool * 0.30,
-    ilija: pool * 0.65,
+    ed: pool * 0.35,
+    ilija: pool * 0.60,
     christies: pool * 0.05,
   };
 }
@@ -60,12 +60,12 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   // Volume projections per year
   // Council-approved doctrine targets (Sprint 36) — use Math.max so sheet can only go up, never below doctrine
   const outlookYears = [
-    { year: '2026', vol: Math.max(total.proj2026 || 0, 55_000_000) },
-    { year: '2027', vol: Math.max(total.proj2027 || 0, 100_000_000) },
-    { year: '2028', vol: Math.max(total.proj2028 || 0, 165_000_000) },
-    { year: '2029', vol: Math.max(total.proj2029 || 0, 230_000_000) },
-    { year: '2030', vol: Math.max(total.proj2030 || 0, 320_000_000) },
-    { year: '2031', vol: Math.max(total.proj2031 || 0, 430_000_000) },
+    { year: '2026', vol: Math.max(total.proj2026 || 0, 107_500_000) },
+    { year: '2027', vol: Math.max(total.proj2027 || 0, 273_000_000) },
+    { year: '2028', vol: Math.max(total.proj2028 || 0, 383_500_000) },
+    { year: '2030', vol: Math.max(total.proj2030 || 0, 641_400_000) },
+    { year: '2031', vol: Math.max(total.proj2031 || 0, 798_500_000) },
+    { year: '2033', vol: 1_101_000_000 },
   ];
 
   // GCI from OUTPUTS
@@ -74,7 +74,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   const houseTake2026 = row2026?.houseTake || 924_000;
 
   // Bar chart max
-  const maxVol = 430_000_000;
+  const maxVol = 1_101_000_000;
 
   const STYLES = `
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap');

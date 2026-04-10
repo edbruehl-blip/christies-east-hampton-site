@@ -1316,3 +1316,12 @@
 - [ ] FIVE: Pipeline — add 25 Horseshoe Road $5.75M IN CONTRACT (wire confirmed, expected close 5 weeks)
 - [ ] FIVE: Pipeline — add 191 Bull Path $3.3M ACTIVE LISTING (live April 10, open houses this weekend)
 - [ ] SIX: Return all five confirmation screenshots before sprint closes
+
+## Sprint 44 — Seven Visual Edits (April 10, 2026)
+- [x] ONE: Rename document title to "Christie's Ascension Arc" everywhere it appears
+- [x] TWO: Rebuild Ascension Arc chart — 7 bars: 2025 $15M, 2026 $107.5M, 2027 $273M, 2028 $383.5M, 2030 $641.4M, 2031 $798.5M, 2033 $1.101B — final bar solid gold, bold label, no dashed line
+- [x] THREE: Second 100 Days card — $13.62M Active, dates Mar – Apr 29, 2026
+- [x] FOUR: Third 100 Days card — start date April 29, 2026, Christie's East Hampton Official Flagship Launch
+- [x] FIVE: Ed profit pool percentage — 30% → 35% on every surface (FUTURE tab, exported PDFs, pro forma, proforma-generator.ts)
+- [x] SIX: Closing line on both pro formas — "The foundation is proven. The model is working. The next 14 days set the trajectory."
+- [x] SEVEN: Ilija pro forma — profit pool percentages only, asterisk note: "Governing principle · not yet contractual."

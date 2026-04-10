@@ -15,20 +15,20 @@ import '@/styles/future-print.css';
 
 // ─── Council-governed milestone targets ──────────────────────────────────────
 const MILESTONE_TARGETS = {
-  2025: { volume: 15_000_000, displayVolume: '$15M', label: 'Baseline', note: 'Bonita DeWolf pre-launch baseline', isBaseline: true },
-  2026: { volume: 55_000_000, displayVolume: '$55M', label: 'Target', note: null, isBaseline: false },
-  2027: { volume: 105_000_000, displayVolume: '$100M–$110M', label: '$100M–$110M', note: null, isBaseline: false },
-  2028: { volume: 165_000_000, displayVolume: '$165M', label: '$165M', note: null, isBaseline: false },
-  2029: { volume: 230_000_000, displayVolume: '$230M', label: '$230M', note: null, isBaseline: false },
-  2030: { volume: 320_000_000, displayVolume: '$320M', label: '$320M', note: null, isBaseline: false },
-  2031: { volume: 430_000_000, displayVolume: '$430M', label: '$430M', note: null, isBaseline: false },
+  2025: { volume: 15_000_000,    displayVolume: '$15M',    label: 'Baseline', note: 'Bonita DeWolf pre-launch baseline', isBaseline: true },
+  2026: { volume: 107_500_000,   displayVolume: '$107.5M', label: '$107.5M', note: null, isBaseline: false },
+  2027: { volume: 273_000_000,   displayVolume: '$273M',   label: '$273M',   note: null, isBaseline: false },
+  2028: { volume: 383_500_000,   displayVolume: '$383.5M', label: '$383.5M', note: null, isBaseline: false },
+  2030: { volume: 641_400_000,   displayVolume: '$641.4M', label: '$641.4M', note: null, isBaseline: false },
+  2031: { volume: 798_500_000,   displayVolume: '$798.5M', label: '$798.5M', note: null, isBaseline: false },
+  2033: { volume: 1_101_000_000, displayVolume: '$1.101B', label: '$1.101B', note: null, isBaseline: false },
 } as const;
 
 const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
 const SANS: React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
 
-const MAX_VOLUME = MILESTONE_TARGETS[2031].volume;
+const MAX_VOLUME = MILESTONE_TARGETS[2033].volume;
 const CHART_HEIGHT = 220; // px
 
 function fmtVol(n: number): string {
@@ -131,9 +131,9 @@ export default function FutureTab() {
       },
       { year: '2027', ...MILESTONE_TARGETS[2027], segments: null, isClosed: false },
       { year: '2028', ...MILESTONE_TARGETS[2028], segments: null, isClosed: false },
-      { year: '2029', ...MILESTONE_TARGETS[2029], segments: null, isClosed: false },
       { year: '2030', ...MILESTONE_TARGETS[2030], segments: null, isClosed: false },
       { year: '2031', ...MILESTONE_TARGETS[2031], segments: null, isClosed: false },
+      { year: '2033', ...MILESTONE_TARGETS[2033], segments: null, isClosed: false },
     ];
   }, [volData]);
 
@@ -145,7 +145,7 @@ export default function FutureTab() {
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-              Growth Model v2 · 300-Day Arc · Ascension
+              Christie's Ascension Arc
             </div>
             <h2 style={{ ...SERIF, color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
               Future
@@ -192,7 +192,7 @@ export default function FutureTab() {
 
         {/* ── Ascension Arc ────────────────────────────────────────────────────── */}
         <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Ascension Arc · Sales Volume Trajectory
+          Christie's Ascension Arc · Sales Volume Trajectory
         </div>
         <div className="mb-10 p-6 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
           <div style={{ overflowX: 'auto' }}>
@@ -243,7 +243,8 @@ export default function FutureTab() {
                   background: 'repeating-linear-gradient(to bottom, #C8AC78 0, #C8AC78 5px, transparent 5px, transparent 10px)',
                 }} />
                 <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center', lineHeight: 1.3 }}>
-                  2032–2033<br />Horizon
+                  2033<br />
+                  $1.101B
                 </div>
               </div>
             </div>
@@ -251,7 +252,7 @@ export default function FutureTab() {
           {/* $1B Horizon footnote — Item 5 */}
           <div className="mt-4 px-4 py-2 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.4)', background: 'rgba(200,172,120,0.03)' }}>
             <p style={{ ...SANS, color: 'rgba(27,42,74,0.55)', fontSize: '0.72rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
-              Three-office model at current growth assumptions. Horizon marker based on compound trajectory. Conservative single-office arithmetic reaches $430M by 2031.
+              Three-office model at current growth assumptions. Christie's Ascension Arc reaches $1.101B by 2033 under compound trajectory. Council-governed milestone targets — not guarantees.
             </p>
           </div>
           {/* Assumptions Box — Item 6 */}
@@ -259,7 +260,7 @@ export default function FutureTab() {
             <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 8, fontWeight: 700 }}>Model Assumptions — Base Case</div>
             <div style={{ ...SANS, color: '#384249', fontSize: '0.75rem', lineHeight: 1.8 }}>
               — Agent GCI growth rate: 20% annually, $1M personal cap<br />
-              — House take: 30% of gross commissions on volume above $40M breakeven<br />
+              — House take: 35% of gross commissions on volume above $40M breakeven<br />
               — Southampton office: opens 2028<br />
               — Westhampton office: opens 2030
             </div>
@@ -269,7 +270,7 @@ export default function FutureTab() {
             {[
               { color: '#1B2A4A', label: `2026 Closed · ${fmtVol(liveAct2026)}` },
               { color: '#8a7a5a', label: '2026 Active Pipeline · $13.62M' },
-              { color: 'rgba(200,172,120,0.35)', border: '#C8AC78', label: '2026 Projected to $55M Total' },
+              { color: 'rgba(200,172,120,0.35)', border: '#C8AC78', label: '2026 Projected to $107.5M Total' },
             ].map(l => (
               <div key={l.label} className="flex items-center gap-2">
                 <div style={{ width: 12, height: 12, background: l.color, border: l.border ? `1px solid ${l.border}` : undefined, flexShrink: 0 }} />
@@ -286,8 +287,8 @@ export default function FutureTab() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
           {[
             { label: 'First 100 Days', period: 'Dec 2025 – Mar 2026', volume: '$4.57M', desc: 'Closed volume. Office open. Systems deployed. Ed Bruehl solo.', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4' },
-            { label: 'Second 100 Days', period: 'Mar – May 1, 2026', volume: '$13.62M', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked. Media partnership negotiated from $115K ask to $9K pilot. Proof-of-value before expansion.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
-            { label: 'Third 100 Days', period: 'May 1 – Aug 2026', volume: '$55M', desc: 'Projected total. Operating scale. East End market presence established.', badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
+            { label: 'Second 100 Days', period: 'Mar – Apr 29, 2026', volume: '$13.62M Active', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked. Media partnership negotiated from $115K ask to $9K pilot. Proof-of-value before expansion.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
+            { label: 'Third 100 Days', period: 'Apr 29 – Aug 2026', volume: '$55M', desc: "Christie's East Hampton Official Flagship Launch. First Wednesday Caravan. Operating scale. East End market presence established.", badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
           ].map(block => (
             <div key={block.label} className="p-5 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
               <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{block.label}</div>
@@ -450,7 +451,7 @@ export default function FutureTab() {
             </div>
             <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
               <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
-                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 30%. AnewHomes pool: Y1 $50K · Y2 $150K · Y3 $300K · Y4+ 10% annual compounding from $300K. Ed 35% share applied to pool each year.
+                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 35%. AnewHomes pool: Y1 $50K · Y2 $150K · Y3 $300K · Y4+ 10% annual compounding from $300K. Ed 35% share applied to pool each year.
               </p>
             </div>
         </>
@@ -469,7 +470,7 @@ export default function FutureTab() {
               <p style={{ ...SANS, color: '#384249', fontSize: '0.8rem', lineHeight: 1.65, margin: 0 }}>
                 Formula: Pool = (Total Sales Volume − <strong style={{ color: '#1B2A4A' }}>$40M breakeven</strong>) × <strong style={{ color: '#1B2A4A' }}>2%</strong>.
                 If volume &lt; $40M, pool = $0.&nbsp;&nbsp;
-                Split: <strong style={{ color: '#1B2A4A' }}>Ed Bruehl 30%</strong> · <strong style={{ color: '#1B2A4A' }}>Ilija 65%</strong> · <strong style={{ color: '#1B2A4A' }}>Christie's RE Rights 5%</strong>.
+                Split: <strong style={{ color: '#1B2A4A' }}>Ed Bruehl 35%</strong> · <strong style={{ color: '#1B2A4A' }}>Ilija 60%</strong> · <strong style={{ color: '#1B2A4A' }}>Christie's RE Rights 5%</strong>.
                 Paid at year end. Not salary. Not splits. Profit participation.
               </p>
             </div>
@@ -477,25 +478,25 @@ export default function FutureTab() {
               <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (30%)', 'Partnership (65%)', "Christie's RE (5%)"].map(h => (
+                    {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (35%)', 'Partnership (60%)', "Christie's RE (5%)"].map(h => (
                       <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {[
-                    { year: '2026', vol: total.proj2026 || 55_000_000 },
-                    { year: '2027', vol: total.proj2027 || 100_000_000 },
-                    { year: '2028', vol: total.proj2028 || 165_000_000 },
-                    { year: '2029', vol: total.proj2029 || 230_000_000 },
-                    { year: '2030', vol: total.proj2030 || 320_000_000 },
-                    { year: '2031', vol: total.proj2031 || 430_000_000 },
+                    { year: '2026', vol: total.proj2026 || 107_500_000 },
+                    { year: '2027', vol: total.proj2027 || 273_000_000 },
+                    { year: '2028', vol: total.proj2028 || 383_500_000 },
+                    { year: '2030', vol: total.proj2030 || 641_400_000 },
+                    { year: '2031', vol: total.proj2031 || 798_500_000 },
+                    { year: '2033', vol: 1_101_000_000 },
                   ].map((row, i) => {
                     const BREAKEVEN = 40_000_000;
                     const aboveBreakeven = Math.max(0, row.vol - BREAKEVEN);
                     const pool = aboveBreakeven * 0.02;
-                    const edShare = pool * 0.30;
-                    const ilijaShare = pool * 0.65;
+                    const edShare = pool * 0.35;
+                    const ilijaShare = pool * 0.60;
                     const christiesShare = pool * 0.05;
                     return (
                       <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
@@ -537,7 +538,7 @@ export default function FutureTab() {
                 { label: 'Named Team Members', value: '9', note: 'On payroll or contracted as of April 7, 2026', badge: 'Verified', badgeBg: 'rgba(27,42,74,0.08)', badgeColor: '#1B2A4A', valColor: '#1B2A4A' },
                 { label: 'Flambeaux Listing', value: '$6,500,000', note: 'Flambeaux · Active listing · Anchor deal for Q2 2026', badge: 'Active', badgeBg: 'rgba(200,172,120,0.2)', badgeColor: '#C8AC78', valColor: '#8a7a5a' },
                 { label: '2026 Baseline Target', value: '$55,000,000', note: 'Full-year sales volume target · MODEL projection', badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.4)' },
-                { label: 'Growth Trajectory', value: '$430M by 2031', note: 'Ascension arc · Council-governed · MODEL projections only', badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.3)' },
+                { label: 'Growth Trajectory', value: '$1.101B by 2033', note: "Christie's Ascension Arc · Council-governed · MODEL projections only", badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.3)' },
               ].map(item => (
                 <div key={item.label} className="p-4 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
                   <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{item.label}</div>

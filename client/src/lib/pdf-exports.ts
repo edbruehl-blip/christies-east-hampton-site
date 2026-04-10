@@ -1226,15 +1226,16 @@ export interface FutureReportInput {
 }
 
 const FUTURE_MILESTONES = [
-  { year: '2025', volume: 15_000_000,  display: '$15M',           isBaseline: true  },
-  { year: '2026', volume: 55_000_000,  display: '$55M',           isBaseline: false },
-  { year: '2027', volume: 105_000_000, display: '$100M\u2013$110M', isBaseline: false },
-  { year: '2028', volume: 165_000_000, display: '$165M',          isBaseline: false },
-  { year: '2029', volume: 230_000_000, display: '$230M',          isBaseline: false },
-  { year: '2031', volume: 430_000_000, display: '$430M',          isBaseline: false },
+  { year: '2025', volume: 15_000_000,    display: '$15M',    isBaseline: true  },
+  { year: '2026', volume: 107_500_000,   display: '$107.5M', isBaseline: false },
+  { year: '2027', volume: 273_000_000,   display: '$273M',   isBaseline: false },
+  { year: '2028', volume: 383_500_000,   display: '$383.5M', isBaseline: false },
+  { year: '2030', volume: 641_400_000,   display: '$641.4M', isBaseline: false },
+  { year: '2031', volume: 798_500_000,   display: '$798.5M', isBaseline: false },
+  { year: '2033', volume: 1_101_000_000, display: '$1.101B', isBaseline: false },
 ] as const;
 
-const FUTURE_MAX_VOL = 430_000_000;
+const FUTURE_MAX_VOL = 1_101_000_000;
 
 const LP = {
   w: 279.4, h: 215.9, ml: 16, mr: 16, mt: 14, mb: 18,
@@ -1402,9 +1403,9 @@ export async function generateFutureReportPDF(input: FutureReportInput): Promise
   doc.text('PROFIT POOL \u00b7 THE ECONOMIC LOGIC', LP.ml, ppY);
 
   const ppRows = [
-    { year: '2026', vol: '$55M',  pool: '$300K', edShare: '$100K' },
-    { year: '2027', vol: '$100M', pool: '$1.2M', edShare: '$400K' },
-    { year: '2028', vol: '$165M', pool: '$2.5M', edShare: '$833K' },
+    { year: '2026', vol: '$107.5M', pool: '$1.35M', edShare: '$473K' },
+    { year: '2027', vol: '$273M',   pool: '$4.66M', edShare: '$1.63M' },
+    { year: '2028', vol: '$383.5M', pool: '$6.87M', edShare: '$2.4M' },
   ];
   const ppColW = barAreaW / ppRows.length - 2;
   ppRows.forEach((r, i) => {
@@ -1849,15 +1850,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     'Angel, the machine moves because you keep it moving. Tell us where it is slowing down.',
     'Ricky, this is what your counsel forced us to become. Tell us if it lives up to what you meant.',
     '',
-    'The work is right \u2014 we believe that. But we need you to verify it.',
-    '',
-    'The system is now strong enough to carry the work forward. The people are right. The land is not going anywhere.',
-    '',
-    'Tell the truth. Know the territory. Sit on the same side of the table as the family.',
-    '',
-    'Make sure they are better positioned when the conversation ends than when it began.',
-    '',
-    'That is the Christie\u2019s way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.',
+    'The foundation is proven. The model is working. The next 14 days set the trajectory.',
   ];
   for (const line of closingLines) {
     if (y + LINE_H > PAGE.h - 40) { doc.addPage(); y = 20; }
@@ -1957,15 +1950,15 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
 
   // Staircase bars
   const MILESTONES = [
-    { year: '2025', vol: 15_000_000,   disp: '$15M',  base: true  },
-    { year: '2026', vol: 55_000_000,   disp: '$55M',  base: false },
-    { year: '2027', vol: 105_000_000,  disp: '$105M', base: false },
-    { year: '2028', vol: 165_000_000,  disp: '$165M', base: false },
-    { year: '2029', vol: 230_000_000,  disp: '$230M', base: false },
-    { year: '2031', vol: 430_000_000,  disp: '$430M', base: false },
-    { year: '2032+', vol: 1_000_000_000, disp: '$1B', base: false },
+    { year: '2025', vol: 15_000_000,    disp: '$15M',    base: true  },
+    { year: '2026', vol: 107_500_000,   disp: '$107.5M', base: false },
+    { year: '2027', vol: 273_000_000,   disp: '$273M',   base: false },
+    { year: '2028', vol: 383_500_000,   disp: '$383.5M', base: false },
+    { year: '2030', vol: 641_400_000,   disp: '$641.4M', base: false },
+    { year: '2031', vol: 798_500_000,   disp: '$798.5M', base: false },
+    { year: '2033', vol: 1_101_000_000, disp: '$1.101B', base: false },
   ];
-  const MAXVOL = 1_000_000_000;
+  const MAXVOL = 1_101_000_000;
   const CHART_H = 40;
   const barW = (cw - (MILESTONES.length - 1) * 2) / MILESTONES.length;
   const closed26 = total.act2026 || liveAct2026 || 4_570_000;
@@ -2012,7 +2005,7 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('MODEL ASSUMPTIONS — BASE CASE', P.ml + 3, py + 4);
   const assumptions = [
     '— Agent GCI growth rate: 20% annually, $1M personal cap',
-    '— House take: 30% of gross commissions on volume above $40M breakeven',
+    '— House take: 35% of gross commissions on volume above $40M breakeven',
     '— Southampton office: opens 2028  ·  Westhampton office: opens 2030',
   ];
   doc.setFontSize(5.5); doc.setFont('helvetica', 'normal'); doc.setTextColor(...CS.navy);
@@ -2127,34 +2120,36 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('PROFIT POOL · THE ECONOMIC LOGIC', P.ml, py);
   py += 6;
   py = drawTable(
-    ['Year', 'Volume', 'Pool', 'Ed 30%', 'Note'],
-    [cw * 0.1, cw * 0.12, cw * 0.16, cw * 0.16, cw * 0.46],
+    ['Year', 'Volume', 'Pool (2%)', 'Ed *', 'Ilija *', "Christie's RE *"],
+    [cw * 0.1, cw * 0.14, cw * 0.14, cw * 0.14, cw * 0.14, cw * 0.34],
     [
-      ['2026', '$55M',  '$300K',  '$90K',    'Year 1 baseline'],
-      ['2027', '$100M', '$1.2M',  '$360K',   'Stabilized'],
-      ['2028', '$165M', '$2.5M',  '$750K',   'Southampton opens'],
-      ['2029', '$230M', '$3.8M',  '$1.14M',  'Scale phase'],
-      ['2030', '$320M', '$5.6M',  '$1.68M',  'Westhampton opens'],
-      ['2031', '$430M', '$7.8M',  '$2.34M',  'Three-office model'],
+      ['2026', '$107.5M', '2% above $40M', '35%', '60%', '5%'],
+      ['2027', '$273M',   '2% above $40M', '35%', '60%', '5%'],
+      ['2028', '$383.5M', '2% above $40M', '35%', '60%', '5%'],
+      ['2030', '$641.4M', '2% above $40M', '35%', '60%', '5%'],
+      ['2031', '$798.5M', '2% above $40M', '35%', '60%', '5%'],
+      ['2033', '$1.101B', '2% above $40M', '35%', '60%', '5%'],
     ],
     py
   );
+  py += 4;
+  doc.setFontSize(5); doc.setFont('helvetica', 'italic'); doc.setTextColor(...CS.muted);
+  doc.text('* Governing principle · not yet contractual. Pool activates above $40M total sales volume. Dollar projections available in the FUTURE tab.', P.ml, py, { maxWidth: cw });
   py += 7;
-
-  // Managing Director Total
+  // Managing Director Totall
   doc.setFontSize(9); doc.setFont('helvetica', 'bold'); doc.setTextColor(...CS.navy);
   doc.text('MANAGING DIRECTOR — TOTAL PROJECTED INCOME', P.ml, py);
   py += 6;
   py = drawTable(
-    ['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 35%)', 'Total'],
+    ['Year', 'Personal GCI', 'Profit Pool (Ed 35%)', 'AnewHomes (Ed 35%)', 'Total'],
     [cw * 0.1, cw * 0.22, cw * 0.22, cw * 0.18, cw * 0.28],
     [
-      ['2026', '$660,000',         '$90,000',    '$17,500',  '$767,500'],
-      ['2027', '$792,000',         '$360,000',   '$52,500',  '$1,204,500'],
-      ['2028', '$950,400',         '$750,000',   '$105,000', '$1,805,400'],
-      ['2029', '$1,000,000 (cap)', '$1,140,000', '$115,500', '$2,255,500'],
-      ['2030', '$1,000,000 (cap)', '$1,680,000', '$127,050', '$2,807,050'],
-      ['2031', '$1,000,000 (cap)', '$2,340,000', '$139,755', '$3,479,755'],
+      ['2026', '$660,000',         '$473,000',   '$17,500',  '$1,150,500'],
+      ['2027', '$792,000',         '$1,631,000', '$52,500',  '$2,475,500'],
+      ['2028', '$950,400',         '$2,405,000', '$105,000', '$3,460,400'],
+      ['2030', '$1,000,000 (cap)', '$4,210,000', '$127,050', '$5,337,050'],
+      ['2031', '$1,000,000 (cap)', '$5,310,000', '$139,755', '$6,449,755'],
+      ['2033', '$1,000,000 (cap)', '$7,430,000', '$154,000', '$8,584,000'],
     ],
     py
   );
