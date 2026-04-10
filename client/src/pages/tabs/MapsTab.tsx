@@ -174,7 +174,7 @@ function VerdictBadge({ verdict }: { verdict: ReturnType<typeof getVerdict> }) {
 function CurrencyInput({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase text-[10px] tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>{label}</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>$</span>
         <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }} />
@@ -186,7 +186,7 @@ function CurrencyInput({ label, value, onChange, placeholder }: { label: string;
 function TextInput({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase text-[10px] tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>{label}</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }} />
     </div>
   );
@@ -195,7 +195,7 @@ function TextInput({ label, value, onChange, placeholder }: { label: string; val
 function NumberInput({ label, value, onChange, placeholder, suffix }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; suffix?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase text-[10px] tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>{label}</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
         <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
         {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>{suffix}</span>}
@@ -207,7 +207,7 @@ function NumberInput({ label, value, onChange, placeholder, suffix }: { label: s
 function HamletSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase text-[10px] tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Hamlet</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
       <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }}>
         {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
@@ -258,8 +258,8 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
         <div className="flex-1 grid grid-cols-2 gap-4">
           {[{ label: 'All-In Cost', value: result.allInDisplay }, { label: 'Exit Price', value: result.exitDisplay }, { label: 'Spread', value: result.spreadDisplay }, { label: 'Spread %', value: result.spreadPctDisplay }].map(item => (
             <div key={item.label}>
-              <div className="uppercase text-[10px] mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', letterSpacing: '0.14em' }}>{item.label}</div>
-              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1rem' }}>{item.value}</div>
+              <div className="uppercase mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 11, fontWeight: 600 }}>{item.label}</div>
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 700, fontSize: '1.0625rem' }}>{item.value}</div>
             </div>
           ))}
         </div>
@@ -432,9 +432,11 @@ function CISCalculatorLayer() {
     <div style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.12)' }}>
       {/* Section header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie's Intelligence Score</div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>CIS Calculator</h2>
-        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>Select a lens, enter your numbers, and receive an institutional-grade Christie's Intelligence Score with strategic classification.</p>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie's Intelligence Score</div>
+          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>CIS Calculator</h2>
+          <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>Select a lens, enter your numbers, and receive an institutional-grade Christie's Intelligence Score with strategic classification.</p>
+        </div>
       </div>
 
       <div className="px-6 py-8">
@@ -492,8 +494,8 @@ function CISCalculatorLayer() {
                     <div className="grid grid-cols-2 gap-3">
                       {['All-In Cost', 'Exit Price', 'Spread', 'Spread %'].map(label => (
                         <div key={label} style={{ background: 'rgba(250,248,244,0.04)', padding: '10px 12px' }}>
-                          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.4)', fontSize: 9, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4 }}>{label}</div>
-                          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.15)', fontSize: '0.875rem' }}>———</div>
+                          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4, fontWeight: 600 }}>{label}</div>
+                          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: '0.9375rem', fontWeight: 500 }}>———</div>
                         </div>
                       ))}
                     </div>

@@ -1269,3 +1269,8 @@
 - [x] AnewHomes Y2 individual amounts updated to $150K pool basis (Ed/Scott $52,500 · Richard $15K · others $7,500)
 - [x] Pro Forma page 3 GCI updated: $600K→$660K, AnewHomes Y2 $35K→$52,500, Total pool footnote $100K→$150K
 - [x] Screenshot: MD Total table confirmed — all six rows showing council-verified numbers
+
+## Sprint 43 — Three Fixes (April 9, 2026 Evening)
+- [ ] PIPE: Update Office Pipeline Google Sheet — 25 Horseshoe Road $5.75M IN CONTRACT, 191 Bull Path $3.3M ACTIVE LISTING
+- [ ] LAYOUT: Fix max-width inconsistency — match all content section containers to map container width (one global CSS value)
+- [ ] CIS: Output panel font — increase weight to medium/semibold and bump size so labels and values read clearly on score generation
