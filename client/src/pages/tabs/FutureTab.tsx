@@ -6,9 +6,9 @@
  * Auth gate deferred — site private, URL in hands of core team only.
  */
 
-import { useMemo } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { trpc } from '@/lib/trpc';
-import { generateFutureReportPDF, generateCardStockExport } from '@/lib/pdf-exports';
+// Wire Six: html2canvas screen capture — no jsPDF data arrays
 import '@/styles/future-print.css';
 
 // ─── Design tokens (match wireframe exactly) ─────────────────────────────────
@@ -170,8 +170,45 @@ export default function FutureTab() {
     padding: '7px 9px',
   };
 
+  const tabRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
+
+  async function captureTabAsPDF(filename: string) {
+    if (!tabRef.current || exporting) return;
+    setExporting(true);
+    try {
+      const html2canvas = (await import('html2canvas')).default;
+      const { jsPDF } = await import('jspdf');
+      // Scroll to top so full content is captured
+      window.scrollTo(0, 0);
+      await new Promise(r => setTimeout(r, 120)); // let layout settle
+      const canvas = await html2canvas(tabRef.current, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#0a1628',
+        logging: false,
+        windowWidth: tabRef.current.scrollWidth,
+        windowHeight: tabRef.current.scrollHeight,
+      });
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF({
+        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
+        unit: 'px',
+        format: [canvas.width / 2, canvas.height / 2],
+      });
+      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
+      pdf.save(filename);
+    } catch (e) {
+      console.error('Export failed', e);
+      alert('Export failed. Please try again.');
+    } finally {
+      setExporting(false);
+    }
+  }
+
   return (
-    <div style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff' }}>
+    <div ref={tabRef} style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -544,16 +581,18 @@ export default function FutureTab() {
         {/* ── Export buttons ──────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
           <button
-            onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
-            style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: 'pointer' }}
+            onClick={() => captureTabAsPDF(`Christies_EH_Ascension_Arc_${new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-')}.pdf`)}
+            disabled={exporting}
+            style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.6 : 1 }}
           >
-            &#8595; Export PDF &middot; Ascension Arc
+            {exporting ? 'Capturing...' : '\u2193 Export PDF \u00b7 Ascension Arc'}
           </button>
           <button
-            onClick={() => generateCardStockExport({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
-            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: 'pointer' }}
+            onClick={() => captureTabAsPDF(`Christies_EH_Card_${new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-')}.pdf`)}
+            disabled={exporting}
+            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.6 : 1 }}
           >
-            &#8595; Export Card &middot; Light Layout
+            {exporting ? 'Capturing...' : '\u2193 Export Card \u00b7 Light Layout'}
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"

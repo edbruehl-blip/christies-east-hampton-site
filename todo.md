@@ -1329,3 +1329,11 @@
 ## Sprint 44 — Wire Five (Added April 11, 2026)
 
 - [x] Wire Five: DashboardLayout.tsx — replace hardcoded $2.34M Hamptons Median with live read from Market Matrix sheet 176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g cell B23 (confirmed value $2,340,000)
+
+## Sprint 6 — Opening Queue (April 10, 2026)
+
+- [ ] ONE: Auto-increment — wire each PIPE closing to automatically push the actual volume fill upward in the FUTURE tab chart. No manual sheet entry after a deal closes.
+- [ ] TWO: Wainscott CIS score — Perplexity researches verified transaction data. Build the score. Wainscott joins as the eleventh hamlet.
+- [ ] THREE: Visual polish on FUTURE tab — breathe out participant cards, increase font size in income table.
+- [ ] FOUR: state.json last_updated correction to 2026-04-10 (DONE — completed pre-sprint-open)
+- [x] ZERO: Wire Six — replace jsPDF export on FUTURE tab with html2canvas screen capture. Delete all hardcoded arrays (te, LA, b, FUTURE_MILESTONES, MILESTONES) from pdf-exports.ts that are only used by FUTURE tab exports.

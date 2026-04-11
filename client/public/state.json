@@ -2,7 +2,7 @@
   "_meta": {
     "title": "Christie's East Hampton — Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
-    "last_updated": "2026-03-31",
+    "last_updated": "2026-04-10",
     "sprint": 5,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
