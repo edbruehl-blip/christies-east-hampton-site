@@ -3,7 +3,7 @@
     "title": "Christie's East Hampton — Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
     "last_updated": "2026-03-31",
-    "sprint": 4,
+    "sprint": 5,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL"
@@ -131,15 +131,16 @@
     "source_file": "client/src/data/hamlet-master.ts",
     "rule": "Do not modify medians or CIS scores without a market data update. Internal variable is anewScore.",
     "hamlets": [
-      { "name": "Sagaponack", "cis": 9.4, "tier": "Ultra-Trophy", "median": 6800000 },
+      { "name": "Sagaponack", "cis": 9.4, "tier": "Ultra-Trophy", "median": 8040000 },
+      { "name": "East Hampton Village", "cis": 9.2, "tier": "Ultra-Trophy", "median": 5250000 },
       { "name": "Bridgehampton", "cis": 9.1, "tier": "Ultra-Trophy", "median": 4200000 },
-      { "name": "East Hampton Village", "cis": 8.9, "tier": "Trophy", "median": 3800000 },
-      { "name": "Wainscott", "cis": 8.6, "tier": "Trophy", "median": 3200000 },
-      { "name": "Sag Harbor", "cis": 8.2, "tier": "Trophy", "median": 2100000 },
-      { "name": "Water Mill", "cis": 7.8, "tier": "Trophy", "median": 2800000 },
-      { "name": "Amagansett", "cis": 7.4, "tier": "Premier", "median": 1900000 },
-      { "name": "Springs", "cis": 6.8, "tier": "Premier", "median": 1200000 },
-      { "name": "Montauk", "cis": 6.2, "tier": "Premier", "median": 1400000 }
+      { "name": "Southampton Village", "cis": 9.0, "tier": "Trophy", "median": 3550000 },
+      { "name": "Amagansett", "cis": 8.9, "tier": "Premier", "median": 1900000 },
+      { "name": "Water Mill", "cis": 8.8, "tier": "Trophy", "median": 2800000 },
+      { "name": "East Hampton North", "cis": 8.6, "tier": "Trophy", "median": 2100000 },
+      { "name": "Sag Harbor", "cis": 8.4, "tier": "Premier", "median": 2100000 },
+      { "name": "Montauk", "cis": 8.2, "tier": "Opportunity", "median": 2240000 },
+      { "name": "Springs", "cis": 6.8, "tier": "Opportunity", "median": 1200000 }
     ]
   },
 
