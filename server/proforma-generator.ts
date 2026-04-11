@@ -855,9 +855,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="def-note">Verified · In active pipeline</div>
     </div>
     <div class="def-card">
-      <div class="def-value">$1B</div>
-      <div class="def-label">2031 Horizon</div>
-      <div class="def-note">MODEL · 32 agents at scale</div>
+      <div class="def-value">$1.823B</div>
+      <div class="def-label">2036 Horizon</div>
+      <div class="def-note">MODEL · 32 agents at scale by 2036</div>
     </div>
   </div>
 
