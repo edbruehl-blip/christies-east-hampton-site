@@ -1199,7 +1199,7 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.setTextColor(...C.navy);
   doc.setFont('helvetica', 'normal');
   doc.text(
-    '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
+    'Ed Bruehl, Managing Director  \u00b7  M: 646.752.1233  \u00b7  O: 631.771.7004  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937',
     PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
 
@@ -1495,7 +1495,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "This letter is not a presentation. It is a handoff.",
     },
     {
-      text: "For the past several months, this platform existed in one conversation at a time -- Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.",
+      text: "For the past several months, this platform existed in one conversation at a time \u2014 Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.",
     },
     {
       text: "Before you read another word, open christiesrealestategroupeh.com. Click through every tab. Pull up the Google Sheets directly from the INTEL tab \u2014 all nine of them are linked there and accessible. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.",
@@ -1583,7 +1583,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // The Model
     {
       heading: "The Model",
-      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 -- $55 million. 2027 -- $273 million. 2030 -- three offices. By 2033 -- $1.101 billion crossed. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
+      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 \u2014 $55 million. 2027 \u2014 $273 million. 2030 \u2014 three offices. By 2033 \u2014 $1.101 billion crossed. By 2036 this institution becomes a permanent fixture of the East End and a national reference point for what a luxury real estate institution can be at scale. Every decision today is being made for the operator who will be running it in 2032. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
     },
     // Honest summary
     {
@@ -1633,6 +1633,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     'Jarvis, you already know the field. Now you have the infrastructure behind you. Tell us what it is missing.',
     'Angel, the machine moves because you keep it moving. Tell us where it is slowing down.',
     'Zoila, you are walking into something that is already in motion. Tell us what it needs to become a real office.',
+    'Scott, you bring AnewHomes from a single proof of concept to a repeatable line. Tell us where the platform needs to support what you are about to build.',
     'Ricky, this is what your counsel forced us to become. Tell us if it lives up to what you meant.',
     '',
     'The foundation is proven. The model is working. The next 14 days set the trajectory.',
@@ -1672,7 +1673,7 @@ export async function generateFlagshipLetter(): Promise<void> {
   doc.setTextColor(...C.navy);
   doc.setFont('helvetica', 'normal');
   doc.text(
-    '646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937  \u00b7  christiesrealestategroupeh.com',
+    'Ed Bruehl, Managing Director  \u00b7  M: 646.752.1233  \u00b7  O: 631.771.7004  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937',
     PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
   doc.setFontSize(5.5);
