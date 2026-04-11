@@ -83,10 +83,13 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     { year: '2026', vol: Math.max(total.proj2026 || 0, 55_000_000) },
     { year: '2027', vol: Math.max(total.proj2027 || 0, 273_000_000) },
     { year: '2028', vol: Math.max(total.proj2028 || 0, 383_500_000) },
-    { year: '2029', vol: 498_600_000 },
+    { year: '2029', vol: Math.max(total.proj2029 || 0, 498_600_000) },
     { year: '2030', vol: Math.max(total.proj2030 || 0, 641_400_000) },
     { year: '2031', vol: Math.max(total.proj2031 || 0, 798_500_000) },
-    { year: '2033', vol: 1_101_000_000 },
+    { year: '2033', vol: Math.max(total.proj2033 || 0, 1_101_000_000) },
+    { year: '2034', vol: Math.max(total.proj2034 || 0, 1_301_200_000) },
+    { year: '2035', vol: Math.max(total.proj2035 || 0, 1_539_440_000) },
+    { year: '2036', vol: Math.max(total.proj2036 || 0, 1_823_328_000) },
   ];
 
   // GCI from OUTPUTS
@@ -94,8 +97,8 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   const totalGci2026 = row2026?.totalGci || 3_080_000;
   const houseTake2026 = row2026?.houseTake || 924_000;
 
-  // Bar chart max
-  const maxVol = 1_101_000_000;
+  // Bar chart max (2036 office volume from OUTPUTS B42)
+  const maxVol = 1_823_328_000;
 
   const STYLES = `
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap');
@@ -564,7 +567,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="section-label">Page 1 of 4</div>
   <div class="page-title">The Ascension Arc</div>
-  <div class="page-subtitle">2025–2031 Sales Volume Trajectory · $1 Billion Horizon</div>
+  <div class="page-subtitle">2025–2036 Sales Volume Trajectory · $1.823 Billion Horizon</div>
 
   <div class="kpi-strip">
     <div class="kpi-card">
@@ -583,13 +586,13 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="kpi-sub">MODEL · 5 named agents</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">$1B Horizon</div>
-      <div class="kpi-value">2031</div>
+      <div class="kpi-label">$1.823B Horizon</div>
+      <div class="kpi-value">2036</div>
       <div class="kpi-sub">MODEL · 32 agents at scale</div>
     </div>
   </div>
 
-  <div class="section-label">Volume Trajectory · 2025–2031</div>
+  <div class="section-label">Volume Trajectory · 2025–2036</div>
   <div class="arc-bars">
     ${arcBarsHtml}
   </div>

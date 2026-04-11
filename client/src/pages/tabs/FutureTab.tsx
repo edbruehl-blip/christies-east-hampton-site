@@ -37,7 +37,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
 } as const;
 
-const MAX_VOLUME = 1_101_000_000;
+const MAX_VOLUME = 1_823_328_000; // 2036 office volume from OUTPUTS B42
 const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
 
 function fmtM(n: number): string {
@@ -113,6 +113,11 @@ export default function FutureTab() {
     proj2029: 0, act2029: 0, projGci2029: 0, actGci2029: 0,
     proj2030: 0, act2030: 0, projGci2030: 0, actGci2030: 0,
     proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
+    proj2032: 0, act2032: 0, projGci2032: 0, actGci2032: 0,
+    proj2033: 0, act2033: 0, projGci2033: 0, actGci2033: 0,
+    proj2034: 0, act2034: 0, projGci2034: 0, actGci2034: 0,
+    proj2035: 0, act2035: 0, projGci2035: 0, actGci2035: 0,
+    proj2036: 0, act2036: 0, projGci2036: 0, actGci2036: 0,
   };
 
   // Wire 1: live office volumes
@@ -151,7 +156,7 @@ export default function FutureTab() {
     return Math.max(4, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT));
   }
 
-  // The eight projected bars (2025 baseline + 2026-2033 milestones)
+  // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)
   const BARS = useMemo(() => {
     const vol2026 = liveVolumes?.[2026] ?? 55_000_000;
     const vol2027 = liveVolumes?.[2027] ?? 273_000_000;
@@ -161,8 +166,10 @@ export default function FutureTab() {
     const vol2031 = liveVolumes?.[2031] ?? 798_500_000;
     const vol2032 = liveVolumes?.[2032] ?? 938_700_000;
     const vol2033 = liveVolumes?.[2033] ?? 1_101_000_000;
+    const vol2034 = liveVolumes?.[2034] ?? 1_301_200_000;
+    const vol2035 = liveVolumes?.[2035] ?? 1_539_440_000;
+    const vol2036 = liveVolumes?.[2036] ?? 1_823_328_000;
     return [
-      { year: '2025', vol: 15_000_000,  display: '$15M',  actualVol: 0,       note: null },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '3rd 100 Days · Incoming' },
       { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       note: 'EH Flagship at Scale · 9 Agents' },
       { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton Opens 2028 · Two Offices' },
@@ -170,7 +177,10 @@ export default function FutureTab() {
       { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton Opens · Three Offices' },
       { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       note: 'Three Offices · Compounding' },
       { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       note: 'Institutional Scale' },
-      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       note: "$1.101B · Christie's Ascension Arc Complete", isFinal: true },
+      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       note: "$1.101B · Christie's Ascension Arc" },
+      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       note: 'Multi-Market Expansion' },
+      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       note: 'Regional Dominance' },
+      { year: '2036', vol: vol2036,      display: fmtM(vol2036), actualVol: 0,       note: "$1.823B · Christie's Ascension Arc Complete", isFinal: true },
     ];
   }, [liveVolumes, act2026]);
 
@@ -391,7 +401,7 @@ export default function FutureTab() {
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
-                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '—',
                 ], act: null },
                 { label: 'Actual to date',  proj: null, act: ['—','—','—','—'] },
               ].map(row => (
@@ -408,7 +418,7 @@ export default function FutureTab() {
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
-                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '—',
                 ].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
@@ -423,13 +433,18 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Brokerage GCI',  proj: ['$600K','$1.8M','$2.0M','$3.6M'], act: null },
+                { label: 'Brokerage GCI',  proj: [
+                  liveEdGci?.[2026] ? fmtM(liveEdGci[2026]) : '$600K',
+                  liveEdGci?.[2027] ? fmtM(liveEdGci[2027]) : '$1.8M',
+                  liveEdGci?.[2028] ? fmtM(liveEdGci[2028]) : '$2.0M',
+                  liveEdGci?.[2036] ? fmtM(liveEdGci[2036]) : '$3.6M',
+                ], act: null },
                 { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$91K \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool) : '—',
-                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.edPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.edPool) : '—',
                 ], act: null },
                 { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
               ].map(row => (

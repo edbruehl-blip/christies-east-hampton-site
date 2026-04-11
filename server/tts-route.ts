@@ -98,7 +98,7 @@ Southampton Village. Median: 3.55 million dollars. Year-over-year volume: plus 1
 Water Mill. Median: 4.2 million dollars. Year-over-year volume: plus 7 percent. Equestrian corridor. Land value is the primary driver.
 Amagansett. Median: 4.25 million dollars. Year-over-year volume: plus 9 percent. The emerging premier corridor.
 East Hampton North. Median: 2.03 million dollars. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix.
-Wainscott. Median: 3.18 million dollars. Year-over-year volume: plus 10 percent. A quiet, land-rich corridor between East Hampton Village and Bridgehampton.
+Wainscott. Median: 3.6 million dollars. Year-over-year volume: plus 10 percent. Anchored by the March 2026 record sale at 115 Beach Lane at 59 million dollars. CIS 8.8 — thin sample, 10 to 20 transactions per year. A quiet, land-rich corridor between East Hampton Village and Bridgehampton.
 Sag Harbor. Median: 2.85 million dollars. Year-over-year volume: plus 11 percent. The most walkable hamlet on the East End.
 Springs. Median: 1.35 million dollars. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End.
 Montauk. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. The eastern anchor of the East End.
@@ -291,7 +291,7 @@ ${marketSection}
 
 Capital Markets. S&P 500 is at ${sp500}. Gold is at ${gold}. The 30-year fixed mortgage rate is ${mortgage}. VIX is at ${vix}.
 
-Hamlet Atlas. Verified 2026 medians. Sagaponack, 7.5 million dollars. East Hampton Village, 5.15 million dollars. Bridgehampton, 5.1 million dollars. Southampton Village, 3.55 million dollars. Water Mill, 4.2 million dollars. Amagansett, 4.25 million dollars. East Hampton North, 2.03 million dollars. Wainscott, 3.18 million dollars. Sag Harbor, 2.85 million dollars. Springs, 1.35 million dollars. Montauk, 2.24 million dollars.
+Hamlet Atlas. Verified 2026 medians. Sagaponack, 7.5 million dollars. East Hampton Village, 5.15 million dollars. Bridgehampton, 5.1 million dollars. Southampton Village, 3.55 million dollars. Water Mill, 4.2 million dollars. Amagansett, 4.25 million dollars. East Hampton North, 2.03 million dollars. Wainscott, 3.6 million dollars. Sag Harbor, 2.85 million dollars. Springs, 1.35 million dollars. Montauk, 2.24 million dollars.
 
 Christie's East Hampton. 26 Park Place, East Hampton, New York. 646-752-1233. Here to serve you the way James Christie did, since 1766.`;
 

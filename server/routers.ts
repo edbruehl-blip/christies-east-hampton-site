@@ -488,9 +488,9 @@ export const appRouter = router({
       .query(async () => {
         return readAscensionArcData();
       }),
-    // Wire Six: Profit Pool live from OUTPUTS G32:G39
-    // Returns year, netProfit, edPool (35%), ilijaPool (65%), officeVolume for 2026–2033
-    // Source: Growth Model v2 OUTPUTS tab, column G, rows 32–39 (same read as ascensionArc)
+    // Wire Six: Profit Pool live from OUTPUTS G32:G42
+    // Returns year, netProfit, edPool (35%), ilijaPool (65%), officeVolume for 2026–2036 (11 years)
+    // Source: Growth Model v2 OUTPUTS tab, column G, rows 32–42 (same read as ascensionArc)
     profitPool: publicProcedure
       .query(async () => {
         const arc = await readAscensionArcData();

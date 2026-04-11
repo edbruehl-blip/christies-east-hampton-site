@@ -555,6 +555,26 @@ export interface VolumeAgent {
   act2031: number;
   projGci2031: number;
   actGci2031: number;
+  proj2032: number;
+  act2032: number;
+  projGci2032: number;
+  actGci2032: number;
+  proj2033: number;
+  act2033: number;
+  projGci2033: number;
+  actGci2033: number;
+  proj2034: number;
+  act2034: number;
+  projGci2034: number;
+  actGci2034: number;
+  proj2035: number;
+  act2035: number;
+  projGci2035: number;
+  actGci2035: number;
+  proj2036: number;
+  act2036: number;
+  projGci2036: number;
+  actGci2036: number;
 }
 
 export interface VolumeTotal {
@@ -582,6 +602,26 @@ export interface VolumeTotal {
   act2031: number;
   projGci2031: number;
   actGci2031: number;
+  proj2032: number;
+  act2032: number;
+  projGci2032: number;
+  actGci2032: number;
+  proj2033: number;
+  act2033: number;
+  projGci2033: number;
+  actGci2033: number;
+  proj2034: number;
+  act2034: number;
+  projGci2034: number;
+  actGci2034: number;
+  proj2035: number;
+  act2035: number;
+  projGci2035: number;
+  actGci2035: number;
+  proj2036: number;
+  act2036: number;
+  projGci2036: number;
+  actGci2036: number;
 }
 
 function parseDollar(s: string | undefined): number {
@@ -599,6 +639,11 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       proj2029: 0, act2029: 0, projGci2029: 0, actGci2029: 0,
       proj2030: 0, act2030: 0, projGci2030: 0, actGci2030: 0,
       proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
+      proj2032: 0, act2032: 0, projGci2032: 0, actGci2032: 0,
+      proj2033: 0, act2033: 0, projGci2033: 0, actGci2033: 0,
+      proj2034: 0, act2034: 0, projGci2034: 0, actGci2034: 0,
+      proj2035: 0, act2035: 0, projGci2035: 0, actGci2035: 0,
+      proj2036: 0, act2036: 0, projGci2036: 0, actGci2036: 0,
     },
   };
   try {
@@ -612,9 +657,14 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
     // 16=ProjVol2029 17=ActVol2029 18=ProjGCI2029 19=ActGCI2029
     // 20=ProjVol2030 21=ActVol2030 22=ProjGCI2030 23=ActGCI2030
     // 24=ProjVol2031 25=ActVol2031 26=ProjGCI2031 27=ActGCI2031
+    // 28=ProjVol2032 29=ActVol2032 30=ProjGCI2032 31=ActGCI2032
+    // 32=ProjVol2033 33=ActVol2033 34=ProjGCI2033 35=ActGCI2033
+    // 36=ProjVol2034 37=ActVol2034 38=ProjGCI2034 39=ActGCI2034
+    // 40=ProjVol2035 41=ActVol2035 42=ProjGCI2035 43=ActGCI2035
+    // 44=ProjVol2036 45=ActVol2036 46=ProjGCI2036 47=ActGCI2036
     const res = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: 'VOLUME!A1:AB20',
+      range: 'VOLUME!A1:AV20',
     });
     const rows = res.data.values ?? [];
     if (rows.length < 2) return empty;
@@ -627,6 +677,11 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       proj2029: 0, act2029: 0, projGci2029: 0, actGci2029: 0,
       proj2030: 0, act2030: 0, projGci2030: 0, actGci2030: 0,
       proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
+      proj2032: 0, act2032: 0, projGci2032: 0, actGci2032: 0,
+      proj2033: 0, act2033: 0, projGci2033: 0, actGci2033: 0,
+      proj2034: 0, act2034: 0, projGci2034: 0, actGci2034: 0,
+      proj2035: 0, act2035: 0, projGci2035: 0, actGci2035: 0,
+      proj2036: 0, act2036: 0, projGci2036: 0, actGci2036: 0,
     };
 
     for (let i = 1; i < rows.length; i++) {
@@ -670,6 +725,26 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
         act2031:     parseDollar(r[25]),
         projGci2031: parseDollar(r[26]),
         actGci2031:  parseDollar(r[27]),
+        proj2032:    parseDollar(r[28]),
+        act2032:     parseDollar(r[29]),
+        projGci2032: parseDollar(r[30]),
+        actGci2032:  parseDollar(r[31]),
+        proj2033:    parseDollar(r[32]),
+        act2033:     parseDollar(r[33]),
+        projGci2033: parseDollar(r[34]),
+        actGci2033:  parseDollar(r[35]),
+        proj2034:    parseDollar(r[36]),
+        act2034:     parseDollar(r[37]),
+        projGci2034: parseDollar(r[38]),
+        actGci2034:  parseDollar(r[39]),
+        proj2035:    parseDollar(r[40]),
+        act2035:     parseDollar(r[41]),
+        projGci2035: parseDollar(r[42]),
+        actGci2035:  parseDollar(r[43]),
+        proj2036:    parseDollar(r[44]),
+        act2036:     parseDollar(r[45]),
+        projGci2036: parseDollar(r[46]),
+        actGci2036:  parseDollar(r[47]),
       });
     }
 
@@ -701,6 +776,26 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
         act2031:     parseDollar(totalRow[25]),
         projGci2031: parseDollar(totalRow[26]),
         actGci2031:  parseDollar(totalRow[27]),
+        proj2032:    parseDollar(totalRow[28]),
+        act2032:     parseDollar(totalRow[29]),
+        projGci2032: parseDollar(totalRow[30]),
+        actGci2032:  parseDollar(totalRow[31]),
+        proj2033:    parseDollar(totalRow[32]),
+        act2033:     parseDollar(totalRow[33]),
+        projGci2033: parseDollar(totalRow[34]),
+        actGci2033:  parseDollar(totalRow[35]),
+        proj2034:    parseDollar(totalRow[36]),
+        act2034:     parseDollar(totalRow[37]),
+        projGci2034: parseDollar(totalRow[38]),
+        actGci2034:  parseDollar(totalRow[39]),
+        proj2035:    parseDollar(totalRow[40]),
+        act2035:     parseDollar(totalRow[41]),
+        projGci2035: parseDollar(totalRow[42]),
+        actGci2035:  parseDollar(totalRow[43]),
+        proj2036:    parseDollar(totalRow[44]),
+        act2036:     parseDollar(totalRow[45]),
+        projGci2036: parseDollar(totalRow[46]),
+        actGci2036:  parseDollar(totalRow[47]),
       };
     }
 
@@ -797,37 +892,35 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
   try {
     const sheets = getSheetsClient();
 
-    // Wire One + Two + Three: OUTPUTS rows 32-39, cols A-G
+    // Wire One + Two + Three: OUTPUTS rows 32-42, cols A-G (2026-2036, 11 years)
     // A=Year, B=OfficeVolume, C=GrossGCI, D=Royalty, E=AgentSplits, F=Overhead, G=NetProfit
     const outputsRes = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: "OUTPUTS!A32:G39",
+      range: "OUTPUTS!A32:G42",
     });
     const outputRows = (outputsRes.data.values as string[][]) ?? [];
 
-    // Wire Four: VOLUME row 2 (Ed Bruehl) — cols A-AB
+    // Wire Four: VOLUME row 2 (Ed Bruehl) — cols A-AV (extended to 2036)
     // Layout: A=Name, B=Role, C=Status, D=Start
     // E=ProjVol2026, F=ActVol2026, G=ProjGCI2026, H=ActGCI2026
-    // I=ProjVol2027, J=ActVol2027, K=ProjGCI2027, L=ActGCI2027
-    // M=ProjVol2028, N=ActVol2028, O=ProjGCI2028, P=ActGCI2028
-    // Q=ProjVol2029, R=ActVol2029, S=ProjGCI2029, T=ActGCI2029
-    // U=ProjVol2030, V=ActVol2030, W=ProjGCI2030, X=ActGCI2030
-    // Y=ProjVol2031, Z=ActVol2031, AA=ProjGCI2031, AB=ActGCI2031
+    // ... (4 cols per year) ...
+    // AQ=ProjVol2036, AR=ActVol2036, AS=ProjGCI2036, AT=ActGCI2036
     const volumeEdRes = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: "VOLUME!A2:AB2",
+      range: "VOLUME!A2:AV2",
     });
     const edRow = (volumeEdRes.data.values as string[][])?.[0] ?? [];
 
-    // Wire Six: VOLUME row 10 (TOTAL) — actual volume columns
+    // Wire Six: VOLUME row 10 (TOTAL) — actual volume columns (extended to 2036)
     const volumeTotalRes = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
-      range: "VOLUME!A10:AB10",
+      range: "VOLUME!A10:AV10",
     });
     const totalRow = (volumeTotalRes.data.values as string[][])?.[0] ?? [];
 
     // Ed GCI per year from VOLUME row 2 (projected GCI columns, 0-indexed)
     // col 6=ProjGCI2026, 10=ProjGCI2027, 14=ProjGCI2028, 18=ProjGCI2029, 22=ProjGCI2030, 26=ProjGCI2031
+    // col 30=ProjGCI2032, 34=ProjGCI2033, 38=ProjGCI2034, 42=ProjGCI2035, 46=ProjGCI2036
     const edGciByYear: Record<number, number> = {
       2026: parseDollar(edRow[6]),
       2027: parseDollar(edRow[10]),
@@ -835,13 +928,16 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
       2029: parseDollar(edRow[18]),
       2030: parseDollar(edRow[22]),
       2031: parseDollar(edRow[26]),
-      // 2032 and 2033 not in VOLUME tab (only goes to 2031) — use OUTPUTS A46 row if available
-      2032: 2800000,
-      2033: 3000000,
+      2032: parseDollar(edRow[30]) || 2800000,
+      2033: parseDollar(edRow[34]) || 3000000,
+      2034: parseDollar(edRow[38]) || 3200000,
+      2035: parseDollar(edRow[42]) || 3400000,
+      2036: parseDollar(edRow[46]) || 3600000,
     };
 
     // TOTAL actual volume by year from VOLUME row 10
     // col 5=ActVol2026, 9=ActVol2027, 13=ActVol2028, 17=ActVol2029, 21=ActVol2030, 25=ActVol2031
+    // col 29=ActVol2032, 33=ActVol2033, 37=ActVol2034, 41=ActVol2035, 45=ActVol2036
     const totalActByYear: Record<number, number> = {
       2026: parseDollar(totalRow[5]),
       2027: parseDollar(totalRow[9]),
@@ -849,8 +945,11 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
       2029: parseDollar(totalRow[17]),
       2030: parseDollar(totalRow[21]),
       2031: parseDollar(totalRow[25]),
-      2032: 0,
-      2033: 0,
+      2032: parseDollar(totalRow[29]),
+      2033: parseDollar(totalRow[33]),
+      2034: parseDollar(totalRow[37]),
+      2035: parseDollar(totalRow[41]),
+      2036: parseDollar(totalRow[45]),
     };
 
     const years: AscensionArcYear[] = outputRows

@@ -1337,3 +1337,19 @@
 - [ ] THREE: Visual polish on FUTURE tab — breathe out participant cards, increase font size in income table.
 - [ ] FOUR: state.json last_updated correction to 2026-04-10 (DONE — completed pre-sprint-open)
 - [x] ZERO: Wire Six — replace jsPDF export on FUTURE tab with html2canvas screen capture. Delete all hardcoded arrays (te, LA, b, FUTURE_MILESTONES, MILESTONES) from pdf-exports.ts that are only used by FUTURE tab exports.
+
+## Sprint 7 — Wire Six Complete (April 11, 2026)
+
+- [ ] Item 1: Extend future.ascensionArc to 2036 (OUTPUTS B32:B42) and future.profitPool to 2036 (OUTPUTS G32:G42)
+- [ ] Item 2: Extend future.volumeData to 2036 (VOLUME tab through column AV)
+- [ ] Item 3: Gut FutureTab.tsx — delete Ko const, te array, old formula computation, all local year/pool data
+- [ ] Item 4: Delete banned split strings (Ed 30%, Ilija 60%, Christie's RE Rights, Partnership) — grep confirms zero matches
+- [ ] Item 5: Wire bar chart to future.ascensionArc — 11 bars 2026–2036, screenshot confirms $55M and $1.101B
+- [ ] Item 6: Wire profit pool cards and table to future.profitPool — Ed 35%, Ilija 65%, 2026–2036, Perplexity audit gate
+- [ ] Item 7: Wire Ed GCI row to volumeData Row 2 (OUTPUTS E column)
+- [ ] Item 8: Wire Six — Pro Forma PDF via html2canvas of live FUTURE tab DOM
+- [ ] Item 9: Wire MARKET header and HOME business card to market.hamptonsMedian
+- [ ] Item 10: Fix Wainscott TTS median to $3.6M, regenerate TTS cache
+- [ ] Item 11: Update Pro Forma page 1 label to "2025–2033 · $1.1 Billion Horizon" (if Wire Six slips)
+- [ ] Item 12: Confirm PIPE EXCLUSIVE KPI reads correctly after Perplexity populates sheet
+- [ ] Item 13: INTEL Mind Map restructure per April 9 directive and April 5 Claude wireframe
