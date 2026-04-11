@@ -38,6 +38,7 @@ const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: numbe
   '2029': { pool: 2_575_820,   ed: 901_537,    ilija: 1_674_283 },
   '2030': { pool: 3_200_000,   ed: 1_120_000,  ilija: 2_080_000 },
   '2031': { pool: 4_100_000,   ed: 1_435_000,  ilija: 2_665_000 },
+  '2032': { pool: 4_996_278,   ed: 1_748_697,  ilija: 3_247_581 },
   '2033': { pool: 5_885_957,   ed: 2_060_085,  ilija: 3_825_872 },
 };
 function profitPool(vol: number, year?: string, liveNetProfit?: number): { above: number; pool: number; ed: number; ilija: number; christies: number } {
@@ -86,6 +87,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     { year: '2029', vol: Math.max(total.proj2029 || 0, 498_600_000) },
     { year: '2030', vol: Math.max(total.proj2030 || 0, 641_400_000) },
     { year: '2031', vol: Math.max(total.proj2031 || 0, 798_500_000) },
+    { year: '2032', vol: Math.max(total.proj2032 || 0, 938_700_000) },
     { year: '2033', vol: Math.max(total.proj2033 || 0, 1_101_000_000) },
     { year: '2034', vol: Math.max(total.proj2034 || 0, 1_301_200_000) },
     { year: '2035', vol: Math.max(total.proj2035 || 0, 1_539_440_000) },
