@@ -88,6 +88,10 @@ export default function FutureTab() {
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
+  // Wire Six: dedicated profit pool endpoint — OUTPUTS G32:G39 live
+  const { data: poolData } = trpc.future.profitPool.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
   const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
@@ -119,17 +123,17 @@ export default function FutureTab() {
     return map;
   }, [arcData]);
 
-  // Wire 2/3: live profit pool
+  // Wire Six: live profit pool rows from dedicated profitPool endpoint (OUTPUTS G32:G39)
   const livePoolRows = useMemo(() => {
-    if (!arcData?.years?.length) return null;
-    return arcData.years.map(y => ({
+    if (!poolData?.length) return null;
+    return poolData.map(y => ({
       year: String(y.year),
       vol: y.officeVolume,
       netProfit: y.netProfit,
       edPool: y.edPool,
       ilijaPool: y.ilijaPool,
     }));
-  }, [arcData]);
+  }, [poolData]);
 
   // Wire 4: Ed GCI
   const liveEdGci = useMemo(() => {
@@ -412,10 +416,10 @@ export default function FutureTab() {
                 { label: 'Brokerage GCI',  proj: ['$600K','$1.8M','$2.0M','$3.6M'], act: null },
                 { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$91K \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
-                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '$39,725',
-                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '$467,635',
-                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool) : '$680,383',
-                  '~$2.7M',
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.edPool) : '—',
                 ], act: null },
                 { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
               ].map(row => (
