@@ -38,6 +38,17 @@ const trpcClient = trpc.createClient({
   ],
 });
 
+// ─── Suppress Chromium/rrweb EmptyRanges media error ─────────────────────────
+// This is a sandbox-only Chromium quirk when rrweb replays audio element events.
+// Not a code bug. Silently swallowed here to keep the console clean.
+window.addEventListener('error', (e) => {
+  if (e.message && e.message.includes('EmptyRanges')) {
+    e.stopImmediatePropagation();
+    e.preventDefault();
+    return false;
+  }
+}, true);
+
 // ─── Suppress platform attribution badge (shadow DOM) ───────────────────────
 // The badge lives inside manus-content-root > footer-watermark (both shadow DOM)
 // CSS cannot pierce shadow boundaries, so we use a MutationObserver to hide the

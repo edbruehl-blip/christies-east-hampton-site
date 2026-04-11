@@ -37,7 +37,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
 } as const;
 
-const MAX_VOLUME = 798_500_000;
+const MAX_VOLUME = 1_101_000_000;
 const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
 
 function fmtM(n: number): string {
@@ -147,18 +147,26 @@ export default function FutureTab() {
     return Math.max(4, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT));
   }
 
-  // The five projected bars (2025 baseline + 2026-2031 milestones)
+  // The eight projected bars (2025 baseline + 2026-2033 milestones)
   const BARS = useMemo(() => {
     const vol2026 = liveVolumes?.[2026] ?? 55_000_000;
     const vol2027 = liveVolumes?.[2027] ?? 273_000_000;
     const vol2028 = liveVolumes?.[2028] ?? 383_500_000;
+    const vol2029 = liveVolumes?.[2029] ?? 498_600_000;
+    const vol2030 = liveVolumes?.[2030] ?? 641_400_000;
     const vol2031 = liveVolumes?.[2031] ?? 798_500_000;
+    const vol2032 = liveVolumes?.[2032] ?? 938_700_000;
+    const vol2033 = liveVolumes?.[2033] ?? 1_101_000_000;
     return [
-      { year: '2025', vol: 15_000_000,  display: '$20M',  actualVol: 0,       note: null },
+      { year: '2025', vol: 15_000_000,  display: '$15M',  actualVol: 0,       note: null },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '3rd 100 Days · Incoming' },
       { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       note: 'EH Flagship at Scale · 9 Agents' },
       { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton Opens 2028 · Two Offices' },
-      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       note: 'Westhampton Opens 2030 · Three Offices · Compounding' },
+      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0,       note: 'East End Expansion' },
+      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton Opens · Three Offices' },
+      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       note: 'Three Offices · Compounding' },
+      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       note: 'Institutional Scale' },
+      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       note: "$1.101B · Christie's Ascension Arc Complete", isFinal: true },
     ];
   }, [liveVolumes, act2026]);
 
@@ -441,7 +449,6 @@ export default function FutureTab() {
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$60K','$120K','$144K','$300K+'], act: null },
                 { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
-                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -452,7 +459,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$64K','$151K','$203K','$462K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$62K','$143K','$178K','$437K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
 
@@ -470,7 +477,6 @@ export default function FutureTab() {
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
                 { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
-                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -481,7 +487,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$104K','$331K','$459K','$1.16M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$102K','$323K','$434K','$1.14M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
           </div>
