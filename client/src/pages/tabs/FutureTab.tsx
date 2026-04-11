@@ -53,20 +53,20 @@ function ProFormaButton() {
   const handleGenerate = async () => {
     try {
       const result = await generateProForma.mutateAsync();
-      const byteChars = atob(result.pdf);
-      const byteNums = new Array(byteChars.length);
-      for (let i = 0; i < byteChars.length; i++) byteNums[i] = byteChars.charCodeAt(i);
-      const blob = new Blob([new Uint8Array(byteNums)], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
+      // Use data URI for cross-browser compatibility (works on mobile Safari)
       const date = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+      const dataUri = `data:application/pdf;base64,${result.pdf}`;
+      const a = document.createElement('a');
+      a.href = dataUri;
       a.download = `Christies_EH_ProForma_${date}.pdf`;
+      a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } catch { alert('Pro forma generation failed. Please try again.'); }
+      setTimeout(() => document.body.removeChild(a), 100);
+    } catch (err) {
+      console.error('Pro forma generation failed:', err);
+      alert('Pro forma generation failed. Please try again.');
+    }
   };
   return (
     <button

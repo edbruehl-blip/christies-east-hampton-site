@@ -1,15 +1,15 @@
 /**
- * PDF EXPORTS — Five export types for Christie's East Hampton
+ * PDF EXPORTS -- Five export types for Christie's East Hampton
  *
  * Each function is async, generates a jsPDF document, and triggers download.
  * All pull live data from AnewOutput + hamlet-master. No hardcoded values.
  *
  * Export types:
- *   1. generateAnewBuildMemo(result)       — 2 pages
- *   2. generateChristieCMA(result)         — 2 pages
- *   3. generateDealBrief(result)           — 1 page
- *   4. generateInvestmentMemo(result)      — 2 pages
- *   5. generateMarketReport(opts?)         — 5 pages (standalone, live Market Matrix data)
+ *   1. generateAnewBuildMemo(result)       -- 2 pages
+ *   2. generateChristieCMA(result)         -- 2 pages
+ *   3. generateDealBrief(result)           -- 1 page
+ *   4. generateInvestmentMemo(result)      -- 2 pages
+ *   5. generateMarketReport(opts?)         -- 5 pages (standalone, live Market Matrix data)
  *
  * Item 5 council-approved structure (Apr 7 2026, updated Sprint 25):
  *   Page 1 → Navy hero + nine-paragraph founding letter + Ed signature block
@@ -31,7 +31,7 @@ import { MASTER_HAMLET_DATA } from '../data/hamlet-master';
 import { LENS_LABELS } from '../calculators/anew-calculator';
 import { loadImageAsDataUrl } from './pdf-engine';
 
-// Type alias for live Market Matrix rows — exact mirror of server/sheets-helper.ts MarketMatrixHamlet
+// Type alias for live Market Matrix rows -- exact mirror of server/sheets-helper.ts MarketMatrixHamlet
 // Field names must match the tRPC response shape from trpc.market.hamletMatrix.useQuery()
 export interface LiveMatrixRow {
   hamlet: string;
@@ -188,7 +188,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   y = kvRow(doc, 'All-In Basis', result.allInDisplay, y);
   y = kvRow(doc, 'Value Spread', result.spreadDisplay, y, result.spread > 0);
   y = kvRow(doc, 'Spread %', result.spreadPctDisplay, y, result.spread > 0);
-  y = kvRow(doc, 'CIS', `${result.score} — ${result.verdict}`, y);
+  y = kvRow(doc, 'CIS', `${result.score} -- ${result.verdict}`, y);
   y += 4;
 
   // Last comparable sale
@@ -228,7 +228,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
 
   drawFooter(doc, 1, 2, qrImg);
 
-  // ── PAGE 2 — Full hamlet comps ──
+  // ── PAGE 2 -- Full hamlet comps ──
   doc.addPage();
   y = await drawHeader(doc, 'Christie\'s CMA', 'East End Hamlet Comparison', edImg, logoImg);
   y = drawHamletCompsTable(doc, y);
@@ -287,7 +287,7 @@ export async function generateDealBrief(result: AnewOutput): Promise<void> {
   const badgeColor = verdictColors[result.verdict] ?? C.red;
   doc.setFontSize(8);
   doc.setTextColor(...badgeColor);
-  doc.text(`ANEW ${result.score} — ${result.verdict}`, PAGE.w - PAGE.mr - 4, y + 8, { align: 'right' });
+  doc.text(`ANEW ${result.score} -- ${result.verdict}`, PAGE.w - PAGE.mr - 4, y + 8, { align: 'right' });
   y += 18;
 
   // Two-column layout
@@ -391,7 +391,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   doc.setFontSize(8);
   doc.setTextColor(200, 190, 175);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${result.hamletName} · CIS ${result.score} — ${result.verdict}`, PAGE.ml + 4, y + 20);
+  doc.text(`${result.hamletName} · CIS ${result.score} -- ${result.verdict}`, PAGE.ml + 4, y + 20);
   doc.text(`All-In: ${result.allInDisplay}  ·  Exit: ${result.exitDisplay}  ·  Spread: ${result.spreadDisplay} (${result.spreadPctDisplay})`, PAGE.ml + 4, y + 26);
   y += 34;
 
@@ -446,7 +446,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 
   drawFooter(doc, 1, 2, qrImg);
 
-  // ── PAGE 2 — Market context ──
+  // ── PAGE 2 -- Market context ──
   doc.addPage();
   y = await drawHeader(doc, 'Investment Memorandum', 'East End Market Context', edImg, logoImg);
   y = drawHamletCompsTable(doc, y);
@@ -457,7 +457,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   doc.setTextColor(...C.charcoal);
   const advantage = [
     'Christie\'s International Real Estate Group brings 260 years of institutional provenance to every transaction.',
-    'Our East Hampton office operates at the intersection of art, architecture, and land — serving families whose',
+    'Our East Hampton office operates at the intersection of art, architecture, and land -- serving families whose',
     'assets require the same care as a Christie\'s auction consignment. The Christie\'s Intelligence Score model is our proprietary',
     'intelligence layer, built on eleven hamlet datasets and refined through live market cycles.'
   ];
@@ -489,7 +489,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 
 export interface GenerateMarketReportOpts {
   liveRows?: LiveMatrixRow[];
-  hamletId?: string; // optional — filter to single hamlet (future use)
+  hamletId?: string; // optional -- filter to single hamlet (future use)
 }
 
 export async function generateMarketReport(opts?: GenerateMarketReportOpts | string): Promise<void> {
@@ -510,7 +510,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
       liveMap.set(normalize(row.hamlet), row);
     }
   }
-  // Merged hamlet data — live values override static where available
+  // Merged hamlet data -- live values override static where available
   const mergedHamlets = MASTER_HAMLET_DATA.map(h => {
     const live = liveMap.get(h.id);
     return {
@@ -526,8 +526,8 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     };
   });
 
-  // ── PAGE 1 — Hero + Founding Letter (mirrors /report Section 1) ──────────────
-  // Full-page navy hero — drawPdfHeader handles logo placement (base64, no CDN)
+  // ── PAGE 1 -- Hero + Founding Letter (mirrors /report Section 1) ──────────────
+  // Full-page navy hero -- drawPdfHeader handles logo placement (base64, no CDN)
   doc.setFillColor(...C.navy);
   doc.rect(0, 0, PAGE.w, PAGE.h, 'F');
 
@@ -540,7 +540,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setFont('helvetica', 'bold');
   doc.text('CHRISTIE\'S · EST. 1766', PAGE.w / 2, 27, { align: 'center' });
 
-  // Logo — centered, 64mm wide on navy hero (base64, no CDN call)
+  // Logo -- centered, 64mm wide on navy hero (base64, no CDN call)
   if (logoImg) {
     try { doc.addImage(logoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26); } catch { /* skip */ }
   }
@@ -561,7 +561,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setLineWidth(0.4);
   doc.line(PAGE.ml + 30, 101, PAGE.w - PAGE.mr - 30, 101);
 
-  // Founding letter — full text, mirrors /report Section 1 letter body
+  // Founding letter -- full text, mirrors /report Section 1 letter body
   const letterY = 108;
   doc.setFontSize(7);
   doc.setTextColor(...C.gold);
@@ -570,19 +570,19 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setLineWidth(0.3);
   doc.line(PAGE.ml, letterY + 1.5, PAGE.w - PAGE.mr, letterY + 1.5);
 
-  // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
+  // Twelve paragraphs -- council-approved final version (Sprint 32, April 8, 2026)
   const foundingParas = [
-    "For twenty years on the East End — raising a family, working alongside some of the sharpest minds on earth — this place taught me one clear lesson — the families who love it most are the ones who protect and preserve it.",
+    "For twenty years on the East End -- raising a family, working alongside some of the sharpest minds on earth -- this place taught me one clear lesson -- the families who love it most are the ones who protect and preserve it.",
     "That devotion to stewardship is what made me most curious. Over time, working across the East End, I found myself wondering whether there was a better way to serve the people who trust us with what they own.",
     "The deeper I looked, the clearer the answer became. In 1766, James Christie built a 260-year institution not by moving assets, but by helping people understand the true value of what they own before deciding what to do with it.",
-    "After a year of studying the institution — and understanding what it stood for — I was honored to be invited in and named Managing Director, serving the families of this community.",
-    "Most people are taught to transact. The families who build lasting wealth learn to hold, structure, and borrow against it instead. They hold. They rent for income. They structure inside an LLC and improve it over time. They pass it forward. Real estate here is not inventory — it is legacy.",
-    "Christie's expands what we can do together — art appraisals, collection management, art-secured lending, and estate continuity across generations. A depth of service that begins where most real estate conversations end.",
-    "Christie's events — auctions, private sales, collector evenings — are more accessible than most people realize. We can make the introduction — Christie's network spans specialists, advisors, and relationships in over fifty countries.",
-    "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
-    "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
+    "After a year of studying the institution -- and understanding what it stood for -- I was honored to be invited in and named Managing Director, serving the families of this community.",
+    "Most people are taught to transact. The families who build lasting wealth learn to hold, structure, and borrow against it instead. They hold. They rent for income. They structure inside an LLC and improve it over time. They pass it forward. Real estate here is not inventory -- it is legacy.",
+    "Christie's expands what we can do together -- art appraisals, collection management, art-secured lending, and estate continuity across generations. A depth of service that begins where most real estate conversations end.",
+    "Christie's events -- auctions, private sales, collector evenings -- are more accessible than most people realize. We can make the introduction -- Christie's network spans specialists, advisors, and relationships in over fifty countries.",
+    "When a transaction is the right decision, the role remains the same -- uncover every layer of value before the market sees it, then represent it at the highest level.",
+    "Everything I found along the way -- the people, the relationships, and the institutional access Christie's carries -- is something I now get to share with this community.",
     "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
-    "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
+    "Behind every conversation we have, there is a system verifying every number and every relationship in real time -- so when we sit down together, nothing is guessed.",
     "The door is always open whenever you are ready to walk through it.",
   ];
   let lY = letterY + 6;
@@ -593,7 +593,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     lY = wrapText(doc, para, PAGE.ml, lY, PAGE.contentW, 5);
     lY += 4;
   }
-  // Ed signature block — below letter body
+  // Ed signature block -- below letter body
   lY += 4;
   doc.setDrawColor(...C.gold);
   doc.setLineWidth(0.3);
@@ -632,7 +632,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setTextColor(200, 190, 175);
   doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
-  // ── PAGE 2 — Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe) ─
+  // ── PAGE 2 -- Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe) ─
   doc.addPage();
   let y = await drawHeader(doc, 'Hamlet Atlas', 'Eleven Hamlets · East End · Live Market Intelligence · Christie\'s Intelligence Score', edImg, logoImg);
 
@@ -645,7 +645,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   const TEXT_X = PAGE.ml + PHOTO_W + 6;
   const TEXT_W = PAGE.contentW - PHOTO_W - 6;
 
-  // Preload all hamlet images in parallel (best-effort — graceful skip on failure)
+  // Preload all hamlet images in parallel (best-effort -- graceful skip on failure)
   const hamletImages: Record<string, string> = {};
   await Promise.all(
     mergedHamlets.map(async h => {
@@ -656,8 +656,8 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   );
 
   // Split across three atlas pages: rows 1–5 on Page 2, rows 6–10 on Page 3, row 11 (Wainscott) on Page 4
-  // Sag Harbor (row 6) was overflowing Page 2 footer — moved to Page 3 (Sprint 24 fix)
-  // Wainscott (row 11) was overflowing Page 3 footer — moved to Page 4 (Sprint 25 fix)
+  // Sag Harbor (row 6) was overflowing Page 2 footer -- moved to Page 3 (Sprint 24 fix)
+  // Wainscott (row 11) was overflowing Page 3 footer -- moved to Page 4 (Sprint 25 fix)
   // Math: CARD_H=38, CARD_GAP=4, header y=56, footer rule at 275 → 5 cards = 262mm (fits), 6 = 304mm (overflow 29mm)
   const page2Hamlets = mergedHamlets.slice(0, 5);
   const page3Hamlets = mergedHamlets.slice(5, 10);
@@ -696,7 +696,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     doc.setTextColor(...C.navy);
     doc.text(h.name, TEXT_X, cardY + 8);
 
-    // CIS badge — inline after name
+    // CIS badge -- inline after name
     doc.setFillColor(...C.navy);
     doc.rect(TEXT_X + TEXT_W - 22, cardY + 2, 22, 7, 'F');
     doc.setFontSize(5.5);
@@ -727,7 +727,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     doc.setFillColor(...C.gold);
     doc.rect(TEXT_X, cardY + 29, barW * Math.min(h.cisScore / 10, 1), 1.8, 'F');
 
-    // Vibe text — truncated to one line
+    // Vibe text -- truncated to one line
     if (h.vibeText) {
       doc.setFontSize(5.5);
       doc.setTextColor(...C.charcoal);
@@ -746,7 +746,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   }
   drawFooter(doc, 2, 5, qrImg);
 
-  // ── PAGE 3 — Hamlet Atlas rows 6–10 ─────────────────────────────────────────
+  // ── PAGE 3 -- Hamlet Atlas rows 6–10 ─────────────────────────────────────────
   doc.addPage();
   y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'Sag Harbor · Amagansett · East Hampton North · Springs · Montauk', edImg, logoImg);
   atlasY = y;
@@ -756,7 +756,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   }
   drawFooter(doc, 3, 5, qrImg);
 
-  // ── PAGE 4 — Hamlet Atlas row 11 (Wainscott) + doctrine block ────────────────
+  // ── PAGE 4 -- Hamlet Atlas row 11 (Wainscott) + doctrine block ────────────────
   doc.addPage();
   y = await drawHeader(doc, 'Hamlet Atlas (cont.)', 'Wainscott · The Final Hamlet', edImg, logoImg);
   atlasY = y;
@@ -765,7 +765,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     atlasY += CARD_H + CARD_GAP;
   }
 
-  // Doctrine block — fills remaining space on Page 4 after Wainscott card
+  // Doctrine block -- fills remaining space on Page 4 after Wainscott card
   const doctrineY = atlasY + 8;
   if (doctrineY + 24 < PAGE.h - PAGE.mb) {
     doc.setDrawColor(...C.gold);
@@ -778,11 +778,11 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     doc.setFontSize(6.5);
     doc.setFont('helvetica', 'normal');
     doc.setTextColor(...C.charcoal);
-    y = wrapText(doc, 'The East End is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference — so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
+    y = wrapText(doc, 'The East End is not one market. It is eleven distinct communities, each with its own price floor, its own character, and its own reason to hold. Christie\'s Intelligence Score maps the difference -- so every decision starts with the right context.', PAGE.ml, doctrineY + 12, PAGE.contentW, 5);
   }
   drawFooter(doc, 4, 5, qrImg);
 
-  // ── PAGE 5 — Closing paragraph + Ed headshot + contact block + two QR codes ─
+  // ── PAGE 5 -- Closing paragraph + Ed headshot + contact block + two QR codes ─
   doc.addPage();
   y = await drawHeader(doc, 'Christie\'s East Hampton', 'The Standard · Est. 1766', edImg, logoImg);
 
@@ -835,7 +835,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.text('christiesrealestategroupeh.com', PAGE.ml + 8, y + 19);
   y += 28;
 
-  // Two QR codes side by side — website QR (left) + WhatsApp QR (right)
+  // Two QR codes side by side -- website QR (left) + WhatsApp QR (right)
   if (qrImg) {
     try { doc.addImage(qrImg, 'PNG', PAGE.ml, y, 22, 22); } catch { /* skip */ }
     try { doc.addImage(qrImg, 'PNG', PAGE.ml + 28, y, 22, 22); } catch { /* skip */ }
@@ -865,7 +865,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   const { edImg, logoImg, qrImg } = await loadPdfAssets();
   const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
 
-  // ── Hamlet data (East Hampton Village — locked) ───────────────────────────
+  // ── Hamlet data (East Hampton Village -- locked) ───────────────────────────
   const H = {
     name: 'East Hampton Village',
     tier: 'Ultra-Trophy',
@@ -878,7 +878,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
     yoy: '+9.2%',
     activeListings: 14,
     avgDOM: 61,
-    pricePerSqFt: '$1,420 est.',  // Sprint 16: confirmed correct — YoY +9.2%, DOM 61, est. label present
+    pricePerSqFt: '$1,420 est.',  // Sprint 16: confirmed correct -- YoY +9.2%, DOM 61, est. label present
     absorbRate: '3.2 months',
     characterNote: 'The institutional anchor of the East End. Lily Pond Lane, Georgica Pond, and Further Lane are the primary corridors. Buyer profile: family office, UHNW estate, international capital. Christie\'s brand authority is strongest here.',
   };
@@ -1052,7 +1052,7 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   downloadPdf(doc, 'Christies_EH_East_Hampton_Village_Q1_2026.pdf');
 }
 
-// ─── 7. Christie's Letter (P3 — Sprint 12) ────────────────────────────────────
+// ─── 7. Christie's Letter (P3 -- Sprint 12) ────────────────────────────────────
 // Flambeaux standard: white paper, Cormorant Garamond (Helvetica-Bold approx),
 // gold rule top and bottom, italic opening, serif prose body, italic close.
 // Two QR placeholder boxes bottom right. Date block top right.
@@ -1065,10 +1065,10 @@ export async function generateChristiesLetter(): Promise<void> {
   const mr = PAGE.mr;
   const cw = PAGE.contentW;
 
-  // ── Shared header — letter variant (base64 logo, gold rule) ──────────────────────
+  // ── Shared header -- letter variant (base64 logo, gold rule) ──────────────────────
   let y = drawPdfHeader(doc, logoImg, { variant: 'letter' });
 
-  // ── Date block — right-aligned ────────────────────────────────────────────────
+  // ── Date block -- right-aligned ────────────────────────────────────────────────
   const dateStr = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   doc.setFontSize(8);
   doc.setTextColor(...C.muted);
@@ -1139,13 +1139,13 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.text("Christie\u2019s International Real Estate Group \u00b7 East Hampton", ml, y);
   y += 10;
 
-  // ── SDG line — small, muted ───────────────────────────────────────────────
+  // ── SDG line -- small, muted ───────────────────────────────────────────────
   doc.setFontSize(7.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'italic');
   doc.text('Soli Deo Gloria.', ml, y);
 
-  // ── Two QR codes — bottom right (Website + Ed vCard) ───────────────────────
+  // ── Two QR codes -- bottom right (Website + Ed vCard) ───────────────────────
   const QRCode = (await import('qrcode')).default;
   const qrY = PAGE.h - 50;
   const qrSize = 22;
@@ -1153,7 +1153,7 @@ export async function generateChristiesLetter(): Promise<void> {
   const qrX1 = PAGE.w - mr - qrSize * 2 - qrGap;
   const qrX2 = PAGE.w - mr - qrSize;
 
-  // QR 1 — Website
+  // QR 1 -- Website
   try {
     const websiteQr = await QRCode.toDataURL('https://christiesrealestategroupeh.com', {
       width: 128, margin: 1, color: { dark: '#1b2a4a', light: '#FAFAF4' },
@@ -1165,7 +1165,7 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.setFontSize(5.5); doc.setTextColor(...C.muted); doc.setFont('helvetica', 'normal');
   doc.text('Website', qrX1 + qrSize / 2, qrY + qrSize + 3.5, { align: 'center' });
 
-  // QR 2 — Ed vCard
+  // QR 2 -- Ed vCard
   const vcard = [
     'BEGIN:VCARD', 'VERSION:3.0',
     'FN:Ed Bruehl',
@@ -1217,7 +1217,7 @@ export async function generateChristiesLetter(): Promise<void> {
 const UHNW_RUNGS = [
   {
     num: '0', tag: 'The Starting Line', name: 'The Tenant',
-    body: 'You are renting. That is a perfectly valid starting point — every dynasty began somewhere. Build a relationship with your landlord, care for the property, and position yourself for ownership.',
+    body: 'You are renting. That is a perfectly valid starting point -- every dynasty began somewhere. Build a relationship with your landlord, care for the property, and position yourself for ownership.',
     hook: '"Let me review your lease and show you how to position yourself as the ideal buyer when the landlord is ready to sell."',
     hunt: 'High-income renters in Tier 1 Hamptons corridors; young professionals relocating to the East End.',
     anchor: 'The local who rented a cottage, treated it like gold, and bought it off-market from the retiring landlord five years later.',
@@ -1227,14 +1227,14 @@ const UHNW_RUNGS = [
     body: 'Lock in today\'s price, keep renting while you save, and buy the home you already live in. Turn your rent into a runway for equity. One agreement. Two possible outcomes.',
     hook: '"I will negotiate the option-to-buy clause into your next lease. I know how to structure it so the landlord wins too."',
     hunt: 'Landlords with aging portfolios who want passive income now but a guaranteed exit in 3-5 years.',
-    anchor: 'The Griff Model — a first home purchased for modest value, renovated over two years of sweat equity, kept in the portfolio. The rent covered the mortgage. The appreciation funded the next acquisition.',
+    anchor: 'The Griff Model -- a first home purchased for modest value, renovated over two years of sweat equity, kept in the portfolio. The rent covered the mortgage. The appreciation funded the next acquisition.',
   },
   {
     num: '2', tag: 'The Foundation', name: 'Earn & Protect',
-    body: 'Treat your family like a business. Establish a Family LLC. Put your kids on payroll. Fund Roth IRAs as a foundation tool — it grows with you. Protect what you earn from day one.',
+    body: 'Treat your family like a business. Establish a Family LLC. Put your kids on payroll. Fund Roth IRAs as a foundation tool -- it grows with you. Protect what you earn from day one.',
     hook: '"I\'ve set up my own Family LLC and put my daughters on payroll. Let me introduce you to the CPA who built my foundation."',
     hunt: 'Local business owners, new entrepreneurs, and independent contractors in the Hamptons market.',
-    anchor: 'The tradesman who shifted income into an LLC, hired his teenagers, and funded their Roth IRAs — multi-million dollar tax-free retirement by 50.',
+    anchor: 'The tradesman who shifted income into an LLC, hired his teenagers, and funded their Roth IRAs -- multi-million dollar tax-free retirement by 50.',
   },
   {
     num: '3', tag: 'The Equity Engine', name: 'Primary Residence',
@@ -1255,7 +1255,7 @@ const UHNW_RUNGS = [
     body: 'You own multiple properties. Now you need a strategy. 1031 exchanges. Cost segregation studies. Depreciation. A real estate attorney and a CPA who speak the same language. This is where Christie\'s adds institutional value.',
     hook: '"Christie\'s has relationships with the top 1031 exchange intermediaries in New York. Let me make an introduction."',
     hunt: 'Investors with 2+ properties looking to optimize tax position or consolidate into higher-value assets.',
-    anchor: 'The investor who exchanged three modest rentals into a single $4M Bridgehampton estate — one transaction, zero capital gains, and a 40% increase in net rental income.',
+    anchor: 'The investor who exchanged three modest rentals into a single $4M Bridgehampton estate -- one transaction, zero capital gains, and a 40% increase in net rental income.',
   },
   {
     num: '6', tag: 'The Institutional Layer', name: 'Art-Secured Lending',
@@ -1269,7 +1269,7 @@ const UHNW_RUNGS = [
     body: 'You are building a dynasty. Irrevocable trusts. Family Limited Partnerships. Charitable remainder trusts. A Christie\'s estate advisor and a generational wealth attorney. This is not a transaction. This is a legacy.',
     hook: '"I work with the families who have been here for three generations. Let me introduce you to the advisors who protect what they built."',
     hunt: 'Ultra-high-net-worth families with $20M+ in real estate assets and multi-generational estate planning needs.',
-    anchor: 'The Hamptons family who structured a Qualified Personal Residence Trust in 2005, transferred a $3M estate to their children at a $900K gift tax value, and watched it appreciate to $12M — tax-free.',
+    anchor: 'The Hamptons family who structured a Qualified Personal Residence Trust in 2005, transferred a $3M estate to their children at a $900K gift tax value, and watched it appreciate to $12M -- tax-free.',
   },
 ];
 
@@ -1280,20 +1280,20 @@ export async function generateUHNWPathCard(): Promise<void> {
   const ml = 0.25; const mr = 0.25; const mt = 0.15; const mb = 0.12;
   const usableW = W - ml - mr;
 
-  // Load assets (base64 logo — no CDN calls)
+  // Load assets (base64 logo -- no CDN calls)
   const { logoImg } = await loadPdfAssets();
 
   // Background
   doc.setFillColor(249, 245, 239);
   doc.rect(0, 0, W, H, 'F');
 
-  // Header — tighter at 0.44in
+  // Header -- tighter at 0.44in
   const headerH = 0.44;
   doc.setFillColor(56, 66, 73); // #384249
   doc.rect(0, 0, W, headerH, 'F');
 
   // Christie's PNG wordmark (base64, left-aligned in header)
-  // Logo aspect ratio 3.965:1 — at 1.1in wide: height = 1.1 / 3.965 = 0.277in
+  // Logo aspect ratio 3.965:1 -- at 1.1in wide: height = 1.1 / 3.965 = 0.277in
   const logoW = 1.1; const logoH = logoW / 3.965;
   doc.addImage(logoImg, 'PNG', ml + 0.02, (headerH - logoH) / 2, logoW, logoH);
 
@@ -1313,7 +1313,7 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.setTextColor(249, 245, 239);
   doc.text('"Wherever you are on this ladder, I am here to help. Let\'s talk."', W - mr - 0.05, mt + 0.18, { align: 'right' });
 
-  // Gold strip — immediately below header
+  // Gold strip -- immediately below header
   const goldY = headerH + 0.02;
   doc.setFillColor(200, 172, 120);
   doc.rect(ml, goldY, usableW, 0.12, 'F');
@@ -1322,14 +1322,14 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.setTextColor(255, 255, 255);
   doc.text("The Christie's Standard  \u00b7  Through the Lens of James Christie, 1766", W / 2, goldY + 0.082, { align: 'center' });
 
-  // Subtitle — very tight
+  // Subtitle -- very tight
   const subtitleY = goldY + 0.12 + 0.04;
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(5);
   doc.setTextColor(153, 153, 153);
   doc.text("The Christie's Standard for Ownership, Structure, and Legacy", W / 2, subtitleY, { align: 'center' });
 
-  // Eight rung columns — maximise available height
+  // Eight rung columns -- maximise available height
   // Formula: colW = (usableW - 7*gap) / 8 ensures column 8 never overflows right margin
   const colsStartY = subtitleY + 0.07;
   const footerH = 0.32;
@@ -1441,7 +1441,7 @@ export async function generateUHNWPathCard(): Promise<void> {
   downloadPdf(doc, `Christies-UHNW-Path-Card-${today().replace(/\s/g, '-')}.pdf`);
 }
 
-// ─── generateFlagshipLetter — Sprint 30 · Internal Council Document ──────────
+// ─── generateFlagshipLetter -- Sprint 30 · Internal Council Document ──────────
 // Team-facing letter: Manny to Jarvis, Angel, and Ricky
 // Christie's navy/gold standard · CONFIDENTIAL · Not for client distribution
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1453,7 +1453,7 @@ export async function generateFlagshipLetter(): Promise<void> {
   const mr = PAGE.mr;
   const cw = PAGE.contentW;
 
-  // ── Shared header — letter variant (base64 logo, gold rule) ──────────────────────
+  // ── Shared header -- letter variant (base64 logo, gold rule) ──────────────────────
   let y = drawPdfHeader(doc, logoImg, { variant: 'letter' });
 
   // ── Header block ─────────────────────────────────────────────────────
@@ -1482,12 +1482,12 @@ export async function generateFlagshipLetter(): Promise<void> {
   const PARA_GAP = 4.5;
 
   const sections: Array<{ heading?: string; text: string; italic?: boolean }> = [
-    // Opening — handoff framing
+    // Opening -- handoff framing
     {
       text: "This letter is not a presentation. It is a handoff.",
     },
     {
-      text: "For the past several months, this platform existed in one conversation at a time — Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.",
+      text: "For the past several months, this platform existed in one conversation at a time -- Ed and the six AI systems that helped him build it. Today that changes. You are the first people outside that circle, and that matters more to us than anything we are about to describe.",
     },
     {
       text: "Before you read another word, open christiesrealestategroupeh.com. Click through every tab. Pull up the Google Sheets directly from the INTEL tab \u2014 all nine of them are linked there and accessible. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.",
@@ -1520,7 +1520,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "Angel became the execution hinge. But the sharper truth is this: Angel is the person who converts signal into action. The system does not depend on Ed holding it together manually. Workflow, scheduling, marketing, deliverables, follow-through \u2014 Angel keeps the machine moving between thought and action. She is the bridge between founder speed and institutional rhythm.",
     },
     {
-      text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane — the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
+      text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane -- the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
     },
     // The Breakthrough / intelligence layer
     {
@@ -1572,7 +1572,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // The Model
     {
       heading: "The Model",
-      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 — $55 million. 2027 — $273 million. 2030 — three offices. By 2033 — $1.101 billion crossed. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
+      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 -- $55 million. 2027 -- $273 million. 2030 -- three offices. By 2033 -- $1.101 billion crossed. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
     },
     // Honest summary
     {
@@ -1671,8 +1671,8 @@ export async function generateFlagshipLetter(): Promise<void> {
   downloadPdf(doc, `Christies-Flagship-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
 
-// ─── 7. Eleven Hamlets Volume Distribution — One-Page Donut Chart PDF ──────────
-// Council directive: April 9, 2026 — one-page PDF, donut chart + legend table + header/footer.
+// ─── 7. Eleven Hamlets Volume Distribution -- One-Page Donut Chart PDF ──────────
+// Council directive: April 9, 2026 -- one-page PDF, donut chart + legend table + header/footer.
 // Draws the donut ring in jsPDF using arc math (no canvas dependency).
 
 export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Promise<void> {
@@ -1713,7 +1713,7 @@ export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Prom
 
   const total = hamlets.reduce((s, h) => s + h.liveShare, 0);
 
-  // ── Donut ring — pure jsPDF arcs ─────────────────────────────────────────────
+  // ── Donut ring -- pure jsPDF arcs ─────────────────────────────────────────────
   // Center: horizontally centered, vertically positioned below header
   const cx = P.w / 2;
   const cy = y + 52;
@@ -1777,7 +1777,7 @@ export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Prom
   doc.setTextColor(...CN.gold);
   doc.text('SIGNAL', cx, cy + 9, { align: 'center' });
 
-  // ── Legend table — right of donut ─────────────────────────────────────────────
+  // ── Legend table -- right of donut ─────────────────────────────────────────────
   const legendX = cx + outerR + 12;
   const legendW = P.w - P.mr - legendX;
   let ly = cy - outerR + 2;
