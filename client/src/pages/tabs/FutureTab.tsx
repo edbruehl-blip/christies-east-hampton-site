@@ -261,7 +261,7 @@ export default function FutureTab() {
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
                   {/* Dollar label above bar */}
-                  <div className={isBaseline ? '' : 'future-bar-label'} style={{ ...SANS, fontSize: isBaseline ? 11 : 13, color: isBaseline ? MUTED : GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
+                  <div className="future-bar-label" style={{ ...SANS, fontSize: 13, color: GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
                     {bar.display}
                   </div>
                   {/* Bar column */}
@@ -285,8 +285,8 @@ export default function FutureTab() {
                         {actH > 0 && (
                           <div style={{ width: '100%', height: actH, background: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
                             <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
-                            <div style={{ ...SANS, fontSize: 6.5, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0' }}>
-                              ACTUAL &middot; {fmtM(bar.actualVol)}
+                            <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>
+                              ACTUAL
                             </div>
                           </div>
                         )}
