@@ -170,17 +170,18 @@ export default function FutureTab() {
     const vol2035 = liveVolumes?.[2035] ?? 1_539_440_000;
     const vol2036 = liveVolumes?.[2036] ?? 1_823_328_000;
     return [
-      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '3rd 100 Days · Incoming' },
-      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       note: 'EH Flagship at Scale · 9 Agents' },
-      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton Opens 2028 · Two Offices' },
-      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0,       note: 'East End Expansion' },
-      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton Opens · Three Offices' },
-      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       note: 'Three Offices · Compounding' },
-      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       note: 'Institutional Scale' },
-      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       note: "$1.101B · Christie's Ascension Arc" },
-      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       note: 'Multi-Market Expansion' },
-      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       note: 'Regional Dominance' },
-      { year: '2036', vol: vol2036,      display: fmtM(vol2036), actualVol: 0,       note: "$1.823B · Christie's Ascension Arc Complete", isFinal: true },
+      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true },
+      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026 },
+      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0 },
+      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0 },
+      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0 },
+      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0 },
+      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0 },
+      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0 },
+      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0 },
+      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0 },
+      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0 },
+      { year: '2036', vol: vol2036,      display: '$1.823B',     actualVol: 0,       note: "$1.823B · Christie's Ascension Arc Complete", isFinal: true },
     ];
   }, [liveVolumes, act2026]);
 
@@ -299,18 +300,7 @@ export default function FutureTab() {
               );
             })}
 
-            {/* $3B vision bar */}
-            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
-              <div style={{ ...SANS, fontSize: 13, color: GOLD_LIGHT, fontWeight: 700, marginBottom: 3 }}>$3B</div>
-              {/* Arrow tip */}
-              <div style={{ width: 0, height: 0, borderLeft: '17px solid transparent', borderRight: '17px solid transparent', borderBottom: `13px solid ${GOLD_LIGHT}` }} />
-              {/* Bar */}
-              <div style={{ width: '100%', flex: 1, maxHeight: 178, background: 'rgba(212,188,130,0.15)', border: `1px solid ${GOLD_LIGHT}`, borderRadius: '2px 2px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 8, overflow: 'hidden' }}>
-                <div style={{ ...SANS, color: GOLD_LIGHT, fontSize: 9, fontStyle: 'normal', fontWeight: 500, textAlign: 'center', lineHeight: 1.6 }}>
-                  Christie&apos;s<br />Three-Office Network<br />EH &middot; SH &middot; WH<br />50+ Agents<br />$1B+ Annual Run Rate
-                </div>
-              </div>
-            </div>
+
 
           </div>
 
@@ -357,7 +347,7 @@ export default function FutureTab() {
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$3B network.</strong> Year 2 Profit Pool activates. Three offices. 50+ agents.</>,
+              shareholder: <><strong>$1.823B trajectory.</strong> Year 2 Profit Pool activates. Three offices. 32 agents by 2036.</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
               team: "Christie's East Hampton compounding year over year.",
             },
