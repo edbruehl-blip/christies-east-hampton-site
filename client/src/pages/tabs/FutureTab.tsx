@@ -41,12 +41,8 @@ const MAX_VOLUME = 1_823_328_000; // 2036 office volume from OUTPUTS B42
 const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
 
 function fmtM(n: number): string {
-  if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`;
-  if (n >= 100_000_000) return `$${Math.round(n / 1_000_000)}M`; // ≥$100M → whole number, no decimal clutter on mobile
-  if (n >= 1_000_000) {
-    const v = n / 1_000_000;
-    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(1)}M`;
-  }
+  if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`; // $1.8B, $1.5B etc.
+  if (n >= 1_000_000) return `$${Math.round(n / 1_000_000)}M`;           // $939M, $799M etc.
   if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
   return `$${n.toLocaleString()}`;
 }
@@ -252,7 +248,7 @@ export default function FutureTab() {
         </div>
 
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '14px 14px 0', marginBottom: 10 }}>
+        <div style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '30px 14px 0', marginBottom: 10 }}>
           {/* Bars row */}
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, paddingBottom: 10 }}>
 
@@ -326,7 +322,7 @@ export default function FutureTab() {
         </div>
 
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
+        <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
             {
               phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',

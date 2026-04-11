@@ -308,6 +308,19 @@
   .ticker-flat { color: var(--color-medium-gray); }
 }
 
+/* ── Mobile: home letter right column ───────────────────────────────────────── */
+@media screen and (max-width: 767px) {
+  .home-letter-col {
+    padding: 24px 20px 24px 20px !important;
+  }
+  .home-letter-col h2 {
+    text-align: center;
+  }
+  .home-letter-col > div:first-child {
+    text-align: center;
+  }
+}
+
 /* ── Institutional ticker marquee ─────────────────────────────────────────── */
 @keyframes christies-marquee {
   0%   { transform: translateX(0); }

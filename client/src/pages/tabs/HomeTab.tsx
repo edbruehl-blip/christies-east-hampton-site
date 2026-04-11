@@ -207,7 +207,7 @@ function SectionA() {
           </div>
 
           {/* ── RIGHT COLUMN: founding letter ── */}
-          <div style={{ padding: '32px 36px 32px 12px' }}>
+          <div className="home-letter-col" style={{ padding: '32px 36px 32px 12px' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>

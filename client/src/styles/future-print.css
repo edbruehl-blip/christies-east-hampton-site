@@ -152,4 +152,20 @@
   .arc-note-desktop {
     display: none !important;
   }
+
+  /* 4-card grid: 2 columns on mobile */
+  .future-cards-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+
+  /* Home page letter right column: center text on mobile */
+  .home-letter-col {
+    padding: 24px 20px 24px 20px !important;
+    text-align: center;
+  }
+
+  .home-letter-col p,
+  .home-letter-col div {
+    text-align: left;
+  }
 }
