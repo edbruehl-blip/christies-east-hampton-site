@@ -867,7 +867,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       All figures beyond verified actuals ($4.57M closed, ${exclusiveStr} active) are governing-principle projections.
       The $55M 2026 baseline assumes 5 named agents at stated volume. Targeted hires ($375K each × 3) and
       organic adds ($50K each × 4) are upside above the baseline. The $40M profit pool breakeven is a
-      governing principle, not a contractual threshold. All outer-year projections (2027–2031) are MODEL
+      governing principle, not a contractual threshold. All outer-year projections (2027–2036) are MODEL
       and subject to revision as the team grows.
     </div>
   </div>
