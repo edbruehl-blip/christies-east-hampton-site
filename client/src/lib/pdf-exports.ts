@@ -1572,7 +1572,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // The Model
     {
       heading: "The Model",
-      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 \u2014 $55 million. 2027 \u2014 $100 million. 2030 \u2014 three offices. 2032 to 2033 \u2014 $1 billion run rate. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
+      text: "Not ambition. Arithmetic. And proof. Ed has already done over $1 billion in career sales across twenty years on this land. Now the model is institutional. 2026 — $55 million. 2027 — $273 million. 2030 — three offices. By 2033 — $1.101 billion crossed. Every stage is gated by proof. East Hampton first. Southampton only when the base is undeniable. Westhampton only when the first two offices carry their own weight. If the model is wrong, it will be wrong on the conservative side. Every input has a name. Every number has a source.",
     },
     // Honest summary
     {
