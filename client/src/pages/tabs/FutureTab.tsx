@@ -448,6 +448,7 @@ export default function FutureTab() {
                 { label: 'Sales vol',    proj: ['$3M','$6M','$7.2M','$15M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$60K','$120K','$144K','$300K+'], act: null },
+                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
                 { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -476,6 +477,7 @@ export default function FutureTab() {
                 { label: 'Sales vol',    proj: ['$5M','$15M','$20M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
+                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
                 { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
