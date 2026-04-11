@@ -2120,15 +2120,14 @@ export async function generateCardStockExport(input: FutureReportInput): Promise
   doc.text('PROFIT POOL · THE ECONOMIC LOGIC', P.ml, py);
   py += 6;
   py = drawTable(
-    ['Year', 'Volume', 'Pool (2%)', 'Ed *', 'Ilija *', "Christie's RE *"],
-    [cw * 0.1, cw * 0.14, cw * 0.14, cw * 0.14, cw * 0.14, cw * 0.34],
+    ['Year', 'Volume', 'Pool (2%)', 'Ed *', 'Ilija *'],
+    [cw * 0.12, cw * 0.18, cw * 0.22, cw * 0.24, cw * 0.24],
     [
-      ['2026', '$107.5M', '2% above $40M', '35%', '60%', '5%'],
-      ['2027', '$273M',   '2% above $40M', '35%', '60%', '5%'],
-      ['2028', '$383.5M', '2% above $40M', '35%', '60%', '5%'],
-      ['2030', '$641.4M', '2% above $40M', '35%', '60%', '5%'],
-      ['2031', '$798.5M', '2% above $40M', '35%', '60%', '5%'],
-      ['2033', '$1.101B', '2% above $40M', '35%', '60%', '5%'],
+      ['2026', '$55M',    '2% above $40M', '35%', '65%'],
+      ['2027', '$273M',   '2% above $40M', '35%', '65%'],
+      ['2028', '$383.5M', '2% above $40M', '35%', '65%'],
+      ['2031', '$798.5M', '2% above $40M', '35%', '65%'],
+      ['2033', '$1.101B', '2% above $40M', '35%', '65%'],
     ],
     py
   );

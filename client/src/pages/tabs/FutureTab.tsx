@@ -1,11 +1,9 @@
-/**
- * FUTURE TAB — Sprint 11 Item 5 Rebuild
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
- * Typography: Cormorant Garamond (headlines) · Source Sans 3 (data) · Barlow Condensed (labels)
- * Data source: Growth Model v2 VOLUME tab (LIVE — service account, publicProcedure)
- *
- * Auth gate deferred — site is private, URL in hands of core team only.
- * Gate restores when URL goes wider (Ed will flag). One targeted edit to restore.
+/*
+ * FUTURE TAB — Wireframe Rebuild · April 10 2026
+ * Visual authority: christies_future_tab_anchored_final.html
+ * Theme: dark navy #0a1628 · gold #c8ac78 · gold-light #e8cc98
+ * Live wires: ascensionArc (Wires 1-4) · volumeData · pipe.getKpis
+ * Auth gate deferred — site private, URL in hands of core team only.
  */
 
 import { useMemo } from 'react';
@@ -13,44 +11,55 @@ import { trpc } from '@/lib/trpc';
 import { generateFutureReportPDF, generateCardStockExport } from '@/lib/pdf-exports';
 import '@/styles/future-print.css';
 
+// ─── Design tokens (match wireframe exactly) ─────────────────────────────────
+const NAVY       = '#0a1628';
+const NAVY_CARD  = '#0d1e33';
+const NAVY_CHART = '#0d1a2a';
+const GOLD       = '#c8ac78';
+const GOLD_LIGHT = '#e8cc98';
+const GOLD_FAINT_BG     = 'rgba(200,172,120,0.13)';
+const GOLD_FAINT_BORDER = 'rgba(200,172,120,0.40)';
+const GOLD_MID_BG       = 'rgba(200,172,120,0.28)';
+const CHARCOAL   = '#384249';
+const DIM        = '#555';
+const MUTED      = '#666';
+const PROJ_TEXT  = 'rgba(200,172,120,0.80)';
+
+const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
+const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
+
 // ─── Council-governed milestone targets ──────────────────────────────────────
 const MILESTONE_TARGETS = {
-  2025: { volume: 15_000_000,    displayVolume: '$15M',    label: 'Baseline', note: 'Bonita DeWolf pre-launch baseline', isBaseline: true },
-  2026: { volume: 107_500_000,   displayVolume: '$107.5M', label: '$107.5M', note: null, isBaseline: false },
-  2027: { volume: 273_000_000,   displayVolume: '$273M',   label: '$273M',   note: null, isBaseline: false },
-  2028: { volume: 383_500_000,   displayVolume: '$383.5M', label: '$383.5M', note: null, isBaseline: false },
-  2030: { volume: 641_400_000,   displayVolume: '$641.4M', label: '$641.4M', note: null, isBaseline: false },
-  2031: { volume: 798_500_000,   displayVolume: '$798.5M', label: '$798.5M', note: null, isBaseline: false },
-  2033: { volume: 1_101_000_000, displayVolume: '$1.101B', label: '$1.101B', note: null, isBaseline: false },
+  2025: { volume: 15_000_000,    display: '$20M',    label: '2025', isBaseline: true },
+  2026: { volume: 55_000_000,    display: '$55M',    label: '2026', isBaseline: false },
+  2027: { volume: 273_000_000,   display: '$273M',   label: '2027', isBaseline: false },
+  2028: { volume: 383_500_000,   display: '$383M',   label: '2028', isBaseline: false },
+  2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
 } as const;
 
-const LABEL_FONT: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
-const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
-const SANS: React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
+const MAX_VOLUME = 798_500_000;
+const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
 
-const MAX_VOLUME = MILESTONE_TARGETS[2033].volume;
-const CHART_HEIGHT = 220; // px
-
-function fmtVol(n: number): string {
-  if (n >= 1_000_000) return `$${(n / 1_000_000 % 1 === 0 ? (n / 1_000_000).toFixed(0) : (n / 1_000_000).toFixed(2))}M`;
+function fmtM(n: number): string {
+  if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`;
+  if (n >= 1_000_000) {
+    const v = n / 1_000_000;
+    return `$${v % 1 === 0 ? v.toFixed(0) : v.toFixed(2)}M`;
+  }
   if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
   return `$${n.toLocaleString()}`;
 }
 
-// ─── Pro Forma Button Component ─────────────────────────────────────────────────────────────────
+// ─── Pro Forma Button ─────────────────────────────────────────────────────────
 function ProFormaButton() {
   const generateProForma = trpc.future.generateProForma.useMutation();
-
   const handleGenerate = async () => {
     try {
       const result = await generateProForma.mutateAsync();
       const byteChars = atob(result.pdf);
       const byteNums = new Array(byteChars.length);
-      for (let i = 0; i < byteChars.length; i++) {
-        byteNums[i] = byteChars.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNums);
-      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      for (let i = 0; i < byteChars.length; i++) byteNums[i] = byteChars.charCodeAt(i);
+      const blob = new Blob([new Uint8Array(byteNums)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -60,42 +69,32 @@ function ProFormaButton() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('Pro forma generation failed:', err);
-      alert('Pro forma generation failed. Please try again.');
-    }
+    } catch { alert('Pro forma generation failed. Please try again.'); }
   };
-
   return (
     <button
       onClick={handleGenerate}
       disabled={generateProForma.isPending}
-      className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] disabled:opacity-50 disabled:cursor-not-allowed"
-      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.04)' }}
+      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer', opacity: generateProForma.isPending ? 0.5 : 1 }}
     >
-      {generateProForma.isPending ? '⏳ Generating…' : '↓ Generate Pro Forma · 4-Page PDF'}
+      {generateProForma.isPending ? 'Generating...' : '\u2193 Pro Forma PDF'}
     </button>
   );
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
-  // Wires One–Four: live OUTPUTS + VOLUME data from Google Sheets
+  // Wires 1–4: live OUTPUTS + VOLUME data
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
-    retry: false,
-    staleTime: 5 * 60 * 1000,
+    retry: false, staleTime: 5 * 60 * 1000,
   });
-
   const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
-    retry: false,
-    staleTime: 5 * 60 * 1000,
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+  const { data: kpisData } = trpc.pipe.getKpis.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
   });
 
-  // Sprint 41 Priority 3: live pipeline KPIs for Card Stock PDF export
-  const { data: kpisData } = trpc.pipe.getKpis.useQuery(undefined, {
-    retry: false,
-    staleTime: 5 * 60 * 1000,
-  });
   const liveKpis = kpisData ? {
     exclusiveTotalM: kpisData.exclusiveTotalM,
     activeTotalM: kpisData.activeTotalM,
@@ -112,12 +111,7 @@ export default function FutureTab() {
     proj2031: 0, act2031: 0, projGci2031: 0, actGci2031: 0,
   };
 
-  const liveAct2026 = useMemo(() => {
-    if (!volData) return 4_570_000;
-    return volData.total.act2026 || 4_570_000;
-  }, [volData]);
-
-  // Wire One: live office volumes from OUTPUTS B32:B39 (override MILESTONE_TARGETS volumes)
+  // Wire 1: live office volumes
   const liveVolumes = useMemo(() => {
     if (!arcData?.years?.length) return null;
     const map: Record<number, number> = {};
@@ -125,7 +119,7 @@ export default function FutureTab() {
     return map;
   }, [arcData]);
 
-  // Wire Two/Three: live profit pool from OUTPUTS G32:G39 × 35%/65%
+  // Wire 2/3: live profit pool
   const livePoolRows = useMemo(() => {
     if (!arcData?.years?.length) return null;
     return arcData.years.map(y => ({
@@ -137,7 +131,7 @@ export default function FutureTab() {
     }));
   }, [arcData]);
 
-  // Wire Four: live Ed GCI from VOLUME G2 series
+  // Wire 4: Ed GCI
   const liveEdGci = useMemo(() => {
     if (!arcData?.years?.length) return null;
     const map: Record<number, number> = {};
@@ -145,557 +139,427 @@ export default function FutureTab() {
     return map;
   }, [arcData]);
 
-  const ARC_BARS = useMemo(() => {
-    const closed2026 = volData?.total.act2026 || 4_570_000;
-    const active2026 = volData?.total.proj2026
-      ? Math.max(0, volData.total.proj2026 - closed2026)
-      : 13_620_000;
-    // Wire One: use live volume from OUTPUTS if available, fall back to MILESTONE_TARGETS
-    const vol2026 = liveVolumes?.[2026] ?? MILESTONE_TARGETS[2026].volume;
-    const vol2027 = liveVolumes?.[2027] ?? MILESTONE_TARGETS[2027].volume;
-    const vol2028 = liveVolumes?.[2028] ?? MILESTONE_TARGETS[2028].volume;
-    const vol2030 = liveVolumes?.[2030] ?? MILESTONE_TARGETS[2030].volume;
-    const vol2031 = liveVolumes?.[2031] ?? MILESTONE_TARGETS[2031].volume;
-    const vol2033 = liveVolumes?.[2033] ?? MILESTONE_TARGETS[2033].volume;
-    const projected2026 = Math.max(0, vol2026 - closed2026 - active2026);
-    const fmtLive = (v: number) => {
-      if (v >= 1_000_000_000) return `$${(v / 1_000_000_000).toFixed(3).replace(/\.?0+$/, '')}B`;
-      if (v >= 1_000_000) return `$${(v / 1_000_000 % 1 === 0 ? (v / 1_000_000).toFixed(0) : (v / 1_000_000).toFixed(1))}M`;
-      return `$${v.toLocaleString()}`;
-    };
+  // Actual 2026 closed volume (from VOLUME tab)
+  const act2026 = volData?.total.act2026 || 4_570_000;
+
+  // Bar heights — sqrt scale, max = CHART_HEIGHT
+  function barPct(vol: number) {
+    return Math.max(4, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT));
+  }
+
+  // The five projected bars (2025 baseline + 2026-2031 milestones)
+  const BARS = useMemo(() => {
+    const vol2026 = liveVolumes?.[2026] ?? 55_000_000;
+    const vol2027 = liveVolumes?.[2027] ?? 273_000_000;
+    const vol2028 = liveVolumes?.[2028] ?? 383_500_000;
+    const vol2031 = liveVolumes?.[2031] ?? 798_500_000;
     return [
-      { year: '2025', ...MILESTONE_TARGETS[2025], segments: null, isClosed: true },
-      {
-        year: '2026',
-        volume: vol2026,
-        displayVolume: fmtLive(vol2026),
-        label: fmtLive(vol2026),
-        segments: [
-          { label: 'Closed',    value: closed2026,    color: '#1B2A4A' },
-          { label: 'Active',    value: active2026,    color: '#8a7a5a' },
-          { label: 'Projected', value: projected2026, color: 'rgba(200,172,120,0.35)' },
-        ],
-        isClosed: false,
-      },
-      { year: '2027', ...MILESTONE_TARGETS[2027], volume: vol2027, displayVolume: fmtLive(vol2027), label: fmtLive(vol2027), segments: null, isClosed: false },
-      { year: '2028', ...MILESTONE_TARGETS[2028], volume: vol2028, displayVolume: fmtLive(vol2028), label: fmtLive(vol2028), segments: null, isClosed: false },
-      { year: '2030', ...MILESTONE_TARGETS[2030], volume: vol2030, displayVolume: fmtLive(vol2030), label: fmtLive(vol2030), segments: null, isClosed: false },
-      { year: '2031', ...MILESTONE_TARGETS[2031], volume: vol2031, displayVolume: fmtLive(vol2031), label: fmtLive(vol2031), segments: null, isClosed: false },
-      { year: '2033', ...MILESTONE_TARGETS[2033], volume: vol2033, displayVolume: fmtLive(vol2033), label: fmtLive(vol2033), segments: null, isClosed: false },
+      { year: '2025', vol: 15_000_000,  display: '$20M',  actualVol: 0,       note: null },
+      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '3rd 100 Days · Incoming' },
+      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       note: 'EH Flagship at Scale · 9 Agents' },
+      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton Opens 2028 · Two Offices' },
+      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       note: 'Westhampton Opens 2030 · Three Offices · Compounding' },
     ];
-  }, [volData, liveVolumes]);
+  }, [liveVolumes, act2026]);
+
+  // ─── Card border style (uniform per wireframe) ────────────────────────────
+  const cardStyle: React.CSSProperties = {
+    background: NAVY_CARD,
+    border: `0.5px solid ${GOLD}`,
+    borderRadius: 4,
+    padding: '7px 9px',
+  };
 
   return (
-    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
+    <div style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
-      {/* ── Header ──────────────────────────────────────────────────────────────────── */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <div>
-            <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-              Christie's Ascension Arc
-            </div>
-            <h2 style={{ ...SERIF, color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>
-              Future
-            </h2>
-            <div className="flex items-center gap-3 mt-2">
-              {volData && !volLoading ? (
-                <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  ● Live · Growth Model v2 · VOLUME tab
-                </span>
-              ) : volLoading ? (
-                <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-                  Loading…
-                </span>
-              ) : null}
-              <span style={{ ...SANS, color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
-                Sales volume only · Private &amp; Confidential
-              </span>
-            </div>
+        {/* ── Header ─────────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${GOLD}`, paddingBottom: 8, marginBottom: 12 }}>
+          <div style={{ ...SANS, fontSize: 8.5, color: GOLD, letterSpacing: 1.5 }}>
+            CHRISTIE&apos;S &middot; INTERNATIONAL REAL ESTATE GROUP &middot; EAST HAMPTON &middot; EST. 1766
           </div>
-          {/* Print Pro Forma button */}
-          <button
-            onClick={() => window.print()}
-            className="no-print"
-            style={{
-              ...LABEL_FONT,
-              background: '#C8AC78',
-              color: '#1B2A4A',
-              border: 'none',
-              padding: '9px 18px',
-              fontSize: 10,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              cursor: 'pointer',
-              fontWeight: 700,
-              alignSelf: 'center',
-              flexShrink: 0,
-            }}
-          >
-            ↓ Print Pro Forma
-          </button>
+          <div style={{ ...SANS, fontSize: 16, color: '#fff', letterSpacing: 3, textTransform: 'uppercase' as const }}>
+            Ascension Arc
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            {(arcData && !arcLoading) || (volData && !volLoading) ? (
+              <span style={{ ...SANS, color: '#4ade80', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const }}>&#9679; Live</span>
+            ) : null}
+            <ProFormaButton />
+          </div>
         </div>
-      </div>
-      <div className="px-6 py-8" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
 
-        {/* ── Ascension Arc ────────────────────────────────────────────────────── */}
-        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Christie's Ascension Arc · Sales Volume Trajectory
-        </div>
-        <div className="mb-10 p-6 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <div style={{ overflowX: 'auto' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, minWidth: 700, height: CHART_HEIGHT + 60, paddingBottom: 0 }}>
-              {ARC_BARS.map((bar) => {
-                const sqrtPct = Math.sqrt(bar.volume / MAX_VOLUME);
-                const barH = Math.max(8, Math.round(sqrtPct * CHART_HEIGHT));
-                return (
-                  <div key={bar.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60 }}>
-                    <div style={{
-                      ...SERIF, color: '#1B2A4A', fontWeight: 600,
-                      fontSize: bar.displayVolume.length > 6 ? '0.82rem' : '1rem',
-                      lineHeight: 1, marginBottom: 6, textAlign: 'center',
-                    }}>
-                      {bar.displayVolume}
-                    </div>
-                    {bar.segments ? (
-                      <div style={{ width: '100%', height: barH, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', overflow: 'hidden', borderTop: '3px solid #C8AC78' }}>
-                        {[...bar.segments].reverse().map((seg) => {
-                          const segH = Math.round((seg.value / bar.volume) * barH);
-                          return (
-                            <div key={seg.label} style={{ width: '100%', height: segH, background: seg.color, flexShrink: 0 }} />
-                          );
-                        })}
-                      </div>
-                    ) : (
-                      <div style={{
-                        width: '100%', height: barH,
-                        background: bar.isBaseline
-                          ? 'linear-gradient(to top, rgba(27,42,74,0.15) 0%, rgba(27,42,74,0.22) 100%)'
-                          : 'linear-gradient(to top, rgba(200,172,120,0.18) 0%, rgba(200,172,120,0.28) 100%)',
-                        borderTop: `3px solid ${bar.isBaseline ? 'rgba(27,42,74,0.35)' : '#C8AC78'}`,
-                      }} />
-                    )}
-                    <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>
-                      {bar.year}
-                    </div>
+        {/* ── Chart Frame ────────────────────────────────────────────────────── */}
+        <div style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '14px 14px 0', marginBottom: 10 }}>
+          {/* Bars row */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, paddingBottom: 10 }}>
+
+            {BARS.map((bar) => {
+              const projH = barPct(bar.vol);
+              const actH  = bar.actualVol > 0 ? Math.max(14, Math.round((bar.actualVol / bar.vol) * projH)) : 0;
+              const gapH  = projH - actH;
+              const isBaseline = bar.year === '2025';
+
+              return (
+                <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+                  {/* Dollar label above bar */}
+                  <div style={{ ...SANS, fontSize: isBaseline ? 11 : 13, color: isBaseline ? MUTED : GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
+                    {bar.display}
                   </div>
-                );
-              })}
-              {/* $1B Horizon */}
-              <div style={{ flex: 0.7, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: CHART_HEIGHT + 60 }}>
-                <div style={{ ...SERIF, color: '#C8AC78', fontWeight: 700, fontSize: '1rem', textAlign: 'center', marginBottom: 6, lineHeight: 1.2 }}>
-                  $1B<br />Run Rate
+                  {/* Bar column */}
+                  <div style={{ width: '100%', height: projH, display: 'flex', flexDirection: 'column' }}>
+                    {isBaseline ? (
+                      /* 2025 baseline — simple dim bar */
+                      <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
+                    ) : (
+                      <>
+                        {/* Projected gap (faint gold outline) */}
+                        {gapH > 0 && (
+                          <div style={{ width: '100%', height: gapH, background: GOLD_FAINT_BG, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden', flexShrink: 0 }}>
+                            {bar.note && (
+                              <div style={{ ...SANS, fontSize: 8, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
+                                {bar.note}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        {/* Actual fill (solid gold) */}
+                        {actH > 0 && (
+                          <div style={{ width: '100%', height: actH, background: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
+                            <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
+                            <div style={{ ...SANS, fontSize: 6.5, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0' }}>
+                              ACTUAL &middot; {fmtM(bar.actualVol)}
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
                 </div>
-                <div style={{
-                  width: 2, height: CHART_HEIGHT,
-                  background: 'repeating-linear-gradient(to bottom, #C8AC78 0, #C8AC78 5px, transparent 5px, transparent 10px)',
-                }} />
-                <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center', lineHeight: 1.3 }}>
-                  2033<br />
-                  $1.101B
+              );
+            })}
+
+            {/* $3B vision bar */}
+            <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
+              <div style={{ ...SANS, fontSize: 13, color: GOLD_LIGHT, fontWeight: 700, marginBottom: 3 }}>$3B</div>
+              {/* Arrow tip */}
+              <div style={{ width: 0, height: 0, borderLeft: '17px solid transparent', borderRight: '17px solid transparent', borderBottom: `13px solid ${GOLD_LIGHT}` }} />
+              {/* Bar */}
+              <div style={{ width: '100%', flex: 1, maxHeight: 178, background: 'rgba(212,188,130,0.15)', border: `1px solid ${GOLD_LIGHT}`, borderRadius: '2px 2px 0 0', display: 'flex', alignItems: 'flex-start', justifyContent: 'center', paddingTop: 8, overflow: 'hidden' }}>
+                <div style={{ ...SANS, color: GOLD_LIGHT, fontSize: 9, fontStyle: 'normal', fontWeight: 500, textAlign: 'center', lineHeight: 1.6 }}>
+                  Christie&apos;s<br />Three-Office Network<br />EH &middot; SH &middot; WH<br />50+ Agents<br />$1B+ Annual Run Rate
                 </div>
               </div>
             </div>
+
           </div>
-          {/* $1B Horizon footnote — Item 5 */}
-          <div className="mt-4 px-4 py-2 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.4)', background: 'rgba(200,172,120,0.03)' }}>
-            <p style={{ ...SANS, color: 'rgba(27,42,74,0.55)', fontSize: '0.72rem', lineHeight: 1.6, margin: 0, fontStyle: 'italic' }}>
-              Three-office model at current growth assumptions. Christie's Ascension Arc reaches $1.101B by 2033 under compound trajectory. Council-governed milestone targets — not guarantees.
-            </p>
-          </div>
-          {/* Assumptions Box — Item 6 */}
-          <div className="mt-4 px-4 py-3 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(27,42,74,0.12)' }}>
-            <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 8, fontWeight: 700 }}>Model Assumptions — Base Case</div>
-            <div style={{ ...SANS, color: '#384249', fontSize: '0.75rem', lineHeight: 1.8 }}>
-              — Agent GCI growth rate: 20% annually, $1M personal cap<br />
-              — House take: 35% of gross commissions on volume above $40M breakeven<br />
-              — Southampton office: opens 2028<br />
-              — Westhampton office: opens 2030
-            </div>
-          </div>
-          {/* Legend */}
-          <div className="flex flex-wrap gap-4 mt-6 pt-4 border-t" style={{ borderColor: 'rgba(27,42,74,0.08)' }}>
-            {[
-              { color: '#1B2A4A', label: `2026 Closed · ${fmtVol(liveAct2026)}` },
-              { color: '#8a7a5a', label: '2026 Active Pipeline · $13.62M' },
-              { color: 'rgba(200,172,120,0.35)', border: '#C8AC78', label: '2026 Projected to $107.5M Total' },
-            ].map(l => (
-              <div key={l.label} className="flex items-center gap-2">
-                <div style={{ width: 12, height: 12, background: l.color, border: l.border ? `1px solid ${l.border}` : undefined, flexShrink: 0 }} />
-                <span style={{ ...LABEL_FONT, color: '#384249', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase' }}>{l.label}</span>
-              </div>
+
+          {/* Year strip */}
+          <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 10px' }}>
+            {[...BARS.map(b => b.year), '2036'].map(yr => (
+              <div key={yr} style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
             ))}
           </div>
         </div>
 
-        {/* ── 300-Day Proof ────────────────────────────────────────────────────── */}
-        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          300-Day Proof
+        {/* ── Legend ─────────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', gap: 18, marginBottom: 9, alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: GOLD, flexShrink: 0 }} />
+            Actual &#8212; confirmed closings &middot; updates every deal
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: GOLD_FAINT_BG, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
+            Projected &#8212; model target &middot; live from Growth Model v2
+          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+
+        {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
-            { label: 'First 100 Days', period: 'Dec 2025 – Mar 2026', volume: '$4.57M', desc: 'Closed volume. Office open. Systems deployed. Ed Bruehl solo.', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4' },
-            { label: 'Second 100 Days', period: 'Mar – Apr 29, 2026', volume: '$13.62M Active', desc: 'Active pipeline. First agent hires. Podcast and events cadence locked. Media partnership negotiated from $115K ask to $9K pilot. Proof-of-value before expansion.', badge: 'Active', badgeBg: '#C8AC78', badgeColor: '#1B2A4A' },
-            { label: 'Third 100 Days', period: 'Apr 29 – Aug 2026', volume: '$55M', desc: "Christie's East Hampton Official Flagship Launch. First Wednesday Caravan. Operating scale. East End market presence established.", badge: 'Projected', badgeBg: 'rgba(27,42,74,0.1)', badgeColor: '#1B2A4A' },
-          ].map(block => (
-            <div key={block.label} className="p-5 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-              <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{block.label}</div>
-              <div style={{ ...LABEL_FONT, color: 'rgba(27,42,74,0.4)', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 8 }}>{block.period}</div>
-              <div style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '2rem', lineHeight: 1 }}>{block.volume}</div>
-              <div className="mt-3 text-sm leading-relaxed" style={{ ...SANS, color: '#384249', fontSize: '0.8rem' }}>{block.desc}</div>
-              <div className="mt-3 inline-block px-2 py-0.5" style={{ ...LABEL_FONT, background: block.badgeBg, color: block.badgeColor, fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{block.badge}</div>
+            {
+              phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
+              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
+              client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
+              team: '26 Park Place operational. Open before the sign went up.',
+            },
+            {
+              phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
+              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
+              client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
+              team: 'Zoila incoming April 15. Flagship Relaunch April 29.',
+            },
+            {
+              phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
+              shareholder: <><strong>$55M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
+              client: "AI Council daily. Every listing at Christie's standard.",
+              team: '15 agents on live OS. Southampton bench seeded.',
+            },
+            {
+              phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
+              shareholder: <><strong>$3B network.</strong> Year 2 Profit Pool activates. Three offices. 50+ agents.</>,
+              client: "Global Christie's brand. Legacy practice beyond a brokerage.",
+              team: "Christie's East Hampton compounding year over year.",
+            },
+          ].map(c => (
+            <div key={c.phase} style={cardStyle}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 500 }}>{c.phase}</div>
+              <div style={{ ...SANS, fontSize: 7, color: '#888', letterSpacing: 1, textTransform: 'uppercase' as const }}>{c.status}</div>
+              <div style={{ ...SANS, fontSize: 7, color: DIM, paddingBottom: 5, marginBottom: 5, borderBottom: `0.5px solid #1e2d3d` }}>{c.date}</div>
+              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase' as const, margin: '4px 0 2px' }}>Shareholder</div>
+              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.shareholder}</div>
+              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase' as const, margin: '4px 0 2px' }}>Client</div>
+              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.client}</div>
+              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase' as const, margin: '4px 0 2px' }}>Team</div>
+              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.team}</div>
             </div>
           ))}
         </div>
 
-        {/* ── Agent Volume Table ────────────────────────────────────────────── */}
-        {/* Unauthenticated: volume columns only. Authenticated: + GCI columns */}
-        <div className="flex items-center justify-between mb-3">
-          <div className="uppercase" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-            Agent Volume · 2026 · Sales Volume + GCI
-          </div>
-          {volData && !volLoading && (
-            <span style={{ ...LABEL_FONT, color: '#4ade80', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-              ● Live · VOLUME tab
-            </span>
-          )}
-        </div>
-        <div className="mb-10 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <table className="w-full text-sm" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 800 }}>
-            <thead>
-              <tr style={{ borderBottom: '2px solid #C8AC78' }}>
-                <th className="px-4 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Agent</th>
-                <th className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Role</th>
-                <th className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>Status</th>
-                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.3)' }}>Proj Vol 2026</th>
-                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act Vol 2026</th>
-                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Gap</th>
-                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>Proj GCI 2026</th>
-                <th className="px-3 py-3 text-right" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase' }}>Act GCI 2026</th>
-              </tr>
-            </thead>
-            <tbody>
-              {(agents.length > 0 ? agents : [
-                { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 33_000_000, act2026: 4_570_000, projGci2026: 660_000, actGci2026: 0, proj2027: 50_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Jarvis Slade', role: 'Agent', status: 'Active', proj2026: 5_000_000, act2026: 0, projGci2026: 100_000, actGci2026: 0, proj2027: 15_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Bonita DeWolf', role: 'Agent', status: 'Active', proj2026: 12_000_000, act2026: 0, projGci2026: 240_000, actGci2026: 0, proj2027: 20_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Sebastian Mobo', role: 'Agent', status: 'Active', proj2026: 3_500_000, act2026: 0, projGci2026: 70_000, actGci2026: 0, proj2027: 5_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Scott Smith', role: 'Agent', status: 'Pending (June 1)', proj2026: 1_500_000, act2026: 0, projGci2026: 30_000, actGci2026: 0, proj2027: 3_000_000, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Zoila Ortega Astor', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2026' },
-                { name: 'Angel Theodore', role: 'Mktg Coord + Sales', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 60_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Sandy Busch', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 25_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2025' },
-                { name: 'Jan Jaeger', role: 'Agent', status: 'Active', proj2026: 0, act2026: 0, projGci2026: 25_000, actGci2026: 0, proj2027: 0, act2027: 0, projGci2027: 0, actGci2027: 0, proj2028: 0, act2028: 0, projGci2028: 0, actGci2028: 0, startYear: '2024' },
-              ]).map((agent, i) => (
-                <tr key={agent.name} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
-                  <td className="px-4 py-3" style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.9rem' }}>{agent.name}</td>
-                  <td className="px-3 py-3 text-sm" style={{ color: '#384249' }}>{agent.role}</td>
-                  <td className="px-3 py-3">
-                    <span className="px-2 py-0.5 text-[9px] uppercase" style={{ ...LABEL_FONT, background: agent.status === 'Active' ? 'rgba(27,42,74,0.08)' : 'rgba(200,172,120,0.15)', color: agent.status === 'Active' ? '#1B2A4A' : '#C8AC78', letterSpacing: '0.1em' }}>
-                      {agent.status}
-                    </span>
-                  </td>
-                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>{fmtVol(agent.proj2026)}</td>
-                  <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
-                    {(agent.act2026 ?? 0) > 0 ? fmtVol(agent.act2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
-                  </td>
-                  <td className="px-3 py-3 text-sm text-right" style={{ borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                    {(agent.act2026 ?? 0) > 0
-                      ? <span style={{ color: (agent.proj2026 - agent.act2026) <= 0 ? '#2D5A3D' : '#C8AC78', fontWeight: 600 }}>
-                          {(agent.proj2026 - agent.act2026) <= 0 ? '✓ On Track' : fmtVol(agent.proj2026 - agent.act2026)}
-                        </span>
-                      : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
-                  </td>
-                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                    {(agent.projGci2026 ?? 0) > 0 ? fmtVol(agent.projGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
-                  </td>
-                  <td className="px-3 py-3 text-sm text-right" style={{ color: '#384249' }}>
-                    {(agent.actGci2026 ?? 0) > 0 ? fmtVol(agent.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.2)' }}>—</span>}
-                  </td>
-                </tr>
-              ))}
-              {/* AnewHomes row */}
-              <tr style={{ borderBottom: '1px solid rgba(200,172,120,0.2)', background: 'rgba(200,172,120,0.04)' }}>
-                <td className="px-4 py-3" style={{ ...SERIF, color: '#8a7a5a', fontWeight: 600, fontSize: '0.85rem' }}>AnewHomes</td>
-                <td className="px-3 py-3 text-sm" style={{ color: '#7a8a8e' }}>Custom Build · Ed Bruehl exclusively</td>
-                <td className="px-3 py-3">
-                  <span className="px-2 py-0.5 text-[9px] uppercase" style={{ ...LABEL_FONT, background: 'rgba(200,172,120,0.15)', color: '#C8AC78', letterSpacing: '0.1em' }}>Active</span>
-                </td>
-                <td className="px-3 py-3 text-sm text-right" style={{ color: '#C8AC78', fontWeight: 600, borderLeft: '1px solid rgba(200,172,120,0.15)' }}>—</td>
-                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.25)' }}>—</td>
-                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
-                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>—</td>
-                <td className="px-3 py-3 text-sm text-right" style={{ color: 'rgba(27,42,74,0.2)' }}>—</td>
-              </tr>
-              {/* Total row */}
-              <tr style={{ borderTop: '2px solid #C8AC78', background: 'rgba(200,172,120,0.05)' }}>
-                <td className="px-4 py-3" colSpan={3} style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600 }}>
-                  Total · 16 Agents (9 existing incl. Scott Smith pending June 1 + 3 targeted + 4 organic)
-                </td>
-                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#C8AC78', borderLeft: '1px solid rgba(200,172,120,0.15)' }}>
-                  {fmtVol(total.proj2026 || 55_000_000)}
-                </td>
-                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#1B2A4A' }}>
-                  {(total.act2026 ?? 0) > 0 ? fmtVol(total.act2026) : fmtVol(liveAct2026)}
-                </td>
-                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                  {(() => {
-                    const proj = total.proj2026 || 55_000_000;
-                    const act = total.act2026 || liveAct2026;
-                    const gap = proj - act;
-                    return gap <= 0
-                      ? <span style={{ color: '#2D5A3D' }}>✓ On Track</span>
-                      : <span style={{ color: '#C8AC78' }}>{fmtVol(gap)}</span>;
-                  })()}
-                </td>
-                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#8a7a5a', borderLeft: '1px solid rgba(200,172,120,0.1)' }}>
-                  {(total.projGci2026 ?? 0) > 0 ? fmtVol(total.projGci2026) : '$3.08M'}
-                </td>
-                <td className="px-3 py-3 text-sm text-right font-semibold" style={{ color: '#384249' }}>
-                  {(total.actGci2026 ?? 0) > 0 ? fmtVol(total.actGci2026) : <span style={{ color: 'rgba(27,42,74,0.25)' }}>—</span>}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* ── Divider + Income note ──────────────────────────────────────────── */}
+        <hr style={{ border: 'none', borderTop: `0.5px solid ${CHARCOAL}`, margin: '6px 0 8px' }} />
+        <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
+          All figures verified in sheet April 10, 2026 &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
 
-        {/* ── Managing Director Total Projected Income ─────────────────────── */}
-        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Managing Director — Total Projected Income · Internal Only
-        </div>
-        <>
-            <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
-              <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-                ★ INTERNAL ONLY — GOVERNING PRINCIPLE, NOT YET CONTRACTUAL
-              </span>
-            </div>
-            <div className="mb-4 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-              <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
-                <thead>
-                  <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Personal GCI', 'Profit Pool (Ed 30%)', 'AnewHomes (Ed 35%)', 'Total'].map(h => (
-                      <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Wire Four: Ed GCI from VOLUME G2 series; pool from OUTPUTS G32:G39 × 35% */}
-                  {(livePoolRows?.filter(r => ['2026','2027','2028','2030','2031'].includes(r.year)) ?? [
-                    { year: '2026', edPool: 39_725 },
-                    { year: '2027', edPool: 467_635 },
-                    { year: '2028', edPool: 680_383 },
-                    { year: '2030', edPool: 1_177_106 },
-                    { year: '2031', edPool: 1_480_272 },
-                  ]).map((row, i) => {
-                    const yr = parseInt(row.year, 10);
-                    const edGci = liveEdGci?.[yr] ?? 0;
-                    const anewHomes = yr === 2026 ? 17_500 : yr === 2027 ? 52_500 : 175_000;
-                    const total = edGci + row.edPool + anewHomes;
-                    return (
-                    <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
-                      <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem', fontWeight: 600 }}>
-                        {edGci > 0 ? fmtVol(edGci) : (yr >= 2029 ? '$1,000,000 (cap)' : <span style={{color:'rgba(27,42,74,0.25)'}}>&#8212;</span>)}
-                      </td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.edPool)}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#8a7a5a', fontSize: '0.85rem' }}>{fmtVol(anewHomes)}</td>
-                      <td className="px-3 py-3 font-bold" style={{ ...SERIF, color: '#1B2A4A', fontSize: '0.9rem' }}>{total > 0 ? fmtVol(total) : <span style={{color:'rgba(27,42,74,0.25)'}}>&#8212;</span>}</td>
-                    </tr>
-                  );
-                  })}
-                
-                </tbody>
-              </table>
-            </div>
-            <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
-              <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
-                Personal GCI grows at 20% per year with a $1M cap per ASSUMPTIONS tab. Profit pool = (Total Volume − $40M breakeven) × 2% × 35%. AnewHomes pool: Y1 $50K · Y2 $150K · Y3 $300K · Y4+ 10% annual compounding from $300K. Ed 35% share applied to pool each year.
-              </p>
-            </div>
-        </>
+        {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 9 }}>
 
-        {/* ── Profit Pool ──────────────────────────────────────────────────────── */}
-        <div className="uppercase mb-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Profit Pool · 2026–2031 Projection
-        </div>
-        <>
-            <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
-              <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-                ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS · Governing principle, not yet contractual *
-              </span>
-            </div>
-            <div className="mb-4 px-4 py-3 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-              <p style={{ ...SANS, color: '#384249', fontSize: '0.8rem', lineHeight: 1.65, margin: 0 }}>
-                Formula: Pool = (Total Sales Volume − <strong style={{ color: '#1B2A4A' }}>$40M breakeven</strong>) × <strong style={{ color: '#1B2A4A' }}>2%</strong>.
-                If volume &lt; $40M, pool = $0.&nbsp;&nbsp;
-                Split: <strong style={{ color: '#1B2A4A' }}>Ed Bruehl 35%</strong> · <strong style={{ color: '#1B2A4A' }}>Ilija 60%</strong> · <strong style={{ color: '#1B2A4A' }}>Christie's RE Rights 5%</strong>.
-                Paid at year end. Not salary. Not splits. Profit participation.
-              </p>
-            </div>
-            <div className="mb-4 border overflow-x-auto" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-              <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
-                <thead>
-                  <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Total Sales Volume', 'Net Operating Profit', 'Ed Bruehl (35%)', 'Ilija (65%)'].map(h => (
-                      <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {/* Wire Two + Three: live pool rows from OUTPUTS G32:G39 × 35%/65% */}
-                  {(livePoolRows ?? [
-                    { year: '2026', vol: total.proj2026 || 107_500_000, netProfit: 113_500, edPool: 39_725, ilijaPool: 73_775 },
-                    { year: '2027', vol: total.proj2027 || 273_000_000, netProfit: 1_336_100, edPool: 467_635, ilijaPool: 868_465 },
-                    { year: '2028', vol: total.proj2028 || 383_500_000, netProfit: 1_943_950, edPool: 680_383, ilijaPool: 1_263_568 },
-                    { year: '2030', vol: total.proj2030 || 641_400_000, netProfit: 3_363_160, edPool: 1_177_106, ilijaPool: 2_186_054 },
-                    { year: '2031', vol: total.proj2031 || 798_500_000, netProfit: 4_229_348, edPool: 1_480_272, ilijaPool: 2_749_076 },
-                    { year: '2033', vol: 1_101_000_000, netProfit: 5_885_957, edPool: 2_060_085, ilijaPool: 3_825_872 },
-                  ]).map((row, i) => (
-                    <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
-                      <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.vol)}</td>
-                      <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#C8AC78', fontSize: '0.85rem' }}>{fmtVol(row.netProfit)}</td>
-                      <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem' }}>{fmtVol(row.edPool)}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.ilijaPool)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div className="mb-10 px-4 py-3 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.03)' }}>
-              <p style={{ ...SANS, color: 'rgba(27,42,74,0.5)', fontSize: '0.75rem', lineHeight: 1.6, margin: 0 }}>
-                * Governing principle only — not yet contractual. Pool activates above $40M total sales volume.
-                GCI data lives only in this section, clearly labeled as internal. Targets above are MODEL projections, not guarantees.
-              </p>
-            </div>
-        </>
-
-        {/* ── Verified Numbers ─────────────────────────────────────────── */}
-        <div className="uppercase mb-3" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          Verified Numbers · April 7, 2026
-        </div>
-        <>
-            <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(27,42,74,0.03)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
-              <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-                ★ INTERNAL ONLY · Growth trajectory labeled as MODEL — not a guarantee
-              </span>
-            </div>
-            <div className="mb-10 grid grid-cols-2 md:grid-cols-3 gap-4">
+          {/* Column 1: Ilija + Ed */}
+          <div>
+            {/* Ilija */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Franchise Principal &middot; CIREG Tri-State</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
               {[
-                { label: 'Closed Volume 2026', value: '$4,570,000', note: 'Verified actuals · Ed Bruehl solo · First 100 days', badge: 'Closed', badgeBg: '#2D5A3D', badgeColor: '#FAF8F4', valColor: '#2D5A3D' },
-                { label: 'Active Pipeline', value: '$34,700,000', note: 'Named deals in active pipeline as of April 7, 2026', badge: 'Active', badgeBg: 'rgba(200,172,120,0.2)', badgeColor: '#C8AC78', valColor: '#C8AC78' },
-                { label: 'Named Team Members', value: '9', note: 'On payroll or contracted as of April 7, 2026', badge: 'Verified', badgeBg: 'rgba(27,42,74,0.08)', badgeColor: '#1B2A4A', valColor: '#1B2A4A' },
-                { label: 'Flambeaux Listing', value: '$6,500,000', note: 'Flambeaux · Active listing · Anchor deal for Q2 2026', badge: 'Active', badgeBg: 'rgba(200,172,120,0.2)', badgeColor: '#C8AC78', valColor: '#8a7a5a' },
-                { label: '2026 Baseline Target', value: '$55,000,000', note: 'Full-year sales volume target · MODEL projection', badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.4)' },
-                { label: 'Growth Trajectory', value: '$1.101B by 2033', note: "Christie's Ascension Arc · Council-governed · MODEL projections only", badge: 'MODEL', badgeBg: 'rgba(27,42,74,0.06)', badgeColor: 'rgba(27,42,74,0.4)', valColor: 'rgba(27,42,74,0.3)' },
-              ].map(item => (
-                <div key={item.label} className="p-4 border" style={{ background: '#fff', borderColor: 'rgba(27,42,74,0.1)' }}>
-                  <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{item.label}</div>
-                  <div style={{ ...SERIF, color: item.valColor, fontWeight: 600, fontSize: '1.4rem', lineHeight: 1.1, marginBottom: 4 }}>{item.value}</div>
-                  <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', lineHeight: 1.5, marginBottom: 6 }}>{item.note}</div>
-                  <span className="inline-block px-2 py-0.5" style={{ ...LABEL_FONT, background: item.badgeBg, color: item.badgeColor, fontSize: 7, letterSpacing: '0.12em', textTransform: 'uppercase' }}>{item.badge}</span>
+                { label: 'Net pool 65% *', proj: ['$73,775','$868,465','$1,263,568','~$5.1M'], act: null },
+                { label: 'Actual to date',  proj: null, act: ['—','—','—','—'] },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? row.act ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: row.act ? GOLD : DIM, fontStyle: row.proj ? 'italic' : 'normal', fontSize: row.proj ? 6.5 : 7, fontWeight: row.act ? 600 : 400 }}>{v}</span>
+                  ))}
                 </div>
               ))}
-            </div>
-        </>
-
-        {/* ── AnewHomes Net Build Profit ───────────────────────────────────────────── */}
-        <div className="uppercase mb-3 mt-2" style={{ ...LABEL_FONT, color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
-          AnewHomes · Net Build Profit
-        </div>
-        <>
-            <div className="mb-3 px-4 py-2 border" style={{ background: 'rgba(200,172,120,0.06)', borderColor: 'rgba(200,172,120,0.5)', borderLeftWidth: 3 }}>
-              <span style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-                ★ INTERNAL ONLY — NOT FOR EXTERNAL DOCUMENTS
-              </span>
-              <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', marginTop: 4 }}>
-                AnewHomes — Morton steel-frame custom builds. Products: Ranch · Cottage · Legacy Land Play · ADU Garage Living Unit.
-                ADU drives Year 1 income — construction management fees on client land, no land acquisition required.
-                Net profit after ALL build costs. Separate from Christie's commission income entirely.
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$73,775','$868K','$1.26M','$5.1M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
-            <div className="mb-4 overflow-x-auto">
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'inherit' }}>
-                <thead>
-                  <tr style={{ background: '#1B2A4A' }}>
-                    {['Participant', 'Share', 'Year 1 Net ($50K pool)', 'Year 2 Net ($150K pool)', 'Notes'].map(h => (
-                      <th key={h} style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '8px 12px', textAlign: 'left', whiteSpace: 'nowrap' }}>{h}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {[
-                    { name: 'Ed Bruehl', share: '35%', y1: '$17,500', y2: '$52,500', note: 'Managing partner · AnewHomes lead' },
-                    { name: 'Scott Smith', share: '35%', y1: '$17,500', y2: '$52,500', note: 'Build operations partner · pending June 1' },
-                    { name: 'Richard Bruehl', share: '10%', y1: '$5,000', y2: '$15,000', note: 'Advisory participant' },
-                    { name: 'Jarvis Slade', share: '5%', y1: '$2,500', y2: '$7,500', note: 'Advisory participant' },
-                    { name: 'Angel Theodore', share: '5%', y1: '$2,500', y2: '$7,500', note: 'Advisory participant' },
-                    { name: 'Zoila Ortega Astor', share: '5%*', y1: '$2,500', y2: '$7,500', note: '*Vests at six months. Reverts to pool if she does not make the cut.' },
-                    { name: 'Pool / Future', share: '5%', y1: '$2,500', y2: '$7,500', note: 'Reserved for future participants' },
-                  ].map((row, i) => (
-                    <tr key={row.name} style={{ background: i % 2 === 0 ? '#fff' : 'rgba(27,42,74,0.03)', borderBottom: '1px solid rgba(27,42,74,0.08)' }}>
-                      <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 600, fontSize: '0.85rem', padding: '8px 12px' }}>{row.name}</td>
-                      <td style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.1em', padding: '8px 12px' }}>{row.share}</td>
-                      <td style={{ ...SERIF, color: '#2D5A3D', fontWeight: 600, fontSize: '0.9rem', padding: '8px 12px' }}>{row.y1}</td>
-                      <td style={{ ...SERIF, color: '#2D5A3D', fontWeight: 600, fontSize: '0.9rem', padding: '8px 12px' }}>{row.y2}</td>
-                      <td style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', padding: '8px 12px' }}>{row.note}</td>
-                    </tr>
+
+            {/* Ed */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ed Bruehl</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Managing Director &middot; Christie&apos;s East Hampton</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'Brokerage GCI',  proj: ['$600K','$1.8M','$2.0M','$3.6M'], act: null },
+                { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$91K \u2191','—','—','—'] },
+                { label: 'Net pool 35% *', proj: [
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '$39,725',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '$467,635',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool) : '$680,383',
+                  '~$2.7M',
+                ], act: null },
+                { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? row.act ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: row.act ? GOLD : DIM, fontStyle: row.proj ? 'italic' : 'normal', fontSize: row.proj ? 6.5 : 7, fontWeight: row.act ? 600 : 400 }}>{v}</span>
                   ))}
-                  <tr style={{ background: 'rgba(27,42,74,0.06)', borderTop: '2px solid rgba(27,42,74,0.15)' }}>
-                    <td style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 9, letterSpacing: '0.15em', textTransform: 'uppercase', padding: '8px 12px', fontWeight: 700 }}>TOTAL</td>
-                    <td style={{ ...LABEL_FONT, color: '#1B2A4A', fontSize: 9, letterSpacing: '0.1em', padding: '8px 12px' }}>100%</td>
-                    <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', padding: '8px 12px' }}>$50,000</td>
-                    <td style={{ ...SERIF, color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', padding: '8px 12px' }}>$150,000</td>
-                    <td style={{ ...SANS, color: '#7a8a8e', fontSize: '0.72rem', padding: '8px 12px' }}>Net build profit after all costs</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className="mb-10 px-4 py-3 border" style={{ background: 'rgba(200,172,120,0.04)', borderColor: 'rgba(200,172,120,0.3)' }}>
-              <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>
-                <strong style={{ color: '#1B2A4A' }}>Label:</strong> AnewHomes — Net Build Profit · Ed Bruehl exclusively · Separate from Christie's commission income.
-              </div>
-              <div style={{ ...SANS, color: '#7a8a8e', fontSize: '0.7rem', lineHeight: 1.6, marginTop: 2 }}>
-                <strong style={{ color: '#1B2A4A' }}>*</strong> Zoila Ortega Astor vests at six months. Reverts to pool if she does not make the cut. Governing principle — not yet formalized. All seven participants aware and agreeable.
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$657K','$2.32M','$2.86M','$6.5M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
-        </>
+          </div>
 
-        {/* ── Pipeline Disclosure Footnote — Item 4 ─────────────────────── */}
-        <div className="mb-6 px-4 py-3 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.04)' }}>
-          <p style={{ ...SANS, color: '#384249', fontSize: '0.78rem', lineHeight: 1.65, margin: 0 }}>
-            Active pipeline: $13.62M in exclusive listings. Total relationship book including quiet listings and buy-side representation: $34.7M.
-          </p>
+          {/* Column 2: Angel + Jarvis */}
+          <div>
+            {/* Angel */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Angel Theodore *</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Operations &middot; Producer 2027</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'Sales vol',    proj: ['$3M','$6M','$7.2M','$15M+'], act: null },
+                { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
+                { label: 'GCI proj',     proj: ['$60K','$120K','$144K','$300K+'], act: null },
+                { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
+                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? row.act ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: row.act ? GOLD : DIM, fontStyle: row.proj ? 'italic' : 'normal', fontSize: row.proj ? 6.5 : 7, fontWeight: row.act ? 600 : 400 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$64K','$151K','$203K','$462K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+            </div>
+
+            {/* Jarvis */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Jarvis Slade</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>COO &middot; Agent</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'Sales vol',    proj: ['$5M','$15M','$20M','$50M+'], act: null },
+                { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
+                { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
+                { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
+                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? row.act ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: row.act ? GOLD : DIM, fontStyle: row.proj ? 'italic' : 'normal', fontSize: row.proj ? 6.5 : 7, fontWeight: row.act ? 600 : 400 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$104K','$331K','$459K','$1.16M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+            </div>
+          </div>
+
+          {/* Column 3: Zoila + Scott + Richard */}
+          <div>
+            {/* Zoila */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Zoila Ortega Astor *</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Office Director &middot; Producer 2027</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'Sales vol',    proj: ['$6M','$7M','$8.4M','$20M+'], act: null },
+                { label: 'GCI / salary', proj: ['$100K','$140K','$168K','$400K+'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$100K','$140K','$168K','$400K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+            </div>
+
+            {/* Scott */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Scott Smith *</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Agent &middot; AnewHomes Build Partner</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'Sales vol',      proj: ['$1.5M','$5M','$15M','$35M+'], act: null },
+                { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$47.5K','$152K','$475K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+            </div>
+
+            {/* Richard */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {[
+                { label: 'AnewHomes *', proj: ['$5,000','$15,000','$50,000','$50,000'], act: null },
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span>Projected</span>
+                {['$5K','$15K','$50K','$50K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+            </div>
+          </div>
+
         </div>
 
-        {/* ── AI Council Platform Note — Item 8 ────────────────────────────── */}
-        <div className="mb-6 px-4 py-3 border" style={{ background: 'rgba(27,42,74,0.02)', borderColor: 'rgba(27,42,74,0.1)' }}>
-          <p style={{ ...SANS, color: '#384249', fontSize: '0.78rem', lineHeight: 1.65, margin: 0, fontStyle: 'italic' }}>
-            Christie’s East Hampton operates the most integrated AI intelligence platform of any Christie’s affiliate office globally.
-          </p>
+        {/* ── Footer ─────────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 20 }}>
+          <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: 1 }}>
+            * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% &middot; two parties only &middot; Pool share = 5% of Ed&apos;s 35% for Jarvis and Angel &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen
+          </div>
+          <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>
+            The foundation is proven. The model is working. The next 14 days set the trajectory.
+          </div>
         </div>
 
-        {/* ── Export + Sheet Link ────────────────────────────────────────────────── */}       <div className="flex flex-wrap items-center justify-center gap-4 pb-8">
+        {/* ── Export buttons ──────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
           <button
             onClick={() => generateFutureReportPDF({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
-            className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-            style={{ ...LABEL_FONT, borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(200,172,120,0.08)' }}
+            style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: 'pointer' }}
           >
-            ↓ Export PDF · Ascension Arc
+            &#8595; Export PDF &middot; Ascension Arc
           </button>
           <button
             onClick={() => generateCardStockExport({ agents: agents.map(a => ({ ...a, act2027: 0 })), total, liveAct2026: total.act2026, kpis: liveKpis })}
-            className="inline-flex items-center gap-2 px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em', background: 'rgba(27,42,74,0.06)' }}
+            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: 'pointer' }}
           >
-            ↓ Export Card · Light Layout
+            &#8595; Export Card &middot; Light Layout
           </button>
-          <ProFormaButton />
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-6 py-2.5 text-xs uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-            style={{ ...LABEL_FONT, borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.18em' }}
+            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, textDecoration: 'none' }}
           >
             Open Growth Model v2
           </a>
@@ -703,13 +567,12 @@ export default function FutureTab() {
 
       </div>
 
-      {/* ── Print Footer — hidden on screen, visible in print ──────────────────── */}
+      {/* Print footer */}
       <div className="future-print-footer">
-        <span className="footer-left">Ed Bruehl · Managing Director</span>
-        <span className="footer-center">Christie’s International Real Estate Group East Hampton</span>
+        <span className="footer-left">Ed Bruehl &middot; Managing Director</span>
+        <span className="footer-center">Christie&apos;s International Real Estate Group East Hampton</span>
         <span className="footer-right">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
       </div>
-
     </div>
   );
 }
