@@ -27,6 +27,7 @@ interface MatrixCardProps {
   actions?: ReactNode;
   children?: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
   onClick?: () => void;
 }
 
@@ -40,6 +41,7 @@ export function MatrixCard({
   actions,
   children,
   className,
+  style,
   onClick,
 }: MatrixCardProps) {
   const variantClass = {
@@ -53,6 +55,7 @@ export function MatrixCard({
   return (
     <div
       className={cn(variantClass, onClick && "cursor-pointer", className)}
+      style={style}
       onClick={onClick}
     >
       {/* Label row */}

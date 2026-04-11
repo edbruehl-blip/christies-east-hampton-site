@@ -455,56 +455,7 @@ function SectionB() {
   );
 }
 
-// ─── William Voice Note Player ─────────────────────────────────────────────────────────────────────────────
-function SectionWilliam() {
-  const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-  // The founding letter TTS endpoint returns a fresh audio URL on each call
-  const audioUrl = window.location.origin + '/api/tts/founding-letter';
-
-  return (
-    <section style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px' }}>
-      <div style={{ maxWidth: 640, margin: '0 auto' }}>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-          William · Christie’s East Hampton
-        </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.2rem, 2.2vw, 1.5rem)', lineHeight: 1.3, marginBottom: 6 }}>
-          Intelligence Brief
-        </h2>
-        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: 13, lineHeight: 1.6, marginBottom: 20, opacity: 0.75 }}>
-          {today}
-        </p>
-        <WilliamAudioPlayer
-          audioUrl={audioUrl}
-          label="Founding Letter · Christie’s East Hampton"
-        />
-        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: 11, lineHeight: 1.5, marginTop: 12, opacity: 0.5 }}>
-          Tap play to hear William deliver the Christie’s East Hampton founding letter. Audio synthesised via ElevenLabs. Share button copies the MP3 URL to clipboard.
-        </p>
-        {/* P3 — Sprint 12: Christie’s Letter PDF export */}
-        <button
-          onClick={() => generateChristiesLetter()}
-          style={{
-            marginTop: 20,
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '9px 20px',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 11,
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#1B2A4A',
-            background: 'rgba(200,172,120,0.08)',
-            border: '1px solid #C8AC78',
-            cursor: 'pointer',
-          }}
-        >
-          ↓ Download Christie’s Letter · PDF
-        </button>
-      </div>
-    </section>
-  );
-}
+// SectionWilliam removed — dead code, audio player lives in SectionA inline fetch-blob pattern
 
 // ─── HomeTab ─────────────────────────────────────────────────────────────────────────────
 // SectionC (duplicate footer) removed — DashboardLayout renders the single

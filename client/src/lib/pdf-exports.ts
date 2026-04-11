@@ -1442,7 +1442,7 @@ export async function generateUHNWPathCard(): Promise<void> {
 }
 
 // ─── generateFlagshipLetter -- Sprint 30 · Internal Council Document ──────────
-// Team-facing letter: Manny to Jarvis, Angel, and Ricky
+// Universal orientation letter: Christie's East Hampton — for anyone reading this
 // Christie's navy/gold standard · CONFIDENTIAL · Not for client distribution
 // ─────────────────────────────────────────────────────────────────────────────
 export async function generateFlagshipLetter(): Promise<void> {
@@ -1473,8 +1473,16 @@ export async function generateFlagshipLetter(): Promise<void> {
   doc.setFontSize(8.5);
   doc.setTextColor(...C.charcoal);
   doc.setFont('helvetica', 'italic');
-  doc.text('To Jarvis, Angel, and Ricky \u2014', ml, y);
-  y += 10;
+  const salutationLines = [
+    'To anyone reading this \u2014 broker, partner, council member, or future self \u2014',
+    'this is the orientation to Christie\u2019s East Hampton. Read it carefully.',
+    'It is the standard for everything that follows.',
+  ];
+  for (const sl of salutationLines) {
+    doc.text(sl, ml, y);
+    y += 5.5;
+  }
+  y += 4;
 
   // ── Body paragraphs ───────────────────────────────────────────────────────
   const BODY_SIZE = 9.5;
@@ -1520,12 +1528,15 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "Angel became the execution hinge. But the sharper truth is this: Angel is the person who converts signal into action. The system does not depend on Ed holding it together manually. Workflow, scheduling, marketing, deliverables, follow-through \u2014 Angel keeps the machine moving between thought and action. She is the bridge between founder speed and institutional rhythm.",
     },
     {
-      text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane -- the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
+      text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane \u2014 the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
+    },
+    {
+      text: "Zoila Ortega Astor joins as Office Director on April 15. She is the administrative anchor \u2014 the person who makes the office function as an institution rather than as a collection of individuals. 26 Park Place becomes a real office the day she walks in.",
     },
     // The Breakthrough / intelligence layer
     {
       heading: "The Breakthrough",
-      text: "The breakthrough was not just building pages. It was turning memory into infrastructure. Before this, Ed\u2019s twenty years of territory knowledge lived in his head. If you weren\u2019t in the car with him, you didn\u2019t have it. Now, you do. Six months of thinking \u2014 market knowledge, recruiting logic, pipeline discipline, Christie\u2019s relationships, development thinking, documents, conversations \u2014 no longer live in scattered chats or in Ed\u2019s head alone. They live in one system. Visible. Searchable. Usable.",
+      text: "The breakthrough was not just building pages. It was turning memory into infrastructure. Before this, Ed\u2019s twenty years of territory knowledge lived in his head. If you weren\u2019t in the car with him, you didn\u2019t have it. Now, you do. Six months of thinking \u2014 market knowledge, recruiting logic, pipeline discipline, Christie\u2019s relationships, development thinking, documents, decisions, briefs \u2014 no longer live in scattered chats or in Ed\u2019s head alone. They live in one system. Visible. Searchable. Usable.",
     },
     {
       text: "The second shift was when the intelligence layer went live. Perplexity proved it could do more than answer questions \u2014 it could verify numbers, read spreadsheets, trace information back to real sources, and write those findings directly into the system. The spreadsheets stopped being static. The dashboard stopped being a display. It started maintaining itself. The hamlet data stays accurate because it is checked. The outreach list grows because it is being built in real time. The system does not just hold information. It keeps it alive.",
@@ -1552,7 +1563,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // William
     {
       heading: "William",
-      text: "William is the voice of this system. When you text NEWS, he answers on demand with the brief you need in that moment. He does not speak on a schedule. He only speaks when you ask him to, and he always tells the truth.",
+      text: "William is the intelligence voice of the institution. The audio links on every page open to a live briefing in Ed\u2019s voice. Send a keyword to 631-239-7190 \u2014 NEWS for the current market report, LETTER for the full orientation \u2014 and William responds in seconds. Ed turns to William before every conversation that matters.",
     },
     {
       text: "The thinking behind William is not random. It pulls from a disciplined framework \u2014 Jamie Dimon on capital and risk, Naval Ravikant on leverage and systems, Codie Sanchez on ownership, Alex Hormozi on clarity and measurement, and Richard Bruehl on truth and culture. And it ends with scripture. Not as decoration. As alignment.",
@@ -1621,6 +1632,7 @@ export async function generateFlagshipLetter(): Promise<void> {
   const closingLines = [
     'Jarvis, you already know the field. Now you have the infrastructure behind you. Tell us what it is missing.',
     'Angel, the machine moves because you keep it moving. Tell us where it is slowing down.',
+    'Zoila, you are walking into something that is already in motion. Tell us what it needs to become a real office.',
     'Ricky, this is what your counsel forced us to become. Tell us if it lives up to what you meant.',
     '',
     'The foundation is proven. The model is working. The next 14 days set the trajectory.',
