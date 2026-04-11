@@ -100,7 +100,7 @@ export interface SubHamletEntry {
   [key: string]: unknown;
 }
 
-// ─── Ten Hamlets ─────────────────────────────────────────────────────────────
+// ─── Eleven Hamlets ─────────────────────────────────────────────────────────
 
 export const MASTER_HAMLET_DATA: HamletData[] = [
   {
@@ -460,9 +460,9 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'wainscott',
     name: 'Wainscott',
     tier: 'Trophy',
-    medianPrice: 3_180_000,
-    medianPriceDisplay: '$3.18M',
-    anewScore: 8.7,
+    medianPrice: 3_600_000,
+    medianPriceDisplay: '$3.6M',
+    anewScore: 8.8,  // CIS 8.8 · Portal-modeled pending Saunders audit confirmation · thin sample 10–20 transactions/yr
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',
