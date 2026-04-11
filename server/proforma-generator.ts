@@ -709,7 +709,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:8px 10px;margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.6">
     Formula: Pool = (Total Sales Volume − <strong>$40M breakeven</strong>) × <strong>2%</strong>.
     If volume &lt; $40M, pool = $0.
-    Split: <strong>Ed Bruehl 30%</strong> · <strong>Partnership 65%</strong> · <strong>Christie's RE Rights 5%</strong>.
+    Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only · net profit after franchise royalty · agent splits · overhead.
     Paid at year end. Not salary. Not splits. Profit participation.
   </div>
 
@@ -720,7 +720,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <th>Total Sales Volume</th>
         <th>Above $40M</th>
         <th>Pool (2%)</th>
-        <th>Ed (30%)</th>
+        <th>Ed (35%)</th>
         <th>Partnership (65%)</th>
         <th>Christie's RE (5%)</th>
       </tr>
@@ -736,7 +736,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <span class="value">$660,000*</span>
       </div>
       <div class="econ-line">
-        <span class="label">Profit Pool Share (30%)</span>
+        <span class="label">Profit Pool Share (35%)</span>
         <span class="value">${fmtFull(pool2026.ed)}*</span>
       </div>
       <div class="econ-line">
