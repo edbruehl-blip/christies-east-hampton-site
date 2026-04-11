@@ -13,7 +13,7 @@
  */
 
 import puppeteer from 'puppeteer-core';
-import { readGrowthModelData, readGrowthModelVolume, getPipelineKpis } from './sheets-helper';
+import { readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData } from './sheets-helper';
 
 const CDN = "https://files.manuscdn.com/user_upload_by_module/session_file/115914870";
 const ED_HEADSHOT = `${CDN}/INlfZDqMHcqOCvuv.jpg`;
@@ -29,26 +29,45 @@ function fmtFull(n: number): string {
   return '$' + n.toLocaleString('en-US');
 }
 
-function profitPool(vol: number): { above: number; pool: number; ed: number; ilija: number; christies: number } {
+// Net pool fallback values — from Growth Model v2 OUTPUTS G column (Sprint 42)
+// Used when live sheet data is unavailable. Ed 35% · Ilija 65% · two parties only.
+const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: number }> = {
+  '2026': { pool: 113_500,     ed: 39_725,     ilija: 73_775 },
+  '2027': { pool: 1_336_100,   ed: 467_635,    ilija: 868_465 },
+  '2028': { pool: 1_943_950,   ed: 680_383,    ilija: 1_263_568 },
+  '2030': { pool: 3_200_000,   ed: 1_120_000,  ilija: 2_080_000 },
+  '2031': { pool: 4_100_000,   ed: 1_435_000,  ilija: 2_665_000 },
+  '2033': { pool: 5_885_957,   ed: 2_060_085,  ilija: 3_825_872 },
+};
+function profitPool(vol: number, year?: string, liveNetProfit?: number): { above: number; pool: number; ed: number; ilija: number; christies: number } {
   const BREAKEVEN = 40_000_000;
   const above = Math.max(0, vol - BREAKEVEN);
-  const pool = above * 0.02;
+  // Use live OUTPUTS G value if available, else use fallback
+  const live = liveNetProfit && liveNetProfit > 0 ? liveNetProfit : null;
+  const fb = year ? NET_POOL_FALLBACK[year] : null;
+  const pool = live ?? fb?.pool ?? 0;
   return {
     above,
     pool,
-    ed: pool * 0.35,
-    ilija: pool * 0.60,
-    christies: pool * 0.05,
+    ed: live ? Math.round(pool * 0.35) : (fb?.ed ?? Math.round(pool * 0.35)),
+    ilija: live ? Math.round(pool * 0.65) : (fb?.ilija ?? Math.round(pool * 0.65)),
+    christies: 0, // franchise already deducted in net pool formula
   };
 }
 
 export async function generateProFormaPDF(): Promise<Buffer> {
   // Fetch live data (Sprint 41: includes live pipeline KPIs)
-  const [gmData, volData, pipeKpis] = await Promise.all([
+  const [gmData, volData, pipeKpis, arcData] = await Promise.all([
     readGrowthModelData(),
     readGrowthModelVolume(),
     getPipelineKpis(),
+    readAscensionArcData(),
   ]);
+  // Build live net profit lookup from OUTPUTS G column
+  const liveNetProfitByYear: Record<string, number> = {};
+  for (const y of arcData.years) {
+    liveNetProfitByYear[String(y.year)] = y.netProfit;
+  }
   // Live pipeline KPI strings — fall back to last-known values if sheet unavailable
   const activePipelineStr = pipeKpis.relationshipBookM;  // total relationship book
   const exclusiveStr      = pipeKpis.exclusiveTotalM;     // exclusive listings volume
@@ -60,7 +79,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   // Volume projections per year
   // Council-approved doctrine targets (Sprint 36) — use Math.max so sheet can only go up, never below doctrine
   const outlookYears = [
-    { year: '2026', vol: Math.max(total.proj2026 || 0, 107_500_000) },
+    { year: '2026', vol: Math.max(total.proj2026 || 0, 55_000_000) },
     { year: '2027', vol: Math.max(total.proj2027 || 0, 273_000_000) },
     { year: '2028', vol: Math.max(total.proj2028 || 0, 383_500_000) },
     { year: '2030', vol: Math.max(total.proj2030 || 0, 641_400_000) },
@@ -504,7 +523,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   // Build profit pool table rows
   const poolRowsHtml = outlookYears.map(({ year, vol }) => {
-    const p = profitPool(vol);
+    const p = profitPool(vol, year, liveNetProfitByYear[year]);
     return `
       <tr>
         <td style="color:#C8AC78;font-weight:600;letter-spacing:0.1em">${year}</td>
@@ -517,7 +536,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       </tr>`;
   }).join('');
 
-  const pool2026 = profitPool(total.proj2026 || 55_000_000);
+  const pool2026 = profitPool(total.proj2026 || 55_000_000, '2026', liveNetProfitByYear['2026']);
 
   const html = `<!DOCTYPE html>
 <html lang="en">
