@@ -532,7 +532,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <td style="color:#C8AC78;font-weight:600">${p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
         <td style="font-weight:600">${p.ed > 0 ? fmtFull(p.ed) : '$0'}</td>
         <td>${p.ilija > 0 ? fmtFull(p.ilija) : '$0'}</td>
-        <td style="color:rgba(56,66,73,0.5)">${p.christies > 0 ? fmtFull(p.christies) : '$0'}</td>
+
       </tr>`;
   }).join('');
 
@@ -721,8 +721,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <th>Above $40M</th>
         <th>Pool (2%)</th>
         <th>Ed (35%)</th>
-        <th>Partnership (65%)</th>
-        <th>Christie's RE (5%)</th>
+        <th>Ilija (65%)</th>
       </tr>
     </thead>
     <tbody>${poolRowsHtml}</tbody>
