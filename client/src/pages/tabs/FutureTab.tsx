@@ -316,7 +316,7 @@ export default function FutureTab() {
 
           {/* Year strip */}
           <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 10px' }}>
-            {[...BARS.map(b => b.year), '2036'].map(yr => (
+            {BARS.map(b => b.year).map(yr => (
               <div key={yr} style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
             ))}
           </div>
