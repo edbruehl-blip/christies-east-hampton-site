@@ -40,6 +40,9 @@ const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: numbe
   '2031': { pool: 4_100_000,   ed: 1_435_000,  ilija: 2_665_000 },
   '2032': { pool: 4_996_278,   ed: 1_748_697,  ilija: 3_247_581 },
   '2033': { pool: 5_885_957,   ed: 2_060_085,  ilija: 3_825_872 },
+  '2034': { pool: 6_988_122,   ed: 2_445_843,  ilija: 4_542_279 },
+  '2035': { pool: 8_303_218,   ed: 2_906_126,  ilija: 5_397_092 },
+  '2036': { pool: 9_874_221,   ed: 3_455_977,  ilija: 6_418_244 },
 };
 function profitPool(vol: number, year?: string, liveNetProfit?: number): { above: number; pool: number; ed: number; ilija: number; christies: number } {
   const BREAKEVEN = 40_000_000;

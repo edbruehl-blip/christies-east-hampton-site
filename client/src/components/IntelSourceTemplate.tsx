@@ -44,7 +44,7 @@ const SOURCES: IntelSource[] = [
     name: "FRED Mortgage Rate (MORTGAGE30US)",
     type: "API",
     cadence: "Daily (24h cache)",
-    feedsInto: "Market ticker · Market Report · IDEAS CIS Calculator",
+    feedsInto: "Market ticker · Market Report · MAPS CIS Calculator",
     status: "Live",
     link: "https://fred.stlouisfed.org/series/MORTGAGE30US",
     notes: "Freddie Mac PMMS via FRED API. Fallback to last known value.",

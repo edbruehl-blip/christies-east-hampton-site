@@ -60,6 +60,14 @@ export interface HamletData {
   qsHamletTier: number;
 
   /**
+   * CIS data quality caveat — rendered as italic footnote on hamlet card.
+   * Only set for hamlets where the CIS score requires a disclosure
+   * (e.g., portal-modeled, thin sample, pending audit confirmation).
+   * Leave undefined for all other hamlets.
+   */
+  cisNote?: string;
+
+  /**
    * SUB-HAMLET SCAFFOLD — DATA LAYER ONLY
    * ─────────────────────────────────────────────────────────────────────────
    * This field is a reserved container for future sub-hamlet granularity
@@ -463,6 +471,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 3_600_000,
     medianPriceDisplay: '$3.6M',
     anewScore: 8.8,  // CIS 8.8 · Portal-modeled pending Saunders audit confirmation · thin sample 10–20 transactions/yr
+    cisNote: 'Portal-modeled · Pending Saunders audit · Thin sample (10–20 txns/yr)',
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',

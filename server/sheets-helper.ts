@@ -839,7 +839,7 @@ export async function getPipelineKpis(): Promise<PipelineKpis> {
       const price = parseDollar(deal.price || '');
       const status = (deal.status || '').toUpperCase();
       if (status === 'ACTIVE') { activeTotal += price; dealCount++; }
-      if (status === 'EXCLUSIVE') { exclusiveTotal += price; dealCount++; }
+      if (status === 'ACTIVE LISTING') { exclusiveTotal += price; dealCount++; }
       if (status === 'CLOSED') { closedYtd += price; dealCount++; }
     }
 

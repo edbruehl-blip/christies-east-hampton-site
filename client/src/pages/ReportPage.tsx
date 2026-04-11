@@ -8,7 +8,7 @@
  * Section 2 · Hamptons Local Intelligence — Bloomberg-style news feed
  * Section 3 · Market Intelligence — CFS donut ring · rate environment · Hamptons Median
  * Section 4 · Hamlet Atlas Matrix — 9 hamlet tiles, tap = inline expansion
- * Section 5 · IDEAS / CIS Intelligence — model deal · CIS chip · QR
+ * Section 5 · MAPS / CIS Intelligence — model deal · CIS chip · QR
  * Section 6 · Resources & Authority — Christie's ecosystem · contact block · doctrine footer
  *
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
@@ -1689,12 +1689,12 @@ function Section3Condensed() {
   );
 }
 
-// ─── SECTION 5 · IDEAS / CIS Intelligence ────────────────────────────────────
+// ─── SECTION 5 · MAPS / CIS Intelligence ────────────────────────────────────
 function Section5() {
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="5" title="IDEAS / CIS Intelligence" />
+        <SectionLabel n="5" title="MAPS / CIS Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -2384,7 +2384,7 @@ function Section7() {
 //   Page 1 — Section1: Founding Letter (James Christie portrait + letter)
 //   Page 2 — Section2: Market Intelligence (CFS, rates, market strip)
 //   Page 3 — Section3: Hamlet Atlas Matrix (11 hamlets, CIS-descending)
-//   Page 4 — Section4: IDEAS Teaser (ANEW build, model deal)
+//   Page 4 — Section4: MAPS Teaser (ANEW build, model deal)
 //   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
 //   Page 6 — EstateAdvisoryCard: Estate Advisory CTA
 export default function ReportPage() {

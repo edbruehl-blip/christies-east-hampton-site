@@ -285,7 +285,7 @@ async function buildDynamicMarketBrief(): Promise<string> {
     ? `Market Intelligence. ${perplexityNarrative}`
     : "Market Intelligence. No new named Hamptons transactions have been confirmed in the past 30 days. The verified 2026 East End median remains 2.34 million dollars.";
 
-  const script = `Good morning. Here is your Christie's East Hampton market brief. ${today}.
+  const script = `Good morning. Here is your Christie's East Hampton market brief.
 
 ${marketSection}
 

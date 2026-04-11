@@ -580,6 +580,19 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
           </div>
         )}
+        {/* CIS data quality caveat — renders only for hamlets with cisNote (e.g., Wainscott) */}
+        {hamlet.cisNote && (
+          <div style={{
+            marginBottom: 8,
+            padding: '5px 8px',
+            background: isExpanded ? 'rgba(200,172,120,0.06)' : 'rgba(27,42,74,0.04)',
+            border: '1px solid rgba(200,172,120,0.2)',
+            borderRadius: 3,
+          }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,172,120,0.6)', marginBottom: 2 }}>CIS Note</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.68rem', fontStyle: 'italic', color: isExpanded ? 'rgba(250,248,244,0.5)' : 'rgba(56,66,73,0.6)', lineHeight: 1.4 }}>{hamlet.cisNote}</div>
+          </div>
+        )}
         {/* PDF download button — Layer 4 */}
         <button
           onClick={handleDownload}

@@ -1353,3 +1353,50 @@
 - [ ] Item 11: Update Pro Forma page 1 label to "2025–2033 · $1.1 Billion Horizon" (if Wire Six slips)
 - [ ] Item 12: Confirm PIPE EXCLUSIVE KPI reads correctly after Perplexity populates sheet
 - [ ] Item 13: INTEL Mind Map restructure per April 9 directive and April 5 Claude wireframe
+
+## Second-Round Queue — April 11, 2026
+
+### Item 1 — Four Ready Patches
+- [ ] NET_POOL_FALLBACK extends through 2034, 2035, 2036 (values from spec)
+- [ ] pipe.getKpis filters status === 'Active Listing' instead of 'EXCLUSIVE'
+- [ ] Remove ${today} from William spoken script (tts-route.ts line 288)
+- [ ] Confirm checkpoint eda7b1ad mobile items still intact after new fixes
+
+### Item 2 — Remove IDEAS Tab
+- [ ] Remove IDEAS from navigation
+- [ ] Remove orphaned routes and references in other tabs
+- [ ] Confirm calculators (CIS, Deal Brief, CMA, ANEW Build Memo) live cleanly on MAPS
+- [ ] Grep all PDF exports for "IDEAS" references — update to "MAPS"
+
+### Item 3 — FLAGSHIP TEAM Mind Map Correction
+- [ ] Rename center node from Ed Bruehl to FLAGSHIP TEAM (glow ring stays)
+- [ ] Build team hierarchy click-view (Ed at top as MD, full team below)
+- [ ] Audit and report all Ed Bruehl labels/tooltips/hover descriptions in Mind Map code
+
+### Item 4 — William Node Title Update
+- [ ] Update William node title to "Intelligence Voice · On-Demand Audio + NEWS Commands · 631-239-7190"
+- [ ] Confirm William node carries three audio links AND two letter PDFs
+- [ ] Add missing letter PDF links to William node
+
+### Item 5 — WhatsApp Keyword Routing Audit
+- [ ] Report current keyword routing (what keywords active, what each returns, where logic lives)
+- [ ] Propose cleaned-up keyword map for Ed's confirmation
+
+### Item 6 — Wainscott Caveat Badge
+- [ ] Add three-part caveat (Portal-modeled / Pending Saunders audit / Thin sample) as visible badge on Wainscott hamlet card
+
+### Item 7 — GitHub Backup Push
+- [ ] Push codebase to GitHub via Manus Settings panel
+- [ ] Report repository URL and push cadence
+
+### Item 8 — Cards Verbiage Audit
+- [ ] Pull and audit Bike Card text — flag invented or unanchored lines
+- [ ] Pull and audit UHNW Wealth Path Card text — flag invented or unanchored lines
+
+### Item 9 — Click-Every-Button Live Walk
+- [ ] Click every PDF export button, download, open, confirm visual parity
+- [ ] Report which PDFs still inherit navy (Sprint 8 brand pass list)
+
+### Item 10 — Internal Flagship Letter Regeneration
+- [ ] Apply all five corrections (opening, tab list, William paragraph, model numbers, memory paragraph)
+- [ ] Regenerate PDF and confirm clean

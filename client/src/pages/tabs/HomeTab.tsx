@@ -670,7 +670,7 @@ export default function HomeTab() {
                 What James Christie Knew
               </div>
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
-                The eight rungs of structured ownership — from tenant to trust. Structured capital, art-secured lending, and the Christie's standard for legacy. Print to card stock.
+                The eight rungs of structured ownership — from tenant to trust. Structured ownership, art-secured lending, and the Christie's standard for legacy. Print to card stock.
               </p>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <a

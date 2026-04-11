@@ -146,7 +146,7 @@ export const GALLERY_IMAGES = [
 ] as const;
 
 // ─── Full Auction Lot Library (all 16 images on CDN) ─────────────────────────
-// Available for IDEAS tab, INTEL tab, or future gallery expansions.
+// Available for MAPS tab, INTEL tab, or future gallery expansions.
 export const AUCTION_LOT_LIBRARY = {
   // Institutional / Heritage
   buildingFlags:           `${CDN}/xxnqbHbKnDJGuFwB.jpg`,

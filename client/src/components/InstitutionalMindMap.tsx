@@ -3,17 +3,18 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * INTEL Layer 1 · Institutional Mind Map
  * Master Directive rebuild — April 9, 2026
+ * Sprint 8 update: Center node renamed to FLAGSHIP TEAM (click-through hierarchy)
  *
  * GOVERNING VISUAL RULE (locked permanently):
  *   Every node is identical size (r:52). Every font is identical size, weight,
  *   and white color. Hierarchy is communicated by position and connection lines
- *   only. Ed Bruehl sits at center — his only distinction is the glow ring.
+ *   only. FLAGSHIP TEAM sits at center — its only distinction is the glow ring.
  *   Full canvas. Nothing overlaps. Nothing crowds. Every node has breathing room.
  *
  * GLOBAL RULE (locked permanently):
  *   No individual person has a standalone node anywhere on the map.
  *   Every person lives inside their categorical or institutional node.
- *   Ed Bruehl is the only standalone individual at the center.
+ *   FLAGSHIP TEAM is the center node — click to reveal full team hierarchy.
  *
  * TWO TRACKS ABOVE ED — COMPLETELY SEPARATE. NO CROSSOVER LINE.
  *   LEFT TRACK (Auction House):
@@ -186,15 +187,16 @@ const NODES: MapNode[] = [
     rw: R, rh: R },
 
   // ══════════════════════════════════════════════════════════════════════════
-  // ED BRUEHL — center bridge
+  // FLAGSHIP TEAM — center bridge (Sprint 8: renamed from Ed Bruehl)
   // ══════════════════════════════════════════════════════════════════════════
 
   { id: "ed",
-    name: "Ed Bruehl",
-    title: "Managing Director · Christie's East Hampton",
+    name: "FLAGSHIP TEAM",
+    title: "Christie's East Hampton · 26 Park Place · Click for team hierarchy",
     type: "HIERARCHY", status: "ACTIVE",
-    note: "$1B+ career sales. 20+ years East End. Managing Director, Christie's East Hampton. 26 Park Place. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain.",
-    x: 900, y: 900, r: R },
+    note: "Ed Bruehl — Managing Director. $1B+ career sales. 20+ years East End. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain. Click to view full team hierarchy.",
+    x: 900, y: 900, r: R,
+    clickAction: { type: "toast", message: "Opening Flagship Team hierarchy…" } },
 
   // ══════════════════════════════════════════════════════════════════════════
   // LEFT OF ED — PIPE (with SOCIAL as second ring)
@@ -350,11 +352,11 @@ const NODES: MapNode[] = [
 
   { id: "william_node",
     name: "WILLIAM",
-    title: "WhatsApp Intelligence Agent · 8 AM & 8 PM · 631-239-7190",
+    title: "Intelligence Voice · On-Demand Audio + NEWS Commands · 631-239-7190",
     type: "CATEGORY", status: "ACTIVE",
-    note: "William: the WhatsApp intelligence agent. Delivers morning brief at 8 AM (scorecard + pipeline + Cronkite) and evening brief at 8 PM (Cronkite only). Powered by Perplexity API. Twilio WhatsApp delivery. Inbound commands: BRIEF, PIPELINE, STATUS. Text 631-239-7190.",
+    note: "William: the intelligence voice of the institution. Audio links on every dashboard page open a live briefing in Ed's voice. Inbound keywords to 631-239-7190: NEWS (current market report), LETTER (Internal Flagship Letter PDF), BRIEF (morning scorecard), PIPELINE (deal status), STATUS (platform status). Powered by Perplexity API + ElevenLabs TTS. Twilio WhatsApp delivery.",
     x: 380, y: 1680, r: R,
-    members: ["8 AM Morning Brief", "8 PM Evening Brief", "NEWS Command", "Inbound Commands — 631-239-7190"],
+    members: ["On-Demand Audio — Every Tab", "NEWS Command", "LETTER Command (PDF)", "BRIEF · PIPELINE · STATUS"],
     rw: R, rh: R },
 
   { id: "intel_library",
@@ -673,14 +675,30 @@ function nodeCenter(node: MapNode): { x: number; y: number } {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+// ─── Flagship Team Hierarchy Data ────────────────────────────────────────────
+const FLAGSHIP_HIERARCHY = [
+  { role: "Managing Director",   name: "Ed Bruehl",           note: "$1B+ career sales · 20+ years East End · Appointed Nov 2025",        status: "ACTIVE" },
+  { role: "COO & Agent",         name: "Jarvis Slade",         note: "Chief Operating Officer · Equity participant · Direct responsibility", status: "ACTIVE" },
+  { role: "Operations",          name: "Angel Theodore",       note: "Operations lead · Equity participant",                                 status: "ACTIVE" },
+  { role: "Office Director",     name: "Zoila Ortega Astor",   note: "Joins April 15, 2026 · 26 Park Place",                                status: "ACTIVE" },
+  { role: "Agent",               name: "Scott Smith",          note: "Joins June 1, 2026",                                                  status: "WARM"   },
+  { role: "Strategic Mentor",    name: "Richard Bruehl",       note: "Holds 10% AnewHomes equity · Senior strategic counsel",              status: "ACTIVE" },
+];
+
 export function InstitutionalMindMap() {
   const [view, setView] = useState<ViewMode>("full");
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltip, setTooltip] = useState<TooltipState>({ visible: false, x: 0, y: 0, node: null });
   const [generatingId, setGeneratingId] = useState<string | null>(null);
+  const [showTeamModal, setShowTeamModal] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleNodeClick = useCallback(async (node: MapNode) => {
+    // Special case: center FLAGSHIP TEAM node opens team hierarchy modal
+    if (node.id === "ed") {
+      setShowTeamModal(true);
+      return;
+    }
     if (!node.clickAction || node.clickAction.type === "none") return;
     const action = node.clickAction;
     if (action.type === "toast") {
@@ -908,7 +926,7 @@ export function InstitutionalMindMap() {
               <g
                 key={node.id}
                 style={{
-                  cursor: node.clickAction && node.clickAction.type !== "none" ? (generatingId === node.id ? "wait" : "pointer") : "default",
+                  cursor: (node.id === "ed" || (node.clickAction && node.clickAction.type !== "none")) ? (generatingId === node.id ? "wait" : "pointer") : "default",
                   opacity: dimmed ? 0.15 : 1,
                   transition: "opacity 0.15s"
                 }}
@@ -1028,6 +1046,95 @@ export function InstitutionalMindMap() {
           })}
         </svg>
       </div>
+
+      {/* Flagship Team Hierarchy Modal */}
+      {showTeamModal && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(10,18,35,0.82)",
+            zIndex: 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "24px",
+          }}
+          onClick={() => setShowTeamModal(false)}
+        >
+          <div
+            style={{
+              background: "#1b2a4a",
+              border: "1px solid rgba(200,172,120,0.5)",
+              borderRadius: "10px",
+              padding: "32px 36px",
+              maxWidth: "520px",
+              width: "100%",
+              boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal header */}
+            <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "24px" }}>
+              <div>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c8ac78", marginBottom: 6 }}>
+                  Christie's East Hampton · 26 Park Place
+                </div>
+                <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontWeight: 600, color: "#FAF8F4", letterSpacing: "0.04em" }}>
+                  Flagship Team
+                </div>
+                <div style={{ fontSize: 12, color: "rgba(250,248,244,0.45)", marginTop: 4 }}>
+                  Internal hierarchy · Equity participants · Direct responsibility
+                </div>
+              </div>
+              <button
+                onClick={() => setShowTeamModal(false)}
+                style={{ background: "none", border: "1px solid rgba(200,172,120,0.3)", color: "rgba(200,172,120,0.7)", borderRadius: 4, width: 28, height: 28, cursor: "pointer", fontSize: 14, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+              >
+                ×
+              </button>
+            </div>
+
+            {/* Team rows */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {FLAGSHIP_HIERARCHY.map((member, i) => (
+                <div
+                  key={member.name}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 14,
+                    padding: "12px 16px",
+                    background: i === 0 ? "rgba(200,172,120,0.08)" : "rgba(250,248,244,0.03)",
+                    border: i === 0 ? "1px solid rgba(200,172,120,0.3)" : "1px solid rgba(250,248,244,0.06)",
+                    borderRadius: 6,
+                  }}
+                >
+                  <div style={{ minWidth: 6, height: 6, borderRadius: "50%", background: member.status === "ACTIVE" ? "#6FCF97" : "#D4A843", marginTop: 6, flexShrink: 0 }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 600, color: i === 0 ? "#c8ac78" : "#FAF8F4" }}>
+                        {member.name}
+                      </span>
+                      <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(200,172,120,0.6)", fontFamily: "'Barlow Condensed', sans-serif" }}>
+                        {member.role}
+                      </span>
+                    </div>
+                    <div style={{ fontSize: 11, color: "rgba(250,248,244,0.45)", marginTop: 3, lineHeight: 1.5 }}>
+                      {member.note}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Footer */}
+            <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid rgba(200,172,120,0.15)", fontSize: 10, letterSpacing: "0.12em", textTransform: "uppercase", color: "rgba(250,248,244,0.25)", textAlign: "center" }}>
+              Click anywhere outside to close
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Tooltip */}
       {tooltip.visible && tooltip.node && (
