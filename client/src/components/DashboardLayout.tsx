@@ -181,6 +181,14 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}`
     : null;
 
+  // Wire Five: live Hamptons Median from Market Matrix B23
+  // When Perplexity updates B23, this value updates automatically on next query.
+  const { data: hamptonsMedianData } = trpc.market.hamptonsMedian.useQuery(undefined, {
+    staleTime: 10 * 60 * 1000, // 10 minutes — median changes rarely
+    refetchOnWindowFocus: false,
+  });
+  const hamptonsMedianDisplay = hamptonsMedianData?.formatted ?? '$2,340,000';
+
   // Data current as of — last Sheets API call timestamp
   const { data: sheetsTimestamp } = trpc.market.dataTimestamp.useQuery(undefined, {
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -398,7 +406,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {market.vix && market.treasury && <Sep />}
           <DataItem label="30Y Treasury" value={market.treasury} />
           <Sep />
-          <DataItem label="Hamptons Median · East End · Q4 2025 · Record High" value="$2.34M" gold />
+          <DataItem label="Hamptons Median · East End · Q4 2025 · Record High" value={hamptonsMedianDisplay} gold />
         </div>
 
         {/* ══════════════════════════════════════════════════════════════

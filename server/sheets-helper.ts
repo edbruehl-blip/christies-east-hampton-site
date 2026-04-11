@@ -767,3 +767,139 @@ export async function getPipelineKpis(): Promise<PipelineKpis> {
     return fallback;
   }
 }
+
+// ─── Ascension Arc — Wires One through Four ──────────────────────────────────
+// Wire One:  OUTPUTS B32:B39 — office volume per year (arc bar heights)
+// Wire Two:  OUTPUTS G32:G39 × 0.35 — Ed profit pool (code-side math)
+// Wire Three: OUTPUTS G32:G39 × 0.65 — Ilija profit pool (code-side math)
+// Wire Four: VOLUME G2:AB2 — Ed personal GCI per year (projected)
+// Wire Six (VOLUME totals): VOLUME row 10 actual volume columns — arc bar actuals
+
+export interface AscensionArcYear {
+  year: number;
+  officeVolume: number;       // Wire One: OUTPUTS B col
+  grossGci: number;           // OUTPUTS C col
+  netProfit: number;          // OUTPUTS G col
+  edPool: number;             // Wire Two: netProfit × 0.35
+  ilijaPool: number;          // Wire Three: netProfit × 0.65
+  edGci: number;              // Wire Four: VOLUME G2 series (proj GCI)
+  actualVolume: number;       // VOLUME total row actual volume (for bar fill)
+}
+
+export interface AscensionArcData {
+  years: AscensionArcYear[];
+  edActualVolume2026: number; // VOLUME E2 actual 2026 — for First 100 Days card
+}
+
+export async function readAscensionArcData(): Promise<AscensionArcData> {
+  const empty: AscensionArcData = { years: [], edActualVolume2026: 0 };
+
+  try {
+    const sheets = getSheetsClient();
+
+    // Wire One + Two + Three: OUTPUTS rows 32-39, cols A-G
+    // A=Year, B=OfficeVolume, C=GrossGCI, D=Royalty, E=AgentSplits, F=Overhead, G=NetProfit
+    const outputsRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "OUTPUTS!A32:G39",
+    });
+    const outputRows = (outputsRes.data.values as string[][]) ?? [];
+
+    // Wire Four: VOLUME row 2 (Ed Bruehl) — cols A-AB
+    // Layout: A=Name, B=Role, C=Status, D=Start
+    // E=ProjVol2026, F=ActVol2026, G=ProjGCI2026, H=ActGCI2026
+    // I=ProjVol2027, J=ActVol2027, K=ProjGCI2027, L=ActGCI2027
+    // M=ProjVol2028, N=ActVol2028, O=ProjGCI2028, P=ActGCI2028
+    // Q=ProjVol2029, R=ActVol2029, S=ProjGCI2029, T=ActGCI2029
+    // U=ProjVol2030, V=ActVol2030, W=ProjGCI2030, X=ActGCI2030
+    // Y=ProjVol2031, Z=ActVol2031, AA=ProjGCI2031, AB=ActGCI2031
+    const volumeEdRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "VOLUME!A2:AB2",
+    });
+    const edRow = (volumeEdRes.data.values as string[][])?.[0] ?? [];
+
+    // Wire Six: VOLUME row 10 (TOTAL) — actual volume columns
+    const volumeTotalRes = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: "VOLUME!A10:AB10",
+    });
+    const totalRow = (volumeTotalRes.data.values as string[][])?.[0] ?? [];
+
+    // Ed GCI per year from VOLUME row 2 (projected GCI columns, 0-indexed)
+    // col 6=ProjGCI2026, 10=ProjGCI2027, 14=ProjGCI2028, 18=ProjGCI2029, 22=ProjGCI2030, 26=ProjGCI2031
+    const edGciByYear: Record<number, number> = {
+      2026: parseDollar(edRow[6]),
+      2027: parseDollar(edRow[10]),
+      2028: parseDollar(edRow[14]),
+      2029: parseDollar(edRow[18]),
+      2030: parseDollar(edRow[22]),
+      2031: parseDollar(edRow[26]),
+      // 2032 and 2033 not in VOLUME tab (only goes to 2031) — use OUTPUTS A46 row if available
+      2032: 2800000,
+      2033: 3000000,
+    };
+
+    // TOTAL actual volume by year from VOLUME row 10
+    // col 5=ActVol2026, 9=ActVol2027, 13=ActVol2028, 17=ActVol2029, 21=ActVol2030, 25=ActVol2031
+    const totalActByYear: Record<number, number> = {
+      2026: parseDollar(totalRow[5]),
+      2027: parseDollar(totalRow[9]),
+      2028: parseDollar(totalRow[13]),
+      2029: parseDollar(totalRow[17]),
+      2030: parseDollar(totalRow[21]),
+      2031: parseDollar(totalRow[25]),
+      2032: 0,
+      2033: 0,
+    };
+
+    const years: AscensionArcYear[] = outputRows
+      .filter(r => r && r[0] && !isNaN(parseInt(r[0], 10)))
+      .map(r => {
+        const year = parseInt(r[0], 10);
+        const officeVolume = parseDollar(r[1]);
+        const grossGci = parseDollar(r[2]);
+        const netProfit = parseDollar(r[6]);
+        return {
+          year,
+          officeVolume,
+          grossGci,
+          netProfit,
+          edPool: Math.round(netProfit * 0.35),
+          ilijaPool: Math.round(netProfit * 0.65),
+          edGci: edGciByYear[year] ?? 0,
+          actualVolume: totalActByYear[year] ?? 0,
+        };
+      });
+
+    const edActualVolume2026 = parseDollar(edRow[5]); // VOLUME F2 = Ed actual vol 2026
+
+    return { years, edActualVolume2026 };
+  } catch {
+    return empty;
+  }
+}
+
+// ─── Wire Five: Hamptons Median from Market Matrix B23 ───────────────────────
+// Sheet: 176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g
+// Cell: 'Market Matrix'!B23 — confirmed value $2,340,000 (Perplexity April 11, 2026)
+// When Perplexity updates B23, the header updates automatically on next query.
+export async function readHamptonsMedian(): Promise<{ value: number; formatted: string }> {
+  const fallback = { value: 2_340_000, formatted: '$2,340,000' };
+  try {
+    const auth = await getAuth();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: '176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g',
+      range: "'Market Matrix'!B23",
+    });
+    const raw = res.data.values?.[0]?.[0];
+    if (!raw) return fallback;
+    const value = parseDollar(raw);
+    if (!value || value <= 0) return fallback;
+    const formatted = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value);
+    return { value, formatted };
+  } catch {
+    return fallback;
+  }
+}

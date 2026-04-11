@@ -1325,3 +1325,7 @@
 - [x] FIVE: Ed profit pool percentage — 30% → 35% on every surface (FUTURE tab, exported PDFs, pro forma, proforma-generator.ts)
 - [x] SIX: Closing line on both pro formas — "The foundation is proven. The model is working. The next 14 days set the trajectory."
 - [x] SEVEN: Ilija pro forma — profit pool percentages only, asterisk note: "Governing principle · not yet contractual."
+
+## Sprint 44 — Wire Five (Added April 11, 2026)
+
+- [x] Wire Five: DashboardLayout.tsx — replace hardcoded $2.34M Hamptons Median with live read from Market Matrix sheet 176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g cell B23 (confirmed value $2,340,000)

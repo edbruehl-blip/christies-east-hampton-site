@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian } from './sheets-helper';
 import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
@@ -439,9 +439,14 @@ export const appRouter = router({
       }
     }),
     /**
-     * Returns the timestamp of the last successful Sheets API call.
-     * Used to display "Data current as of [date]" on the HOME market strip.
+     * Wire Five: Returns the live Hamptons Median from Market Matrix B23.
+     * Sheet: 176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g
+     * When Perplexity updates B23, this value updates automatically on next query.
      */
+    hamptonsMedian: publicProcedure.query(async () => {
+      return await readHamptonsMedian();
+    }),
+
     dataTimestamp: publicProcedure.query(async () => {
       try {
         const { readPipelineDeals } = await import('./sheets-helper');
@@ -476,6 +481,12 @@ export const appRouter = router({
     volumeData: publicProcedure
       .query(async () => {
         return readGrowthModelVolume();
+      }),
+    // Wire One–Four: Ascension Arc live data from OUTPUTS + VOLUME tabs
+    // Returns office volume, net profit pool (Ed 35% / Ilija 65%), Ed GCI, actual volume per year
+    ascensionArc: publicProcedure
+      .query(async () => {
+        return readAscensionArcData();
       }),
     // Generate the 4-page institutional pro forma PDF
     // Returns base64-encoded PDF bytes for client-side download

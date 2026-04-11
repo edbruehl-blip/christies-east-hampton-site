@@ -80,6 +80,12 @@ function ProFormaButton() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
+  // Wires One–Four: live OUTPUTS + VOLUME data from Google Sheets
+  const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
+    retry: false,
+    staleTime: 5 * 60 * 1000,
+  });
+
   const { data: volData, isLoading: volLoading } = trpc.future.volumeData.useQuery(undefined, {
     retry: false,
     staleTime: 5 * 60 * 1000,
@@ -111,17 +117,59 @@ export default function FutureTab() {
     return volData.total.act2026 || 4_570_000;
   }, [volData]);
 
+  // Wire One: live office volumes from OUTPUTS B32:B39 (override MILESTONE_TARGETS volumes)
+  const liveVolumes = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    const map: Record<number, number> = {};
+    arcData.years.forEach(y => { map[y.year] = y.officeVolume; });
+    return map;
+  }, [arcData]);
+
+  // Wire Two/Three: live profit pool from OUTPUTS G32:G39 × 35%/65%
+  const livePoolRows = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    return arcData.years.map(y => ({
+      year: String(y.year),
+      vol: y.officeVolume,
+      netProfit: y.netProfit,
+      edPool: y.edPool,
+      ilijaPool: y.ilijaPool,
+    }));
+  }, [arcData]);
+
+  // Wire Four: live Ed GCI from VOLUME G2 series
+  const liveEdGci = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    const map: Record<number, number> = {};
+    arcData.years.forEach(y => { map[y.year] = y.edGci; });
+    return map;
+  }, [arcData]);
+
   const ARC_BARS = useMemo(() => {
     const closed2026 = volData?.total.act2026 || 4_570_000;
     const active2026 = volData?.total.proj2026
       ? Math.max(0, volData.total.proj2026 - closed2026)
       : 13_620_000;
-    const projected2026 = Math.max(0, MILESTONE_TARGETS[2026].volume - closed2026 - active2026);
+    // Wire One: use live volume from OUTPUTS if available, fall back to MILESTONE_TARGETS
+    const vol2026 = liveVolumes?.[2026] ?? MILESTONE_TARGETS[2026].volume;
+    const vol2027 = liveVolumes?.[2027] ?? MILESTONE_TARGETS[2027].volume;
+    const vol2028 = liveVolumes?.[2028] ?? MILESTONE_TARGETS[2028].volume;
+    const vol2030 = liveVolumes?.[2030] ?? MILESTONE_TARGETS[2030].volume;
+    const vol2031 = liveVolumes?.[2031] ?? MILESTONE_TARGETS[2031].volume;
+    const vol2033 = liveVolumes?.[2033] ?? MILESTONE_TARGETS[2033].volume;
+    const projected2026 = Math.max(0, vol2026 - closed2026 - active2026);
+    const fmtLive = (v: number) => {
+      if (v >= 1_000_000_000) return `$${(v / 1_000_000_000).toFixed(3).replace(/\.?0+$/, '')}B`;
+      if (v >= 1_000_000) return `$${(v / 1_000_000 % 1 === 0 ? (v / 1_000_000).toFixed(0) : (v / 1_000_000).toFixed(1))}M`;
+      return `$${v.toLocaleString()}`;
+    };
     return [
       { year: '2025', ...MILESTONE_TARGETS[2025], segments: null, isClosed: true },
       {
         year: '2026',
-        ...MILESTONE_TARGETS[2026],
+        volume: vol2026,
+        displayVolume: fmtLive(vol2026),
+        label: fmtLive(vol2026),
         segments: [
           { label: 'Closed',    value: closed2026,    color: '#1B2A4A' },
           { label: 'Active',    value: active2026,    color: '#8a7a5a' },
@@ -129,13 +177,13 @@ export default function FutureTab() {
         ],
         isClosed: false,
       },
-      { year: '2027', ...MILESTONE_TARGETS[2027], segments: null, isClosed: false },
-      { year: '2028', ...MILESTONE_TARGETS[2028], segments: null, isClosed: false },
-      { year: '2030', ...MILESTONE_TARGETS[2030], segments: null, isClosed: false },
-      { year: '2031', ...MILESTONE_TARGETS[2031], segments: null, isClosed: false },
-      { year: '2033', ...MILESTONE_TARGETS[2033], segments: null, isClosed: false },
+      { year: '2027', ...MILESTONE_TARGETS[2027], volume: vol2027, displayVolume: fmtLive(vol2027), label: fmtLive(vol2027), segments: null, isClosed: false },
+      { year: '2028', ...MILESTONE_TARGETS[2028], volume: vol2028, displayVolume: fmtLive(vol2028), label: fmtLive(vol2028), segments: null, isClosed: false },
+      { year: '2030', ...MILESTONE_TARGETS[2030], volume: vol2030, displayVolume: fmtLive(vol2030), label: fmtLive(vol2030), segments: null, isClosed: false },
+      { year: '2031', ...MILESTONE_TARGETS[2031], volume: vol2031, displayVolume: fmtLive(vol2031), label: fmtLive(vol2031), segments: null, isClosed: false },
+      { year: '2033', ...MILESTONE_TARGETS[2033], volume: vol2033, displayVolume: fmtLive(vol2033), label: fmtLive(vol2033), segments: null, isClosed: false },
     ];
-  }, [volData]);
+  }, [volData, liveVolumes]);
 
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
@@ -430,22 +478,31 @@ export default function FutureTab() {
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { year: '2026', gci: '$660,000', pool: '$90,000', anew: '$17,500', total: '$767,500' },
-                    { year: '2027', gci: '$792,000', pool: '$360,000', anew: '$52,500', total: '$1,204,500' },
-                    { year: '2028', gci: '$950,400', pool: '$750,000', anew: '$105,000', total: '$1,805,400' },
-                    { year: '2029', gci: '$1,000,000 (cap)', pool: '$1,140,000', anew: '$115,500', total: '$2,255,500' },
-                    { year: '2030', gci: '$1,000,000 (cap)', pool: '$1,680,000', anew: '$127,050', total: '$2,807,050' },
-                    { year: '2031', gci: '$1,000,000 (cap)', pool: '$2,340,000', anew: '$139,755', total: '$3,479,755' },
-                  ].map((row, i) => (
+                  {/* Wire Four: Ed GCI from VOLUME G2 series; pool from OUTPUTS G32:G39 × 35% */}
+                  {(livePoolRows?.filter(r => ['2026','2027','2028','2030','2031'].includes(r.year)) ?? [
+                    { year: '2026', edPool: 39_725 },
+                    { year: '2027', edPool: 467_635 },
+                    { year: '2028', edPool: 680_383 },
+                    { year: '2030', edPool: 1_177_106 },
+                    { year: '2031', edPool: 1_480_272 },
+                  ]).map((row, i) => {
+                    const yr = parseInt(row.year, 10);
+                    const edGci = liveEdGci?.[yr] ?? 0;
+                    const anewHomes = yr === 2026 ? 17_500 : yr === 2027 ? 52_500 : 175_000;
+                    const total = edGci + row.edPool + anewHomes;
+                    return (
                     <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
                       <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem', fontWeight: 600 }}>{row.gci}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{row.pool}</td>
-                      <td className="px-3 py-3" style={{ ...SANS, color: '#8a7a5a', fontSize: '0.85rem' }}>{row.anew}</td>
-                      <td className="px-3 py-3 font-bold" style={{ ...SERIF, color: '#1B2A4A', fontSize: '0.9rem' }}>{row.total}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem', fontWeight: 600 }}>
+                        {edGci > 0 ? fmtVol(edGci) : (yr >= 2029 ? '$1,000,000 (cap)' : <span style={{color:'rgba(27,42,74,0.25)'}}>&#8212;</span>)}
+                      </td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.edPool)}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#8a7a5a', fontSize: '0.85rem' }}>{fmtVol(anewHomes)}</td>
+                      <td className="px-3 py-3 font-bold" style={{ ...SERIF, color: '#1B2A4A', fontSize: '0.9rem' }}>{total > 0 ? fmtVol(total) : <span style={{color:'rgba(27,42,74,0.25)'}}>&#8212;</span>}</td>
                     </tr>
-                  ))}
+                  );
+                  })}
+                
                 </tbody>
               </table>
             </div>
@@ -478,38 +535,29 @@ export default function FutureTab() {
               <table className="w-full" style={{ ...SANS, borderCollapse: 'collapse', minWidth: 680 }}>
                 <thead>
                   <tr style={{ borderBottom: '2px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-                    {['Year', 'Total Sales Volume', 'Above $40M Breakeven', 'Pool (2%)', 'Ed Bruehl (35%)', 'Partnership (60%)', "Christie's RE (5%)"].map(h => (
+                    {['Year', 'Total Sales Volume', 'Net Operating Profit', 'Ed Bruehl (35%)', 'Ilija (65%)'].map(h => (
                       <th key={h} className="px-3 py-3 text-left" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 600 }}>{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {[
-                    { year: '2026', vol: total.proj2026 || 107_500_000 },
-                    { year: '2027', vol: total.proj2027 || 273_000_000 },
-                    { year: '2028', vol: total.proj2028 || 383_500_000 },
-                    { year: '2030', vol: total.proj2030 || 641_400_000 },
-                    { year: '2031', vol: total.proj2031 || 798_500_000 },
-                    { year: '2033', vol: 1_101_000_000 },
-                  ].map((row, i) => {
-                    const BREAKEVEN = 40_000_000;
-                    const aboveBreakeven = Math.max(0, row.vol - BREAKEVEN);
-                    const pool = aboveBreakeven * 0.02;
-                    const edShare = pool * 0.35;
-                    const ilijaShare = pool * 0.60;
-                    const christiesShare = pool * 0.05;
-                    return (
-                      <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
-                        <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
-                        <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.vol)}</td>
-                        <td className="px-3 py-3" style={{ ...SANS, color: aboveBreakeven > 0 ? '#1B2A4A' : 'rgba(27,42,74,0.3)', fontSize: '0.85rem' }}>{aboveBreakeven > 0 ? fmtVol(aboveBreakeven) : '—'}</td>
-                        <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#C8AC78', fontSize: '0.85rem' }}>{pool > 0 ? fmtVol(pool) : '$0'}</td>
-                        <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem' }}>{edShare > 0 ? fmtVol(edShare) : '$0'}</td>
-                        <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{ilijaShare > 0 ? fmtVol(ilijaShare) : '$0'}</td>
-                        <td className="px-3 py-3" style={{ ...SANS, color: '#7a8a8e', fontSize: '0.85rem' }}>{christiesShare > 0 ? fmtVol(christiesShare) : '$0'}</td>
-                      </tr>
-                    );
-                  })}
+                  {/* Wire Two + Three: live pool rows from OUTPUTS G32:G39 × 35%/65% */}
+                  {(livePoolRows ?? [
+                    { year: '2026', vol: total.proj2026 || 107_500_000, netProfit: 113_500, edPool: 39_725, ilijaPool: 73_775 },
+                    { year: '2027', vol: total.proj2027 || 273_000_000, netProfit: 1_336_100, edPool: 467_635, ilijaPool: 868_465 },
+                    { year: '2028', vol: total.proj2028 || 383_500_000, netProfit: 1_943_950, edPool: 680_383, ilijaPool: 1_263_568 },
+                    { year: '2030', vol: total.proj2030 || 641_400_000, netProfit: 3_363_160, edPool: 1_177_106, ilijaPool: 2_186_054 },
+                    { year: '2031', vol: total.proj2031 || 798_500_000, netProfit: 4_229_348, edPool: 1_480_272, ilijaPool: 2_749_076 },
+                    { year: '2033', vol: 1_101_000_000, netProfit: 5_885_957, edPool: 2_060_085, ilijaPool: 3_825_872 },
+                  ]).map((row, i) => (
+                    <tr key={row.year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 0 ? 'transparent' : 'rgba(27,42,74,0.015)' }}>
+                      <td className="px-3 py-3" style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 10, letterSpacing: '0.12em', fontWeight: 600 }}>{row.year}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.vol)}</td>
+                      <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#C8AC78', fontSize: '0.85rem' }}>{fmtVol(row.netProfit)}</td>
+                      <td className="px-3 py-3 font-semibold" style={{ ...SANS, color: '#1B2A4A', fontSize: '0.85rem' }}>{fmtVol(row.edPool)}</td>
+                      <td className="px-3 py-3" style={{ ...SANS, color: '#384249', fontSize: '0.85rem' }}>{fmtVol(row.ilijaPool)}</td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
