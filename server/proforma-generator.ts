@@ -707,7 +707,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="internal-banner">★ INTERNAL ONLY — GCI and Profit Pool · Not for External Documents · Governing Principle *</div>
 
-  <div class="section-label" style="margin-bottom:8px">Profit Pool · 2026–2031 Projection</div>
+  <div class="section-label" style="margin-bottom:8px">Profit Pool · 2026–2033 Projection</div>
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:8px 10px;margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.6">
     Formula: Pool = (Total Sales Volume − <strong>$40M breakeven</strong>) × <strong>2%</strong>.
     If volume &lt; $40M, pool = $0.

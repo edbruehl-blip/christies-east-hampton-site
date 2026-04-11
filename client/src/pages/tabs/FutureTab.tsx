@@ -387,7 +387,12 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Net pool 65% *', proj: ['$73,775','$868,465','$1,263,568','~$5.1M'], act: null },
+                { label: 'Net pool 65% *', proj: [
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.ilijaPool) : '—',
+                ], act: null },
                 { label: 'Actual to date',  proj: null, act: ['—','—','—','—'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -399,7 +404,12 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$73,775','$868K','$1.26M','$5.1M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {[
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2033') ? fmtM(livePoolRows.find(r=>r.year==='2033')!.ilijaPool) : '—',
+                ].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
 
