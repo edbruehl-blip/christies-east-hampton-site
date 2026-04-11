@@ -158,6 +158,32 @@
     grid-template-columns: 1fr 1fr !important;
   }
 
+  /* Participant cards: 1 column on mobile */
+  .future-participant-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Bar dollar labels: smaller on mobile to prevent overflow */
+  .future-bar-label {
+    font-size: 8px !important;
+    white-space: nowrap;
+  }
+
+  /* Year strip labels: smaller on mobile */
+  .future-year-label {
+    font-size: 7px !important;
+  }
+
+  /* Chart bars row: tighter gap on mobile */
+  .future-bars-row {
+    gap: 3px !important;
+  }
+
+  /* Chart frame: more top padding so $1.823B label clears the border */
+  .future-chart-frame {
+    padding-top: 40px !important;
+  }
+
   /* Home page letter right column: center text on mobile */
   .home-letter-col {
     padding: 24px 20px 24px 20px !important;

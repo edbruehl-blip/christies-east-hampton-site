@@ -228,7 +228,7 @@ export default function FutureTab() {
   }
 
   return (
-    <div ref={tabRef} style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff' }}>
+    <div ref={tabRef} style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff', overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -248,9 +248,9 @@ export default function FutureTab() {
         </div>
 
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '30px 14px 0', marginBottom: 10 }}>
+        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '30px 14px 0', marginBottom: 10 }}>
           {/* Bars row */}
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, paddingBottom: 10 }}>
+          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, paddingBottom: 10 }}>
 
             {BARS.map((bar) => {
               const projH = barPct(bar.vol);
@@ -261,7 +261,7 @@ export default function FutureTab() {
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
                   {/* Dollar label above bar */}
-                  <div style={{ ...SANS, fontSize: isBaseline ? 11 : 13, color: isBaseline ? MUTED : GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
+                  <div className={isBaseline ? '' : 'future-bar-label'} style={{ ...SANS, fontSize: isBaseline ? 11 : 13, color: isBaseline ? MUTED : GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
                     {bar.display}
                   </div>
                   {/* Bar column */}
@@ -304,7 +304,7 @@ export default function FutureTab() {
           {/* Year strip */}
           <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 10px' }}>
             {BARS.map(b => b.year).map(yr => (
-              <div key={yr} style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
+              <div key={yr} className="future-year-label" style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
             ))}
           </div>
         </div>
@@ -370,7 +370,7 @@ export default function FutureTab() {
         </div>
 
         {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 9 }}>
+        <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 9 }}>
 
           {/* Column 1: Ilija + Ed */}
           <div>

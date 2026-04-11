@@ -466,7 +466,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       </div>
 
       {/* ── Main Content Area ── */}
-      <main className="flex-1">
+      <main className="flex-1" style={{ overflowX: 'hidden', width: '100%' }}>
         {children}
       </main>
 
