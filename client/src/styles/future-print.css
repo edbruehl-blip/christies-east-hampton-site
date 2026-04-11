@@ -146,3 +146,10 @@
     display: none !important;
   }
 }
+
+/* Mobile: hide the Arc Complete note inside the 2036 bar — too cramped at <768px */
+@media screen and (max-width: 767px) {
+  .arc-note-desktop {
+    display: none !important;
+  }
+}
