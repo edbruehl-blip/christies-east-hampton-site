@@ -1437,3 +1437,26 @@
 - [ ] INTEL tab: replace React Mind Map with Trello Board 1 iframe embed (gold border, charcoal header, Christie's logo)
 - [ ] Confirm Trello public board embed works in iframe (Trello supports this natively — no proxy needed)
 - [ ] Public visibility confirmed through April 29, 2026 (training phase)
+
+## Sprint 8 Closing Items (April 12, 2026 — EOD)
+
+- [x] Doctrine 32 locked in state.json — EOD Brief Template
+- [x] Trello simplified to two boards — Board A (Institutional Mind Map) + Board B (Christie's SOP)
+- [x] Board A URL locked in state.json: https://trello.com/b/6zYtB3hZ/christies-flagship-trello
+- [x] Doctrine 31.5 updated to reference two-board Trello structure
+- [x] Pro Forma live URL renderer at /pro-forma — McKenzie pass complete, all 4 pages verified April 12 2026
+- [ ] Four William audio files wired (NEWS, LETTER, FLAGSHIP, BRIEF per Doctrine 32)
+- [x] Tonight's Flagship AI-Letter EOD update — incorporate doctrines 27–32 + sub-doctrines, McKenzie pass, published April 12 2026
+- [ ] GitHub backup push (when Ed connects Settings panel)
+
+## Sprint 9 Trello Items (Updated — Two Boards)
+
+- [x] Doctrine 31.4 RETIRED — Notion Structural Layer
+- [x] Doctrine 31.5 updated — Three-Layer Architecture with two Trello boards
+- [x] Doctrine 31.6 locked — Tool Selection by Team Adoption (Angel-Hagler lock)
+- [x] Mind Map data extracted for Perplexity — MINDMAP_DATA_FOR_PERPLEXITY.md
+- [ ] Perplexity populates Board A (Institutional Mind Map) — one card per node, no node left behind
+- [ ] Ed + Claude verify Board A one-to-one node-to-card completion
+- [ ] Perplexity refines Board B (Christie's SOP) into East Hampton Listing Operations SOP
+- [ ] INTEL tab: replace React Mind Map with Board A iframe embed (gold border, charcoal header, Christie's logo)
+- [ ] Public visibility confirmed through April 29, 2026 (training phase)

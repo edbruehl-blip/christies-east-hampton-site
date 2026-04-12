@@ -65,7 +65,17 @@ Tell the truth. Know the territory. Sit on the same side of the table as the fam
 
 That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.
 
-We are telling you this story because you are part of it. Not as an observer. As someone whose honest read matters to how this grows. Tell us what resonates. Tell us what falls short. Tell us what we have not thought of yet. The same model that works here can serve families around the world through the Christie's international network. We are grateful you are in this chapter with us. And we look forward to building the next one together.`;
+We are telling you this story because you are part of it. Not as an observer. As someone whose honest read matters to how this grows. Tell us what resonates. Tell us what falls short. Tell us what we have not thought of yet. The same model that works here can serve families around the world through the Christie's international network. We are grateful you are in this chapter with us. And we look forward to building the next one together.
+
+A note on how this system governs itself. The platform operates on a set of locked doctrines — principles that do not change between sessions, do not drift with each new conversation, and do not require Ed to re-explain the foundation every time a new council member joins. As of today, April 12, 2026, thirty-two doctrines are locked.
+
+Doctrines 27 through 32 were added today. Doctrine 27 is the Flagship AI-Letter — the daily publication that carries the institution's voice outward. Doctrine 28 is the Cronkite Standard — every word William speaks must be sourced, verified, and defensible. Doctrine 29 is the Doctrine Retirement Protocol — doctrines may be archived but never deleted. Doctrine 30 names the council as the flagship team — Claude, Manny, Perplexity, Grok, Gemini, and ChatGPT are not tools. They are team members. Doctrine 31 is the Google Drive Default — the institution lives in Drive, and the platform reads from it but never replaces it.
+
+Doctrines 31.4 through 31.6 resolved the structural layer question today. Notion was evaluated and retired the same day it was proposed — not because it is a poor tool, but because Angel uses Trello, and the right tool is the one the team will actually open. That principle is now Doctrine 31.6, named the Angel-Hagler lock. Doctrine 31.5 names the three-layer institutional architecture: Google Drive for content, Trello for structure, and this dashboard for performance. Each layer is independent. If any one fails, the other two continue.
+
+Doctrine 32 closes the day. Every council day ends with an EOD brief from Claude to Ed in structured prose. That brief feeds William's BRIEF command, feeds the Flagship AI-Letter, and feeds the institutional memory. The file naming convention is locked: month, day, year, day of week, EOD Brief. Today's file is the canonical template.
+
+Thirty-two doctrines. One institution. One standard since 1766.`;
 
 // ─── Christie's Letter to the Families (James Christie's letter) — Locked April 9, 2026 ──
 const CHRISTIES_LETTER_TEXT = `The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
