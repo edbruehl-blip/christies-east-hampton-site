@@ -28,7 +28,8 @@ import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
 
 // Standalone pages
-import ReportPage  from "./pages/ReportPage";
+import ReportPage    from "./pages/ReportPage";
+import ProFormaPage from "./pages/ProFormaPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -59,6 +60,7 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/report" component={ReportPage} />
+            <Route path="/pro-forma" component={ProFormaPage} />
             <Route component={Dashboard} />
           </Switch>
           {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}

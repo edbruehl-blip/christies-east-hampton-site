@@ -1400,3 +1400,13 @@
 ### Item 10 — Internal Flagship Letter Regeneration
 - [ ] Apply all five corrections (opening, tab list, William paragraph, model numbers, memory paragraph)
 - [ ] Regenerate PDF and confirm clean
+
+## Sprint 8 — Live URL Architecture (April 12, 2026)
+
+- [x] Live URL doctrine locked in state.json — every document has a permanent platform URL; PDFs are downstream Puppeteer photographs
+- [x] /pro-forma route built — standalone React page, 4-page institutional layout, live data from Growth Model v2, no nav chrome
+- [x] /api/pdf?url= endpoint wired — generic Puppeteer endpoint photographs any live URL, returns named PDF
+- [x] /api/pdf?url=/pro-forma confirmed working — 585KB, 8-page PDF, 9 seconds, HTTP 200
+- [x] Download PDF button on /pro-forma wired to /api/pdf endpoint (replaces window.print())
+- [ ] IDEAS tab removal — confirm zero navigation references remain
+- [ ] Live URL build order: /pro-forma ✓ → /christies-letter → /flagship-letter → /market-report → /hamlet/:id → /card-stock

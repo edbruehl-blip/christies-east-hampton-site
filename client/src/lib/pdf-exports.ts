@@ -241,7 +241,7 @@ export async function generateChristieCMA(result: AnewOutput): Promise<void> {
   doc.setTextColor(...C.charcoal);
   doc.text('Ed Bruehl · Managing Director · Christie\'s International Real Estate Group · East Hampton', PAGE.ml, y);
   y += 5;
-  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233 · christiesrealestategroup.com', PAGE.ml, y);
+  doc.text('M: 646.752.1233  ·  O: 631.771.7004  ·  edbruehl@christiesrealestategroup.com  ·  26 Park Place, East Hampton NY 11937', PAGE.ml, y);
   y += 10;
 
   // Signature line
@@ -630,7 +630,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.text("Art. Beauty. Provenance. · Christie's International Real Estate Group · Est. 1766", PAGE.w / 2, PAGE.h - 16, { align: 'center' });
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(200, 190, 175);
-  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
+  doc.text('Ed Bruehl, Managing Director  ·  M: 646.752.1233  ·  O: 631.771.7004  ·  edbruehl@christiesrealestategroup.com  ·  26 Park Place, East Hampton NY 11937', PAGE.w / 2, PAGE.h - 11, { align: 'center' });
 
   // ── PAGE 2 -- Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe) ─
   doc.addPage();
@@ -831,8 +831,8 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.setFontSize(7.5);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
-  doc.text('646-752-1233', PAGE.ml + 8, y + 14);
-  doc.text('christiesrealestategroupeh.com', PAGE.ml + 8, y + 19);
+  doc.text('M: 646.752.1233  ·  O: 631.771.7004', PAGE.ml + 8, y + 14);
+  doc.text('edbruehl@christiesrealestategroup.com', PAGE.ml + 8, y + 19);
   y += 28;
 
   // Two QR codes side by side -- website QR (left) + WhatsApp QR (right)
@@ -1043,8 +1043,8 @@ export async function generateEastHamptonVillageReport(): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...C.charcoal);
   doc.text('Managing Director · Christie\'s International Real Estate Group', PAGE.ml + 36, y + 15);
-  doc.text('26 Park Place, East Hampton, NY 11937 · 646-752-1233', PAGE.ml + 36, y + 21);
-  doc.text('christiesrealestategroupeh.com', PAGE.ml + 36, y + 27);
+  doc.text('M: 646.752.1233  ·  O: 631.771.7004  ·  edbruehl@christiesrealestategroup.com', PAGE.ml + 36, y + 21);
+  doc.text('26 Park Place, East Hampton, NY 11937', PAGE.ml + 36, y + 27);
 
   // ── PDF footer on all pages ───────────────────────────────────────────────
   drawFooter(doc, 1, (doc.internal as any).getNumberOfPages(), qrImg);
@@ -1436,7 +1436,7 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6);
   doc.setTextColor(200, 172, 120);
-  doc.text('Ed Bruehl  \u00b7  26 Park Place, East Hampton, NY 11937  \u00b7  646-752-1233  \u00b7  edbruehl@christiesrealestategroup.com', W / 2, footerY + 0.26, { align: 'center' });
+  doc.text('Ed Bruehl, Managing Director  ·  M: 646.752.1233  ·  O: 631.771.7004  ·  edbruehl@christiesrealestategroup.com  ·  26 Park Place, East Hampton NY 11937', W / 2, footerY + 0.26, { align: 'center' });
 
   downloadPdf(doc, `Christies-UHNW-Path-Card-${today().replace(/\s/g, '-')}.pdf`);
 }
