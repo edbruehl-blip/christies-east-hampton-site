@@ -1410,3 +1410,30 @@
 - [x] Download PDF button on /pro-forma wired to /api/pdf endpoint (replaces window.print())
 - [ ] IDEAS tab removal — confirm zero navigation references remain
 - [ ] Live URL build order: /pro-forma ✓ → /christies-letter → /flagship-letter → /market-report → /hamlet/:id → /card-stock
+
+## Sprint 9 — Notion Structural Layer (April 12, 2026)
+
+- [x] Doctrine 31.4 locked in state.json — Notion Structural Layer
+- [x] Doctrine 31.5 locked in state.json — Three-Layer Institutional Architecture
+- [ ] Ed creates Notion workspace named "Christie's East Hampton Flagship" (Gmail auth)
+- [ ] Ed shares Notion workspace URL with Manny for embed scoping
+- [ ] Perplexity populates Notion board structure (nodes, hierarchy, links to Google Drive)
+- [ ] INTEL tab: replace React Mind Map with Notion embed (iframe wrapper, gold border, charcoal header, Christie's logo)
+- [ ] Confirm Notion public page embed works without X-Frame-Options block (test with embednotion.com proxy if needed)
+- [ ] Notion API evaluation report delivered to Ed (see Sprint 9 scoping report)
+
+## Sprint 9 — Trello Structural Layer (April 12, 2026 — Pivot from Notion)
+
+- [x] Doctrine 31.4 RETIRED — Notion Structural Layer (retired same day per Doctrine 31.6)
+- [x] Doctrine 31.5 updated — Three-Layer Architecture now references Trello in Layer 2
+- [x] Doctrine 31.6 locked — Tool Selection by Team Adoption (Angel uses Trello, Hagler standard)
+- [x] Mind Map data extracted for Perplexity — MINDMAP_DATA_FOR_PERPLEXITY.md (21 nodes, 10 EXPORTS sub-nodes, 5 RESOURCES sub-nodes, full connection map, Trello Board 1 list structure)
+- [ ] Ed creates Trello workspace "Christie's East Hampton Flagship" (4 boards)
+- [ ] Perplexity populates Board 1 (Institutional Structure) using MINDMAP_DATA_FOR_PERPLEXITY.md
+- [ ] Perplexity populates Board 2 (Listing Operations SOP — adapts Eileen's 175-card structure)
+- [ ] Perplexity populates Board 3 (Wednesday Circuit and Content)
+- [ ] Perplexity populates Board 4 (Research Library and Anchored Sources)
+- [ ] Ed shares Board 1 public URL with Manny
+- [ ] INTEL tab: replace React Mind Map with Trello Board 1 iframe embed (gold border, charcoal header, Christie's logo)
+- [ ] Confirm Trello public board embed works in iframe (Trello supports this natively — no proxy needed)
+- [ ] Public visibility confirmed through April 29, 2026 (training phase)
