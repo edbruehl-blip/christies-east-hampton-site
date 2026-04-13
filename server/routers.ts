@@ -10,7 +10,7 @@ import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePrope
 import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
-import { FLAGSHIP_LETTER_TEXT } from './letter-content';
+import { FLAGSHIP_LETTER_TEXT, CHRISTIES_LETTER_TEXT } from './letter-content';
 import { eq, asc } from "drizzle-orm";
 
 // ─── Founding letter text (matches ReportPage.tsx paragraphs) ─────────────────
@@ -520,6 +520,16 @@ export const appRouter = router({
     getLetter: publicProcedure
       .query(() => ({
         text: FLAGSHIP_LETTER_TEXT,
+        updatedAt: new Date().toISOString(),
+      })),
+
+    /**
+     * Serve the Christie's Letter to the Families text to the /letters/christies live URL renderer.
+     * Public procedure — the letter is the institutional introduction to new families.
+     */
+    getChristiesLetter: publicProcedure
+      .query(() => ({
+        text: CHRISTIES_LETTER_TEXT,
         updatedAt: new Date().toISOString(),
       })),
   }),

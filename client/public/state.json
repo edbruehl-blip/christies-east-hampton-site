@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "title": "Christie's East Hampton — Platform State",
+    "title": "Christie's East Hampton \u2014 Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
     "last_updated": "2026-04-12",
     "sprint": 8,
@@ -8,10 +8,9 @@
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL + Puppeteer (headless Chromium v146)"
   },
-
   "brand": {
     "primary_name": "Christie's East Hampton",
-    "full_legal": "Christie's International Real Estate Group — East Hampton Flagship",
+    "full_legal": "Christie's International Real Estate Group \u2014 East Hampton Flagship",
     "established": "1766",
     "colors": {
       "navy": "#1B2A4A",
@@ -37,74 +36,175 @@
       "Institutional restraint over decoration"
     ]
   },
-
   "agent": {
     "name": "Ed Bruehl",
     "title": "Managing Director",
     "firm": "Christie's International Real Estate Group",
-    "address": "26 Park Place · East Hampton, NY 11937",
+    "address": "26 Park Place \u00b7 East Hampton, NY 11937",
     "phone_mobile": "646-752-1233",
     "phone_office": "631-771-7004",
     "email": "edbruehl@christiesrealestategroup.com",
-    "career_sales": "$1B+ in Career Sales · 20 Years, East End",
+    "career_sales": "$1B+ in Career Sales \u00b7 20 Years, East End",
     "headshot_cdn": "https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/INlfZDqMHcqOCvuv.jpg",
-    "headshot_note": "Navy jacket photo — used on HOME tab and all PDF exports. Do not replace without Ed's approval.",
-    "canonical_contact_block": "Ed Bruehl, Managing Director · M: 646.752.1233 · O: 631.771.7004 · edbruehl@christiesrealestategroup.com · 26 Park Place, East Hampton NY 11937",
+    "headshot_note": "Navy jacket photo \u2014 used on HOME tab and all PDF exports. Do not replace without Ed's approval.",
+    "canonical_contact_block": "Ed Bruehl, Managing Director \u00b7 M: 646.752.1233 \u00b7 O: 631.771.7004 \u00b7 edbruehl@christiesrealestategroup.com \u00b7 26 Park Place, East Hampton NY 11937",
     "canonical_contact_rule": "No website URL in any contact block. O: 631.771.7004 required on all client-facing PDFs."
   },
-
   "team": {
     "human_members": [
-      { "name": "Ed Bruehl", "role": "Managing Director", "status": "active", "equity": "founder" },
-      { "name": "Jarvis Slade", "role": "COO & Agent", "status": "active", "equity": "participant" },
-      { "name": "Angel Theodore", "role": "Operations", "status": "active", "equity": "participant" },
-      { "name": "Zoila Ortega Astor", "role": "Office Director", "status": "joining April 15, 2026", "location": "26 Park Place" },
-      { "name": "Scott Smith", "role": "Agent", "status": "joining June 1, 2026", "lane": "AnewHomes line partner + producing broker" },
-      { "name": "Richard Bruehl", "role": "Strategic Mentor", "status": "active", "equity": "10% AnewHomes" }
+      {
+        "name": "Ed Bruehl",
+        "role": "Managing Director",
+        "status": "active",
+        "equity": "founder"
+      },
+      {
+        "name": "Jarvis Slade",
+        "role": "COO & Agent",
+        "status": "active",
+        "equity": "participant"
+      },
+      {
+        "name": "Angel Theodore",
+        "role": "Operations",
+        "status": "active",
+        "equity": "participant"
+      },
+      {
+        "name": "Zoila Ortega Astor",
+        "role": "Office Director",
+        "status": "joining April 15, 2026",
+        "location": "26 Park Place"
+      },
+      {
+        "name": "Scott Smith",
+        "role": "Agent",
+        "status": "joining June 1, 2026",
+        "lane": "AnewHomes line partner + producing broker"
+      },
+      {
+        "name": "Richard Bruehl",
+        "role": "Strategic Mentor",
+        "status": "active",
+        "equity": "10% AnewHomes"
+      }
     ],
     "council_members": [
-      { "name": "Claude", "role": "Strategic Intelligence" },
-      { "name": "Manny", "role": "Platform Builder" },
-      { "name": "Perplexity", "role": "Research Intelligence" },
-      { "name": "Grok", "role": "Market Intelligence" },
-      { "name": "Gemini", "role": "Data Intelligence" },
-      { "name": "ChatGPT", "role": "General Intelligence" }
+      {
+        "name": "Claude",
+        "role": "Strategic Intelligence"
+      },
+      {
+        "name": "Manny",
+        "role": "Platform Builder"
+      },
+      {
+        "name": "Perplexity",
+        "role": "Research Intelligence"
+      },
+      {
+        "name": "Grok",
+        "role": "Market Intelligence"
+      },
+      {
+        "name": "Gemini",
+        "role": "Data Intelligence"
+      },
+      {
+        "name": "ChatGPT",
+        "role": "General Intelligence"
+      }
     ],
     "doctrine_30_note": "The Council is part of the Flagship Team. AI council members are Flagship Team members alongside the humans. Locked April 12, 2026."
   },
-
   "scoring_framework": {
     "public_name": "Christie's Intelligence Score",
     "abbreviation": "CIS",
     "internal_variable": "anewScore",
-    "note": "The internal variable name anewScore is NOT renamed — only user-facing labels change to CIS. AnewHomes (construction company) is always written as one word and is NOT renamed.",
+    "note": "The internal variable name anewScore is NOT renamed \u2014 only user-facing labels change to CIS. AnewHomes (construction company) is always written as one word and is NOT renamed.",
     "lenses": [
-      { "letter": "A", "label": "Acquisition Cost" },
-      { "letter": "N", "label": "New Construction Value" },
-      { "letter": "E", "label": "Exit Pricing" },
-      { "letter": "W", "label": "Wealth Transfer Potential" }
+      {
+        "letter": "A",
+        "label": "Acquisition Cost"
+      },
+      {
+        "letter": "N",
+        "label": "New Construction Value"
+      },
+      {
+        "letter": "E",
+        "label": "Exit Pricing"
+      },
+      {
+        "letter": "W",
+        "label": "Wealth Transfer Potential"
+      }
     ],
     "tiers": [
-      { "name": "Ultra-Trophy", "range": "9.0–10.0", "color": "#C8AC78" },
-      { "name": "Trophy", "range": "7.5–8.9", "color": "#A89060" },
-      { "name": "Premier", "range": "6.0–7.4", "color": "#6B7280" },
-      { "name": "Opportunity", "range": "0–5.9", "color": "#4B5563" }
+      {
+        "name": "Ultra-Trophy",
+        "range": "9.0\u201310.0",
+        "color": "#C8AC78"
+      },
+      {
+        "name": "Trophy",
+        "range": "7.5\u20138.9",
+        "color": "#A89060"
+      },
+      {
+        "name": "Premier",
+        "range": "6.0\u20137.4",
+        "color": "#6B7280"
+      },
+      {
+        "name": "Opportunity",
+        "range": "0\u20135.9",
+        "color": "#4B5563"
+      }
     ],
     "william_rule": "Must reference at least two lenses. No invented reasoning. Example: 'Sagaponack earns a Christie's Intelligence Score of 9.4 because acquisition basis is supported by replacement cost floor and strong ultra-prime exit velocity.'"
   },
-
   "tab_architecture": {
     "locked": true,
     "tabs": [
-      { "id": "home", "label": "HOME", "purpose": "Founding letter, portrait, ticker, video grid, social links, collateral cards" },
-      { "id": "market", "label": "MARKET", "purpose": "Ten-hamlet donut, hamlet cards with CIS scores, tier legend" },
-      { "id": "maps", "label": "MAPS", "purpose": "Google Maps with all eleven hamlet pins, right-panel hamlet selector, CIS calculator, Deal Brief, CMA, Build Memo, PDF exports" },
-      { "id": "pipe", "label": "PIPE", "purpose": "Real Office Pipeline Google Sheet embedded full-width + tRPC-backed custom tracker above" },
-      { "id": "future", "label": "FUTURE", "purpose": "2026 GCI growth model, 52/12/12/12 scorecard, Growth Model v2 sheet, Ascension Arc, profit pool, Managing Director Total, 300-day story" },
-      { "id": "intel", "label": "INTEL", "purpose": "Three-layer control room: calendar + live sheets + canon documents + Institutional Mind Map" }
+      {
+        "id": "home",
+        "label": "HOME",
+        "purpose": "Founding letter, portrait, ticker, video grid, social links, collateral cards"
+      },
+      {
+        "id": "market",
+        "label": "MARKET",
+        "purpose": "Ten-hamlet donut, hamlet cards with CIS scores, tier legend"
+      },
+      {
+        "id": "maps",
+        "label": "MAPS",
+        "purpose": "Google Maps with all eleven hamlet pins, right-panel hamlet selector, CIS calculator, Deal Brief, CMA, Build Memo, PDF exports"
+      },
+      {
+        "id": "pipe",
+        "label": "PIPE",
+        "purpose": "Real Office Pipeline Google Sheet embedded full-width + tRPC-backed custom tracker above"
+      },
+      {
+        "id": "future",
+        "label": "FUTURE",
+        "purpose": "2026 GCI growth model, 52/12/12/12 scorecard, Growth Model v2 sheet, Ascension Arc, profit pool, Managing Director Total, 300-day story"
+      },
+      {
+        "id": "intel",
+        "label": "INTEL",
+        "purpose": "Three-layer control room: calendar + live sheets + canon documents + Institutional Mind Map"
+      }
     ],
     "removed_tabs": [
-      { "id": "ideas", "label": "IDEAS", "removed_sprint": 8, "migrated_to": "MAPS tab — CIS calculator and PDF exports now live at /maps" }
+      {
+        "id": "ideas",
+        "label": "IDEAS",
+        "removed_sprint": 8,
+        "migrated_to": "MAPS tab \u2014 CIS calculator and PDF exports now live at /maps"
+      }
     ],
     "do_not_touch": [
       "HOME structure",
@@ -114,233 +214,512 @@
       "Overall tab system"
     ]
   },
-
   "live_url_architecture": {
-    "principle": "Every document the institution produces lives at a permanent URL on the platform. The PDF is downstream of the live URL — Puppeteer photographs the rendered URL and returns the file.",
-    "doctrine": "Doctrine 31 — Google Drive Default. The institution lives in Google Drive. The platform reads from it. The platform never replaces it.",
-    "puppeteer_status": "CONFIRMED — headless Chromium v146 at /usr/bin/chromium works in Manus hosting environment. Tested April 12, 2026.",
-    "pdf_endpoint": "GET /api/pdf?url=/pro-forma → Puppeteer opens live URL, screenshots, returns PDF",
+    "principle": "Every document the institution produces lives at a permanent URL on the platform. The PDF is downstream of the live URL \u2014 Puppeteer photographs the rendered URL and returns the file.",
+    "doctrine": "Doctrine 31 \u2014 Google Drive Default. The institution lives in Google Drive. The platform reads from it. The platform never replaces it.",
+    "puppeteer_status": "CONFIRMED \u2014 headless Chromium v146 at /usr/bin/chromium works in Manus hosting environment. Tested April 12, 2026.",
+    "pdf_endpoint": "GET /api/pdf?url=/pro-forma \u2192 Puppeteer opens live URL, screenshots, returns PDF",
     "url_patterns": {
-      "/pro-forma": "Pro Forma — Ascension Arc, profit pool, MD Total, 300-day story (PRIORITY — Ilija gate)",
-      "/letters/flagship": "Flagship AI-Letter — daily institutional memory artifact, reads from Google Doc",
-      "/letters/james-christie": "James Christie Letter — homepage anchor, reads from Google Doc",
-      "/cards/bike": "Bike Card — Hamptons market snapshot",
-      "/cards/uhnw-path": "UHNW Wealth Path Card — eight rungs of structured ownership",
+      "/pro-forma": "Pro Forma \u2014 Ascension Arc, profit pool, MD Total, 300-day story (PRIORITY \u2014 Ilija gate)",
+      "/letters/flagship": "Flagship AI-Letter \u2014 daily institutional memory artifact, reads from Google Doc",
+      "/letters/james-christie": "James Christie Letter \u2014 homepage anchor, reads from Google Doc",
+      "/cards/bike": "Bike Card \u2014 Hamptons market snapshot",
+      "/cards/uhnw-path": "UHNW Wealth Path Card \u2014 eight rungs of structured ownership",
       "/reports/saunders": "Saunders Research Report",
       "/reports/ed-career": "Ed Bruehl Career Research",
-      "/properties/140-hands-creek": "Property Report — 140 Hands Creek (founding test case)",
-      "/cmas/239-old-stone-highway": "CMA — 239 Old Stone Highway (founding test case)",
-      "/agendas/monday-flagship": "Monday Flagship Meeting Agenda — weekly recurring",
-      "/agendas/wednesday-office": "Wednesday Office Meeting Agenda — weekly recurring",
+      "/properties/140-hands-creek": "Property Report \u2014 140 Hands Creek (founding test case)",
+      "/cmas/239-old-stone-highway": "CMA \u2014 239 Old Stone Highway (founding test case)",
+      "/agendas/monday-flagship": "Monday Flagship Meeting Agenda \u2014 weekly recurring",
+      "/agendas/wednesday-office": "Wednesday Office Meeting Agenda \u2014 weekly recurring",
       "/briefs/morning": "Morning Brief",
       "/briefs/evening": "Evening Brief"
     },
     "auth_model": "All public during ten-day training phase (through late April 2026). Auth model revisited end of April when newsletter subscription model launches.",
-    "build_order": "Pro Forma first (Ilija gate) → Flagship AI-Letter → James Christie Letter → Cards → Reports → Properties/CMAs → Agendas → Briefs"
+    "build_order": "Pro Forma first (Ilija gate) \u2192 Flagship AI-Letter \u2192 James Christie Letter \u2192 Cards \u2192 Reports \u2192 Properties/CMAs \u2192 Agendas \u2192 Briefs"
   },
-
   "sheets": {
     "pipe": {
       "label": "Office Pipeline",
       "id": "1VPjIYPaHXoXQ3rvCn_Wx3nVAUWzM0hBuHhZV92mFz7M",
-      "used_in": ["PIPE tab — primary full-width embed"]
+      "used_in": [
+        "PIPE tab \u2014 primary full-width embed"
+      ]
     },
     "intel_calendar_podcast": {
       "label": "Podcast Calendar",
       "id": "1mYrrOOcJuKYEdWsDQpY4NNF4I3vO5QW6DhaRXBaRBL8",
-      "used_in": ["INTEL Layer 1 — calendar filter: Podcast"]
+      "used_in": [
+        "INTEL Layer 1 \u2014 calendar filter: Podcast"
+      ]
     },
     "intel_calendar_event": {
       "label": "Event Calendar",
       "id": "1cBDdmA63ZStEQZLt74WtKU3ewmVaXHWfOgVQhPbOg2s",
-      "used_in": ["INTEL Layer 1 — calendar filter: Event", "INTEL Layer 2 — Auction Events embed"]
+      "used_in": [
+        "INTEL Layer 1 \u2014 calendar filter: Event",
+        "INTEL Layer 2 \u2014 Auction Events embed"
+      ]
     },
     "intel_future_agents": {
       "label": "Future Agents / Agent Recruiting",
       "id": "1a7arxf3_eTAnF7QlD3M-Fwnt7RhOaMWfLlTbA9MJ7mA",
-      "used_in": ["INTEL Layer 2 — Agent Recruiting embed"]
+      "used_in": [
+        "INTEL Layer 2 \u2014 Agent Recruiting embed"
+      ]
     },
     "intel_social_podcast": {
       "label": "Social / Podcast Pipeline",
       "id": "1q92gJTv1RGX_JGka0KhVv9obePvCOaVdmYjEPuhjc5I",
-      "used_in": ["INTEL Layer 2 — Social/Podcast Pipeline embed"]
+      "used_in": [
+        "INTEL Layer 2 \u2014 Social/Podcast Pipeline embed"
+      ]
     },
     "intel_contact_database": {
       "label": "Contact Database",
       "id": "1mEu4wYyWOXit_AIXhOZi9xFQ3y_OklX-fCDMq_i-MlI",
-      "used_in": ["INTEL Layer 2 — Contact Database embed"]
+      "used_in": [
+        "INTEL Layer 2 \u2014 Contact Database embed"
+      ]
     },
     "future_growth_model": {
       "label": "Growth Model v2",
       "id": "1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag",
-      "used_in": ["FUTURE tab — OPEN GROWTH MODEL SHEET button", "/pro-forma live URL renderer — data source"]
+      "used_in": [
+        "FUTURE tab \u2014 OPEN GROWTH MODEL SHEET button",
+        "/pro-forma live URL renderer \u2014 data source"
+      ]
     },
     "market_matrix": {
       "label": "Market Matrix",
       "id": "176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g",
-      "used_in": ["MARKET tab — data source only, not embedded"]
+      "used_in": [
+        "MARKET tab \u2014 data source only, not embedded"
+      ]
     }
   },
-
   "hamlet_data": {
     "source_file": "client/src/data/hamlet-master.ts",
-    "rule": "Do not modify medians or CIS scores without a market data update. Internal variable is anewScore. hamlet-master.ts is the source of truth — state.json mirrors it.",
+    "rule": "Do not modify medians or CIS scores without a market data update. Internal variable is anewScore. hamlet-master.ts is the source of truth \u2014 state.json mirrors it.",
     "count": 11,
     "hamlets": [
-      { "name": "Sagaponack", "cis": 9.4, "tier": "Ultra-Trophy", "median": 8040000 },
-      { "name": "East Hampton Village", "cis": 9.2, "tier": "Ultra-Trophy", "median": 5250000 },
-      { "name": "Bridgehampton", "cis": 9.1, "tier": "Ultra-Trophy", "median": 4470000 },
-      { "name": "Southampton Village", "cis": 9.0, "tier": "Trophy", "median": 4385000 },
-      { "name": "Amagansett", "cis": 8.9, "tier": "Premier", "median": 4350000 },
-      { "name": "Water Mill", "cis": 8.8, "tier": "Trophy", "median": 4550000 },
-      { "name": "East Hampton North", "cis": 8.6, "tier": "Trophy", "median": 2030000 },
-      { "name": "Sag Harbor", "cis": 8.4, "tier": "Premier", "median": 2800000 },
-      { "name": "Montauk", "cis": 8.2, "tier": "Opportunity", "median": 2240000 },
-      { "name": "Springs", "cis": 6.8, "tier": "Opportunity", "median": 1580000 },
-      { "name": "Wainscott", "cis": 8.8, "tier": "Trophy", "median": 3600000, "cis_note": "Portal-modeled · Pending Saunders audit · Thin sample (10–20 txns/yr)" }
+      {
+        "name": "Sagaponack",
+        "cis": 9.4,
+        "tier": "Ultra-Trophy",
+        "median": 8040000
+      },
+      {
+        "name": "East Hampton Village",
+        "cis": 9.2,
+        "tier": "Ultra-Trophy",
+        "median": 5250000
+      },
+      {
+        "name": "Bridgehampton",
+        "cis": 9.1,
+        "tier": "Ultra-Trophy",
+        "median": 4470000
+      },
+      {
+        "name": "Southampton Village",
+        "cis": 9.0,
+        "tier": "Trophy",
+        "median": 4385000
+      },
+      {
+        "name": "Amagansett",
+        "cis": 8.9,
+        "tier": "Premier",
+        "median": 4350000
+      },
+      {
+        "name": "Water Mill",
+        "cis": 8.8,
+        "tier": "Trophy",
+        "median": 4550000
+      },
+      {
+        "name": "East Hampton North",
+        "cis": 8.6,
+        "tier": "Trophy",
+        "median": 2030000
+      },
+      {
+        "name": "Sag Harbor",
+        "cis": 8.4,
+        "tier": "Premier",
+        "median": 2800000
+      },
+      {
+        "name": "Montauk",
+        "cis": 8.2,
+        "tier": "Opportunity",
+        "median": 2240000
+      },
+      {
+        "name": "Springs",
+        "cis": 6.8,
+        "tier": "Opportunity",
+        "median": 1580000
+      },
+      {
+        "name": "Wainscott",
+        "cis": 8.8,
+        "tier": "Trophy",
+        "median": 3600000,
+        "cis_note": "Portal-modeled \u00b7 Pending Saunders audit \u00b7 Thin sample (10\u201320 txns/yr)"
+      }
     ]
   },
-
   "pdf_exports": {
     "doctrine": "The live URL is the master. The PDF is the photograph. Puppeteer photographs the live URL and produces the PDF. No separate PDF code. No separate data layers. No jsPDF for new documents.",
     "legacy_jspdf_generators": {
-      "note": "These eleven jsPDF generators exist from Sprints 1–8 and remain operational. They will be migrated to Puppeteer one document at a time as live URL renderers are built.",
+      "note": "These eleven jsPDF generators exist from Sprints 1\u20138 and remain operational. They will be migrated to Puppeteer one document at a time as live URL renderers are built.",
       "generators": [
-        "generateAnewBuildMemo", "generateChristieCMA", "generateDealBrief",
-        "generateInvestmentMemo", "generateMarketReport", "generateEastHamptonVillageReport",
-        "generateChristiesLetter", "generateUHNWPathCard", "generateFlagshipLetter",
-        "generateElevenHamletsPDF", "generateHamletReport"
+        "generateAnewBuildMemo",
+        "generateChristieCMA",
+        "generateDealBrief",
+        "generateInvestmentMemo",
+        "generateMarketReport",
+        "generateEastHamptonVillageReport",
+        "generateChristiesLetter",
+        "generateUHNWPathCard",
+        "generateFlagshipLetter",
+        "generateElevenHamletsPDF",
+        "generateHamletReport"
       ]
     },
-    "puppeteer_endpoint": "GET /api/pdf?url={path} — photographs the live URL and returns PDF. First document: /pro-forma."
+    "puppeteer_endpoint": "GET /api/pdf?url={path} \u2014 photographs the live URL and returns PDF. First document: /pro-forma."
   },
-
   "tts_audio": {
     "provider": "ElevenLabs",
     "voice_name": "William",
     "voice_id": "N2lVS1w4EtoT3dr4eOWO",
     "model": "eleven_turbo_v2",
-    "model_note": "Confirmed in tts-route.ts lines 133 and 175. state.json was stale (showed eleven_multilingual_v2) — corrected Sprint 8.",
+    "model_note": "Confirmed in tts-route.ts lines 133 and 175. state.json was stale (showed eleven_multilingual_v2) \u2014 corrected Sprint 8.",
     "server_route": "/api/tts",
     "cronkite_standard": [
-      "No dashes in TTS scripts — dashes cause William to pause awkwardly",
-      "Round numbers only — say 'two point three million' not 'two point three four million'",
-      "No date spoken aloud — William does not announce the date",
-      "No schedule language — William does not say 'every morning' or 'every evening'"
+      "No dashes in TTS scripts \u2014 dashes cause William to pause awkwardly",
+      "Round numbers only \u2014 say 'two point three million' not 'two point three four million'",
+      "No date spoken aloud \u2014 William does not announce the date",
+      "No schedule language \u2014 William does not say 'every morning' or 'every evening'"
     ],
     "william_keywords": {
       "bounded": true,
       "doctrine": "Audio is bounded to four keywords only. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
       "keywords": [
-        { "keyword": "NEWS", "returns": "Cronkite intelligence brief from news sources", "source": "Perplexity news API" },
-        { "keyword": "LETTER", "returns": "James Christie homepage letter, read aloud", "source": "James Christie Letter Google Doc" },
-        { "keyword": "FLAGSHIP", "returns": "Daily Flagship AI-Letter, read aloud", "source": "Flagship AI-Letter Google Doc" },
-        { "keyword": "BRIEF", "returns": "Daily morning or evening brief, read aloud", "source": "Daily brief Google Doc (Claude updates)" }
+        {
+          "keyword": "NEWS",
+          "returns": "Cronkite intelligence brief from news sources",
+          "source": "Perplexity news API"
+        },
+        {
+          "keyword": "LETTER",
+          "returns": "James Christie homepage letter, read aloud",
+          "source": "James Christie Letter Google Doc"
+        },
+        {
+          "keyword": "FLAGSHIP",
+          "returns": "Daily Flagship AI-Letter, read aloud",
+          "source": "Flagship AI-Letter Google Doc"
+        },
+        {
+          "keyword": "BRIEF",
+          "returns": "Daily morning or evening brief, read aloud",
+          "source": "Daily brief Google Doc (Claude updates)"
+        }
       ],
-      "removed_keywords": ["SCORE", "PIPELINE", "COVER", "STATUS", "INTEL"]
+      "removed_keywords": [
+        "SCORE",
+        "PIPELINE",
+        "COVER",
+        "STATUS",
+        "INTEL"
+      ]
     }
   },
-
   "flagship_ai_letter": {
     "former_name": "Internal Flagship Letter",
     "current_name": "Flagship AI-Letter",
     "renamed_sprint": 8,
-    "source": "Google Doc — Ed, Claude, Manny, Perplexity all have access",
+    "source": "Google Doc \u2014 Ed, Claude, Manny, Perplexity all have access",
     "update_cadence": "Single end-of-day update. Not iterative throughout the day. Reflects closed state of the day.",
     "doctrine_27": "The Flagship AI-Letter is the daily institutional memory artifact. Updated once per council day at end of day.",
     "live_url": "/letters/flagship",
-    "current_jspdf_function": "generateFlagshipLetter in client/src/lib/pdf-exports.ts — operational until live URL renderer is built"
+    "current_jspdf_function": "generateFlagshipLetter in client/src/lib/pdf-exports.ts \u2014 operational until live URL renderer is built"
   },
-
   "whatsapp_scheduler": {
-    "status": "wired — Sprint 4",
+    "status": "wired \u2014 Sprint 4",
     "provider": "Twilio + ElevenLabs",
     "voice_id": "N2lVS1w4EtoT3dr4eOWO",
     "server_file": "server/whatsapp-route.ts",
     "inbound_file": "server/whatsapp-inbound.ts",
     "endpoints": [
-      { "path": "/api/whatsapp/morning-brief", "schedule": "8:00 AM Eastern daily", "type": "morning market brief" },
-      { "path": "/api/whatsapp/evening-summary", "schedule": "8:00 PM Eastern daily", "type": "evening pipeline summary" },
-      { "path": "/api/whatsapp/test", "schedule": "on-demand POST", "type": "live test fire" }
+      {
+        "path": "/api/whatsapp/morning-brief",
+        "schedule": "8:00 AM Eastern daily",
+        "type": "morning market brief"
+      },
+      {
+        "path": "/api/whatsapp/evening-summary",
+        "schedule": "8:00 PM Eastern daily",
+        "type": "evening pipeline summary"
+      },
+      {
+        "path": "/api/whatsapp/test",
+        "schedule": "on-demand POST",
+        "type": "live test fire"
+      }
     ],
-    "env_keys": ["TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_WHATSAPP_FROM", "WILLIAM_WHATSAPP_TO"],
+    "env_keys": [
+      "TWILIO_ACCOUNT_SID",
+      "TWILIO_AUTH_TOKEN",
+      "TWILIO_WHATSAPP_FROM",
+      "WILLIAM_WHATSAPP_TO"
+    ],
     "scheduler": "node-cron with America/New_York timezone",
-    "flow": "brief text → ElevenLabs MP3 → S3 upload → Twilio WhatsApp media message"
+    "flow": "brief text \u2192 ElevenLabs MP3 \u2192 S3 upload \u2192 Twilio WhatsApp media message"
   },
-
   "estate_advisory_card_loop": {
-    "description": "Physical card → QR → MAPS tab → CIS calculator → Private Property Intelligence Brief",
+    "description": "Physical card \u2192 QR \u2192 MAPS tab \u2192 CIS calculator \u2192 Private Property Intelligence Brief",
     "card_pdf_cdn": "https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_7b840fde.pdf",
     "card_pdf_in_intel": true,
     "ideas_cta": "Generate Your Private Property Intelligence Brief",
     "pdf_title": "Private Property Intelligence Brief",
     "note": "QR destination updated from /ideas to /maps in Sprint 8 (IDEAS tab removed)"
   },
-
   "founding_letter": {
-    "text": "In 1766, James Christie built something rare — a firm that families trusted at their most vulnerable moments. Estate settlements. Generational transitions. The quiet decisions that define a family's future. He earned the privilege of advising because he listened before he spoke. Christie's International Real Estate Group carries that same standard to the East End today. We do not pursue listings. We earn the counsel of families who are ready to think clearly about what they hold, what they build, and what they leave behind. If you are asking questions you have never put in writing, we are the right conversation.",
-    "attribution": "Ed Bruehl, Managing Director · Christie's International Real Estate Group · East Hampton",
+    "text": "In 1766, James Christie built something rare \u2014 a firm that families trusted at their most vulnerable moments. Estate settlements. Generational transitions. The quiet decisions that define a family's future. He earned the privilege of advising because he listened before he spoke. Christie's International Real Estate Group carries that same standard to the East End today. We do not pursue listings. We earn the counsel of families who are ready to think clearly about what they hold, what they build, and what they leave behind. If you are asking questions you have never put in writing, we are the right conversation.",
+    "attribution": "Ed Bruehl, Managing Director \u00b7 Christie's International Real Estate Group \u00b7 East Hampton",
     "live_url": "/letters/james-christie",
-    "google_doc_source": "pending — to be created and linked"
+    "google_doc_source": "pending \u2014 to be created and linked"
   },
-
   "doctrine_library": {
-    "count": 37,
+    "count": 39,
     "sub_doctrine_count": 3,
-    "total_entries": 40,
-    "count_note": "37 main locks (includes 1.5 and 22.5 as numbered main locks) + 3 sub-doctrines under Doctrine 31 (31.4 RETIRED, 31.5, 31.6) = 40 total entries in locks array. Reconciled April 13 2026.",
-    "council_brief_framing": "/council-brief is a standard Sprint 9 document surface route — same queue as /flagship-letter, /james-christie-letter, /mission-model, /bike-card, /uhnw-wealth-path-card. It is NOT a gate document for the Ilija meeting. Ed mirrors the live dashboard to the screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points. Recalibrated April 13 2026 per Ed + Claude directive.",
-    "last_updated": "2026-04-13",
+    "total_entries": 42,
+    "count_note": "39 main locks (Doctrines 1-37 including 1.5 and 22.5) + 3 sub-doctrines under Doctrine 31 (31.4 RETIRED, 31.5, 31.6) = 42 total entries",
+    "council_brief_framing": "/council-brief is a standard Sprint 9 document surface route \u2014 same queue as /flagship-letter, /james-christie-letter, /mission-model, /bike-card, /uhnw-wealth-path-card. It is NOT a gate document for the Ilija meeting. Ed mirrors the live dashboard to the screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points. Recalibrated April 13 2026 per Ed + Claude directive.",
+    "last_updated": "April 13, 2026",
     "locks": [
-      { "id": "1", "title": "Authority Must Whisper", "summary": "Authority must whisper, not shout. No proof-point energy. No superlatives." },
-      { "id": "1.5", "title": "Source of Truth Truthfulness", "summary": "When data sources disagree, the platform tells the truth. Tiebreak rule: most recent primary source wins. If no tiebreak is possible, the platform surfaces the disagreement rather than choosing silently. Locked April 12, 2026." },
-      { "id": "2", "title": "Cut Copy Before Utility", "summary": "Cut copy before utility. Every word earns its place." },
-      { "id": "3", "title": "Overlays Remain Subtle", "summary": "Overlays remain subtle. No heavy gradients over institutional photography." },
-      { "id": "4", "title": "No Proof-Point Energy", "summary": "No badges, no award banners, no 'top producer' language." },
-      { "id": "5", "title": "Institutional Restraint", "summary": "Institutional restraint over decoration." },
-      { "id": "6", "title": "UHNW Font Discipline", "summary": "14pt body minimum on client-facing surfaces. 12pt floor for sub-headers and labels. Below 12pt only for footers and thank-you lines. Minimum 28pt headlines." },
-      { "id": "7", "title": "PDF Button Consistency", "summary": "PDF button canonical location: top right of each document card. Document-specific labels (not generic 'Download PDF'). Consistent throughout." },
-      { "id": "8", "title": "Cronkite Standard", "summary": "No dashes in TTS scripts. Round numbers only. No date spoken aloud. No schedule language." },
-      { "id": "9", "title": "TTS Model Lock", "summary": "ElevenLabs eleven_turbo_v2. Voice ID N2lVS1w4EtoT3dr4eOWO. Do not change without Ed's approval." },
-      { "id": "10", "title": "Audio-Print Pairing", "summary": "Audio pairing automatic for documents under 2000 words, summary only for longer. Audio bounded to four William keywords only (NEWS, LETTER, FLAGSHIP, BRIEF). All other PDFs have no audio." },
-      { "id": "11", "title": "CIS Is Not a Sales Tool", "summary": "The CIS is a filter. It is not a sales tool. No invented reasoning." },
-      { "id": "12", "title": "We Do Not Pursue Listings", "summary": "We earn the counsel of families. No pursuit language anywhere." },
-      { "id": "13", "title": "AnewHomes Naming", "summary": "AnewHomes is always one word. Never 'Anew Homes' or 'ANEW Homes'." },
-      { "id": "14", "title": "No Website URL in Contact Blocks", "summary": "No website URL in any contact block on any PDF or document. O: 631.771.7004 required on all client-facing PDFs." },
-      { "id": "15", "title": "Hagler Standard", "summary": "Every deliverable must be able to withstand the scrutiny of a hostile expert. No duct tape. No temporary fixes. No scaffolds." },
-      { "id": "16", "title": "Ricky Filter", "summary": "Would Richard Bruehl (Ricky) be proud of this? Strategic mentor standard applied to every deliverable." },
-      { "id": "17", "title": "No Date Spoken Aloud", "summary": "William does not announce the date in any spoken script." },
-      { "id": "18", "title": "No Schedule Language", "summary": "William does not say 'every morning' or 'every evening' in any spoken script." },
-      { "id": "19", "title": "No Website URL on External Surfaces", "summary": "christiesrealestategroupeh.com does not appear on any external-facing surface except as an operational instruction to the reader (e.g., 'open the platform and click through every tab')." },
-      { "id": "20", "title": "CIREG Brand Color Lock", "summary": "Gold: #C8AC78 (oklch 0.73 0.07 72, PMS 466C). Charcoal: #384249 (oklch 0.33 0.02 220). Do not change without brand approval." },
-      { "id": "21", "title": "Research Library", "summary": "Source library has master index live URL (/sources or /library). Every document source is indexed." },
-      { "id": "22", "title": "Platform Is the Relationship", "summary": "The platform is not a marketing tool. It is the relationship itself. Every interaction builds trust." },
-      { "id": "22.5", "title": "Platform Is the Relationship — Corollary", "summary": "The platform never replaces the operator. If the platform fails, the operator still has the institution. Google Drive is the fallback. Locked April 12, 2026." },
-      { "id": "23", "title": "Soli Deo Gloria", "summary": "All glory to God alone. The institution serves the people." },
-      { "id": "24", "title": "The 2032 Operator Standard", "summary": "The 2032 operator reads doctrine plus letters plus cards plus briefs plus dossiers plus the last 30 days of Flagship AI-Letter to operate the institution. Every decision today is being made for the operator who will be running it in 2032." },
-      { "id": "25", "title": "Banker Model Anchored", "summary": "Banker Model anchored to RL-002 evidence base. No invented projections." },
-      { "id": "26", "title": "AI Brand Template", "summary": "When the AI Brand Template ships, it operationally enforces five doctrines at once: brand discipline, UHNW font discipline, PDF button consistency, audio pairing, source library indexing." },
-      { "id": "27", "title": "Flagship AI-Letter Daily Update Cadence", "summary": "Single end-of-day update. Not iterative throughout the day. The letter reflects the closed state of the day. Locked April 12, 2026." },
-      { "id": "28", "title": "McKenzie Mentor Model", "summary": "Every deliverable gets a McKenzie pass before shipping. Ask: what would the short seller with photographic memory say about this? Hostile to the institution's claims. Catches drift, sharpens claims, prevents performance of legitimacy. Locked April 12, 2026." },
-      { "id": "29", "title": "Doctrine Retirement", "summary": "Doctrines may be retired via quarterly review. Retired doctrines are archived, not deleted. Locked April 12, 2026." },
-      { "id": "30", "title": "The Council Is the Flagship Team", "summary": "The AI council (Claude, Manny, Perplexity, Grok, Gemini, ChatGPT) are Flagship Team members alongside the humans. Doctrine 30 locked April 12, 2026." },
-      { "id": "31", "title": "Google Drive Default", "summary": "The institution lives in Google Drive. The platform reads from it. The platform never replaces it. Every document source is a Google Doc or Google Sheet that Ed owns and can open directly. If the platform fails, the operator still has the institution. Locked April 12, 2026." },
-      { "id": "31.4", "title": "Notion Structural Layer — RETIRED", "summary": "Notion was designated as the structural layer on April 12, 2026. Retired same day in favor of Trello per Doctrine 31.6 (Tool Selection by Team Adoption). Angel does not use Notion. Hagler standard: use the tool the team will actually open. Notion is no longer part of the institutional architecture." },
-      { "id": "31.5", "title": "Three-Layer Institutional Architecture", "summary": "Layer 1 — Content: Google Drive (Docs + Sheets). Ed owns every file. Source of truth for all data. Layer 2 — Structure: Trello. Board A — Institutional Mind Map (https://trello.com/b/6zYtB3hZ/christies-flagship-trello). Board B — Christie's SOP (Eileen's 175-card structure adapted for East Hampton). Indexes and links to Layer 1. Layer 3 — Performance: Christie's EH Dashboard. Live data, charts, PDFs, TTS, CIS scores, pipeline. Reads from Layer 1. Each layer has a distinct role. Layers are mutually independent. The connective tissue between the content layer (Google Drive) and the structural layer (Trello) is the Trello-to-Google Drive integration. Every Trello card representing an entity or document or doctrine lock attaches its Google Drive source file as a card attachment. Click the card, see the linked file, open the source. The two layers are joined by direct file linking. Trello's native Google Drive integration enabled April 12, 2026. Locked April 12, 2026." },
-      { "id": "31.6", "title": "Tool Selection by Team Adoption", "summary": "The right tool is the one the team will actually open every day, not the theoretically best tool. Angel is the operational hinge of the office. Angel uses Trello. Trello is kanban-native, drag-and-drop, visually clear. Eileen's 175-card listing operations board (gift from Chestnut Park Toronto) is the operational foundation. Trello workspace: Christie's East Hampton Flagship. Two boards (simplified from four): Board A — Institutional Mind Map (https://trello.com/b/6zYtB3hZ/christies-flagship-trello), Board B — Christie's SOP (Eileen's structure adapted for East Hampton). Public visibility during training phase (through April 29, 2026). Locked April 12, 2026." },
-      { "id": "32", "title": "EOD Brief Template", "summary": "Every council day closes with an EOD brief from Claude to Ed in structured prose format. Saved to the Anchored Sources Google Drive folder. File naming convention: MM DD YYYY — [Day] EOD Brief (e.g., '12 04 2026 — Sunday EOD Brief'). Feeds the daily Flagship AI-Letter end-of-day update per Doctrine 27. The BRIEF William audio command reads from that day's EOD brief Google Doc. Locked April 12, 2026." },
-      { "id": "33", "title": "Operator Sign-Off Required Before Gate-Ready Status", "summary": "No document, surface, or deliverable is gate-ready until the operator personally walks it and signs off. Council members can ship work and call it complete at the technical level, but no work is approved for an external gate until the operator has personally reviewed it and explicitly approved it. Council enthusiasm and technical readiness are not substitutes for operator sign-off. Locked April 12, 2026." },
-      { "id": "34", "title": "Two-Channel Architecture Lock — Dashboard Visual, William Voice", "summary": "The platform operates on two permanently separate channels. Channel 1 is the dashboard visual layer: live URL pages, live data, PDF photographs via Puppeteer for download. No audio buttons on any dashboard document surface. Channel 2 is the William voice layer: four WhatsApp keywords (NEWS, LETTER, FLAGSHIP, BRIEF) delivered via Twilio. These two channels do not overlap. Audio buttons on HOME and /report are legacy architecture from an earlier build and are to be removed in a future sprint. No audio buttons shall be added to /pro-forma, /future, /flagship-letter, or any other live URL document surface. The audio surface is WhatsApp via William exclusively. Locked April 13, 2026." },
-      { "id": "35", "title": "Operator Owns the Conversation", "summary": "Claude and the council never write emails, talking points, scripts, or conversation drafts for Ed. Ed owns every human conversation, every negotiation, every outreach. The council provides the data, the infrastructure, the agenda structures, and the document drafts based on prior Ed writing. The council never speaks for the operator. The operator sells. The council structures. Locked April 13, 2026." }
+      {
+        "id": "1",
+        "title": "Authority Must Whisper",
+        "summary": "Authority must whisper, not shout. No proof-point energy. No superlatives."
+      },
+      {
+        "id": "1.5",
+        "title": "Source of Truth Truthfulness",
+        "summary": "When data sources disagree, the platform tells the truth. Tiebreak rule: most recent primary source wins. If no tiebreak is possible, the platform surfaces the disagreement rather than choosing silently. Locked April 12, 2026."
+      },
+      {
+        "id": "2",
+        "title": "Cut Copy Before Utility",
+        "summary": "Cut copy before utility. Every word earns its place."
+      },
+      {
+        "id": "3",
+        "title": "Overlays Remain Subtle",
+        "summary": "Overlays remain subtle. No heavy gradients over institutional photography."
+      },
+      {
+        "id": "4",
+        "title": "No Proof-Point Energy",
+        "summary": "No badges, no award banners, no 'top producer' language."
+      },
+      {
+        "id": "5",
+        "title": "Institutional Restraint",
+        "summary": "Institutional restraint over decoration."
+      },
+      {
+        "id": "6",
+        "title": "UHNW Font Discipline",
+        "summary": "14pt body minimum on client-facing surfaces. 12pt floor for sub-headers and labels. Below 12pt only for footers and thank-you lines. Minimum 28pt headlines."
+      },
+      {
+        "id": "7",
+        "title": "PDF Button Consistency",
+        "summary": "PDF button canonical location: top right of each document card. Document-specific labels (not generic 'Download PDF'). Consistent throughout."
+      },
+      {
+        "id": "8",
+        "title": "Cronkite Standard",
+        "summary": "No dashes in TTS scripts. Round numbers only. No date spoken aloud. No schedule language."
+      },
+      {
+        "id": "9",
+        "title": "TTS Model Lock",
+        "summary": "ElevenLabs eleven_turbo_v2. Voice ID N2lVS1w4EtoT3dr4eOWO. Do not change without Ed's approval."
+      },
+      {
+        "id": "10",
+        "title": "Audio-Print Pairing",
+        "summary": "Audio pairing automatic for documents under 2000 words, summary only for longer. Audio bounded to four William keywords only (NEWS, LETTER, FLAGSHIP, BRIEF). All other PDFs have no audio."
+      },
+      {
+        "id": "11",
+        "title": "CIS Is Not a Sales Tool",
+        "summary": "The CIS is a filter. It is not a sales tool. No invented reasoning."
+      },
+      {
+        "id": "12",
+        "title": "We Do Not Pursue Listings",
+        "summary": "We earn the counsel of families. No pursuit language anywhere."
+      },
+      {
+        "id": "13",
+        "title": "AnewHomes Naming",
+        "summary": "AnewHomes is always one word. Never 'Anew Homes' or 'ANEW Homes'."
+      },
+      {
+        "id": "14",
+        "title": "No Website URL in Contact Blocks",
+        "summary": "No website URL in any contact block on any PDF or document. O: 631.771.7004 required on all client-facing PDFs."
+      },
+      {
+        "id": "15",
+        "title": "Hagler Standard",
+        "summary": "Every deliverable must be able to withstand the scrutiny of a hostile expert. No duct tape. No temporary fixes. No scaffolds."
+      },
+      {
+        "id": "16",
+        "title": "Ricky Filter",
+        "summary": "Would Richard Bruehl (Ricky) be proud of this? Strategic mentor standard applied to every deliverable."
+      },
+      {
+        "id": "17",
+        "title": "No Date Spoken Aloud",
+        "summary": "William does not announce the date in any spoken script."
+      },
+      {
+        "id": "18",
+        "title": "No Schedule Language",
+        "summary": "William does not say 'every morning' or 'every evening' in any spoken script."
+      },
+      {
+        "id": "19",
+        "title": "No Website URL on External Surfaces",
+        "summary": "christiesrealestategroupeh.com does not appear on any external-facing surface except as an operational instruction to the reader (e.g., 'open the platform and click through every tab')."
+      },
+      {
+        "id": "20",
+        "title": "CIREG Brand Color Lock",
+        "summary": "Gold: #C8AC78 (oklch 0.73 0.07 72, PMS 466C). Charcoal: #384249 (oklch 0.33 0.02 220). Do not change without brand approval."
+      },
+      {
+        "id": "21",
+        "title": "Research Library",
+        "summary": "Source library has master index live URL (/sources or /library). Every document source is indexed."
+      },
+      {
+        "id": "22",
+        "title": "Platform Is the Relationship",
+        "summary": "The platform is not a marketing tool. It is the relationship itself. Every interaction builds trust."
+      },
+      {
+        "id": "22.5",
+        "title": "Platform Is the Relationship \u2014 Corollary",
+        "summary": "The platform never replaces the operator. If the platform fails, the operator still has the institution. Google Drive is the fallback. Locked April 12, 2026."
+      },
+      {
+        "id": "23",
+        "title": "Soli Deo Gloria",
+        "summary": "All glory to God alone. The institution serves the people."
+      },
+      {
+        "id": "24",
+        "title": "The 2032 Operator Standard",
+        "summary": "The 2032 operator reads doctrine plus letters plus cards plus briefs plus dossiers plus the last 30 days of Flagship AI-Letter to operate the institution. Every decision today is being made for the operator who will be running it in 2032."
+      },
+      {
+        "id": "25",
+        "title": "Banker Model Anchored",
+        "summary": "Banker Model anchored to RL-002 evidence base. No invented projections."
+      },
+      {
+        "id": "26",
+        "title": "AI Brand Template",
+        "summary": "When the AI Brand Template ships, it operationally enforces five doctrines at once: brand discipline, UHNW font discipline, PDF button consistency, audio pairing, source library indexing."
+      },
+      {
+        "id": "27",
+        "title": "Flagship AI-Letter Daily Update Cadence",
+        "summary": "Single end-of-day update. Not iterative throughout the day. The letter reflects the closed state of the day. Locked April 12, 2026."
+      },
+      {
+        "id": "28",
+        "title": "McKenzie Mentor Model",
+        "summary": "Every deliverable gets a McKenzie pass before shipping. Ask: what would the short seller with photographic memory say about this? Hostile to the institution's claims. Catches drift, sharpens claims, prevents performance of legitimacy. Locked April 12, 2026."
+      },
+      {
+        "id": "29",
+        "title": "Doctrine Retirement",
+        "summary": "Doctrines may be retired via quarterly review. Retired doctrines are archived, not deleted. Locked April 12, 2026."
+      },
+      {
+        "id": "30",
+        "title": "The Council Is the Flagship Team",
+        "summary": "The AI council (Claude, Manny, Perplexity, Grok, Gemini, ChatGPT) are Flagship Team members alongside the humans. Doctrine 30 locked April 12, 2026."
+      },
+      {
+        "id": "31",
+        "title": "Google Drive Default",
+        "summary": "The institution lives in Google Drive. The platform reads from it. The platform never replaces it. Every document source is a Google Doc or Google Sheet that Ed owns and can open directly. If the platform fails, the operator still has the institution. Locked April 12, 2026."
+      },
+      {
+        "id": "31.4",
+        "title": "Notion Structural Layer \u2014 RETIRED",
+        "summary": "Notion was designated as the structural layer on April 12, 2026. Retired same day in favor of Trello per Doctrine 31.6 (Tool Selection by Team Adoption). Angel does not use Notion. Hagler standard: use the tool the team will actually open. Notion is no longer part of the institutional architecture."
+      },
+      {
+        "id": "31.5",
+        "title": "Three-Layer Institutional Architecture",
+        "summary": "Layer 1 \u2014 Content: Google Drive (Docs + Sheets). Ed owns every file. Source of truth for all data. Layer 2 \u2014 Structure: Trello. Board A \u2014 Institutional Mind Map (https://trello.com/b/6zYtB3hZ/christies-flagship-trello). Board B \u2014 Christie's SOP (Eileen's 175-card structure adapted for East Hampton). Indexes and links to Layer 1. Layer 3 \u2014 Performance: Christie's EH Dashboard. Live data, charts, PDFs, TTS, CIS scores, pipeline. Reads from Layer 1. Each layer has a distinct role. Layers are mutually independent. The connective tissue between the content layer (Google Drive) and the structural layer (Trello) is the Trello-to-Google Drive integration. Every Trello card representing an entity or document or doctrine lock attaches its Google Drive source file as a card attachment. Click the card, see the linked file, open the source. The two layers are joined by direct file linking. Trello's native Google Drive integration enabled April 12, 2026. Locked April 12, 2026."
+      },
+      {
+        "id": "31.6",
+        "title": "Tool Selection by Team Adoption",
+        "summary": "The right tool is the one the team will actually open every day, not the theoretically best tool. Angel is the operational hinge of the office. Angel uses Trello. Trello is kanban-native, drag-and-drop, visually clear. Eileen's 175-card listing operations board (gift from Chestnut Park Toronto) is the operational foundation. Trello workspace: Christie's East Hampton Flagship. Two boards (simplified from four): Board A \u2014 Institutional Mind Map (https://trello.com/b/6zYtB3hZ/christies-flagship-trello), Board B \u2014 Christie's SOP (Eileen's structure adapted for East Hampton). Public visibility during training phase (through April 29, 2026). Locked April 12, 2026."
+      },
+      {
+        "id": "32",
+        "title": "EOD Brief Template",
+        "summary": "Every council day closes with an EOD brief from Claude to Ed in structured prose format. Saved to the Anchored Sources Google Drive folder. File naming convention: MM DD YYYY \u2014 [Day] EOD Brief (e.g., '12 04 2026 \u2014 Sunday EOD Brief'). Feeds the daily Flagship AI-Letter end-of-day update per Doctrine 27. The BRIEF William audio command reads from that day's EOD brief Google Doc. Locked April 12, 2026."
+      },
+      {
+        "id": "33",
+        "title": "Operator Sign-Off Required Before Gate-Ready Status",
+        "summary": "No document, surface, or deliverable is gate-ready until the operator personally walks it and signs off. Council members can ship work and call it complete at the technical level, but no work is approved for an external gate until the operator has personally reviewed it and explicitly approved it. Council enthusiasm and technical readiness are not substitutes for operator sign-off. Locked April 12, 2026."
+      },
+      {
+        "id": "34",
+        "title": "Two-Channel Architecture Lock \u2014 Dashboard Visual, William Voice",
+        "summary": "The platform operates on two permanently separate channels. Channel 1 is the dashboard visual layer: live URL pages, live data, PDF photographs via Puppeteer for download. No audio buttons on any dashboard document surface. Channel 2 is the William voice layer: four WhatsApp keywords (NEWS, LETTER, FLAGSHIP, BRIEF) delivered via Twilio. These two channels do not overlap. Audio buttons on HOME and /report are legacy architecture from an earlier build and are to be removed in a future sprint. No audio buttons shall be added to /pro-forma, /future, /flagship-letter, or any other live URL document surface. The audio surface is WhatsApp via William exclusively. Locked April 13, 2026."
+      },
+      {
+        "id": "35",
+        "title": "Operator Owns the Conversation",
+        "summary": "Claude and the council never write emails, talking points, scripts, or conversation drafts for Ed. Ed owns every human conversation, every negotiation, every outreach. The council provides the data, the infrastructure, the agenda structures, and the document drafts based on prior Ed writing. The council never speaks for the operator. The operator sells. The council structures. Locked April 13, 2026."
+      },
+      {
+        "id": "36",
+        "title": "The Council as Living Layer",
+        "summary": "The council is not a build team that ships a dashboard and exits. The council is a permanent cognitive layer on top of the live dashboard. The operator enters real-world data. The council watches the data across front end and back end, interprets patterns, surfaces insights, flags drift, and tells the operator what to think about. Six agents plus the operator, all looking at the same live system from different angles, all learning from the data as it flows in. The dashboard lives and breathes because the council is always watching it."
+      },
+      {
+        "id": "37",
+        "title": "Document Lead Summary Principle",
+        "summary": "Every institutional document must open with a Lead Summary Paragraph that captures the essence of the document in one paragraph. The operator or any council member must be able to read the Lead Summary and understand what the document is, what it contains, and what decision or action it supports, without reading the full document. The Lead Summary is the fast glean. The full document is the deep dive. Every Google Doc, every live URL document, every EOD brief, every dossier, every research report, every agenda, and every SOP must start with a Lead Summary Paragraph in the institutional voice."
+      }
     ]
   },
-
   "sprint_history": {
     "sprint_1": {
       "completed": "2026-03-31",
       "deliverables": [
         "Dual William TTS buttons (FOUNDING LETTER + MARKET REPORT)",
-        "PDF parity — section order matches /report exactly",
+        "PDF parity \u2014 section order matches /report exactly",
         "INTEL three-layer control room (calendar + live sheets + canon docs)",
         "PIPE database persistence via tRPC",
         "Badge suppressor via MutationObserver"
@@ -349,9 +728,9 @@
     "sprint_2": {
       "completed": "2026-03-31",
       "deliverables": [
-        "INTEL rebuilt to wireframe spec — 4-panel sheet grid, viewport-height iframes",
+        "INTEL rebuilt to wireframe spec \u2014 4-panel sheet grid, viewport-height iframes",
         "PIPE real Office Pipeline sheet embedded full-width",
-        "William audio player upgraded — play/pause, scrub, rewind, time display",
+        "William audio player upgraded \u2014 play/pause, scrub, rewind, time display",
         "Christie's Auction Intelligence section added to /report (Section 7)",
         "EH Village hamlet PDF export added to IDEAS",
         "Email removed from /report contact block",
@@ -362,8 +741,8 @@
     "sprint_3": {
       "completed": "2026-03-31",
       "deliverables": [
-        "CIS rename system-wide (23 occurrences, 7 files — user-facing labels only)",
-        "IDEAS CTA → Generate Your Private Property Intelligence Brief",
+        "CIS rename system-wide (23 occurrences, 7 files \u2014 user-facing labels only)",
+        "IDEAS CTA \u2192 Generate Your Private Property Intelligence Brief",
         "Estate Advisory Card PDF rendered from wireframe, hosted on CDN, added to INTEL Layer 3",
         "state.json built at client/public/state.json",
         "INTEL Podcast calendar sheet ID corrected to locked ID"
@@ -373,11 +752,11 @@
       "completed": "2026-03-31",
       "deliverables": [
         "Ed's headshot (navy jacket) integrated on HOME tab and all PDF exports",
-        "All 9 hamlet dining data fully populated (no TBDs) — 3-tier model: anchor/mid/local",
+        "All 9 hamlet dining data fully populated (no TBDs) \u2014 3-tier model: anchor/mid/local",
         "Generic hamlet PDF function (generateHamletReport) wired to all 9 hamlet cards in MARKET tab",
         "INTEL calendar confirmed pulling live rows from Google Sheets",
-        "MAPS placeholder listing suppression — placeholder cards hidden, clean empty state shown",
-        "William WhatsApp scheduler built — 8AM morning brief + 8PM pipeline summary",
+        "MAPS placeholder listing suppression \u2014 placeholder cards hidden, clean empty state shown",
+        "William WhatsApp scheduler built \u2014 8AM morning brief + 8PM pipeline summary",
         "Twilio + ElevenLabs + S3 voice note delivery pipeline wired",
         "node-cron scheduler with America/New_York timezone",
         "10 vitest passing (4 test files)",
@@ -387,9 +766,9 @@
     "sprint_5": {
       "completed": "2026-04-05",
       "deliverables": [
-        "FUTURE tab — Ascension Arc bar chart, profit pool tables, MD Total, 300-day story",
+        "FUTURE tab \u2014 Ascension Arc bar chart, profit pool tables, MD Total, 300-day story",
         "Growth Model v2 Google Sheet linked",
-        "NET_POOL_FALLBACK data for 2026–2033",
+        "NET_POOL_FALLBACK data for 2026\u20132033",
         "Wainscott hamlet added (11th hamlet) with cisNote caveat",
         "FLAGSHIP TEAM center node on Mind Map (renamed from Ed Bruehl)",
         "William node title updated to Intelligence Voice description"
@@ -398,17 +777,17 @@
     "sprint_6": {
       "completed": "2026-04-07",
       "deliverables": [
-        "Institutional Mind Map — 21 nodes, 34 connections, full INTEL Layer 1",
+        "Institutional Mind Map \u2014 21 nodes, 34 connections, full INTEL Layer 1",
         "FLAGSHIP TEAM click-through team hierarchy modal",
         "Wainscott cisNote italic footnote on MAPS hamlet card",
-        "PDF contact block consistency walk — 5 generators updated",
+        "PDF contact block consistency walk \u2014 5 generators updated",
         "Two TS errors cleared (WilliamAudioPlayer dead code, MatrixCard style prop)"
       ]
     },
     "sprint_7": {
       "completed": "2026-04-10",
       "deliverables": [
-        "Flagship AI-Letter (formerly Internal Flagship Letter) — universal opening, Scott added, 2036 permanent fixture sentence, em dash fixes",
+        "Flagship AI-Letter (formerly Internal Flagship Letter) \u2014 universal opening, Scott added, 2036 permanent fixture sentence, em dash fixes",
         "Three review fixes: Scott personal closing line, Model 2036 sentence, double-hyphen",
         "IDEAS residual references cleaned from 4 files",
         "UHNW Wealth Card: 'Structured ownership' (was 'Structured capital')",
@@ -425,12 +804,12 @@
         "Live URL architecture locked: /pro-forma first, build order defined",
         "Google Drive Default (Doctrine 31) locked",
         "McKenzie Mentor Model (Doctrine 28) adopted as operating practice",
-        "Doctrine 30: Council is Flagship Team — locked",
+        "Doctrine 30: Council is Flagship Team \u2014 locked",
         "Flagship AI-Letter renamed from Internal Flagship Letter"
       ]
     },
     "sprint_9_queue": [
-      "Pro Forma live URL renderer at /pro-forma — Ilija gate (Monday April 13-14)",
+      "Pro Forma live URL renderer at /pro-forma \u2014 Ilija gate (Monday April 13-14)",
       "Flagship AI-Letter live URL renderer at /letters/flagship",
       "James Christie Letter live URL renderer at /letters/james-christie",
       "Puppeteer PDF endpoint wired to Pro Forma",

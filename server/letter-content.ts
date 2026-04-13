@@ -14,7 +14,9 @@
 // Audio version trimmed to <10,000 chars for ElevenLabs.
 // Full text PDF version is rendered at /letters/flagship.
 // Updated: April 12, 2026 — Doctrines 27–37 incorporated.
-export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
+export const FLAGSHIP_LETTER_TEXT = `LEAD SUMMARY: This is the Flagship AI-Letter of Christie's East Hampton — a living council document authored by six AI systems and the operator, Ed Bruehl. It describes the institution, its people, its operating system, and the thirty-seven doctrines that govern how the platform is built and maintained. Read this letter to understand what Christie's East Hampton is, who built it, how it works, and what it is designed to do for the families of the East End. The document supports the operator's ongoing conversations with Ilija Pavlovic, the council, and every person who walks through the door at 26 Park Place.
+
+Welcome to the Christie's East Hampton flagship dashboard.
 
 We are writing to share something we have been building quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
 
@@ -74,7 +76,9 @@ Thirty-seven doctrines. One institution. One standard since 1766.`;
 
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.
-export const CHRISTIES_LETTER_TEXT = `The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
+export const CHRISTIES_LETTER_TEXT = `LEAD SUMMARY: This is the Christie's Letter to the Families of the East End — a formal introduction from Christie's East Hampton to the collectors, landowners, and legacy families of the Hamptons. It describes what Christie's is, what distinguishes it from a conventional brokerage, and what the institution can offer families who hold significant real estate and art alongside it. Read this letter to understand the Christie's proposition: 260 years of institutional service, a depth of advisory that begins where the closing table ends, and an open door to the auction house, the collector evenings, and the international network. This letter supports every first conversation Ed has with a new family.
+
+The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
 
 Christie's has served that understanding for two hundred and sixty years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Faberge eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.
 

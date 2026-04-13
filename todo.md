@@ -1599,3 +1599,23 @@
 - [x] HomeTab.tsx flagship download handler rewired from generateFlagshipLetter() jsPDF to /api/pdf?url=/letters/flagship
 - [x] generateFlagshipLetter import removed from HomeTab.tsx (no longer used)
 - [x] Zero competitor names remain in any public-facing file — codebase clean
+
+## Sprint 9 Doctrines 36-37 + /letters/christies (April 13 2026)
+- [ ] Add Doctrine 36 (The Council as Living Layer) to state.json
+- [ ] Add Doctrine 37 (Document Lead Summary Principle) to state.json
+- [ ] Update doctrine count to 39 main locks + 3 sub-doctrines = 42 total entries
+- [ ] Add Lead Summary Paragraph to /letters/flagship in letter-content.ts
+- [ ] Build /letters/christies standalone route with Lead Summary Paragraph
+- [ ] Wire /letters/christies download button to /api/pdf?url=/letters/christies
+- [ ] Stand by for Council Ponder Letter at 11 PM — dashboard audit response
+
+## Sprint 9 /letters/christies Build (April 13 2026)
+- [x] Build /letters/christies standalone route — ChristiesLetterPage.tsx, institutional layout, Lead Summary per Doctrine 37
+- [x] Add flagship.getChristiesLetter tRPC procedure to routers.ts
+- [x] Import CHRISTIES_LETTER_TEXT from letter-content.ts (single source of truth)
+- [x] Add /letters/christies route to App.tsx
+- [x] Confirmed HTTP 200: flagship.getLetter, flagship.getChristiesLetter, /letters/christies
+- [x] Add Lead Summary Paragraph to FLAGSHIP_LETTER_TEXT in letter-content.ts per Doctrine 37
+- [x] Add Lead Summary Paragraph to CHRISTIES_LETTER_TEXT in letter-content.ts per Doctrine 37
+- [x] Doctrines 36 and 37 added to state.json
+- [ ] Wire /letters/christies download button in HomeTab.tsx — replace jsPDF with /api/pdf?url=/letters/christies
