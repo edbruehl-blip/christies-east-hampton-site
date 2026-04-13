@@ -1460,3 +1460,18 @@
 - [ ] Perplexity refines Board B (Christie's SOP) into East Hampton Listing Operations SOP
 - [ ] INTEL tab: replace React Mind Map with Board A iframe embed (gold border, charcoal header, Christie's logo)
 - [ ] Public visibility confirmed through April 29, 2026 (training phase)
+
+## Sprint 8 Closing Patch (April 12, 2026 — EOD)
+
+- [x] Doctrine 33 added to state.json — Operator Sign-Off Required Before Gate-Ready Status
+- [x] Doctrine 31.5 refined in state.json — Trello-to-Google Drive integration note added (connective tissue sentence)
+- [x] Doctrine count updated to 34 in state.json
+- [ ] Four William audio wires — NEWS (live market data), LETTER (James Christie homepage), FLAGSHIP (tts-route.ts updated letter), BRIEF (daily EOD brief Google Doc per Doctrine 32)
+- [ ] GitHub backup push — Manny owns this, not Ed via Settings panel
+
+## Sprint 9 Gate Sequence (Locked)
+
+- [ ] Perplexity populates Board A in Trello per eight-list structure (MINDMAP_DATA_FOR_PERPLEXITY.md)
+- [ ] Ed + Claude run cross-reference verification (PROJ-016)
+- [ ] Ed signs off per Doctrine 33
+- [ ] Manny embeds Board A in INTEL tab with brand-framed iframe wrapper (replaces React Mind Map)
