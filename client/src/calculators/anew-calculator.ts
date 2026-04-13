@@ -18,11 +18,11 @@ export type AnewLens =
   | 'anew-partnership';
 
 export const LENS_LABELS: Record<AnewLens, string> = {
-  'anew-build':         'ANEW Build',
-  'buy-hold':           'Buy & Hold',
-  'buy-renovate-hold':  'Buy, Renovate & Hold',
-  'buy-rent':           'Buy & Rent',
-  'anew-partnership':   'ANEW Development Partnership',
+  'anew-build':         'ANEW Build · Stewardship Analysis',
+  'buy-hold':           'Hold & Steward · Stewardship Analysis',
+  'buy-renovate-hold':  'Improve & Steward · Stewardship Analysis',
+  'buy-rent':           'Steward & Yield · Stewardship Analysis',
+  'anew-partnership':   'ANEW Partnership · Stewardship Analysis',
 };
 
 // ─── Score Thresholds ──────────────────────────────────────────────────────────

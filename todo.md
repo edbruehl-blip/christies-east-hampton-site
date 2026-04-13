@@ -1636,3 +1636,18 @@
 - [x] Edit 3 (P2): WhatsApp import mismatch fixed — whatsapp-inbound.ts now imports CHRISTIES_LETTER_TEXT and FLAGSHIP_LETTER_TEXT directly from ./letter-content. Silent runtime failure eliminated.
 - [x] Edit 4 (P3): Wainscott cisNote updated — 'Pending cross-reference confirmation' removed. Now reads: 'Portal-modeled · Thin sample (10–20 txns/yr) · CIS 8.8 reflects limited transaction depth per Doctrine 16.'
 - [x] Stage 4: Flagship AI-Letter wired into letter-content.ts — Claude's April 12 closing letter (Doctrine 37 artifact). All three surfaces confirmed HTTP 200: /letters/flagship, /letters/christies, /council-brief.
+
+## First Sit-Down Brief — Council Approved · April 13, 2026
+
+- [ ] Sit-Down One FL-1: Replace "four William audio keywords" with "Five William audio keywords are now live: NEWS, LETTER, FLAGSHIP, BRIEF, and BRIEF [address]" in FLAGSHIP_LETTER_TEXT
+- [ ] Sit-Down One FL-2: Change "140 enriched cards" to "143 enriched cards as of April 13, 2026" in FLAGSHIP_LETTER_TEXT
+- [ ] Sit-Down Two P0: Diagnose and fix 404 routes for /report /pro-forma /future /letters/flagship /letters/christies /council-brief (SPA catch-all or missing endpoints)
+- [ ] Sit-Down Two P0: Fix FUTURE PDF export buttons (PRO FORMA PDF and EXPORT PDF · ASCENSION ARC) after route fix
+- [ ] Sit-Down Two P0: Relabel FUTURE 2026 bar from "ACTUAL" to "2026 TARGET" or split actual/projected visually
+- [ ] Sit-Down Two P0: Fix FUTURE 2030 two-office split — EH $736M + Southampton $405M = $1.141B, confirm from Growth Model v2
+- [ ] Sit-Down Two P1: Remove "HOME" text label from nav bar — Christie's Logo is sole Home trigger
+- [ ] Sit-Down Two P1: Confirm Hamptons Median ticker pulls from const.ts ($2.4M) not a live scrape
+- [ ] Sit-Down Three: MAPS Stewardship Analysis framing — replace Buy/Sell/Hold language with Stewardship Analysis throughout calculator copy
+- [ ] Sit-Down Three: Griff joy seed — wire URL params /maps?address=Vellutini&lens=buy-hold and /maps?address=Kinley&lens=land-build
+- [ ] Sit-Down Four: Replace React Mind Map in INTEL Layer 1 with Trello iframe embed of Christies Flagship Mindmap board + OPEN IN TRELLO link
+- [ ] FL-3 (after Sit-Down Two): Update letter sentence "seven live document surfaces — all HTTP 200" after routes confirmed — requires Ed sign-off per Doctrine 33

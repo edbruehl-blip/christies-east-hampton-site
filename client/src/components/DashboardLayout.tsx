@@ -24,7 +24,7 @@ import { trpc } from "@/lib/trpc";
 export type TabId = "home" | "market" | "maps" | "pipe" | "future" | "intel";
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: "home",   label: "HOME"   },
+  // HOME tab removed — Christie's logo (left of nav) is the sole Home trigger
   { id: "market", label: "MARKET" },
   { id: "maps",   label: "MAPS"   },
   { id: "pipe",   label: "PIPE"   },

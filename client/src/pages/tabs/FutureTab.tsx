@@ -173,11 +173,11 @@ export default function FutureTab() {
     const vol2036 = liveVolumes?.[2036] ?? 1_823_328_000;
     return [
       { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true },
-      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026 },
+      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship' },
       { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0 },
       { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0 },
       { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0 },
-      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0 },
+      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'EH $736M + SH $405M = $1.141B' },
       { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0 },
       { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0 },
       { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0 },
@@ -291,7 +291,7 @@ export default function FutureTab() {
                           <div style={{ width: '100%', height: actH, background: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
                             <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
                             <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>
-                              ACTUAL
+                              2026 YTD
                             </div>
                           </div>
                         )}

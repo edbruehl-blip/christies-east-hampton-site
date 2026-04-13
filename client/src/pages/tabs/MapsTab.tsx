@@ -149,6 +149,9 @@ function PaumanokPlate() {
 
 // ─── Layer 2: CIS Calculator (migrated from IDEAS) ────────────────────────────
 
+const DEFAULT_ADDRESS = '140 Hands Creek Road, East Hampton';
+const LS_ADDRESS_KEY = 'anew_last_address';
+
 const MODES: { lens: AnewLens; title: string; subtitle: string; icon: string }[] = [
   { lens: 'anew-build',        title: 'ANEW Build',           subtitle: 'Land + construction → exit price',           icon: '⬡' },
   { lens: 'buy-hold',          title: 'Buy & Hold',           subtitle: 'Acquisition → projected appreciation',        icon: '◈' },
@@ -270,7 +273,13 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.9375rem' }}>{result.strategicClassification}</div>
         </div>
       )}
-      <div className="mb-6 text-sm italic" style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', lineHeight: 1.5 }}>"{result.mentorLine}"</div>
+      {result.address.toLowerCase().includes('140 hands creek') && (
+        <div className="mb-4 px-4 py-2 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.06)' }}>
+          <div className="uppercase text-[9px] mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>Christie's Active Listing · Stewardship Analysis</div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.8125rem', lineHeight: 1.5 }}>140 Hands Creek Road is a live Christie's East Hampton listing at $3,500,000. This analysis reflects current market stewardship intelligence for an active pipeline asset.</div>
+        </div>
+      )}
+      <div className="mb-6 text-sm italic" style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', lineHeight: 1.5 }}>"{ result.mentorLine}"</div>
       <div>
         <div className="uppercase text-[10px] mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>Export</div>
         <div className="flex flex-wrap gap-2">
@@ -302,7 +311,13 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
 
 function AnewBuildForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
   const [hamletId, setHamletId] = useState('east-hampton-village');
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState<string>(() => {
+    try { return localStorage.getItem(LS_ADDRESS_KEY) || DEFAULT_ADDRESS; } catch { return DEFAULT_ADDRESS; }
+  });
+  const handleAddressChange = (v: string) => {
+    setAddress(v);
+    try { localStorage.setItem(LS_ADDRESS_KEY, v); } catch { /* ignore */ }
+  };
   const [landValue, setLandValue] = useState('');
   const [constructionCost, setConstructionCost] = useState('');
   const [softCosts, setSoftCosts] = useState('');
@@ -315,7 +330,7 @@ function AnewBuildForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div className="md:col-span-2"><HamletSelect value={hamletId} onChange={setHamletId} /></div>
-      <div className="md:col-span-2"><TextInput label="Property Address" value={address} onChange={setAddress} placeholder="140 Hands Creek Road, East Hampton" /></div>
+      <div className="md:col-span-2"><TextInput label="Property Address" value={address} onChange={handleAddressChange} placeholder="140 Hands Creek Road, East Hampton" /></div>
       <CurrencyInput label="Land Value" value={landValue} onChange={setLandValue} placeholder="1500000" />
       <CurrencyInput label="Construction Cost (Hard)" value={constructionCost} onChange={setConstructionCost} placeholder="2800000" />
       <CurrencyInput label="Soft Costs" value={softCosts} onChange={setSoftCosts} placeholder="420000" />

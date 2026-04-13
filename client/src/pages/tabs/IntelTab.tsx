@@ -109,22 +109,60 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Mind Map Layer 1 — Sprint 13 LIVE ───────────────────────────────────────
+// ─── Mind Map Layer 1 — Trello Board (Live Structural Layer) ────────────────────────────────
+
+const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
+const TRELLO_EMBED_URL = 'https://trello.com/b/H2mvEgRi.html';
 
 function MindMapSection() {
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 1 · Institutional Mind Map
+        {/* Section header */}
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Layer 1 · Structural Architecture
+            </div>
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
+              Christies Flagship Mindmap
+            </h3>
+            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+              Live Trello board · 140-card institutional architecture · 8 lists
+            </p>
+          </div>
+          <a
+            href={TRELLO_BOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+          >
+            Open in Trello ↗
+          </a>
         </div>
-        <InstitutionalMindMap />
+        {/* Trello iframe — contained within system max-width, no full-bleed */}
+        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
+          <iframe
+            src={TRELLO_EMBED_URL}
+            title="Christies Flagship Mindmap · Structural Architecture"
+            width="100%"
+            height="680"
+            style={{ display: 'block', border: 'none' }}
+            allowFullScreen
+          />
+        </div>
+        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+          If the board appears blank, your browser may be blocking third-party cookies. 
+          <a href={TRELLO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Trello ↗</a>
+           to view directly.
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── Calendar Layer (Layer 2) ─────────────────────────────────────────────────
+// ─── Calendar Layer (Layer 2) ─────────────────────────────────────────────────────
 
 function CalendarLayer() {
   return (
