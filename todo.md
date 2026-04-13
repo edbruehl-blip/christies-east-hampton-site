@@ -1618,4 +1618,9 @@
 - [x] Add Lead Summary Paragraph to FLAGSHIP_LETTER_TEXT in letter-content.ts per Doctrine 37
 - [x] Add Lead Summary Paragraph to CHRISTIES_LETTER_TEXT in letter-content.ts per Doctrine 37
 - [x] Doctrines 36 and 37 added to state.json
-- [ ] Wire /letters/christies download button in HomeTab.tsx — replace jsPDF with /api/pdf?url=/letters/christies
+- [x] Wire /letters/christies download button in HomeTab.tsx — replace jsPDF with /api/pdf?url=/letters/christies
+
+## Pre-Council Ponder Letter Items (April 13 2026 — before 11 PM)
+- [x] Wire HomeTab Christie's Letter download button — replace jsPDF generateChristiesLetter() with /api/pdf?url=/letters/christies
+- [x] Patch state.json doctrine count to 39 main + 3 sub = 42 total (already correct, confirmed)
+- [x] Build /council-brief shell route — /council-brief live, Christie's brand frame, Doctrine 37 Lead Summary, Doctrines 27–39 table, Download PDF button wired to /api/pdf?url=/council-brief

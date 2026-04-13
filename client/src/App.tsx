@@ -36,6 +36,7 @@ import ReportPage         from "./pages/ReportPage";
 import ProFormaPage       from "./pages/ProFormaPage";
 import FlagshipLetterPage from "./pages/FlagshipLetterPage";
 import ChristiesLetterPage from "./pages/ChristiesLetterPage";
+import CouncilBriefPage    from "./pages/CouncilBriefPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -69,6 +70,7 @@ function App() {
             <Route path="/pro-forma" component={ProFormaPage} />
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
+            <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={FutureTab} />
             <Route component={Dashboard} />
           </Switch>

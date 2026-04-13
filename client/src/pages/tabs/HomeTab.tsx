@@ -24,7 +24,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 // WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateChristiesLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
+import { generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
 
 // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
@@ -347,7 +347,14 @@ function SectionA() {
               `}</style>
             </div>
             <button
-              onClick={() => generateChristiesLetter()}
+              onClick={() => {
+                const a = document.createElement('a');
+                a.href = '/api/pdf?url=/letters/christies';
+                a.download = 'Christies_EH_Letter_' + new Date().toISOString().slice(0,10) + '.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+              }}
               style={{
                 marginTop: 16,
                 marginBottom: 32,
