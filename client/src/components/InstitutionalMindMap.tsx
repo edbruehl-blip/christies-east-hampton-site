@@ -45,8 +45,6 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import {
   generateMarketReport,
-  generateChristiesLetter,
-  generateFlagshipLetter,
   generateEastHamptonVillageReport,
 } from "@/lib/pdf-exports";
 
@@ -402,7 +400,7 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's East Hampton founding letter PDF.",
     x: 160, y: 1800, r: 18,
-    clickAction: { type: "pdf", label: "Generating Christie's Letter PDF…", fn: () => generateChristiesLetter() } },
+    clickAction: { type: "pdf", label: "Downloading Christie's Letter PDF…", fn: async () => { const a = document.createElement('a'); a.href = '/api/pdf?url=/letters/christies'; a.download = 'christies-letter.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } } },
 
   { id: "exp_flagship",
     name: "Flagship Letter",
@@ -410,7 +408,7 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's Flagship Letter PDF — the internal council document.",
     x: 240, y: 1860, r: 18,
-    clickAction: { type: "pdf", label: "Generating Flagship Letter PDF…", fn: () => generateFlagshipLetter() } },
+    clickAction: { type: "pdf", label: "Downloading Flagship Letter PDF…", fn: async () => { const a = document.createElement('a'); a.href = '/api/pdf?url=/letters/flagship'; a.download = 'flagship-letter.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } } },
 
   { id: "exp_market",
     name: "Market Report",

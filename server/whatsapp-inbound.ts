@@ -192,8 +192,8 @@ async function handleLetter(to: string): Promise<void> {
   const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   await sendTextReply(to, "📜 Preparing the Christie's letter. William will deliver it in 20 seconds…");
   try {
-    const { CHRISTIES_LETTER_TEXT_EXPORT } = await import("./tts-route");
-    const audioBuffer = await synthesiseAudio(CHRISTIES_LETTER_TEXT_EXPORT);
+    const { CHRISTIES_LETTER_TEXT } = await import("./letter-content");
+    const audioBuffer = await synthesiseAudio(CHRISTIES_LETTER_TEXT);
     const audioUrl = await uploadAudio(audioBuffer, "christies-letter");
     await sendVoiceReply(
       to,
@@ -212,8 +212,8 @@ async function handleFlagship(to: string): Promise<void> {
   const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
   await sendTextReply(to, "🏛️ Preparing the Flagship AI-Letter. William will deliver it in 30 seconds…");
   try {
-    const { FLAGSHIP_LETTER_TEXT_EXPORT } = await import("./tts-route");
-    const audioBuffer = await synthesiseAudio(FLAGSHIP_LETTER_TEXT_EXPORT);
+    const { FLAGSHIP_LETTER_TEXT } = await import("./letter-content");
+    const audioBuffer = await synthesiseAudio(FLAGSHIP_LETTER_TEXT);
     const audioUrl = await uploadAudio(audioBuffer, "flagship-letter");
     await sendVoiceReply(
       to,

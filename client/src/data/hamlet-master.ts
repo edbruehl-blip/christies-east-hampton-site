@@ -470,8 +470,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 3_600_000,
     medianPriceDisplay: '$3.6M',
-    anewScore: 8.8,  // CIS 8.8 · Portal-modeled · thin sample 10–20 transactions/yr · pending cross-reference confirmation
-    cisNote: 'Portal-modeled · Thin sample (10–20 txns/yr) · Pending cross-reference confirmation',
+    anewScore: 8.8,  // CIS 8.8 · Portal-modeled · thin sample 10–20 transactions/yr · Doctrine 16
+    cisNote: 'Portal-modeled · Thin sample (10–20 txns/yr) · CIS 8.8 reflects limited transaction depth per Doctrine 16.',
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',

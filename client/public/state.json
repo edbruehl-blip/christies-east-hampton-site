@@ -495,7 +495,7 @@
     "google_doc_source": "pending \u2014 to be created and linked"
   },
   "doctrine_library": {
-    "count": 39,
+    "count": 38,
     "sub_doctrine_count": 3,
     "total_entries": 42,
     "count_note": "39 main locks (Doctrines 1-37 including 1.5 and 22.5) + 3 sub-doctrines under Doctrine 31 (31.4 RETIRED, 31.5, 31.6) = 42 total entries",
@@ -711,8 +711,14 @@
         "id": "37",
         "title": "Document Lead Summary Principle",
         "summary": "Every institutional document must open with a Lead Summary Paragraph that captures the essence of the document in one paragraph. The operator or any council member must be able to read the Lead Summary and understand what the document is, what it contains, and what decision or action it supports, without reading the full document. The Lead Summary is the fast glean. The full document is the deep dive. Every Google Doc, every live URL document, every EOD brief, every dossier, every research report, every agenda, and every SOP must start with a Lead Summary Paragraph in the institutional voice."
+      },
+      {
+        "id": "38",
+        "title": "Architecture Lock: One Active Board",
+        "summary": "One active Trello board going forward \u2014 Christies Flagship Mindmap at trello.com/b/H2mvEgRi. All other boards archived including the original Eileen Laswell Chestnut Park Real Estate Toronto luxury listings board and the Christies SOP duplicate board, both archived on April 12, 2026 after the Eileen Laswell harvest completed and the 105 operational items plus 20 crown jewel enrichments landed into the RL-005 Listing Operations SOP Google Doc. The 8-list architecture on the Christies Flagship Mindmap is locked as FLAGSHIP TEAM, EAST HAMPTON OFFICE, WHALES, CHRISTIE'S HIERARCHY, RECRUITS, PROJECTS, DOCTRINE LIBRARY, and PARTNERS AND OPERATIONAL NODES. The board must remain public-visibility in Trello so external tools including Claude, Manny, William, and the broader council can read its structure via the Trello API. ACTIVE PIPELINE is not a list on this board. Active listings live in the Pipeline architecture on the dashboard at christiesrealestategroupeh.com in the PIPE tab only, which reads live from the Office Pipeline Google Sheet via trpc.pipe.sheetDeals. The Listing Operations SOP lives as RL-005 Google Doc, not in Trello. The per-listing operational interface is the Pipeline architecture on the dashboard, not card-based workflow on the Trello board. Locked by Ed Bruehl on April 12, 2026. Supersedes Canonical Spelling: Laswell (retired per Doctrine 29 and reclassified as a Naming Standards reference inside the Doctrine Library Google Doc)."
       }
-    ]
+    ],
+    "total_with_sub": 41
   },
   "sprint_history": {
     "sprint_1": {
@@ -819,5 +825,11 @@
       "Wednesday Office Meeting Agenda template",
       "GitHub backup push to christies-eh-dashboard"
     ]
+  },
+  "github_backup": {
+    "status": "complete",
+    "date": "April 13, 2026",
+    "checkpoint": "7abb930a",
+    "note": "Exported via Manus Settings \u2192 GitHub panel. Sprint 8 permanently closed. Full codebase backup including all 7 live document surfaces, Puppeteer PDF architecture, ElevenLabs TTS, WhatsApp keywords, letter-content.ts single source of truth, and 42 doctrine entries."
   }
 }

@@ -1624,3 +1624,15 @@
 - [x] Wire HomeTab Christie's Letter download button — replace jsPDF generateChristiesLetter() with /api/pdf?url=/letters/christies
 - [x] Patch state.json doctrine count to 39 main + 3 sub = 42 total (already correct, confirmed)
 - [x] Build /council-brief shell route — /council-brief live, Christie's brand frame, Doctrine 37 Lead Summary, Doctrines 27–39 table, Download PDF button wired to /api/pdf?url=/council-brief
+
+## Sprint 8 Close + Sprint 9 Queue (April 13 2026 — 1 AM window)
+- [x] GitHub backup push — Sprint 8 permanently closed. Exported via Manus Settings → GitHub panel. Checkpoint 7abb930a. April 13, 2026.
+- [ ] Council Ponder Letter — five-point protocol on paste (read, audit, lock doctrines, update letter-content.ts if needed, respond to dashboard audit questions)
+- [ ] INTEL tab iframe embed — wait for Perplexity's regenerated Christies_Flagship_Mindmap.html (current Trello board state), then replace legacy React Mind Map component
+
+## Stage 3 Edits — April 13 2026 ~2 AM
+- [x] Edit 1 (P1): Doctrine 38 added to state.json — Architecture Lock: One Active Board. Count field updated to 38. total_with_sub = 41.
+- [x] Edit 2 (P1): InstitutionalMindMap.tsx rewired — Christie's Letter and Flagship Letter nodes now call /api/pdf?url=/letters/christies and /api/pdf?url=/letters/flagship. Unused jsPDF imports removed.
+- [x] Edit 3 (P2): WhatsApp import mismatch fixed — whatsapp-inbound.ts now imports CHRISTIES_LETTER_TEXT and FLAGSHIP_LETTER_TEXT directly from ./letter-content. Silent runtime failure eliminated.
+- [x] Edit 4 (P3): Wainscott cisNote updated — 'Pending cross-reference confirmation' removed. Now reads: 'Portal-modeled · Thin sample (10–20 txns/yr) · CIS 8.8 reflects limited transaction depth per Doctrine 16.'
+- [x] Stage 4: Flagship AI-Letter wired into letter-content.ts — Claude's April 12 closing letter (Doctrine 37 artifact). All three surfaces confirmed HTTP 200: /letters/flagship, /letters/christies, /council-brief.
