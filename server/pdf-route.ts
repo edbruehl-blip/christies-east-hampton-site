@@ -16,7 +16,6 @@
  *   /letters/james-christie      → James Christie Letter
  *   /cards/bike                  → Bike Card
  *   /cards/uhnw-path             → UHNW Wealth Path Card
- *   /reports/saunders            → Saunders Research Report
  *   /agendas/monday-flagship     → Monday Flagship Meeting Agenda
  *   /briefs/morning              → Morning Brief
  *
@@ -58,7 +57,6 @@ const URL_TO_FILENAME: Record<string, string> = {
   '/letters/james-christie': 'Christies_EH_James_Christie_Letter',
   '/cards/bike':             'Christies_EH_Bike_Card',
   '/cards/uhnw-path':        'Christies_EH_UHNW_Path_Card',
-  '/reports/saunders':       'Christies_EH_Saunders_Report',
   '/agendas/monday-flagship':'Christies_EH_Monday_Flagship_Agenda',
   '/briefs/morning':         'Christies_EH_Morning_Brief',
 };

@@ -24,7 +24,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 // WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateChristiesLetter, generateFlagshipLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
+import { generateChristiesLetter, generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
 import { trpc } from '@/lib/trpc';
 
 // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
@@ -471,7 +471,15 @@ export default function HomeTab() {
   const handleFlagshipLetterPdf = async () => {
     setFlagshipLoading(true);
     try {
-      await generateFlagshipLetter();
+      const res = await fetch('/api/pdf?url=/letters/flagship');
+      if (!res.ok) throw new Error('PDF generation failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Christies_EH_Flagship_Letter_${new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
     } finally {
       setFlagshipLoading(false);
     }

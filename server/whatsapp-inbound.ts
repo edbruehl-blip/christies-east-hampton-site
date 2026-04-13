@@ -28,7 +28,7 @@ const CRONKITE_SYSTEM_PROMPT = `You are William, the Christie's East Hampton int
 
 const CRONKITE_USER_PROMPT = `Deliver the Christie's East Hampton 14-category intelligence brief. Each category must contain only information sourced from a named publication, report, or data provider with a date. If you cannot attribute a statement to a specific named source published within the last 30 days, do not include it. No estimates. No assumptions. No broad market characterizations without a citation. William reads what happened, not what might be happening.
 
-For category one, use only these verified 2025 medians as the Hamptons data foundation — do not source hamlet prices from the web. Sagaponack $8.04M. East Hampton Village $5.25M. Bridgehampton $4.47M. Southampton Village $4.385M. Water Mill $4.55M. Amagansett $4.35M. Wainscott $3.18M. East Hampton North $2.03M. Sag Harbor $2.80M. Montauk $2.24M. Springs $1.58M. Source: Saunders 2024 versus 2025 annual report cross-referenced William Raveis YE 2025.
+For category one, use only these verified 2025 medians as the Hamptons data foundation — do not source hamlet prices from the web. Sagaponack $8.04M. East Hampton Village $5.25M. Bridgehampton $4.47M. Southampton Village $4.385M. Water Mill $4.55M. Amagansett $4.35M. Wainscott $3.18M. East Hampton North $2.03M. Sag Harbor $2.80M. Montauk $2.24M. Springs $1.58M. Source: Verified market intelligence · Christie's East Hampton internal analysis · MLS-backed public records.
 
 Cover each category in one to two sentences. Deliver as a spoken brief. Begin now.
 

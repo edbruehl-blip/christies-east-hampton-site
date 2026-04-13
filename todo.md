@@ -1584,3 +1584,18 @@
 
 ## Sprint 9 Competitor Name Bug Fix (April 13, 2026)
 - [x] P0: Remove all competitor names from public-facing surfaces — MarketTab.tsx Sources footnote, hidden Saunders section deleted, PublicPage.tsx attribution line, ReportPage.tsx two violations, pdf-exports.ts Sources line — zero competitor names remain on any public surface
+
+## Sprint 9 /flagship-letter Build (April 13 2026)
+- [x] hamlet-master.ts line 474 cisNote competitor reference removed
+- [x] hamlet-master.ts line 14 file header comment competitor reference removed
+- [x] hamlet-master.ts lines 154, 360, 505 internal comment competitor references removed
+- [x] whatsapp-inbound.ts line 31 NEWS brief prompt source attribution cleaned
+- [x] pdf-route.ts Saunders route comment and URL_TO_FILENAME map entry removed
+- [x] tts-route.ts duplicate inline constants removed — letter-content.ts is now single source of truth
+- [x] letter-content.ts created — shared constants for FLAGSHIP_LETTER_TEXT and CHRISTIES_LETTER_TEXT
+- [x] /letters/flagship standalone route built — FlagshipLetterPage.tsx, institutional layout, navy/gold/cream
+- [x] flagship.getLetter tRPC procedure added to routers.ts — serves letter text from letter-content.ts
+- [x] /letters/flagship route registered in App.tsx
+- [x] HomeTab.tsx flagship download handler rewired from generateFlagshipLetter() jsPDF to /api/pdf?url=/letters/flagship
+- [x] generateFlagshipLetter import removed from HomeTab.tsx (no longer used)
+- [x] Zero competitor names remain in any public-facing file — codebase clean

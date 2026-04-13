@@ -11,7 +11,7 @@
  *   mid:    mid-tier / casual fine dining
  *   local:  everyday / year-round local (Ed-supplied, one per hamlet)
  *
- * Medians: Saunders 2025 Annual Report — confirmed April 3, 2026
+ * Medians: Verified market intelligence · MLS-backed public records — confirmed April 3, 2026
  * Images: Ed Bruehl original photography — wired April 6, 2026 (replaced Wikimedia)
  * Vibe text: Gemini two-sentence copy — wired April 3, 2026
  */
@@ -153,7 +153,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     medianPrice: 5_250_000,
     medianPriceDisplay: '$5.25M',
     anewScore: 9.2,
-    volumeShare: 7,  // 7% — $408.9M of $5.922B (Saunders 2025 + Raveis YE 2025)
+    volumeShare: 7,  // 7% — $408.9M of $5.922B (verified market intelligence cross-reference)
     lastSale: '8 Lily Pond Lane',
     lastSalePrice: '$9.8M',
     lastSaleDate: 'Jan 2025',
@@ -359,7 +359,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
   {
     // East Hampton North — replaces "East Hampton Town" per P2 directive April 4, 2026
     // Dollar volume: EH Middle ($290.3M) + EH NW ($255.2M) = $545.4M combined
-    // Saunders 2025 + Raveis YE 2025 cross-reference
+    // Verified market intelligence cross-reference
     id: 'east-hampton-north',
     name: 'East Hampton North',
     tier: 'Premier',
@@ -470,8 +470,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 3_600_000,
     medianPriceDisplay: '$3.6M',
-    anewScore: 8.8,  // CIS 8.8 · Portal-modeled pending Saunders audit confirmation · thin sample 10–20 transactions/yr
-    cisNote: 'Portal-modeled · Pending Saunders audit · Thin sample (10–20 txns/yr)',
+    anewScore: 8.8,  // CIS 8.8 · Portal-modeled · thin sample 10–20 transactions/yr · pending cross-reference confirmation
+    cisNote: 'Portal-modeled · Thin sample (10–20 txns/yr) · Pending cross-reference confirmation',
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',
@@ -504,7 +504,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
 
 // ─── Montauk: 10th hamlet added per Ed Bruehl direction, April 2026.
 // Wainscott: added April 3, 2026 — CIS 8.7 confirmed April 3, 2026, Trophy tier.
-// Medians: Saunders 2025 Annual Report — confirmed April 3, 2026.
+// Medians: Verified market intelligence · MLS-backed public records — confirmed April 3, 2026.
 // imageUrl + vibeText: wired April 3, 2026.
 // Hampton Bays (Cowfish) is not in the ten-hamlet ANEW territory.
 

@@ -5,7 +5,8 @@
  *   /        → Six-tab dashboard (HOME · MARKET · MAPS · PIPE · FUTURE · INTEL)
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
  *   /pro-forma → Pro Forma live renderer (no nav chrome, Puppeteer PDF target)
- *   /future  → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
+ *   /future           → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
+ *   /letters/flagship  → Flagship AI-Letter live renderer (no nav chrome, Puppeteer PDF target)
  *
  * /public removed Sprint 11 — platform is private. Public subscription site is a separate future track.
  *
@@ -30,8 +31,9 @@ import FutureTab from "./pages/tabs/FutureTab";
 import IntelTab  from "./pages/tabs/IntelTab";
 
 // Standalone pages
-import ReportPage    from "./pages/ReportPage";
-import ProFormaPage from "./pages/ProFormaPage";
+import ReportPage         from "./pages/ReportPage";
+import ProFormaPage       from "./pages/ProFormaPage";
+import FlagshipLetterPage from "./pages/FlagshipLetterPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -63,6 +65,7 @@ function App() {
           <Switch>
             <Route path="/report" component={ReportPage} />
             <Route path="/pro-forma" component={ProFormaPage} />
+            <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/future" component={FutureTab} />
             <Route component={Dashboard} />
           </Switch>
