@@ -19,7 +19,8 @@ Ed Bruehl. Managing Director. Christie's International Real Estate Group, East H
 
 // ─── Flagship Letter (Council Document) — Audio version trimmed to <10,000 chars for ElevenLabs ──
 // Full text PDF version is in pdf-exports.ts. This is the spoken version.
-const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
+// Exported for use by whatsapp-inbound.ts FLAGSHIP keyword handler.
+export const FLAGSHIP_LETTER_TEXT_EXPORT = `Welcome to the Christie's East Hampton flagship dashboard.
 
 We are writing to share something we have been building quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
 
@@ -77,8 +78,11 @@ Doctrine 32 closes the day. Every council day ends with an EOD brief from Claude
 
 Thirty-two doctrines. One institution. One standard since 1766.`;
 
+const FLAGSHIP_LETTER_TEXT = FLAGSHIP_LETTER_TEXT_EXPORT;
+
 // ─── Christie's Letter to the Families (James Christie's letter) — Locked April 9, 2026 ──
-const CHRISTIES_LETTER_TEXT = `The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
+// Exported for use by whatsapp-inbound.ts LETTER keyword handler.
+export const CHRISTIES_LETTER_TEXT_EXPORT = `The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
 
 Christie's has served that understanding for two hundred and sixty years. What we bring to East Hampton is not a brokerage. It is an institution that has always believed the finest things deserve the finest representation. The same auction house that has handled Picassos and Monets, Faberge eggs and dynasty estates, is now the institution behind your real estate conversation on the East End.
 
@@ -93,6 +97,8 @@ Christie's events, auctions, private sales, collector evenings, are more accessi
 Everything discovered along the way, the people, the relationships, and the institutional access Christie's carries, is something we now get to share with this community.
 
 The door is open whenever you are ready to walk through it.`;
+
+const CHRISTIES_LETTER_TEXT = CHRISTIES_LETTER_TEXT_EXPORT;
 
 // ─── Market Intelligence Brief — static fallback ──────────────────────────────
 // Used when live data is unavailable. The dynamic endpoint assembles fresh data each call.

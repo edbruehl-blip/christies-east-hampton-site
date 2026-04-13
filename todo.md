@@ -1530,3 +1530,35 @@
 - [ ] P5: /council-brief standalone route (document layer, not gate document — Sprint 9 build)
 - [ ] P6: /flagship-letter + four other document surface routes (James Christie Letter, Mission Model, Bike Card, UHNW Wealth Path Card)
 - [ ] P7: Remove legacy HOME and /report audio buttons per Doctrine 34
+
+## Sprint 9 Final Priority Sequence (April 13 2026 — Recalibration Confirmed)
+
+- [x] P1: Full data audit — all 6 tabs, all endpoints live — CLOSED
+- [ ] P2: William three audio wires — NEWS, LETTER, BRIEF (FLAGSHIP already wired) — closes Sprint 8
+- [ ] P3: GitHub backup push — closes Sprint 8
+- [ ] P4: /flagship-letter standalone route — highest-priority document surface
+- [ ] P5: /council-brief standalone route — joins document surface queue
+- [ ] P5: /christies-letter standalone route
+- [ ] P5: /mission-model standalone route
+- [ ] P5: /bike-card standalone route
+- [ ] P5: /uhnw-card standalone route
+- [ ] P6: Trello Board A iframe embed in INTEL tab (after cross-ref walk + Ed sign-off per Doctrine 33)
+- [ ] P7: Remove legacy HOME and /report audio buttons per Doctrine 34
+
+## Doctrine Count Reconciliation (April 13 2026)
+
+- [x] Reconciliation complete — 40 locks in state.json array, count field says 37
+- [x] Discrepancy source identified: count field (37) does not match actual array length (40)
+- [x] The 3 extra locks are: 31.4 (RETIRED Notion), 31.5 (Three-Layer Architecture), 31.6 (Angel-Hagler Tool Lock)
+- [x] Claude's count of 36 main + 6 sub-doctrines = 42 total — also does not match
+- [x] Resolution: actual locks = 40 entries. Main locks (no decimal) = 35 (1–35 plus 1.5 and 22.5). Sub-doctrines = 5 (31.4 RETIRED, 31.5, 31.6, plus 31.4 was previously Notion now retired). Count field needs correction to 40.
+
+## Sprint 8 Close — William Audio Wires (April 13, 2026)
+- [x] FLAGSHIP keyword wired in whatsapp-inbound.ts — routes to FLAGSHIP_LETTER_TEXT_EXPORT via ElevenLabs → S3 → Twilio voice note
+- [x] LETTER keyword wired in whatsapp-inbound.ts — routes to CHRISTIES_LETTER_TEXT_EXPORT via ElevenLabs → S3 → Twilio voice note
+- [x] NEWS keyword confirmed live — Perplexity 14-category Cronkite brief, 6-hour cache, S3 upload
+- [x] BRIEF keyword confirmed live — morning brief via deliverBriefToNumber() in whatsapp-route.ts
+- [x] ElevenLabs model drift fixed — whatsapp-inbound.ts updated from eleven_multilingual_v2 to eleven_turbo_v2 (Doctrine 9)
+- [x] CHRISTIES_LETTER_TEXT and FLAGSHIP_LETTER_TEXT exported from tts-route.ts for inbound handlers
+- [x] HELP menu updated with all six commands (NEWS, LETTER, FLAGSHIP, BRIEF, PIPE, INTEL, STATUS)
+- [x] Sprint 8 CLOSED — all four William audio keywords live

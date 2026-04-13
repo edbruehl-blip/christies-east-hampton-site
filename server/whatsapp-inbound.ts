@@ -68,7 +68,7 @@ export async function fetchCronkiteBrief(): Promise<string> {
 
 // ─── ElevenLabs synthesis ─────────────────────────────────────────────────────
 const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as whatsapp-route.ts and tts-route.ts)
-const ELEVENLABS_MODEL    = "eleven_multilingual_v2";
+const ELEVENLABS_MODEL    = "eleven_turbo_v2"; // Doctrine 9 — TTS Model Lock
 
 async function synthesiseAudio(text: string): Promise<Buffer> {
   const response = await fetch(
@@ -186,6 +186,46 @@ async function handleBrief(to: string): Promise<void> {
   await deliverBriefToNumber(to);
 }
 
+async function handleLetter(to: string): Promise<void> {
+  // LETTER keyword — James Christie's letter to the families, read aloud by William
+  // Source: CHRISTIES_LETTER_TEXT in tts-route.ts
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  await sendTextReply(to, "📜 Preparing the Christie's letter. William will deliver it in 20 seconds…");
+  try {
+    const { CHRISTIES_LETTER_TEXT_EXPORT } = await import("./tts-route");
+    const audioBuffer = await synthesiseAudio(CHRISTIES_LETTER_TEXT_EXPORT);
+    const audioUrl = await uploadAudio(audioBuffer, "christies-letter");
+    await sendVoiceReply(
+      to,
+      audioUrl,
+      "📜 Christie's East Hampton — The Letter · " + dateLabel
+    );
+  } catch (err: any) {
+    console.error("[WhatsApp LETTER] Error:", err);
+    await sendTextReply(to, "⚠️ Letter delivery failed. Try again or open christiesrealestategroupeh.com.");
+  }
+}
+
+async function handleFlagship(to: string): Promise<void> {
+  // FLAGSHIP keyword — Flagship AI-Letter, read aloud by William
+  // Source: FLAGSHIP_LETTER_TEXT in tts-route.ts (updated end-of-day per Doctrine 27)
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  await sendTextReply(to, "🏛️ Preparing the Flagship AI-Letter. William will deliver it in 30 seconds…");
+  try {
+    const { FLAGSHIP_LETTER_TEXT_EXPORT } = await import("./tts-route");
+    const audioBuffer = await synthesiseAudio(FLAGSHIP_LETTER_TEXT_EXPORT);
+    const audioUrl = await uploadAudio(audioBuffer, "flagship-letter");
+    await sendVoiceReply(
+      to,
+      audioUrl,
+      "🏛️ Christie's East Hampton — Flagship AI-Letter · " + dateLabel
+    );
+  } catch (err: any) {
+    console.error("[WhatsApp FLAGSHIP] Error:", err);
+    await sendTextReply(to, "⚠️ Flagship letter delivery failed. Try again or open christiesrealestategroupeh.com.");
+  }
+}
+
 async function handleStatus(to: string): Promise<void> {
   const now = new Date().toLocaleDateString("en-US", {
     weekday: "long", month: "long", day: "numeric", year: "numeric",
@@ -279,13 +319,15 @@ async function handleHelp(to: string): Promise<void> {
     to,
     `🏛️ Christie's East Hampton — William Command Center\n\n` +
     `Available commands:\n` +
-    `  NEWS   — 14-category intelligence brief (voice)\n` +
-    `  PIPE   — Pipeline deal summary\n` +
-    `  INTEL  — Top 5 recruits + top 3 whale intel\n` +
-    `  STATUS — Platform status report\n` +
-    `  BRIEF  — Morning brief (voice)\n` +
+    `  NEWS      — 14-category intelligence brief (voice)\n` +
+    `  LETTER    — James Christie's letter to the families (voice)\n` +
+    `  FLAGSHIP  — Flagship AI-Letter, read aloud (voice)\n` +
+    `  BRIEF     — Morning brief (voice)\n` +
     `  BRIEF [address] — Address CIS brief (hamlet, median, CIS score)\n` +
-    `  HELP   — This menu\n\n` +
+    `  PIPE      — Pipeline deal summary\n` +
+    `  INTEL     — Top 5 recruits + top 3 whale intel\n` +
+    `  STATUS    — Platform status report\n` +
+    `  HELP      — This menu\n\n` +
     `26 Park Place, East Hampton · 646-752-1233`
   );
 }
@@ -455,6 +497,10 @@ export function registerWhatsAppInbound(app: Express): void {
     try {
       if (body === "NEWS") {
         await handleNews(from);
+      } else if (body === "LETTER") {
+        await handleLetter(from);
+      } else if (body === "FLAGSHIP") {
+        await handleFlagship(from);
       } else if (body === "PIPE" || body === "PIPELINE") {
         await handlePipe(from);
       } else if (body === "STATUS") {
