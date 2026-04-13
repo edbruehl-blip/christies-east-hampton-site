@@ -4,6 +4,8 @@
  * Routes:
  *   /        → Six-tab dashboard (HOME · MARKET · MAPS · PIPE · FUTURE · INTEL)
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
+ *   /pro-forma → Pro Forma live renderer (no nav chrome, Puppeteer PDF target)
+ *   /future  → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
  *
  * /public removed Sprint 11 — platform is private. Public subscription site is a separate future track.
  *
@@ -61,6 +63,7 @@ function App() {
           <Switch>
             <Route path="/report" component={ReportPage} />
             <Route path="/pro-forma" component={ProFormaPage} />
+            <Route path="/future" component={FutureTab} />
             <Route component={Dashboard} />
           </Switch>
           {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}

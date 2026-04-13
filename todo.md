@@ -1475,3 +1475,31 @@
 - [ ] Ed + Claude run cross-reference verification (PROJ-016)
 - [ ] Ed signs off per Doctrine 33
 - [ ] Manny embeds Board A in INTEL tab with brand-framed iframe wrapper (replaces React Mind Map)
+
+## Sprint 9 Opening Items (April 13, 2026)
+
+- [x] Doctrine count corrected to 35 in state.json (31.6 was a main doctrine, not sub-doctrine)
+- [x] Wire FUTURE tab two download buttons to /api/pdf?url= endpoint — ProFormaButton + Export PDF buttons rewired April 13 2026
+- [x] Audit and wire ALL download buttons across every live URL document surface to /api/pdf?url=
+  - [x] /pro-forma — Download PDF button — correctly wired to /api/pdf?url=/pro-forma (was already correct)
+  - [x] FUTURE tab — Export PDF button — rewired from html2canvas to /api/pdf?url=/future
+  - [x] FUTURE tab — Pro Forma PDF button — rewired from tRPC mutation to /api/pdf?url=/pro-forma
+  - [ ] Flagship AI-Letter live URL — NOT YET BUILT as standalone route (Sprint 9 item)
+  - [ ] James Christie Letter live URL — NOT YET BUILT as standalone route (Sprint 9 item)
+  - [ ] Mission Model live URL — NOT YET BUILT as standalone route (Sprint 9 item)
+  - [ ] Bike Card live URL — NOT YET BUILT as standalone route (Sprint 9 item)
+  - [ ] UHNW Wealth Path Card live URL — NOT YET BUILT as standalone route (Sprint 9 item)
+- [x] /future standalone route added to App.tsx — Puppeteer PDF target, HTTP 200 confirmed, 215KB 2-page PDF
+- [x] Audio button status audit across every live URL document surface
+  - [x] /pro-forma — NO audio button (document-only, no William audio planned)
+  - [x] FUTURE tab — NO audio button (no audio planned for FUTURE)
+  - [x] HOME tab — TWO audio buttons: Christie's Letter + Market Brief — both wired to /api/tts/* — WORKING
+  - [x] /report — TWO audio buttons: Christie's Letter + Market Brief — both wired to /api/tts/* — WORKING
+  - [ ] Flagship AI-Letter — NOT YET BUILT as standalone route
+  - [ ] James Christie Letter — NOT YET BUILT as standalone route
+  - [ ] Mission Model — NOT YET BUILT as standalone route
+  - [ ] Bike Card — NOT YET BUILT as standalone route
+  - [ ] UHNW Wealth Path Card — NOT YET BUILT as standalone route
+- [ ] Trello Board A iframe embed in INTEL tab (gated on Claude cross-ref + Ed sign-off per Doctrine 33)
+- [ ] GitHub backup push (Manny owns)
+- [ ] William four audio wires — NEWS, LETTER, BRIEF (FLAGSHIP already wired in tts-route.ts)

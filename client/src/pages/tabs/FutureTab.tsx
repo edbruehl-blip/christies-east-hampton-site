@@ -6,7 +6,7 @@
  * Auth gate deferred — site private, URL in hands of core team only.
  */
 
-import { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { trpc } from '@/lib/trpc';
 // Wire Six: html2canvas screen capture — no jsPDF data arrays
 import '@/styles/future-print.css';
@@ -49,32 +49,37 @@ function fmtM(n: number): string {
 
 // ─── Pro Forma Button ─────────────────────────────────────────────────────────
 function ProFormaButton() {
-  const generateProForma = trpc.future.generateProForma.useMutation();
+  const [loading, setLoading] = React.useState(false);
   const handleGenerate = async () => {
+    if (loading) return;
+    setLoading(true);
     try {
-      const result = await generateProForma.mutateAsync();
-      // Use data URI for cross-browser compatibility (works on mobile Safari)
       const date = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      const dataUri = `data:application/pdf;base64,${result.pdf}`;
+      const res = await fetch('/api/pdf?url=/pro-forma');
+      if (!res.ok) throw new Error(`PDF endpoint returned ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
-      a.href = dataUri;
-      a.download = `Christies_EH_ProForma_${date}.pdf`;
+      a.href = url;
+      a.download = `Christies_EH_Pro_Forma_${date}.pdf`;
       a.style.display = 'none';
       document.body.appendChild(a);
       a.click();
-      setTimeout(() => document.body.removeChild(a), 100);
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
     } catch (err) {
       console.error('Pro forma generation failed:', err);
       alert('Pro forma generation failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <button
       onClick={handleGenerate}
-      disabled={generateProForma.isPending}
-      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer', opacity: generateProForma.isPending ? 0.5 : 1 }}
+      disabled={loading}
+      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.5 : 1 }}
     >
-      {generateProForma.isPending ? 'Generating...' : '\u2193 Pro Forma PDF'}
+      {loading ? 'Generating…' : '\u2193 Pro Forma PDF'}
     </button>
   );
 }
@@ -607,18 +612,33 @@ export default function FutureTab() {
         {/* ── Export buttons ──────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
           <button
-            onClick={() => captureTabAsPDF(`Christies_EH_Ascension_Arc_${new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-')}.pdf`)}
+            onClick={async () => {
+              if (exporting) return;
+              setExporting(true);
+              try {
+                const date = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-');
+                const res = await fetch('/api/pdf?url=/future');
+                if (!res.ok) throw new Error(`PDF endpoint returned ${res.status}`);
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `Christies_EH_Ascension_Arc_${date}.pdf`;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+              } catch (e) {
+                console.error('Export failed', e);
+                alert('Export failed. Please try again.');
+              } finally {
+                setExporting(false);
+              }
+            }}
             disabled={exporting}
             style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.6 : 1 }}
           >
-            {exporting ? 'Capturing...' : '\u2193 Export PDF \u00b7 Ascension Arc'}
-          </button>
-          <button
-            onClick={() => captureTabAsPDF(`Christies_EH_Card_${new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-')}.pdf`)}
-            disabled={exporting}
-            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.6 : 1 }}
-          >
-            {exporting ? 'Capturing...' : '\u2193 Export Card \u00b7 Light Layout'}
+            {exporting ? 'Generating\u2026' : '\u2193 Export PDF \u00b7 Ascension Arc'}
           </button>
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"

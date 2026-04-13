@@ -285,7 +285,7 @@
   },
 
   "doctrine_library": {
-    "count": 34,
+    "count": 35,
     "last_updated": "2026-04-12",
     "locks": [
       { "id": "1", "title": "Authority Must Whisper", "summary": "Authority must whisper, not shout. No proof-point energy. No superlatives." },
