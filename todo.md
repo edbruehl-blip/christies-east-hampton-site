@@ -1518,3 +1518,15 @@
 - [ ] /uhnw-wealth-path standalone route
 - [ ] Trello Board A iframe embed in INTEL tab (gated on Claude cross-ref + Ed sign-off per Doctrine 33)
 - [ ] Legacy audio buttons on HOME and /report removed per Doctrine 34 (scheduled for future sprint)
+
+## Sprint 9 Corrected Priority Sequence (April 13, 2026 — Recalibration)
+
+- [x] Doctrine 35 locked — Operator Owns the Conversation
+- [x] Doctrine count updated to 37 in state.json
+- [x] P1: Full data audit — every tab, every component, every data source confirmed live (HOME, MARKET, MAPS, PIPE, FUTURE, INTEL) — completed April 13 2026
+- [ ] P2: William three audio wires — NEWS, LETTER, BRIEF (FLAGSHIP already wired) — closes Sprint 8
+- [ ] P3: GitHub backup push — closes Sprint 8
+- [ ] P4: Trello Board A iframe embed in INTEL tab (after cross-ref walk + Ed sign-off per Doctrine 33)
+- [ ] P5: /council-brief standalone route (document layer, not gate document — Sprint 9 build)
+- [ ] P6: /flagship-letter + four other document surface routes (James Christie Letter, Mission Model, Bike Card, UHNW Wealth Path Card)
+- [ ] P7: Remove legacy HOME and /report audio buttons per Doctrine 34
