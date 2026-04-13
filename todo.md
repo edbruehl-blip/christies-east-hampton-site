@@ -1651,3 +1651,11 @@
 - [ ] Sit-Down Three: Griff joy seed — wire URL params /maps?address=Vellutini&lens=buy-hold and /maps?address=Kinley&lens=land-build
 - [ ] Sit-Down Four: Replace React Mind Map in INTEL Layer 1 with Trello iframe embed of Christies Flagship Mindmap board + OPEN IN TRELLO link
 - [ ] FL-3 (after Sit-Down Two): Update letter sentence "seven live document surfaces — all HTTP 200" after routes confirmed — requires Ed sign-off per Doctrine 33
+
+## Sit-Down Five — April 13, 2026
+
+- [ ] SD5-1: Audit AnewHomes split across all surfaces — confirm 35/35/10/5/5/5/5, fix any 45/45 reference
+- [ ] SD5-2: Fix Wednesday Circuit countdown to April 29, 2026 with Wednesday label
+- [ ] SD5-3: Sync MAPS default hamlet to East Hampton North to match 140 Hands Creek Road
+- [ ] SD5-4: Update INTEL Trello iframe subtitle to "143-card institutional architecture as of April 13, 2026"
+- [ ] SD5-5: INTEL layer reorder — Mind Map Layer 1, Trello Layer 2, Calendar Layer 3, rest below

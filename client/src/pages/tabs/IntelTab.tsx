@@ -109,10 +109,9 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Mind Map Layer 1 — Trello Board (Live Structural Layer) ────────────────────────────────
+// ─── Mind Map Layer 1 — Mindmap.so Live Editable Room ────────────────────────────────────────
 
-const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
-const TRELLO_EMBED_URL = 'https://trello.com/b/H2mvEgRi.html';
+const MINDMAP_ROOM_URL = 'https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA';
 
 function MindMapSection() {
   return (
@@ -122,13 +121,66 @@ function MindMapSection() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-              Layer 1 · Structural Architecture
+              Layer 1 · Institutional Mind Map
             </div>
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
-              Christies Flagship Mindmap
+              Christie's Flagship Mind Map
             </h3>
             <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-              Live Trello board · 140-card institutional architecture · 8 lists
+              Live editable · Drag nodes directly in the dashboard · Changes persist to the Mindmap.so room
+            </p>
+          </div>
+          <a
+            href={MINDMAP_ROOM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+          >
+            Open in Mindmap.so ↗
+          </a>
+        </div>
+        {/* Mindmap.so iframe — live editable room, contained within system max-width */}
+        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
+          <iframe
+            src={MINDMAP_ROOM_URL}
+            title="Christie's Flagship Mind Map · Live Editable Room"
+            width="100%"
+            height="720"
+            style={{ display: 'block', border: 'none' }}
+            allow="clipboard-read; clipboard-write"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
+          />
+        </div>
+        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+          Drag nodes directly in the map above &mdash; changes persist to the Mindmap.so room. If the map appears blank,{' '}
+          <a href={MINDMAP_ROOM_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Mindmap.so ↗</a>
+          {' '}to edit in a full tab.
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Trello Layer 2 — Live Structural Board ────────────────────────────────────────────────────
+
+const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
+const TRELLO_EMBED_URL = 'https://trello.com/b/H2mvEgRi.html';
+
+function TrelloLayer() {
+  return (
+    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Layer 2 · Structural Architecture
+            </div>
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
+              Christies Flagship Mindmap · Trello Board
+            </h3>
+            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+              Live Trello board · 143-card institutional architecture as of April 13, 2026 · 8 lists
             </p>
           </div>
           <a
@@ -141,7 +193,6 @@ function MindMapSection() {
             Open in Trello ↗
           </a>
         </div>
-        {/* Trello iframe — contained within system max-width, no full-bleed */}
         <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
           <iframe
             src={TRELLO_EMBED_URL}
@@ -153,9 +204,9 @@ function MindMapSection() {
           />
         </div>
         <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
-          If the board appears blank, your browser may be blocking third-party cookies. 
+          If the board appears blank, your browser may be blocking third-party cookies.{' '}
           <a href={TRELLO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Trello ↗</a>
-           to view directly.
+          {' '}to view directly.
         </div>
       </div>
     </div>
@@ -170,7 +221,7 @@ function CalendarLayer() {
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
       {/* Layer label */}
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-        Layer 2 · Master Calendar
+        Layer 3 · Master Calendar
       </div>
 
       {/* Christie's card module */}
@@ -360,7 +411,7 @@ function NineSheetMatrix() {
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 3 · Thirteen-Sheet Matrix
+          Layer 4 · Thirteen-Sheet Matrix
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
           Canonical Data Sources
@@ -534,7 +585,7 @@ function DocumentLibrary() {
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 4 · Document Library
+          Layer 5 · Document Library
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 24 }}>
           Canon Documents
@@ -581,7 +632,7 @@ function IntelligenceWebLayer() {
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-          Layer 5 · Relationship Intelligence
+          Layer 6 · Relationship Intelligence
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
           Intelligence Web
@@ -599,10 +650,11 @@ function IntelligenceWebLayer() {
 
 const INTEL_SECTIONS = [
   { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
-  { id: 'intel-layer-2', label: 'Layer 2 · Calendar' },
-  { id: 'intel-layer-3', label: 'Layer 3 · Thirteen Sheets' },
-  { id: 'intel-layer-4', label: 'Layer 4 · Documents' },
-  { id: 'intel-layer-5', label: 'Layer 5 · Intel Web' },
+  { id: 'intel-layer-2', label: 'Layer 2 · Trello Board' },
+  { id: 'intel-layer-3', label: 'Layer 3 · Calendar' },
+  { id: 'intel-layer-4', label: 'Layer 4 · Thirteen Sheets' },
+  { id: 'intel-layer-5', label: 'Layer 5 · Documents' },
+  { id: 'intel-layer-6', label: 'Layer 6 · Intel Web' },
 ];
 
 function IntelStickyNav() {
@@ -678,28 +730,34 @@ export default function IntelTab() {
       {/* Sticky section navigator */}
       <IntelStickyNav />
 
-      {/* Layer 1 — Institutional Mind Map (Sprint 12 reserved) */}
+      {/* Layer 1 — Institutional Mind Map (Mindmap.so live editable room) */}
       <div id="intel-layer-1" />
       <MindMapSection />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 2 — Master Calendar */}
+      {/* Layer 2 — Trello Board (Live Structural Reference) */}
       <div id="intel-layer-2" />
+      <TrelloLayer />
+
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
+
+      {/* Layer 3 — Master Calendar */}
+      <div id="intel-layer-3" />
       <CalendarLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 3 — Nine-Sheet Matrix */}
-      <div id="intel-layer-3" />
+      {/* Layer 4 — Thirteen-Sheet Matrix */}
+      <div id="intel-layer-4" />
       <NineSheetMatrix />
 
-      {/* Layer 4 — Document Library */}
-      <div id="intel-layer-4" />
+      {/* Layer 5 — Document Library */}
+      <div id="intel-layer-5" />
       <DocumentLibrary />
 
-      {/* Layer 5 — Intelligence Web */}
-      <div id="intel-layer-5" />
+      {/* Layer 6 — Intelligence Web */}
+      <div id="intel-layer-6" />
       <IntelligenceWebLayer />
 
       {/* Doctrine footer */}
