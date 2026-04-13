@@ -1669,3 +1669,9 @@
 - [ ] Miro v3: Wire confirmed Miro embed URL into INTEL Layer 1 once Perplexity signals ready
 - [ ] Miro v3: Add "OPEN IN MIRO ↗" link alongside iframe for editable access
 - [ ] Miro v3: Mindmap.so room stays as-is (closed sunk cost, 15 nodes, do not delete)
+
+## Sit-Down Six — April 13, 2026
+
+- [x] Publish 487c6b2b to christiesrealestategroupeh.com (Ed clicks Publish in Management UI)
+- [x] Miro embed wire-up — DONE: Miro live embed wired into INTEL Layer 1 (uXjVGj6Oc40), OPEN IN MIRO link added, Sit-Down Six April 13 2026
+- [x] Doctrine count reconciliation — DONE: 41 canonical (38 main + 3 sub) per Perplexity memo, PROJ-027 stray label removed, state.json updated April 13 2026

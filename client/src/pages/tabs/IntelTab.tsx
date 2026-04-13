@@ -109,9 +109,14 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Mind Map Layer 1 — Placeholder (React D3 component until Miro embed is confirmed) ─────────
-// NOTE: Mindmap.so room URL preserved for reference: https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA
-// Miro embed will replace this placeholder once Perplexity confirms the embed URL and drag persistence.
+// ─── Mind Map Layer 1 — Miro Live Embed (wired Sit-Down Six, April 13, 2026) ─────────────────
+// Miro embed URL (live read-only): https://miro.com/app/live-embed/uXjVGj6Oc40=/
+// Miro board URL (editable, requires Miro sign-in): https://miro.com/app/board/uXjVGj6Oc40=/
+// Mindmap.so room URL preserved for reference: https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA
+// React D3 InstitutionalMindMap placeholder replaced by live Miro embed per Sit-Down Six.
+
+const MIRO_EMBED_URL = 'https://miro.com/app/live-embed/uXjVGj6Oc40=/';
+const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
 
 function MindMapSection() {
   return (
@@ -126,11 +131,34 @@ function MindMapSection() {
               Christie's Flagship Mind Map
             </h3>
             <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-              Institutional architecture · D3 force-directed visualization · Miro embed pending
+              Live Miro board · Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
             </p>
           </div>
+          <a
+            href={MIRO_BOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+          >
+            Open in Miro ↗
+          </a>
         </div>
-        <InstitutionalMindMap />
+        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
+          <iframe
+            src={MIRO_EMBED_URL}
+            title="Christie's Flagship Mind Map · Institutional Architecture"
+            width="100%"
+            height="680"
+            style={{ display: 'block', border: 'none' }}
+            allowFullScreen
+          />
+        </div>
+        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+          Live read-only embed · Edits made in Miro reflect on next load.{' '}
+          <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
+          {' '}to edit, drag nodes, and add new ones.
+        </div>
       </div>
     </div>
   );
