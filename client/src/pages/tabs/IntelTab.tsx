@@ -109,15 +109,14 @@ function sheetOpenUrl(id: string) {
   return `https://docs.google.com/spreadsheets/d/${id}/edit`;
 }
 
-// ─── Mind Map Layer 1 — Mindmap.so Live Editable Room ────────────────────────────────────────
-
-const MINDMAP_ROOM_URL = 'https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA';
+// ─── Mind Map Layer 1 — Placeholder (React D3 component until Miro embed is confirmed) ─────────
+// NOTE: Mindmap.so room URL preserved for reference: https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA
+// Miro embed will replace this placeholder once Perplexity confirms the embed URL and drag persistence.
 
 function MindMapSection() {
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        {/* Section header */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
@@ -127,36 +126,11 @@ function MindMapSection() {
               Christie's Flagship Mind Map
             </h3>
             <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-              Live editable · Drag nodes directly in the dashboard · Changes persist to the Mindmap.so room
+              Institutional architecture · D3 force-directed visualization · Miro embed pending
             </p>
           </div>
-          <a
-            href={MINDMAP_ROOM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
-          >
-            Open in Mindmap.so ↗
-          </a>
         </div>
-        {/* Mindmap.so iframe — live editable room, contained within system max-width */}
-        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
-          <iframe
-            src={MINDMAP_ROOM_URL}
-            title="Christie's Flagship Mind Map · Live Editable Room"
-            width="100%"
-            height="720"
-            style={{ display: 'block', border: 'none' }}
-            allow="clipboard-read; clipboard-write"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
-          />
-        </div>
-        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
-          Drag nodes directly in the map above &mdash; changes persist to the Mindmap.so room. If the map appears blank,{' '}
-          <a href={MINDMAP_ROOM_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Mindmap.so ↗</a>
-          {' '}to edit in a full tab.
-        </div>
+        <InstitutionalMindMap />
       </div>
     </div>
   );

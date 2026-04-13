@@ -1659,3 +1659,13 @@
 - [ ] SD5-3: Sync MAPS default hamlet to East Hampton North to match 140 Hands Creek Road
 - [ ] SD5-4: Update INTEL Trello iframe subtitle to "143-card institutional architecture as of April 13, 2026"
 - [ ] SD5-5: INTEL layer reorder — Mind Map Layer 1, Trello Layer 2, Calendar Layer 3, rest below
+
+## Miro Mind Map v3 + Items 2-5 — April 13, 2026
+
+- [ ] Item 2: Fix Wednesday Circuit countdown to April 29, 2026 (Wednesday label)
+- [ ] Item 3: Sync MAPS default hamlet to East Hampton North to match 140 Hands Creek Road
+- [ ] Item 4: Update INTEL Trello iframe subtitle from 140-card to 143-card as of April 13, 2026
+- [ ] Item 5: Confirm INTEL Layer 1 placeholder is React D3 component (not Mindmap.so) — already done in checkpoint 24699fe2
+- [ ] Miro v3: Wire confirmed Miro embed URL into INTEL Layer 1 once Perplexity signals ready
+- [ ] Miro v3: Add "OPEN IN MIRO ↗" link alongside iframe for editable access
+- [ ] Miro v3: Mindmap.so room stays as-is (closed sunk cost, 15 nodes, do not delete)
