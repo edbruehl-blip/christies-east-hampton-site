@@ -1503,3 +1503,18 @@
 - [ ] Trello Board A iframe embed in INTEL tab (gated on Claude cross-ref + Ed sign-off per Doctrine 33)
 - [ ] GitHub backup push (Manny owns)
 - [ ] William four audio wires — NEWS, LETTER, BRIEF (FLAGSHIP already wired in tts-route.ts)
+
+## Sprint 9 Priority Sequence (Locked April 13, 2026)
+
+- [x] Doctrine 34 locked — Two-Channel Architecture Lock (Dashboard Visual / William Voice)
+- [x] Doctrine count updated to 36 in state.json
+- [ ] Council Brief resurrected as live URL at /council-brief (gate document for Pro Forma operator sign-off per Doctrine 33)
+- [ ] /flagship-letter standalone route built (live URL renderer, PDF download via /api/pdf?url=/flagship-letter)
+- [ ] William four audio wires — NEWS, LETTER, BRIEF (FLAGSHIP already wired) — closes Sprint 8
+- [ ] GitHub backup push — Manny owns — closes Sprint 8
+- [ ] /james-christie-letter standalone route
+- [ ] /mission-model standalone route
+- [ ] /bike-card standalone route
+- [ ] /uhnw-wealth-path standalone route
+- [ ] Trello Board A iframe embed in INTEL tab (gated on Claude cross-ref + Ed sign-off per Doctrine 33)
+- [ ] Legacy audio buttons on HOME and /report removed per Doctrine 34 (scheduled for future sprint)
