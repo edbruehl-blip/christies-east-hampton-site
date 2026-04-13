@@ -1576,3 +1576,11 @@
 - [ ] Sprint 9 Priority 7: /uhnw-wealth-path-card standalone route
 - [ ] Sprint 9 Priority 8: Trello Board A iframe embed on INTEL tab (after Trello workspace live)
 - [ ] GitHub backup push — Sprint 8 carry-over, still owed, plan into next session
+
+## Sprint 9 Priority 2 Items (April 13, 2026)
+- [ ] CRITICAL BUG: Fix competitor names in MARKET tab Sources and MAPS CIS Note — replace with "verified market intelligence" or "Christie's market intelligence" (live on public site, fix before /flagship-letter ships)
+- [ ] Sprint 9 Priority 2: /flagship-letter standalone route — React route reading from Google Docs content source (not hardcoded), /api/pdf?url=/flagship-letter for download, BRIEF audio keyword reads from same Google Doc
+- [ ] Doctrine Library Google Doc reconciliation — Perplexity's doc uses 36 main + 6 sub, state.json has 37 main + 3 sub. Reconcile tomorrow morning.
+
+## Sprint 9 Competitor Name Bug Fix (April 13, 2026)
+- [x] P0: Remove all competitor names from public-facing surfaces — MarketTab.tsx Sources footnote, hidden Saunders section deleted, PublicPage.tsx attribution line, ReportPage.tsx two violations, pdf-exports.ts Sources line — zero competitor names remain on any public surface

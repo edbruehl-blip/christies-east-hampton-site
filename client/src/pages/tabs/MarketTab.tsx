@@ -612,7 +612,7 @@ export default function MarketTab() {
           {/* Single source attribution — bottom of matrix only (April 7 directive) */}
           <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
-              Sources: Saunders &amp; Associates 2025 Annual Market Summary &middot; Douglas Elliman 2025 Annual Report &middot; Brown Harris Stevens 2025 Annual Report &middot; Corcoran Group 2025 Annual Report &middot; William Pitt Sotheby’s 2025 Annual Report &middot; The Real Deal &middot; Behind The Hedges &middot; Redfin MLS-backed public records &middot; Christie’s East Hampton internal analysis.
+              Sources: Verified market intelligence &middot; Christie's East Hampton internal analysis &middot; The Real Deal &middot; Behind The Hedges &middot; MLS-backed public records.
               Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
             </p>
           </div>
@@ -684,54 +684,6 @@ export default function MarketTab() {
         </div>
       </section>
 
-      {/* Saunders section removed per Sprint 7 polish directive */}
-      <section className="hidden" style={{ background: '#1B2A4A' }}>
-        <div className="mx-auto py-10" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div
-            className="uppercase mb-2"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
-            Competitive Intelligence
-          </div>
-          <h2
-            className="mb-8"
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', lineHeight: 1.25 }}
-          >
-            Saunders &amp; Associates &middot; 2025 Annual Market Summary
-          </h2>
-          <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
-            {[
-              { label: 'Total Market Volume', value: '$6.797B', sub: 'All transactions 2025' },
-              { label: 'Home Sales Volume',   value: '$5.922B', sub: 'Residential only' },
-              { label: 'Median Sale Price',   value: '$2.01M',  sub: 'All property types' },
-              { label: 'Sales Over $20M',     value: '29',      sub: 'Luxury tier transactions' },
-              { label: 'Land Transactions',   value: '\u221236%', sub: 'Year-over-year decline' },
-            ].map(stat => (
-              <div
-                key={stat.label}
-                style={{
-                  background: 'rgba(250,248,244,0.05)',
-                  border: '1px solid rgba(200,172,120,0.2)',
-                  padding: '20px 18px',
-                }}
-              >
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 8 }}>
-                  {stat.label}
-                </div>
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.75rem', fontWeight: 400, lineHeight: 1.1, marginBottom: 6 }}>
-                  {stat.value}
-                </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.75rem' }}>
-                  {stat.sub}
-                </div>
-              </div>
-            ))}
-          </div>
-          <div style={{ marginTop: 16, fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: '0.75rem' }}>
-            Source: Saunders &amp; Associates 2025 Annual Report &middot; Data locked per canon &middot; Q1 2026
-          </div>
-        </div>
-      </section>
 
     </div>
   );

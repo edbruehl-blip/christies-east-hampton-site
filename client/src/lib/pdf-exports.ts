@@ -1874,7 +1874,7 @@ export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Prom
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(...CN.muted);
   doc.text(
-    'Sources: Saunders & Associates 2025 · Douglas Elliman 2025 · Brown Harris Stevens 2025 · Corcoran Group 2025 · William Pitt Sotheby\'s 2025. Dollar volume represents closed residential transactions, East End, Jan–Dec 2025.',
+    'Sources: Verified market intelligence · Christie\'s East Hampton internal analysis · MLS-backed public records. Dollar volume represents closed residential transactions, East End, Jan–Dec 2025.',
     P.ml,
     srcY,
     { maxWidth: P.contentW },

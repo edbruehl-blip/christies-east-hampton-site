@@ -1307,7 +1307,7 @@ function Section3() {
                 marginTop: 8,
               }}
             >
-              East End · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report
+              East End · Q4 2025 · Record High · Verified market intelligence
             </div>
             <div
               style={{
@@ -1603,7 +1603,7 @@ function Section4() {
             borderTop: '1px solid rgba(27,42,74,0.08)',
           }}
         >
-          Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume $5.922B.
+          Based on 2025 recorded brokerage transactions. Verified market intelligence. Total Hamptons dollar volume $5.922B.
         </div>
       </div>
     </section>
@@ -1680,7 +1680,7 @@ function Section3Condensed() {
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>East End · Q4 2025 · Record High · per Douglas Elliman/Miller Samuel Q4 2025 Report</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>East End · Q4 2025 · Record High · Verified market intelligence</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Eleven distinct corridors, eleven distinct buyers.</div>
           </div>
         </div>

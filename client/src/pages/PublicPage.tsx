@@ -316,7 +316,7 @@ function HamletMarketSection() {
           Eleven-Hamlet Territory · East End
         </h2>
         <p className="mb-10" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.8rem', maxWidth: 620, lineHeight: 1.6 }}>
-          Based on 2025 recorded brokerage transactions per Saunders and Associates annual report cross-referenced William Raveis YE 2025. Total Hamptons dollar volume $5.922B.
+          Based on 2025 recorded brokerage transactions. Verified market intelligence. Total Hamptons dollar volume $5.922B.
         </p>
 
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
