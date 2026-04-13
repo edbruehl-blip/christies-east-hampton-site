@@ -286,6 +286,10 @@
 
   "doctrine_library": {
     "count": 37,
+    "sub_doctrine_count": 3,
+    "total_entries": 40,
+    "count_note": "37 main locks (includes 1.5 and 22.5 as numbered main locks) + 3 sub-doctrines under Doctrine 31 (31.4 RETIRED, 31.5, 31.6) = 40 total entries in locks array. Reconciled April 13 2026.",
+    "council_brief_framing": "/council-brief is a standard Sprint 9 document surface route — same queue as /flagship-letter, /james-christie-letter, /mission-model, /bike-card, /uhnw-wealth-path-card. It is NOT a gate document for the Ilija meeting. Ed mirrors the live dashboard to the screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points. Recalibrated April 13 2026 per Ed + Claude directive.",
     "last_updated": "2026-04-13",
     "locks": [
       { "id": "1", "title": "Authority Must Whisper", "summary": "Authority must whisper, not shout. No proof-point energy. No superlatives." },

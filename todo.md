@@ -1562,3 +1562,17 @@
 - [x] CHRISTIES_LETTER_TEXT and FLAGSHIP_LETTER_TEXT exported from tts-route.ts for inbound handlers
 - [x] HELP menu updated with all six commands (NEWS, LETTER, FLAGSHIP, BRIEF, PIPE, INTEL, STATUS)
 - [x] Sprint 8 CLOSED — all four William audio keywords live
+
+## Sprint 9 Recalibration (April 13, 2026)
+- [x] Doctrine count reconciled: 37 main locks (includes 1.5 and 22.5) + 3 sub-doctrines (31.4 RETIRED, 31.5, 31.6) = 40 total entries. count field is correct at 37.
+- [x] /council-brief framing recalibrated: standard Sprint 9 document surface route, NOT a gate document for Ilija meeting. Ed mirrors live dashboard to screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points.
+- [x] state.json patched: sub_doctrine_count, total_entries, count_note, council_brief_framing fields added to doctrine_library
+- [ ] Sprint 9 Priority 1: CLOSED — full data audit (checkpoint 25f51186)
+- [ ] Sprint 9 Priority 2: /flagship-letter standalone route (highest-priority document surface build)
+- [ ] Sprint 9 Priority 3: /council-brief standalone route (standard queue, no special priority)
+- [ ] Sprint 9 Priority 4: /james-christie-letter standalone route
+- [ ] Sprint 9 Priority 5: /mission-model standalone route
+- [ ] Sprint 9 Priority 6: /bike-card standalone route
+- [ ] Sprint 9 Priority 7: /uhnw-wealth-path-card standalone route
+- [ ] Sprint 9 Priority 8: Trello Board A iframe embed on INTEL tab (after Trello workspace live)
+- [ ] GitHub backup push — Sprint 8 carry-over, still owed, plan into next session
