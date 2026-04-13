@@ -180,10 +180,25 @@ async function handleNews(to: string): Promise<void> {
 }
 
 async function handleBrief(to: string): Promise<void> {
-  await sendTextReply(to, "🌅 Triggering morning brief now…");
-  // Import and reuse the morning brief from whatsapp-route
-  const { deliverBriefToNumber } = await import("./whatsapp-route");
-  await deliverBriefToNumber(to);
+  // BRIEF keyword — Council Brief Lead Summary Paragraph, read aloud by William
+  // Source: COUNCIL_BRIEF_LEAD_SUMMARY in letter-content.ts (Doctrine 37 artifact)
+  // ~400 words, 3–5 minutes at ElevenLabs Turbo v2 pace — fast glean, full brief at /council-brief
+  // Per Stage 5 directive: voice is fast glean, text is deep dive.
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  await sendTextReply(to, "🏛️ Preparing the Council Brief. William will deliver the Lead Summary in 30 seconds…");
+  try {
+    const { COUNCIL_BRIEF_LEAD_SUMMARY } = await import("./letter-content");
+    const audioBuffer = await synthesiseAudio(COUNCIL_BRIEF_LEAD_SUMMARY);
+    const audioUrl = await uploadAudio(audioBuffer, "council-brief");
+    await sendVoiceReply(
+      to,
+      audioUrl,
+      "🏛️ Christie's East Hampton — Council Brief Lead Summary · " + dateLabel
+    );
+  } catch (err: any) {
+    console.error("[WhatsApp BRIEF] Error:", err);
+    await sendTextReply(to, "⚠️ Council Brief delivery failed. Full brief at christiesrealestategroupeh.com/council-brief");
+  }
 }
 
 async function handleLetter(to: string): Promise<void> {
