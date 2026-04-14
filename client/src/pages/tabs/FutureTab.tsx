@@ -45,7 +45,8 @@ const MILESTONE_TARGETS = {
 } as const;
 
 const MAX_VOLUME = 2_096_228_000; // 2036 three-office combined volume from VOLUME Row 17 (SD-8 Phase Two)
-const CHART_HEIGHT = 160; // px — reduced from 200 to give bars breathing room at bottom
+const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
+// NOTE: Bar heights are expressed as PERCENTAGES of CHART_HEIGHT so they scale on all screen sizes
 
 function fmtM(n: number): string {
   if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`; // $1.8B, $1.5B etc.
@@ -180,9 +181,10 @@ export default function FutureTab() {
   // Actual 2026 closed volume (from VOLUME tab)
   const act2026 = volData?.total.act2026 || 4_570_000;
 
-  // Bar heights — sqrt scale, capped at CHART_HEIGHT - 8 so tallest bar never touches container edge
-  function barPct(vol: number) {
-    return Math.max(4, Math.min(CHART_HEIGHT - 8, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT)));
+  // Bar heights — sqrt scale, returns PERCENTAGE (0–92) so bars always fit inside the container
+  // Using percentage means bars scale correctly on mobile without overflow
+  function barPct(vol: number): number {
+    return Math.max(2, Math.min(92, Math.round(Math.sqrt(vol / MAX_VOLUME) * 92)));
   }
 
   // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)
@@ -289,32 +291,33 @@ export default function FutureTab() {
               </div>
             ))}
           </div>
-          {/* Bars row — fixed height, no dollar labels inside */}
-          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT }}>
+          {/* Bars row — fixed height container, bars use % heights so they always fit */}
+          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, overflow: 'hidden' }}>
 
             {BARS.map((bar) => {
-              const projH = barPct(bar.vol);
-              const actH  = bar.actualVol > 0 ? Math.max(14, Math.round((bar.actualVol / bar.vol) * projH)) : 0;
+              // All heights are PERCENTAGES of the container (0–92%)
+              const projPct = barPct(bar.vol); // e.g. 92 for the tallest bar
+              const actPct  = bar.actualVol > 0 ? Math.max(8, Math.round((bar.actualVol / bar.vol) * projPct)) : 0;
               const isBaseline = bar.year === '2025';
-              // Three-office stacked heights (SD-8 Phase Two)
-              const ehH = bar.eh > 0 ? Math.max(4, Math.round(barPct(bar.eh))) : 0;
-              const shH = bar.sh > 0 ? Math.max(4, Math.round(barPct(bar.sh))) : 0;
-              const whH = bar.wh > 0 ? Math.max(4, Math.round(barPct(bar.wh))) : 0;
-              const stackedH = ehH + shH + whH;
-              const gapH = Math.max(0, projH - stackedH);
+              // Three-office stacked percentages (SD-8 Phase Two)
+              const ehPct = bar.eh > 0 ? Math.max(2, Math.round(barPct(bar.eh))) : 0;
+              const shPct = bar.sh > 0 ? Math.max(2, Math.round(barPct(bar.sh))) : 0;
+              const whPct = bar.wh > 0 ? Math.max(2, Math.round(barPct(bar.wh))) : 0;
+              const stackedPct = ehPct + shPct + whPct;
+              const gapPct = Math.max(0, projPct - stackedPct);
 
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
-                  {/* Bar column only — no label here */}
-                  <div style={{ width: '100%', height: projH, display: 'flex', flexDirection: 'column' }}>
+                  {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
+                  <div style={{ width: '100%', height: `${projPct}%`, display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
                       /* 2025 baseline — simple dim bar */
                       <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
                     ) : (
                       <>
                         {/* Projected gap (faint outline) */}
-                        {gapH > 0 && (
-                          <div style={{ width: '100%', height: gapH, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden', flexShrink: 0 }}>
+                        {gapPct > 0 && (
+                          <div style={{ width: '100%', flex: `0 0 ${gapPct / projPct * 100}%`, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden' }}>
                             {bar.note && (
                               <div className="arc-note-desktop" style={{ ...SANS, fontSize: 8, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
                                 {bar.note}
@@ -323,17 +326,17 @@ export default function FutureTab() {
                           </div>
                         )}
                         {/* Westhampton layer (sage green) — top of stack */}
-                        {whH > 0 && (
-                          <div style={{ width: '100%', height: whH, background: WH_COLOR, flexShrink: 0, borderTop: `1px solid rgba(90,122,90,0.6)` }} />
+                        {whPct > 0 && (
+                          <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, background: WH_COLOR, borderTop: `1px solid rgba(90,122,90,0.6)` }} />
                         )}
                         {/* Southampton layer (navy/steel) */}
-                        {shH > 0 && (
-                          <div style={{ width: '100%', height: shH, background: SH_COLOR, flexShrink: 0, borderTop: `1px solid rgba(58,90,122,0.6)` }} />
+                        {shPct > 0 && (
+                          <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, background: SH_COLOR, borderTop: `1px solid rgba(58,90,122,0.6)` }} />
                         )}
                         {/* East Hampton layer (gold/amber) — base */}
-                        {ehH > 0 && (
-                          <div style={{ width: '100%', height: ehH, background: actH > 0 ? GOLD : EH_COLOR, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
-                            {actH > 0 && (
+                        {ehPct > 0 && (
+                          <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, background: actPct > 0 ? GOLD : EH_COLOR, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0' }}>
+                            {actPct > 0 && (
                               <>
                                 <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
                                 <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>2026 YTD</div>
