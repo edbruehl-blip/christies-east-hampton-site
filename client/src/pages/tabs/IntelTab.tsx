@@ -580,6 +580,20 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/lash_speaker_packet_july2026_1b529cb1.pdf',
     pinned: true,
   },
+  {
+    id: 'rl-010-canonical-state',
+    label: 'RL-010 · Canonical State of the Institution · April 14, 2026',
+    description: 'Locked canonical state document — full institutional trajectory 2026–2036, AnewHomes equity structure, ROSTER aggregates, William voice configuration, council structure, permanent rules, and all platform surfaces. Authority: Ed Bruehl operator rulings with Claude Opus architect synthesis and Perplexity Intelligence Officer audit closure. Single source of truth for the institution.',
+    url: 'https://docs.google.com/document/d/1xLRt8cvXurndar7_KhR7c8M3LLA1olEWvrU0Ag3a7qA/edit',
+    pinned: true,
+  },
+  {
+    id: 'rl-011-griff-status-reports',
+    label: 'RL-011 · Griff Status Reports',
+    description: 'Griff status reports — ongoing intelligence briefings and status updates. Maintained by Perplexity Intelligence Officer. Part of the Christie\'s East Hampton Research Library (RL-001 through RL-011).',
+    url: 'https://docs.google.com/document/d/17JzYGv5U-014WdD5AbLy8nlQpDvwNdQIhzMlARdYRLs/edit',
+    pinned: true,
+  },
 ];
 
 function DocumentLibrary() {

@@ -1793,3 +1793,10 @@
 
 - [x] PDF light-mode visual review — navigated /future?pdf=1; found header title invisible (hardcoded #fff on white) and Live indicator jarring green; fixed both: header now uses TEXT_PRIMARY token, Live dot suppressed in PDF mode. Layout passes institutional print standards.
 - [x] RL-010 ingestion — ingested into state.json as rl_010 key with full trajectory, AnewHomes equity, ROSTER aggregates, William voice config, council structure, permanent rules, and surfaces. Added Sebastian Mobo (Broker, $100K GCI), Bonita DeWolf (Agent, $600K GCI), Sandy Busch, Jan Jaeger to human_members. Updated _meta to sprint 9, last_updated 2026-04-14.
+
+## April 14 2026 — Sprint 10 (Four Items)
+
+- [x] Item 1: Wire RL-010 and RL-011 Google Doc links in INTEL tab Research Library card — RL-010 Doc ID: 1xLRt8cvXurndar7_KhR7c8M3LLA1olEWvrU0Ag3a7qA · RL-011 Doc ID: 17JzYGv5U-014WdD5AbLy8nlQpDvwNdQIhzMlARdYRLs
+- [x] Item 2: Add Scott Smith to LEADERBOARD top producers table — LEADERBOARD is a Google Sheet tab (Growth Model v2), not a dashboard UI component. Scott already in FutureTab agent card ($50K GCI, updated Sprint 9) and ProFormaPage agent table. InstitutionalMindMap lists him as "joins June 1". Dashboard surfaces are complete. Sheet-direct edit needed for LEADERBOARD tab itself.
+- [x] Item 3: Verify Jarvis Slade role — Full audit: FutureTab card = "COO · Agent", InstitutionalMindMap labels = "COO & Agent" (x2), ProFormaPage = "COO & Agent", state.json = "COO & Agent". All rendered labels correct. Perplexity flag likely refers to Google Sheet ROSTER tab cell C7 — sheet-direct edit if needed. No dashboard code change required.
+- [x] PROJ-022 CLOSED — NOT NEEDED. Ed ruling April 14 2026: Bonita DeWolf is a performer in the East Hampton office (pre-Ed arrival), not a flagship team member. She stays in InstitutionalMindMap Office Performers orbit (already wired). No FUTURE tab agent card. No participant grid entry. Bonita entry in state.json human_members retained for institutional record but flagged as EH office performer, not flagship team.
