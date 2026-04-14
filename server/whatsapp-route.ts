@@ -9,7 +9,7 @@
  *
  * Flow:
  *   1. Generate brief text from hamlet data + live market context
- *   2. Synthesise audio via ElevenLabs (William voice, eleven_multilingual_v2)
+ *   2. Synthesise audio via ElevenLabs (William voice, eleven_turbo_v2 — Doctrine 9)
  *   3. Upload MP3 to S3 so Twilio can fetch it via public URL
  *   4. Send WhatsApp media message via Twilio
  *
