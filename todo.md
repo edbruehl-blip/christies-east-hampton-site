@@ -1800,3 +1800,21 @@
 - [x] Item 2: Add Scott Smith to LEADERBOARD top producers table — LEADERBOARD is a Google Sheet tab (Growth Model v2), not a dashboard UI component. Scott already in FutureTab agent card ($50K GCI, updated Sprint 9) and ProFormaPage agent table. InstitutionalMindMap lists him as "joins June 1". Dashboard surfaces are complete. Sheet-direct edit needed for LEADERBOARD tab itself.
 - [x] Item 3: Verify Jarvis Slade role — Full audit: FutureTab card = "COO · Agent", InstitutionalMindMap labels = "COO & Agent" (x2), ProFormaPage = "COO & Agent", state.json = "COO & Agent". All rendered labels correct. Perplexity flag likely refers to Google Sheet ROSTER tab cell C7 — sheet-direct edit if needed. No dashboard code change required.
 - [x] PROJ-022 CLOSED — NOT NEEDED. Ed ruling April 14 2026: Bonita DeWolf is a performer in the East Hampton office (pre-Ed arrival), not a flagship team member. She stays in InstitutionalMindMap Office Performers orbit (already wired). No FUTURE tab agent card. No participant grid entry. Bonita entry in state.json human_members retained for institutional record but flagged as EH office performer, not flagship team.
+
+## April 14 2026 — Pre-RL-012 Shipment (McKenzie Review Prep)
+
+- [x] Item A: Audit header Sprint 9 → Sprint 10 — corrected in COUNCIL_AUDIT_APRIL_14_2026.md header, sprint record, roster note, and state.json _meta
+- [x] Item B: Audit table XIII Water Mill Vol → Westhampton Vol — corrected in COUNCIL_AUDIT_APRIL_14_2026.md table XIII
+- [x] Item C: William voice ID resolved — fjnwTZkKtQOJaYzGLa6n is canonical across ALL four surfaces (tts-route.ts, routers.ts, whatsapp-route.ts, whatsapp-inbound.ts). N2lVS1w4EtoT3dr4eOWO was stale metadata in state.json legacy blocks. Corrected all three stale references in state.json (tts_audio, whatsapp_scheduler, doctrine lock 9). Audit WhatsApp section updated. state.json validated as clean JSON.
+
+## April 14 2026 — Flagship Letter Canonical Update (One Pass)
+
+- [x] Flagship Letter: update 2026 baseline from "fifty-five million" to "seventy-five million"
+- [x] Flagship Letter: update 2036 destination from "two point zero nine six billion" to "three billion"
+- [x] Flagship Letter: verify/update team facts — Angel mid-2027 correct, Zoila April 25 correct, Scott June correct, Bonita not in letter (correct per Ed ruling). All team facts canonical.
+- [x] Flagship Letter: verify/update hamlet count — already reads "eleven hamlets" on line 52. No change needed.
+- [x] Flagship Letter: verify/update Research Library range — Research Library not mentioned in letter. No change needed.
+- [x] Flagship Letter: verify/update Trello card count — Trello not mentioned in letter. No change needed.
+- [x] Flagship Letter: verify/update doctrine count — updated from 41 to 45 (D42+D43 locked April 14 per Ed confirmation).
+- [x] Flagship Letter: update header comment — added canonical update note April 14 2026 Sprint 10 with trajectory rebase and doctrine count correction.
+- [x] state.json doctrine count: FLAGGED — state.json canonical_total reads 41. Ed confirmed 45 (42 main + 3 sub) today. Perplexity needs to update state.json canonical_total from 41 to 45 and ingest D42 and D43 doctrine locks.

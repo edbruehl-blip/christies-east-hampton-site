@@ -3,7 +3,7 @@
     "title": "Christie's East Hampton \u2014 Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
     "last_updated": "2026-04-14",
-    "sprint": 9,
+    "sprint": 10,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL + Puppeteer (headless Chromium v146)"
@@ -431,9 +431,9 @@
   "tts_audio": {
     "provider": "ElevenLabs",
     "voice_name": "William",
-    "voice_id": "N2lVS1w4EtoT3dr4eOWO",
+    "voice_id": "fjnwTZkKtQOJaYzGLa6n",
     "model": "eleven_turbo_v2",
-    "model_note": "Confirmed in tts-route.ts lines 133 and 175. state.json was stale (showed eleven_multilingual_v2) \u2014 corrected Sprint 8.",
+    "model_note": "Confirmed in tts-route.ts lines 133 and 175. state.json was stale (showed eleven_multilingual_v2) — corrected Sprint 8. Voice ID corrected from stale N2lVS1w4EtoT3dr4eOWO to canonical fjnwTZkKtQOJaYzGLa6n — Sprint 10.",
     "server_route": "/api/tts",
     "cronkite_standard": [
       "No dashes in TTS scripts \u2014 dashes cause William to pause awkwardly",
@@ -490,7 +490,7 @@
   "whatsapp_scheduler": {
     "status": "wired \u2014 Sprint 4",
     "provider": "Twilio + ElevenLabs",
-    "voice_id": "N2lVS1w4EtoT3dr4eOWO",
+    "voice_id": "fjnwTZkKtQOJaYzGLa6n",
     "server_file": "server/whatsapp-route.ts",
     "inbound_file": "server/whatsapp-inbound.ts",
     "endpoints": [
@@ -646,7 +646,7 @@
       {
         "id": "9",
         "title": "TTS Model Lock",
-        "summary": "ElevenLabs eleven_turbo_v2. Voice ID N2lVS1w4EtoT3dr4eOWO. Do not change without Ed's approval."
+        "summary": "ElevenLabs eleven_turbo_v2. Voice ID fjnwTZkKtQOJaYzGLa6n (William — unified across all surfaces). Do not change without Ed's approval."
       },
       {
         "id": "10",
