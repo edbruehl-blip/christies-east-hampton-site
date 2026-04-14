@@ -4,15 +4,15 @@
  * Receives inbound WhatsApp messages from Twilio at:
  *   POST /api/whatsapp/inbound
  *
- * Canonical commands (Doctrine 33 — operator-approved, case-insensitive):
- *   NEWS   — 14-category Cronkite intelligence brief via Perplexity, delivered
- *            as ElevenLabs William voice note
+ * Canonical commands (SD-9b, April 14 2026 — operator-approved per Doctrine 33):
+ *   DASHBOARD — Flagship dashboard introduction letter, read aloud by William
+ *   NEWS      — 14-category Cronkite intelligence brief via Perplexity (voice)
+ *   LETTER    — Christie's Letter to the Families, read aloud by William
+ *   BRIEF     — Council Brief Lead Summary, read aloud by William (voice)
+ *
+ * Legacy commands (still routed for backward compatibility):
  *   PIPE   — Last 5 pipeline deals from Google Sheet (text reply)
  *   STATUS — Active listing count + pipeline summary (text reply)
- *   BRIEF  — Trigger morning brief immediately (voice note)
- *
- * Retired commands (SD-8, April 13 2026 — not operator-approved per Doctrine 33):
- *   LETTER, FLAGSHIP, INTEL, HELP, BRIEF [address]
  *
  * Twilio webhook URL:
  *   https://www.christiesrealestategroupeh.com/api/whatsapp/inbound
@@ -181,6 +181,46 @@ async function handleNews(to: string): Promise<void> {
   );
 }
 
+async function handleDashboard(to: string): Promise<void> {
+  // DASHBOARD keyword — Flagship dashboard introduction letter, read aloud by William
+  // Source: FLAGSHIP_LETTER_TEXT in letter-content.ts
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  await sendTextReply(to, "🏛️ Preparing the Dashboard Introduction. William will deliver it in 30 seconds…");
+  try {
+    const { FLAGSHIP_LETTER_TEXT } = await import("./letter-content");
+    const audioBuffer = await synthesiseAudio(FLAGSHIP_LETTER_TEXT);
+    const audioUrl = await uploadAudio(audioBuffer, "dashboard-intro");
+    await sendVoiceReply(
+      to,
+      audioUrl,
+      "🏛️ Christie's East Hampton — Dashboard Introduction · " + dateLabel
+    );
+  } catch (err: any) {
+    console.error("[WhatsApp DASHBOARD] Error:", err);
+    await sendTextReply(to, "⚠️ Dashboard Introduction delivery failed. Visit christiesrealestategroupeh.com and tap the gold button.");
+  }
+}
+
+async function handleLetter(to: string): Promise<void> {
+  // LETTER keyword — Christie's Letter to the Families, read aloud by William
+  // Source: CHRISTIES_LETTER_TEXT in letter-content.ts
+  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+  await sendTextReply(to, "📜 Preparing the Christie's Letter. William will deliver it in 30 seconds…");
+  try {
+    const { CHRISTIES_LETTER_TEXT } = await import("./letter-content");
+    const audioBuffer = await synthesiseAudio(CHRISTIES_LETTER_TEXT);
+    const audioUrl = await uploadAudio(audioBuffer, "christies-letter");
+    await sendVoiceReply(
+      to,
+      audioUrl,
+      "📜 Christie's East Hampton — Letter to the Families · " + dateLabel
+    );
+  } catch (err: any) {
+    console.error("[WhatsApp LETTER] Error:", err);
+    await sendTextReply(to, "⚠️ Letter delivery failed. Read it at christiesrealestategroupeh.com/letters/christies");
+  }
+}
+
 async function handleBrief(to: string): Promise<void> {
   // BRIEF keyword — Council Brief Lead Summary Paragraph, read aloud by William
   // Source: COUNCIL_BRIEF_LEAD_SUMMARY in letter-content.ts (Doctrine 37 artifact)
@@ -262,10 +302,10 @@ async function handleHelp(to: string): Promise<void> {
     to,
     `🏛️ Christie's East Hampton — William\n\n` +
     `Canonical commands:\n` +
-    `  NEWS    — Intelligence brief (voice)\n` +
-    `  PIPE    — Pipeline deal summary\n` +
-    `  STATUS  — Platform status report\n` +
-    `  BRIEF   — Morning brief (voice)\n\n` +
+    `  DASHBOARD — Dashboard introduction (voice)\n` +
+    `  NEWS      — Intelligence brief (voice)\n` +
+    `  LETTER    — Christie's Letter to the Families (voice)\n` +
+    `  BRIEF     — Council brief (voice)\n\n` +
     `26 Park Place, East Hampton · 646-752-1233`
   );
 }
@@ -291,18 +331,24 @@ export function registerWhatsAppInbound(app: Express): void {
     console.log(`[WhatsApp inbound] Command: "${body}" from ${from}`);
 
     try {
-      // Canonical four commands — Doctrine 33 (SD-8, April 13 2026)
-      if (body === "NEWS") {
+      // Canonical four commands — SD-9b (April 14 2026)
+      if (body === "DASHBOARD" || body === "INTRO") {
+        await handleDashboard(from);
+      } else if (body === "NEWS") {
         await handleNews(from);
-      } else if (body === "PIPE" || body === "PIPELINE") {
-        await handlePipe(from);
-      } else if (body === "STATUS") {
-        await handleStatus(from);
+      } else if (body === "LETTER") {
+        await handleLetter(from);
       } else if (body === "BRIEF" || body === "MORNING") {
         await handleBrief(from);
+      } else if (body === "PIPE" || body === "PIPELINE") {
+        // Legacy — kept for backward compatibility
+        await handlePipe(from);
+      } else if (body === "STATUS") {
+        // Legacy — kept for backward compatibility
+        await handleStatus(from);
       } else {
         // Unknown command — send canonical four list
-        await sendTextReply(from, `Unknown command. Reply NEWS, PIPE, STATUS, or BRIEF.`);
+        await sendTextReply(from, `Unknown command. Reply DASHBOARD, NEWS, LETTER, or BRIEF.`);
       }
     } catch (err: any) {
       console.error(`[WhatsApp inbound] Handler error for command "${body}":`, err);
