@@ -495,10 +495,14 @@
     "google_doc_source": "pending \u2014 to be created and linked"
   },
   "doctrine_library": {
+    "doctrine_count": 41,
+    "main_locks": 38,
+    "sub_doctrines": 3,
+    "reconciled": "2026-04-13",
+    "canonical_total": 41,
     "count": 38,
     "sub_doctrine_count": 3,
     "total_entries": 41,
-    "canonical_total": 41,
     "count_note": "38 main locks + 3 sub-doctrines (31.4 RETIRED, 31.5, 31.6) = 41 canonical total. Reconciled by Perplexity April 13, 2026 — PROJ-027 stray DOCTRINE label removed. Council-approved canonical count.",
     "council_brief_framing": "/council-brief is a standard Sprint 9 document surface route \u2014 same queue as /flagship-letter, /james-christie-letter, /mission-model, /bike-card, /uhnw-wealth-path-card. It is NOT a gate document for the Ilija meeting. Ed mirrors the live dashboard to the screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points. Recalibrated April 13 2026 per Ed + Claude directive.",
     "last_updated": "April 13, 2026",

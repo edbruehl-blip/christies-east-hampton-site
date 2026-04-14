@@ -448,6 +448,26 @@ export const appRouter = router({
       return await readHamptonsMedian();
     }),
 
+    /**
+     * Returns the live 10-Year Treasury yield (^TNX) from Yahoo Finance.
+     * Used in MARKET tab Rate Environment sidebar alongside mortgage rate.
+     * Cached via market-route fetchYF (no server-side cache — live on each query).
+     */
+    treasuryRate: publicProcedure.query(async () => {
+      try {
+        const { fetchYF } = await import('./market-route');
+        const result = await fetchYF('%5ETNX'); // 10-Year Treasury Note Yield
+        if (!result) return { rate: '4.51%', change: null, error: null as string | null };
+        return {
+          rate: `${result.price.toFixed(2)}%`,
+          change: result.change,
+          error: null as string | null,
+        };
+      } catch (err: any) {
+        return { rate: '4.51%', change: null, error: (err as Error).message ?? 'Treasury data unavailable' };
+      }
+    }),
+
     dataTimestamp: publicProcedure.query(async () => {
       try {
         const { readPipelineDeals } = await import('./sheets-helper');

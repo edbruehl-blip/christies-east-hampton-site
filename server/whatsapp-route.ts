@@ -30,7 +30,7 @@ import { readPipelineDeals, readGrowthModelVolume } from "./sheets-helper";
 
 // ─── ElevenLabs config ────────────────────────────────────────────────────────
 const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as tts-route.ts)
-const ELEVENLABS_MODEL    = "eleven_multilingual_v2";
+const ELEVENLABS_MODEL    = "eleven_turbo_v2"; // Doctrine 9 — TTS Model Lock (aligned with whatsapp-inbound.ts)
 
 // ─── ElevenLabs synthesis ─────────────────────────────────────────────────────
 

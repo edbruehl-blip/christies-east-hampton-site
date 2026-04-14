@@ -67,6 +67,7 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/report" component={ReportPage} />
+            <Route path="/market" component={ReportPage} />
             <Route path="/pro-forma" component={ProFormaPage} />
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />

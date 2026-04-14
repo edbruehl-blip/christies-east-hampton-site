@@ -52,6 +52,7 @@ function getServerPort(): number {
  *   /cards/bike          → Christies_EH_Bike_Card.pdf
  */
 const URL_TO_FILENAME: Record<string, string> = {
+  '/market':                 'Christies_EH_Market_Report',
   '/pro-forma':              'Christies_EH_Pro_Forma',
   '/letters/flagship':       'Christies_EH_Flagship_Letter',
   '/letters/james-christie': 'Christies_EH_James_Christie_Letter',

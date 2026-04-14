@@ -19,7 +19,6 @@ import { useMemo, useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { trpc } from '@/lib/trpc';
-import { generateElevenHamletsPDF, type LiveMatrixRow as PdfLiveMatrixRow } from '@/lib/pdf-exports';
 import { toast } from 'sonner';
 
 // ─── Tier color palette ───────────────────────────────────────────────────────
@@ -241,20 +240,34 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
   );
 }
 
-// ─── Eleven Hamlets PDF Export Button ───────────────────────────────────────
+// ─── Market Report PDF Button (Puppeteer — SD7 Item Two) ───────────────────────────────────────────────
+// Architecture: GET /api/pdf?url=/market → Puppeteer photographs /market → PDF
+// No jsPDF. No html2canvas. One architecture.
 
-function ElevenHamletsPdfButton({ liveRows }: { liveRows?: LiveMatrixRow[] }) {
+function MarketReportPdfButton() {
   const [loading, setLoading] = useState(false);
 
   const handleExport = async () => {
     setLoading(true);
-    const toastId = toast.loading('Generating Eleven Hamlets PDF…');
+    const toastId = toast.loading('Generating Market Report PDF…');
     try {
-      await generateElevenHamletsPDF(liveRows as PdfLiveMatrixRow[] | undefined);
-      toast.success('PDF downloaded', { id: toastId });
-    } catch (err) {
-      console.error('Eleven Hamlets PDF error:', err);
-      toast.error('PDF generation failed', { id: toastId });
+      const res = await fetch('/api/pdf?url=/market');
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ message: 'Unknown error' }));
+        throw new Error(err.message ?? `HTTP ${res.status}`);
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+      a.href = url;
+      a.download = `Christies_EH_Market_Report_${today}.pdf`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast.success('Market Report PDF downloaded', { id: toastId });
+    } catch (err: any) {
+      console.error('Market Report PDF error:', err);
+      toast.error(`PDF failed: ${err.message ?? 'Unknown error'}`, { id: toastId });
     } finally {
       setLoading(false);
     }
@@ -268,7 +281,7 @@ function ElevenHamletsPdfButton({ liveRows }: { liveRows?: LiveMatrixRow[] }) {
         fontFamily: '"Barlow Condensed", sans-serif',
         letterSpacing: '0.18em',
         fontSize: 11,
-        textTransform: 'uppercase',
+        textTransform: 'uppercase' as const,
         background: '#1B2A4A',
         color: '#C8AC78',
         border: '1px solid rgba(200,172,120,0.3)',
@@ -278,7 +291,7 @@ function ElevenHamletsPdfButton({ liveRows }: { liveRows?: LiveMatrixRow[] }) {
         transition: 'opacity 0.2s',
       }}
     >
-      {loading ? 'Generating…' : '▼ Export Eleven Hamlets PDF'}
+      {loading ? 'Generating…' : '▼ Export Market Report PDF'}
     </button>
   );
 }
@@ -418,7 +431,12 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
 
 // ─── Rate Environment sidebar ─────────────────────────────────────────────────
 
-function RateEnvironment({ liveMortgageRate, mortgageDate }: { liveMortgageRate: string; mortgageDate: string }) {
+function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasuryChange }: {
+  liveMortgageRate: string;
+  mortgageDate: string;
+  treasuryRate: string;
+  treasuryChange: number | null;
+}) {
   // Format FRED observation date ("2025-03-27") → "March 27, 2025"
   const formattedDate = (() => {
     if (!mortgageDate) return 'Freddie Mac PMMS';
@@ -481,6 +499,62 @@ function RateEnvironment({ liveMortgageRate, mortgageDate }: { liveMortgageRate:
         </div>
       </div>
 
+      {/* 10-Year Treasury */}
+      <div
+        className="p-5 border"
+        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+      >
+        <div
+          className="uppercase mb-2"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+        >
+          10-Year Treasury
+        </div>
+        <div
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+        >
+          {treasuryRate}
+        </div>
+        {treasuryChange !== null && (
+          <div
+            className="mt-1"
+            style={{ fontFamily: '"Source Sans 3", sans-serif', color: treasuryChange >= 0 ? '#c0392b' : '#27ae60', fontSize: '0.75rem' }}
+          >
+            {treasuryChange >= 0 ? '+' : ''}{treasuryChange.toFixed(2)}% today
+          </div>
+        )}
+        <div
+          className="mt-1"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
+        >
+          ^TNX · Yahoo Finance
+        </div>
+      </div>
+
+      {/* Capital Flow Signal */}
+      <div
+        className="p-5 border"
+        style={{ borderColor: 'rgba(200,172,120,0.4)', background: '#1B2A4A' }}
+      >
+        <div
+          className="uppercase mb-2"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+        >
+          Capital Flow Signal
+        </div>
+        <div
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontWeight: 600, fontSize: '1.1rem', letterSpacing: '0.08em' }}
+        >
+          INSTITUTIONAL INFLOW
+        </div>
+        <div
+          className="mt-1"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.72rem', lineHeight: 1.5 }}
+        >
+          Ultra-HNWI capital rotating into Hamptons trophy assets. Sagaponack + EH Village leading absorption.
+        </div>
+      </div>
+
       {/* Tier legend */}
       <div
         className="p-5 border"
@@ -522,6 +596,14 @@ export default function MarketTab() {
   const liveMortgageRate = mortgageData?.rate ?? '6.38%';
   const mortgageDate = mortgageData?.date ?? '';
 
+  // SD7 Item Two: 10-Year Treasury live rate
+  const { data: treasuryData } = trpc.market.treasuryRate.useQuery(undefined, {
+    staleTime: 5 * 60 * 1000, // 5 min cache
+    retry: false,
+  });
+  const liveTreasuryRate = treasuryData?.rate ?? '4.51%';
+  const liveTreasuryChange = treasuryData?.change ?? null;
+
   const { data: matrixResponse, isLoading: matrixLoading } = trpc.market.hamletMatrix.useQuery(undefined, {
     retry: false,
     staleTime: 5 * 60 * 1000,
@@ -534,10 +616,11 @@ export default function MarketTab() {
   // Extract the hamlets array before passing to mergeHamletData
   const matrixRows = matrixResponse?.hamlets;
 
-  const mergedData = useMemo(
-    () => mergeHamletData(MASTER_HAMLET_DATA, matrixRows),
-    [matrixRows]
-  );
+  // SD7 Item Two: sort by CIS descending (Sagaponack first)
+  const mergedData = useMemo(() => {
+    const merged = mergeHamletData(MASTER_HAMLET_DATA, matrixRows);
+    return [...merged].sort((a, b) => b.liveCis - a.liveCis);
+  }, [matrixRows]);
 
   const tierGroups = TIER_ORDER.map(tier => ({
     tier,
@@ -568,9 +651,9 @@ export default function MarketTab() {
             <HamletDonut data={mergedData} />
           </div>
 
-          {/* One-page PDF export button */}
+          {/* Market Report PDF export button — Puppeteer architecture (SD7 Item Two) */}
           <div className="flex justify-center mt-6">
-            <ElevenHamletsPdfButton liveRows={matrixRows ?? undefined} />
+            <MarketReportPdfButton />
           </div>
         </div>
       </section>
@@ -628,7 +711,12 @@ export default function MarketTab() {
           >
             Rate Environment
           </div>
-          <RateEnvironment liveMortgageRate={liveMortgageRate} mortgageDate={mortgageDate} />
+          <RateEnvironment
+            liveMortgageRate={liveMortgageRate}
+            mortgageDate={mortgageDate}
+            treasuryRate={liveTreasuryRate}
+            treasuryChange={liveTreasuryChange}
+          />
         </div>
       </section>
 

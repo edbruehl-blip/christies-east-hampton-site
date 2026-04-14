@@ -371,7 +371,7 @@ export default function FutureTab() {
         {/* ── Divider + Income note ──────────────────────────────────────────── */}
         <hr style={{ border: 'none', borderTop: `0.5px solid ${CHARCOAL}`, margin: '6px 0 8px' }} />
         <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
-          All figures verified in sheet April 10, 2026 &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
+          All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
 
         {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
@@ -520,7 +520,8 @@ export default function FutureTab() {
             {/* Zoila */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Zoila Ortega Astor *</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Office Director &middot; Producer 2027</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 3 }}>Office Director &middot; Producer 2027</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: GOLD, letterSpacing: 0.5, marginBottom: 5 }}>Start Date: April 25, 2026</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
@@ -602,7 +603,7 @@ export default function FutureTab() {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 10 }}>
           <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: '1 1 100%', width: '100%', minWidth: 0 }}>
             * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% &middot; two parties only &middot; Pool share = 5% of Ed&apos;s 35% for Jarvis and Angel &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
-            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning April 15, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
+            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning April 25, 2026 &middot; vesting cliff October 25, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
           </div>
           <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>
             The foundation is proven. The model is working. The next 14 days set the trajectory.

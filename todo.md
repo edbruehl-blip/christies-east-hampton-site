@@ -1675,3 +1675,12 @@
 - [x] Publish 487c6b2b to christiesrealestategroupeh.com (Ed clicks Publish in Management UI)
 - [x] Miro embed wire-up — DONE: Miro live embed wired into INTEL Layer 1 (uXjVGj6Oc40), OPEN IN MIRO link added, Sit-Down Six April 13 2026
 - [x] Doctrine count reconciliation — DONE: 41 canonical (38 main + 3 sub) per Perplexity memo, PROJ-027 stray label removed, state.json updated April 13 2026
+
+## Sit-Down Seven (April 13, 2026)
+
+- [x] SD7-1: FUTURE tab refactor — Pro Forma rebuild, four phase cards, twelve Arc bars, agent 3x2 grid, Ed GCI $600K, Zoila start date April 25, canonical split 35/35/10/5/5/5/5, print PDF landscape 11x8.5 via Puppeteer
+- [x] SD7-2: MARKET tab refactor — 10-Year Treasury to Rate Environment, Capital Flow Signal "INSTITUTIONAL INFLOW", CIS descending order (Sagaponack first), print PDF at /api/pdf?url=/market
+- [x] SD7-3: PDF button audit — walk every surface, migrate remaining jsPDF to Puppeteer, one PDF architecture, test each button
+- [x] SD7-4: SPA catch-all — Express fix if missing, test /pro-forma /council-brief /letters/flagship /letters/christies /report /future all return 200
+- [x] SD7-5: William pipeline check — Twilio webhook resolves, four canonical commands respond, ElevenLabs British RP voice renders
+- [x] SD7-6: state.json doctrine count edit — doctrine_count: 41, main_locks: 38, sub_doctrines: 3, reconciled: 2026-04-13, canonical_total: 41
