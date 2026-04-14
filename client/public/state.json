@@ -66,14 +66,21 @@
       },
       {
         "name": "Angel Theodore",
-        "role": "Operations",
+        "role": "Mktg Coord + Sales",
         "status": "active",
-        "equity": "participant"
+        "transition": "Producer Q1 2027",
+        "nest_salary": "$70K/yr Ilija payroll through Q1 2027",
+        "gci_floor_2027": "$150K",
+        "equity": "AnewHomes 5% vested"
       },
       {
         "name": "Zoila Ortega Astor",
         "role": "Office Director",
-        "status": "joining April 15, 2026",
+        "status": "joining April 25, 2026",
+        "transition": "Producer Q1 2027",
+        "nest_salary": "$70K/yr Ilija payroll through Q1 2027",
+        "gci_floor_2027": "$150K",
+        "equity": "AnewHomes 5% vesting cliff Oct 25 2026",
         "location": "26 Park Place"
       },
       {
@@ -406,37 +413,38 @@
     ],
     "william_keywords": {
       "bounded": true,
-      "doctrine": "Audio is bounded to four canonical commands only per Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
+      "doctrine": "Audio is bounded to four canonical commands only per SD-9b / Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
       "keywords": [
         {
+          "keyword": "DASHBOARD",
+          "returns": "Flagship dashboard introduction letter, read aloud by William",
+          "source": "FLAGSHIP_LETTER_TEXT in letter-content.ts"
+        },
+        {
           "keyword": "NEWS",
-          "returns": "Cronkite intelligence brief from news sources",
+          "returns": "14-category Cronkite intelligence brief via Perplexity",
           "source": "Perplexity news API"
         },
         {
-          "keyword": "PIPE",
-          "returns": "Active pipeline summary with listing status",
-          "source": "Pipeline Google Sheet"
-        },
-        {
-          "keyword": "STATUS",
-          "returns": "Institutional status brief \u2014 doctrines, surfaces, team",
-          "source": "state.json"
+          "keyword": "LETTER",
+          "returns": "Christie's Letter to the Families, read aloud by William",
+          "source": "CHRISTIES_LETTER_TEXT in letter-content.ts"
         },
         {
           "keyword": "BRIEF",
-          "returns": "Daily morning or evening brief, read aloud",
-          "source": "Daily brief Google Doc"
+          "returns": "Council Brief Lead Summary, read aloud by William",
+          "source": "COUNCIL_BRIEF_LEAD_SUMMARY in letter-content.ts"
         }
       ],
       "retired_keywords": [
-        "LETTER",
+        "PIPE",
+        "STATUS",
         "FLAGSHIP",
         "INTEL",
         "HELP",
         "BRIEF_ADDRESS"
       ],
-      "last_updated": "2026-04-13"
+      "last_updated": "2026-04-14"
     }
   },
   "flagship_ai_letter": {
@@ -481,13 +489,14 @@
     "scheduler": "node-cron with America/New_York timezone",
     "flow": "brief text \u2192 ElevenLabs MP3 \u2192 S3 upload \u2192 Twilio WhatsApp media message",
     "canonical_commands": [
+      "DASHBOARD",
       "NEWS",
-      "PIPE",
-      "STATUS",
+      "LETTER",
       "BRIEF"
     ],
     "retired_commands": [
-      "LETTER",
+      "PIPE",
+      "STATUS",
       "FLAGSHIP",
       "INTEL",
       "HELP",
@@ -495,40 +504,41 @@
     ],
     "doctrine_33_locked": true,
     "command_count": 4,
-    "last_updated": "2026-04-13",
+    "last_updated": "2026-04-14",
     "william_keywords": {
       "bounded": true,
-      "doctrine": "Audio is bounded to four canonical commands only per Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
+      "doctrine": "Audio is bounded to four canonical commands only per SD-9b / Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
       "keywords": [
         {
+          "keyword": "DASHBOARD",
+          "returns": "Flagship dashboard introduction letter, read aloud by William",
+          "source": "FLAGSHIP_LETTER_TEXT in letter-content.ts"
+        },
+        {
           "keyword": "NEWS",
-          "returns": "Cronkite intelligence brief from news sources",
+          "returns": "14-category Cronkite intelligence brief via Perplexity",
           "source": "Perplexity news API"
         },
         {
-          "keyword": "PIPE",
-          "returns": "Active pipeline summary with listing status",
-          "source": "Pipeline Google Sheet"
-        },
-        {
-          "keyword": "STATUS",
-          "returns": "Institutional status brief \u2014 doctrines, surfaces, team",
-          "source": "state.json"
+          "keyword": "LETTER",
+          "returns": "Christie's Letter to the Families, read aloud by William",
+          "source": "CHRISTIES_LETTER_TEXT in letter-content.ts"
         },
         {
           "keyword": "BRIEF",
-          "returns": "Daily morning or evening brief, read aloud",
-          "source": "Daily brief Google Doc"
+          "returns": "Council Brief Lead Summary, read aloud by William",
+          "source": "COUNCIL_BRIEF_LEAD_SUMMARY in letter-content.ts"
         }
       ],
       "retired_keywords": [
-        "LETTER",
+        "PIPE",
+        "STATUS",
         "FLAGSHIP",
         "INTEL",
         "HELP",
         "BRIEF_ADDRESS"
       ],
-      "last_updated": "2026-04-13"
+      "last_updated": "2026-04-14"
     }
   },
   "estate_advisory_card_loop": {

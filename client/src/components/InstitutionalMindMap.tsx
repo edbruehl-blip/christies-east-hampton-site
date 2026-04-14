@@ -240,9 +240,9 @@ const NODES: MapNode[] = [
     name: "FLAGSHIP TEAM",
     title: "Ed's Inner Circle · Equity Participants · Direct Responsibility",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Ed's personal orbit — equity, ownership, direct responsibility in the model. Jarvis Slade — COO and Agent. Angel Theodore — Operations. Zoila Ortega Astor — Office Director, joins April 25. Scott Smith — joins June 1. Richard Bruehl — Strategic Mentor, holds 10% AnewHomes equity.",
+    note: "Ed's personal orbit — equity, ownership, direct responsibility in the model. Jarvis Slade — COO and Agent. Angel Theodore — Mktg Coord + Sales, producer transition Q1 2027. Zoila Ortega Astor — Office Director, start April 25 2026, producer transition Q1 2027. Scott Smith — joins June 1. Richard Bruehl — Strategic Mentor, holds 10% AnewHomes equity.",
     x: 620, y: 1080, r: R,
-    members: ["Jarvis Slade — COO & Agent", "Angel Theodore — Operations", "Zoila Ortega Astor *Apr 25", "Scott Smith *June 1", "Richard Bruehl — Mentor 10%"],
+    members: ["Jarvis Slade — COO & Agent", "Angel Theodore — Mktg Coord + Sales · Q1 2027 producer", "Zoila Ortega Astor — Office Director · start Apr 25 · Q1 2027 producer", "Scott Smith *June 1", "Richard Bruehl — Mentor 10%"],
     rw: R, rh: R },
 
   { id: "eh_office",
@@ -676,8 +676,8 @@ function nodeCenter(node: MapNode): { x: number; y: number } {
 const FLAGSHIP_HIERARCHY = [
   { role: "Managing Director",   name: "Ed Bruehl",           note: "$1B+ career sales · 20+ years East End · Appointed Nov 2025",        status: "ACTIVE" },
   { role: "COO & Agent",         name: "Jarvis Slade",         note: "Chief Operating Officer · Equity participant · Direct responsibility", status: "ACTIVE" },
-  { role: "Operations",          name: "Angel Theodore",       note: "Operations lead · Equity participant",                                 status: "ACTIVE" },
-  { role: "Office Director",     name: "Zoila Ortega Astor",   note: "Joins April 25, 2026 · 26 Park Place",                                status: "ACTIVE" },
+  { role: "Mktg Coord + Sales",   name: "Angel Theodore",       note: "Nest salary $70K/yr (Ilija payroll) · Producer transition Q1 2027 · AnewHomes 5% vested · $150K floor 2027",  status: "ACTIVE" },
+  { role: "Office Director",     name: "Zoila Ortega Astor",   note: "Start April 25, 2026 · Nest salary $70K/yr (Ilija payroll) · Producer transition Q1 2027 · AnewHomes 5% vesting cliff Oct 25 2026 · $150K floor 2027", status: "ACTIVE" },
   { role: "Agent",               name: "Scott Smith",          note: "Joins June 1, 2026",                                                  status: "WARM"   },
   { role: "Strategic Mentor",    name: "Richard Bruehl",       note: "Holds 10% AnewHomes equity · Senior strategic counsel",              status: "ACTIVE" },
 ];

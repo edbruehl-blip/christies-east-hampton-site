@@ -1716,3 +1716,34 @@
 - [x] Zoila production start updated: end of 2026 (was "end of 2027")
 - [x] Angel payroll exit updated: mid-2027 (was "early 2027")
 - [x] MAPS "calendar" → "calculator" language fixed; geographically agnostic calculator explained (Griff/Sacramento, Angel/Westhampton)
+
+## April 14, 2026 — Angel Salary Canonical Audit ($63k → $70k)
+- [x] Searched all .ts, .tsx, .json, .md files for $63,000 / 63000 — zero matches in codebase
+- [x] FutureTab.tsx — Angel named, no salary figure hardcoded
+- [x] InstitutionalMindMap.tsx — Angel named, no salary figure hardcoded
+- [x] ProFormaPage.tsx — Angel named (5% profit pool), no salary figure hardcoded
+- [x] proforma-generator.ts — Angel named (5% profit pool), no salary figure hardcoded
+- [x] letter-content.ts — Angel named, no salary figure
+- [x] state.json — no Angel salary figure
+- [x] Growth Model v2 ROSTER tab (Google Sheet) — Angel Theodore row already reads $70,000 (canonical value confirmed correct)
+- [x] Transparency loop closed: $63,000 does not exist anywhere in the system. $70,000 is the canonical value.
+
+## April 14, 2026 — Active Queue (combined checkpoint)
+- [x] Fix Chromium binary path — getChromiumPath() dynamic import, puppeteer cache in project dir
+- [x] Dual-track agent cards: Angel — $70k salary, $150k Y1 GCI target, Q1 2027 production transition
+- [x] Dual-track agent cards: Zoila — $150k Y1 GCI target, Q1 2027 transition, $0 vesting AnewHomes 2026
+- [ ] $65,000 admin line in agent cards (future admin hire replacing Angel in ops role)
+- [x] Astra ghost reference cleanup — remove all Astra references from codebase
+- [ ] Dossier link coordination — Angel Trello card link and MindMap node dossier URL
+- [x] /cards/uhnw-path route — UHNW Path Card printable component
+- [x] William canonical four lock
+- [ ] PARKED: Row 44 ROSTER formula fix — awaiting Perplexity canonical walk + Ed ruling
+
+## April 14, 2026 — Canonical Agent Card Update (Ed locked this morning)
+- [x] Angel card: $70K nest salary, $30K 2026 producer ramp, $150K 2027 floor, 20% YoY through 2036, Q1 2027 transition, AnewHomes 5% vested
+- [x] Zoila card: $70K nest salary (starts Apr 25), $30K 2026 producer ramp, $150K 2027 floor, 20% YoY through 2036, Q1 2027 transition, AnewHomes 5% vesting cliff Oct 25 2026
+- [x] Wire both cards to ROSTER data layer (no hardcoded numbers)
+- [x] Update InstitutionalMindMap.tsx, ProFormaPage.tsx, letter-content.ts, CouncilBriefPage.tsx with canonical $70K / $150K / Q1 2027
+- [x] Astra ghost reference cleanup
+- [x] /cards/uhnw-path route + UHNW Path Card component
+- [x] William canonical four lock: DASHBOARD=end-of-day letter, LETTER=James Christie homepage, NEWS=Market Report, BRIEF=council-to-Ed channel

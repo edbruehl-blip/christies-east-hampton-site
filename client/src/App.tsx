@@ -8,6 +8,7 @@
  *   /future           → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
  *   /letters/flagship   → Flagship AI-Letter live renderer (no nav chrome, Puppeteer PDF target)
  *   /letters/christies  → Christie's Letter to the Families (no nav chrome, Puppeteer PDF target)
+ *   /cards/uhnw-path     → UHNW Wealth Path Card (no nav chrome, Puppeteer PDF target)
  *
  * /public removed Sprint 11 — platform is private. Public subscription site is a separate future track.
  *
@@ -37,6 +38,7 @@ import ProFormaPage       from "./pages/ProFormaPage";
 import FlagshipLetterPage from "./pages/FlagshipLetterPage";
 import ChristiesLetterPage from "./pages/ChristiesLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
+import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -73,6 +75,7 @@ function App() {
             <Route path="/letters/christies" component={ChristiesLetterPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={FutureTab} />
+            <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
             <Route component={Dashboard} />
           </Switch>
           {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}

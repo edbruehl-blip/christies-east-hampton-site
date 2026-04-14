@@ -108,6 +108,49 @@ export default function FutureTab() {
   const { data: kpisData } = trpc.pipe.getKpis.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
+  // Wire: ROSTER tab — Angel/Zoila dual-track nest + producer rows
+  const { data: gmData } = trpc.future.growthModel.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+
+  // Extract Angel and Zoila nest/producer rows from ROSTER
+  const rosterAgents = gmData?.agents ?? [];
+  const angelNest     = rosterAgents.find(a => a.name === 'Angel Theodore (Nest)');
+  const angelProducer = rosterAgents.find(a => a.name === 'Angel Theodore (Producer)');
+  const zoilaNest     = rosterAgents.find(a => a.name === 'Zoila Ortega Astor (Nest)');
+  const zoilaProducer = rosterAgents.find(a => a.name === 'Zoila Ortega Astor (Producer)');
+
+  // Canonical locked trajectory (Ed ruling April 14, 2026)
+  // Used as display source; ROSTER cells override when Perplexity populates them
+  // 2026: $70K nest + $30K producer ramp = $100K total
+  // 2027: $17.5K Q1 nest + $132.5K Q2-Q4 production = $150K floor
+  // 2028+: 20% YoY compound — $180K, $216K, $259K, $311K, $373K, $447K, $537K, $644K, $773K
+  const CANONICAL_ANGEL = {
+    nestSalary:  '$70K/yr ($5,833/mo) through Q1 2027',
+    total2026:   angelNest && angelProducer && (angelNest.gci2026 + angelProducer.gci2026) > 0
+                   ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026) / 1000)}K`
+                   : '$100K',
+    total2027:   angelNest && angelProducer && (angelNest.gci2027 + angelProducer.gci2027) > 0
+                   ? `$${Math.round((angelNest.gci2027 + angelProducer.gci2027) / 1000)}K`
+                   : '$150K',
+    total2028:   '$180K',
+    total2036:   '$773K',
+    producer2026: angelProducer && angelProducer.gci2026 > 0 ? `$${Math.round(angelProducer.gci2026 / 1000)}K` : '$30K',
+    producer2027: angelProducer && angelProducer.gci2027 > 0 ? `$${Math.round(angelProducer.gci2027 / 1000)}K` : '$132.5K',
+  };
+  const CANONICAL_ZOILA = {
+    nestSalary:  '$70K/yr ($5,833/mo) · Start Apr 25, 2026 · through Q1 2027',
+    total2026:   zoilaNest && zoilaProducer && (zoilaNest.gci2026 + zoilaProducer.gci2026) > 0
+                   ? `$${Math.round((zoilaNest.gci2026 + zoilaProducer.gci2026) / 1000)}K`
+                   : '$100K',
+    total2027:   zoilaNest && zoilaProducer && (zoilaNest.gci2027 + zoilaProducer.gci2027) > 0
+                   ? `$${Math.round((zoilaNest.gci2027 + zoilaProducer.gci2027) / 1000)}K`
+                   : '$150K',
+    total2028:   '$180K',
+    total2036:   '$773K',
+    producer2026: zoilaProducer && zoilaProducer.gci2026 > 0 ? `$${Math.round(zoilaProducer.gci2026 / 1000)}K` : '$30K',
+    producer2027: zoilaProducer && zoilaProducer.gci2027 > 0 ? `$${Math.round(zoilaProducer.gci2027 / 1000)}K` : '$132.5K',
+  };
 
   const liveKpis = kpisData ? {
     exclusiveTotalM: kpisData.exclusiveTotalM,
@@ -513,32 +556,35 @@ export default function FutureTab() {
 
           {/* Column 2: Angel + Jarvis */}
           <div>
-            {/* Angel */}
+            {/* Angel — dual-track: nest salary + producer income */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Angel Theodore *</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Operations &middot; Producer 2027</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 1 }}>Mktg Coord + Sales &middot; Producer transition Q1 2027</div>
+              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Ilija nest salary {CANONICAL_ANGEL.nestSalary}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$3M','$6M','$7.2M','$15M+'], act: null },
-                { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$60K','$120K','$144K','$300K+'], act: null },
-                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
-                { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
+                { label: 'Nest salary',      vals: ['$70K','$17.5K','—','—'] },
+                { label: 'Producer ramp',    vals: [CANONICAL_ANGEL.producer2026, CANONICAL_ANGEL.producer2027,'—','—'] },
+                { label: 'AnewHomes 5% *',   vals: ['—','$7.5K','$25K','$25K'] },
+                { label: 'Team + pool',      vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? row.act ?? []).map((v, i) => (
-                    <span key={i} style={{ textAlign: 'right' as const, color: row.act ? GOLD : DIM, fontStyle: row.proj ? 'italic' : 'normal', fontSize: row.proj ? 6.5 : 7, fontWeight: row.act ? 600 : 400 }}>{v}</span>
+                  {row.vals.map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
                   ))}
                 </div>
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['$62K','$143K','$178K','$437K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                <span>Total income</span>
+                {[CANONICAL_ANGEL.total2026, CANONICAL_ANGEL.total2027, CANONICAL_ANGEL.total2028, CANONICAL_ANGEL.total2036].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+              <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
+                * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; future flagship pool &middot; 20% YoY 2028+
               </div>
             </div>
 
@@ -574,31 +620,35 @@ export default function FutureTab() {
 
           {/* Column 3: Zoila + Scott + Richard */}
           <div>
-            {/* Zoila */}
+            {/* Zoila — dual-track: nest salary + producer income */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Zoila Ortega Astor *</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 3 }}>Office Director &middot; Producer 2027</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: GOLD, letterSpacing: 0.5, marginBottom: 5 }}>Start Date: April 25, 2026</div>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Zoila Ortega Astor †</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 1 }}>Office Director &middot; Producer transition Q1 2027</div>
+              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Ilija nest salary {CANONICAL_ZOILA.nestSalary}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$6M','$7M','$8.4M','$20M+'], act: null },
-                { label: 'GCI / salary', proj: ['$100K','$140K','$168K','$400K+'], act: null },
-                { label: 'AnewHomes 5% †', proj: ['$0 vest','$7,500','$25,000','$25,000'], act: null },
+                { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
+                { label: 'Producer ramp',     vals: [CANONICAL_ZOILA.producer2026, CANONICAL_ZOILA.producer2027,'—','—'] },
+                { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$25K','$25K'] },
+                { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? []).map((v, i) => (
+                  {row.vals.map((v, i) => (
                     <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
                   ))}
                 </div>
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['$100K','$140K','$168K','$400K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                <span>Total income</span>
+                {[CANONICAL_ZOILA.total2026, CANONICAL_ZOILA.total2027, CANONICAL_ZOILA.total2028, CANONICAL_ZOILA.total2036].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+              <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
+                † AnewHomes 5% equity vesting cliff Oct 25, 2026 → Apr 25, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity &middot; future flagship pool &middot; 20% YoY 2028+
               </div>
             </div>
 

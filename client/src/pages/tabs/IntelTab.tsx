@@ -400,11 +400,11 @@ const NINE_SHEETS: SheetEntry[] = [
     badge: 'Outreach · Active',
   },
   {
-    id: 'outreach-sop-angel-astra',
-    name: 'SOP — Angel & Astra · Weekly Mail Campaign',
-    description: 'Standard operating procedure for the weekly mail campaign. Angel and Astra\'s weekly production schedule, mailing cadence, and execution checklist.',
+    id: 'outreach-sop-angel',
+    name: 'SOP — Angel · Weekly Mail Campaign',
+    description: 'Standard operating procedure for the weekly mail campaign. Angel\'s weekly production schedule, mailing cadence, and execution checklist.',
     sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
-    badge: 'SOP · Angel & Astra',
+    badge: 'SOP · Angel',
   },
 ];
 

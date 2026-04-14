@@ -33,9 +33,14 @@ import { sdk } from './_core/sdk';
  *   1. /usr/bin/chromium          (sandbox / Ubuntu dev)
  *   2. /usr/bin/chromium-browser  (some Ubuntu variants)
  *   3. /usr/bin/google-chrome     (some CI environments)
- *   4. puppeteer bundled Chrome   (deployed Manus container — ~/.cache/puppeteer)
+ *   4. puppeteer bundled Chrome   (deployed Manus container — .puppeteer-cache/ in project dir)
+ *   5. puppeteer bundled Chrome   (fallback — ~/.cache/puppeteer)
+ *
+ * The deployed Manus container runs `pnpm install` which triggers puppeteer's postinstall
+ * and downloads Chrome to .puppeteer-cache/ (configured via package.json puppeteer.cacheDirectory).
+ * We resolve the path via dynamic import() — require() fails in ESM context.
  */
-function getChromiumPath(): string {
+async function getChromiumPath(): Promise<string> {
   const candidates = [
     '/usr/bin/chromium',
     '/usr/bin/chromium-browser',
@@ -49,16 +54,18 @@ function getChromiumPath(): string {
       return p;
     }
   }
-  // Fall back to puppeteer bundled Chrome (works in deployed containers)
+  // Fall back to puppeteer bundled Chrome via dynamic import (ESM-safe)
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const puppeteerFull = require('puppeteer') as { executablePath: () => string };
-    const bundled = puppeteerFull.executablePath();
+    const puppeteerFull = await import('puppeteer') as { default: { executablePath: () => string } };
+    const bundled = puppeteerFull.default.executablePath();
     if (existsSync(bundled)) {
       console.log(`[PDF] Using bundled Chrome: ${bundled}`);
       return bundled;
     }
-  } catch { /* puppeteer full not installed */ }
+    console.warn(`[PDF] puppeteer.executablePath() returned ${bundled} but file not found`);
+  } catch (e) {
+    console.warn('[PDF] puppeteer dynamic import failed:', e);
+  }
   throw new Error('No Chromium binary found. Install chromium-browser or puppeteer.');
 }
 
@@ -131,7 +138,7 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     console.log(`[PDF] Photographing ${targetUrl}`);
 
     browser = await puppeteer.launch({
-      executablePath: getChromiumPath(),
+      executablePath: await getChromiumPath(),
       headless: true,
       args: [
         '--no-sandbox',
@@ -238,7 +245,7 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
     const reportUrl = `http://localhost:${port}/report`;
 
     browser = await puppeteer.launch({
-      executablePath: getChromiumPath(),
+      executablePath: await getChromiumPath(),
       headless: true,
       args: [
         '--no-sandbox',
