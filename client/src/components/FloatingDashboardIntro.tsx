@@ -189,8 +189,10 @@ export function FloatingDashboardIntro() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
-          boxShadow: '0 4px 20px rgba(27,42,74,0.25)',
-          minWidth: 230,
+          boxShadow: '0 4px 16px rgba(27,42,74,0.30)',
+          minWidth: 0,
+          borderRadius: 8,
+          overflow: 'hidden',
         }}
       >
         {/* Main play/stop button */}
@@ -201,9 +203,9 @@ export function FloatingDashboardIntro() {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 8,
-            minHeight: 44,
-            padding: '10px 18px',
+            gap: 6,
+            minHeight: 36,
+            padding: '7px 13px',
             background: '#C8AC78',
             color: '#384249',
             border: 'none',
@@ -211,9 +213,9 @@ export function FloatingDashboardIntro() {
             cursor: status === 'loading' ? 'wait' : 'pointer',
             fontFamily: '"Barlow Condensed", sans-serif',
             fontVariant: 'small-caps',
-            fontSize: 13,
+            fontSize: 11,
             fontWeight: 700,
-            letterSpacing: '0.18em',
+            letterSpacing: '0.16em',
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
             opacity: status === 'loading' ? 0.85 : 1,
