@@ -44,7 +44,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
 } as const;
 
-const MAX_VOLUME = 2_096_228_000; // 2036 three-office combined volume from VOLUME Row 17 (SD-8 Phase Two)
+const MAX_VOLUME = 3_000_000_000; // 2036 canonical three-office combined volume (Ed ruling April 14, 2026)
 const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
 // NOTE: Bar heights are expressed as PERCENTAGES of CHART_HEIGHT so they scale on all screen sizes
 
@@ -288,7 +288,7 @@ export default function FutureTab() {
       { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
       { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
       { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
-      { year: '2036', vol: vol2036,      display: '$2.096B',     actualVol: 0,       note: "$2.096B · Three-Office Ascension Arc Complete", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
+      { year: '2036', vol: vol2036,      display: '$3.0B',       actualVol: 0,       note: "$3.0B · Three-Office Ascension Arc Complete", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
     ];
   }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
@@ -449,9 +449,9 @@ export default function FutureTab() {
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$2.096B trajectory.</strong> Three offices. Year 2 Profit Pool activates. 32 agents by 2036.</>,
+              shareholder: <><strong>$3.0B trajectory · three-office combined 2036.</strong> Year 2 Profit Pool activates. 32 agents by 2036.</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
-              team: "EH + Southampton (2028) + Westhampton (2030) compounding to $2.096B.",
+              team: "EH + Southampton (2028) + Westhampton (2030) compounding to $3.0B combined.",
             },
           ].map(c => (
             <div key={c.phase} style={cardStyle}>

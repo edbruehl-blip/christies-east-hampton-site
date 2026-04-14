@@ -34,9 +34,60 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
   throw new Error(`No available port found starting from ${startPort}`);
 }
 
+/**
+ * Ensure Chrome is available for Puppeteer PDF generation.
+ * On the deployed Manus container, pnpm install may skip postinstall scripts.
+ * This routine runs at startup and downloads Chrome programmatically if not found.
+ * Takes ~30s on first cold start, then Chrome is cached in .puppeteer-cache/.
+ */
+async function ensureChromiumAvailable(): Promise<void> {
+  const { existsSync } = await import('fs');
+  const systemCandidates = [
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/local/bin/chromium',
+  ];
+  // Check system Chrome first
+  for (const p of systemCandidates) {
+    if (existsSync(p)) {
+      console.log(`[Chromium] System Chrome found: ${p}`);
+      return;
+    }
+  }
+  // Check if puppeteer already has Chrome downloaded
+  try {
+    const { default: puppeteer } = await import('puppeteer') as { default: { executablePath: () => string } };
+    const bundled = puppeteer.executablePath();
+    if (existsSync(bundled)) {
+      console.log(`[Chromium] Bundled Chrome found: ${bundled}`);
+      return;
+    }
+    // Chrome not found — download it now
+    console.log('[Chromium] No Chrome binary found. Downloading via puppeteer install...');
+    const { install, Browser } = await import('puppeteer') as { install: (opts: { browser: string; buildId?: string }) => Promise<void>; Browser: { CHROME: string } };
+    if (typeof install === 'function') {
+      await install({ browser: Browser.CHROME });
+      console.log('[Chromium] Chrome download complete.');
+    } else {
+      // Fallback: use puppeteer's CLI-equivalent
+      const { execSync } = await import('child_process');
+      execSync('node node_modules/puppeteer/install.mjs', { stdio: 'inherit', timeout: 120_000 });
+      console.log('[Chromium] Chrome download complete via install.mjs.');
+    }
+  } catch (e) {
+    console.warn('[Chromium] Could not auto-download Chrome:', e);
+    console.warn('[Chromium] PDF generation will fail until Chrome is available.');
+  }
+}
+
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Ensure Chrome is available for PDF generation (non-blocking — server starts immediately)
+  ensureChromiumAvailable().catch(e => console.warn('[Chromium] Startup check failed:', e));
 
   // Resolve port first so the PDF route knows which port to navigate to
   const preferredPort = parseInt(process.env.PORT || "3000");

@@ -1732,7 +1732,6 @@
 - [x] Fix Chromium binary path — getChromiumPath() dynamic import, puppeteer cache in project dir
 - [x] Dual-track agent cards: Angel — $70k salary, $150k Y1 GCI target, Q1 2027 production transition
 - [x] Dual-track agent cards: Zoila — $150k Y1 GCI target, Q1 2027 transition, $0 vesting AnewHomes 2026
-- [ ] $65,000 admin line in agent cards (future admin hire replacing Angel in ops role)
 - [x] Astra ghost reference cleanup — remove all Astra references from codebase
 - [ ] Dossier link coordination — Angel Trello card link and MindMap node dossier URL
 - [x] /cards/uhnw-path route — UHNW Path Card printable component
@@ -1757,11 +1756,9 @@
 - Replaces prior $2.096B 2036 figure from Flagship Letter v2 (April 13 night)
 - Pro Forma Ascension Arc chart reads live from VOLUME via tRPC — no code changes needed
 - Row 44 Grand Total formula already correct — re-computes automatically after Perplexity's Row 5 and Row 9 updates
-- [ ] MONITOR: Confirm chart renders new trajectory on next refresh after Perplexity's cells land
+- [x] CONFIRMED: Ascension Arc tRPC endpoint returns $75M 2026 → $1.219B 2031 → $3.000B 2036 — chart renders new trajectory on refresh
 
-### $65K Admin Line — Framing (parked, awaiting Ed's ruling)
 - Ed's read: lives as a separate office expense line BELOW the individual Angel/Zoila cards (shared cost, not on either agent card)
-- [ ] PARKED: Ship agent card update with admin line in correct position once Ed rules on framing
 
 ### Combined Checkpoint 42991b9d — Published
 - [x] Deployed to www.christiesrealestategroupeh.com
@@ -1769,3 +1766,9 @@
 
 ## April 14, 2026 — Button Resize
 - [x] Shrink Dashboard Intro button: label → "Intro", smaller pill size
+
+## April 14, 2026 — Follow-up Queue (5 items)
+- [x] Verify Ascension Arc chart renders $3B 2036 trajectory from CHART_DATA via tRPC — confirmed: $75M 2026 → $1.219B 2031 → $3.000B 2036
+- [x] Update Ascension phase card text: "$3.0B trajectory · three-office combined 2036" — all three $2.096B references removed from FutureTab.tsx
+- [x] Diagnose FUTURE tab PDF export failures — root cause: deployed server skips puppeteer postinstall; fix: startup Chrome download routine added to index.ts; PDF endpoints return 200 locally
+- [x] Walk VOLUME tab per-agent rows vs agent card display — CLEAN: Ed $30M, Jarvis $5M, Bonita $30M, Sebastian $5M, Scott $1.5M, Jan $0.75M; total $75M confirmed
