@@ -45,7 +45,7 @@ const MILESTONE_TARGETS = {
 } as const;
 
 const MAX_VOLUME = 2_096_228_000; // 2036 three-office combined volume from VOLUME Row 17 (SD-8 Phase Two)
-const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
+const CHART_HEIGHT = 160; // px — reduced from 200 to give bars breathing room at bottom
 
 function fmtM(n: number): string {
   if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`; // $1.8B, $1.5B etc.
@@ -180,9 +180,9 @@ export default function FutureTab() {
   // Actual 2026 closed volume (from VOLUME tab)
   const act2026 = volData?.total.act2026 || 4_570_000;
 
-  // Bar heights — sqrt scale, max = CHART_HEIGHT
+  // Bar heights — sqrt scale, capped at CHART_HEIGHT - 8 so tallest bar never touches container edge
   function barPct(vol: number) {
-    return Math.max(4, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT));
+    return Math.max(4, Math.min(CHART_HEIGHT - 8, Math.round(Math.sqrt(vol / MAX_VOLUME) * CHART_HEIGHT)));
   }
 
   // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)

@@ -50,96 +50,27 @@ const GEOJSON_URLS = {
 };
 
 // ─── Layer 1: Google Maps Aerial Plate ───────────────────────────────────────
-// East Hampton, NY: lat 40.9635, lng -72.1851 — satellite aerial, zoom 11
+// Clean satellite view: full South Fork + tip of North Fork visible
+// No markers, no polygons, no UI controls — pure aerial geography
 
 function PaumanokPlate() {
   const mapRef = useRef<google.maps.Map | null>(null);
 
   return (
     <div className="relative w-full" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', borderBottom: '2px solid #C8AC78' }}>
-      {/* Header overlay — gradient fades into the map */}
-      <div
-        style={{
-          position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10,
-          padding: '16px 24px 32px',
-          background: 'linear-gradient(to bottom, rgba(27,42,74,0.85) 0%, rgba(27,42,74,0) 100%)',
-          pointerEvents: 'none',
-        }}
-      >
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-            East End · East Hampton · Long Island
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem' }}>
-            The Territory
-          </h2>
-        </div>
-      </div>
       <MapView
         className="w-full h-[420px]"
-        initialCenter={{ lat: 40.97, lng: -72.55 }}
-        initialZoom={9}
+        initialCenter={{ lat: 40.93, lng: -72.35 }}
+        initialZoom={10}
         onMapReady={(map) => {
           mapRef.current = map;
-          // Satellite aerial view — full East End
+          // Clean satellite — no labels, no markers, no controls
           map.setMapTypeId('satellite');
           map.setTilt(0);
-
-          // ── Hamlet boundary polygon overlays ────────────────────────────────
-          // Semi-transparent navy fill, gold stroke — Christie's palette
-          HAMLET_BOUNDARIES.forEach(boundary => {
-            const polygon = new window.google!.maps.Polygon({
-              paths: boundary.coords.map(([lat, lng]) => ({ lat, lng })),
-              strokeColor: '#C8AC78',
-              strokeOpacity: 0.85,
-              strokeWeight: 2,
-              fillColor: '#1B2A4A',
-              fillOpacity: 0.18,
-              map,
-            });
-
-            // Info window on click — hamlet name + CIS score
-            const hamletData = MASTER_HAMLET_DATA.find(h => h.id === boundary.id);
-            if (hamletData) {
-              const infoWindow = new window.google!.maps.InfoWindow({
-                content: [
-                  '<div style="font-family:Barlow Condensed,sans-serif;background:#1B2A4A;color:#FAF8F4;padding:10px 14px;min-width:140px;">',
-                  `<div style="color:#C8AC78;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px">${boundary.name}</div>`,
-                  `<div style="font-family:Cormorant Garamond,serif;font-size:1.1rem;font-weight:400">${hamletData.medianPriceDisplay}</div>`,
-                  `<div style="color:rgba(200,172,120,0.7);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;margin-top:2px">CIS ${hamletData.anewScore}/10</div>`,
-                  '</div>',
-                ].join(''),
-              });
-              polygon.addListener('click', (e: google.maps.MapMouseEvent) => {
-                infoWindow.setPosition(e.latLng);
-                infoWindow.open(map);
-              });
-            }
-          });
-
-          // ── Gold dot markers (on top of polygons) ───────────────────────────
-          // P4 mobile fix: 44px tap target wrapper with 20px visible dot (Apple HIG minimum)
-          MASTER_HAMLET_DATA.forEach(hamlet => {
-            const wrapper = document.createElement('div');
-            wrapper.style.cssText = [
-              'width:44px', 'height:44px', 'border-radius:50%',
-              'display:flex', 'align-items:center', 'justify-content:center',
-              'cursor:pointer', 'background:transparent',
-            ].join(';');
-            const pin = document.createElement('div');
-            pin.style.cssText = [
-              'width:20px', 'height:20px', 'border-radius:50%',
-              'background:#C8AC78', 'border:2.5px solid #FAF8F4',
-              'box-shadow:0 2px 8px rgba(0,0,0,0.55)',
-              'pointer-events:none',
-            ].join(';');
-            wrapper.appendChild(pin);
-            new window.google!.maps.marker.AdvancedMarkerElement({
-              map,
-              position: { lat: hamlet.lat, lng: hamlet.lng },
-              title: hamlet.name,
-              content: wrapper,
-            });
+          map.setOptions({
+            disableDefaultUI: true,
+            gestureHandling: 'cooperative',
+            keyboardShortcuts: false,
           });
         }}
       />
