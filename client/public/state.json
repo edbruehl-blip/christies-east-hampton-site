@@ -406,7 +406,7 @@
     ],
     "william_keywords": {
       "bounded": true,
-      "doctrine": "Audio is bounded to four keywords only. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
+      "doctrine": "Audio is bounded to four canonical commands only per Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
       "keywords": [
         {
           "keyword": "NEWS",
@@ -414,28 +414,29 @@
           "source": "Perplexity news API"
         },
         {
-          "keyword": "LETTER",
-          "returns": "James Christie homepage letter, read aloud",
-          "source": "James Christie Letter Google Doc"
+          "keyword": "PIPE",
+          "returns": "Active pipeline summary with listing status",
+          "source": "Pipeline Google Sheet"
         },
         {
-          "keyword": "FLAGSHIP",
-          "returns": "Daily Flagship AI-Letter, read aloud",
-          "source": "Flagship AI-Letter Google Doc"
+          "keyword": "STATUS",
+          "returns": "Institutional status brief \u2014 doctrines, surfaces, team",
+          "source": "state.json"
         },
         {
           "keyword": "BRIEF",
           "returns": "Daily morning or evening brief, read aloud",
-          "source": "Daily brief Google Doc (Claude updates)"
+          "source": "Daily brief Google Doc"
         }
       ],
-      "removed_keywords": [
-        "SCORE",
-        "PIPELINE",
-        "COVER",
-        "STATUS",
-        "INTEL"
-      ]
+      "retired_keywords": [
+        "LETTER",
+        "FLAGSHIP",
+        "INTEL",
+        "HELP",
+        "BRIEF_ADDRESS"
+      ],
+      "last_updated": "2026-04-13"
     }
   },
   "flagship_ai_letter": {
@@ -494,7 +495,41 @@
     ],
     "doctrine_33_locked": true,
     "command_count": 4,
-    "last_updated": "2026-04-13"
+    "last_updated": "2026-04-13",
+    "william_keywords": {
+      "bounded": true,
+      "doctrine": "Audio is bounded to four canonical commands only per Doctrine 33. No audio for Property Reports, CMAs, dossiers, agendas, or any other document.",
+      "keywords": [
+        {
+          "keyword": "NEWS",
+          "returns": "Cronkite intelligence brief from news sources",
+          "source": "Perplexity news API"
+        },
+        {
+          "keyword": "PIPE",
+          "returns": "Active pipeline summary with listing status",
+          "source": "Pipeline Google Sheet"
+        },
+        {
+          "keyword": "STATUS",
+          "returns": "Institutional status brief \u2014 doctrines, surfaces, team",
+          "source": "state.json"
+        },
+        {
+          "keyword": "BRIEF",
+          "returns": "Daily morning or evening brief, read aloud",
+          "source": "Daily brief Google Doc"
+        }
+      ],
+      "retired_keywords": [
+        "LETTER",
+        "FLAGSHIP",
+        "INTEL",
+        "HELP",
+        "BRIEF_ADDRESS"
+      ],
+      "last_updated": "2026-04-13"
+    }
   },
   "estate_advisory_card_loop": {
     "description": "Physical card \u2192 QR \u2192 MAPS tab \u2192 CIS calculator \u2192 Private Property Intelligence Brief",

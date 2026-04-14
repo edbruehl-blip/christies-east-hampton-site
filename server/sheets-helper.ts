@@ -879,6 +879,11 @@ export interface AscensionArcYear {
   ilijaPool: number;          // Wire Three: netProfit × 0.65
   edGci: number;              // Wire Four: VOLUME G2 series (proj GCI)
   actualVolume: number;       // VOLUME total row actual volume (for bar fill)
+  // SD-8 Phase Two: three-office stacked bar fields
+  ehVolume: number;           // VOLUME Row 10 projected — East Hampton only
+  shVolume: number;           // VOLUME Row 15 projected — Southampton only (0 before 2028)
+  whVolume: number;           // VOLUME Row 16 projected — Westhampton only (0 before 2030)
+  combinedVolume: number;     // VOLUME Row 17 projected — three-office combined total
 }
 
 export interface AscensionArcData {
@@ -911,12 +916,41 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
     });
     const edRow = (volumeEdRes.data.values as string[][])?.[0] ?? [];
 
-    // Wire Six: VOLUME row 10 (TOTAL) — actual volume columns (extended to 2036)
+    // Wire Six: VOLUME row 10 (EH TOTAL) — actual volume columns (extended to 2036)
     const volumeTotalRes = await sheets.spreadsheets.values.get({
       spreadsheetId: GROWTH_MODEL_SHEET_ID,
       range: "VOLUME!A10:AV10",
     });
     const totalRow = (volumeTotalRes.data.values as string[][])?.[0] ?? [];
+
+    // SD-8 Phase Two: three-office rows — projected volume only (col indices: 4,8,12,16,20,24,28,32,36,40,44)
+    const [shRes, whRes, combinedRes] = await Promise.all([
+      sheets.spreadsheets.values.get({ spreadsheetId: GROWTH_MODEL_SHEET_ID, range: "VOLUME!A15:AS15" }),
+      sheets.spreadsheets.values.get({ spreadsheetId: GROWTH_MODEL_SHEET_ID, range: "VOLUME!A16:AS16" }),
+      sheets.spreadsheets.values.get({ spreadsheetId: GROWTH_MODEL_SHEET_ID, range: "VOLUME!A17:AS17" }),
+    ]);
+    const shRow  = (shRes.data.values  as string[][])?.[0] ?? [];
+    const whRow  = (whRes.data.values  as string[][])?.[0] ?? [];
+    const combRow = (combinedRes.data.values as string[][])?.[0] ?? [];
+
+    // Projected volume column indices (0-indexed from col A):
+    // 4=2026, 8=2027, 12=2028, 16=2029, 20=2030, 24=2031, 28=2032, 32=2033, 36=2034, 40=2035, 44=2036
+    const PROJ_COLS: Record<number, number> = {
+      2026: 4, 2027: 8, 2028: 12, 2029: 16, 2030: 20,
+      2031: 24, 2032: 28, 2033: 32, 2034: 36, 2035: 40, 2036: 44,
+    };
+    // EH projected volume from Row 10 (same col pattern)
+    const ehProjByYear: Record<number, number> = {};
+    const shProjByYear: Record<number, number> = {};
+    const whProjByYear: Record<number, number> = {};
+    const combProjByYear: Record<number, number> = {};
+    for (const [yr, col] of Object.entries(PROJ_COLS)) {
+      const y = parseInt(yr, 10);
+      ehProjByYear[y]   = parseDollar(totalRow[col]);
+      shProjByYear[y]   = parseDollar(shRow[col]);
+      whProjByYear[y]   = parseDollar(whRow[col]);
+      combProjByYear[y] = parseDollar(combRow[col]);
+    }
 
     // Ed GCI per year from VOLUME row 2 (projected GCI columns, 0-indexed)
     // col 6=ProjGCI2026, 10=ProjGCI2027, 14=ProjGCI2028, 18=ProjGCI2029, 22=ProjGCI2030, 26=ProjGCI2031
@@ -968,6 +1002,11 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
           ilijaPool: Math.round(netProfit * 0.65),
           edGci: edGciByYear[year] ?? 0,
           actualVolume: totalActByYear[year] ?? 0,
+          // SD-8 Phase Two: three-office stacked bar data
+          ehVolume:       ehProjByYear[year]   ?? officeVolume,
+          shVolume:       shProjByYear[year]   ?? 0,
+          whVolume:       whProjByYear[year]   ?? 0,
+          combinedVolume: combProjByYear[year] ?? officeVolume,
         };
       });
 

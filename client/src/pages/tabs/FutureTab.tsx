@@ -24,6 +24,14 @@ const DIM        = '#555';
 const MUTED      = '#666';
 const PROJ_TEXT  = 'rgba(200,172,120,0.80)';
 
+// SD-8 Phase Two: three-office stacked bar colors
+const EH_COLOR   = '#c8ac78';                    // East Hampton — gold/amber (matches GOLD)
+const SH_COLOR   = '#3a5a7a';                    // Southampton — navy/steel
+const WH_COLOR   = '#5a7a5a';                    // Westhampton — warm sage green
+const EH_FAINT   = 'rgba(200,172,120,0.20)';
+const SH_FAINT   = 'rgba(58,90,122,0.35)';
+const WH_FAINT   = 'rgba(90,122,90,0.35)';
+
 const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
 
@@ -36,7 +44,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
 } as const;
 
-const MAX_VOLUME = 1_823_328_000; // 2036 office volume from OUTPUTS B42
+const MAX_VOLUME = 2_096_228_000; // 2036 three-office combined volume from VOLUME Row 17 (SD-8 Phase Two)
 const CHART_HEIGHT = 200; // px — matches wireframe bars-row height
 
 function fmtM(n: number): string {
@@ -121,11 +129,31 @@ export default function FutureTab() {
     proj2036: 0, act2036: 0, projGci2036: 0, actGci2036: 0,
   };
 
-  // Wire 1: live office volumes
+  // Wire 1: live office volumes — now using three-office combined (SD-8 Phase Two)
   const liveVolumes = useMemo(() => {
     if (!arcData?.years?.length) return null;
     const map: Record<number, number> = {};
-    arcData.years.forEach(y => { map[y.year] = y.officeVolume; });
+    arcData.years.forEach(y => { map[y.year] = y.combinedVolume || y.officeVolume; });
+    return map;
+  }, [arcData]);
+
+  // SD-8 Phase Two: per-office volumes for stacked bars
+  const liveEhVolumes = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    const map: Record<number, number> = {};
+    arcData.years.forEach(y => { map[y.year] = y.ehVolume || y.officeVolume; });
+    return map;
+  }, [arcData]);
+  const liveShVolumes = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    const map: Record<number, number> = {};
+    arcData.years.forEach(y => { map[y.year] = y.shVolume || 0; });
+    return map;
+  }, [arcData]);
+  const liveWhVolumes = useMemo(() => {
+    if (!arcData?.years?.length) return null;
+    const map: Record<number, number> = {};
+    arcData.years.forEach(y => { map[y.year] = y.whVolume || 0; });
     return map;
   }, [arcData]);
 
@@ -169,22 +197,55 @@ export default function FutureTab() {
     const vol2033 = liveVolumes?.[2033] ?? 1_101_000_000;
     const vol2034 = liveVolumes?.[2034] ?? 1_301_200_000;
     const vol2035 = liveVolumes?.[2035] ?? 1_539_440_000;
-    const vol2036 = liveVolumes?.[2036] ?? 1_823_328_000;
+    const vol2036 = liveVolumes?.[2036] ?? 2_096_228_000;
+    const eh2026 = liveEhVolumes?.[2026] ?? 55_000_000;
+    const eh2027 = liveEhVolumes?.[2027] ?? 273_000_000;
+    const eh2028 = liveEhVolumes?.[2028] ?? 383_500_000;
+    const eh2029 = liveEhVolumes?.[2029] ?? 498_600_000;
+    const eh2030 = liveEhVolumes?.[2030] ?? 641_400_000;
+    const eh2031 = liveEhVolumes?.[2031] ?? 798_500_000;
+    const eh2032 = liveEhVolumes?.[2032] ?? 938_700_000;
+    const eh2033 = liveEhVolumes?.[2033] ?? 1_101_000_000;
+    const eh2034 = liveEhVolumes?.[2034] ?? 1_301_200_000;
+    const eh2035 = liveEhVolumes?.[2035] ?? 1_539_440_000;
+    const eh2036 = liveEhVolumes?.[2036] ?? 1_823_328_000;
+    const sh2026 = liveShVolumes?.[2026] ?? 0;
+    const sh2027 = liveShVolumes?.[2027] ?? 0;
+    const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
+    const sh2029 = liveShVolumes?.[2029] ?? 0;
+    const sh2030 = liveShVolumes?.[2030] ?? 0;
+    const sh2031 = liveShVolumes?.[2031] ?? 0;
+    const sh2032 = liveShVolumes?.[2032] ?? 0;
+    const sh2033 = liveShVolumes?.[2033] ?? 0;
+    const sh2034 = liveShVolumes?.[2034] ?? 0;
+    const sh2035 = liveShVolumes?.[2035] ?? 0;
+    const sh2036 = liveShVolumes?.[2036] ?? 143_000_000;
+    const wh2026 = liveWhVolumes?.[2026] ?? 0;
+    const wh2027 = liveWhVolumes?.[2027] ?? 0;
+    const wh2028 = liveWhVolumes?.[2028] ?? 0;
+    const wh2029 = liveWhVolumes?.[2029] ?? 0;
+    const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;
+    const wh2031 = liveWhVolumes?.[2031] ?? 0;
+    const wh2032 = liveWhVolumes?.[2032] ?? 0;
+    const wh2033 = liveWhVolumes?.[2033] ?? 0;
+    const wh2034 = liveWhVolumes?.[2034] ?? 0;
+    const wh2035 = liveWhVolumes?.[2035] ?? 0;
+    const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
     return [
-      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true },
-      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship' },
-      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0 },
-      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0 },
-      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0 },
-      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'EH $736M + SH $405M = $1.141B' },
-      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0 },
-      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0 },
-      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0 },
-      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0 },
-      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0 },
-      { year: '2036', vol: vol2036,      display: '$1.823B',     actualVol: 0,       note: "$1.823B · Christie's Ascension Arc Complete", isFinal: true },
+      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
+      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
+      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
+      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
+      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
+      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
+      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
+      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
+      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
+      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
+      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
+      { year: '2036', vol: vol2036,      display: '$2.096B',     actualVol: 0,       note: "$2.096B · Three-Office Ascension Arc Complete", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
     ];
-  }, [liveVolumes, act2026]);
+  }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
   // ─── Card border style (uniform per wireframe) ────────────────────────────
   const cardStyle: React.CSSProperties = {
@@ -226,8 +287,13 @@ export default function FutureTab() {
             {BARS.map((bar) => {
               const projH = barPct(bar.vol);
               const actH  = bar.actualVol > 0 ? Math.max(14, Math.round((bar.actualVol / bar.vol) * projH)) : 0;
-              const gapH  = projH - actH;
               const isBaseline = bar.year === '2025';
+              // Three-office stacked heights (SD-8 Phase Two)
+              const ehH = bar.eh > 0 ? Math.max(4, Math.round(barPct(bar.eh))) : 0;
+              const shH = bar.sh > 0 ? Math.max(4, Math.round(barPct(bar.sh))) : 0;
+              const whH = bar.wh > 0 ? Math.max(4, Math.round(barPct(bar.wh))) : 0;
+              const stackedH = ehH + shH + whH;
+              const gapH = Math.max(0, projH - stackedH);
 
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
@@ -242,9 +308,9 @@ export default function FutureTab() {
                       <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
                     ) : (
                       <>
-                        {/* Projected gap (faint gold outline) */}
+                        {/* Projected gap (faint outline) */}
                         {gapH > 0 && (
-                          <div style={{ width: '100%', height: gapH, background: GOLD_FAINT_BG, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden', flexShrink: 0 }}>
+                          <div style={{ width: '100%', height: gapH, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden', flexShrink: 0 }}>
                             {bar.note && (
                               <div className="arc-note-desktop" style={{ ...SANS, fontSize: 8, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
                                 {bar.note}
@@ -252,13 +318,23 @@ export default function FutureTab() {
                             )}
                           </div>
                         )}
-                        {/* Actual fill (solid gold) */}
-                        {actH > 0 && (
-                          <div style={{ width: '100%', height: actH, background: GOLD, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
-                            <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
-                            <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>
-                              2026 YTD
-                            </div>
+                        {/* Westhampton layer (sage green) — top of stack */}
+                        {whH > 0 && (
+                          <div style={{ width: '100%', height: whH, background: WH_COLOR, flexShrink: 0, borderTop: `1px solid rgba(90,122,90,0.6)` }} />
+                        )}
+                        {/* Southampton layer (navy/steel) */}
+                        {shH > 0 && (
+                          <div style={{ width: '100%', height: shH, background: SH_COLOR, flexShrink: 0, borderTop: `1px solid rgba(58,90,122,0.6)` }} />
+                        )}
+                        {/* East Hampton layer (gold/amber) — base */}
+                        {ehH > 0 && (
+                          <div style={{ width: '100%', height: ehH, background: actH > 0 ? GOLD : EH_COLOR, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0', flexShrink: 0 }}>
+                            {actH > 0 && (
+                              <>
+                                <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
+                                <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>2026 YTD</div>
+                              </>
+                            )}
                           </div>
                         )}
                       </>
@@ -280,15 +356,23 @@ export default function FutureTab() {
           </div>
         </div>
 
-        {/* ── Legend ─────────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 18, marginBottom: 9, alignItems: 'center' }}>
+        {/* ── Legend ──────────────────────────────────────────────────────────────────── */}
+        <div style={{ display: 'flex', gap: 14, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: GOLD, flexShrink: 0 }} />
-            Actual &#8212; confirmed closings &middot; updates every deal
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_COLOR, flexShrink: 0 }} />
+            East Hampton &middot; 2026–2036
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: GOLD_FAINT_BG, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
-            Projected &#8212; model target &middot; live from Growth Model v2
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_COLOR, flexShrink: 0 }} />
+            Southampton &middot; opens 2028
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_COLOR, flexShrink: 0 }} />
+            Westhampton &middot; opens 2030
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
+            Projected — live from Growth Model v2 VOLUME Row 17
           </div>
         </div>
 
@@ -315,9 +399,9 @@ export default function FutureTab() {
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$1.823B trajectory.</strong> Year 2 Profit Pool activates. Three offices. 32 agents by 2036.</>,
+              shareholder: <><strong>$2.096B trajectory.</strong> Three offices. Year 2 Profit Pool activates. 32 agents by 2036.</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
-              team: "Christie's East Hampton compounding year over year.",
+              team: "EH + Southampton (2028) + Westhampton (2030) compounding to $2.096B.",
             },
           ].map(c => (
             <div key={c.phase} style={cardStyle}>

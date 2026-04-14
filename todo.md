@@ -1694,3 +1694,11 @@
 - [ ] SD8-6: William canonical four — retire LETTER, FLAGSHIP, INTEL, HELP, BRIEF [address] handlers; update state.json william.commands; update whatsapp-inbound.ts header
 - [ ] SD8-7: Pro Eye button audit — walk every button on every tab, walk every PDF export for typography/color/header/footer consistency
 - [ ] SD8-8: Flagship Letter draft — institutional voice, council review bridge, Ed sign-off per Doctrine 33, ship to dashboard front page
+
+## Sit-Down Eight — Phase Two (April 13, 2026 — tonight)
+
+- [ ] SD8-P2-1: Hold for Perplexity canonical Growth Model v2 source — Southampton 2028, Westhampton 2030, $1.823B 2036
+- [ ] SD8-P2-2: Wire Pro Forma Ascension Arc to canonical three-office trajectory via tRPC
+- [ ] SD8-P2-3: Verify Trello card count (at least 149) and seven document surface routes all return 200
+- [ ] SD8-P2-4: Draft end-of-day Flagship Letter with verified numbers, council review, Ed sign-off, wire to letter-content.ts
+- [ ] SD8-P2-5: Save final checkpoint, Ed clicks Publish
