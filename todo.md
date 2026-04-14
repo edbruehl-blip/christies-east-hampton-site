@@ -1702,3 +1702,6 @@
 - [ ] SD8-P2-3: Verify Trello card count (at least 149) and seven document surface routes all return 200
 - [ ] SD8-P2-4: Draft end-of-day Flagship Letter with verified numbers, council review, Ed sign-off, wire to letter-content.ts
 - [ ] SD8-P2-5: Save final checkpoint, Ed clicks Publish
+
+## April 14, 2026 — Favicon Fix
+- [x] OG/social preview image updated to Christie's Grand Saleroom auction room photo (1200×630)
