@@ -5,9 +5,10 @@
  * Gold background #C8AC78, charcoal text #384249, small caps, play icon.
  * Minimum 44px tap target. Works identically on mobile and laptop.
  *
- * Fix (Sprint 43): Dispatches 'stop-all-audio' custom event before playing
- * so HOME/REPORT audio players stop. Pre-creates Audio element before fetch
- * to stay within the user-gesture window for mobile autoplay policy.
+ * Fix (SD-9): Uses direct Audio src streaming instead of fetch-blob pattern.
+ * The letter is ~9MB — fetching the full blob caused a 20+ second spin before
+ * playback started. Streaming src lets the browser start playing as soon as
+ * the first chunk arrives (~2s), eliminating the wait.
  */
 
 import { useRef, useState, useEffect } from 'react';
@@ -18,18 +19,14 @@ const STOP_ALL_EVENT = 'stop-all-audio';
 export function FloatingDashboardIntro() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'playing'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const objectUrlRef = useRef<string | null>(null);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current.src = '';
         audioRef.current = null;
-      }
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-        objectUrlRef.current = null;
       }
     };
   }, []);
@@ -37,19 +34,15 @@ export function FloatingDashboardIntro() {
   const stopSelf = () => {
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.currentTime = 0;
+      audioRef.current.src = '';
       audioRef.current = null;
-    }
-    if (objectUrlRef.current) {
-      URL.revokeObjectURL(objectUrlRef.current);
-      objectUrlRef.current = null;
     }
     setStatus('idle');
   };
 
-  const handleClick = async () => {
-    // If already playing, stop
-    if (status === 'playing') {
+  const handleClick = () => {
+    // If already playing or loading, stop
+    if (status === 'playing' || status === 'loading') {
       stopSelf();
       return;
     }
@@ -59,55 +52,36 @@ export function FloatingDashboardIntro() {
 
     setStatus('loading');
 
-    try {
-      const res = await fetch('/api/tts/flagship-letter', { method: 'GET' });
-      if (!res.ok) throw new Error(`TTS request failed: ${res.status}`);
+    const audio = new Audio('/api/tts/flagship-letter');
+    audioRef.current = audio;
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      objectUrlRef.current = url;
+    // canplaythrough fires when enough data is buffered to play without interruption
+    audio.addEventListener('canplaythrough', () => {
+      // Already started playing via autoplay below — just update state
+    }, { once: true });
 
-      const audio = new Audio();
-      audioRef.current = audio;
-
-      audio.addEventListener('ended', () => {
-        setStatus('idle');
-        audioRef.current = null;
-        if (objectUrlRef.current) {
-          URL.revokeObjectURL(objectUrlRef.current);
-          objectUrlRef.current = null;
-        }
-      });
-
-      audio.addEventListener('error', (e) => {
-        console.error('[FloatingDashboardIntro] Audio error:', e);
-        setStatus('idle');
-        audioRef.current = null;
-        if (objectUrlRef.current) {
-          URL.revokeObjectURL(objectUrlRef.current);
-          objectUrlRef.current = null;
-        }
-      });
-
-      // Set src after attaching listeners — keeps within user-gesture window
-      audio.src = url;
-      audio.load();
-
-      const playPromise = audio.play();
-      if (playPromise !== undefined) {
-        await playPromise;
-      }
-
+    // Start playing as soon as the browser has enough data
+    audio.addEventListener('playing', () => {
       setStatus('playing');
-    } catch (err) {
-      console.error('[FloatingDashboardIntro] Error:', err);
+    }, { once: true });
+
+    audio.addEventListener('ended', () => {
       setStatus('idle');
-      if (objectUrlRef.current) {
-        URL.revokeObjectURL(objectUrlRef.current);
-        objectUrlRef.current = null;
-      }
       audioRef.current = null;
-    }
+    }, { once: true });
+
+    audio.addEventListener('error', (e) => {
+      console.error('[FloatingDashboardIntro] Audio error:', e);
+      setStatus('idle');
+      audioRef.current = null;
+    }, { once: true });
+
+    // play() returns a promise — browser starts buffering and plays as soon as ready
+    audio.play().catch((err) => {
+      console.error('[FloatingDashboardIntro] Play failed:', err);
+      setStatus('idle');
+      audioRef.current = null;
+    });
   };
 
   // Listen for stop-all-audio events dispatched by other players

@@ -269,8 +269,10 @@ export function registerTtsRoute(app: Express) {
   });
 
   // GET /api/tts/flagship-letter — Christie's Flagship Letter (council document)
-  // Serves from in-memory cache for instant response on desktop and mobile.
-  // Falls back to live streaming if cache is still warming.
+  // Serves from in-memory cache with HTTP Range support for browser streaming.
+  // Range support is critical: without it, browsers must download the full ~9MB
+  // before playback starts. With Accept-Ranges + Range handling, audio begins
+  // within ~2 seconds as the browser fetches only the first chunk it needs.
   app.get("/api/tts/flagship-letter", async (req, res) => {
     const apiKey = ENV.elevenLabsApiKey;
     if (!apiKey) {
@@ -278,28 +280,49 @@ export function registerTtsRoute(app: Express) {
       return;
     }
     try {
-      // Serve from cache if available
-      if (flagshipAudioCache) {
-        res.setHeader('Content-Type', 'audio/mpeg');
-        res.setHeader('Content-Length', flagshipAudioCache.length);
-        res.setHeader('Cache-Control', 'no-store');
-        res.end(flagshipAudioCache);
-        return;
-      }
-      // Cache still warming — wait for it (up to 30s)
-      if (flagshipCachePromise) {
-        const buf = await Promise.race([
+      // Resolve the buffer (from cache or wait for it)
+      let buf: Buffer | null = flagshipAudioCache;
+      if (!buf && flagshipCachePromise) {
+        buf = await Promise.race([
           flagshipCachePromise,
           new Promise<null>(resolve => setTimeout(() => resolve(null), 30000)),
         ]);
-        if (buf) {
-          res.setHeader('Content-Type', 'audio/mpeg');
-          res.setHeader('Content-Length', buf.length);
-          res.setHeader('Cache-Control', 'no-store');
-          res.end(buf);
-          return;
-        }
       }
+
+      if (buf) {
+        const total = buf.length;
+        const rangeHeader = req.headers['range'];
+
+        if (rangeHeader) {
+          // Handle Range: bytes=start-end for progressive streaming
+          const match = rangeHeader.match(/bytes=(\d+)-(\d*)/);
+          if (match) {
+            const start = parseInt(match[1], 10);
+            const end = match[2] ? parseInt(match[2], 10) : total - 1;
+            const chunkSize = end - start + 1;
+            res.writeHead(206, {
+              'Content-Type': 'audio/mpeg',
+              'Content-Range': `bytes ${start}-${end}/${total}`,
+              'Accept-Ranges': 'bytes',
+              'Content-Length': chunkSize,
+              'Cache-Control': 'no-store',
+            });
+            res.end(buf.subarray(start, end + 1));
+            return;
+          }
+        }
+
+        // Full response — include Accept-Ranges so browser knows it can seek/stream
+        res.writeHead(200, {
+          'Content-Type': 'audio/mpeg',
+          'Content-Length': total,
+          'Accept-Ranges': 'bytes',
+          'Cache-Control': 'no-store',
+        });
+        res.end(buf);
+        return;
+      }
+
       // Cache unavailable — fall back to live stream
       await streamTts(FLAGSHIP_LETTER_TEXT, apiKey, res);
     } catch (err) {
