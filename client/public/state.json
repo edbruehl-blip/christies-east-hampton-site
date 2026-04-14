@@ -478,7 +478,23 @@
       "WILLIAM_WHATSAPP_TO"
     ],
     "scheduler": "node-cron with America/New_York timezone",
-    "flow": "brief text \u2192 ElevenLabs MP3 \u2192 S3 upload \u2192 Twilio WhatsApp media message"
+    "flow": "brief text \u2192 ElevenLabs MP3 \u2192 S3 upload \u2192 Twilio WhatsApp media message",
+    "canonical_commands": [
+      "NEWS",
+      "PIPE",
+      "STATUS",
+      "BRIEF"
+    ],
+    "retired_commands": [
+      "LETTER",
+      "FLAGSHIP",
+      "INTEL",
+      "HELP",
+      "BRIEF_ADDRESS"
+    ],
+    "doctrine_33_locked": true,
+    "command_count": 4,
+    "last_updated": "2026-04-13"
   },
   "estate_advisory_card_loop": {
     "description": "Physical card \u2192 QR \u2192 MAPS tab \u2192 CIS calculator \u2192 Private Property Intelligence Brief",
@@ -503,7 +519,7 @@
     "count": 38,
     "sub_doctrine_count": 3,
     "total_entries": 41,
-    "count_note": "38 main locks + 3 sub-doctrines (31.4 RETIRED, 31.5, 31.6) = 41 canonical total. Reconciled by Perplexity April 13, 2026 — PROJ-027 stray DOCTRINE label removed. Council-approved canonical count.",
+    "count_note": "38 main locks + 3 sub-doctrines (31.4 RETIRED, 31.5, 31.6) = 41 canonical total. Reconciled by Perplexity April 13, 2026 \u2014 PROJ-027 stray DOCTRINE label removed. Council-approved canonical count.",
     "council_brief_framing": "/council-brief is a standard Sprint 9 document surface route \u2014 same queue as /flagship-letter, /james-christie-letter, /mission-model, /bike-card, /uhnw-wealth-path-card. It is NOT a gate document for the Ilija meeting. Ed mirrors the live dashboard to the screen at Rockefeller Center. No Pro Forma walk. No PDF export. No talking points. Recalibrated April 13 2026 per Ed + Claude directive.",
     "last_updated": "April 13, 2026",
     "locks": [

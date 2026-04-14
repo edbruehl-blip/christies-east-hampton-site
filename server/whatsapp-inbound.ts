@@ -4,13 +4,15 @@
  * Receives inbound WhatsApp messages from Twilio at:
  *   POST /api/whatsapp/inbound
  *
- * Supported commands (case-insensitive):
+ * Canonical commands (Doctrine 33 — operator-approved, case-insensitive):
  *   NEWS   — 14-category Cronkite intelligence brief via Perplexity, delivered
  *            as ElevenLabs William voice note
  *   PIPE   — Last 5 pipeline deals from Google Sheet (text reply)
  *   STATUS — Active listing count + pipeline summary (text reply)
  *   BRIEF  — Trigger morning brief immediately (voice note)
- *   HELP   — List available commands (text reply)
+ *
+ * Retired commands (SD-8, April 13 2026 — not operator-approved per Doctrine 33):
+ *   LETTER, FLAGSHIP, INTEL, HELP, BRIEF [address]
  *
  * Twilio webhook URL:
  *   https://www.christiesrealestategroupeh.com/api/whatsapp/inbound
@@ -201,45 +203,7 @@ async function handleBrief(to: string): Promise<void> {
   }
 }
 
-async function handleLetter(to: string): Promise<void> {
-  // LETTER keyword — James Christie's letter to the families, read aloud by William
-  // Source: CHRISTIES_LETTER_TEXT in tts-route.ts
-  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  await sendTextReply(to, "📜 Preparing the Christie's letter. William will deliver it in 20 seconds…");
-  try {
-    const { CHRISTIES_LETTER_TEXT } = await import("./letter-content");
-    const audioBuffer = await synthesiseAudio(CHRISTIES_LETTER_TEXT);
-    const audioUrl = await uploadAudio(audioBuffer, "christies-letter");
-    await sendVoiceReply(
-      to,
-      audioUrl,
-      "📜 Christie's East Hampton — The Letter · " + dateLabel
-    );
-  } catch (err: any) {
-    console.error("[WhatsApp LETTER] Error:", err);
-    await sendTextReply(to, "⚠️ Letter delivery failed. Try again or open christiesrealestategroupeh.com.");
-  }
-}
 
-async function handleFlagship(to: string): Promise<void> {
-  // FLAGSHIP keyword — Flagship AI-Letter, read aloud by William
-  // Source: FLAGSHIP_LETTER_TEXT in tts-route.ts (updated end-of-day per Doctrine 27)
-  const dateLabel = new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
-  await sendTextReply(to, "🏛️ Preparing the Flagship AI-Letter. William will deliver it in 30 seconds…");
-  try {
-    const { FLAGSHIP_LETTER_TEXT } = await import("./letter-content");
-    const audioBuffer = await synthesiseAudio(FLAGSHIP_LETTER_TEXT);
-    const audioUrl = await uploadAudio(audioBuffer, "flagship-letter");
-    await sendVoiceReply(
-      to,
-      audioUrl,
-      "🏛️ Christie's East Hampton — Flagship AI-Letter · " + dateLabel
-    );
-  } catch (err: any) {
-    console.error("[WhatsApp FLAGSHIP] Error:", err);
-    await sendTextReply(to, "⚠️ Flagship letter delivery failed. Try again or open christiesrealestategroupeh.com.");
-  }
-}
 
 async function handleStatus(to: string): Promise<void> {
   const now = new Date().toLocaleDateString("en-US", {
@@ -292,204 +256,21 @@ async function handlePipe(to: string): Promise<void> {
   }
 }
 
-async function handleIntel(to: string): Promise<void> {
-  try {
-    const { readIntelWebRows } = await import('./sheets-helper');
-    const entities = await readIntelWebRows();
-
-    // Top 5 Jarvis recruits: audience contains Jarvis_Top_Agents, type = RECRUIT, ordered by tier
-    const jarvisRecruits = entities
-      .filter(e => e.entityType === 'RECRUIT' && e.audience && e.audience.includes('Jarvis_Top_Agents'))
-      .slice(0, 5);
-
-    // Top 3 Whale entities: type = WHALE, audience contains Whale_Intelligence
-    const whales = entities
-      .filter(e => e.entityType === 'WHALE' && e.audience && e.audience.includes('Whale_Intelligence'))
-      .slice(0, 3);
-
-    const dateLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-
-    const recruitLines = jarvisRecruits.length > 0
-      ? jarvisRecruits.map((r, i) => `  ${i + 1}. ${r.entityName} — ${r.currentFirm || 'Independent'} · ${r.tier}${r.status ? ' · ' + r.status : ''}`).join('\n')
-      : '  No Tier 1 Jarvis recruits on file.';
-
-    const whaleLine = whales.length > 0
-      ? whales.map((w, i) => `  ${i + 1}. ${w.entityName}${w.notes ? ' — ' + w.notes.substring(0, 80) + (w.notes.length > 80 ? '…' : '') : ''}`).join('\n')
-      : '  No active whale intelligence on file.';
-
-    await sendTextReply(
-      to,
-      `🕵️ Christie's EH — Intelligence Flash · ${dateLabel}\n\n` +
-      `TOP 5 JARVIS RECRUITS\n${recruitLines}\n\n` +
-      `TOP 3 WHALE INTELLIGENCE\n${whaleLine}\n\n` +
-      `Full Intel Web: christiesrealestategroupeh.com (INTEL tab)`
-    );
-  } catch (err: any) {
-    await sendTextReply(to, `⚠️ Intel data temporarily unavailable: ${err.message ?? 'Unknown error'}. Check INTEL tab directly.`);
-  }
-}
 
 async function handleHelp(to: string): Promise<void> {
   await sendTextReply(
     to,
-    `🏛️ Christie's East Hampton — William Command Center\n\n` +
-    `Available commands:\n` +
-    `  NEWS      — 14-category intelligence brief (voice)\n` +
-    `  LETTER    — James Christie's letter to the families (voice)\n` +
-    `  FLAGSHIP  — Flagship AI-Letter, read aloud (voice)\n` +
-    `  BRIEF     — Morning brief (voice)\n` +
-    `  BRIEF [address] — Address CIS brief (hamlet, median, CIS score)\n` +
-    `  PIPE      — Pipeline deal summary\n` +
-    `  INTEL     — Top 5 recruits + top 3 whale intel\n` +
-    `  STATUS    — Platform status report\n` +
-    `  HELP      — This menu\n\n` +
+    `🏛️ Christie's East Hampton — William\n\n` +
+    `Canonical commands:\n` +
+    `  NEWS    — Intelligence brief (voice)\n` +
+    `  PIPE    — Pipeline deal summary\n` +
+    `  STATUS  — Platform status report\n` +
+    `  BRIEF   — Morning brief (voice)\n\n` +
     `26 Park Place, East Hampton · 646-752-1233`
   );
 }
 
-// ─── BRIEF [address] — Address-specific CIS brief ───────────────────────────────────────────
-// Static fallback lookup — used when Market Matrix sheet is unavailable.
-// Sprint 16 directive: BRIEF command now prefers live readMarketMatrixRows() data.
-const HAMLET_LOOKUP_FALLBACK: Record<string, { name: string; median: string; cis: number; tier: string }> = {
-  'sagaponack':            { name: 'Sagaponack',           median: '$8.04M',  cis: 9.4, tier: 'Ultra-Trophy' },
-  'east hampton village':  { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
-  'east hampton':          { name: 'East Hampton Village', median: '$5.25M',  cis: 9.2, tier: 'Ultra-Trophy' },
-  'bridgehampton':         { name: 'Bridgehampton',        median: '$4.47M',  cis: 9.1, tier: 'Trophy' },
-  'southampton village':   { name: 'Southampton Village',  median: '$4.385M', cis: 9.0, tier: 'Trophy' },
-  'southampton':           { name: 'Southampton Village',  median: '$4.385M', cis: 9.0, tier: 'Trophy' },
-  'water mill':            { name: 'Water Mill',           median: '$4.55M',  cis: 8.8, tier: 'Trophy' },
-  'sag harbor':            { name: 'Sag Harbor',           median: '$2.80M',  cis: 8.4, tier: 'Premier' },
-  'amagansett':            { name: 'Amagansett',           median: '$4.35M',  cis: 8.9, tier: 'Trophy' },
-  'east hampton north':    { name: 'East Hampton North',   median: '$2.03M',  cis: 8.6, tier: 'Premier' },
-  'springs':               { name: 'Springs',              median: '$1.58M',  cis: 6.8, tier: 'Opportunity' },
-  'montauk':               { name: 'Montauk',              median: '$2.24M',  cis: 8.2, tier: 'Premier' },
-  'wainscott':             { name: 'Wainscott',            median: '$3.18M',  cis: 8.7, tier: 'Trophy' },
-};
 
-// CIS tier from score — mirrors hamlet-master.ts logic
-function cisScoreToTier(cis: number): string {
-  if (cis >= 9.3) return 'Ultra-Trophy';
-  if (cis >= 8.7) return 'Trophy';
-  if (cis >= 8.0) return 'Premier';
-  return 'Opportunity';
-}
-
-// Build a live lookup from Market Matrix rows, falling back to static table on error.
-async function buildHamletLookup(): Promise<Record<string, { name: string; median: string; cis: number; tier: string }>> {
-  try {
-    const { readMarketMatrixRows } = await import('./sheets-helper');
-    const rows = await readMarketMatrixRows();
-    if (!rows || rows.length === 0) return HAMLET_LOOKUP_FALLBACK;
-    const live: Record<string, { name: string; median: string; cis: number; tier: string }> = {};
-    for (const row of rows) {
-      if (!row.hamlet) continue;
-      const key = row.hamlet.toLowerCase().trim();
-      const entry = {
-        name:   row.hamlet,
-        median: row.median2025 || '—',
-        cis:    row.cisScore   || 0,
-        tier:   cisScoreToTier(row.cisScore || 0),
-      };
-      live[key] = entry;
-      // Also register common short-form aliases
-      if (key === 'east hampton village') live['east hampton'] = entry;
-      if (key === 'southampton village')  live['southampton']  = entry;
-    }
-    return live;
-  } catch {
-    return HAMLET_LOOKUP_FALLBACK;
-  }
-}
-
-async function resolveHamletLive(text: string): Promise<{ name: string; median: string; cis: number; tier: string } | null> {
-  const lookup = await buildHamletLookup();
-  const lower = text.toLowerCase();
-  // Longest-match first to avoid 'east hampton' matching before 'east hampton village'
-  const keys = Object.keys(lookup).sort((a, b) => b.length - a.length);
-  for (const key of keys) {
-    if (lower.includes(key)) return lookup[key];
-  }
-  return null;
-}
-
-// Synchronous fallback for non-async callers (uses static table only)
-function resolveHamlet(text: string): { name: string; median: string; cis: number; tier: string } | null {
-  const lower = text.toLowerCase();
-  const keys = Object.keys(HAMLET_LOOKUP_FALLBACK).sort((a, b) => b.length - a.length);
-  for (const key of keys) {
-    if (lower.includes(key)) return HAMLET_LOOKUP_FALLBACK[key];
-  }
-  return null;
-}
-
-async function sendAddressBriefReply(
-  to: string,
-  address: string,
-  hamlet: { name: string; median: string; cis: number; tier: string }
-): Promise<void> {
-  const { invokeLLM } = await import('./_core/llm');
-  const res = await invokeLLM({
-    messages: [
-      {
-        role: 'system',
-        content: `You are William, Christie's East Hampton intelligence officer. Write exactly 3 sentences positioning Christie's for a property at this address. Tone: authoritative, institutional, measured. Reference the hamlet's character, the Christie's brand advantage (260 years, art-secured lending, auction house adjacency), and the CIS score. No filler. No hedging. No bullet points.`,
-      },
-      {
-        role: 'user',
-        content: `Address: ${address}\nHamlet: ${hamlet.name}\nTier: ${hamlet.tier}\nMedian: ${hamlet.median}\nCIS Score: ${hamlet.cis}/10`,
-      },
-    ],
-  });
-  const positioning = (typeof res.choices?.[0]?.message?.content === 'string' ? res.choices[0].message.content : '').trim();
-  await sendTextReply(
-    to,
-    `🏛️ CHRISTIE'S EAST HAMPTON · ADDRESS BRIEF\n\n` +
-    `📍 ${address}\n\n` +
-    `HAMLET: ${hamlet.name}\n` +
-    `TIER: ${hamlet.tier}\n` +
-    `MEDIAN: ${hamlet.median}\n` +
-    `CIS SCORE: ${hamlet.cis}/10\n\n` +
-    `CHRISTIE'S POSITIONING:\n${positioning}\n\n` +
-    `Full analysis: christiesrealestategroupeh.com (MAPS tab)`
-  );
-}
-
-async function handleAddressBrief(to: string, rawBody: string): Promise<void> {
-  // rawBody is the original (non-uppercased) message body, e.g. "BRIEF 26 Park Place East Hampton"
-  const address = rawBody.replace(/^BRIEF\s+/i, '').trim();
-  if (!address) {
-    await sendTextReply(to, `🏛️ Reply BRIEF followed by an address.\nExample: BRIEF 26 Park Place East Hampton`);
-    return;
-  }
-  // Try live Market Matrix lookup first (Sprint 16: reflects sheet updates)
-  const hamlet = await resolveHamletLive(address);
-  if (hamlet) {
-    await sendAddressBriefReply(to, address, hamlet);
-    return;
-  }
-  // Fall back to LLM hamlet identification
-  try {
-    const { invokeLLM } = await import('./_core/llm');
-    const res = await invokeLLM({
-      messages: [
-        {
-          role: 'system',
-          content: 'You are a East End real estate expert. Given an address, identify which hamlet it belongs to from this list ONLY: Sagaponack, East Hampton Village, Bridgehampton, Southampton Village, Water Mill, Sag Harbor, Amagansett, East Hampton North, Springs, Montauk, Wainscott. Reply with ONLY the hamlet name from the list, nothing else.',
-        },
-        { role: 'user', content: `Address: ${address}` },
-      ],
-    });
-    const identified = (typeof res.choices?.[0]?.message?.content === 'string' ? res.choices[0].message.content : '').trim();
-    const resolved = await resolveHamletLive(identified);
-    if (resolved) {
-      await sendAddressBriefReply(to, address, resolved);
-    } else {
-      await sendTextReply(to, `⚠️ Could not identify hamlet for: ${address}\n\nInclude the hamlet name, e.g.:\nBRIEF 26 Park Place East Hampton`);
-    }
-  } catch (err: any) {
-    await sendTextReply(to, `⚠️ Brief failed: ${err.message ?? 'Unknown error'}. Try again.`);
-  }
-}
 
 // ─── Route registration ───────────────────────────────────────────────────────
 export function registerWhatsAppInbound(app: Express): void {
@@ -510,27 +291,18 @@ export function registerWhatsAppInbound(app: Express): void {
     console.log(`[WhatsApp inbound] Command: "${body}" from ${from}`);
 
     try {
+      // Canonical four commands — Doctrine 33 (SD-8, April 13 2026)
       if (body === "NEWS") {
         await handleNews(from);
-      } else if (body === "LETTER") {
-        await handleLetter(from);
-      } else if (body === "FLAGSHIP") {
-        await handleFlagship(from);
       } else if (body === "PIPE" || body === "PIPELINE") {
         await handlePipe(from);
       } else if (body === "STATUS") {
         await handleStatus(from);
       } else if (body === "BRIEF" || body === "MORNING") {
         await handleBrief(from);
-      } else if (body.startsWith("BRIEF ")) {
-        await handleAddressBrief(from, rawBody);
-      } else if (body === "INTEL" || body === "INTELLIGENCE") {
-        await handleIntel(from);
-      } else if (body === "HELP" || body === "?") {
-        await handleHelp(from);
       } else {
-        // Unknown command — send help menu
-        await handleHelp(from);
+        // Unknown command — send canonical four list
+        await sendTextReply(from, `Unknown command. Reply NEWS, PIPE, STATUS, or BRIEF.`);
       }
     } catch (err: any) {
       console.error(`[WhatsApp inbound] Handler error for command "${body}":`, err);

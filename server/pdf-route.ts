@@ -120,8 +120,28 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
       timeout: 45_000,
     });
 
-    // Wait for Google Fonts (Cormorant Garamond + Barlow Condensed)
-    await page.evaluate(() => document.fonts.ready);
+    // Wait for all fonts to load — with 5s timeout fallback for restricted networks
+    // (conference rooms, flights, offline environments)
+    // Puppeteer runs localhost-to-localhost so Google Fonts CDN must be reachable.
+    // The timeout fallback ensures PDF generation proceeds with system fonts if CDN is unavailable.
+    await page.evaluate(async () => {
+      try {
+        await Promise.race([
+          document.fonts.ready,
+          new Promise<void>(resolve => setTimeout(resolve, 5000)),
+        ]);
+        // Force font rendering by measuring text in each font family used on Pro Forma
+        const testEl = document.createElement('span');
+        testEl.style.cssText = 'position:absolute;visibility:hidden;font-size:72px;top:-9999px';
+        document.body.appendChild(testEl);
+        for (const font of ['Playfair Display', 'Cormorant Garamond', 'Barlow Condensed', 'Inter', 'Source Sans 3']) {
+          testEl.style.fontFamily = `'${font}', serif`;
+          testEl.textContent = 'AaBbCcDdEeFf1234';
+          void testEl.offsetWidth; // force layout reflow
+        }
+        document.body.removeChild(testEl);
+      } catch { /* proceed with system fonts if CDN unavailable */ }
+    });
 
     // Additional wait for tRPC data to render (live sheet data)
     await new Promise((resolve) => setTimeout(resolve, 2000));

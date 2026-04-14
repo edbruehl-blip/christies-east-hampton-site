@@ -1684,3 +1684,13 @@
 - [x] SD7-4: SPA catch-all — Express fix if missing, test /pro-forma /council-brief /letters/flagship /letters/christies /report /future all return 200
 - [x] SD7-5: William pipeline check — Twilio webhook resolves, four canonical commands respond, ElevenLabs British RP voice renders
 - [x] SD7-6: state.json doctrine count edit — doctrine_count: 41, main_locks: 38, sub_doctrines: 3, reconciled: 2026-04-13, canonical_total: 41
+
+## Sit-Down Eight — Phase One (April 13, 2026)
+- [ ] SD8-1: Pro Forma PDF font embedding — embedFonts true in Puppeteer or local font hosting so Playfair Display and Inter are baked into the PDF
+- [ ] SD8-2: Three stale April 15 corrections — InstitutionalMindMap.tsx lines 244/246, FutureTab.tsx line 342
+- [ ] SD8-3: 191 Bull Path price correction — $3.8M → $3.6M on Pro Forma surface (FUTURE tab phase cards, agent cards, pipeline references)
+- [ ] SD8-4: Dead code removal — captureTabAsPDF function, tabRef, exporting state, html2canvas/jsPDF imports in FutureTab.tsx lines 197-233
+- [ ] SD8-5: MARKET treasury wiring — verify Yahoo Finance %5ETYX returns "treasury" field, wire live yield to Rate Environment card
+- [ ] SD8-6: William canonical four — retire LETTER, FLAGSHIP, INTEL, HELP, BRIEF [address] handlers; update state.json william.commands; update whatsapp-inbound.ts header
+- [ ] SD8-7: Pro Eye button audit — walk every button on every tab, walk every PDF export for typography/color/header/footer consistency
+- [ ] SD8-8: Flagship Letter draft — institutional voice, council review bridge, Ed sign-off per Doctrine 33, ship to dashboard front page

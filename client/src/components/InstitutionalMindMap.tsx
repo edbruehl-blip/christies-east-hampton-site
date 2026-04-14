@@ -44,7 +44,6 @@ import React, { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import {
-  generateMarketReport,
   generateEastHamptonVillageReport,
 } from "@/lib/pdf-exports";
 
@@ -204,9 +203,9 @@ const NODES: MapNode[] = [
     name: "PIPE",
     title: "Live Deal Engine · Office Pipeline Sheet",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Live deal engine. Three closest-to-close deals: 25 Horseshoe Road $5.75M IN CONTRACT · 191 Bull Path $3.3M ACTIVE LISTING · 140 Hands Creek $3.3M NEGOTIATING. Pulls from Office Pipeline sheet live.",
+    note: "Live deal engine. Three closest-to-close deals: 25 Horseshoe Road $5.75M IN CONTRACT · 191 Bull Path $3.6M ACTIVE LISTING · 140 Hands Creek $3.3M NEGOTIATING. Pulls from Office Pipeline sheet live.",
     x: 560, y: 900, r: R,
-    members: ["25 Horseshoe Rd $5.75M — IN CONTRACT", "191 Bull Path $3.3M — ACTIVE LISTING", "140 Hands Creek $3.3M — NEGOTIATING"],
+    members: ["25 Horseshoe Rd $5.75M — IN CONTRACT", "191 Bull Path $3.6M — ACTIVE LISTING", "140 Hands Creek $3.3M — NEGOTIATING"],
     rw: R, rh: R,
     clickAction: { type: "nav", tab: "pipe", label: "Navigate to PIPE tab" } },
 
@@ -241,9 +240,9 @@ const NODES: MapNode[] = [
     name: "FLAGSHIP TEAM",
     title: "Ed's Inner Circle · Equity Participants · Direct Responsibility",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Ed's personal orbit — equity, ownership, direct responsibility in the model. Jarvis Slade — COO and Agent. Angel Theodore — Operations. Zoila Ortega Astor — Office Director, joins April 15. Scott Smith — joins June 1. Richard Bruehl — Strategic Mentor, holds 10% AnewHomes equity.",
+    note: "Ed's personal orbit — equity, ownership, direct responsibility in the model. Jarvis Slade — COO and Agent. Angel Theodore — Operations. Zoila Ortega Astor — Office Director, joins April 25. Scott Smith — joins June 1. Richard Bruehl — Strategic Mentor, holds 10% AnewHomes equity.",
     x: 620, y: 1080, r: R,
-    members: ["Jarvis Slade — COO & Agent", "Angel Theodore — Operations", "Zoila Ortega Astor *Apr 15", "Scott Smith *June 1", "Richard Bruehl — Mentor 10%"],
+    members: ["Jarvis Slade — COO & Agent", "Angel Theodore — Operations", "Zoila Ortega Astor *Apr 25", "Scott Smith *June 1", "Richard Bruehl — Mentor 10%"],
     rw: R, rh: R },
 
   { id: "eh_office",
@@ -416,7 +415,7 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
     x: 340, y: 1920, r: 18,
-    clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: () => generateMarketReport() } },
+    clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: async () => { const res = await fetch('/api/pdf?url=/market'); if (!res.ok) throw new Error('PDF failed'); const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Christies_EH_Market_Report.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); } } },
 
   { id: "exp_hamlet",
     name: "Hamlet PDFs x11",
@@ -678,7 +677,7 @@ const FLAGSHIP_HIERARCHY = [
   { role: "Managing Director",   name: "Ed Bruehl",           note: "$1B+ career sales · 20+ years East End · Appointed Nov 2025",        status: "ACTIVE" },
   { role: "COO & Agent",         name: "Jarvis Slade",         note: "Chief Operating Officer · Equity participant · Direct responsibility", status: "ACTIVE" },
   { role: "Operations",          name: "Angel Theodore",       note: "Operations lead · Equity participant",                                 status: "ACTIVE" },
-  { role: "Office Director",     name: "Zoila Ortega Astor",   note: "Joins April 15, 2026 · 26 Park Place",                                status: "ACTIVE" },
+  { role: "Office Director",     name: "Zoila Ortega Astor",   note: "Joins April 25, 2026 · 26 Park Place",                                status: "ACTIVE" },
   { role: "Agent",               name: "Scott Smith",          note: "Joins June 1, 2026",                                                  status: "WARM"   },
   { role: "Strategic Mentor",    name: "Richard Bruehl",       note: "Holds 10% AnewHomes equity · Senior strategic counsel",              status: "ACTIVE" },
 ];

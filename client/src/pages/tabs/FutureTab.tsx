@@ -8,7 +8,6 @@
 
 import React, { useMemo, useRef, useState } from 'react';
 import { trpc } from '@/lib/trpc';
-// Wire Six: html2canvas screen capture — no jsPDF data arrays
 import '@/styles/future-print.css';
 
 // ─── Design tokens (match wireframe exactly) ─────────────────────────────────
@@ -198,39 +197,6 @@ export default function FutureTab() {
   const tabRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
 
-  async function captureTabAsPDF(filename: string) {
-    if (!tabRef.current || exporting) return;
-    setExporting(true);
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const { jsPDF } = await import('jspdf');
-      // Scroll to top so full content is captured
-      window.scrollTo(0, 0);
-      await new Promise(r => setTimeout(r, 120)); // let layout settle
-      const canvas = await html2canvas(tabRef.current, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#0a1628',
-        logging: false,
-        windowWidth: tabRef.current.scrollWidth,
-        windowHeight: tabRef.current.scrollHeight,
-      });
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF({
-        orientation: canvas.width > canvas.height ? 'landscape' : 'portrait',
-        unit: 'px',
-        format: [canvas.width / 2, canvas.height / 2],
-      });
-      pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
-      pdf.save(filename);
-    } catch (e) {
-      console.error('Export failed', e);
-      alert('Export failed. Please try again.');
-    } finally {
-      setExporting(false);
-    }
-  }
 
   return (
     <div ref={tabRef} style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff', overflowX: 'hidden' }}>
@@ -339,7 +305,7 @@ export default function FutureTab() {
               phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
               shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
               client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
-              team: 'Zoila incoming April 15. Flagship Relaunch April 29.',
+              team: 'Zoila incoming April 25. Flagship Relaunch April 29.',
             },
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',

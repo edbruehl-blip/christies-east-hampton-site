@@ -24,7 +24,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } 
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
 // WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
-import { generateMarketReport, generateUHNWPathCard } from '@/lib/pdf-exports';
+// pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
 import { trpc } from '@/lib/trpc';
 
 // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
@@ -495,8 +495,18 @@ export default function HomeTab() {
   const handleMarketReportPdf = async () => {
     setPdfLoading(true);
     try {
-      const liveRows = matrixResponse?.hamlets ?? [];
-      await generateMarketReport({ liveRows: liveRows.length > 0 ? liveRows : undefined });
+      // Puppeteer architecture — photographs /market page (SD-8 migration from jsPDF)
+      const res = await fetch('/api/pdf?url=/market');
+      if (!res.ok) throw new Error(`PDF generation failed: ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Christies_EH_Market_Report_${new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     } finally {
       setPdfLoading(false);
     }
@@ -657,7 +667,23 @@ export default function HomeTab() {
                   Open &amp; Print ↗
                 </a>
                 <button
-                  onClick={() => generateUHNWPathCard()}
+                  onClick={async () => {
+                    try {
+                      const res = await fetch('/api/pdf?url=/cards/uhnw-path');
+                      if (!res.ok) throw new Error('PDF failed');
+                      const blob = await res.blob();
+                      const url = URL.createObjectURL(blob);
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'Christies_EH_UHNW_Path_Card.pdf';
+                      document.body.appendChild(a);
+                      a.click();
+                      document.body.removeChild(a);
+                      URL.revokeObjectURL(url);
+                    } catch (e) {
+                      console.error('UHNW PDF error:', e);
+                    }
+                  }}
                   style={{
                     display: 'inline-flex', alignItems: 'center', gap: 8,
                     padding: '9px 20px',
