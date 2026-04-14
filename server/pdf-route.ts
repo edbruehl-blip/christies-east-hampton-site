@@ -24,7 +24,43 @@
 
 import { Router, type Request, type Response } from 'express';
 import puppeteer from 'puppeteer-core';
+import { existsSync } from 'fs';
 import { sdk } from './_core/sdk';
+
+/**
+ * Resolve the best available Chromium/Chrome binary.
+ * Priority:
+ *   1. /usr/bin/chromium          (sandbox / Ubuntu dev)
+ *   2. /usr/bin/chromium-browser  (some Ubuntu variants)
+ *   3. /usr/bin/google-chrome     (some CI environments)
+ *   4. puppeteer bundled Chrome   (deployed Manus container — ~/.cache/puppeteer)
+ */
+function getChromiumPath(): string {
+  const candidates = [
+    '/usr/bin/chromium',
+    '/usr/bin/chromium-browser',
+    '/usr/bin/google-chrome',
+    '/usr/bin/google-chrome-stable',
+    '/usr/local/bin/chromium',
+  ];
+  for (const p of candidates) {
+    if (existsSync(p)) {
+      console.log(`[PDF] Using system Chromium: ${p}`);
+      return p;
+    }
+  }
+  // Fall back to puppeteer bundled Chrome (works in deployed containers)
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const puppeteerFull = require('puppeteer') as { executablePath: () => string };
+    const bundled = puppeteerFull.executablePath();
+    if (existsSync(bundled)) {
+      console.log(`[PDF] Using bundled Chrome: ${bundled}`);
+      return bundled;
+    }
+  } catch { /* puppeteer full not installed */ }
+  throw new Error('No Chromium binary found. Install chromium-browser or puppeteer.');
+}
 
 const router = Router();
 
@@ -95,7 +131,7 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     console.log(`[PDF] Photographing ${targetUrl}`);
 
     browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium',
+      executablePath: getChromiumPath(),
       headless: true,
       args: [
         '--no-sandbox',
@@ -202,7 +238,7 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
     const reportUrl = `http://localhost:${port}/report`;
 
     browser = await puppeteer.launch({
-      executablePath: '/usr/bin/chromium-browser',
+      executablePath: getChromiumPath(),
       headless: true,
       args: [
         '--no-sandbox',

@@ -286,7 +286,7 @@ export default function FutureTab() {
           {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
             {BARS.map((bar) => (
-              <div key={bar.year} className="future-bar-label" style={{ flex: 1, minWidth: 0, ...SANS, fontSize: 11, color: GOLD, fontWeight: 600, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div key={bar.year} className="future-bar-label" style={{ flex: 1, minWidth: 0, ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, textAlign: 'center', whiteSpace: 'normal', overflow: 'visible', lineHeight: 1.2, wordBreak: 'break-all' }}>
                 {bar.display}
               </div>
             ))}
@@ -339,7 +339,7 @@ export default function FutureTab() {
                             {actPct > 0 && (
                               <>
                                 <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
-                                <div style={{ ...SANS, fontSize: 7, color: NAVY, fontWeight: 700, textAlign: 'center', whiteSpace: 'nowrap', padding: '1px 2px 0', letterSpacing: '0.08em' }}>2026 YTD</div>
+                                {/* 2026 YTD label removed — too small to read on mobile */}
                               </>
                             )}
                           </div>
