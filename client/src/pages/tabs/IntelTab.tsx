@@ -594,6 +594,13 @@ const DOCUMENT_LIBRARY: DocItem[] = [
     url: 'https://docs.google.com/document/d/17JzYGv5U-014WdD5AbLy8nlQpDvwNdQIhzMlARdYRLs/edit',
     pinned: true,
   },
+  {
+    id: 'rl-012-council-onboarding-brief',
+    label: 'RL-012 · Council Onboarding Brief · April 14, 2026',
+    description: 'Full council onboarding brief for incoming reviewers Grok, Gemini, and ChatGPT. Covers institutional trajectory, team structure, AnewHomes equity, William voice pipeline, dashboard architecture, and the cardinal principle: the dashboard is the source of truth. Drafted by Claude Opus, patched by Perplexity Intelligence Officer, confirmed by Ed Bruehl. Five canonical patches applied.',
+    url: 'https://docs.google.com/document/d/1RfkfCR2qxipjx3BF_5W_NjGV_wy8qsEOt2ZmmzBZuSU/edit',
+    pinned: true,
+  },
 ];
 
 function DocumentLibrary() {

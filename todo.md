@@ -1824,3 +1824,8 @@
 - [x] Flagship Letter: add incoming reviewer council lane assignments (Grok → market intelligence, Gemini → local intelligence, ChatGPT → general research) with specific scrubbing responsibilities per each lane
 - [x] Flagship Letter: add cardinal principle — dashboard is the source of truth; council voices scrub current data into the canonical system; walk the surface before asking the operator
 - [ ] state.json: update council_voices section with three incoming reviewer lane assignments and cardinal principle (deferred — Perplexity’s lane for canonical ingestion)
+
+## April 14 2026 — RL-012 INTEL Wiring + Full-Council Audit Refresh
+
+- [x] Wire RL-012 Google Doc link into INTEL Document Library (https://docs.google.com/document/d/1RfkfCR2qxipjx3BF_5W_NjGV_wy8qsEOt2ZmmzBZuSU/edit)
+- [ ] Refresh and expand COUNCIL_AUDIT_APRIL_14_2026.md — Sprint 10 canonical state, all corrections applied, Flagship Letter (Patch 5) included in full
