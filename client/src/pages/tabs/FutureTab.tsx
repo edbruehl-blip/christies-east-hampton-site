@@ -280,9 +280,17 @@ export default function FutureTab() {
         </div>
 
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '30px 14px 0', marginBottom: 10 }}>
-          {/* Bars row */}
-          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, paddingBottom: 10 }}>
+        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '14px 14px 0', marginBottom: 10 }}>
+          {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
+          <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
+            {BARS.map((bar) => (
+              <div key={bar.year} className="future-bar-label" style={{ flex: 1, minWidth: 0, ...SANS, fontSize: 11, color: GOLD, fontWeight: 600, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {bar.display}
+              </div>
+            ))}
+          </div>
+          {/* Bars row — fixed height, no dollar labels inside */}
+          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT }}>
 
             {BARS.map((bar) => {
               const projH = barPct(bar.vol);
@@ -297,11 +305,7 @@ export default function FutureTab() {
 
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
-                  {/* Dollar label above bar */}
-                  <div className="future-bar-label" style={{ ...SANS, fontSize: 13, color: GOLD, fontWeight: 600, marginBottom: 4, textAlign: 'center', whiteSpace: 'nowrap' }}>
-                    {bar.display}
-                  </div>
-                  {/* Bar column */}
+                  {/* Bar column only — no label here */}
                   <div style={{ width: '100%', height: projH, display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
                       /* 2025 baseline — simple dim bar */
