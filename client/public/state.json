@@ -2,8 +2,8 @@
   "_meta": {
     "title": "Christie's East Hampton \u2014 Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
-    "last_updated": "2026-04-12",
-    "sprint": 8,
+    "last_updated": "2026-04-14",
+    "sprint": 9,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL + Puppeteer (headless Chromium v146)"
@@ -91,9 +91,37 @@
       },
       {
         "name": "Richard Bruehl",
-        "role": "Strategic Mentor",
+        "role": "Advisory AnewHomes",
         "status": "active",
-        "equity": "10% AnewHomes"
+        "equity": "10% AnewHomes",
+        "note": "Co-founder Guayak\u00ed yerba mate. Strategic counselor to Ed."
+      },
+      {
+        "name": "Sebastian Mobo",
+        "role": "Broker",
+        "status": "active",
+        "gci_2026": "$100,000",
+        "note": "PX-004 correction April 14 2026: canonical role is Broker (not Salesperson). Perplexity corrected Intelligence Web sheet directly."
+      },
+      {
+        "name": "Bonita DeWolf",
+        "role": "Agent",
+        "status": "active",
+        "gci_2026": "$600,000",
+        "trajectory": "$600K \u2192 $720K \u2192 $864K \u2192 $1M cap at 2029",
+        "note": "$30M projected 2026 sales including $9.5M deal already in contract."
+      },
+      {
+        "name": "Sandy Busch",
+        "role": "Agent",
+        "status": "active",
+        "gci_2026": "$25,000"
+      },
+      {
+        "name": "Jan Jaeger",
+        "role": "Agent",
+        "status": "active",
+        "gci_2026": "$25,000"
       }
     ],
     "council_members": [
@@ -897,5 +925,72 @@
     "date": "April 13, 2026",
     "checkpoint": "7abb930a",
     "note": "Exported via Manus Settings \u2192 GitHub panel. Sprint 8 permanently closed. Full codebase backup including all 7 live document surfaces, Puppeteer PDF architecture, ElevenLabs TTS, WhatsApp keywords, letter-content.ts single source of truth, and 42 doctrine entries."
+  },
+  "rl_010": {
+    "title": "RL-010 \u2014 Canonical State of the Institution",
+    "locked": "April 14, 2026",
+    "authority": "Ed Bruehl operator rulings with Claude Opus architect synthesis and Perplexity Intelligence Officer audit closure",
+    "note": "Single source of truth for institutional state. When any fact changes, update RL-010 and the change propagates through the transparency doctrine.",
+    "institution": {
+      "name": "Christie's International Real Estate Group East Hampton Flagship",
+      "address": "26 Park Place, East Hampton NY 11937",
+      "affiliate_principal": "Ilija Pavlovic (CIREG Tri-State)",
+      "managing_director": "Ed Bruehl",
+      "launched": "January 2026",
+      "governing_philosophy": "The 1766 James Christie principle of understanding provenance and significance before deciding what to do"
+    },
+    "trajectory": {
+      "2026": { "eh": 75000000, "sh": 0, "wh": 0, "combined": 75000000 },
+      "2027": { "eh": 126000000, "sh": 0, "wh": 0, "combined": 126000000 },
+      "2028": { "eh": 211000000, "sh": 42500000, "wh": 0, "combined": 253500000 },
+      "2029": { "eh": 355000000, "sh": 102000000, "wh": 0, "combined": 457000000 },
+      "2030": { "eh": 596000000, "sh": 114000000, "wh": 42500000, "combined": 752500000 },
+      "2031": { "eh": 1000000000, "sh": 117000000, "wh": 102000000, "combined": 1219000000, "note": "Billion-dollar threshold crossed" },
+      "2032": { "eh": 1222000000, "sh": 121000000, "wh": 114000000, "combined": 1457000000 },
+      "2033": { "eh": 1494000000, "sh": 125000000, "wh": 117000000, "combined": 1736000000 },
+      "2034": { "eh": 1826000000, "sh": 130000000, "wh": 121000000, "combined": 2076000000 },
+      "2035": { "eh": 2231000000, "sh": 136000000, "wh": 125000000, "combined": 2492000000 },
+      "2036": { "eh": 2727000000, "sh": 143000000, "wh": 130000000, "combined": 3000000000, "note": "Ten-year arc destination" }
+    },
+    "commission_rate": 0.02,
+    "profit_pool": { "ed": 0.35, "ilija": 0.65 },
+    "breakeven_volume": 40000000,
+    "anew_homes_equity": {
+      "ed": 0.35, "scott": 0.35, "richard": 0.10,
+      "jarvis": 0.05, "angel": 0.05, "zoila": 0.05, "pool": 0.05
+    },
+    "roster_aggregate_2026": {
+      "existing_subtotal_row16": 2080000,
+      "targeted_subtotal_9_future_hires": 1125000,
+      "organic_subtotal_4_adds": 200000,
+      "grand_total_row44": 3405000
+    },
+    "william_voice": {
+      "voice_id": "fjnwTZkKtQOJaYzGLa6n",
+      "accent": "British RP",
+      "role": "Voice delivery channel — not an AI assistant",
+      "keywords": ["DASHBOARD", "LETTER", "NEWS", "BRIEF"]
+    },
+    "council": {
+      "structure": "Four-voice council plus one voice delivery channel",
+      "voices": ["Claude Opus (architect)", "Perplexity (intelligence officer)", "Manny (builder)", "Ed (operator)"],
+      "william_note": "Voice delivery channel only — not a fifth council voice",
+      "workflow": "Claude + ChatGPT \u2192 Ed confirms \u2192 Perplexity formats brief \u2192 Ed approves \u2192 Manny builds"
+    },
+    "permanent_rules": [
+      "Never mention competitors (Saunders, Raveis, Elliman, Corcoran, Compass, Sotheby's) on any public surface",
+      "Public attribution reads 'verified market data' or 'Christie's market intelligence' only",
+      "Frank Newbold is Relationship Intelligence designation — Jarvis never approaches him",
+      "Lily Fan is Whale Number One — internal name only, never public",
+      "Springs is never 'The Springs'",
+      "Website equals live report, PDF equals snapshot of scroll, nothing designed twice"
+    ],
+    "surfaces": {
+      "dashboard": "https://www.christiesrealestategroupeh.com",
+      "growth_model": "Growth Model v2 spreadsheet with 9 canonical tabs",
+      "trello_board": "H2mvEgRi (146 cards)",
+      "miro_board": "Christie's East Hampton Operating System v3 — uXjVGj6Oc40",
+      "research_library": "RL-001 through RL-010"
+    }
   }
 }

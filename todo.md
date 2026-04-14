@@ -1788,3 +1788,8 @@
 - [x] Item 8: Scott Smith LEADERBOARD — LEADERBOARD is a Google Sheet tab, not a dashboard component. Scott already in FutureTab agent card and ProFormaPage. Updated FutureTab 2026 projected GCI from $47.5K → $50K to match canonical ROSTER Row 9 value.
 - [x] Item 9: Sebastian Broker label — "Salesperson" in codebase appears only in proforma-generator.ts line 888 as Ed’s license footer (correct, not Sebastian). Sebastian has no role label in any dashboard component. Intelligence Web Google Sheet is the live data source — if PX-004 correction applies to that sheet, edit row for Sebastian Mobo in sheet directly (column B entityType or notes). No dashboard code change needed.
 - [ ] Item 10: Trello card #7 Ed RL-002 — PLACEHOLDER_RL002 not found anywhere in dashboard codebase. Trello cards are not stored in code — the board is an iframe embed. This is a Trello-direct edit. Blocked pending RL-002 Google Doc URL confirmation from Ed or Perplexity.
+
+## April 14 2026 — Post-Checkpoint Queue (Ed stand-down brief)
+
+- [x] PDF light-mode visual review — navigated /future?pdf=1; found header title invisible (hardcoded #fff on white) and Live indicator jarring green; fixed both: header now uses TEXT_PRIMARY token, Live dot suppressed in PDF mode. Layout passes institutional print standards.
+- [x] RL-010 ingestion — ingested into state.json as rl_010 key with full trajectory, AnewHomes equity, ROSTER aggregates, William voice config, council structure, permanent rules, and surfaces. Added Sebastian Mobo (Broker, $100K GCI), Bonita DeWolf (Agent, $600K GCI), Sandy Busch, Jan Jaeger to human_members. Updated _meta to sprint 9, last_updated 2026-04-14.

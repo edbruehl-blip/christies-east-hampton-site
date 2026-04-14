@@ -345,11 +345,11 @@ export default function FutureTab() {
           <div style={{ ...SANS, fontSize: 8.5, color: GOLD, letterSpacing: 1.5, flexShrink: 0 }}>
             CHRISTIE&apos;S &middot; INTERNATIONAL REAL ESTATE GROUP &middot; EAST HAMPTON &middot; EST. 1766
           </div>
-          <div style={{ ...SANS, fontSize: 16, color: '#fff', letterSpacing: 3, textTransform: 'uppercase' as const, flex: '1 1 auto', textAlign: 'center' as const }}>
+          <div style={{ ...SANS, fontSize: 16, color: TEXT_PRIMARY, letterSpacing: 3, textTransform: 'uppercase' as const, flex: '1 1 auto', textAlign: 'center' as const }}>
             Ascension Arc
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
-            {(arcData && !arcLoading) || (volData && !volLoading) ? (
+            {!isPdfMode && ((arcData && !arcLoading) || (volData && !volLoading)) ? (
               <span style={{ ...SANS, color: '#4ade80', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const }}>&#9679; Live</span>
             ) : null}
             <ProFormaButton />
