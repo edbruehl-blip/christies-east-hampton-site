@@ -111,3 +111,27 @@ temp/
 
 # Manus version file (auto-generated, not part of source)
 client/public/__manus__/version.json
+*.pdf
+# Audit reports and council briefs (not source code)
+AUDIT_*.md
+CLOSE_OUT_*.md
+COUNCIL_BRIEF_*.md
+DATA_SOURCE_*.md
+ENV_REFERENCE.md
+MINDMAP_*.md
+MORNING_*.md
+PLATFORM_AUDIT_*.md
+PLATFORM_AUDIT_*.md
+SITE_AUDIT.md
+SYSTEM_AUDIT_*.md
+christies-eh-full-audit*.md
+council-architecture*.md
+council-audit*.md
+council-brief*.md
+council_brief*.md
+platform-master*.md
+platform-inventory*.md
+platform-review*.md
+platform_status*.md
+sprint*.md
+infrastructure_audit*.md
