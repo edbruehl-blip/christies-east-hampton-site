@@ -86,14 +86,11 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Ensure Chrome is available for PDF generation (BLOCKING — server waits before accepting requests)
-  // This guarantees PDF endpoints never fail with "No Chromium binary found" on cold start.
-  // On deployed containers without system Chrome, this downloads Chrome once (~30s) then caches it.
-  try {
-    await ensureChromiumAvailable();
-  } catch (e) {
-    console.warn('[Chromium] Chrome not available — PDF generation will fail:', e);
-  }
+  // Ensure Chrome is available for PDF generation (non-blocking — server starts immediately)
+  // The PDF route uses waitForChromium() which polls until Chrome is ready (up to 60s).
+  // This avoids OOM on deployed containers where Chrome download (~150MB) would exceed the 512MB limit
+  // if run synchronously before the server starts accepting health-check requests.
+  ensureChromiumAvailable().catch(e => console.warn('[Chromium] Startup check failed:', e));
 
   // Resolve port first so the PDF route knows which port to navigate to
   const preferredPort = parseInt(process.env.PORT || "3000");

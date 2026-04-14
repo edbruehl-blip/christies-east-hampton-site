@@ -1781,3 +1781,10 @@
 - [x] Ed agent card mapping error — Ed card shows $600K Actual GCI (should be $750K); Bonita shows $750K (should be $600K); fix row mapping
 - [x] Agent card text contrast — card body values (dollar amounts, year headers, row labels) in gold on dark navy; update to white/near-white for readability; keep gold for agent name headers only
 - [x] PDF light mode rendering — PDF exports should invert to light mode (dark text on white background) for institutional print quality
+
+## April 14 2026 — Ten-Item Follow-up Checkpoint (4:45 PM EDT)
+
+- [x] Item 7: Jarvis role — Confirmed correct in all dashboard code: FutureTab line 626 = "COO · Agent", state.json = "COO & Agent", InstitutionalMindMap = "COO & Agent". ROSTER tab cell C7 in Growth Model v2 Google Sheet is Ed/Perplexity’s lane — dashboard reads GCI numbers from ROSTER but not the role label. No code change needed.
+- [x] Item 8: Scott Smith LEADERBOARD — LEADERBOARD is a Google Sheet tab, not a dashboard component. Scott already in FutureTab agent card and ProFormaPage. Updated FutureTab 2026 projected GCI from $47.5K → $50K to match canonical ROSTER Row 9 value.
+- [x] Item 9: Sebastian Broker label — "Salesperson" in codebase appears only in proforma-generator.ts line 888 as Ed’s license footer (correct, not Sebastian). Sebastian has no role label in any dashboard component. Intelligence Web Google Sheet is the live data source — if PX-004 correction applies to that sheet, edit row for Sebastian Mobo in sheet directly (column B entityType or notes). No dashboard code change needed.
+- [ ] Item 10: Trello card #7 Ed RL-002 — PLACEHOLDER_RL002 not found anywhere in dashboard codebase. Trello cards are not stored in code — the board is an iframe embed. This is a Trello-direct edit. Blocked pending RL-002 Google Doc URL confirmation from Ed or Perplexity.

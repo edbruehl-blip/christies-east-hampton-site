@@ -69,6 +69,27 @@ async function getChromiumPath(): Promise<string> {
   throw new Error('No Chromium binary found. Install chromium-browser or puppeteer.');
 }
 
+/**
+ * Wait for Chrome to become available (polls every 3s, up to 60s).
+ * This handles the race condition where a PDF request arrives before the
+ * background ensureChromiumAvailable() download completes on a cold start.
+ * On deployed containers without system Chrome, Chrome downloads in ~30s.
+ */
+async function waitForChromium(timeoutMs = 60_000): Promise<string> {
+  const pollIntervalMs = 3_000;
+  const deadline = Date.now() + timeoutMs;
+  while (Date.now() < deadline) {
+    try {
+      return await getChromiumPath();
+    } catch {
+      const remaining = Math.round((deadline - Date.now()) / 1000);
+      console.log(`[PDF] Chrome not ready yet, retrying... (${remaining}s remaining)`);
+      await new Promise(r => setTimeout(r, pollIntervalMs));
+    }
+  }
+  throw new Error('Chrome did not become available within 60 seconds. PDF generation failed.');
+}
+
 const router = Router();
 
 // Detect the running server port from the environment or default
@@ -139,7 +160,8 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     console.log(`[PDF] Photographing ${targetUrl}`);
 
     browser = await puppeteer.launch({
-      executablePath: await getChromiumPath(),
+      // waitForChromium polls until Chrome is ready (handles cold-start race on deployed containers)
+      executablePath: await waitForChromium(),
       headless: true,
       args: [
         '--no-sandbox',
@@ -246,7 +268,7 @@ router.get('/api/pdf/report', async (req: Request, res: Response) => {
     const reportUrl = `http://localhost:${port}/report`;
 
     browser = await puppeteer.launch({
-      executablePath: await getChromiumPath(),
+      executablePath: await waitForChromium(),
       headless: true,
       args: [
         '--no-sandbox',
