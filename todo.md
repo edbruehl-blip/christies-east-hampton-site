@@ -1747,3 +1747,25 @@
 - [x] Astra ghost reference cleanup
 - [x] /cards/uhnw-path route + UHNW Path Card component
 - [x] William canonical four lock: DASHBOARD=end-of-day letter, LETTER=James Christie homepage, NEWS=Market Report, BRIEF=council-to-Ed channel
+
+## April 14, 2026 — Canonical Rulings (Ed, in person with Angel)
+
+### Pro Forma Ascension Arc — Canonical Trajectory (locked)
+- VOLUME Row 10 updated by Perplexity: $55M → $75M (2026 base)
+- Canonical endpoint: $1B in 2031, $3B three-office combined by 2036
+- CAGR: 67.9% through 2031, ~25% compounding 2031–2036
+- Replaces prior $2.096B 2036 figure from Flagship Letter v2 (April 13 night)
+- Pro Forma Ascension Arc chart reads live from VOLUME via tRPC — no code changes needed
+- Row 44 Grand Total formula already correct — re-computes automatically after Perplexity's Row 5 and Row 9 updates
+- [ ] MONITOR: Confirm chart renders new trajectory on next refresh after Perplexity's cells land
+
+### $65K Admin Line — Framing (parked, awaiting Ed's ruling)
+- Ed's read: lives as a separate office expense line BELOW the individual Angel/Zoila cards (shared cost, not on either agent card)
+- [ ] PARKED: Ship agent card update with admin line in correct position once Ed rules on framing
+
+### Combined Checkpoint 42991b9d — Published
+- [x] Deployed to www.christiesrealestategroupeh.com
+- All 10 items from April 14 combined queue live on production
+
+## April 14, 2026 — Button Resize
+- [x] Shrink Dashboard Intro button: label → "Intro", smaller pill size

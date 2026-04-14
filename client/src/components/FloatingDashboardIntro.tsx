@@ -134,16 +134,16 @@ export function FloatingDashboardIntro() {
 
   const label =
     status === 'loading'
-      ? 'Preparing your brief…'
+      ? 'Loading…'
       : status === 'playing'
         ? '■ Stop'
-        : 'Dashboard Introduction';
+        : 'Intro';
 
   const icon =
     status === 'loading' ? (
       <svg
-        width="14"
-        height="14"
+        width="12"
+        height="12"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -191,7 +191,7 @@ export function FloatingDashboardIntro() {
           alignItems: 'stretch',
           boxShadow: '0 4px 16px rgba(27,42,74,0.30)',
           minWidth: 0,
-          borderRadius: 8,
+          borderRadius: 6,
           overflow: 'hidden',
         }}
       >
@@ -204,8 +204,8 @@ export function FloatingDashboardIntro() {
             display: 'flex',
             alignItems: 'center',
             gap: 6,
-            minHeight: 36,
-            padding: '7px 13px',
+            minHeight: 32,
+            padding: '5px 10px',
             background: '#C8AC78',
             color: '#384249',
             border: 'none',
@@ -213,9 +213,9 @@ export function FloatingDashboardIntro() {
             cursor: status === 'loading' ? 'wait' : 'pointer',
             fontFamily: '"Barlow Condensed", sans-serif',
             fontVariant: 'small-caps',
-            fontSize: 11,
+            fontSize: 10,
             fontWeight: 700,
-            letterSpacing: '0.16em',
+            letterSpacing: '0.14em',
             textTransform: 'uppercase',
             whiteSpace: 'nowrap',
             opacity: status === 'loading' ? 0.85 : 1,
