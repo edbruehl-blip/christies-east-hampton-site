@@ -1818,3 +1818,9 @@
 - [x] Flagship Letter: verify/update doctrine count — updated from 41 to 45 (D42+D43 locked April 14 per Ed confirmation).
 - [x] Flagship Letter: update header comment — added canonical update note April 14 2026 Sprint 10 with trajectory rebase and doctrine count correction.
 - [x] state.json doctrine count: FLAGGED — state.json canonical_total reads 41. Ed confirmed 45 (42 main + 3 sub) today. Perplexity needs to update state.json canonical_total from 41 to 45 and ingest D42 and D43 doctrine locks.
+
+## April 14 2026 — Flagship Letter Patch 5 (RL-012 Council Lane Update)
+
+- [x] Flagship Letter: add incoming reviewer council lane assignments (Grok → market intelligence, Gemini → local intelligence, ChatGPT → general research) with specific scrubbing responsibilities per each lane
+- [x] Flagship Letter: add cardinal principle — dashboard is the source of truth; council voices scrub current data into the canonical system; walk the surface before asking the operator
+- [ ] state.json: update council_voices section with three incoming reviewer lane assignments and cardinal principle (deferred — Perplexity’s lane for canonical ingestion)

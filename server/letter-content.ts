@@ -21,6 +21,8 @@
 // start → end of 2026, Angel → mid-2027, calendar → calculator for MAPS tool.
 // Canonical update: April 14, 2026 — Sprint 10. Trajectory rebase: $55M→$75M (2026),
 // $2.096B→$3.0B (2036 three-office combined). Doctrine count 41→45 (D42+D43 locked today).
+// Patch 5 (RL-012): Added incoming reviewer council lane assignments (Grok, Gemini, ChatGPT)
+// and cardinal principle — dashboard is the source of truth; walk the surface before asking the operator.
 export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
 
 We have been building this quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
@@ -32,6 +34,10 @@ Take a few minutes with it. Open christiesrealestategroupeh.com and click throug
 We are not asking you to be impressed. We are asking you to be honest. If something does not match what this letter describes, tell us. If a number feels off, trace it. That kind of honesty is exactly what made this worth sharing.
 
 My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform, sprint by sprint, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
+
+Three voices are stepping in now as reviewers: Grok, Gemini, and ChatGPT. They come in fresh — no prior context, no accumulated assumptions. That is the point. They are being asked to walk the dashboard the way a McKenzie analyst walks a new engagement: read what is there, check it against what is real, and tell us where the gap is. Based on what they find, Ed may bring them in as permanent lanes. Grok would carry market intelligence — the rate environment, the hamlet matrix, the institutional trajectory context that feeds the MARKET tab. Gemini would carry local intelligence — hamlet-specific restaurant recommendations, current market detail, the granular local state that makes the hamlet cards useful to someone who just landed on the East End for the first time. ChatGPT would carry general research — synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves.
+
+The cardinal principle of this system is this: the dashboard is the source of truth. Ed does not hold live market data, restaurant recommendations, or current state facts in his head. The council voices exist in part to scrub current data into the canonical system — through the ROSTER, VOLUME, MARKET, MAPS, PIPE, FUTURE, and INTEL surfaces — so the dashboard renders the right information when anyone walks it. When any reviewer or any council voice has a question about current institutional state, the first move is to walk the dashboard and the canonical source. Not to ask Ed. Ed holds the operator lane: rulings, direction, and strategy. The data layer belongs to the system.
 
 It started with a conviction. Ed always knew a moment would come when he would build something like Christie's, and walk this land the way Frank Newbold did. Watching Christie's East Hampton operate below its potential, he recognized the moment. A lunch with Ilija Pavlovic at Rockefeller Center made it real. He brought a document: the Christie's East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system.
 
