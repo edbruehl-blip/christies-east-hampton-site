@@ -1772,3 +1772,12 @@
 - [x] Update Ascension phase card text: "$3.0B trajectory · three-office combined 2036" — all three $2.096B references removed from FutureTab.tsx
 - [x] Diagnose FUTURE tab PDF export failures — root cause: deployed server skips puppeteer postinstall; fix: startup Chrome download routine added to index.ts; PDF endpoints return 200 locally
 - [x] Walk VOLUME tab per-agent rows vs agent card display — CLEAN: Ed $30M, Jarvis $5M, Bonita $30M, Sebastian $5M, Scott $1.5M, Jan $0.75M; total $75M confirmed
+
+## April 14 2026 — Ed's Follow-up Brief (4:16 PM EDT)
+
+- [x] PDF export diagnosis — Pro Forma PDF and Export PDF Ascension Arc both return "Export failed" on live site; walk server logs and fix root cause
+- [x] Chart render gap — 2036 bar still shows $2.096B on live site; check tRPC cache TTL and deployment state; fix to show $3.000B
+- [x] Ascension phase card text — hardcoded "$2.096B trajectory" text in ASCENSION card; update to "$3.0B trajectory · three-office combined 2036"
+- [x] Ed agent card mapping error — Ed card shows $600K Actual GCI (should be $750K); Bonita shows $750K (should be $600K); fix row mapping
+- [x] Agent card text contrast — card body values (dollar amounts, year headers, row labels) in gold on dark navy; update to white/near-white for readability; keep gold for agent name headers only
+- [x] PDF light mode rendering — PDF exports should invert to light mode (dark text on white background) for institutional print quality

@@ -66,7 +66,7 @@ async function ensureChromiumAvailable(): Promise<void> {
     }
     // Chrome not found — download it now
     console.log('[Chromium] No Chrome binary found. Downloading via puppeteer install...');
-    const { install, Browser } = await import('puppeteer') as { install: (opts: { browser: string; buildId?: string }) => Promise<void>; Browser: { CHROME: string } };
+    const { install, Browser } = await import('puppeteer') as unknown as { install: (opts: { browser: string; buildId?: string }) => Promise<void>; Browser: { CHROME: string } };
     if (typeof install === 'function') {
       await install({ browser: Browser.CHROME });
       console.log('[Chromium] Chrome download complete.');
@@ -86,8 +86,14 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Ensure Chrome is available for PDF generation (non-blocking — server starts immediately)
-  ensureChromiumAvailable().catch(e => console.warn('[Chromium] Startup check failed:', e));
+  // Ensure Chrome is available for PDF generation (BLOCKING — server waits before accepting requests)
+  // This guarantees PDF endpoints never fail with "No Chromium binary found" on cold start.
+  // On deployed containers without system Chrome, this downloads Chrome once (~30s) then caches it.
+  try {
+    await ensureChromiumAvailable();
+  } catch (e) {
+    console.warn('[Chromium] Chrome not available — PDF generation will fail:', e);
+  }
 
   // Resolve port first so the PDF route knows which port to navigate to
   const preferredPort = parseInt(process.env.PORT || "3000");

@@ -133,7 +133,8 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
   let browser = null;
   try {
     const port = getServerPort();
-    const targetUrl = `http://localhost:${port}${urlPath}`;
+    // Append ?pdf=1 so the page can detect PDF render mode and switch to light-mode styles
+    const targetUrl = `http://localhost:${port}${urlPath}${urlPath.includes('?') ? '&' : '?'}pdf=1`;
 
     console.log(`[PDF] Photographing ${targetUrl}`);
 

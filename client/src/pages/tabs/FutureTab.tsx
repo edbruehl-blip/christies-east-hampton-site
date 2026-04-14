@@ -6,9 +6,22 @@
  * Auth gate deferred — site private, URL in hands of core team only.
  */
 
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
+
+// ─── PDF mode detection ─────────────────────────────────────────────────────
+// When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
+// for institutional print quality (dark text on white background).
+// Dashboard screen stays dark navy. PDF export inverts to light.
+function useIsPdfMode(): boolean {
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsPdf(params.get('pdf') === '1');
+  }, []);
+  return isPdf;
+}
 
 // ─── Design tokens (match wireframe exactly) ─────────────────────────────────
 const NAVY       = '#0a1628';
@@ -20,8 +33,8 @@ const GOLD_FAINT_BG     = 'rgba(200,172,120,0.13)';
 const GOLD_FAINT_BORDER = 'rgba(200,172,120,0.40)';
 const GOLD_MID_BG       = 'rgba(200,172,120,0.28)';
 const CHARCOAL   = '#384249';
-const DIM        = '#555';
-const MUTED      = '#666';
+const DIM        = '#c8c8c8'; // was #555 — bumped to near-white for card data readability (Ed ruling Apr 14 2026)
+const MUTED      = '#a0a8b0'; // was #666 — bumped for label contrast on dark navy (Ed ruling Apr 14 2026)
 const PROJ_TEXT  = 'rgba(200,172,120,0.80)';
 
 // SD-8 Phase Two: three-office stacked bar colors
@@ -94,6 +107,25 @@ function ProFormaButton() {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
+  // PDF mode: ?pdf=1 → light-mode institutional print styling
+  const isPdfMode = useIsPdfMode();
+
+  // PDF light-mode color overrides — dark text on white background for institutional print
+  const PDF_BG       = '#ffffff';
+  const PDF_CARD_BG  = '#f8f6f2';
+  const PDF_CHART_BG = '#f4f2ee';
+  const PDF_TEXT     = '#1a2a3a';
+  const PDF_MUTED    = '#4a5568';
+  const PDF_BORDER   = 'rgba(200,172,120,0.5)';
+
+  // Dynamic tokens — screen uses dark navy, PDF uses light paper
+  const BG       = isPdfMode ? PDF_BG       : NAVY;
+  const CARD_BG  = isPdfMode ? PDF_CARD_BG  : NAVY_CARD;
+  const CHART_BG = isPdfMode ? PDF_CHART_BG : NAVY_CHART;
+  const TEXT_PRIMARY = isPdfMode ? PDF_TEXT  : '#fff';
+  const TEXT_MUTED   = isPdfMode ? PDF_MUTED : MUTED;
+  const CARD_BORDER  = isPdfMode ? PDF_BORDER : `0.5px solid ${GOLD}`;
+
   // Wires 1–4: live OUTPUTS + VOLUME data
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
@@ -242,7 +274,7 @@ export default function FutureTab() {
     const vol2033 = liveVolumes?.[2033] ?? 1_101_000_000;
     const vol2034 = liveVolumes?.[2034] ?? 1_301_200_000;
     const vol2035 = liveVolumes?.[2035] ?? 1_539_440_000;
-    const vol2036 = liveVolumes?.[2036] ?? 2_096_228_000;
+    const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;
     const eh2026 = liveEhVolumes?.[2026] ?? 55_000_000;
     const eh2027 = liveEhVolumes?.[2027] ?? 273_000_000;
     const eh2028 = liveEhVolumes?.[2028] ?? 383_500_000;
@@ -253,7 +285,7 @@ export default function FutureTab() {
     const eh2033 = liveEhVolumes?.[2033] ?? 1_101_000_000;
     const eh2034 = liveEhVolumes?.[2034] ?? 1_301_200_000;
     const eh2035 = liveEhVolumes?.[2035] ?? 1_539_440_000;
-    const eh2036 = liveEhVolumes?.[2036] ?? 1_823_328_000;
+    const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
     const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
@@ -292,10 +324,10 @@ export default function FutureTab() {
     ];
   }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
-  // ─── Card border style (uniform per wireframe) ────────────────────────────
+  // ─── Card border style (uniform per wireframe) ────────────────────────
   const cardStyle: React.CSSProperties = {
-    background: NAVY_CARD,
-    border: `0.5px solid ${GOLD}`,
+    background: CARD_BG,
+    border: CARD_BORDER,
     borderRadius: 4,
     padding: '7px 9px',
   };
@@ -305,7 +337,7 @@ export default function FutureTab() {
 
 
   return (
-    <div ref={tabRef} style={{ background: NAVY, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: '#fff', overflowX: 'hidden' }}>
+      <div ref={tabRef} style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -325,7 +357,7 @@ export default function FutureTab() {
         </div>
 
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: NAVY_CHART, padding: '14px 14px 0', marginBottom: 10 }}>
+        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: CHART_BG, padding: '14px 14px 0', marginBottom: 10 }}>
           {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
             {BARS.map((bar) => (
@@ -526,12 +558,12 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Brokerage GCI',  proj: [
-                  liveEdGci?.[2026] ? fmtM(liveEdGci[2026]) : '$600K',
+                  liveEdGci?.[2026] ? fmtM(liveEdGci[2026]) : '$750K',
                   liveEdGci?.[2027] ? fmtM(liveEdGci[2027]) : '$1.8M',
                   liveEdGci?.[2028] ? fmtM(liveEdGci[2028]) : '$2.0M',
                   liveEdGci?.[2036] ? fmtM(liveEdGci[2036]) : '$3.6M',
                 ], act: null },
-                { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$91K \u2191','—','—','—'] },
+                { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$750K \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
