@@ -1705,3 +1705,14 @@
 
 ## April 14, 2026 — Favicon Fix
 - [x] OG/social preview image updated to Christie's Grand Saleroom auction room photo (1200×630)
+
+## April 14, 2026 — Letter Revision (Ed's editorial direction)
+- [x] Cut redundancy throughout the flagship letter
+- [x] "families" reduced to 1 occurrence (down from 5)
+- [x] "same side of the table" reduced to 1 occurrence (closing only)
+- [x] "Amiro" removed → "Miro board" (correct tool name)
+- [x] First podcast: clarified as invitation-only, not open to broader community
+- [x] 100-day arc moved earlier in the letter (before the tab walkthrough)
+- [x] Zoila production start updated: end of 2026 (was "end of 2027")
+- [x] Angel payroll exit updated: mid-2027 (was "early 2027")
+- [x] MAPS "calendar" → "calculator" language fixed; geographically agnostic calculator explained (Griff/Sacramento, Angel/Westhampton)
