@@ -86,7 +86,7 @@ async function callElevenLabs(text: string): Promise<{ audio: string; mimeType: 
     },
     body: JSON.stringify({
       text,
-      model_id: "eleven_multilingual_v2",
+      model_id: "eleven_turbo_v2", // Doctrine 9 — TTS Model Lock
       voice_settings: { stability: 0.55, similarity_boost: 0.75 },
     }),
     signal: AbortSignal.timeout(90000),

@@ -127,6 +127,7 @@ async function streamTts(text: string, apiKey: string, res: import("express").Re
   }
   res.setHeader("Content-Type", "audio/mpeg");
   res.setHeader("Cache-Control", "no-store");
+  res.setHeader("Accept-Ranges", "bytes"); // Allows browser seek/skip on streamed audio
   const reader = elevenRes.body?.getReader();
   if (!reader) {
     res.status(500).json({ error: "No response body from ElevenLabs" });

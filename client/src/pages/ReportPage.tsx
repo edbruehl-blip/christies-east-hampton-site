@@ -244,7 +244,7 @@ function Section1() {
     audio.currentTime = pct * audio.duration;
   }
 
-  async function handleListen(channel: 'christies' | 'report') {
+  function handleListen(channel: 'christies' | 'report') {
     // If already playing the same channel, stop
     if (audioState === 'playing' && audioChannel === channel) {
       stopAudio();
@@ -258,45 +258,37 @@ function Section1() {
     setAudioState('loading');
     setAudioProgress(0);
     const endpoint = channel === 'christies' ? '/api/tts/christies-letter' : '/api/tts/market-report';
-    try {
-      const response = await fetch(endpoint);
-      if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(`TTS error ${response.status}: ${errText}`);
+    // Streaming src — browser plays as first chunks arrive, no full-download wait.
+    // Server supports Range requests so seek/skip work correctly.
+    const audio = new Audio(endpoint);
+    audioRef[1](audio);
+    audio.onloadedmetadata = () => {
+      setDuration(audio.duration);
+    };
+    audio.ontimeupdate = () => {
+      if (audio.duration) {
+        setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
+        setCurrentTime(audio.currentTime);
       }
-      const blob = await response.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audioRef[1](audio);
-      audio.onloadedmetadata = () => {
-        setDuration(audio.duration);
-      };
-      audio.ontimeupdate = () => {
-        if (audio.duration) {
-          setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
-          setCurrentTime(audio.currentTime);
-        }
-      };
-      audio.onended = () => {
-        setAudioState('idle');
-        setAudioProgress(0);
-        setCurrentTime(0);
-        setDuration(0);
-        URL.revokeObjectURL(url);
-      };
-      audio.onerror = () => {
-        setAudioState('error');
-        toast.error('Audio playback failed.');
-        setTimeout(() => setAudioState('idle'), 3000);
-      };
-      await audio.play();
-      setAudioState('playing');
-    } catch (e) {
+    };
+    audio.onplaying = () => setAudioState('playing');
+    audio.onended = () => {
+      setAudioState('idle');
+      setAudioProgress(0);
+      setCurrentTime(0);
+      setDuration(0);
+    };
+    audio.onerror = () => {
+      setAudioState('error');
+      toast.error('Audio playback failed.');
+      setTimeout(() => setAudioState('idle'), 3000);
+    };
+    audio.play().catch((e) => {
       console.error(e);
       setAudioState('error');
       toast.error('Audio generation failed. Please try again.');
       setTimeout(() => setAudioState('idle'), 3000);
-    }
+    });
   }
 
   return (

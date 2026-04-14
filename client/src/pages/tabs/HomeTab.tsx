@@ -53,7 +53,7 @@ function SectionA() {
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
 
-  // ── Inline audio state machine (fetch-blob pattern — same as /report Section1) ──
+  // ── Inline audio state machine (streaming src pattern — no fetch-blob wait) ──
   const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
   const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('christies');
   const [audioProgress, setAudioProgress] = useState(0);
@@ -104,7 +104,7 @@ function SectionA() {
     a.currentTime = ((e.clientX - r.left) / r.width) * a.duration;
   }
 
-  async function handleListen(channel: HomeAudioChannel) {
+  function handleListen(channel: HomeAudioChannel) {
     if (audioState === 'playing' && audioChannel === channel) { stopAudio(); return; }
     if (audioState === 'playing' || audioState === 'loading') stopAudio();
     setAudioChannel(channel);
@@ -112,30 +112,26 @@ function SectionA() {
     setAudioProgress(0);
     const endpoint = channel === 'christies' ? '/api/tts/christies-letter'
       : '/api/tts/market-report';
-    try {
-      const res = await fetch(endpoint);
-      if (!res.ok) throw new Error(`TTS error ${res.status}`);
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audioRef.current = audio;
-      audio.onloadedmetadata = () => setAudioDuration(audio.duration);
-      audio.ontimeupdate = () => {
-        if (audio.duration) {
-          setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
-          setCurrentTime(audio.currentTime);
-        }
-      };
-      audio.onended = () => { setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0); URL.revokeObjectURL(url); };
-      audio.onerror = () => { setAudioState('error'); toast.error('Audio playback failed.'); setTimeout(() => setAudioState('idle'), 3000); };
-      await audio.play();
-      setAudioState('playing');
-    } catch (e) {
+    // Streaming src — browser plays as first chunks arrive, no full-download wait.
+    // Server supports Range requests so seek/skip work correctly.
+    const audio = new Audio(endpoint);
+    audioRef.current = audio;
+    audio.onloadedmetadata = () => setAudioDuration(audio.duration);
+    audio.ontimeupdate = () => {
+      if (audio.duration) {
+        setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
+        setCurrentTime(audio.currentTime);
+      }
+    };
+    audio.onplaying = () => setAudioState('playing');
+    audio.onended = () => { setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0); };
+    audio.onerror = () => { setAudioState('error'); toast.error('Audio playback failed.'); setTimeout(() => setAudioState('idle'), 3000); };
+    audio.play().catch((e) => {
       console.error(e);
       setAudioState('error');
       toast.error('Audio generation failed. Please try again.');
       setTimeout(() => setAudioState('idle'), 3000);
-    }
+    });
   }
 
   const channelLabel = audioChannel === 'christies' ? "Christie's Letter"

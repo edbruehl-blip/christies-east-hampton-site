@@ -9,6 +9,8 @@
  * The letter is ~9MB — fetching the full blob caused a 20+ second spin before
  * playback started. Streaming src lets the browser start playing as soon as
  * the first chunk arrives (~2s), eliminating the wait.
+ *
+ * SD-9b: Added −15s / +15s skip buttons and progress bar when playing.
  */
 
 import { useRef, useState, useEffect } from 'react';
@@ -18,7 +20,23 @@ const STOP_ALL_EVENT = 'stop-all-audio';
 
 export function FloatingDashboardIntro() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'playing'>('idle');
+  const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  function fmtTime(s: number) {
+    if (!isFinite(s) || isNaN(s)) return '0:00';
+    return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+  }
+
+  function handleRewind() {
+    if (audioRef.current) audioRef.current.currentTime = Math.max(0, audioRef.current.currentTime - 15);
+  }
+
+  function handleForward() {
+    if (audioRef.current) audioRef.current.currentTime = Math.min(audioRef.current.duration || 0, audioRef.current.currentTime + 15);
+  }
 
   // Cleanup on unmount
   useEffect(() => {
@@ -38,6 +56,9 @@ export function FloatingDashboardIntro() {
       audioRef.current = null;
     }
     setStatus('idle');
+    setProgress(0);
+    setCurrentTime(0);
+    setDuration(0);
   };
 
   const handleClick = () => {
@@ -55,10 +76,16 @@ export function FloatingDashboardIntro() {
     const audio = new Audio('/api/tts/flagship-letter');
     audioRef.current = audio;
 
-    // canplaythrough fires when enough data is buffered to play without interruption
-    audio.addEventListener('canplaythrough', () => {
-      // Already started playing via autoplay below — just update state
-    }, { once: true });
+    audio.addEventListener('loadedmetadata', () => {
+      setDuration(audio.duration);
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        setProgress(Math.round((audio.currentTime / audio.duration) * 100));
+        setCurrentTime(audio.currentTime);
+      }
+    });
 
     // Start playing as soon as the browser has enough data
     audio.addEventListener('playing', () => {
@@ -67,12 +94,18 @@ export function FloatingDashboardIntro() {
 
     audio.addEventListener('ended', () => {
       setStatus('idle');
+      setProgress(0);
+      setCurrentTime(0);
+      setDuration(0);
       audioRef.current = null;
     }, { once: true });
 
     audio.addEventListener('error', (e) => {
       console.error('[FloatingDashboardIntro] Audio error:', e);
       setStatus('idle');
+      setProgress(0);
+      setCurrentTime(0);
+      setDuration(0);
       audioRef.current = null;
     }, { once: true });
 
@@ -80,6 +113,9 @@ export function FloatingDashboardIntro() {
     audio.play().catch((err) => {
       console.error('[FloatingDashboardIntro] Play failed:', err);
       setStatus('idle');
+      setProgress(0);
+      setCurrentTime(0);
+      setDuration(0);
       audioRef.current = null;
     });
   };
@@ -144,49 +180,102 @@ export function FloatingDashboardIntro() {
       <style>{`
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       `}</style>
-      <button
-        onClick={handleClick}
-        disabled={status === 'loading'}
-        aria-label="Dashboard Introduction"
+      <div
         style={{
           position: 'fixed',
           bottom: 24,
           right: 24,
           zIndex: 9999,
           display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          minHeight: 44,
-          minWidth: 44,
-          padding: '10px 18px',
-          background: '#C8AC78',
-          color: '#384249',
-          border: 'none',
-          borderRadius: 0,
-          cursor: status === 'loading' ? 'wait' : 'pointer',
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontVariant: 'small-caps',
-          fontSize: 13,
-          fontWeight: 700,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          whiteSpace: 'nowrap',
+          flexDirection: 'column',
+          alignItems: 'stretch',
           boxShadow: '0 4px 20px rgba(27,42,74,0.25)',
-          opacity: status === 'loading' ? 0.85 : 1,
-          transition: 'opacity 0.2s, box-shadow 0.2s',
-        }}
-        onMouseEnter={e => {
-          if (status !== 'loading') {
-            (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 28px rgba(27,42,74,0.4)';
-          }
-        }}
-        onMouseLeave={e => {
-          (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 20px rgba(27,42,74,0.25)';
+          minWidth: 230,
         }}
       >
-        {icon}
-        <span>{label}</span>
-      </button>
+        {/* Main play/stop button */}
+        <button
+          onClick={handleClick}
+          disabled={status === 'loading'}
+          aria-label="Dashboard Introduction"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            minHeight: 44,
+            padding: '10px 18px',
+            background: '#C8AC78',
+            color: '#384249',
+            border: 'none',
+            borderRadius: 0,
+            cursor: status === 'loading' ? 'wait' : 'pointer',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontVariant: 'small-caps',
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            whiteSpace: 'nowrap',
+            opacity: status === 'loading' ? 0.85 : 1,
+            transition: 'opacity 0.2s',
+            width: '100%',
+          }}
+        >
+          {icon}
+          <span style={{ flex: 1, textAlign: 'left' }}>{label}</span>
+        </button>
+
+        {/* Progress bar + skip controls — only when playing */}
+        {status === 'playing' && (
+          <div style={{
+            background: 'rgba(27,42,74,0.97)',
+            border: '1px solid rgba(200,172,120,0.35)',
+            borderTop: 'none',
+            padding: '8px 12px',
+          }}>
+            {/* Scrub bar */}
+            <div style={{ height: 4, background: 'rgba(200,172,120,0.2)', borderRadius: 2, marginBottom: 8, overflow: 'hidden' }}>
+              <div style={{ height: '100%', background: '#C8AC78', borderRadius: 2, width: `${progress}%`, transition: 'width 0.4s linear' }} />
+            </div>
+            {/* Controls row */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
+              <button
+                onClick={handleRewind}
+                style={{
+                  background: 'rgba(200,172,120,0.12)',
+                  border: '1px solid rgba(200,172,120,0.3)',
+                  color: '#C8AC78',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 9,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  padding: '3px 8px',
+                  cursor: 'pointer',
+                  borderRadius: 0,
+                }}
+              >↺ −15s</button>
+              <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(200,172,120,0.6)', whiteSpace: 'nowrap' }}>
+                {fmtTime(currentTime)} / {fmtTime(duration)}
+              </span>
+              <button
+                onClick={handleForward}
+                style={{
+                  background: 'rgba(200,172,120,0.12)',
+                  border: '1px solid rgba(200,172,120,0.3)',
+                  color: '#C8AC78',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 9,
+                  letterSpacing: '0.1em',
+                  textTransform: 'uppercase',
+                  padding: '3px 8px',
+                  cursor: 'pointer',
+                  borderRadius: 0,
+                }}
+              >+15s ↻</button>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }
