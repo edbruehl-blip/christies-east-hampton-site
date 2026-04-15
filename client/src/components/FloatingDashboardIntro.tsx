@@ -13,7 +13,7 @@
 
 export function FloatingDashboardIntro() {
   const FLAGSHIP_LETTER_URL =
-    'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/flagship_letter_export_v1_7f8e9e0f.html';
+    'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/flagship_letter_export_v1_771b2086.html';
 
   const handleClick = () => {
     // Use location.href to avoid popup blockers that block window.open
