@@ -23,15 +23,15 @@
 // $2.096B→$3.0B (2036 three-office combined). Doctrine count 41→45 (D42+D43 locked today).
 // Patch 5 (RL-012): Added incoming reviewer council lane assignments (Grok, Gemini, ChatGPT)
 // and cardinal principle — dashboard is the source of truth; walk the surface before asking the operator.
+// April 15, 2026 — Sprint 12/13/14: Doctrine count 45→48. EH horizon corrected (one point eight billion
+// removed — $3B is the three-office combined figure, not the EH-only figure). Redundancy edit per Angel.
 export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
 
 We have been building this quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
 
-This is not a finished product. It is a living system. We are sharing it now because your eyes on it matter more than another round of refinement behind closed doors.
+This is not a finished product. It is a living system. We are sharing it now because your eyes on it matter more than another round of refinement behind closed doors. Open christiesrealestategroupeh.com and click through every tab. Pull up the Google Sheets from the INTEL tab. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.
 
-Take a few minutes with it. Open christiesrealestategroupeh.com and click through every tab. Pull up the Google Sheets from the INTEL tab. Download a PDF. Run the calculator. Read the hamlet cards and check the numbers against what you know about this market. Come back to this letter after.
-
-We are not asking you to be impressed. We are asking you to be honest. If something does not match what this letter describes, tell us. If a number feels off, trace it. That kind of honesty is exactly what made this worth sharing.
+We are not asking you to be impressed. We are asking you to be honest. If something does not match what this letter describes, tell us. If a number feels off, trace it.
 
 My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform, sprint by sprint, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
 
@@ -61,21 +61,19 @@ HOME is the front door — the founding letter, the Christie's story, and Willia
 
 INTEL is the relationship and hierarchy layer — every person, every institution, every connection that makes this office what it is. The Christie's institutional chain sits above Ed. The auction referrals node makes the thesis visible. Every Google Sheet is linked and accessible from this tab. The INTEL tab carries the live Miro board — Christie's East Hampton Operating System v3 — where the full institutional mind map lives and can be edited in real time. It is not just an org chart. It is how everyone in this web ascends together — brokerage, AnewHomes development, auction referrals, institutional advisory, media partnerships, event revenue. Each lane is a different line item. The board makes all of them visible at once.
 
-The FUTURE tab carries the Ascension Arc — the eleven-year bar chart that tracks the three-office trajectory from 2026 to 2036. East Hampton in gold: seventy-five million at launch, one point eight billion at the horizon. Southampton in navy, opening in 2028. Westhampton in sage, opening in 2030. The three-office combined destination is three billion dollars at 2036. Every bar reads live from the Growth Model spreadsheet. These are not projections made for a pitch. They are the architecture of a real institution being built in real time.
+The FUTURE tab carries the Ascension Arc — the eleven-year bar chart that tracks the three-office trajectory from 2026 to 2036. East Hampton in gold: seventy-five million at launch. Southampton in navy, opening in 2028. Westhampton in sage, opening in 2030. The three-office combined destination is three billion dollars at 2036. Every bar reads live from the Growth Model spreadsheet. These are not projections made for a pitch. They are the architecture of a real institution being built in real time.
 
 William is the voice of this system. Text DASHBOARD to 631-239-7190 and he reads you this letter. Text NEWS and he delivers the full fourteen-category intelligence brief, sourced and attributed, in the voice of Walter Cronkite. Text LETTER and he reads you the Christie's Letter to the Families — the founding document that explains what this institution is and what it can do for the people who trust it. Text BRIEF and he delivers the council's closing synthesis — the AI council's read on where the institution stands and what comes next. Four commands. Four lenses. He does not speak on a schedule. He speaks when you ask him to, and he always tells the truth.
 
-The system runs on 45 canonical doctrines. Doctrine 1: Authority Must Whisper. Doctrine 14: Tell the truth, know the territory, serve the client before yourself. Every doctrine is a constraint that makes the institution more trustworthy, not less capable.
+The system runs on 48 canonical doctrines. Doctrine 1: Authority Must Whisper. Doctrine 14: Tell the truth, know the territory, serve the client before yourself. Every doctrine is a constraint that makes the institution more trustworthy, not less capable.
 
 For anyone stepping into Christie's East Hampton — whether as a broker, a partner, or someone simply learning what this office is — this is what you are walking into. Not a desk. Not a split. An operating system that does the thinking before you walk in the door. The territory, the pipeline, the relationships, the briefs, the cards — already in place. The work is to learn the system, tell the truth inside it, and go sit with the right people.
 
 James Christie built his house on one insight: teach people what they own, and what its value is, before anything else. That is still the job. That is still the hook.
 
-Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. Enter a date in one of the sheets. Text William and tell us what he gets right and what he misses. The more data you put in, the more intelligence comes back out. We would love your feedback, your questions, and your honest read on where it falls short.
+Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. Text William and tell us what he gets right and what he misses. The more data you put in, the more intelligence comes back out.
 
-Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began.
-
-That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.`;
+Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began. That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.`;
 
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.
