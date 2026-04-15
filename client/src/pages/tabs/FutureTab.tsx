@@ -237,13 +237,21 @@ export default function FutureTab() {
     }));
   }, [poolData]);
 
-  // Wire 4: Ed GCI
+  // Wire 4: Ed GCI (gross — from VOLUME sheet row 2, used internally)
   const liveEdGci = useMemo(() => {
     if (!arcData?.years?.length) return null;
     const map: Record<number, number> = {};
     arcData.years.forEach(y => { map[y.year] = y.edGci; });
     return map;
   }, [arcData]);
+
+  // Canonical Equation 1 net keep by year (after 70/30 house split + 5% overrides to 3 ICA members)
+  // Source: Perplexity dispatch April 15, 2026 — verified against OUTPUTS row 46
+  // These are NET figures — shown on agent card and Pro Forma (D45)
+  const EQ1_NET: Record<number, string> = {
+    2026: '$330K', 2027: '$990K', 2028: '$1.1M', 2029: '$1.21M', 2030: '$1.32M',
+    2031: '$1.43M', 2032: '$1.54M', 2033: '$1.65M', 2034: '$1.76M', 2035: '$1.87M', 2036: '$1.98M',
+  };
 
   // Actual 2026 closed volume (from VOLUME tab)
   const act2026 = volData?.total.act2026 || 4_570_000;
@@ -553,13 +561,13 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Brokerage GCI',  proj: [
-                  liveEdGci?.[2026] ? fmtM(liveEdGci[2026]) : '$750K',
-                  liveEdGci?.[2027] ? fmtM(liveEdGci[2027]) : '$1.8M',
-                  liveEdGci?.[2028] ? fmtM(liveEdGci[2028]) : '$2.0M',
-                  liveEdGci?.[2036] ? fmtM(liveEdGci[2036]) : '$3.6M',
+                { label: 'Net Personal Prod (Eq. 1)',  proj: [
+                  EQ1_NET[2026],
+                  EQ1_NET[2027],
+                  EQ1_NET[2028],
+                  EQ1_NET[2036],
                 ], act: null },
-                { label: 'Actual GCI',      proj: null, act: [liveEdGci?.[2026] ? `${fmtM(liveEdGci[2026])} \u2191` : '$750K \u2191','—','—','—'] },
+                { label: 'Actual to date',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
@@ -577,7 +585,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$657K','$2.32M','$2.86M','$6.5M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$657K','$2.32M','$2.86M','$6.12M'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
             </div>
           </div>
