@@ -326,7 +326,10 @@ export default function FutureTab() {
   };
 
   const tabRef = useRef<HTMLDivElement>(null);
-  const [exporting, setExporting] = useState(false);
+  // Architectural rule (Sprint 14 · Ed ruling Apr 15 2026):
+  // One PDF button per tab, one canonical output per button.
+  // Pro Forma PDF (top-right header) is the sole PDF surface for this tab.
+  // Dead /api/pdf Puppeteer button removed.
 
 
   return (
@@ -742,37 +745,8 @@ export default function FutureTab() {
           </div>
         </div>
 
-        {/* ── Export buttons ──────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14, justifyContent: 'center' }}>
-          <button
-            onClick={async () => {
-              if (exporting) return;
-              setExporting(true);
-              try {
-                const date = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'}).replace(/\//g,'-');
-                const res = await fetch('/api/pdf?url=/future');
-                if (!res.ok) throw new Error(`PDF endpoint returned ${res.status}`);
-                const blob = await res.blob();
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `Christies_EH_Ascension_Arc_${date}.pdf`;
-                a.style.display = 'none';
-                document.body.appendChild(a);
-                a.click();
-                setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
-              } catch (e) {
-                console.error('Export failed', e);
-                alert('Export failed. Please try again.');
-              } finally {
-                setExporting(false);
-              }
-            }}
-            disabled={exporting}
-            style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const, cursor: exporting ? 'wait' : 'pointer', opacity: exporting ? 0.6 : 1 }}
-          >
-            {exporting ? 'Generating\u2026' : '\u2193 Export PDF \u00b7 Ascension Arc'}
-          </button>
+        {/* ── Growth Model link only — Pro Forma PDF button (top-right) is the sole export ── */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>
           <a
             href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
             target="_blank"

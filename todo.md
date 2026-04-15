@@ -1871,3 +1871,10 @@
 - [x] Fix 3: Wire Ed personal GCI to OUTPUTS row 46 — $660K→$600K, Three Income Streams total becomes $678,750
 - [x] Add server-side /api/growth-model route to fetch OUTPUTS data live from Google Sheets on each Pro Forma load
 - [x] Update FutureTab Ascension Arc chart to also use canonical OUTPUTS volumes
+
+## Sprint 14 — April 15, 2026 (Architectural Cleanup)
+- [x] Verify UHNWPathCardPage Babel parse error (line 126:22) — confirmed resolved at 02:47 AM, no recurrence in current session
+- [x] Remove dead Export PDF / Ascension Arc button from FUTURE tab — called /api/pdf (Puppeteer, broken in production)
+- [x] Remove exporting useState from FutureTab — no longer needed
+- [x] Establish architectural rule: one PDF button per tab, one canonical output per button (Ed ruling Apr 15 2026)
+- [x] Keep Growth Model v2 link as only secondary action on FUTURE tab bottom bar
