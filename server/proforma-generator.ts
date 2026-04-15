@@ -29,20 +29,21 @@ function fmtFull(n: number): string {
   return '$' + n.toLocaleString('en-US');
 }
 
-// Net pool fallback values — from Growth Model v2 OUTPUTS G column (Sprint 42)
+// Net pool fallback values — OUTPUTS G32:G42 canonical NOP (Sprint 13, April 15, 2026, Perplexity verified)
+// Formula: GCI(2%) − Royalty(5%) − AgentSplits(70%) − Overhead(MAX($200K, GCI×6%))
 // Used when live sheet data is unavailable. Ed 35% · Ilija 65% · two parties only.
 const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: number }> = {
-  '2026': { pool: 113_500,     ed: 39_725,     ilija: 73_775 },
-  '2027': { pool: 1_336_100,   ed: 467_635,    ilija: 868_465 },
-  '2028': { pool: 1_943_950,   ed: 680_383,    ilija: 1_263_568 },
-  '2029': { pool: 2_575_820,   ed: 901_537,    ilija: 1_674_283 },
-  '2030': { pool: 3_200_000,   ed: 1_120_000,  ilija: 2_080_000 },
-  '2031': { pool: 4_100_000,   ed: 1_435_000,  ilija: 2_665_000 },
-  '2032': { pool: 4_996_278,   ed: 1_748_697,  ilija: 3_247_581 },
-  '2033': { pool: 5_885_957,   ed: 2_060_085,  ilija: 3_825_872 },
-  '2034': { pool: 6_988_122,   ed: 2_445_843,  ilija: 4_542_279 },
-  '2035': { pool: 8_303_218,   ed: 2_906_126,  ilija: 5_397_092 },
-  '2036': { pool: 9_874_221,   ed: 3_455_977,  ilija: 6_418_244 },
+  '2026': { pool: 175_000,     ed: 61_250,      ilija: 113_750 },
+  '2027': { pool: 429_534,     ed: 150_337,     ilija: 279_197 },
+  '2028': { pool: 964_694,     ed: 337_643,     ilija: 627_051 },
+  '2029': { pool: 1_735_967,   ed: 607_588,     ilija: 1_128_379 },
+  '2030': { pool: 2_859_800,   ed: 1_000_930,   ilija: 1_858_870 },
+  '2031': { pool: 4_633_340,   ed: 1_621_669,   ilija: 3_011_671 },
+  '2032': { pool: 5_537_718,   ed: 1_938_201,   ilija: 3_599_517 },
+  '2033': { pool: 6_596_643,   ed: 2_308_825,   ilija: 4_287_818 },
+  '2034': { pool: 7_889_800,   ed: 2_761_430,   ilija: 5_128_370 },
+  '2035': { pool: 9_469_656,   ed: 3_314_380,   ilija: 6_155_277 },
+  '2036': { pool: 11_400_000,  ed: 3_990_000,   ilija: 7_410_000 },
 };
 function profitPool(vol: number, year?: string, liveNetProfit?: number): { above: number; pool: number; ed: number; ilija: number; christies: number } {
   const BREAKEVEN = 40_000_000;
@@ -81,29 +82,29 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   const agents = volData.agents;
   const generatedAt = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  // Volume projections per year
-  // Council-approved doctrine targets (Sprint 36) — use Math.max so sheet can only go up, never below doctrine
-  const outlookYears = [
-    { year: '2026', vol: Math.max(total.proj2026 || 0, 55_000_000) },
-    { year: '2027', vol: Math.max(total.proj2027 || 0, 273_000_000) },
-    { year: '2028', vol: Math.max(total.proj2028 || 0, 383_500_000) },
-    { year: '2029', vol: Math.max(total.proj2029 || 0, 498_600_000) },
-    { year: '2030', vol: Math.max(total.proj2030 || 0, 641_400_000) },
-    { year: '2031', vol: Math.max(total.proj2031 || 0, 798_500_000) },
-    { year: '2032', vol: Math.max(total.proj2032 || 0, 938_700_000) },
-    { year: '2033', vol: Math.max(total.proj2033 || 0, 1_101_000_000) },
-    { year: '2034', vol: Math.max(total.proj2034 || 0, 1_301_200_000) },
-    { year: '2035', vol: Math.max(total.proj2035 || 0, 1_539_440_000) },
-    { year: '2036', vol: Math.max(total.proj2036 || 0, 1_823_328_000) },
-  ];
+  // Volume projections per year — Sprint 13: wire to OUTPUTS tab B32:B42 (canonical, D6/D7)
+  // arcData.years comes from readAscensionArcData() which reads OUTPUTS!A32:G42 directly.
+  // Fallback values match the OUTPUTS tab as of April 15, 2026 (Perplexity verified).
+  const OUTPUTS_FALLBACK: Record<string, number> = {
+    '2026': 75_000_000,       '2027': 125_906_749,    '2028': 253_866_793,
+    '2029': 456_833_410,      '2030': 752_578_949,    '2031': 1_219_300_000,
+    '2032': 1_457_294_184,    '2033': 1_735_958_623,  '2034': 2_076_263_101,
+    '2035': 2_492_014_824,    '2036': 3_000_000_000,
+  };
+  const arcByYear: Record<string, number> = {};
+  for (const y of arcData.years) { arcByYear[String(y.year)] = y.officeVolume; }
+  const outlookYears = Object.keys(OUTPUTS_FALLBACK).map(year => ({
+    year,
+    vol: (arcByYear[year] && arcByYear[year] > 0) ? arcByYear[year] : OUTPUTS_FALLBACK[year],
+  }));
 
   // GCI from OUTPUTS
   const row2026 = gmData.outputs.find(o => o.year === 2026);
   const totalGci2026 = row2026?.totalGci || 3_080_000;
   const houseTake2026 = row2026?.houseTake || 924_000;
 
-  // Bar chart max (2036 office volume from OUTPUTS B42)
-  const maxVol = 1_823_328_000;
+  // Bar chart max — canonical 2036 office volume from OUTPUTS B42 = $3B (D7, Sprint 13)
+  const maxVol = (arcByYear['2036'] && arcByYear['2036'] > 0) ? arcByYear['2036'] : 3_000_000_000;
 
   const STYLES = `
     @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap');
@@ -538,7 +539,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <tr>
         <td style="color:#C8AC78;font-weight:600;letter-spacing:0.1em">${year}</td>
         <td>${fmtFull(vol)}</td>
-        <td style="color:${p.above > 0 ? '#1B2A4A' : 'rgba(56,66,73,0.3)'}">${p.above > 0 ? fmtFull(p.above) : '—'}</td>
+        <td style="color:#C8AC78;font-weight:600">${fmtFull(Math.round(vol * 0.02))}</td>
         <td style="color:#C8AC78;font-weight:600">${p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
         <td style="font-weight:600">${p.ed > 0 ? fmtFull(p.ed) : '$0'}</td>
         <td>${p.ilija > 0 ? fmtFull(p.ilija) : '$0'}</td>
@@ -546,7 +547,8 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       </tr>`;
   }).join('');
 
-  const pool2026 = profitPool(total.proj2026 || 55_000_000, '2026', liveNetProfitByYear['2026']);
+  // Sprint 13 Fix 3: pool2026 uses OUTPUTS G32 (canonical NOP), not VOLUME tab projection
+  const pool2026 = profitPool(outlookYears[0].vol, '2026', liveNetProfitByYear['2026']);
 
   const html = `<!DOCTYPE html>
 <html lang="en">
@@ -572,7 +574,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="section-label">Page 1 of 4</div>
   <div class="page-title">The Ascension Arc</div>
-  <div class="page-subtitle">2025–2036 Sales Volume Trajectory · $1.823 Billion Horizon</div>
+  <div class="page-subtitle">2025–2036 Sales Volume Trajectory · $3B Horizon</div>
 
   <div class="kpi-strip">
     <div class="kpi-card">
@@ -587,13 +589,13 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     </div>
     <div class="kpi-card">
       <div class="kpi-label">2026 Baseline Projection</div>
-      <div class="kpi-value">$55M</div>
-      <div class="kpi-sub">MODEL · 5 named agents</div>
+      <div class="kpi-value">$75M</div>
+      <div class="kpi-sub">MODEL · D6 · OUTPUTS B32</div>
     </div>
     <div class="kpi-card">
-      <div class="kpi-label">$1.823B Horizon</div>
+      <div class="kpi-label">$3B Horizon</div>
       <div class="kpi-value">2036</div>
-      <div class="kpi-sub">MODEL · 32 agents at scale</div>
+      <div class="kpi-sub">MODEL · D7 · OUTPUTS B42</div>
     </div>
   </div>
 
@@ -616,7 +618,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="footnote">
     * All projections labeled MODEL. 2026 Closed ($4.57M) and Active (${exclusiveStr}) are verified actuals.
-    2026 baseline ($55M) and all outer years are governing-principle projections, not guarantees.
+    2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
     Data source: Growth Model v2 · Christie's East Hampton · INTERNAL ONLY.
   </div>
 
@@ -717,19 +719,19 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="section-label" style="margin-bottom:8px">Profit Pool · 2026–2036 Projection</div>
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:8px 10px;margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.6">
-    Formula: Pool = (Total Sales Volume − <strong>$40M breakeven</strong>) × <strong>2%</strong>.
-    If volume &lt; $40M, pool = $0.
-    Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only · net profit after franchise royalty · agent splits · overhead.
-    Paid at year end. Not salary. Not splits. Profit participation.
+    Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
+    Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
+    Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
+    Paid at year end. Not salary. Not splits. Profit participation. Source: Growth Model v2 OUTPUTS D39/D41.
   </div>
 
   <table style="margin-bottom:14px">
     <thead>
       <tr>
         <th>Year</th>
-        <th>Total Sales Volume</th>
-        <th>Above $40M</th>
-        <th>Pool (2%)</th>
+        <th>Office Volume</th>
+        <th>Gross GCI (2%)</th>
+        <th>Net Operating Profit</th>
         <th>Ed (35%)</th>
         <th>Ilija (65%)</th>
       </tr>
@@ -742,7 +744,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="econ-block-title">Ed Bruehl · Three Income Streams · 2026</div>
       <div class="econ-line">
         <span class="label">Agent GCI (personal production)</span>
-        <span class="value">$660,000*</span>
+        <span class="value">$600,000*</span>
       </div>
       <div class="econ-line">
         <span class="label">Profit Pool Share (35%)</span>
@@ -755,7 +757,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total 2026 (MODEL)</span>
-          <span class="value" style="color:#C8AC78">${fmtFull(660_000 + pool2026.ed + 17_500)}*</span>
+          <span class="value" style="color:#C8AC78">${fmtFull(600_000 + pool2026.ed + 17_500)}*</span>
         </div>
       </div>
     </div>
@@ -845,9 +847,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="def-note">Live as of ${generatedAt}</div>
     </div>
     <div class="def-card">
-      <div class="def-value">$55M</div>
+      <div class="def-value">$75M</div>
       <div class="def-label">2026 Baseline</div>
-      <div class="def-note">MODEL · 5 named agents</div>
+      <div class="def-note">MODEL · D6 · OUTPUTS B32</div>
     </div>
     <div class="def-card">
       <div class="def-value">9</div>
@@ -860,9 +862,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="def-note">Verified · In active pipeline</div>
     </div>
     <div class="def-card">
-      <div class="def-value">$1.823B</div>
+      <div class="def-value">$3B</div>
       <div class="def-label">2036 Horizon</div>
-      <div class="def-note">MODEL · 32 agents at scale by 2036</div>
+      <div class="def-note">MODEL · D7 · OUTPUTS B42</div>
     </div>
   </div>
 
@@ -870,10 +872,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     <div class="section-label" style="margin-bottom:6px">Growth Trajectory — MODEL Assumptions</div>
     <div style="font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.7">
       All figures beyond verified actuals ($4.57M closed, ${exclusiveStr} active) are governing-principle projections.
-      The $55M 2026 baseline assumes 5 named agents at stated volume. Targeted hires ($375K each × 3) and
-      organic adds ($50K each × 4) are upside above the baseline. The $40M profit pool breakeven is a
-      governing principle, not a contractual threshold. All outer-year projections (2027–2036) are MODEL
-      and subject to revision as the team grows.
+      The $75M 2026 baseline (OUTPUTS B32) assumes 5 named agents at stated volume. Targeted hires and
+      organic adds are upside above the baseline. Net Operating Profit formula: GCI − Royalty − Splits − Overhead.
+      All outer-year projections (2027–2036) are MODEL and subject to revision as the team grows.
     </div>
   </div>
 

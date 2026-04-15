@@ -1863,4 +1863,11 @@
 ## Sprint 12 Continued — April 15, 2026 (Morning Audit)
 - [x] Fix Pro Forma PDF blank pages — removed duplicate pageBreakAfter from PAGE_STYLE, added @page CSS rule, fixed break-after on last page
 - [x] Fix production server 503 — removed puppeteer from postinstall, build script, and onlyBuiltDependencies to prevent Chrome download crash on deploy
-- [ ] Full morning audit report — deliver to council
+- [x] Full morning audit report — deliver to council
+
+## Sprint 13 — April 15, 2026 (Pro Forma Number Corrections per Perplexity Dispatch)
+- [x] Fix 1: Wire Ascension Arc volumes to OUTPUTS tab B32:B42 — change $55M→$75M baseline, $1.823B→$3B horizon header
+- [x] Fix 2: Wire profit pool table to OUTPUTS tab C32:I42 — replace non-canonical $40M breakeven formula with D39/D41 canonical cascade, update table headers
+- [x] Fix 3: Wire Ed personal GCI to OUTPUTS row 46 — $660K→$600K, Three Income Streams total becomes $678,750
+- [x] Add server-side /api/growth-model route to fetch OUTPUTS data live from Google Sheets on each Pro Forma load
+- [x] Update FutureTab Ascension Arc chart to also use canonical OUTPUTS volumes

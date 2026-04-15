@@ -51,10 +51,10 @@ const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
 // ─── Council-governed milestone targets ──────────────────────────────────────
 const MILESTONE_TARGETS = {
   2025: { volume: 15_000_000,    display: '$20M',    label: '2025', isBaseline: true },
-  2026: { volume: 55_000_000,    display: '$55M',    label: '2026', isBaseline: false },
-  2027: { volume: 273_000_000,   display: '$273M',   label: '2027', isBaseline: false },
-  2028: { volume: 383_500_000,   display: '$383M',   label: '2028', isBaseline: false },
-  2031: { volume: 798_500_000,   display: '$798M',   label: '2031', isBaseline: false },
+  2026: { volume: 75_000_000,    display: '$75M',    label: '2026', isBaseline: false },  // D6 · OUTPUTS B32
+  2027: { volume: 125_906_749,   display: '$126M',   label: '2027', isBaseline: false },  // OUTPUTS B33
+  2028: { volume: 253_866_793,   display: '$254M',   label: '2028', isBaseline: false },  // OUTPUTS B34
+  2031: { volume: 1_219_300_000, display: '$1.2B',   label: '2031', isBaseline: false },  // OUTPUTS B37
 } as const;
 
 const MAX_VOLUME = 3_000_000_000; // 2036 canonical three-office combined volume (Ed ruling April 14, 2026)
@@ -256,27 +256,28 @@ export default function FutureTab() {
 
   // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)
   const BARS = useMemo(() => {
-    const vol2026 = liveVolumes?.[2026] ?? 55_000_000;
-    const vol2027 = liveVolumes?.[2027] ?? 273_000_000;
-    const vol2028 = liveVolumes?.[2028] ?? 383_500_000;
-    const vol2029 = liveVolumes?.[2029] ?? 498_600_000;
-    const vol2030 = liveVolumes?.[2030] ?? 641_400_000;
-    const vol2031 = liveVolumes?.[2031] ?? 798_500_000;
-    const vol2032 = liveVolumes?.[2032] ?? 938_700_000;
-    const vol2033 = liveVolumes?.[2033] ?? 1_101_000_000;
-    const vol2034 = liveVolumes?.[2034] ?? 1_301_200_000;
-    const vol2035 = liveVolumes?.[2035] ?? 1_539_440_000;
+    // Sprint 13: canonical OUTPUTS B32:B42 fallback values (Perplexity April 15, 2026)
+    const vol2026 = liveVolumes?.[2026] ?? 75_000_000;
+    const vol2027 = liveVolumes?.[2027] ?? 125_906_749;
+    const vol2028 = liveVolumes?.[2028] ?? 253_866_793;
+    const vol2029 = liveVolumes?.[2029] ?? 456_833_410;
+    const vol2030 = liveVolumes?.[2030] ?? 752_578_949;
+    const vol2031 = liveVolumes?.[2031] ?? 1_219_300_000;
+    const vol2032 = liveVolumes?.[2032] ?? 1_457_294_184;
+    const vol2033 = liveVolumes?.[2033] ?? 1_735_958_623;
+    const vol2034 = liveVolumes?.[2034] ?? 2_076_263_101;
+    const vol2035 = liveVolumes?.[2035] ?? 2_492_014_824;
     const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;
-    const eh2026 = liveEhVolumes?.[2026] ?? 55_000_000;
-    const eh2027 = liveEhVolumes?.[2027] ?? 273_000_000;
-    const eh2028 = liveEhVolumes?.[2028] ?? 383_500_000;
-    const eh2029 = liveEhVolumes?.[2029] ?? 498_600_000;
-    const eh2030 = liveEhVolumes?.[2030] ?? 641_400_000;
-    const eh2031 = liveEhVolumes?.[2031] ?? 798_500_000;
-    const eh2032 = liveEhVolumes?.[2032] ?? 938_700_000;
-    const eh2033 = liveEhVolumes?.[2033] ?? 1_101_000_000;
-    const eh2034 = liveEhVolumes?.[2034] ?? 1_301_200_000;
-    const eh2035 = liveEhVolumes?.[2035] ?? 1_539_440_000;
+    const eh2026 = liveEhVolumes?.[2026] ?? 75_000_000;
+    const eh2027 = liveEhVolumes?.[2027] ?? 125_906_749;
+    const eh2028 = liveEhVolumes?.[2028] ?? 253_866_793;
+    const eh2029 = liveEhVolumes?.[2029] ?? 456_833_410;
+    const eh2030 = liveEhVolumes?.[2030] ?? 752_578_949;
+    const eh2031 = liveEhVolumes?.[2031] ?? 1_219_300_000;
+    const eh2032 = liveEhVolumes?.[2032] ?? 1_457_294_184;
+    const eh2033 = liveEhVolumes?.[2033] ?? 1_735_958_623;
+    const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
+    const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
     const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
@@ -467,7 +468,7 @@ export default function FutureTab() {
             },
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
-              shareholder: <><strong>$55M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
+              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
               client: "AI Council daily. Every listing at Christie's standard.",
               team: '15 agents on live OS. Southampton bench seeded.',
             },
