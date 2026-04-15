@@ -160,8 +160,8 @@ function SectionA() {
           }}
         >
           {/* ── LEFT COLUMN: portrait + identity card ── */}
-          {/* Sprint 11 Item 11: portrait centered + responsive on iPhone */}
-          <div style={{ padding: '28px 20px 20px 28px', display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
+          {/* Doctrine 43 / Sprint 11: portrait top-aligned with letter text */}
+          <div style={{ padding: '20px 20px 20px 28px', display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
             <div
               onClick={() => navigate('/report')}
               style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}
@@ -203,7 +203,7 @@ function SectionA() {
           </div>
 
           {/* ── RIGHT COLUMN: founding letter ── */}
-          <div className="home-letter-col" style={{ padding: '32px 36px 32px 12px' }}>
+          <div className="home-letter-col" style={{ padding: '20px 36px 32px 12px' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>
