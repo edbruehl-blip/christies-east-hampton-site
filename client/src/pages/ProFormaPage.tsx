@@ -56,6 +56,23 @@ const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: numbe
   '2036': { pool: 11_400_000,  ed: 3_990_000,   ilija: 7_410_000 },
 };
 
+// Equation 1 cascade — Ed Net Personal Production
+// After 70/30 house split + 5% overrides to 3 ICA team members
+// Source: Perplexity dispatch April 15, 2026 evening. Verified against OUTPUTS row 46.
+const EQ1_CASCADE: Record<string, number> = {
+  '2026': 330_000,
+  '2027': 990_000,
+  '2028': 1_100_000,
+  '2029': 1_210_000,
+  '2030': 1_320_000,
+  '2031': 1_430_000,
+  '2032': 1_540_000,
+  '2033': 1_650_000,
+  '2034': 1_760_000,
+  '2035': 1_870_000,
+  '2036': 1_980_000,
+};
+
 // Sprint 13: canonical OUTPUTS B32:B42 (Perplexity April 15, 2026)
 const OUTLOOK_YEARS = [
   { year: '2026', vol: 75_000_000 },
@@ -451,9 +468,9 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
-            ['Agent GCI (personal production)', '$600,000*'],
-            ['Profit Pool Share (35%)', `${fmtFull(pool2026.ed)}*`],
-            ['AnewHomes Net Build Profit (Ed 35%)', '$17,500*'],
+            ['Ed Net Personal Production (Eq. 1)', `${fmtFull(EQ1_CASCADE['2026'])}*`],
+            ['Profit Pool Share — Ed 35% (Eq. 2)', `${fmtFull(pool2026.ed)}*`],
+            ['AnewHomes Net Build Profit — Ed 35% (Eq. 3)', '$17,500*'],
           ].map(([label, value]) => (
             <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ color: 'rgba(56,66,73,0.7)' }}>{label}</span>
@@ -463,7 +480,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
           <div style={{ borderTop: '1px solid rgba(27,42,74,0.1)', marginTop: 6, paddingTop: 6 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ fontWeight: 600, color: '#1B2A4A' }}>Total 2026 (MODEL)</span>
-              <span style={{ color: '#C8AC78', fontWeight: 600 }}>{fmtFull(600_000 + pool2026.ed + 17_500)}*</span>
+              <span style={{ color: '#C8AC78', fontWeight: 600 }}>{fmtFull(EQ1_CASCADE['2026'] + pool2026.ed + 17_500)}*</span>
             </div>
           </div>
         </div>

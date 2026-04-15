@@ -651,10 +651,9 @@ export default function MarketTab() {
             <HamletDonut data={mergedData} />
           </div>
 
-          {/* Market Report PDF export button — Puppeteer architecture (SD7 Item Two) */}
-          <div className="flex justify-center mt-6">
-            <MarketReportPdfButton />
-          </div>
+          {/* Market Report PDF button removed — Sprint 14 architectural rule (Ed ruling Apr 15 2026):
+               One canonical document per PDF button, no duplicate paths.
+               /report page (tap James Christie portrait) has the sole Download PDF button. */}
         </div>
       </section>
 
