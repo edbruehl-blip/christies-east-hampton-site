@@ -497,6 +497,102 @@ export default function FutureTab() {
           All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
 
+        {/* ── Assumptions Block ─────────────────────────────────────────────── */}
+        <div style={{
+          background: CARD_BG,
+          border: `0.5px solid ${GOLD_FAINT_BORDER}`,
+          borderRadius: 4,
+          padding: '14px 16px 12px',
+          marginBottom: 10,
+        }}>
+          {/* Section header */}
+          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
+            Assumptions &middot; Governing Principle &middot; Not Yet Contractual
+          </div>
+
+          {/* Mechanism Reference — 2-column grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '4px 24px', marginBottom: 12 }}>
+            {[
+              { label: 'GCI Formula',              value: 'Office Volume × 2%' },
+              { label: 'Agent Commission',          value: '70% of gross GCI' },
+              { label: 'Royalty',                   value: '5% of GCI · paid by Ilija from his side' },
+              { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
+              { label: 'Net Operating Profit',      value: 'GCI − Royalty − Splits − Overhead' },
+              { label: 'NOP Split',                 value: 'Ed 35% / Ilija 65% · two parties only (D40)' },
+              { label: 'ICA Override',              value: '5% of Ed gross personal GCI to each ICA member (Jarvis, Angel, Zoila) · Scott outside pool' },
+              { label: 'AnewHomes Net Build Profit', value: 'Y1 $50K · Y2 $150K · 12.5% annual growth → $432K by 2036' },
+              { label: 'AnewHomes Equity',          value: 'Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5% (D23)' },
+              { label: 'Zoila Vesting Cliff',       value: 'October 25, 2026 · activates 2027 forward' },
+            ].map(({ label, value }) => (
+              <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                <span style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
+                <span style={{ ...SANS, fontSize: 7, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Headcount Scaling Table */}
+          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
+            Headcount Scaling &middot; Elite Producer Model
+          </div>
+          <div style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 7, ...SANS }}>
+              <thead>
+                <tr>
+                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH GCI','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
+                    <th key={h} style={{ ...SANS, fontSize: 6.5, color: GOLD, fontWeight: 600, textAlign: h === 'Year' ? 'left' as const : 'right' as const, padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER}`, whiteSpace: 'nowrap' as const }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.6M', namedGci:'$0.3M', engineGci:'$1.5M', officeGci:'$2.4M', ahGci:'$0.1M', combGci:'$2.5M', combVol:'$0.12B', avgGci:'$273K' },
+                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$1.8M', namedGci:'$0.9M', engineGci:'$2.2M', officeGci:'$4.9M', ahGci:'$0.1M', combGci:'$5.1M', combVol:'$0.25B', avgGci:'$423K' },
+                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$2.0M', namedGci:'$1.5M', engineGci:'$6.0M', officeGci:'$9.5M', ahGci:'$0.2M', combGci:'$9.6M', combVol:'$0.48B', avgGci:'$536K' },
+                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$2.2M', namedGci:'$2.1M', engineGci:'$10.6M', officeGci:'$14.9M', ahGci:'$0.2M', combGci:'$15.0M', combVol:'$0.75B', avgGci:'$627K' },
+                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$2.4M', namedGci:'$2.6M', engineGci:'$16.6M', officeGci:'$21.7M', ahGci:'$0.2M', combGci:'$21.9M', combVol:'$1.09B', avgGci:'$729K' },
+                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$2.6M', namedGci:'$3.1M', engineGci:'$22.8M', officeGci:'$28.5M', ahGci:'$0.2M', combGci:'$28.7M', combVol:'$1.44B', avgGci:'$798K' },
+                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$2.8M', namedGci:'$3.4M', engineGci:'$26.1M', officeGci:'$32.3M', ahGci:'$0.3M', combGci:'$32.6M', combVol:'$1.63B', avgGci:'$906K' },
+                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$3.0M', namedGci:'$3.8M', engineGci:'$28.0M', officeGci:'$34.8M', ahGci:'$0.3M', combGci:'$35.1M', combVol:'$1.76B', avgGci:'$976K' },
+                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$3.2M', namedGci:'$4.1M', engineGci:'$28.6M', officeGci:'$35.9M', ahGci:'$0.3M', combGci:'$36.3M', combVol:'$1.81B', avgGci:'$1007K' },
+                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.4M', namedGci:'$4.5M', engineGci:'$29.2M', officeGci:'$37.0M', ahGci:'$0.4M', combGci:'$37.4M', combVol:'$1.87B', avgGci:'$1040K' },
+                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.6M', namedGci:'$4.8M', engineGci:'$29.8M', officeGci:'$38.2M', ahGci:'$0.4M', combGci:'$38.6M', combVol:'$1.93B', avgGci:'$1073K' },
+                ].map((r, i) => (
+                  <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
+                    <td style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Table footnote */}
+          <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
+            12 elite producers per office &middot; No caps &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+          </div>
+
+          {/* Gap Bridge footer */}
+          <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
+            <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
+              Base engine $1.93B by 2036. Three market-level forces &mdash; deal-size appreciation, commission rate dynamics, brand premium &mdash; compound to{' '}
+              <span style={{ color: GOLD, fontWeight: 600 }}>$3.16B adjusted combined volume by 2036</span>.
+              {' '}Full canonical math in Recruiting Engine Reference document.
+            </span>
+          </div>
+        </div>
+
         {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
         <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 9 }}>
 
@@ -626,7 +722,13 @@ export default function FutureTab() {
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
-                { label: 'ICA Override *', proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
+                { label: 'ICA Override *',   proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
+                { label: 'Net pool ref †',   proj: [
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool + livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool + livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool + livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
+                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.edPool + livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '—',
+                ], act: null }, // Total NOP pool for reference — Jarvis participates via ICA Override (5% Ed GCI), not direct NOP split (D40: Ed 35% / Ilija 65% only)
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -638,6 +740,10 @@ export default function FutureTab() {
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
                 {['$132.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
+              </div>
+              <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
+                * ICA Override = 5% of Ed gross personal GCI per year (OUTPUTS row 46) &middot; Projected total excludes direct NOP split &middot;
+                &dagger; Net pool ref = total NOP pool shown for context only &middot; Jarvis participates via ICA Override, not direct split (D40: Ed 35% / Ilija 65% only)
               </div>
             </div>
           </div>
