@@ -12,7 +12,7 @@
  *   5. generateMarketReport(opts?)         -- 5 pages (standalone, live Market Matrix data)
  *
  * Item 5 council-approved structure (Apr 7 2026, updated Sprint 25):
- *   Page 1 → Navy hero + nine-paragraph founding letter + Ed signature block
+ *   Page 1 → Navy hero + twelve-paragraph founding letter + Ed signature block
  *   Page 2 → Hamlet Atlas rows 1–5 (photo thumbnail, CIS, median, vol, vibe)
  *   Page 3 → Hamlet Atlas rows 6–10 (same format)
  *   Page 4 → Hamlet Atlas row 11 (Wainscott) + doctrine block
@@ -479,7 +479,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
 }
 
 // ─── 5. Four-Page Market Report (council-approved Apr 7 2026) ───────────────
-// Page 1  → Navy hero + nine-paragraph founding letter + Ed signature block
+// Page 1  → Navy hero + twelve-paragraph founding letter + Ed signature block
 // Page 2  → Hamlet Atlas rows 1–6 (photo thumbnail, CIS, median, vol, vibe)
 // Page 3  → Hamlet Atlas rows 7–11 (same format)
 // Page 4  → Closing paragraph + Ed headshot + contact block + two QR codes

@@ -757,7 +757,7 @@ export default function HomeTab() {
                 To the Families of the East End
               </div>
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
-                Ed's founding letter on the Christie's standard — nine paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
+                Ed's founding letter on the Christie's standard — twelve paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
               </p>
               <a
                 href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_letter_export_v3_441015ac.html"
