@@ -152,8 +152,8 @@ export default function FutureTab() {
   const CANONICAL_ANGEL = {
     nestSalary:  '$70K/yr ($5,833/mo) through Q1 2027',
     total2026:   angelNest && angelProducer && (angelNest.gci2026 + angelProducer.gci2026) > 0
-                   ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026 + 2_500) / 1000)}K`
-                   : '$102.5K', // $100K nest+producer + $2,500 AnewHomes 5% Y1 (Angel has no vesting clause)
+                   ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026 + 2_500 + 30_000) / 1000)}K`
+                   : '$132.5K', // $70K nest + $30K producer + $2,500 AnewHomes + $30K ICA Override (Angel has no vesting clause)
     total2027:   angelNest && angelProducer && (angelNest.gci2027 + angelProducer.gci2027) > 0
                    ? `$${Math.round((angelNest.gci2027 + angelProducer.gci2027) / 1000)}K`
                    : '$150K',
@@ -165,8 +165,8 @@ export default function FutureTab() {
   const CANONICAL_ZOILA = {
     nestSalary:  '$70K/yr ($5,833/mo) · Start Apr 25, 2026 · through Q1 2027',
     total2026:   zoilaNest && zoilaProducer && (zoilaNest.gci2026 + zoilaProducer.gci2026) > 0
-                   ? `$${Math.round((zoilaNest.gci2026 + zoilaProducer.gci2026) / 1000)}K`
-                   : '$100K',
+                   ? `$${Math.round((zoilaNest.gci2026 + zoilaProducer.gci2026 + 30_000) / 1000)}K`
+                   : '$130K', // $70K nest + $30K producer ramp + $0 vest AnewHomes + $30K ICA Override
     total2027:   zoilaNest && zoilaProducer && (zoilaNest.gci2027 + zoilaProducer.gci2027) > 0
                    ? `$${Math.round((zoilaNest.gci2027 + zoilaProducer.gci2027) / 1000)}K`
                    : '$150K',
@@ -606,7 +606,7 @@ export default function FutureTab() {
                 { label: 'Nest salary',      vals: ['$70K','$17.5K','—','—'] },
                 { label: 'Producer ramp',    vals: [CANONICAL_ANGEL.producer2026, CANONICAL_ANGEL.producer2027,'—','—'] },
                 { label: 'AnewHomes 5% *',   vals: ['$2,500','$7.5K','$8,438','$21,649'] }, // Y1 vested · Y2 $7.5K · Y3+ 12.5% growth from $50K NOP base
-                { label: 'ICA Override *',   vals: ['$30K','$30K','$30K','$30K'] }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
+                { label: 'ICA Override *',   vals: ['$30K','$90K','$100K','$180K'] }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Team + pool',      vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -639,7 +639,7 @@ export default function FutureTab() {
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
-                { label: 'ICA Override *', proj: ['$30,000','$30,000','$30,000','$30,000'], act: null }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
+                { label: 'ICA Override *', proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -650,7 +650,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$132K','$353K','$462K','$1.17M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* +$30K ICA Override per year */}
+                {['$132.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
               </div>
             </div>
           </div>
@@ -671,7 +671,7 @@ export default function FutureTab() {
                 { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
                 { label: 'Producer ramp',     vals: [CANONICAL_ZOILA.producer2026, CANONICAL_ZOILA.producer2027,'—','—'] },
                 { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Oct 25 2026 · activates 2027 · 12.5% growth from $50K NOP base
-                { label: 'ICA Override †',   vals: ['$30K','$30K','$30K','$30K'] }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
+                { label: 'ICA Override †',   vals: ['$30K','$90K','$100K','$180K'] }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -747,7 +747,7 @@ export default function FutureTab() {
         {/* ── Footer ─────────────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 10 }}>
           <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: '1 1 100%', width: '100%', minWidth: 0 }}>
-            * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% &middot; two parties only &middot; Pool share = 5% of Ed&apos;s 35% for Jarvis and Angel &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
+            * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% (D40) &middot; two parties only &middot; AnewHomes splits: Jarvis 5% &middot; Angel 5% &middot; Zoila 5% &middot; Pool 5% (D23) &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
             &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning April 25, 2026 &middot; vesting cliff October 25, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
           </div>
           <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>

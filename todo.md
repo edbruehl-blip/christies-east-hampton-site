@@ -1893,3 +1893,10 @@
 - [x] Item 3: Ed card net keep — done at ba56660e
 - [ ] Item 4: Jarvis Pool share clarification — queued behind operator ruling
 - [ ] Item 5: Angel 2026 AnewHomes $2,500 (not dash), update Angel 2026 total to $102,500
+
+## Sprint 16 - April 15 2026 Evening Perplexity re-verification pass
+- [ ] Fix ICA Override cascade: Jarvis Angel Zoila per-year 5pct of Ed gross GCI not flat 30K
+- [ ] Fix Angel total: add ICA Override to sum 102500 to 132500
+- [ ] Fix Zoila total: add ICA Override to sum 100000 to 130000
+- [ ] Fix footnote: Ed 35pct Ilija 65pct
+- [ ] Fix AnewHomes footnote splits: Jarvis 5pct Angel 5pct Zoila 5pct Pool 5pct
