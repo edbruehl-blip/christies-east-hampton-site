@@ -97,7 +97,8 @@ const PAGE_STYLE: React.CSSProperties = {
   minHeight: '11in',
   padding: '0.6in 0.65in 0.5in',
   background: '#FAF8F4',
-  pageBreakAfter: 'always',
+  // NOTE: page-break is handled by print CSS only — do NOT set pageBreakAfter here
+  // to avoid double page-break which creates blank pages between content.
   position: 'relative',
   boxSizing: 'border-box',
   fontFamily: "'Barlow Condensed', sans-serif",
@@ -658,10 +659,25 @@ export default function ProFormaPage() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #FAF8F4; }
+        @page {
+          size: 8.5in 11in;
+          margin: 0;
+        }
         @media print {
-          body { background: #FAF8F4; }
-          .pro-forma-page { page-break-after: always; }
-          .pro-forma-page:last-child { page-break-after: auto; }
+          body { background: #FAF8F4 !important; }
+          /* One clean page break per content div — no trailing blank pages */
+          .pro-forma-page {
+            break-after: page;
+            page-break-after: always;
+          }
+          .pro-forma-page:last-child {
+            break-after: avoid;
+            page-break-after: avoid;
+          }
+          /* Hide the print/back button bar */
+          .no-print { display: none !important; }
+          /* Ensure wrapper has no padding that would push content onto extra pages */
+          .pro-forma-wrapper { padding: 0 !important; background: #FAF8F4 !important; }
         }
       `}</style>
 
@@ -701,7 +717,7 @@ export default function ProFormaPage() {
         </button>
       </div>
 
-      <div style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
+      <div className="pro-forma-wrapper" style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
         <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
         <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>

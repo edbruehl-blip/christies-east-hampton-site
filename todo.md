@@ -1852,10 +1852,15 @@
 
 - [x] Fix Pro Forma PDF blank print — replaced broken /api/pdf Puppeteer button with window.print() + ?pdf=1 (Doctrine 43)
 - [x] Fix Pro Forma PDF blank on server-down — added 6-second timeout fallback so page renders with static data if tRPC unavailable
-- [ ] Fix nav bar data feeds — production server 503 (needs republish to restart server process)
+- [x] Fix nav bar data feeds — production server 503 resolved by republishing (checkpoint f7c88dad)
 
 ## Sprint 12 — April 15, 2026
 
 - [x] Fix Pro Forma PDF blank print — replaced broken /api/pdf Puppeteer button with window.print() + ?pdf=1 (Doctrine 43)
 - [x] Fix Pro Forma PDF blank on server-down — added 6-second timeout fallback so page renders with static data if tRPC unavailable
-- [ ] Fix nav bar data feeds — production server 503 (needs republish to restart server process)
+- [x] Fix nav bar data feeds — production server 503 resolved by republishing (checkpoint f7c88dad)
+
+## Sprint 12 Continued — April 15, 2026 (Morning Audit)
+- [x] Fix Pro Forma PDF blank pages — removed duplicate pageBreakAfter from PAGE_STYLE, added @page CSS rule, fixed break-after on last page
+- [x] Fix production server 503 — removed puppeteer from postinstall, build script, and onlyBuiltDependencies to prevent Chrome download crash on deploy
+- [ ] Full morning audit report — deliver to council
