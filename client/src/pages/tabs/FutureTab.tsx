@@ -152,8 +152,8 @@ export default function FutureTab() {
   const CANONICAL_ANGEL = {
     nestSalary:  '$70K/yr ($5,833/mo) through Q1 2027',
     total2026:   angelNest && angelProducer && (angelNest.gci2026 + angelProducer.gci2026) > 0
-                   ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026) / 1000)}K`
-                   : '$100K',
+                   ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026 + 2_500) / 1000)}K`
+                   : '$102.5K', // $100K nest+producer + $2,500 AnewHomes 5% Y1 (Angel has no vesting clause)
     total2027:   angelNest && angelProducer && (angelNest.gci2027 + angelProducer.gci2027) > 0
                    ? `$${Math.round((angelNest.gci2027 + angelProducer.gci2027) / 1000)}K`
                    : '$150K',
@@ -574,7 +574,7 @@ export default function FutureTab() {
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.edPool) : '—',
                 ], act: null },
-                { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
+                { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -605,7 +605,8 @@ export default function FutureTab() {
               {[
                 { label: 'Nest salary',      vals: ['$70K','$17.5K','—','—'] },
                 { label: 'Producer ramp',    vals: [CANONICAL_ANGEL.producer2026, CANONICAL_ANGEL.producer2027,'—','—'] },
-                { label: 'AnewHomes 5% *',   vals: ['—','$7.5K','$25K','$25K'] },
+                { label: 'AnewHomes 5% *',   vals: ['$2,500','$7.5K','$8,438','$21,649'] }, // Y1 vested · Y2 $7.5K · Y3+ 12.5% growth from $50K NOP base
+                { label: 'ICA Override *',   vals: ['$30K','$30K','$30K','$30K'] }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
                 { label: 'Team + pool',      vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -637,8 +638,8 @@ export default function FutureTab() {
                 { label: 'Sales vol',    proj: ['$5M','$15M','$20M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
-                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$25,000','$25,000'], act: null },
-                { label: 'Pool share *', proj: ['$1,986','$23,382','$34,019','$137K+'], act: null },
+                { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
+                { label: 'ICA Override *', proj: ['$30,000','$30,000','$30,000','$30,000'], act: null }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -649,7 +650,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$102K','$323K','$434K','$1.14M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$132K','$353K','$462K','$1.17M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* +$30K ICA Override per year */}
               </div>
             </div>
           </div>
@@ -669,7 +670,8 @@ export default function FutureTab() {
               {[
                 { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
                 { label: 'Producer ramp',     vals: [CANONICAL_ZOILA.producer2026, CANONICAL_ZOILA.producer2027,'—','—'] },
-                { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$25K','$25K'] },
+                { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Oct 25 2026 · activates 2027 · 12.5% growth from $50K NOP base
+                { label: 'ICA Override †',   vals: ['$30K','$30K','$30K','$30K'] }, // 5% of Ed gross GCI ($600K) · OUTPUTS row 46
                 { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -699,7 +701,7 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Sales vol',      proj: ['$1.5M','$5M','$15M','$35M+'], act: null },
-                { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$175,000','$175,000'], act: null },
+                { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -710,7 +712,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$50K','$155K','$480K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$50K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2028: sales vol + $59,063 AnewHomes */}
               </div>
             </div>
 
@@ -724,7 +726,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'AnewHomes *', proj: ['$5,000','$15,000','$50,000','$50,000'], act: null },
+                { label: 'AnewHomes *', proj: ['$5,000','$15,000','$16,875','$43,298'], act: null }, // 10% · 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -735,7 +737,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$5K','$15K','$50K','$50K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 12.5% growth from $50K NOP base */}
               </div>
             </div>
           </div>

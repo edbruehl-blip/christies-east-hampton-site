@@ -1878,3 +1878,18 @@
 - [x] Remove exporting useState from FutureTab — no longer needed
 - [x] Establish architectural rule: one PDF button per tab, one canonical output per button (Ed ruling Apr 15 2026)
 - [x] Keep Growth Model v2 link as only secondary action on FUTURE tab bottom bar
+
+## Sprint 14 Evening — April 15, 2026 (Ed Card Net Keep + MARKET Button)
+- [x] Remove MARKET tab hero Download Market Report button — architectural rule: one canonical PDF per surface
+- [x] Add EQ1_CASCADE constant — 11-year Equation 1 net values ($330K 2026 → $1.98M 2036)
+- [x] Update Three Income Streams on both PDF surfaces — $600K→$330K, label→Ed Net Personal Production (Eq. 1)
+- [x] Update Ed FUTURE tab card — Brokerage GCI (gross) replaced with Net Personal Production (Eq. 1) using EQ1_NET cascade
+- [x] Tighten Flagship Letter — remove three redundant passages, fix doctrine count 45→48, fix EH horizon reference
+- [x] Projected 2036 total on Ed card corrected from $6.5M+ to $6.12M
+
+## Sprint 15 — April 15, 2026 Evening (Perplexity Dispatch — AnewHomes Cascade)
+- [ ] Item 1: Fix AnewHomes cascade 2028 and 2036 values across all partner cards (Ed, Scott, Jarvis, Angel, Zoila, Richard)
+- [ ] Item 2: Update OUTPUTS description text Row 48 in proforma-generator.ts and ProFormaPage.tsx
+- [x] Item 3: Ed card net keep — done at ba56660e
+- [ ] Item 4: Jarvis Pool share clarification — queued behind operator ruling
+- [ ] Item 5: Angel 2026 AnewHomes $2,500 (not dash), update Angel 2026 total to $102,500

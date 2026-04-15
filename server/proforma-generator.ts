@@ -804,7 +804,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="footnote">
     * Governing principle only — not yet contractual. All figures labeled MODEL.
     Profit pool activates above $40M total sales volume.
-    AnewHomes pool growth: Y1 $50K · Y2 $150K · Y3 $300K · Y4+ 10% annual compounding from $300K.
+    AnewHomes pool growth: Y1 $50K · Y2 $150K · 12.5% annual growth thereafter. Ed 35%.
     Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
     Net profit after ALL build costs. Separate from Christie's commission income entirely.
     All seven AnewHomes participants aware and agreeable. Not yet formalized.
