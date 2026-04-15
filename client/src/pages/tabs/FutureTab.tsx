@@ -667,10 +667,26 @@ export default function FutureTab() {
                   ))}
                 </div>
               ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['$657K','$2.32M','$2.86M','$6.12M'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
-              </div>
+              {/* Ed Projected — formula-bound to OUTPUTS row 30 (livePoolRows.edPool) per architect lane ruling April 15 2026
+                   EQ1_NET + AnewHomes 35% + Net pool 35% = Projected
+                   2026 canonical: $330K + $17,500 + $61,250 = $408,750 (Perplexity NOP Scenario A) */}
+              {(() => {
+                const EQ1_NUMS: Record<number, number> = { 2026: 330_000, 2027: 990_000, 2028: 1_100_000, 2036: 1_980_000 };
+                const ANEW_NUMS: Record<number, number> = { 2026: 17_500, 2027: 52_500, 2028: 59_063, 2036: 151_542 };
+                const CANONICAL_POOL: Record<number, number> = { 2026: 61_250, 2027: 280_000, 2028: 700_000, 2036: 3_990_000 };
+                const years = [2026, 2027, 2028, 2036];
+                const projTotals = years.map(yr => {
+                  const pool = livePoolRows?.find(r => r.year === String(yr))?.edPool ?? CANONICAL_POOL[yr];
+                  return fmtM(EQ1_NUMS[yr] + ANEW_NUMS[yr] + pool);
+                });
+                return (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                    <span>Projected</span>
+                    {projTotals.map((v, i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                  </div>
+                );
+              })()}
+
             </div>
           </div>
 
