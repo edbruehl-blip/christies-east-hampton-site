@@ -288,11 +288,11 @@ Ten human members in the canonical roster as of Sprint 10.
 |---|-------|----------------|
 | 1 | Authority Must Whisper | No proof-point energy on any surface |
 | 7 | PDF Button Consistency | All PDF exports use the same button pattern |
-| 9 | TTS Model Lock | ElevenLabs `eleven_turbo_v2` — locked |
+| 9 | No Competitor Names Public | Saunders, Raveis, Elliman, Corcoran, Compass, Sotheby's — never named on any public surface |
 | 14 | Tell the truth, know the territory | Core operating principle |
 | 17 | No Date Spoken Aloud | William never reads a date |
 | 20 | CIREG Brand Color Lock | Navy `#0a1628`, Gold `#C8AC78` — no deviation |
-| 23 | Soli Deo Gloria | Operational sign-off — never in a document |
+| 23 | AnewHomes Equity Structure | Ed 35%, Scott 35%, Richard 10%, Jarvis 5%, Angel 5%, Zoila 5%, Pool 5% — locked |
 | 27 | Flagship AI-Letter Daily Update Cadence | Letter updates daily, William reads it |
 | 30 | The Council Is the Flagship Team | AI council structure |
 | 31 | Google Drive Default | All canonical documents live in Google Drive |
