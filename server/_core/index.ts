@@ -7,7 +7,6 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { registerTtsRoute, warmFlagshipCache } from "../tts-route";
 import { registerMarketRoute } from "../market-route";
 import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
 import { registerWhatsAppInbound } from "../whatsapp-inbound";
@@ -116,15 +115,7 @@ async function startServer() {
     })
   );
 
-  // TTS route — raw Express (no tRPC) so there is no request timeout cap
-  registerTtsRoute(app);
 
-  // Pre-generate flagship letter audio cache on startup (non-blocking)
-  // This eliminates the 8–15s ElevenLabs latency on first desktop click.
-  const elevenKey = process.env.ELEVENLABS_API_KEY;
-  if (elevenKey) {
-    warmFlagshipCache(elevenKey);
-  }
 
   // Market data proxy — bypasses CORS on Yahoo Finance for deployed environments
   registerMarketRoute(app);

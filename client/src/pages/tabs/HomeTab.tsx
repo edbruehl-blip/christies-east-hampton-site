@@ -16,13 +16,12 @@
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
  */
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 import { EmbedFrame } from '@/components/EmbedFrame';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
 import { AuctionHouseServices } from '@/components/AuctionHouseServices';
-// WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 // pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
 import { trpc } from '@/lib/trpc';
@@ -44,8 +43,6 @@ const FOUNDING_PARAGRAPHS = [
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
-type HomeAudioChannel = 'christies' | 'market';
-
 function SectionA() {
   const [, navigate] = useLocation();
 
@@ -53,89 +50,6 @@ function SectionA() {
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
 
-  // ── Inline audio state machine (streaming src pattern — no fetch-blob wait) ──
-  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
-  const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('christies');
-  const [audioProgress, setAudioProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(0);
-  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  function fmtTime(s: number) {
-    if (!isFinite(s) || isNaN(s)) return '0:00';
-    return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-  }
-
-  function stopAudio() {
-    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
-    setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0);
-  }
-
-  function togglePause() {
-    const a = audioRef.current;
-    if (!a) return;
-    if (audioState === 'playing') { a.pause(); setAudioState('paused'); }
-    else if (audioState === 'paused') { a.play(); setAudioState('playing'); }
-  }
-
-  function handleRewind() {
-    const a = audioRef.current;
-    if (a) a.currentTime = Math.max(0, a.currentTime - 15);
-  }
-
-  function handleForward() {
-    const a = audioRef.current;
-    if (a) a.currentTime = Math.min(a.duration || 0, a.currentTime + 15);
-  }
-
-  function handleShare() {
-    const ep = audioChannel === 'christies' ? '/api/tts/christies-letter'
-      : '/api/tts/market-report';
-    navigator.clipboard.writeText(window.location.origin + ep)
-      .then(() => { setShareState('copied'); setTimeout(() => setShareState('idle'), 2500); })
-      .catch(() => toast.error('Could not copy link.'));
-  }
-
-  function handleScrub(e: React.MouseEvent<HTMLDivElement>) {
-    const a = audioRef.current;
-    if (!a || !a.duration) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    a.currentTime = ((e.clientX - r.left) / r.width) * a.duration;
-  }
-
-  function handleListen(channel: HomeAudioChannel) {
-    if (audioState === 'playing' && audioChannel === channel) { stopAudio(); return; }
-    if (audioState === 'playing' || audioState === 'loading') stopAudio();
-    setAudioChannel(channel);
-    setAudioState('loading');
-    setAudioProgress(0);
-    const endpoint = channel === 'christies' ? '/api/tts/christies-letter'
-      : '/api/tts/market-report';
-    // Streaming src — browser plays as first chunks arrive, no full-download wait.
-    // Server supports Range requests so seek/skip work correctly.
-    const audio = new Audio(endpoint);
-    audioRef.current = audio;
-    audio.onloadedmetadata = () => setAudioDuration(audio.duration);
-    audio.ontimeupdate = () => {
-      if (audio.duration) {
-        setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
-        setCurrentTime(audio.currentTime);
-      }
-    };
-    audio.onplaying = () => setAudioState('playing');
-    audio.onended = () => { setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0); };
-    audio.onerror = () => { setAudioState('error'); toast.error('Audio playback failed.'); setTimeout(() => setAudioState('idle'), 3000); };
-    audio.play().catch((e) => {
-      console.error(e);
-      setAudioState('error');
-      toast.error('Audio generation failed. Please try again.');
-      setTimeout(() => setAudioState('idle'), 3000);
-    });
-  }
-
-  const channelLabel = audioChannel === 'christies' ? "Christie's Letter"
-    : 'Market Brief';
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
@@ -255,93 +169,7 @@ function SectionA() {
               </div>
             </div>
 
-            {/* ── William Audio Player — inline fetch-blob pattern (same as /report) ── */}
-            <div style={{ marginTop: 28, maxWidth: 520 }}>
-              {/* Two trigger buttons — idle or error state (Flagship Letter moved to floating button) */}
-              {(audioState === 'idle' || audioState === 'error') && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                  {(['christies', 'market'] as const).map((ch) => {
-                    const labels: Record<HomeAudioChannel, string> = {
-                      christies: "Christie's Letter",
-                      market: 'Market Brief',
-                    };
-                    return (
-                      <button
-                        key={ch}
-                        onClick={() => handleListen(ch)}
-                        style={{
-                          background: 'none',
-                          border: '1px solid rgba(200,172,120,0.28)',
-                          color: 'rgba(200,172,120,0.75)',
-                          fontFamily: '"Barlow Condensed", sans-serif',
-                          fontSize: 9,
-                          letterSpacing: '0.2em',
-                          textTransform: 'uppercase',
-                          padding: '9px 10px',
-                          cursor: 'pointer',
-                          lineHeight: 1.3,
-                          transition: 'all 0.2s',
-                        }}
-                      >
-                        {audioState === 'error' && audioChannel === ch ? '⚠ Retry' : `▶ ${labels[ch]}`}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-              {/* Expanded player — loading / playing / paused */}
-              {(audioState === 'loading' || audioState === 'playing' || audioState === 'paused') && (
-                <div style={{ border: '1px solid rgba(200,172,120,0.45)', background: 'rgba(200,172,120,0.06)', padding: '12px 16px' }}>
-                  {/* Status row */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap', gap: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {audioState === 'loading' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8AC78" strokeWidth="2.5" style={{ flexShrink: 0, animation: 'spin 1s linear infinite' }}>
-                          <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
-                          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
-                        </svg>
-                      ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 14 }}>
-                          {[0.6, 1, 0.75, 1, 0.5].map((h, i) => (
-                            <span key={i} style={{ display: 'block', width: 3, borderRadius: 2, background: '#C8AC78', height: `${h * 100}%`, animation: `wave-bar 0.8s ease-in-out ${i * 0.12}s infinite alternate` }} />
-                          ))}
-                        </div>
-                      )}
-                      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                        {audioState === 'loading' ? 'Synthesizing…' : channelLabel}
-                      </span>
-                    </div>
-                    {/* Controls — only when playing or paused */}
-                    {(audioState === 'playing' || audioState === 'paused') && (
-                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                        <button onClick={handleRewind} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>↺ −15</button>
-                        <button onClick={togglePause} style={{ background: 'rgba(200,172,120,0.15)', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>{audioState === 'paused' ? '▶ Resume' : '⏸ Pause'}</button>
-                        <button onClick={handleForward} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>+15 ↻</button>
-                        <button onClick={stopAudio} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>◼ Stop</button>
-                        <button onClick={handleShare} style={{ background: shareState === 'copied' ? 'rgba(5,150,105,0.15)' : 'rgba(200,172,120,0.1)', border: `1px solid ${shareState === 'copied' ? 'rgba(5,150,105,0.6)' : 'rgba(200,172,120,0.3)'}`, color: shareState === 'copied' ? '#6ee7b7' : '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer', transition: 'all 0.2s' }}>{shareState === 'copied' ? '✓ Copied' : '↗ Share'}</button>
-                      </div>
-                    )}
-                  </div>
-                  {/* Scrub bar + time */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div onClick={handleScrub} style={{ flex: 1, height: 5, background: 'rgba(200,172,120,0.15)', borderRadius: 3, overflow: 'hidden', cursor: (audioState === 'playing' || audioState === 'paused') ? 'pointer' : 'default', position: 'relative' }}>
-                      <div style={{ height: '100%', background: '#C8AC78', borderRadius: 3, width: `${audioProgress}%`, transition: 'width 0.4s linear' }} />
-                    </div>
-                    {(audioState === 'playing' || audioState === 'paused') && audioDuration > 0 && (
-                      <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(200,172,120,0.6)', whiteSpace: 'nowrap', minWidth: 64, textAlign: 'right' }}>{fmtTime(currentTime)} / {fmtTime(audioDuration)}</span>
-                    )}
-                  </div>
-                  {audioState === 'loading' && (
-                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 10, marginTop: 6, textAlign: 'center' }}>Downloading audio…</div>
-                  )}
-                </div>
-              )}
-              {/* CSS keyframes for wave-bar and spin */}
-              <style>{`
-                @keyframes wave-bar { from { transform: scaleY(0.4); } to { transform: scaleY(1); } }
-                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-              `}</style>
-            </div>
+
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16, marginBottom: 32 }}>
               <button
                 onClick={() => {

@@ -3,12 +3,6 @@
  * Opens the Flagship Letter as a printable HTML in a new tab.
  * Gold background #C8AC78, charcoal text #384249, small caps, open icon.
  * Minimum 44px tap target. Works identically on mobile and laptop.
- *
- * SD-10: Switched from ElevenLabs TTS audio to static printable HTML
- * while ElevenLabs credits are exhausted (1,028 remaining, 5,612 required).
- * When credits are restored, revert handleClick to use:
- *   const audio = new Audio('/api/tts/flagship-letter');
- * and restore the progress bar / skip controls from SD-9b.
  */
 
 export function FloatingDashboardIntro() {

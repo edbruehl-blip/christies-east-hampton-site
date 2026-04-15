@@ -1900,3 +1900,36 @@
 - [ ] Fix Zoila total: add ICA Override to sum 100000 to 130000
 - [ ] Fix footnote: Ed 35pct Ilija 65pct
 - [ ] Fix AnewHomes footnote splits: Jarvis 5pct Angel 5pct Zoila 5pct Pool 5pct
+
+## Audio Retirement — April 15, 2026 (Ed's directive)
+
+- [ ] Strip audio state machine from ReportPage Section1 (audioState, audioChannel, audioProgress, audioRef, handleAudio, stopAudio, William buttons, audio error toast)
+- [ ] Strip audio state machine and Listen buttons from HomeTab (audioState, audioChannel, audioRef, handleListen, stopAudio, audio error toast)
+- [ ] Clean FloatingDashboardIntro — remove SD-10 audio comment, keep flagship letter behavior
+- [ ] Delete WilliamAudioPlayer.tsx component
+- [ ] Delete tts-route.ts server file
+- [ ] Delete tts.test.ts server test file
+- [ ] Remove tts-route import from server/_core/index.ts
+- [ ] Remove TTS procedures from server/routers.ts
+- [ ] Clean IntelTab audio references (William keyword description)
+- [ ] Clean InstitutionalMindMap audio references (William audio description)
+
+## Audio Retirement + Flagship Letter Upgrade — April 15, 2026
+
+- [x] Audio retirement: strip audio state machine from ReportPage Section1 (audioState, audioChannel, audioRef, progress bar, William buttons, error toast)
+- [x] Audio retirement: strip audio state machine and Listen buttons from HomeTab
+- [x] Audio retirement: clean FloatingDashboardIntro (keep letter behavior, remove audio comments)
+- [x] Audio retirement: delete WilliamAudioPlayer.tsx component
+- [x] Audio retirement: delete tts-route.ts server file
+- [x] Audio retirement: delete tts.test.ts
+- [x] Audio retirement: remove tts-route import from server index
+- [x] Audio retirement: remove TTS procedures (FOUNDING_LETTER, MARKET_REPORT_TEXT, callElevenLabs, tts router) from routers.ts
+- [x] Audio retirement: update letter-content.ts header comment (remove tts-route reference)
+- [x] Audio retirement: update FlagshipLetterPage.tsx header comment (remove tts-route reference)
+- [x] Flagship Letter visual upgrade: cream background (#f5efe0), Cormorant Garamond body, Christie's black logo lockup centered
+- [x] Flagship Letter visual upgrade: generous margins (1.25in top/bottom, 1in sides in PDF mode)
+- [x] Flagship Letter visual upgrade: refined signature block (46px headshot, italic serif name, gold small-caps title)
+- [x] Flagship Letter visual upgrade: elegant gold link download button (not chunky button)
+- [x] Flagship Letter visual upgrade: footer in small-caps gold "Christie's International Real Estate Group · Est. 1766"
+- [x] Flagship Letter content: William/audio paragraph replaced with dashboard URL invitation
+- [x] Flagship Letter content: "Text William" CTA replaced with "Open the INTEL tab" CTA

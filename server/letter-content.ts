@@ -3,12 +3,11 @@
  *
  * Single source of truth for the two institutional letters.
  * Imported by:
- *   - server/tts-route.ts (ElevenLabs TTS → WhatsApp voice notes)
  *   - server/routers.ts (tRPC flagship.getLetter → /letters/flagship live URL renderer)
  *   - server/whatsapp-inbound.ts (LETTER and FLAGSHIP WhatsApp keywords)
  *
  * To update a letter: edit the constant here.
- * All three surfaces — live URL, WhatsApp audio, PDF download — reflect the change automatically.
+ * Both surfaces — live URL and PDF download — reflect the change automatically.
  */
 
 // ─── Dashboard Introduction Letter ────────────────────────────────────────────
