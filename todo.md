@@ -1938,3 +1938,8 @@
 
 - [x] Strip "William ready to brief you on demand" from FLAGSHIP_LETTER_TEXT line 60 in letter-content.ts
 - [x] Apply Flambeaux visual treatment to /letters/christies (ChristiesLetterPage) — cream bg, Cormorant Garamond, Christie's black logo, signature block, elegant download link
+
+## Sprint 15 Continuation — April 15, 2026
+
+- [x] Strip William/DASHBOARD paragraph from FLAGSHIP_LETTER_TEXT source constant in letter-content.ts
+- [x] Apply Flambeaux visual treatment to FloatingDashboardIntro printable letter surface — INTRO button now opens /letters/flagship (live Flambeaux route)

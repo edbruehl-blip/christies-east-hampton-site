@@ -62,15 +62,13 @@ INTEL is the relationship and hierarchy layer — every person, every institutio
 
 The FUTURE tab carries the Ascension Arc — the eleven-year bar chart that tracks the three-office trajectory from 2026 to 2036. East Hampton in gold: seventy-five million at launch. Southampton in navy, opening in 2028. Westhampton in sage, opening in 2030. The three-office combined destination is three billion dollars at 2036. Every bar reads live from the Growth Model spreadsheet. These are not projections made for a pitch. They are the architecture of a real institution being built in real time.
 
-William is the voice of this system. Text DASHBOARD to 631-239-7190 and he reads you this letter. Text NEWS and he delivers the full fourteen-category intelligence brief, sourced and attributed, in the voice of Walter Cronkite. Text LETTER and he reads you the Christie's Letter to the Families — the founding document that explains what this institution is and what it can do for the people who trust it. Text BRIEF and he delivers the council's closing synthesis — the AI council's read on where the institution stands and what comes next. Four commands. Four lenses. He does not speak on a schedule. He speaks when you ask him to, and he always tells the truth.
-
 The system runs on 48 canonical doctrines. Doctrine 1: Authority Must Whisper. Doctrine 14: Tell the truth, know the territory, serve the client before yourself. Every doctrine is a constraint that makes the institution more trustworthy, not less capable.
 
 For anyone stepping into Christie's East Hampton — whether as a broker, a partner, or someone simply learning what this office is — this is what you are walking into. Not a desk. Not a split. An operating system that does the thinking before you walk in the door. The territory, the pipeline, the relationships, the briefs, the cards — already in place. The work is to learn the system, tell the truth inside it, and go sit with the right people.
 
 James Christie built his house on one insight: teach people what they own, and what its value is, before anything else. That is still the job. That is still the hook.
 
-Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. Text William and tell us what he gets right and what he misses. The more data you put in, the more intelligence comes back out.
+Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. The more data you put in, the more intelligence comes back out.
 
 Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began. That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.`;
 

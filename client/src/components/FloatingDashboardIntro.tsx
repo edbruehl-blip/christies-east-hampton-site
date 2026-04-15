@@ -1,21 +1,25 @@
 /**
  * FloatingDashboardIntro — Fixed bottom-right button, all pages.
- * Opens the Flagship Letter as a printable HTML in a new tab.
+ * Opens /letters/flagship — the live Flambeaux-treated Flagship Letter.
+ * Cream paper, Cormorant Garamond, Christie's black logo, signature block.
  * Gold background #C8AC78, charcoal text #384249, small caps, open icon.
  * Minimum 44px tap target. Works identically on mobile and laptop.
+ *
+ * Print identity: canonical Flambeaux treatment (checkpoint 57ad6371+).
+ * Three letter surfaces share this identity:
+ *   /letters/flagship  — Flagship AI Letter
+ *   /letters/christies — Christie's Letter to the Families
+ *   INTRO button       — opens /letters/flagship (this component)
  */
 
 export function FloatingDashboardIntro() {
-  const FLAGSHIP_LETTER_URL =
-    'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/flagship_letter_export_v1_771b2086.html';
-
   const handleClick = () => {
-    // Use location.href to avoid popup blockers that block window.open
-    window.location.href = FLAGSHIP_LETTER_URL;
+    window.open('/letters/flagship', '_blank', 'noopener,noreferrer');
   };
 
   return (
     <div
+      className="no-print"
       style={{
         position: 'fixed',
         bottom: 24,
