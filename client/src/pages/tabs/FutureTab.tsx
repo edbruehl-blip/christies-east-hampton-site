@@ -69,38 +69,30 @@ function fmtM(n: number): string {
 }
 
 // ─── Pro Forma Button ─────────────────────────────────────────────────────────
+// Doctrine 43: client-side print via ?pdf=1 light-mode — no Puppeteer dependency.
+// Opens /pro-forma?pdf=1 in a new tab and triggers window.print() after fonts load.
+// Works on the live deployed site where Puppeteer/Chromium is not available.
 function ProFormaButton() {
-  const [loading, setLoading] = React.useState(false);
-  const handleGenerate = async () => {
-    if (loading) return;
-    setLoading(true);
-    try {
-      const date = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      const res = await fetch('/api/pdf?url=/pro-forma');
-      if (!res.ok) throw new Error(`PDF endpoint returned ${res.status}`);
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Christies_EH_Pro_Forma_${date}.pdf`;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
-    } catch (err) {
-      console.error('Pro forma generation failed:', err);
-      alert('Pro forma generation failed. Please try again.');
-    } finally {
-      setLoading(false);
+  const handlePrint = () => {
+    const printWin = window.open('/pro-forma?pdf=1', '_blank');
+    if (!printWin) {
+      alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
+      return;
     }
+    printWin.addEventListener('load', () => {
+      // Extra delay for Google Fonts + chart render
+      setTimeout(() => {
+        printWin.focus();
+        printWin.print();
+      }, 1800);
+    });
   };
   return (
     <button
-      onClick={handleGenerate}
-      disabled={loading}
-      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: loading ? 'wait' : 'pointer', opacity: loading ? 0.5 : 1 }}
+      onClick={handlePrint}
+      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer' }}
     >
-      {loading ? 'Generating…' : '\u2193 Pro Forma PDF'}
+      &#8595; Pro Forma PDF
     </button>
   );
 }

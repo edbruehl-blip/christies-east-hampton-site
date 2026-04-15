@@ -1842,3 +1842,8 @@
 - [x] Doctrine 43: ProFormaPage — useIsPdfMode hook + grey wrapper stripped (white body for Puppeteer)
 - [x] Doctrine 43: ReportPage — useIsPdfMode hook + BackBar hidden when ?pdf=1
 - [x] Doctrine 43: UHNWPathCardPage — useIsPdfMode hook + download bar hidden when ?pdf=1
+
+## Post-Sprint 11 — April 15, 2026
+
+- [x] Fix Pro Forma PDF button — switch from Puppeteer server call to client-side window.print() with ?pdf=1 light-mode
+- [ ] Full live site audit — all tabs, all PDF surfaces, ticker, nav
