@@ -1,6 +1,6 @@
 /**
  * William WhatsApp Route
- * ─────────────────────────────────────────────────────────────────────────────
+ * -----------------------------------------------------------------------------
  * Provides two Express endpoints:
  *
  *   POST /api/whatsapp/morning-brief   — 8AM Hamptons market brief (voice note)
@@ -28,11 +28,11 @@ import twilio from "twilio";
 import { fetchCronkiteBrief } from "./whatsapp-inbound";
 import { readPipelineDeals, readGrowthModelVolume } from "./sheets-helper";
 
-// ─── ElevenLabs config ────────────────────────────────────────────────────────
+// --- ElevenLabs config --------------------------------------------------------
 const ELEVENLABS_VOICE_ID = "fjnwTZkKtQOJaYzGLa6n"; // William — unified voice (same as tts-route.ts)
 const ELEVENLABS_MODEL    = "eleven_turbo_v2"; // Doctrine 9 — TTS Model Lock (aligned with whatsapp-inbound.ts)
 
-// ─── ElevenLabs synthesis ─────────────────────────────────────────────────────
+// --- ElevenLabs synthesis -----------------------------------------------------
 
 async function synthesiseAudio(text: string): Promise<Buffer> {
   const response = await fetch(
@@ -59,7 +59,7 @@ async function synthesiseAudio(text: string): Promise<Buffer> {
   return Buffer.from(arrayBuffer);
 }
 
-// ─── Upload to S3 and get public URL ─────────────────────────────────────────
+// --- Upload to S3 and get public URL -----------------------------------------
 
 async function uploadAudio(buffer: Buffer, label: string): Promise<string> {
   const key = `whatsapp-briefs/${label}-${Date.now()}.mp3`;
@@ -67,7 +67,7 @@ async function uploadAudio(buffer: Buffer, label: string): Promise<string> {
   return url;
 }
 
-// ─── Send WhatsApp voice note via Twilio ──────────────────────────────────────
+// --- Send WhatsApp voice note via Twilio --------------------------------------
 
 async function sendWhatsAppVoiceNote(audioUrl: string, caption: string): Promise<string> {
   const client = twilio(ENV.twilioAccountSid, ENV.twilioAuthToken);
@@ -80,7 +80,7 @@ async function sendWhatsAppVoiceNote(audioUrl: string, caption: string): Promise
   return message.sid;
 }
 
-// ─── Pipeline summary paragraph ─────────────────────────────────────────────
+// --- Pipeline summary paragraph ---------------------------------------------
 
 async function getPipelineSummary(): Promise<string> {
   try {
@@ -114,27 +114,25 @@ async function getPipelineSummary(): Promise<string> {
   }
 }
 
-// ─── Volume scorecard line for morning brief ────────────────────────────────
-// "Team Closed: $X.XXM · Gap to $55M: $YY.YYM"
-
+// --- Volume scorecard line for morning brief ---------------------------------
+// "Team Closed: $X.XXM · Gap to $75M: $YY.YYM" — Sprint 13: $55M→$75M (D6 · OUTPUTS B32)
 async function getVolumeScorecardLine(): Promise<string> {
   try {
     const { total } = await readGrowthModelVolume();
-    const TARGET_2026 = 55_000_000;
+    const TARGET_2026 = 75_000_000; // D6 · OUTPUTS B32 · Sprint 13
     const closed = total.act2026 ?? 0;
     const gap = Math.max(0, TARGET_2026 - closed);
     const fmtM = (n: number) => `$${(n / 1_000_000).toFixed(2)}M`;
     if (closed === 0) {
-      return `Team Closed: $0 · Gap to $55M: ${fmtM(TARGET_2026)}. `;
+      return `Team Closed: $0 · Gap to $75M: ${fmtM(TARGET_2026)}. `;
     }
-    return `Team Closed: ${fmtM(closed)} · Gap to $55M: ${fmtM(gap)}. `;
+    return `Team Closed: ${fmtM(closed)} · Gap to $75M: ${fmtM(gap)}. `;
   } catch {
     return '';
   }
 }
 
-// ─── Core delivery function ───────────────────────────────────────────────────
-
+// --- Core delivery function ---------------------------------------------------
 async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   sid: string;
   audioUrl: string;
@@ -167,7 +165,7 @@ async function deliverBrief(type: "morning" | "evening" | "test"): Promise<{
   return { sid, audioUrl, textLength: text.length };
 }
 
-// ─── Exported delivery helper for inbound handler ───────────────────────────
+// --- Exported delivery helper for inbound handler ---------------------------
 
 export async function deliverBriefToNumber(to: string): Promise<void> {
   const text = await fetchCronkiteBrief();
@@ -182,7 +180,7 @@ export async function deliverBriefToNumber(to: string): Promise<void> {
   });
 }
 
-// ─── Route registration ───────────────────────────────────────────────────────
+// --- Route registration -------------------------------------------------------
 
 export function registerWhatsAppRoute(app: Express): void {
   // Guard: all whatsapp routes require Twilio credentials
@@ -228,7 +226,7 @@ export function registerWhatsAppRoute(app: Express): void {
   });
 }
 
-// ─── Cron scheduler (node-cron) ───────────────────────────────────────────────
+// --- Cron scheduler (node-cron) -----------------------------------------------
 // Called once from server/_core/index.ts after server starts.
 
 export async function startWhatsAppScheduler(): Promise<void> {

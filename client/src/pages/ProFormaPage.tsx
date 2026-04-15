@@ -38,35 +38,37 @@ function useIsPdfMode(): boolean {
 const LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
 const ED_HEADSHOT = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/INlfZDqMHcqOCvuv.jpg';
 
-const MAX_VOLUME = 1_823_328_000;
+const MAX_VOLUME = 3_000_000_000; // D7 · OUTPUTS B42 · Sprint 13
 
-// Net pool fallback — matches proforma-generator.ts exactly
+// Net pool fallback — OUTPUTS G32:G42 canonical NOP (Sprint 13, April 15, 2026, Perplexity verified)
+// Formula: GCI(2%) − Royalty(5%) − AgentSplits(70%) − Overhead(MAX($200K, GCI×6%))
 const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: number }> = {
-  '2026': { pool: 113_500,     ed: 39_725,     ilija: 73_775 },
-  '2027': { pool: 1_336_100,   ed: 467_635,    ilija: 868_465 },
-  '2028': { pool: 1_943_950,   ed: 680_383,    ilija: 1_263_568 },
-  '2029': { pool: 2_575_820,   ed: 901_537,    ilija: 1_674_283 },
-  '2030': { pool: 3_200_000,   ed: 1_120_000,  ilija: 2_080_000 },
-  '2031': { pool: 4_100_000,   ed: 1_435_000,  ilija: 2_665_000 },
-  '2032': { pool: 4_996_278,   ed: 1_748_697,  ilija: 3_247_581 },
-  '2033': { pool: 5_885_957,   ed: 2_060_085,  ilija: 3_825_872 },
-  '2034': { pool: 6_988_122,   ed: 2_445_843,  ilija: 4_542_279 },
-  '2035': { pool: 8_303_218,   ed: 2_906_126,  ilija: 5_397_092 },
-  '2036': { pool: 9_874_221,   ed: 3_455_977,  ilija: 6_418_244 },
+  '2026': { pool: 175_000,     ed: 61_250,      ilija: 113_750 },
+  '2027': { pool: 429_534,     ed: 150_337,     ilija: 279_197 },
+  '2028': { pool: 964_694,     ed: 337_643,     ilija: 627_051 },
+  '2029': { pool: 1_735_967,   ed: 607_588,     ilija: 1_128_379 },
+  '2030': { pool: 2_859_800,   ed: 1_000_930,   ilija: 1_858_870 },
+  '2031': { pool: 4_633_340,   ed: 1_621_669,   ilija: 3_011_671 },
+  '2032': { pool: 5_537_718,   ed: 1_938_201,   ilija: 3_599_517 },
+  '2033': { pool: 6_596_643,   ed: 2_308_825,   ilija: 4_287_818 },
+  '2034': { pool: 7_889_800,   ed: 2_761_430,   ilija: 5_128_370 },
+  '2035': { pool: 9_469_656,   ed: 3_314_380,   ilija: 6_155_277 },
+  '2036': { pool: 11_400_000,  ed: 3_990_000,   ilija: 7_410_000 },
 };
 
+// Sprint 13: canonical OUTPUTS B32:B42 (Perplexity April 15, 2026)
 const OUTLOOK_YEARS = [
-  { year: '2026', vol: 55_000_000 },
-  { year: '2027', vol: 273_000_000 },
-  { year: '2028', vol: 383_500_000 },
-  { year: '2029', vol: 498_600_000 },
-  { year: '2030', vol: 641_400_000 },
-  { year: '2031', vol: 798_500_000 },
-  { year: '2032', vol: 938_700_000 },
-  { year: '2033', vol: 1_101_000_000 },
-  { year: '2034', vol: 1_301_200_000 },
-  { year: '2035', vol: 1_539_440_000 },
-  { year: '2036', vol: 1_823_328_000 },
+  { year: '2026', vol: 75_000_000 },
+  { year: '2027', vol: 125_906_749 },
+  { year: '2028', vol: 253_866_793 },
+  { year: '2029', vol: 456_833_410 },
+  { year: '2030', vol: 752_578_949 },
+  { year: '2031', vol: 1_219_300_000 },
+  { year: '2032', vol: 1_457_294_184 },
+  { year: '2033', vol: 1_735_958_623 },
+  { year: '2034', vol: 2_076_263_101 },
+  { year: '2035', vol: 2_492_014_824 },
+  { year: '2036', vol: 3_000_000_000 },
 ];
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
@@ -224,14 +226,14 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
 
       <div style={SECTION_LABEL}>Page 1 of 4</div>
       <div style={PAGE_TITLE}>The Ascension Arc</div>
-      <div style={PAGE_SUBTITLE}>2025–2036 Sales Volume Trajectory · $1.823 Billion Horizon</div>
+      <div style={PAGE_SUBTITLE}>2025–2036 Sales Volume Trajectory · $3B Horizon</div>
 
       {/* KPI Strip */}
       <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
         <KpiCard label="Closed · First 100 Days" value="$4.57M" sub="Verified · Office closed period" />
         <KpiCard label="Active Pipeline" value={activePipelineStr} sub={`Live as of ${generatedAt}`} />
-        <KpiCard label="2026 Baseline Projection" value="$55M" sub="MODEL · 5 named agents" />
-        <KpiCard label="$1.823B Horizon" value="2036" sub="MODEL · 32 agents at scale" />
+        <KpiCard label="2026 Baseline Projection" value="$75M" sub="MODEL · D6 · OUTPUTS B32" />
+        <KpiCard label="$3B Horizon" value="2036" sub="MODEL · D7 · OUTPUTS B42" />
       </div>
 
       {/* Arc Bars */}
@@ -277,7 +279,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
 
       <div style={FOOTNOTE}>
         * All projections labeled MODEL. 2026 Closed ($4.57M) and Active ({exclusiveStr}) are verified actuals.
-        2026 baseline ($55M) and all outer years are governing-principle projections, not guarantees.
+        2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
         Data source: Growth Model v2 · Christie's East Hampton · INTERNAL ONLY.
       </div>
 
@@ -411,16 +413,16 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
 
       <div style={{ ...SECTION_LABEL, marginBottom: 8 }}>Profit Pool · 2026–2036 Projection</div>
       <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '8px 10px', marginBottom: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.6 }}>
-        Formula: Pool = (Total Sales Volume − <strong>$40M breakeven</strong>) × <strong>2%</strong>.
-        If volume &lt; $40M, pool = $0.
-        Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only · net profit after franchise royalty · agent splits · overhead.
-        Paid at year end. Not salary. Not splits. Profit participation.
+        Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
+        Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
+        Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
+        Paid at year end. Not salary. Not splits. Profit participation. Source: Growth Model v2 OUTPUTS D39/D41.
       </div>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, marginBottom: 14 }}>
         <thead>
           <tr style={{ borderBottom: '1.5px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-            {['Year', 'Total Sales Volume', 'Above $40M', 'Pool (2%)', 'Ed (35%)', 'Ilija (65%)'].map(h => (
+            {['Year', 'Office Volume', 'Gross GCI (2%)', 'Net Operating Profit', 'Ed (35%)', 'Ilija (65%)'].map(h => (
               <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8AC78', fontWeight: 600 }}>{h}</th>
             ))}
           </tr>
@@ -433,7 +435,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
               <tr key={year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 1 ? 'rgba(27,42,74,0.015)' : 'transparent' }}>
                 <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, letterSpacing: '0.1em', fontSize: 9 }}>{year}</td>
                 <td style={{ padding: '5px 8px', fontSize: 9 }}>{fmtFull(vol)}</td>
-                <td style={{ padding: '5px 8px', color: above > 0 ? '#1B2A4A' : 'rgba(56,66,73,0.3)', fontSize: 9 }}>{above > 0 ? fmtFull(above) : '—'}</td>
+                <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{fmtFull(Math.round(vol * 0.02))}</td>
                 <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
                 <td style={{ padding: '5px 8px', fontWeight: 600, fontSize: 9 }}>{p.ed > 0 ? fmtFull(p.ed) : '$0'}</td>
                 <td style={{ padding: '5px 8px', fontSize: 9 }}>{p.ilija > 0 ? fmtFull(p.ilija) : '$0'}</td>
@@ -449,7 +451,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
-            ['Agent GCI (personal production)', '$660,000*'],
+            ['Agent GCI (personal production)', '$600,000*'],
             ['Profit Pool Share (35%)', `${fmtFull(pool2026.ed)}*`],
             ['AnewHomes Net Build Profit (Ed 35%)', '$17,500*'],
           ].map(([label, value]) => (
@@ -461,7 +463,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
           <div style={{ borderTop: '1px solid rgba(27,42,74,0.1)', marginTop: 6, paddingTop: 6 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ fontWeight: 600, color: '#1B2A4A' }}>Total 2026 (MODEL)</span>
-              <span style={{ color: '#C8AC78', fontWeight: 600 }}>{fmtFull(660_000 + pool2026.ed + 17_500)}*</span>
+              <span style={{ color: '#C8AC78', fontWeight: 600 }}>{fmtFull(600_000 + pool2026.ed + 17_500)}*</span>
             </div>
           </div>
         </div>
@@ -519,10 +521,10 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
   const defCards = [
     { value: '$4.57M', label: 'Closed Volume', note: 'Verified · First 100 days, office closed' },
     { value: activePipelineStr, label: 'Active Pipeline', note: `Live as of ${generatedAt}` },
-    { value: '$55M', label: '2026 Baseline', note: 'MODEL · 5 named agents' },
+    { value: '$75M', label: '2026 Baseline', note: 'MODEL · D6 · OUTPUTS B32' },
     { value: '9', label: 'Named Team Members', note: 'Incl. Scott Smith pending June 1' },
     { value: '$6.5M', label: 'Flambeaux Signed', note: 'Verified · In active pipeline' },
-    { value: '$1.823B', label: '2036 Horizon', note: 'MODEL · 32 agents at scale by 2036' },
+    { value: '$3B', label: '2036 Horizon', note: 'MODEL · D7 · OUTPUTS B42' },
   ];
 
   return (
@@ -550,10 +552,9 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
         <div style={{ ...SECTION_LABEL, marginBottom: 6 }}>Growth Trajectory — MODEL Assumptions</div>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.7 }}>
           All figures beyond verified actuals ($4.57M closed, {exclusiveStr} active) are governing-principle projections.
-          The $55M 2026 baseline assumes 5 named agents at stated volume. Targeted hires ($375K each × 3) and
-          organic adds ($50K each × 4) are upside above the baseline. The $40M profit pool breakeven is a
-          governing principle, not a contractual threshold. All outer-year projections (2027–2036) are MODEL
-          and subject to revision as the team grows.
+          The $75M 2026 baseline (OUTPUTS B32) assumes 5 named agents at stated volume. Targeted hires and
+          organic adds are upside above the baseline. Net Operating Profit formula: GCI − Royalty − Splits − Overhead.
+          All outer-year projections (2027–2036) are MODEL and subject to revision as the team grows.
         </div>
       </div>
 
@@ -625,9 +626,9 @@ export default function ProFormaPage() {
   ];
 
   const total = volData?.total ?? {
-    proj2026: 55_000_000,
+    proj2026: 75_000_000,  // D6 · OUTPUTS B32 · Sprint 13
     act2026: 4_570_000,
-    proj2027: 100_000_000,
+    proj2027: 125_906_749, // OUTPUTS B33 · Sprint 13
   };
 
   // Timeout fallback: if data hasn't loaded in 6 seconds, render with static fallbacks

@@ -669,7 +669,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       </tr>
       <tr class="total-row">
         <td colspan="3" style="color:#1B2A4A;font-weight:600">TOTAL (Baseline)</td>
-        <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2026 || 55_000_000)}</td>
+        <td style="color:#C8AC78;font-weight:600">${fmtDollar(outlookYears[0].vol)}</td>
         <td style="color:#1B2A4A;font-weight:600">${fmtDollar(total.act2026 || 4_570_000)}</td>
         <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2027 || 100_000_000)}</td>
         <td style="color:rgba(56,66,73,0.3)">—</td>
