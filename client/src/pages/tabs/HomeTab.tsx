@@ -342,34 +342,56 @@ function SectionA() {
                 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
               `}</style>
             </div>
-            <button
-              onClick={() => {
-                const a = document.createElement('a');
-                a.href = '/api/pdf?url=/letters/christies';
-                a.download = 'Christies_EH_Letter_' + new Date().toISOString().slice(0,10) + '.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-              }}
-              style={{
-                marginTop: 16,
-                marginBottom: 32,
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                padding: '9px 20px',
-                fontFamily: '"Barlow Condensed", sans-serif',
-                fontSize: 11,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                color: '#FAF8F4',
-                background: 'rgba(200,172,120,0.08)',
-                border: '1px solid rgba(200,172,120,0.5)',
-                cursor: 'pointer',
-              }}
-            >
-              ↓ Download Christie's Letter · PDF
-            </button>
+            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16, marginBottom: 32 }}>
+              <button
+                onClick={() => {
+                  const a = document.createElement('a');
+                  a.href = '/api/pdf?url=/letters/christies';
+                  a.download = 'Christies_EH_Letter_' + new Date().toISOString().slice(0,10) + '.pdf';
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                }}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: '#FAF8F4',
+                  background: 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.5)',
+                  cursor: 'pointer',
+                }}
+              >
+                ↓ Download Christie’s Letter · PDF
+              </button>
+              <a
+                href="/letters/christies"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '9px 20px',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  color: '#C8AC78',
+                  background: 'transparent',
+                  border: '1px solid rgba(200,172,120,0.35)',
+                  cursor: 'pointer',
+                  textDecoration: 'none',
+                }}
+              >
+                ↗ Open &amp; Print
+              </a>
+            </div>
 
           </div>
         </div>
