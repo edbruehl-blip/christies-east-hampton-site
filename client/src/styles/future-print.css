@@ -88,10 +88,38 @@
     display: table-header-group;
   }
 
+  /* ── Assumptions Block headcount scaling table — keep together ─────────── */
+  .assumptions-block {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .assumptions-block table,
+  .assumptions-block .headcount-table {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
   /* ── Section breaks ──────────────────────────────────────────────────────── */
   /* Each major section starts on a new page if it doesn't fit */
   .mb-10 {
     page-break-inside: avoid;
+  }
+
+  /* ── Chart — reduce max-height so it doesn't consume a full page ─────────── */
+  .future-chart-frame {
+    max-height: 220px !important;
+    overflow: hidden !important;
+  }
+
+  /* ── Hide INTRO button and OPEN GROWTH MODEL V2 button from print ─────────── */
+  [data-print-hide],
+  .future-intro-button,
+  .future-growth-model-button,
+  button[aria-label*="INTRO"],
+  button[aria-label*="Growth Model"],
+  a[aria-label*="Growth Model"] {
+    display: none !important;
   }
 
   /* Force page break before Profit Pool and ANEW sections */
