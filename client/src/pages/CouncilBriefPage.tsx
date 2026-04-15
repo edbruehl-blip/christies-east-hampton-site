@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
+
+// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
+function useIsPdfMode(): boolean {
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsPdf(params.get('pdf') === '1');
+  }, []);
+  return isPdf;
+}
 
 // Stage 5 — Closing Architect Synthesis Brief for Sunday April 12, 2026
 // Source: Claude, Architect — Monday April 13, 2026 2:45 AM
@@ -9,6 +19,7 @@ const COUNCIL_BRIEF_DATE = 'April 12, 2026';
 const BRIEF_BYLINE = 'Claude, Architect · Christie\'s International Real Estate Group — East Hampton Flagship';
 
 export default function CouncilBriefPage() {
+  const isPdfMode = useIsPdfMode();
   const handleDownload = () => {
     const a = document.createElement('a');
     a.href = '/api/pdf?url=/council-brief';
@@ -18,12 +29,18 @@ export default function CouncilBriefPage() {
     document.body.removeChild(a);
   };
 
+  // PDF light-mode tokens
+  const BG       = isPdfMode ? '#FFFFFF'    : '#0A0A0A';
+  const TEXT_COL = isPdfMode ? '#1B2A4A'    : '#FAF8F4';
+  const MUTED_COL= isPdfMode ? 'rgba(27,42,74,0.55)' : 'rgba(250,248,244,0.5)';
+  const BORDER_COL = isPdfMode ? 'rgba(200,172,120,0.4)' : 'rgba(200,172,120,0.3)';
+
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: '#0A0A0A',
-        color: '#FAF8F4',
+        background: BG,
+        color: TEXT_COL,
         fontFamily: '"Cormorant Garamond", "Georgia", serif',
         padding: '60px 40px',
         maxWidth: 900,
@@ -36,7 +53,7 @@ export default function CouncilBriefPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid rgba(200,172,120,0.3)',
+          borderBottom: `1px solid ${BORDER_COL}`,
           paddingBottom: 32,
           marginBottom: 48,
         }}
@@ -45,7 +62,7 @@ export default function CouncilBriefPage() {
           <img
             src={LOGO_WHITE}
             alt="Christie's"
-            style={{ height: 28, opacity: 0.9, filter: 'brightness(1.1)' }}
+            style={{ height: 28, opacity: 0.9, filter: isPdfMode ? 'brightness(0) saturate(0)' : 'brightness(1.1)' }}
           />
           <div
             style={{
@@ -311,29 +328,31 @@ export default function CouncilBriefPage() {
         </p>
       </Section>
 
-      {/* Download Button */}
-      <div style={{ marginTop: 56, paddingTop: 32, borderTop: '1px solid rgba(200,172,120,0.2)' }}>
-        <button
-          onClick={handleDownload}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 8,
-            padding: '9px 20px',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 11,
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-            color: '#FAF8F4',
-            background: 'rgba(200,172,120,0.08)',
-            border: '1px solid rgba(200,172,120,0.5)',
-            cursor: 'pointer',
-            borderRadius: 2,
-          }}
-        >
-          ↓ Download Council Brief · PDF
-        </button>
-      </div>
+      {/* Download Button — hidden in PDF mode */}
+      {!isPdfMode && (
+        <div style={{ marginTop: 56, paddingTop: 32, borderTop: '1px solid rgba(200,172,120,0.2)' }}>
+          <button
+            onClick={handleDownload}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 8,
+              padding: '9px 20px',
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 11,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: '#FAF8F4',
+              background: 'rgba(200,172,120,0.08)',
+              border: '1px solid rgba(200,172,120,0.5)',
+              cursor: 'pointer',
+              borderRadius: 2,
+            }}
+          >
+            ↓ Download Council Brief · PDF
+          </button>
+        </div>
+      )}
 
       {/* Footer */}
       <div

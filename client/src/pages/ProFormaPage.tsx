@@ -21,6 +21,17 @@
  */
 
 import { trpc } from '@/lib/trpc';
+import { useState, useEffect } from 'react';
+
+// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
+function useIsPdfMode(): boolean {
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsPdf(params.get('pdf') === '1');
+  }, []);
+  return isPdf;
+}
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 const LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
@@ -576,6 +587,7 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function ProFormaPage() {
+  const isPdfMode = useIsPdfMode();
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
@@ -665,7 +677,7 @@ export default function ProFormaPage() {
         </button>
       </div>
 
-      <div style={{ background: '#e8e6e0', padding: '24px 0', minHeight: '100vh' }}>
+      <div style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
         <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
         <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>

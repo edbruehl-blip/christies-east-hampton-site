@@ -7,9 +7,22 @@
  * PDF download: GET /api/pdf?url=/cards/uhnw-path
  * Route registered in App.tsx as /cards/uhnw-path
  * Filename map entry in pdf-route.ts: Christies_EH_UHNW_Path_Card
+ *
+ * Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026)
+ * ?pdf=1 → download bar hidden, clean cream background for Puppeteer.
  */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+// ─── Doctrine 43 — PDF Light Mode Export Standard ─────────────────────────────
+function useIsPdfMode(): boolean {
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsPdf(params.get('pdf') === '1');
+  }, []);
+  return isPdf;
+}
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY   = '#384249';
@@ -83,6 +96,7 @@ const RUNGS = [
 ];
 
 export default function UHNWPathCardPage() {
+  const isPdfMode = useIsPdfMode();
   const [downloading, setDownloading] = useState(false);
 
   const handleDownload = async () => {
@@ -115,60 +129,62 @@ export default function UHNWPathCardPage() {
         color: DARK,
       }}
     >
-      {/* ── Download bar (screen only, hidden in print) ─────────────────────── */}
-      <div
-        className="no-print"
-        style={{
-          background: NAVY,
-          padding: '10px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 12,
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <img src={CIREG_LOGO} alt="Christie's" style={{ height: 22 }} />
-          <span style={{ color: CREAM, fontSize: 13, letterSpacing: '0.06em' }}>
-            UHNW Wealth Path Card
-          </span>
+      {/* ── Download bar (screen only, hidden in print and PDF mode) ─────────── */}
+      {!isPdfMode && (
+        <div
+          className="no-print"
+          style={{
+            background: NAVY,
+            padding: '10px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <img src={CIREG_LOGO} alt="Christie's" style={{ height: 22 }} />
+            <span style={{ color: CREAM, fontSize: 13, letterSpacing: '0.06em' }}>
+              UHNW Wealth Path Card
+            </span>
+          </div>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button
+              onClick={() => window.print()}
+              style={{
+                background: 'transparent',
+                border: `1px solid ${GOLD}`,
+                color: GOLD,
+                padding: '5px 16px',
+                fontSize: 11,
+                letterSpacing: '0.1em',
+                cursor: 'pointer',
+                borderRadius: 2,
+              }}
+            >
+              OPEN &amp; PRINT
+            </button>
+            <button
+              onClick={handleDownload}
+              disabled={downloading}
+              style={{
+                background: GOLD,
+                border: 'none',
+                color: NAVY,
+                padding: '5px 16px',
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.1em',
+                cursor: downloading ? 'not-allowed' : 'pointer',
+                borderRadius: 2,
+                opacity: downloading ? 0.7 : 1,
+              }}
+            >
+              {downloading ? 'GENERATING…' : 'DOWNLOAD PDF'}
+            </button>
+          </div>
         </div>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <button
-            onClick={() => window.print()}
-            style={{
-              background: 'transparent',
-              border: `1px solid ${GOLD}`,
-              color: GOLD,
-              padding: '5px 16px',
-              fontSize: 11,
-              letterSpacing: '0.1em',
-              cursor: 'pointer',
-              borderRadius: 2,
-            }}
-          >
-            OPEN &amp; PRINT
-          </button>
-          <button
-            onClick={handleDownload}
-            disabled={downloading}
-            style={{
-              background: GOLD,
-              border: 'none',
-              color: NAVY,
-              padding: '5px 16px',
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: '0.1em',
-              cursor: downloading ? 'not-allowed' : 'pointer',
-              borderRadius: 2,
-              opacity: downloading ? 0.7 : 1,
-            }}
-          >
-            {downloading ? 'GENERATING…' : 'DOWNLOAD PDF'}
-          </button>
-        </div>
-      </div>
+      )}
 
       {/* ── Card body — landscape proportions ──────────────────────────────── */}
       <div
@@ -324,8 +340,9 @@ export default function UHNWPathCardPage() {
       <style>{`
         @media print {
           .no-print { display: none !important; }
-          body { margin: 0; }
+          body { margin: 0; background: #F9F5EF !important; }
           #uhnw-path-card-root { padding: 0; }
+          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
         }
         @page { size: landscape; margin: 0.25in; }
       `}</style>

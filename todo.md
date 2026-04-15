@@ -1829,3 +1829,16 @@
 
 - [x] Wire RL-012 Google Doc link into INTEL Document Library (https://docs.google.com/document/d/1RfkfCR2qxipjx3BF_5W_NjGV_wy8qsEOt2ZmmzBZuSU/edit)
 - [ ] Refresh and expand COUNCIL_AUDIT_APRIL_14_2026.md — Sprint 10 canonical state, all corrections applied, Flagship Letter (Patch 5) included in full
+
+## Sprint 11 — Doctrine 43 PDF Light Mode Enforcement (April 14, 2026)
+
+- [x] Pre-Sprint 11: Section XIV doctrine fix — D9 corrected to "No Competitor Names Public", D23 corrected to "AnewHomes Equity Structure" (Trello canonical audit April 14)
+- [x] Growth Model v2 — Overhead formula live: MAX($200K, GCI × 6%) applied to OUTPUTS!F32:F42 via Sheets API
+- [x] Growth Model v2 — NOP formula live: GCI − Royalty(5%) − AgentSplits(70%) − Overhead applied to OUTPUTS!G32:G42
+- [x] Growth Model v2 — Ed 35% / Ilija 65% split formulas live: OUTPUTS!H32:H42 and I32:I42
+- [x] Growth Model v2 — AnewHomes compounding table live: OUTPUTS!H49:H59 with 12.5% annual growth from $50K base (2026–2036)
+- [x] Doctrine 43: FlagshipLetterPage — useIsPdfMode hook + full light-mode inversion (dark navy → white/charcoal)
+- [x] Doctrine 43: CouncilBriefPage — useIsPdfMode hook + full light-mode inversion (near-black → white/charcoal)
+- [x] Doctrine 43: ProFormaPage — useIsPdfMode hook + grey wrapper stripped (white body for Puppeteer)
+- [x] Doctrine 43: ReportPage — useIsPdfMode hook + BackBar hidden when ?pdf=1
+- [x] Doctrine 43: UHNWPathCardPage — useIsPdfMode hook + download bar hidden when ?pdf=1

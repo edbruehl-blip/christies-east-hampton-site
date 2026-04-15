@@ -35,6 +35,16 @@ import { generateReportPdf } from '@/lib/report-pdf';
 import '@/styles/report-print.css';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 
+// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
+function useIsPdfMode(): boolean {
+  const [isPdf, setIsPdf] = useState(false);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsPdf(params.get('pdf') === '1');
+  }, []);
+  return isPdf;
+}
+
 // ─── Back button ──────────────────────────────────────────────────────────────
 function BackBar() {
   const [, navigate] = useLocation();
@@ -2380,9 +2390,10 @@ function Section7() {
 //   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
 //   Page 6 — EstateAdvisoryCard: Estate Advisory CTA
 export default function ReportPage() {
+  const isPdfMode = useIsPdfMode();
   return (
     <div id="report-page-content" style={{ background: '#FAF8F4', minHeight: '100vh' }}>
-      <BackBar />
+      {!isPdfMode && <BackBar />}
       <Section1 />
       <Section3 />
       <Section4 />
