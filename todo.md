@@ -1847,3 +1847,15 @@
 
 - [x] Fix Pro Forma PDF button — switch from Puppeteer server call to client-side window.print() with ?pdf=1 light-mode
 - [ ] Full live site audit — all tabs, all PDF surfaces, ticker, nav
+
+## Sprint 12 — April 15, 2026
+
+- [x] Fix Pro Forma PDF blank print — replaced broken /api/pdf Puppeteer button with window.print() + ?pdf=1 (Doctrine 43)
+- [x] Fix Pro Forma PDF blank on server-down — added 6-second timeout fallback so page renders with static data if tRPC unavailable
+- [ ] Fix nav bar data feeds — production server 503 (needs republish to restart server process)
+
+## Sprint 12 — April 15, 2026
+
+- [x] Fix Pro Forma PDF blank print — replaced broken /api/pdf Puppeteer button with window.print() + ?pdf=1 (Doctrine 43)
+- [x] Fix Pro Forma PDF blank on server-down — added 6-second timeout fallback so page renders with static data if tRPC unavailable
+- [ ] Fix nav bar data feeds — production server 503 (needs republish to restart server process)

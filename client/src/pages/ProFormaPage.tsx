@@ -3,7 +3,8 @@
  *
  * Route: /pro-forma
  * Architecture: Live URL renderer — no nav chrome, document-only.
- * The PDF is downstream: GET /api/pdf?url=/pro-forma photographs this page.
+ * PDF: client-side window.print() via ?pdf=1 (Doctrine 43). No Puppeteer dependency.
+ * Sprint 12 fix: PDF button now uses window.print(); 6s timeout fallback for offline rendering.
  *
  * Four pages:
  *   Page 1 — The Ascension Arc (volume trajectory 2025–2036)
@@ -17,11 +18,11 @@
  * Doctrine 20: Gold oklch(0.73 0.07 72) / Charcoal oklch(0.33 0.02 220)
  * Doctrine 14: No website URL in contact block
  * Doctrine 19: No website URL on any external surface
- * Sprint 8 · April 12, 2026
+ * Sprint 8 · April 12, 2026 | Sprint 12 PDF fix · April 15, 2026
  */
 
 import { trpc } from '@/lib/trpc';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 // ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
 function useIsPdfMode(): boolean {
@@ -628,7 +629,19 @@ export default function ProFormaPage() {
     proj2027: 100_000_000,
   };
 
-  const isLoading = arcLoading || volLoading;
+  // Timeout fallback: if data hasn't loaded in 6 seconds, render with static fallbacks
+  // This ensures the page is never blank when the server is slow or unavailable.
+  const [loadTimeout, setLoadTimeout] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    if (!arcLoading && !volLoading) {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+      return;
+    }
+    timeoutRef.current = setTimeout(() => setLoadTimeout(true), 6000);
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current); };
+  }, [arcLoading, volLoading]);
+  const isLoading = (arcLoading || volLoading) && !loadTimeout;
 
   if (isLoading) {
     return (
@@ -656,18 +669,29 @@ export default function ProFormaPage() {
       <div className="no-print" style={{ position: 'fixed', top: 16, right: 16, zIndex: 9999, display: 'flex', gap: 8 }}>
         <button
           onClick={() => {
-            const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-            const a = document.createElement('a');
-            a.href = '/api/pdf?url=/pro-forma';
-            a.download = `Christies_EH_Pro_Forma_${today}.pdf`;
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => document.body.removeChild(a), 100);
+            // Doctrine 43: client-side window.print() — no Puppeteer dependency.
+            // If already in ?pdf=1 mode, print directly.
+            if (isPdfMode) {
+              window.print();
+              return;
+            }
+            // Otherwise open a new tab with ?pdf=1 and trigger print after render.
+            const printWin = window.open('/pro-forma?pdf=1', '_blank');
+            if (!printWin) {
+              alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
+              return;
+            }
+            printWin.addEventListener('load', () => {
+              // Extra delay for Google Fonts + chart render
+              setTimeout(() => {
+                printWin.focus();
+                printWin.print();
+              }, 2000);
+            });
           }}
           style={{ background: '#1B2A4A', color: '#C8AC78', border: 'none', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
         >
-          ↓ Download PDF
+          ↓ Print PDF
         </button>
         <button
           onClick={() => window.close()}
