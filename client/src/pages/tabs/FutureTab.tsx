@@ -68,31 +68,18 @@ function fmtM(n: number): string {
   return `$${n.toLocaleString()}`;
 }
 
-// ─── Pro Forma Button ─────────────────────────────────────────────────────────
-// Doctrine 43: client-side print via ?pdf=1 light-mode — no Puppeteer dependency.
-// Opens /pro-forma?pdf=1 in a new tab and triggers window.print() after fonts load.
-// Works on the live deployed site where Puppeteer/Chromium is not available.
-function ProFormaButton() {
-  const handlePrint = () => {
-    const printWin = window.open('/pro-forma?pdf=1', '_blank');
-    if (!printWin) {
-      alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
-      return;
-    }
-    printWin.addEventListener('load', () => {
-      // Extra delay for Google Fonts + chart render
-      setTimeout(() => {
-        printWin.focus();
-        printWin.print();
-      }, 1800);
-    });
-  };
+// ─── Print Future Button ─────────────────────────────────────────────────────
+// Spec April 15 2026: Print the FUTURE tab full-scroll exactly as it appears
+// on screen — dark navy, gold, all partner cards with live data.
+// No separate page, no light-mode inversion. window.print() on current tab.
+function PrintFutureButton() {
   return (
     <button
-      onClick={handlePrint}
+      onClick={() => window.print()}
+      className="no-print"
       style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer' }}
     >
-      &#8595; Pro Forma PDF
+      &#8595; Print &middot; PDF
     </button>
   );
 }
@@ -356,7 +343,7 @@ export default function FutureTab() {
             {!isPdfMode && ((arcData && !arcLoading) || (volData && !volLoading)) ? (
               <span style={{ ...SANS, color: '#4ade80', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const }}>&#9679; Live</span>
             ) : null}
-            <ProFormaButton />
+            <PrintFutureButton />
           </div>
         </div>
 

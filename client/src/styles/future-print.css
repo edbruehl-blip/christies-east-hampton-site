@@ -1,11 +1,12 @@
 /**
  * FUTURE TAB — Print Stylesheet
  * Christie's International Real Estate Group East Hampton
- * Pro Forma · Print to PDF
+ * Spec April 15 2026: Print the FUTURE tab full-scroll exactly as it appears
+ * on screen — dark navy #0a1628, gold #c8ac78, all partner cards with live data.
+ * No light-mode inversion. window.print() on current tab.
  *
  * Usage: imported in FutureTab.tsx
- * Hides all dashboard chrome, preserves Christie's charcoal/gold/navy,
- * forces white background, and produces clean paginated pro forma output.
+ * Hides all dashboard chrome, preserves dark navy/gold exactly as on screen.
  */
 
 @media print {
@@ -38,21 +39,30 @@
   /* Dashboard header layers */
   [class*="sticky"],
   [class*="fixed"],
-  /* Buttons and export controls at bottom */
-  .flex.flex-wrap.items-center.justify-center.gap-4.pb-8,
   /* Any sign-in prompts (should be gone, but belt-and-suspenders) */
   a[href*="oauth"],
   a[href*="login"] {
     display: none !important;
   }
 
-  /* ── Body and root ───────────────────────────────────────────────────────── */
+  /* ── Body and root — keep dark navy background ───────────────────────── */
   html,
   body,
   #root {
-    background: #ffffff !important;
+    background: #0a1628 !important;
     margin: 0 !important;
     padding: 0 !important;
+  }
+
+  /* ── Ensure all content is visible (no overflow clipping) ─────────────── */
+  * {
+    overflow: visible !important;
+  }
+
+  /* ── Partner cards — avoid page breaks inside cards ───────────────── */
+  .future-participant-grid > div {
+    page-break-inside: avoid;
+    break-inside: avoid;
   }
 
   /* ── Main content area ───────────────────────────────────────────────────── */
@@ -113,28 +123,27 @@
     right: 0;
     padding: 8px 0.65in;
     border-top: 1px solid rgba(200, 172, 120, 0.4);
-    background: #ffffff;
+    background: #0a1628;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 8pt;
+    font-size: 7pt;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: rgba(27, 42, 74, 0.5);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   .future-print-footer .footer-left {
-    color: #1B2A4A;
+    color: #c8ac78;
     font-weight: 600;
   }
 
   .future-print-footer .footer-center {
-    color: #C8AC78;
+    color: rgba(200, 172, 120, 0.65);
   }
 
   .future-print-footer .footer-right {
-    color: rgba(27, 42, 74, 0.4);
+    color: rgba(200, 172, 120, 0.4);
   }
 
   /* ── Hide footer in screen view ─────────────────────────────────────────── */
