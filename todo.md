@@ -1933,3 +1933,8 @@
 - [x] Flagship Letter visual upgrade: footer in small-caps gold "Christie's International Real Estate Group · Est. 1766"
 - [x] Flagship Letter content: William/audio paragraph replaced with dashboard URL invitation
 - [x] Flagship Letter content: "Text William" CTA replaced with "Open the INTEL tab" CTA
+
+## Letter Surface Consistency — April 15, 2026 (Sprint 15)
+
+- [x] Strip "William ready to brief you on demand" from FLAGSHIP_LETTER_TEXT line 60 in letter-content.ts
+- [x] Apply Flambeaux visual treatment to /letters/christies (ChristiesLetterPage) — cream bg, Cormorant Garamond, Christie's black logo, signature block, elegant download link
