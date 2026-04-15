@@ -16,7 +16,8 @@ export function FloatingDashboardIntro() {
     'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/flagship_letter_export_v1_7f8e9e0f.html';
 
   const handleClick = () => {
-    window.open(FLAGSHIP_LETTER_URL, '_blank', 'noopener,noreferrer');
+    // Use location.href to avoid popup blockers that block window.open
+    window.location.href = FLAGSHIP_LETTER_URL;
   };
 
   return (
