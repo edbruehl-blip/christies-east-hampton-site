@@ -851,34 +851,6 @@ export default function FutureTab() {
               </div>
             </div>
 
-            {/* Bonita DeWolf — own ICA, separate from override pool */}
-            <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Bonita DeWolf</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Agent &middot; Own ICA &middot; Outside override pool</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
-                {['Stream','2026','2027','2028','2036'].map(h => (
-                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
-                ))}
-              </div>
-              {[
-                { label: 'Sales vol *',  proj: ['TBD','TBD','TBD','TBD'], act: null },
-                { label: 'GCI proj *',   proj: ['TBD','TBD','TBD','TBD'], act: null },
-              ].map(row => (
-                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
-                  <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? []).map((v, i) => (
-                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
-                  ))}
-                </div>
-              ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['TBD','TBD','TBD','TBD'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
-              </div>
-              <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                * Canonical projections pending Perplexity verification &middot; Own ICA &middot; Not in Jarvis/Angel/Zoila override pool
-              </div>
-            </div>
           </div>
 
         </div>
