@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 
 /**
@@ -6,30 +5,15 @@ import { trpc } from "@/lib/trpc";
  *
  * Standalone route: no nav chrome, document-only.
  * Renders the Christie's Letter to the Families.
- * Download PDF button calls GET /api/pdf?url=/letters/christies via Puppeteer.
+ * PDF: client-side window.print() via Doctrine 43. No Puppeteer dependency.
  * Lead Summary Paragraph at top per Doctrine 37.
  */
 export default function ChristiesLetterPage() {
-  const [downloading, setDownloading] = useState(false);
   const { data, isLoading } = trpc.flagship.getChristiesLetter.useQuery();
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const res = await fetch("/api/pdf?url=/letters/christies");
-      if (!res.ok) throw new Error("PDF generation failed");
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `Christies_EH_Letter_${new Date().toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" }).replace(/\//g, "-")}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error("PDF download failed:", err);
-    } finally {
-      setDownloading(false);
-    }
+  const handleDownload = () => {
+    // Doctrine 43: client-side window.print() — no Puppeteer dependency.
+    window.print();
   };
 
   // Parse letter text into paragraphs, separating Lead Summary from body
@@ -82,10 +66,9 @@ export default function ChristiesLetterPage() {
         </div>
         <button
           onClick={handleDownload}
-          disabled={downloading}
           style={{
-            background: downloading ? "#384249" : "#C8AC78",
-            color: downloading ? "#C8AC78" : "#1B2A4A",
+            background: "#C8AC78",
+            color: "#1B2A4A",
             border: "none",
             padding: "6px 18px",
             fontSize: "11px",
@@ -93,20 +76,20 @@ export default function ChristiesLetterPage() {
             textTransform: "uppercase",
             fontFamily: "'Cormorant Garamond', serif",
             fontWeight: 600,
-            cursor: downloading ? "not-allowed" : "pointer",
+            cursor: "pointer",
             transition: "all 0.2s",
           }}
         >
-          {downloading ? "Generating…" : "↓ Download PDF"}
+          ↓ Download PDF
         </button>
       </div>
 
       {/* Document */}
       <div
         style={{
-          maxWidth: "760px",
+          maxWidth: "720px",
           margin: "0 auto",
-          padding: "64px 48px 80px",
+          padding: "64px 32px 80px",
         }}
       >
         {/* Header */}
@@ -214,10 +197,10 @@ export default function ChristiesLetterPage() {
                 <p
                   key={i}
                   style={{
-                    fontSize: "16px",
+                    fontSize: "18px",
                     lineHeight: "1.85",
                     color: "#1B2A4A",
-                    marginBottom: "22px",
+                    marginBottom: "28px",
                     fontFamily: "'Cormorant Garamond', serif",
                     textIndent: i === 0 ? "0" : "0",
                   }}

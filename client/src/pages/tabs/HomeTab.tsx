@@ -497,27 +497,14 @@ function SectionB() {
 // "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
 export default function HomeTab() {
   const [pdfLoading, setPdfLoading] = useState(false);
-  const [flagshipLoading, setFlagshipLoading] = useState(false);
   const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
-  const handleFlagshipLetterPdf = async () => {
-    setFlagshipLoading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/letters/flagship');
-      if (!res.ok) throw new Error('PDF generation failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Christies_EH_Flagship_Letter_${new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setFlagshipLoading(false);
-    }
+  const handleFlagshipLetterPdf = () => {
+    // Doctrine 43: open letter page in new tab — user hits ↓ Download PDF there.
+    window.open('/letters/flagship', '_blank');
   };
 
   const handleMarketReportPdf = async () => {
@@ -801,21 +788,19 @@ export default function HomeTab() {
               </p>
               <button
                 onClick={handleFlagshipLetterPdf}
-                disabled={flagshipLoading}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '9px 20px',
                   fontFamily: '"Barlow Condensed", sans-serif',
                   fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
                   color: '#FAF8F4',
-                  background: flagshipLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
+                  background: 'rgba(200,172,120,0.08)',
                   border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: flagshipLoading ? 'wait' : 'pointer',
-                  opacity: flagshipLoading ? 0.6 : 1,
+                  cursor: 'pointer',
                   transition: 'opacity 0.2s',
                 }}
               >
-                {flagshipLoading ? 'Generating…' : '↓ Download PDF'}
+                ↑ Open Letter · Print PDF
               </button>
             </div>
 

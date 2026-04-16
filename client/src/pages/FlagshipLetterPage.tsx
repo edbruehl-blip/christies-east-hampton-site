@@ -59,7 +59,6 @@ function isSectionHeading(para: string): boolean {
 }
 
 export default function FlagshipLetterPage() {
-  const [downloading, setDownloading] = useState(false);
   const isPdfMode = useIsPdfMode();
 
   // Dynamic tokens — screen uses dark navy, PDF uses light paper
@@ -71,24 +70,9 @@ export default function FlagshipLetterPage() {
   // Fetch the flagship letter text from the server
   const { data, isLoading, error } = trpc.flagship.getLetter.useQuery();
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/letters/flagship');
-      if (!res.ok) throw new Error('PDF generation failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      a.href = url;
-      a.download = `Christies_EH_Flagship_Letter_${today}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('[FlagshipLetter] PDF download failed:', err);
-    } finally {
-      setDownloading(false);
-    }
+  const handleDownload = () => {
+    // Doctrine 43: client-side window.print() — no Puppeteer dependency.
+    window.print();
   };
 
   const paragraphs = data?.text ? splitParagraphs(data.text) : [];
@@ -125,7 +109,6 @@ export default function FlagshipLetterPage() {
             </span>
             <button
               onClick={handleDownload}
-              disabled={downloading || isLoading}
               style={{
                 background: 'transparent',
                 border: `1px solid ${GOLD}`,
@@ -135,12 +118,11 @@ export default function FlagshipLetterPage() {
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
                 padding: '7px 18px',
-                cursor: downloading ? 'not-allowed' : 'pointer',
-                opacity: downloading ? 0.6 : 1,
+                cursor: 'pointer',
                 transition: 'all 0.2s',
               }}
             >
-              {downloading ? 'Generating…' : '↓ Download PDF'}
+              ↓ Download PDF
             </button>
           </div>
         </header>
@@ -170,7 +152,7 @@ export default function FlagshipLetterPage() {
       )}
 
       {/* ── Document body ──────────────────────────────────────────────────── */}
-      <main style={{ maxWidth: 780, margin: '0 auto', padding: isPdfMode ? '32px 40px 60px' : '60px 40px 100px' }}>
+      <main style={{ maxWidth: 720, margin: '0 auto', padding: isPdfMode ? '32px 32px 60px' : '60px 32px 100px' }}>
 
         {/* Eyebrow */}
         <div
@@ -192,7 +174,7 @@ export default function FlagshipLetterPage() {
             fontFamily: '"Cormorant Garamond", serif',
             color: TEXT_COL,
             fontWeight: 400,
-            fontSize: 'clamp(1.8rem, 4vw, 2.6rem)',
+            fontSize: 'clamp(2rem, 4vw, 2.8rem)',
             lineHeight: 1.15,
             marginBottom: 8,
           }}
@@ -246,9 +228,9 @@ export default function FlagshipLetterPage() {
               style={{
                 fontFamily: '"Cormorant Garamond", serif',
                 color: TEXT_COL,
-                fontSize: '1.1rem',
-                lineHeight: 1.75,
-                marginBottom: 24,
+                fontSize: '1.15rem',
+                lineHeight: 1.8,
+                marginBottom: 28,
                 fontWeight: 400,
               }}
             >
