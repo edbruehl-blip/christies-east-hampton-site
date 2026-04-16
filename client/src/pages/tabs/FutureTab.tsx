@@ -338,7 +338,7 @@ export default function FutureTab() {
             CHRISTIE&apos;S &middot; INTERNATIONAL REAL ESTATE GROUP &middot; EAST HAMPTON &middot; EST. 1766
           </div>
           <div style={{ ...SANS, fontSize: 16, color: TEXT_PRIMARY, letterSpacing: 3, textTransform: 'uppercase' as const, flex: '1 1 auto', textAlign: 'center' as const }}>
-            Ascension Arc
+            Ascension Arc &middot; <span style={{ fontSize: 8, color: MUTED, fontWeight: 400, letterSpacing: 0.5 }}>Canonical Adjusted Trajectory</span>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
             {!isPdfMode && ((arcData && !arcLoading) || (volData && !volLoading)) ? (
@@ -534,7 +534,7 @@ export default function FutureTab() {
 
           {/* Headcount Scaling Table */}
           <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
-            Headcount Scaling &middot; Elite Producer Model
+            Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
           <div style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 7, ...SANS }}>
@@ -589,7 +589,7 @@ export default function FutureTab() {
             <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
               Base engine $1.93B by 2036. Three market-level forces &mdash; deal-size appreciation, commission rate dynamics, brand premium &mdash; compound to{' '}
               <span style={{ color: GOLD, fontWeight: 600 }}>$3.16B adjusted combined volume by 2036</span>.
-              {' '}Full canonical math in Recruiting Engine Reference document.
+              {' '}Arc uses <strong>$3.0B</strong> as the institutional north star &mdash; a conservative rounding of the $3.16B adjusted figure. Full canonical math in Recruiting Engine Reference document.
             </span>
           </div>
         </div>
@@ -716,12 +716,16 @@ export default function FutureTab() {
                   ))}
                 </div>
               ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Total income</span>
-                {[CANONICAL_ANGEL.total2026, CANONICAL_ANGEL.total2027, CANONICAL_ANGEL.total2028, CANONICAL_ANGEL.total2036].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span style={{ color: MUTED }}>Producer income</span>
+                {['$30K','$132.5K','$180K','$773K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
+                <span>All streams total</span>
+                {['$132.5K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; future flagship pool &middot; 20% YoY 2028+
+                * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
               </div>
             </div>
 
@@ -791,12 +795,16 @@ export default function FutureTab() {
                   ))}
                 </div>
               ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Total income</span>
-                {[CANONICAL_ZOILA.total2026, CANONICAL_ZOILA.total2027, CANONICAL_ZOILA.total2028, CANONICAL_ZOILA.total2036].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                <span style={{ color: MUTED }}>Producer income</span>
+                {['$30K','$132.5K','$180K','$773K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
+                <span>All streams total</span>
+                {['$130K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity &middot; future flagship pool &middot; 20% YoY 2028+
+                † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vesting) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
               </div>
             </div>
 
