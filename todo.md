@@ -2005,3 +2005,17 @@
 - [x] Add OPEN & PRINT button to Flagship Letter card (HOME tab) → /letters/flagship
 - [x] Add OPEN & PRINT button to Market Report card (HOME tab) → /report
 - [ ] MARKET PDF export button: SKIPPED — Sprint 14 doctrine stands (/report is sole PDF export path)
+
+## Council Brief — April 17, 2026 (INTRO Button + Person-Specific Letters)
+
+- [x] Change 1: FloatingDashboardIntro.tsx — INTRO button navigates to /letters/flagship (already implemented in checkpoint 9e646ef3)
+- [ ] Change 2: FlagshipLetterPage — add ?person= URL parameter support: default = Standard Invitation, ?person=angel = Angel Welcome Letter, ?person=jarvis = Jarvis Executive Briefing
+- [ ] Trello: Add Jarvis Slade card to FLAGSHIP TEAM list on Christie's East Hampton Command Board
+
+## P1 Items — Before April 29 Relaunch
+
+- [ ] Headcount footnote: change "No caps" → "12 per office · cap intentional · recruiting engine dormant 2031" in FutureTab headcount table
+- [ ] Scott card: HOLD — awaiting Perplexity OUTPUTS confirmation of canonical GCI + AnewHomes + Total structure before update
+- [x] INTRO button personalization: /letters/flagship?person=angel and ?person=jarvis — implemented in FlagshipLetterPage.tsx
+- [ ] BruehlBriefBulletin.tsx: fix pre-existing TS error (direction: string not assignable to "flat"|"up"|"down") — one-line cast fix before April 29 build
+- [x] Trello: Jarvis Slade card already added by Perplexity (card #176, FLAGSHIP TEAM list) — no action needed
