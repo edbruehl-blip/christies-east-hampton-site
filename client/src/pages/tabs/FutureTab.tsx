@@ -728,9 +728,9 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Nest salary',      vals: ['$70K','$17.5K','—','—'] },
-                { label: 'Producer ramp',    vals: ['$25K','$120K','$144K','$619K+'] }, // 50% entry-year credit 2026 only · Y2 $120K locked · 20% compound · no cap · Ed ruling Apr 16 2026
+                { label: 'Producer ramp',    vals: ['$50K','$120K','$144K','$619K+'] }, // $50K Y1 locked · 20% compound · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5% *',   vals: ['$2,500','$7.5K','$8,438','$21,649'] }, // Y1 vested · Y2 $7.5K · Y3+ 12.5% growth from $50K NOP base
-                { label: 'ICA Override *',   vals: ['—','—','—','—'] }, // Deal-event trigger only · not projected · Ed ruling Apr 16 2026
+                { label: 'ICA Override *',   vals: ['$30K','$36K','$43.2K','$186K'] }, // Always projected · 5% of Ed gross GCI ($600K×5%=$30K · $720K×5%=$36K · $864K×5%=$43.2K · $3.72M×5%=$186K) · Angel in Ed’s lane on every deal · Ed ruling Apr 16 2026
                 { label: 'Team + pool',      vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -742,14 +742,14 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span style={{ color: MUTED }}>Producer income</span>
-                {['$25K','$120K','$144K','$619K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$50K','$120K','$144K','$619K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$97.5K','$145K','$160.4K','$662K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $25K prod + $2.5K AH = $97.5K · 2027: $17.5K nest + $120K prod + $7.5K AH = $145K · 2028: $144K prod + $8.4K AH = $152.4K · 2036: $619K + $21.6K AH = $640.6K · ICA Override excluded (deal-event) · Ed ruling Apr 16 2026 */}
+                {['$152.5K','$181K','$195.6K','$827K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $50K prod + $30K ICA + $2.5K AH = $152.5K · 2027: $17.5K nest + $120K prod + $36K ICA + $7.5K AH = $181K · 2028: $144K + $43.2K ICA + $8.4K AH = $195.6K · 2036: $619K + $186K ICA + $21.6K AH = $826.6K · Ed ruling Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                * Three streams: production splits (50/50 w/ Ed) &middot; AnewHomes 5% equity (vested) &middot; team participation % &middot; ICA Override = deal-event only, not projected &middot; 20% YoY no cap
+                * Four streams: production splits (50/50 w/ Ed) &middot; ICA Override 5% Ed gross GCI (always projected · Angel in Ed’s lane on every deal) &middot; AnewHomes 5% equity (vested) &middot; team participation % &middot; 20% YoY no cap
               </div>
             </div>
 
@@ -807,9 +807,9 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
-                { label: 'Producer ramp',     vals: ['$25K','$120K','$144K','$619K+'] }, // 50% entry-year credit 2026 only · Y2 $120K locked · 20% compound · no cap · Ed ruling Apr 16 2026
+                { label: 'Producer ramp',     vals: ['$50K','$150K','$180K','$774K+'] }, // $50K Y1 locked · $150K Y2 (up from $120K) · 20% compound · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Nov 4 2026 · activates 2027 · 12.5% growth from $50K NOP base
-                { label: 'ICA Override †',   vals: ['—','—','—','—'] }, // Deal-event trigger only · not projected · Ed ruling Apr 16 2026
+                { label: 'ICA Override †',   vals: ['$30K','—','—','—'] }, // 2026 only · exits pool once producing own book · 5% Ed gross GCI 2026=$30K · Ed ruling Apr 16 2026
                 { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -821,14 +821,14 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span style={{ color: MUTED }}>Producer income</span>
-                {['$25K','$120K','$144K','$619K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$50K','$150K','$180K','$774K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$95K','$145K','$152.4K','$640.6K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $25K prod + $0 AH vest = $95K · 2027: $17.5K nest + $120K prod + $7.5K AH = $145K · 2028: $144K prod + $8.4K AH = $152.4K · 2036: $619K + $21.6K AH = $640.6K · ICA Override excluded (deal-event) · Ed ruling Apr 16 2026 */}
+                {['$150K','$175K','$188.4K','$796K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $50K prod + $30K ICA + $0 AH vest = $150K · 2027: $17.5K nest + $150K prod + $0 ICA + $7.5K AH = $175K · 2028: $180K prod + $8.4K AH = $188.4K · 2036: $774K prod + $21.6K AH = $795.6K · Ed ruling Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                † AnewHomes 5% equity vesting cliff Nov 4, 2026 &rarr; activates 2027 forward &middot; Three streams: production splits (50/50 w/ Ed) &middot; AnewHomes 5% equity (vesting) &middot; team participation % &middot; ICA Override = deal-event only, not projected &middot; 20% YoY no cap
+                † AnewHomes 5% equity vesting cliff Nov 4, 2026 &rarr; activates 2027 forward &middot; ICA Override 2026 only · exits pool once producing own book &middot; Three streams from 2027: production splits (50/50 w/ Ed) &middot; AnewHomes 5% equity (vesting) &middot; team participation % &middot; 20% YoY no cap
               </div>
             </div>
 
