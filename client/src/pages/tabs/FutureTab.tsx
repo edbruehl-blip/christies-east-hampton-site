@@ -234,14 +234,21 @@ export default function FutureTab() {
     return map;
   }, [arcData]);
 
-  // Canonical Equation 1 net keep by year (after 70/30 house split + 5% overrides to 3 ICA members)
-  // Source: Perplexity dispatch April 15, 2026 — verified against OUTPUTS row 46
-  // These are NET figures — shown on agent card and Pro Forma (D45)
-  // EQ1_NET = Ed personal production GCI × 70% (70/30 split · locked ruling Apr 16 2026)
-  // Gross personal GCI: 2026=$600K, 2027=$1.8M, 2028=$2M, 2036=$3.6M
+  // Ed EQ1 net keep = gross personal GCI × 70% (70/30 house split)
+  // Gross personal GCI: $600K 2026, 20% compound, no cap · Ed ruling Apr 16 2026 (Option A: headcount table uses gross)
+  // EQ1_NET = 70% of gross · shown on Ed partner card as personal take-home
   const EQ1_NET: Record<number, string> = {
-    2026: '$420K', 2027: '$1.26M', 2028: '$1.4M', 2029: '$1.54M', 2030: '$1.68M',
-    2031: '$1.82M', 2032: '$1.96M', 2033: '$2.1M', 2034: '$2.24M', 2035: '$2.38M', 2036: '$2.52M',
+    2026: '$420K',   // $600K × 70%
+    2027: '$504K',   // $720K × 70%
+    2028: '$605K',   // $864K × 70%
+    2029: '$726K',   // $1.037M × 70%
+    2030: '$871K',   // $1.244M × 70%
+    2031: '$1.045M', // $1.493M × 70%
+    2032: '$1.254M', // $1.792M × 70%
+    2033: '$1.505M', // $2.150M × 70%
+    2034: '$1.806M', // $2.580M × 70%
+    2035: '$2.167M', // $3.096M × 70%
+    2036: '$2.604M', // $3.725M × 70%
   };
 
   // Actual 2026 closed volume (from VOLUME tab)
@@ -530,7 +537,7 @@ export default function FutureTab() {
               { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
               { label: 'Net Operating Profit',      value: 'GCI − Royalty − Splits − Overhead' },
               { label: 'NOP Split',                 value: 'Ed 35% / Ilija 65% · two parties only (D40)' },
-              { label: 'ICA Override',              value: '5% of Ed gross personal GCI to each ICA member (Jarvis, Angel, Zoila) · Scott outside pool' },
+              { label: 'ICA Override',              value: 'Deal-event trigger only · not projected annually · at co-deal 50/50 split: Jarvis gives 5% to Angel, Ed gives 5% to Zoila · net 45/45 each · Ed ruling Apr 16 2026' },
               { label: 'AnewHomes Net Build Profit', value: 'Y1 $50K · Y2 $150K · 12.5% annual growth → $432K by 2036' },
               { label: 'AnewHomes Equity',          value: 'Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5% (D23)' },
               { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
@@ -557,17 +564,18 @@ export default function FutureTab() {
               </thead>
               <tbody>
                 {[
-                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.6M', namedGci:'$0.3M', engineGci:'$1.5M', officeGci:'$2.4M', ahGci:'$0.1M', combGci:'$2.5M', combVol:'$0.12B', avgGci:'$273K' },
-                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$1.8M', namedGci:'$0.9M', engineGci:'$2.2M', officeGci:'$4.9M', ahGci:'$0.1M', combGci:'$5.1M', combVol:'$0.25B', avgGci:'$423K' },
-                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$2.0M', namedGci:'$1.5M', engineGci:'$6.0M', officeGci:'$9.5M', ahGci:'$0.2M', combGci:'$9.6M', combVol:'$0.48B', avgGci:'$536K' },
-                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$2.2M', namedGci:'$2.1M', engineGci:'$10.6M', officeGci:'$14.9M', ahGci:'$0.2M', combGci:'$15.0M', combVol:'$0.75B', avgGci:'$627K' },
-                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$2.4M', namedGci:'$2.6M', engineGci:'$16.6M', officeGci:'$21.7M', ahGci:'$0.2M', combGci:'$21.9M', combVol:'$1.09B', avgGci:'$729K' },
-                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$2.6M', namedGci:'$3.1M', engineGci:'$22.8M', officeGci:'$28.5M', ahGci:'$0.2M', combGci:'$28.7M', combVol:'$1.44B', avgGci:'$798K' },
-                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$2.8M', namedGci:'$3.4M', engineGci:'$26.1M', officeGci:'$32.3M', ahGci:'$0.3M', combGci:'$32.6M', combVol:'$1.63B', avgGci:'$906K' },
-                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$3.0M', namedGci:'$3.8M', engineGci:'$28.0M', officeGci:'$34.8M', ahGci:'$0.3M', combGci:'$35.1M', combVol:'$1.76B', avgGci:'$976K' },
-                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$3.2M', namedGci:'$4.1M', engineGci:'$28.6M', officeGci:'$35.9M', ahGci:'$0.3M', combGci:'$36.3M', combVol:'$1.81B', avgGci:'$1007K' },
-                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.4M', namedGci:'$4.5M', engineGci:'$29.2M', officeGci:'$37.0M', ahGci:'$0.4M', combGci:'$37.4M', combVol:'$1.87B', avgGci:'$1040K' },
-                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.6M', namedGci:'$4.8M', engineGci:'$29.8M', officeGci:'$38.2M', ahGci:'$0.4M', combGci:'$38.6M', combVol:'$1.93B', avgGci:'$1073K' },
+                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.5% post-maturity (Ed ruling B)
+                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
+                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.57M', engineGci:'$3.75M', officeGci:'$5.04M', ahGci:'$0.06M', combGci:'$5.10M', combVol:'$0.25B', avgGci:'$420K' },
+                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.68M', engineGci:'$7.75M', officeGci:'$9.30M', ahGci:'$0.06M', combGci:'$9.36M', combVol:'$0.47B', avgGci:'$517K' },
+                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.82M', engineGci:'$13.00M', officeGci:'$14.86M', ahGci:'$0.07M', combGci:'$14.93M', combVol:'$0.75B', avgGci:'$619K' },
+                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$0.99M', engineGci:'$20.64M', officeGci:'$22.87M', ahGci:'$0.08M', combGci:'$22.95M', combVol:'$1.15B', avgGci:'$762K' },
+                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.18M', engineGci:'$25.52M', officeGci:'$28.20M', ahGci:'$0.09M', combGci:'$28.29M', combVol:'$1.41B', avgGci:'$783K' },
+                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.42M', engineGci:'$31.91M', officeGci:'$35.12M', ahGci:'$0.10M', combGci:'$35.22M', combVol:'$1.76B', avgGci:'$976K' },
+                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.70M', engineGci:'$32.55M', officeGci:'$36.40M', ahGci:'$0.11M', combGci:'$36.52M', combVol:'$1.83B', avgGci:'$1011K' },
+                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.04M', engineGci:'$33.20M', officeGci:'$37.82M', ahGci:'$0.13M', combGci:'$37.95M', combVol:'$1.90B', avgGci:'$1051K' },
+                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.45M', engineGci:'$33.87M', officeGci:'$39.41M', ahGci:'$0.14M', combGci:'$39.56M', combVol:'$1.98B', avgGci:'$1095K' },
+                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$2.94M', engineGci:'$34.54M', officeGci:'$41.20M', ahGci:'$0.16M', combGci:'$41.36M', combVol:'$2.07B', avgGci:'$1144K' },
                 ].map((r, i) => (
                   <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
                     <td style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
@@ -591,7 +599,7 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+            12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
           </div>
 
           {/* ── Staggered Office Ramp Chart ────────────────────────────── */}
@@ -602,9 +610,9 @@ export default function FutureTab() {
           {/* Gap Bridge footer */}
           <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
             <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
-              Base engine $2.01B by 2036 (per-seat math only, no market lift). 7% post-maturity growth adds ~$1B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
+              Base engine $2.07B by 2036 (per-seat math only, no market lift). 7.5% post-maturity growth adds ~$0.93B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
               <span style={{ color: GOLD, fontWeight: 600 }}>$3.0B combined · institutional floor · north star.</span>
-              {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
+              {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> 50% entry-year credit on mid-year starts. EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
             </span>
           </div>
         </div>
@@ -687,7 +695,7 @@ export default function FutureTab() {
                    2026 canonical: $420K + $17,500 + $61,250 = $498,750 (70/30 split · Apr 16 2026) */}
               {(() => {
                 // 70/30 split · locked ruling Apr 16 2026
-                const EQ1_NUMS: Record<number, number> = { 2026: 420_000, 2027: 1_260_000, 2028: 1_400_000, 2036: 2_520_000 };
+                const EQ1_NUMS: Record<number, number> = { 2026: 420_000, 2027: 504_000, 2028: 604_800, 2036: 2_604_000 }; // 70% of gross $600K 20% compound · Ed ruling Apr 16 2026
                 const ANEW_NUMS: Record<number, number> = { 2026: 17_500, 2027: 52_500, 2028: 59_063, 2036: 151_542 };
                 const CANONICAL_POOL: Record<number, number> = { 2026: 61_250, 2027: 280_000, 2028: 700_000, 2036: 3_990_000 };
                 const years = [2026, 2027, 2028, 2036];
@@ -712,7 +720,7 @@ export default function FutureTab() {
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Angel Theodore *</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 1 }}>Mktg Coord + Sales &middot; Producer transition Q1 2027</div>
-              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Ilija nest salary {CANONICAL_ANGEL.nestSalary}</div>
+              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Nest salary {CANONICAL_ANGEL.nestSalary}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
@@ -720,9 +728,9 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Nest salary',      vals: ['$70K','$17.5K','—','—'] },
-                { label: 'Producer ramp',    vals: [CANONICAL_ANGEL.producer2026, CANONICAL_ANGEL.producer2027,'—','—'] },
+                { label: 'Producer ramp',    vals: ['$25K','$120K','$144K','$619K+'] }, // 50% entry-year credit 2026 only · Y2 $120K locked · 20% compound · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5% *',   vals: ['$2,500','$7.5K','$8,438','$21,649'] }, // Y1 vested · Y2 $7.5K · Y3+ 12.5% growth from $50K NOP base
-                { label: 'ICA Override *',   vals: ['$30K','$90K','$100K','$180K'] }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
+                { label: 'ICA Override *',   vals: ['—','—','—','—'] }, // Deal-event trigger only · not projected · Ed ruling Apr 16 2026
                 { label: 'Team + pool',      vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -734,14 +742,14 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span style={{ color: MUTED }}>Producer income</span>
-                {['$30K','$132.5K','$180K','$773K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$25K','$120K','$144K','$619K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$132.5K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
+                {['$97.5K','$145K','$160.4K','$662K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $25K prod + $2.5K AH = $97.5K · 2027: $17.5K nest + $120K prod + $7.5K AH = $145K · 2028: $144K prod + $8.4K AH = $152.4K · 2036: $619K + $21.6K AH = $640.6K · ICA Override excluded (deal-event) · Ed ruling Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
+                * Three streams: production splits (50/50 w/ Ed) &middot; AnewHomes 5% equity (vested) &middot; team participation % &middot; ICA Override = deal-event only, not projected &middot; 20% YoY no cap
               </div>
             </div>
 
@@ -757,7 +765,7 @@ export default function FutureTab() {
               {[
                 { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$966K+'], act: null }, // 20% YoY from $200K · no cap · Ed ruling Apr 16 2026
+                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
                 { label: 'ICA Override *',   proj: ['—','—','—','—'], act: null }, // Deal-event trigger only · activates on co-deal where Jarvis brings buyer/seller · Ed ruling Apr 16 2026
                 { label: 'Net pool ref †',   proj: [
@@ -791,7 +799,7 @@ export default function FutureTab() {
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Zoila Ortega Astor †</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 1 }}>Office Director &middot; Producer transition Q1 2027</div>
-              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Ilija nest salary {CANONICAL_ZOILA.nestSalary}</div>
+              <div style={{ ...SANS, fontSize: 6, color: GOLD, opacity: 0.7, marginBottom: 4 }}>Nest salary {CANONICAL_ZOILA.nestSalary}</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
@@ -799,9 +807,9 @@ export default function FutureTab() {
               </div>
               {[
                 { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
-                { label: 'Producer ramp',     vals: [CANONICAL_ZOILA.producer2026, CANONICAL_ZOILA.producer2027,'—','—'] },
+                { label: 'Producer ramp',     vals: ['$25K','$120K','$144K','$619K+'] }, // 50% entry-year credit 2026 only · Y2 $120K locked · 20% compound · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Nov 4 2026 · activates 2027 · 12.5% growth from $50K NOP base
-                { label: 'ICA Override †',   vals: ['$30K','$90K','$100K','$180K'] }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
+                { label: 'ICA Override †',   vals: ['—','—','—','—'] }, // Deal-event trigger only · not projected · Ed ruling Apr 16 2026
                 { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -813,14 +821,14 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, color: DIM, fontStyle: 'italic', borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span style={{ color: MUTED }}>Producer income</span>
-                {['$30K','$132.5K','$180K','$773K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$25K','$120K','$144K','$619K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$130K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
+                {['$95K','$145K','$152.4K','$640.6K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $70K nest + $25K prod + $0 AH vest = $95K · 2027: $17.5K nest + $120K prod + $7.5K AH = $145K · 2028: $144K prod + $8.4K AH = $152.4K · 2036: $619K + $21.6K AH = $640.6K · ICA Override excluded (deal-event) · Ed ruling Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vesting) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
+                † AnewHomes 5% equity vesting cliff Nov 4, 2026 &rarr; activates 2027 forward &middot; Three streams: production splits (50/50 w/ Ed) &middot; AnewHomes 5% equity (vesting) &middot; team participation % &middot; ICA Override = deal-event only, not projected &middot; 20% YoY no cap
               </div>
             </div>
 
@@ -834,7 +842,8 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',      proj: ['$3M','$6M','$15M','$35M+'], act: null },  // $60K GCI ÷ 2% = $3M · $120K GCI ÷ 2% = $6M · Ed ruling Apr 17 2026
+                { label: 'GCI proj',       proj: ['$75K','$90K','$108K','$464K+'], act: null },  // $75K Y1 · 20% compound · no cap · Ed ruling Apr 16 2026
+                { label: 'Sales vol',      proj: ['$3.75M','$4.5M','$5.4M','$23.2M+'], act: null },  // GCI ÷ 2% · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -846,7 +855,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$77.5K','$172.5K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $60K GCI + $17.5K AnewHomes = $77.5K · 2027: $120K GCI + $52.5K AnewHomes = $172.5K · Ed ruling Apr 17 2026 */}
+                {['$55K','$142.5K','$167K','$615K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $37.5K GCI (50% entry credit) + $17.5K AH = $55K · 2027: $90K GCI + $52.5K AH = $142.5K · 2028: $108K GCI + $59K AH = $167K · 2036: $464K GCI + $151.5K AH = $615.5K · Ed ruling Apr 16 2026 */}
               </div>
             </div>
 
