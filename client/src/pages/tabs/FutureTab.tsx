@@ -236,9 +236,11 @@ export default function FutureTab() {
   // Canonical Equation 1 net keep by year (after 70/30 house split + 5% overrides to 3 ICA members)
   // Source: Perplexity dispatch April 15, 2026 — verified against OUTPUTS row 46
   // These are NET figures — shown on agent card and Pro Forma (D45)
+  // EQ1_NET = Ed personal production GCI × 70% (70/30 split · locked ruling Apr 16 2026)
+  // Gross personal GCI: 2026=$600K, 2027=$1.8M, 2028=$2M, 2036=$3.6M
   const EQ1_NET: Record<number, string> = {
-    2026: '$330K', 2027: '$990K', 2028: '$1.1M', 2029: '$1.21M', 2030: '$1.32M',
-    2031: '$1.43M', 2032: '$1.54M', 2033: '$1.65M', 2034: '$1.76M', 2035: '$1.87M', 2036: '$1.98M',
+    2026: '$420K', 2027: '$1.26M', 2028: '$1.4M', 2029: '$1.54M', 2030: '$1.68M',
+    2031: '$1.82M', 2032: '$1.96M', 2033: '$2.1M', 2034: '$2.24M', 2035: '$2.38M', 2036: '$2.52M',
   };
 
   // Actual 2026 closed volume (from VOLUME tab)
@@ -610,7 +612,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Net pool 65% *', proj: [
+                { label: 'Net pool 65% *', proj: [ // Ilija 65% of office net pool — dynamic from OUTPUTS
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
@@ -670,9 +672,10 @@ export default function FutureTab() {
               ))}
               {/* Ed Projected — formula-bound to OUTPUTS row 30 (livePoolRows.edPool) per architect lane ruling April 15 2026
                    EQ1_NET + AnewHomes 35% + Net pool 35% = Projected
-                   2026 canonical: $330K + $17,500 + $61,250 = $408,750 (Perplexity NOP Scenario A) */}
+                   2026 canonical: $420K + $17,500 + $61,250 = $498,750 (70/30 split · Apr 16 2026) */}
               {(() => {
-                const EQ1_NUMS: Record<number, number> = { 2026: 330_000, 2027: 990_000, 2028: 1_100_000, 2036: 1_980_000 };
+                // 70/30 split · locked ruling Apr 16 2026
+                const EQ1_NUMS: Record<number, number> = { 2026: 420_000, 2027: 1_260_000, 2028: 1_400_000, 2036: 2_520_000 };
                 const ANEW_NUMS: Record<number, number> = { 2026: 17_500, 2027: 52_500, 2028: 59_063, 2036: 151_542 };
                 const CANONICAL_POOL: Record<number, number> = { 2026: 61_250, 2027: 280_000, 2028: 700_000, 2036: 3_990_000 };
                 const years = [2026, 2027, 2028, 2036];
@@ -723,7 +726,7 @@ export default function FutureTab() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$132.5K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$132.5K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
@@ -742,7 +745,7 @@ export default function FutureTab() {
               {[
                 { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$200K','$300K','$400K','$1M+'], act: null },
+                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K base · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
                 { label: 'ICA Override *',   proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Net pool ref †',   proj: [
@@ -802,7 +805,7 @@ export default function FutureTab() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$130K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$130K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vesting) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
