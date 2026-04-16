@@ -244,7 +244,7 @@ export default function BruehlBriefBulletin() {
               <div style={{ ...LABEL, fontSize: 8, letterSpacing: '0.22em', textTransform: 'uppercase', color: MUTED, textAlign: 'right' }}>Change</div>
             </div>
             {d.dayInReview.marketSignals.map(s => (
-              <MarketSignalRow key={s.label} {...s} />
+              <MarketSignalRow key={s.label} {...s} direction={s.direction as 'up' | 'down' | 'flat'} />
             ))}
           </div>
           <p style={{ ...BODY, fontSize: '0.8rem', color: 'rgba(250,248,244,0.65)', lineHeight: 1.65, margin: 0 }}>

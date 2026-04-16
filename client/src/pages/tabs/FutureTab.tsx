@@ -592,7 +592,7 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; No caps &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+            12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
           </div>
 
           {/* Gap Bridge footer */}
