@@ -57,7 +57,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 1_219_300_000, display: '$1.2B',   label: '2031', isBaseline: false },  // OUTPUTS B37
 } as const;
 
-const MAX_VOLUME = 3_000_000_000; // 2036 canonical three-office combined volume (Ed ruling April 14, 2026)
+const MAX_VOLUME = 4_368_000_000; // 2036 combined three-office EPM total: EH $2.73B + SH $882M + WH $756M (corrected Apr 16 2026)
 const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
 // NOTE: Bar heights are expressed as PERCENTAGES of CHART_HEIGHT so they scale on all screen sizes
 
@@ -306,18 +306,19 @@ export default function FutureTab() {
     const wh2035 = liveWhVolumes?.[2035] ?? 700_000_000;
     const wh2036 = liveWhVolumes?.[2036] ?? 756_000_000;
     return [
-      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
-      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
-      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
-      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
-      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
-      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
-      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
-      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
-      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
-      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
-      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
-      { year: '2036', vol: vol2036,      display: '$3.0B',       actualVol: 0,       note: "$3.0B · Three-Office Ascension Arc Complete", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
+      // vol = combined EH+SH+WH total — drives bar height AND label (fixed Apr 16 2026)
+      { year: '2025', vol: 15_000_000,                    display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
+      { year: '2026', vol: eh2026+sh2026+wh2026,          display: fmtM(eh2026+sh2026+wh2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
+      { year: '2027', vol: eh2027+sh2027+wh2027,          display: fmtM(eh2027+sh2027+wh2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
+      { year: '2028', vol: eh2028+sh2028+wh2028,          display: fmtM(eh2028+sh2028+wh2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
+      { year: '2029', vol: eh2029+sh2029+wh2029,          display: fmtM(eh2029+sh2029+wh2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
+      { year: '2030', vol: eh2030+sh2030+wh2030,          display: fmtM(eh2030+sh2030+wh2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
+      { year: '2031', vol: eh2031+sh2031+wh2031,          display: fmtM(eh2031+sh2031+wh2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
+      { year: '2032', vol: eh2032+sh2032+wh2032,          display: fmtM(eh2032+sh2032+wh2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
+      { year: '2033', vol: eh2033+sh2033+wh2033,          display: fmtM(eh2033+sh2033+wh2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
+      { year: '2034', vol: eh2034+sh2034+wh2034,          display: fmtM(eh2034+sh2034+wh2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
+      { year: '2035', vol: eh2035+sh2035+wh2035,          display: fmtM(eh2035+sh2035+wh2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
+      { year: '2036', vol: eh2036+sh2036+wh2036,          display: '$4.4B',       actualVol: 0,       note: "$4.4B · Three-Office Ascension Arc Complete · EPM", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
     ];
   }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
