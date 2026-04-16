@@ -1988,3 +1988,20 @@
 - [ ] Update Scott card structure: GCI line + AnewHomes line + Total (HOLD — awaiting Perplexity OUTPUTS confirmation)
 - [ ] Build Actual vs. Projected tracking layer (new Google Sheet + FUTURE tab section)
 - [ ] Fix descending bars on EH 2027-2028 and Southampton 2030-2031 (HOLD — awaiting Perplexity OUTPUTS confirmation)
+
+## Sprint April 16 — Bar Fix + Card Fixes + P1 Cleanup
+
+### Bar Fix (Perplexity OUTPUTS-verified ascending values)
+- [x] SH/WH bar fix: Southampton 2029–2035 fallbacks set to ascending values (102M→135.8M)
+- [x] SH/WH bar fix: Westhampton 2031–2035 fallbacks set to ascending values (102M→124.9M)
+
+### Card Fixes (Perplexity 7fd598a)
+- [x] Ed card: "Actual to date" label → "Projected 2026"
+- [x] Jarvis card: Sales vol 2028 $20M → $25M
+- [x] Scott card: Projected 2026 $50K → $60K
+
+### P1 Cleanup
+- [x] Kill William reference: "William — delivering a daily brief." removed from HOME platform description block
+- [x] Add OPEN & PRINT button to Flagship Letter card (HOME tab) → /letters/flagship
+- [x] Add OPEN & PRINT button to Market Report card (HOME tab) → /report
+- [ ] MARKET PDF export button: SKIPPED — Sprint 14 doctrine stands (/report is sole PDF export path)

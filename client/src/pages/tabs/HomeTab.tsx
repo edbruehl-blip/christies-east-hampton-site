@@ -405,7 +405,7 @@ export default function HomeTab() {
                   Home
                 </div>
                 <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The opening move. The letter. The market signal. William — delivering a daily brief.
+                  The opening move. The letter. The market signal.
                 </p>
               </div>
 
@@ -620,24 +620,44 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Origin story — platform, team, and model.
               </p>
-              <button
-                onClick={handleFlagshipLetterPdf}
-                disabled={flagshipLoading}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: flagshipLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: flagshipLoading ? 'wait' : 'pointer',
-                  opacity: flagshipLoading ? 0.6 : 1,
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                {flagshipLoading ? 'Generating…' : '↓ Download PDF'}
-              </button>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleFlagshipLetterPdf}
+                  disabled={flagshipLoading}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#FAF8F4',
+                    background: flagshipLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
+                    border: '1px solid rgba(200,172,120,0.5)',
+                    cursor: flagshipLoading ? 'wait' : 'pointer',
+                    opacity: flagshipLoading ? 0.6 : 1,
+                    transition: 'opacity 0.2s',
+                  }}
+                >
+                  {flagshipLoading ? 'Generating…' : '↓ Download PDF'}
+                </button>
+                <a
+                  href="/letters/flagship"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#C8AC78',
+                    background: 'transparent',
+                    border: '1px solid rgba(200,172,120,0.35)',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  ↗ Open &amp; Print
+                </a>
+              </div>
             </div>
 
             {/* Market Report PDF — Item 5, council-approved Apr 7 2026 */}
@@ -651,24 +671,44 @@ export default function HomeTab() {
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
                 Founding letter · eleven-hamlet atlas with live CIS scores and medians · Ed's contact block. Generated from live Market Matrix data at time of download.
               </p>
-              <button
-                onClick={handleMarketReportPdf}
-                disabled={pdfLoading}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: pdfLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: pdfLoading ? 'wait' : 'pointer',
-                  opacity: pdfLoading ? 0.6 : 1,
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                {pdfLoading ? 'Generating…' : '↓ Download PDF'}
-              </button>
+              <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
+                <button
+                  onClick={handleMarketReportPdf}
+                  disabled={pdfLoading}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#FAF8F4',
+                    background: pdfLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
+                    border: '1px solid rgba(200,172,120,0.5)',
+                    cursor: pdfLoading ? 'wait' : 'pointer',
+                    opacity: pdfLoading ? 0.6 : 1,
+                    transition: 'opacity 0.2s',
+                  }}
+                >
+                  {pdfLoading ? 'Generating…' : '↓ Download PDF'}
+                </button>
+                <a
+                  href="/report"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 6,
+                    padding: '9px 20px',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: '#C8AC78',
+                    background: 'transparent',
+                    border: '1px solid rgba(200,172,120,0.35)',
+                    textDecoration: 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  ↗ Open &amp; Print
+                </a>
+              </div>
             </div>
 
           </div>

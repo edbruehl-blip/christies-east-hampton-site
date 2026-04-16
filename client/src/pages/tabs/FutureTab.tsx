@@ -278,24 +278,24 @@ export default function FutureTab() {
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
     const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
-    const sh2029 = liveShVolumes?.[2029] ?? 0;
-    const sh2030 = liveShVolumes?.[2030] ?? 0;
-    const sh2031 = liveShVolumes?.[2031] ?? 0;
-    const sh2032 = liveShVolumes?.[2032] ?? 0;
-    const sh2033 = liveShVolumes?.[2033] ?? 0;
-    const sh2034 = liveShVolumes?.[2034] ?? 0;
-    const sh2035 = liveShVolumes?.[2035] ?? 0;
+    const sh2029 = liveShVolumes?.[2029] ?? 102_000_000;
+    const sh2030 = liveShVolumes?.[2030] ?? 114_400_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 117_300_000;
+    const sh2032 = liveShVolumes?.[2032] ?? 120_700_000;
+    const sh2033 = liveShVolumes?.[2033] ?? 124_900_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 129_900_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 135_800_000;
     const sh2036 = liveShVolumes?.[2036] ?? 143_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
     const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;
-    const wh2031 = liveWhVolumes?.[2031] ?? 0;
-    const wh2032 = liveWhVolumes?.[2032] ?? 0;
-    const wh2033 = liveWhVolumes?.[2033] ?? 0;
-    const wh2034 = liveWhVolumes?.[2034] ?? 0;
-    const wh2035 = liveWhVolumes?.[2035] ?? 0;
+    const wh2031 = liveWhVolumes?.[2031] ?? 102_000_000;
+    const wh2032 = liveWhVolumes?.[2032] ?? 114_400_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 117_300_000;
+    const wh2034 = liveWhVolumes?.[2034] ?? 120_700_000;
+    const wh2035 = liveWhVolumes?.[2035] ?? 124_900_000;
     const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
     return [
       { year: '2025', vol: 89_000_000,   display: '$89M',        actualVol: 0,       isBaseline: true,  note: '2025 · $89M · Ed Bruehl · Saunders', eh: 89_000_000, sh: 0, wh: 0 },
@@ -653,7 +653,7 @@ export default function FutureTab() {
                   EQ1_NET[2028],
                   EQ1_NET[2036],
                 ], act: null },
-                { label: 'Actual to date',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
+                { label: 'Projected 2026',  proj: null, act: [EQ1_NET[2026] + ' ↑','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
@@ -741,7 +741,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$5M','$15M','$20M','$50M+'], act: null },
+                { label: 'Sales vol',    proj: ['$5M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
@@ -832,7 +832,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$50K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2028: sales vol + $59,063 AnewHomes */}
+                {['$60K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2028: sales vol + $59,063 AnewHomes */}
               </div>
             </div>
 
