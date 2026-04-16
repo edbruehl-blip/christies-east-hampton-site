@@ -204,6 +204,16 @@ function SectionA() {
 
           {/* ── RIGHT COLUMN: founding letter ── */}
           <div className="home-letter-col" style={{ padding: '20px 36px 32px 12px' }}>
+            {/* Mobile-only: float portrait left so letter text wraps around it */}
+            <div className="md:hidden" style={{ float: 'left', marginRight: 14, marginBottom: 8, marginTop: 2 }}>
+              <div style={{ padding: 3, border: '2px solid #C8AC78', boxShadow: '0 0 0 1px rgba(200,172,120,0.3)', background: 'rgba(27,42,74,0.4)', display: 'inline-block' }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie — Founder, Christie's, Est. 1766"
+                  style={{ width: 72, height: 92, objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
+                />
+              </div>
+            </div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>
