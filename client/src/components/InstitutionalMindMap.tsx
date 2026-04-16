@@ -376,6 +376,31 @@ const NODES: MapNode[] = [
     x: 900, y: 1680, r: R,
     clickAction: { type: "nav", tab: "intel", label: "Navigate to INTEL tab — Thirteen Sheets" } },
 
+  // ── D5: PIPE TAB · INTEL TAB · MASTER INDEX nodes — Apr 16 2026 ───────────────
+  { id: "pipe_tab",
+    name: "PIPE TAB",
+    title: "Live Deal Engine · Dashboard Navigation",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Dashboard PIPE tab — live deal engine. Three closest-to-close deals tracked in real time. Pulls from Office Pipeline sheet. One-tap navigation from MindMap.",
+    x: 560, y: 1680, r: R,
+    clickAction: { type: "nav", tab: "pipe", label: "Navigate to PIPE tab" } },
+
+  { id: "intel_tab",
+    name: "INTEL TAB",
+    title: "Intelligence Layer · Miro + Trello + Sheets",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Dashboard INTEL tab — five layers: MindMap (Miro embed), Trello board, Calendar, Sheets, Relationship Intelligence Web. One-tap navigation from MindMap.",
+    x: 720, y: 1680, r: R,
+    clickAction: { type: "nav", tab: "intel", label: "Navigate to INTEL tab" } },
+
+  { id: "master_index",
+    name: "MASTER INDEX",
+    title: "Doctrine Library · Trello DOCTRINE LIBRARY Lane",
+    type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
+    note: "Master Index card in DOCTRINE LIBRARY Trello lane. Single source of truth for all canonical rulings, dispatch history, and session logs. Created Apr 16 2026. Links to Google Drive Growth Model v2 and all Council dispatches.",
+    x: 1060, y: 1680, r: R,
+    clickAction: { type: "url", url: "https://trello.com/b/H2mvEgRi", label: "Open Trello DOCTRINE LIBRARY" } },
+
   { id: "perplexity",
     name: "PERPLEXITY",
     title: "Territory Intelligence Engine · Three Standing Assignments",
@@ -568,10 +593,13 @@ const CONNECTIONS: MapConnection[] = [
   // ── PODCAST — second ring under MEDIA ─────────────────────────────────────────
   { from: "media_node",       to: "podcast_node",     style: "social" },
 
-  // ── Row 4 below Ed ───────────────────────────────────────────────────────────
+  // ── Row 4 below Ed ───────────────────────────────────────────────
   { from: "ed",               to: "william_node",     style: "partner" },
   { from: "ed",               to: "intel_library",    style: "intelligence" },
   { from: "ed",               to: "perplexity",       style: "partner" },
+  { from: "ed",               to: "pipe_tab",         style: "intelligence" },   // D5: PIPE TAB node · Apr 16 2026
+  { from: "ed",               to: "intel_tab",        style: "intelligence" },   // D5: INTEL TAB node · Apr 16 2026
+  { from: "ed",               to: "master_index",     style: "intelligence" },   // D5: MASTER INDEX node · Apr 16 2026
 
   // ── SOCIAL → PERPLEXITY (signal feed) ────────────────────────────────────────
   { from: "social",           to: "perplexity",       style: "intelligence" },

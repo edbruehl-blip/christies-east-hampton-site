@@ -59,10 +59,36 @@
     overflow: visible !important;
   }
 
-  /* ── Partner cards — avoid page breaks inside cards ───────────────── */
+  /* ── C1: Page break before partner cards grid ─────────────────────── */
+  .future-participant-grid {
+    page-break-before: always;
+    margin-top: 0 !important;
+  }
+
+  /* ── C2: Partner card column integrity ──────────────────────────────── */
   .future-participant-grid > div {
     page-break-inside: avoid;
     break-inside: avoid;
+  }
+
+  /* ── C3: Headcount table column width ───────────────────────────────── */
+  .headcount-table th,
+  .headcount-table td {
+    font-size: 6pt !important;
+    padding: 1px 3px !important;
+    white-space: nowrap !important;
+  }
+
+  /* ── C4: StaggeredRampChart print ───────────────────────────────────── */
+  .staggered-ramp-chart canvas,
+  .staggered-ramp-chart svg {
+    image-rendering: auto;
+    max-width: 100%;
+  }
+
+  /* ── C5: Gap Bridge page break ───────────────────────────────────────── */
+  .gap-bridge-section {
+    page-break-after: always;
   }
 
   /* ── Main content area ───────────────────────────────────────────────────── */
