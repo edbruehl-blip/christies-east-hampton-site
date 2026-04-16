@@ -278,24 +278,24 @@ export default function FutureTab() {
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
     const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
-    const sh2029 = liveShVolumes?.[2029] ?? 0;
-    const sh2030 = liveShVolumes?.[2030] ?? 0;
-    const sh2031 = liveShVolumes?.[2031] ?? 0;
-    const sh2032 = liveShVolumes?.[2032] ?? 0;
-    const sh2033 = liveShVolumes?.[2033] ?? 0;
-    const sh2034 = liveShVolumes?.[2034] ?? 0;
-    const sh2035 = liveShVolumes?.[2035] ?? 0;
+    const sh2029 = liveShVolumes?.[2029] ?? 102_000_000;
+    const sh2030 = liveShVolumes?.[2030] ?? 114_400_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 117_300_000;
+    const sh2032 = liveShVolumes?.[2032] ?? 120_700_000;
+    const sh2033 = liveShVolumes?.[2033] ?? 124_900_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 129_900_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 135_800_000;
     const sh2036 = liveShVolumes?.[2036] ?? 143_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
     const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;
-    const wh2031 = liveWhVolumes?.[2031] ?? 0;
-    const wh2032 = liveWhVolumes?.[2032] ?? 0;
-    const wh2033 = liveWhVolumes?.[2033] ?? 0;
-    const wh2034 = liveWhVolumes?.[2034] ?? 0;
-    const wh2035 = liveWhVolumes?.[2035] ?? 0;
+    const wh2031 = liveWhVolumes?.[2031] ?? 102_000_000;
+    const wh2032 = liveWhVolumes?.[2032] ?? 114_400_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 117_300_000;
+    const wh2034 = liveWhVolumes?.[2034] ?? 120_700_000;
+    const wh2035 = liveWhVolumes?.[2035] ?? 124_900_000;
     const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
     return [
       { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
