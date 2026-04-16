@@ -651,7 +651,7 @@ export default function FutureTab() {
                   EQ1_NET[2028],
                   EQ1_NET[2036],
                 ], act: null },
-                { label: 'Actual to date',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
+                { label: 'Projected 2026',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
@@ -739,7 +739,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$5M','$15M','$20M','$50M+'], act: null },
+                { label: 'Sales vol',    proj: ['$5M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
@@ -830,7 +830,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$50K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2028: sales vol + $59,063 AnewHomes */}
+                {['$60K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $60K GCI per Ed ruling Apr 17 2026 · 2028: sales vol + $59,063 AnewHomes */}
               </div>
             </div>
 
