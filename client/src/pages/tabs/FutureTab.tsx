@@ -667,6 +667,19 @@ export default function FutureTab() {
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
                 ))}
               </div>
+              {/* Ed dual-line GCI display · gross (office view) + net keep (personal view) · Ed ruling Apr 16 2026 */}
+              {[
+                { label: 'GCI Gross (office)',  proj: ['$600K','$720K','$864K','$3.72M'], act: null }, // 20% compound from $600K · headcount table view
+                { label: 'Ed Keep (70%)',        proj: ['$420K','$504K','$605K','$2.60M'], act: null }, // 70/30 EQ1 split · personal card view
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5, fontWeight: 400 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              <div style={{ borderTop: `0.5px solid ${CHARCOAL}`, marginTop: 3, marginBottom: 3 }} />
               {[
                 { label: 'Net Personal Prod (Eq. 1)',  proj: [
                   EQ1_NET[2026],

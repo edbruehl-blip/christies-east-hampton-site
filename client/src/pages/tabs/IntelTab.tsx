@@ -17,7 +17,7 @@
  * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
@@ -171,6 +171,30 @@ const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 const TRELLO_EMBED_URL = 'https://trello.com/b/H2mvEgRi.html';
 
 function TrelloLayer() {
+  const iframeRef = React.useRef<HTMLIFrameElement>(null);
+
+  // Auto-scroll to FLAGSHIP TEAM column (4th column) after Trello iframe loads
+  // FLAGSHIP TEAM is ~3 columns right of ACTIVE PIPELINE · each column ~272px wide
+  const handleIframeLoad = React.useCallback(() => {
+    setTimeout(() => {
+      try {
+        const iframe = iframeRef.current;
+        if (!iframe) return;
+        // Try to scroll the iframe's internal document
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc) {
+          const board = doc.querySelector('.board-canvas') as HTMLElement | null;
+          if (board) { board.scrollLeft = 272 * 3; return; } // 3 columns right
+        }
+      } catch (_) {
+        // Cross-origin — fall back to scrolling the iframe container itself
+      }
+      // Fallback: scroll the wrapper div
+      const wrapper = iframeRef.current?.parentElement;
+      if (wrapper) wrapper.scrollLeft = 272 * 3;
+    }, 1800); // 1.8s — enough for Trello to render columns
+  }, []);
+
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
@@ -198,12 +222,14 @@ function TrelloLayer() {
         </div>
         <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
           <iframe
+            ref={iframeRef}
             src={TRELLO_EMBED_URL}
             title="Christies Flagship Mindmap · Structural Architecture"
             width="100%"
             height="680"
             style={{ display: 'block', border: 'none' }}
             allowFullScreen
+            onLoad={handleIframeLoad}
           />
         </div>
         <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
@@ -683,33 +709,10 @@ const INTEL_SECTIONS = [
 ];
 
 function IntelStickyNav() {
-  const [activeId, setActiveId] = useState<string>('intel-layer-1');
-
-  useEffect(() => {
-    const sectionIds = INTEL_SECTIONS.map(s => s.id);
-    const observers: IntersectionObserver[] = [];
-
-    sectionIds.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveId(id);
-        },
-        { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-
-    return () => observers.forEach(o => o.disconnect());
-  }, []);
-
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-
   return (
     <div
       style={{
@@ -725,34 +728,30 @@ function IntelStickyNav() {
         padding: '0 16px',
       }}
     >
-      {INTEL_SECTIONS.map(s => {
-        const isActive = s.id === activeId;
-        return (
-          <button
-            key={s.id}
-            onClick={() => scrollTo(s.id)}
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase',
-              color: isActive ? '#C8AC78' : 'rgba(200,172,120,0.6)',
-              background: 'transparent',
-              border: 'none',
-              padding: '10px 14px',
-              cursor: 'pointer',
-              whiteSpace: 'nowrap',
-              borderBottom: isActive ? '2px solid #C8AC78' : '2px solid transparent',
-              transition: 'color 0.15s, border-color 0.15s',
-              fontWeight: isActive ? 600 : 400,
-            }}
-            onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78'; (e.currentTarget as HTMLButtonElement).style.borderBottomColor = 'rgba(200,172,120,0.5)'; } }}
-            onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,172,120,0.6)'; (e.currentTarget as HTMLButtonElement).style.borderBottomColor = 'transparent'; } }}
-          >
-            {s.label}
-          </button>
-        );
-      })}
+      {INTEL_SECTIONS.map(s => (
+        <button
+          key={s.id}
+          onClick={() => scrollTo(s.id)}
+          style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 10,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: 'rgba(200,172,120,0.8)',
+            background: 'transparent',
+            border: 'none',
+            padding: '10px 14px',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            borderBottom: '2px solid transparent',
+            transition: 'color 0.15s, border-color 0.15s',
+          }}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#C8AC78'; (e.target as HTMLButtonElement).style.borderBottomColor = '#C8AC78'; }}
+          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'rgba(200,172,120,0.8)'; (e.target as HTMLButtonElement).style.borderBottomColor = 'transparent'; }}
+        >
+          {s.label}
+        </button>
+      ))}
     </div>
   );
 }
