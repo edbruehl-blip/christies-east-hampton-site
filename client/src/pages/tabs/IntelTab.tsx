@@ -21,6 +21,7 @@ import { useState, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
+import BruehlBriefBulletin from '@/components/BruehlBriefBulletin';
 
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
 // Recurring every Wednesday from May 7, 2026
@@ -678,6 +679,7 @@ const INTEL_SECTIONS = [
   { id: 'intel-layer-4', label: 'Layer 4 · Thirteen Sheets' },
   { id: 'intel-layer-5', label: 'Layer 5 · Documents' },
   { id: 'intel-layer-6', label: 'Layer 6 · Intel Web' },
+  { id: 'intel-layer-9', label: 'Section 9 · Bulletin Board' },
 ];
 
 function IntelStickyNav() {
@@ -782,6 +784,9 @@ export default function IntelTab() {
       {/* Layer 6 — Intelligence Web */}
       <div id="intel-layer-6" />
       <IntelligenceWebLayer />
+
+      {/* Section 9 — Bruehl Brief Bulletin Board */}
+      <BruehlBriefBulletin />
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
