@@ -57,7 +57,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 1_219_300_000, display: '$1.2B',   label: '2031', isBaseline: false },  // OUTPUTS B37
 } as const;
 
-const MAX_VOLUME = 3_000_000_000; // 2036 canonical three-office combined volume (Ed ruling April 14, 2026)
+const MAX_VOLUME = 4_368_000_000; // 2036 combined three-office EPM total: EH $2.73B + SH $882M + WH $756M (corrected Apr 16 2026)
 const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
 // NOTE: Bar heights are expressed as PERCENTAGES of CHART_HEIGHT so they scale on all screen sizes
 
@@ -268,15 +268,15 @@ export default function FutureTab() {
     const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;
     const eh2026 = liveEhVolumes?.[2026] ?? 75_000_000;
     const eh2027 = liveEhVolumes?.[2027] ?? 125_906_749;
-    const eh2028 = liveEhVolumes?.[2028] ?? 253_866_793;
-    const eh2029 = liveEhVolumes?.[2029] ?? 456_833_410;
-    const eh2030 = liveEhVolumes?.[2030] ?? 752_578_949;
-    const eh2031 = liveEhVolumes?.[2031] ?? 1_219_300_000;
-    const eh2032 = liveEhVolumes?.[2032] ?? 1_457_294_184;
-    const eh2033 = liveEhVolumes?.[2033] ?? 1_735_958_623;
-    const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
-    const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
-    const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
+    const eh2028 = liveEhVolumes?.[2028] ?? 211_000_000;  // Perplexity EPM dispatch Apr 16 2026
+    const eh2029 = liveEhVolumes?.[2029] ?? 322_000_000;
+    const eh2030 = liveEhVolumes?.[2030] ?? 596_000_000;
+    const eh2031 = liveEhVolumes?.[2031] ?? 1_003_000_000;
+    const eh2032 = liveEhVolumes?.[2032] ?? 1_083_000_000;
+    const eh2033 = liveEhVolumes?.[2033] ?? 1_494_000_000;
+    const eh2034 = liveEhVolumes?.[2034] ?? 1_613_000_000;
+    const eh2035 = liveEhVolumes?.[2035] ?? 2_305_000_000;
+    const eh2036 = liveEhVolumes?.[2036] ?? 2_730_000_000;
     // SH opens 2028 · WH opens 2030 · ELITE PRODUCER MODEL (correct EPM values)
     // 12 producers per office · $500K GCI Y1 · $750K Y2 · $1M Y3+ · 8% YoY post-maturity
     // Volume = GCI ÷ 2% commission rate
@@ -285,39 +285,40 @@ export default function FutureTab() {
     // Corrected per Perplexity dispatch Apr 16 2026 · prior $162M/$108M was artificially capped
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 150_000_000;  // 6 producers × $500K GCI ÷ 2% = $150M
-    const sh2029 = liveShVolumes?.[2029] ?? 300_000_000;  // 12 producers × $500K GCI ÷ 2% = $300M
-    const sh2030 = liveShVolumes?.[2030] ?? 450_000_000;  // 12 producers × $750K GCI ÷ 2% = $450M
-    const sh2031 = liveShVolumes?.[2031] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2% = $600M
-    const sh2032 = liveShVolumes?.[2032] ?? 648_000_000;  // 8% YoY post-maturity
-    const sh2033 = liveShVolumes?.[2033] ?? 700_000_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 756_000_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 817_000_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 882_000_000;
+    const sh2028 = liveShVolumes?.[2028] ?? 150_000_000;  // Perplexity EPM dispatch Apr 16 2026
+    const sh2029 = liveShVolumes?.[2029] ?? 300_000_000;
+    const sh2030 = liveShVolumes?.[2030] ?? 525_000_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 606_000_000;
+    const sh2032 = liveShVolumes?.[2032] ?? 654_000_000;
+    const sh2033 = liveShVolumes?.[2033] ?? 707_000_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 764_000_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 825_000_000;
+    const sh2036 = liveShVolumes?.[2036] ?? 890_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 150_000_000;  // 6 producers × $500K GCI ÷ 2% = $150M
-    const wh2031 = liveWhVolumes?.[2031] ?? 300_000_000;  // 12 producers × $500K GCI ÷ 2% = $300M
-    const wh2032 = liveWhVolumes?.[2032] ?? 450_000_000;  // 12 producers × $750K GCI ÷ 2% = $450M
-    const wh2033 = liveWhVolumes?.[2033] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2% = $600M
-    const wh2034 = liveWhVolumes?.[2034] ?? 648_000_000;  // 8% YoY post-maturity
-    const wh2035 = liveWhVolumes?.[2035] ?? 700_000_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 756_000_000;
+    const wh2030 = liveWhVolumes?.[2030] ?? 150_000_000;  // Perplexity EPM dispatch Apr 16 2026
+    const wh2031 = liveWhVolumes?.[2031] ?? 375_000_000;
+    const wh2032 = liveWhVolumes?.[2032] ?? 525_000_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 606_000_000;
+    const wh2034 = liveWhVolumes?.[2034] ?? 654_000_000;
+    const wh2035 = liveWhVolumes?.[2035] ?? 707_000_000;
+    const wh2036 = liveWhVolumes?.[2036] ?? 763_000_000;
     return [
-      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
-      { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
-      { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
-      { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
-      { year: '2029', vol: vol2029,      display: fmtM(vol2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
-      { year: '2030', vol: vol2030,      display: fmtM(vol2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
-      { year: '2031', vol: vol2031,      display: fmtM(vol2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
-      { year: '2032', vol: vol2032,      display: fmtM(vol2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
-      { year: '2033', vol: vol2033,      display: fmtM(vol2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
-      { year: '2034', vol: vol2034,      display: fmtM(vol2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
-      { year: '2035', vol: vol2035,      display: fmtM(vol2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
-      { year: '2036', vol: vol2036,      display: '$3.0B',       actualVol: 0,       note: "$3.0B · Three-Office Ascension Arc Complete", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
+      // vol = combined EH+SH+WH total — drives bar height AND label (fixed Apr 16 2026)
+      { year: '2025', vol: 15_000_000,                    display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
+      { year: '2026', vol: eh2026+sh2026+wh2026,          display: fmtM(eh2026+sh2026+wh2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
+      { year: '2027', vol: eh2027+sh2027+wh2027,          display: fmtM(eh2027+sh2027+wh2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
+      { year: '2028', vol: eh2028+sh2028+wh2028,          display: fmtM(eh2028+sh2028+wh2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
+      { year: '2029', vol: eh2029+sh2029+wh2029,          display: fmtM(eh2029+sh2029+wh2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
+      { year: '2030', vol: eh2030+sh2030+wh2030,          display: fmtM(eh2030+sh2030+wh2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
+      { year: '2031', vol: eh2031+sh2031+wh2031,          display: fmtM(eh2031+sh2031+wh2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
+      { year: '2032', vol: eh2032+sh2032+wh2032,          display: fmtM(eh2032+sh2032+wh2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
+      { year: '2033', vol: eh2033+sh2033+wh2033,          display: fmtM(eh2033+sh2033+wh2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
+      { year: '2034', vol: eh2034+sh2034+wh2034,          display: fmtM(eh2034+sh2034+wh2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
+      { year: '2035', vol: eh2035+sh2035+wh2035,          display: fmtM(eh2035+sh2035+wh2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
+      { year: '2036', vol: eh2036+sh2036+wh2036,          display: '$4.4B',       actualVol: 0,       note: "$4.4B · Three-Office Ascension Arc Complete · EPM", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
     ];
   }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
@@ -374,10 +375,12 @@ export default function FutureTab() {
               const projPct = barPct(bar.vol); // e.g. 92 for the tallest bar
               const actPct  = bar.actualVol > 0 ? Math.max(8, Math.round((bar.actualVol / bar.vol) * projPct)) : 0;
               const isBaseline = bar.year === '2025';
-              // Three-office stacked percentages (SD-8 Phase Two)
-              const ehPct = bar.eh > 0 ? Math.max(2, Math.round(barPct(bar.eh))) : 0;
-              const shPct = bar.sh > 0 ? Math.max(2, Math.round(barPct(bar.sh))) : 0;
-              const whPct = bar.wh > 0 ? Math.max(2, Math.round(barPct(bar.wh))) : 0;
+              // Three-office stacked percentages — each segment is proportional to its share of combined vol
+              // MUST use (office_vol / combined_vol) * projPct so EH always grows visually (SD-8 Phase Two fix Apr 16 2026)
+              const combined = bar.eh + bar.sh + bar.wh;
+              const ehPct = combined > 0 && bar.eh > 0 ? Math.max(2, Math.round((bar.eh / combined) * projPct)) : (projPct > 0 ? projPct : 0);
+              const shPct = combined > 0 && bar.sh > 0 ? Math.max(1, Math.round((bar.sh / combined) * projPct)) : 0;
+              const whPct = combined > 0 && bar.wh > 0 ? Math.max(1, Math.round((bar.wh / combined) * projPct)) : 0;
               const stackedPct = ehPct + shPct + whPct;
               const gapPct = Math.max(0, projPct - stackedPct);
 
