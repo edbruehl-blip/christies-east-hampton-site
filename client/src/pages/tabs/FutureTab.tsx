@@ -739,9 +739,9 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$5M','$15M','$25M','$50M+'], act: null },
+                { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
+                { label: 'GCI proj',     proj: ['$200K','$300K','$400K','$1M+'], act: null },
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
                 { label: 'ICA Override *',   proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Net pool ref †',   proj: [
@@ -760,7 +760,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$132.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
+                {['$232.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 * ICA Override = 5% of Ed gross personal GCI per year (OUTPUTS row 46) &middot; Projected total excludes direct NOP split &middot;
