@@ -1,391 +1,284 @@
+import { trpc } from "@/lib/trpc";
+
 /**
- * /letters/christies — Christie's Letter to the Families · Print-Quality Renderer
+ * ChristiesLetterPage — /letters/christies
  *
- * Visual identity: cream paper (#f5efe0), Cormorant Garamond body,
- * Christie's black logo lockup, Flambeaux-style correspondence quality.
- * Matches FlagshipLetterPage visual treatment exactly.
- *
- * PDF download: GET /api/pdf?url=/letters/christies
- * Route registered in App.tsx as /letters/christies
- * Content source: CHRISTIES_LETTER_TEXT from server/letter-content.ts
- *                 served via tRPC flagship.getChristiesLetter endpoint.
- *
- * Doctrine 43 — PDF Light Mode Export Standard
- * ?pdf=1 → Puppeteer print mode (no header bar, no download button).
+ * Standalone route: no nav chrome, document-only.
+ * Renders the Christie's Letter to the Families.
+ * PDF: client-side window.print() via Doctrine 43. No Puppeteer dependency.
+ * Lead Summary Paragraph at top per Doctrine 37.
  */
-import { useState, useEffect } from 'react';
-import { trpc } from '@/lib/trpc';
-
-// ─── Brand tokens ──────────────────────────────────────────────────────────────
-const CREAM      = '#f5efe0';
-const CHARCOAL   = '#2c2c2c';
-const GOLD       = '#c8ac78';
-const MUTED      = 'rgba(44,44,44,0.50)';
-const RULE_COLOR = 'rgba(200,172,120,0.35)';
-
-// ─── Asset URLs ────────────────────────────────────────────────────────────────
-const CIREG_LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
-const ED_HEADSHOT      = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/ed-headshot-primary_0f6df1af.jpg';
-
-// ─── Favicon injection (Rule: every standalone page route MUST have the Christie's favicon) ──
-function useFavicon() {
-  useEffect(() => {
-    const FAVICON_URL = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/favicon_656f6f8c.ico';
-    let link = document.querySelector<HTMLLinkElement>('link[rel~="icon"]');
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'icon';
-      document.head.appendChild(link);
-    }
-    link.href = FAVICON_URL;
-    document.title = "Christie's East Hampton — Letter to the Families";
-  }, []);
-}
-
-// ─── PDF mode detection ────────────────────────────────────────────────────────
-function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
-}
-
-// ─── Paragraph splitter ────────────────────────────────────────────────────────
-function splitParagraphs(text: string): string[] {
-  return text
-    .split(/\n\n+/)
-    .map(p => p.trim())
-    .filter(Boolean);
-}
-
-// ─── Section heading detector ─────────────────────────────────────────────────
-function isSectionHeading(para: string): boolean {
-  return para.length < 80 && !para.endsWith('.') && !para.endsWith(',') && !para.endsWith(':');
-}
-
-// ─── Extract Lead Summary and body text ───────────────────────────────────────
-function parseContent(text: string): { leadSummary: string | null; bodyText: string } {
-  const leadMatch = text.match(/^LEAD SUMMARY:\s*([\s\S]*?)\n\n/);
-  const leadSummary = leadMatch ? leadMatch[1].trim() : null;
-  const bodyText = text.replace(/^LEAD SUMMARY:[\s\S]*?\n\n/, '').trim();
-  return { leadSummary, bodyText };
-}
-
 export default function ChristiesLetterPage() {
-  const [downloading, setDownloading] = useState(false);
-  const isPdfMode = useIsPdfMode();
-  useFavicon();
-  const { data, isLoading, error } = trpc.flagship.getChristiesLetter.useQuery();
+  const { data, isLoading } = trpc.flagship.getChristiesLetter.useQuery();
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/letters/christies');
-      if (!res.ok) throw new Error('PDF generation failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const today = new Date()
-        .toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })
-        .replace(/\//g, '-');
-      a.href = url;
-      a.download = `Christies_EH_Letter_to_Families_${today}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('[ChristiesLetter] PDF download failed:', err);
-    } finally {
-      setDownloading(false);
-    }
+  const handleDownload = () => {
+    // Doctrine 43: client-side window.print() — no Puppeteer dependency.
+    window.print();
   };
 
-  const rawText = data?.text ?? '';
-  const { leadSummary, bodyText } = parseContent(rawText);
-  const paragraphs = bodyText ? splitParagraphs(bodyText) : [];
+  // Parse letter text into paragraphs, separating Lead Summary from body
+  const parseLetterContent = (text: string) => {
+    const paragraphs = text.split("\n\n").filter(p => p.trim());
+    const leadSummaryPara = paragraphs.find(p => p.startsWith("LEAD SUMMARY:"));
+    const bodyParagraphs = paragraphs.filter(p => !p.startsWith("LEAD SUMMARY:"));
+    const leadSummaryText = leadSummaryPara
+      ? leadSummaryPara.replace("LEAD SUMMARY: ", "").replace("LEAD SUMMARY:", "")
+      : null;
+    return { leadSummaryText, bodyParagraphs };
+  };
 
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  });
+  const letterText = data?.text ?? "";
+  const { leadSummaryText, bodyParagraphs } = parseLetterContent(letterText);
 
   return (
-    <div style={{ background: CREAM, minHeight: '100vh', fontFamily: '"Cormorant Garamond", Georgia, serif', color: CHARCOAL }}>
-
-      {/* ── Screen header bar (hidden in PDF mode) ──────────────────────────── */}
-      {!isPdfMode && (
-        <header
-          className="no-print"
-          style={{
-            background: CREAM,
-            borderBottom: `1px solid ${RULE_COLOR}`,
-            padding: '14px 48px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            position: 'sticky',
-            top: 0,
-            zIndex: 10,
-          }}
-        >
-          <img
-            src={CIREG_LOGO_BLACK}
-            alt="Christie's International Real Estate Group"
-            style={{ height: 28, objectFit: 'contain' }}
-          />
-          <button
-            onClick={handleDownload}
-            disabled={downloading || isLoading}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: GOLD,
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 11,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              fontVariant: 'small-caps',
-              cursor: downloading ? 'not-allowed' : 'pointer',
-              opacity: downloading ? 0.5 : 1,
-              padding: '4px 0',
-              textDecoration: 'underline',
-              textUnderlineOffset: 3,
-              transition: 'opacity 0.2s',
-            }}
-          >
-            {downloading ? 'Generating…' : '↓ Download PDF'}
-          </button>
-        </header>
-      )}
-
-      {/* ── Letter body ─────────────────────────────────────────────────────── */}
-      <main
+    <div
+      className="min-h-screen"
+      style={{
+        background: "#F8F5F0",
+        fontFamily: "'Cormorant Garamond', 'Georgia', serif",
+      }}
+    >
+      {/* Print-hide download bar */}
+      <div
+        className="no-print flex items-center justify-between px-8 py-3"
         style={{
-          maxWidth: 720,
-          margin: '0 auto',
-          padding: isPdfMode ? '0' : '60px 48px 80px',
+          background: "#1B2A4A",
+          borderBottom: "1px solid #C8AC78",
         }}
       >
-        {/* Christie's logo lockup — centered at top */}
-        <div style={{ textAlign: 'center', marginBottom: 36 }}>
+        <div className="flex items-center gap-3">
           <img
-            src={CIREG_LOGO_BLACK}
+            src="https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png"
             alt="Christie's International Real Estate Group"
-            style={{ height: 36, objectFit: 'contain' }}
+            style={{ height: "28px", filter: "brightness(1.1)" }}
           />
+          <span
+            style={{
+              color: "#C8AC78",
+              fontSize: "11px",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            East Hampton · Letter to the Families
+          </span>
+        </div>
+        <button
+          onClick={handleDownload}
+          style={{
+            background: "#C8AC78",
+            color: "#1B2A4A",
+            border: "none",
+            padding: "6px 18px",
+            fontSize: "11px",
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "all 0.2s",
+          }}
+        >
+          ↓ Download PDF
+        </button>
+      </div>
+
+      {/* Document */}
+      <div
+        style={{
+          maxWidth: "720px",
+          margin: "0 auto",
+          padding: "64px 32px 80px",
+        }}
+      >
+        {/* Header */}
+        <div
+          style={{
+            borderBottom: "2px solid #C8AC78",
+            paddingBottom: "32px",
+            marginBottom: "40px",
+            textAlign: "center",
+          }}
+        >
+          <div
+            style={{
+              fontSize: "10px",
+              letterSpacing: "0.25em",
+              textTransform: "uppercase",
+              color: "#C8AC78",
+              marginBottom: "12px",
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            Christie's International Real Estate Group · East Hampton
+          </div>
+          <h1
+            style={{
+              fontSize: "28px",
+              fontWeight: 400,
+              color: "#1B2A4A",
+              letterSpacing: "0.08em",
+              textTransform: "uppercase",
+              margin: "0 0 8px",
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            A Letter to the Families of the East End
+          </h1>
+          <div
+            style={{
+              fontSize: "13px",
+              color: "#384249",
+              letterSpacing: "0.05em",
+              fontStyle: "italic",
+              fontFamily: "'Cormorant Garamond', serif",
+            }}
+          >
+            Art. Beauty. Provenance. Since 1766.
+          </div>
         </div>
 
-        {/* Subtitle */}
-        <div style={{
-          textAlign: 'center',
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontSize: 10,
-          letterSpacing: '0.25em',
-          textTransform: 'uppercase',
-          fontVariant: 'small-caps',
-          color: GOLD,
-          marginBottom: 10,
-        }}>
-          East Hampton · Letter to the Families
-        </div>
-
-        {/* Title */}
-        <h1 style={{
-          textAlign: 'center',
-          fontFamily: '"Cormorant Garamond", Georgia, serif',
-          fontWeight: 400,
-          fontSize: '1.85rem',
-          color: CHARCOAL,
-          letterSpacing: '0.06em',
-          margin: '0 0 10px',
-        }}>
-          A Letter to the Families of the East End
-        </h1>
-
-        {/* Tagline */}
-        <div style={{
-          textAlign: 'center',
-          fontFamily: '"Cormorant Garamond", Georgia, serif',
-          fontStyle: 'italic',
-          fontSize: '0.95rem',
-          color: MUTED,
-          marginBottom: 28,
-        }}>
-          Art. Beauty. Provenance. Since 1766.
-        </div>
-
-        {/* Date */}
-        <div style={{
-          color: MUTED,
-          fontSize: '0.88rem',
-          textAlign: 'center',
-          marginBottom: 36,
-          fontStyle: 'italic',
-          fontFamily: '"Cormorant Garamond", Georgia, serif',
-        }}>
-          {today}
-        </div>
-
-        {/* Gold rule */}
-        <div style={{ borderTop: `1px solid ${GOLD}`, opacity: 0.35, marginBottom: 40 }} />
-
-        {/* Loading / error states */}
-        {isLoading && (
-          <div style={{ color: MUTED, fontSize: '1rem', textAlign: 'center', padding: '60px 0', fontStyle: 'italic' }}>
+        {isLoading ? (
+          <div
+            style={{
+              textAlign: "center",
+              color: "#384249",
+              padding: "40px",
+              fontSize: "16px",
+              fontStyle: "italic",
+            }}
+          >
             Loading…
           </div>
-        )}
-        {error && (
-          <div style={{ color: '#b94a48', fontSize: '0.9rem', textAlign: 'center', padding: '60px 0' }}>
-            Unable to load letter. Please refresh.
-          </div>
-        )}
-
-        {/* Lead Summary — italic pull-quote with left gold rule */}
-        {leadSummary && !isLoading && (
-          <div style={{
-            borderLeft: `3px solid ${GOLD}`,
-            paddingLeft: 20,
-            marginBottom: 40,
-            opacity: 0.85,
-          }}>
-            <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 9,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              fontVariant: 'small-caps',
-              color: GOLD,
-              marginBottom: 8,
-            }}>
-              Lead Summary
-            </div>
-            <p style={{
-              fontFamily: '"Cormorant Garamond", Georgia, serif',
-              fontStyle: 'italic',
-              fontSize: '1rem',
-              lineHeight: 1.7,
-              color: CHARCOAL,
-              margin: 0,
-            }}>
-              {leadSummary}
-            </p>
-          </div>
-        )}
-
-        {/* Body paragraphs */}
-        {paragraphs.map((para, i) => {
-          if (isSectionHeading(para)) {
-            return (
-              <div key={i} style={{
-                fontFamily: '"Barlow Condensed", sans-serif',
-                color: GOLD,
-                fontSize: 10,
-                letterSpacing: '0.22em',
-                textTransform: 'uppercase',
-                fontVariant: 'small-caps',
-                marginTop: 40,
-                marginBottom: 14,
-              }}>
-                {para}
-              </div>
-            );
-          }
-          return (
-            <p key={i} style={{
-              fontFamily: '"Cormorant Garamond", Georgia, serif',
-              color: CHARCOAL,
-              fontSize: '1.05rem',
-              lineHeight: 1.75,
-              marginBottom: 22,
-              fontWeight: 400,
-            }}>
-              {para}
-            </p>
-          );
-        })}
-
-        {/* Signature block */}
-        {paragraphs.length > 0 && (
+        ) : (
           <>
-            {/* Closing rule */}
-            <div style={{ borderTop: `1px solid ${GOLD}`, opacity: 0.35, marginTop: 44, marginBottom: 36 }} />
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 18 }}>
-              {/* Headshot */}
-              <img
-                src={ED_HEADSHOT}
-                alt="Ed Bruehl"
+            {/* Lead Summary */}
+            {leadSummaryText && (
+              <div
                 style={{
-                  width: 46,
-                  height: 46,
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                  objectPosition: 'center 20%',
-                  border: `1px solid ${RULE_COLOR}`,
-                  flexShrink: 0,
-                  marginTop: 2,
+                  background: "#1B2A4A",
+                  borderLeft: "3px solid #C8AC78",
+                  padding: "20px 24px",
+                  marginBottom: "36px",
+                  borderRadius: "2px",
                 }}
-              />
-              <div>
-                <div style={{
-                  fontFamily: '"Cormorant Garamond", Georgia, serif',
-                  fontStyle: 'italic',
-                  fontSize: '1.1rem',
-                  color: CHARCOAL,
-                  marginBottom: 3,
-                }}>
-                  Ed Bruehl
+              >
+                <div
+                  style={{
+                    fontSize: "9px",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "#C8AC78",
+                    marginBottom: "8px",
+                    fontFamily: "'Cormorant Garamond', serif",
+                  }}
+                >
+                  Lead Summary
                 </div>
-                <div style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 9,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  fontVariant: 'small-caps',
-                  color: GOLD,
-                  marginBottom: 3,
-                }}>
-                  Managing Director · Christie's East Hampton
-                </div>
-                <div style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 9,
-                  letterSpacing: '0.16em',
-                  textTransform: 'uppercase',
-                  fontVariant: 'small-caps',
-                  color: MUTED,
-                }}>
-                  christiesrealestategroupeh.com
-                </div>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    lineHeight: "1.7",
+                    color: "#F8F5F0",
+                    margin: 0,
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {leadSummaryText}
+                </p>
               </div>
-            </div>
+            )}
 
-            {/* Footer */}
-            <div style={{
-              marginTop: 52,
-              textAlign: 'center',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 9,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              fontVariant: 'small-caps',
-              color: GOLD,
-              opacity: 0.7,
-            }}>
-              Christie's International Real Estate Group · Est. 1766
+            {/* Letter Body */}
+            <div>
+              {bodyParagraphs.map((para, i) => (
+                <p
+                  key={i}
+                  style={{
+                    fontSize: "18px",
+                    lineHeight: "1.85",
+                    color: "#1B2A4A",
+                    marginBottom: "28px",
+                    fontFamily: "'Cormorant Garamond', serif",
+                    textIndent: i === 0 ? "0" : "0",
+                  }}
+                >
+                  {para}
+                </p>
+              ))}
             </div>
           </>
         )}
-      </main>
 
-      {/* ── Print & font styles ─────────────────────────────────────────────── */}
+        {/* Footer */}
+        <div
+          style={{
+            borderTop: "1px solid #C8AC78",
+            paddingTop: "28px",
+            marginTop: "48px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                fontSize: "13px",
+                color: "#1B2A4A",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontWeight: 600,
+                marginBottom: "2px",
+              }}
+            >
+              Ed Bruehl
+            </div>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#384249",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontStyle: "italic",
+              }}
+            >
+              Managing Director · Christie's East Hampton
+            </div>
+            <div
+              style={{
+                fontSize: "11px",
+                color: "#C8AC78",
+                fontFamily: "'Cormorant Garamond', serif",
+                letterSpacing: "0.05em",
+                marginTop: "4px",
+              }}
+            >
+              26 Park Place, East Hampton · 646-752-1233
+            </div>
+          </div>
+          <div
+            style={{
+              fontSize: "10px",
+              color: "#C8AC78",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              fontFamily: "'Cormorant Garamond', serif",
+              textAlign: "right",
+            }}
+          >
+            Christie's · Since 1766
+            <br />
+            christiesrealestategroupeh.com
+          </div>
+        </div>
+      </div>
+
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Barlow+Condensed:wght@400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap');
         @media print {
           .no-print { display: none !important; }
-          body { background: #f5efe0 !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          @page { size: letter; margin: 1.25in 1in; }
+          body { background: white !important; }
         }
       `}</style>
     </div>

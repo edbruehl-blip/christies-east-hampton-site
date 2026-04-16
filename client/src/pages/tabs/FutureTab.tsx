@@ -490,7 +490,7 @@ export default function FutureTab() {
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7% post-maturity. Two-thirds seats, one-third market. Year 2 Profit Pool activates.</>,
+              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7.5% post-maturity. Two-thirds seats, one-third market. Year 2 Profit Pool activates.</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
               team: "36 elite producers across three offices by 2031 · pure compound mode through 2036 · recruiting engine dormant.",
             },
@@ -599,7 +599,7 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
+            12 elite producers per office &middot; Cap intentional &middot; $500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
           </div>
 
           {/* ── Staggered Office Ramp Chart ────────────────────────────── */}

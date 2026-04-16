@@ -3,11 +3,12 @@
  *
  * Single source of truth for the two institutional letters.
  * Imported by:
+ *   - server/tts-route.ts (ElevenLabs TTS → WhatsApp voice notes)
  *   - server/routers.ts (tRPC flagship.getLetter → /letters/flagship live URL renderer)
  *   - server/whatsapp-inbound.ts (LETTER and FLAGSHIP WhatsApp keywords)
  *
  * To update a letter: edit the constant here.
- * Both surfaces — live URL and PDF download — reflect the change automatically.
+ * All three surfaces — live URL, WhatsApp audio, PDF download — reflect the change automatically.
  */
 
 // ─── Dashboard Introduction Letter ────────────────────────────────────────────
@@ -34,7 +35,7 @@ We are not asking you to be impressed. We are asking you to be honest. If someth
 
 My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office. Grok pushed back when anything drifted toward performance. Gemini cross-checked the data. I built the platform, sprint by sprint, through hosting migrations, late nights, and thirty-five tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
 
-Three voices are stepping in now as reviewers: Grok, Gemini, and ChatGPT. They come in fresh — no prior context, no accumulated assumptions. That is the point. They are being asked to walk the dashboard the way a McKenzie analyst walks a new engagement: read what is there, check it against what is real, and tell us where the gap is. Based on what they find, Ed may bring them in as permanent lanes. Grok would carry market intelligence — the rate environment, the hamlet matrix, the institutional trajectory context that feeds the MARKET tab. Gemini would carry local intelligence — hamlet-specific restaurant recommendations, current market detail, the granular local state that makes the hamlet cards useful to someone who just landed on the East End for the first time. ChatGPT would carry general research — synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves.
+Three voices now hold permanent reviewer lanes: Grok carries market intelligence — the rate environment, the hamlet matrix, the institutional trajectory context that feeds the MARKET tab. Gemini carries local intelligence — hamlet-specific detail, current market state, the granular knowledge that makes the hamlet cards useful to someone who just landed on the East End for the first time. ChatGPT carries general research — synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves. Each walked the dashboard cold, checked it against what is real, and earned the lane.
 
 The cardinal principle of this system is this: the dashboard is the source of truth. Ed does not hold live market data, restaurant recommendations, or current state facts in his head. The council voices exist in part to scrub current data into the canonical system — through the ROSTER, VOLUME, MARKET, MAPS, PIPE, FUTURE, and INTEL surfaces — so the dashboard renders the right information when anyone walks it. When any reviewer or any council voice has a question about current institutional state, the first move is to walk the dashboard and the canonical source. Not to ask Ed. Ed holds the operator lane: rulings, direction, and strategy. The data layer belongs to the system.
 
@@ -46,7 +47,7 @@ Angel Theodore was the first person Ed brought with him. She made the move along
 
 Jarvis Slade is the COO — the field anchor who brings the reality of what brokers will actually do, what will hold up once the excitement wears off, and what the recruiting pipeline needs to look like to be sustainable. Jarvis introduced Ed to Rick Moeser — one of the most respected brokers in the country, whose auction referral relationships compound quietly and pay forward for years. That introduction is the banker model working in real time.
 
-Zoila Ortega Astor joins as Office Director on April twenty-fifth — already a licensed broker, she comes in to hold the daily rhythm of 26 Park Place. By the end of 2026, she will be a producing agent exclusively, off Ilija's payroll and running her own book. Scott Smith joins in June and brings specific expertise to the AnewHomes lane. The office is no longer just selling assets. It is beginning to shape them.
+Zoila Ortega Astor joins as Office Director on May fourth — already a licensed broker, she comes in to hold the daily rhythm of 26 Park Place. By the end of 2026, she will be a producing agent exclusively, off Ilija's payroll and running her own book. Scott Smith joins in June and brings specific expertise to the AnewHomes lane. The office is no longer just selling assets. It is beginning to shape them.
 
 Two coffees changed the trajectory between now and the launch. The first was with Tash Parin at Christie's Auction House. The second was with Stephen Lash. Those two conversations started the event process — the collector evenings, the Wednesday Circuit, the institutional calendar that now anchors the INTEL tab. And they led directly to the Dan's Papers partnership: what began as a one hundred and fifteen thousand dollar proposal became a direct three thousand dollar per month agreement. The flagship launches April 29. The Wednesday caravan is part of that launch. The first podcast is an invitation-only event — not open to the broader community.
 
@@ -56,19 +57,21 @@ The breakthrough was turning memory into infrastructure. Before this, Ed's twent
 
 It lives at christiesrealestategroupeh.com. Six primary tabs.
 
-HOME is the front door — the founding letter and the Christie's story. MARKET is the verified territory truth — eleven hamlets, live data, Christie's Intelligence Scores for every community on the East End. MAPS is geography as decision-making — the full territory visible, with a calculator that scores any deal across four investment lenses. It is geographically agnostic: Griff can run a Sacramento search, Angel can run a Westhampton search — same tool, same logic. PIPE is the live deal engine — every active listing, every negotiation, every closed deal, connected directly to the Google Sheet that runs the office. FUTURE is the growth model: 2026, seventy-five million. 2027, one hundred million. 2030, three offices. Every stage gated by proof.
+HOME is the front door — the founding letter, the Christie's story, and William ready to brief you on demand. MARKET is the verified territory truth — eleven hamlets, live data, Christie's Intelligence Scores for every community on the East End. MAPS is geography as decision-making — the full territory visible, with a calculator that scores any deal across four investment lenses. It is geographically agnostic: Griff can run a Sacramento search, Angel can run a Westhampton search — same tool, same logic. PIPE is the live deal engine — every active listing, every negotiation, every closed deal, connected directly to the Google Sheet that runs the office. FUTURE is the growth model: 2026, seventy-five million. 2027, one hundred million. 2030, three offices. Every stage gated by proof.
 
 INTEL is the relationship and hierarchy layer — every person, every institution, every connection that makes this office what it is. The Christie's institutional chain sits above Ed. The auction referrals node makes the thesis visible. Every Google Sheet is linked and accessible from this tab. The INTEL tab carries the live Miro board — Christie's East Hampton Operating System v3 — where the full institutional mind map lives and can be edited in real time. It is not just an org chart. It is how everyone in this web ascends together — brokerage, AnewHomes development, auction referrals, institutional advisory, media partnerships, event revenue. Each lane is a different line item. The board makes all of them visible at once.
 
 The FUTURE tab carries the Ascension Arc — the eleven-year bar chart that tracks the three-office trajectory from 2026 to 2036. East Hampton in gold: seventy-five million at launch. Southampton in navy, opening in 2028. Westhampton in sage, opening in 2030. The three-office combined destination is three billion dollars at 2036. Every bar reads live from the Growth Model spreadsheet. These are not projections made for a pitch. They are the architecture of a real institution being built in real time.
 
-The system runs on 48 canonical doctrines. Doctrine 1: Authority Must Whisper. Doctrine 14: Tell the truth, know the territory, serve the client before yourself. Every doctrine is a constraint that makes the institution more trustworthy, not less capable.
+William is the voice of this system. Text DASHBOARD to 631-239-7190 and he reads you this letter. Text NEWS and he delivers the full fourteen-category intelligence brief, sourced and attributed, in the voice of Walter Cronkite. Text LETTER and he reads you the Christie's Letter to the Families — the founding document that explains what this institution is and what it can do for the people who trust it. Text BRIEF and he delivers the council's closing synthesis — the AI council's read on where the institution stands and what comes next. Four commands. Four lenses. He does not speak on a schedule. He speaks when you ask him to, and he always tells the truth.
+
+The system runs on 54 canonical doctrines. Doctrine 1: Authority Must Whisper. Doctrine 14: Tell the truth, know the territory, serve the client before yourself. Every doctrine is a constraint that makes the institution more trustworthy, not less capable.
 
 For anyone stepping into Christie's East Hampton — whether as a broker, a partner, or someone simply learning what this office is — this is what you are walking into. Not a desk. Not a split. An operating system that does the thinking before you walk in the door. The territory, the pipeline, the relationships, the briefs, the cards — already in place. The work is to learn the system, tell the truth inside it, and go sit with the right people.
 
 James Christie built his house on one insight: teach people what they own, and what its value is, before anything else. That is still the job. That is still the hook.
 
-Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. The more data you put in, the more intelligence comes back out.
+Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. Text William and tell us what he gets right and what he misses. The more data you put in, the more intelligence comes back out.
 
 Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began. That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.`;
 
