@@ -255,7 +255,7 @@ function SectionA() {
               </div>
             </div>
 
-            {/* ── William Audio Player — inline fetch-blob pattern (same as /report) ── */}
+            {/* ── WILLIAM AUDIO — RETIRED PERMANENTLY · Apr 15 2026 · Re-enable requires new Ed ruling ── */}
             <div style={{ marginTop: 28, maxWidth: 520 }}>
               {/* Two trigger buttons — idle or error state (Flagship Letter moved to floating button) */}
               {(audioState === 'idle' || audioState === 'error') && (
@@ -574,7 +574,7 @@ export default function HomeTab() {
                   Home
                 </div>
                 <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The opening move. The letter. The market signal. William — delivering a daily brief.
+                  The opening move. The letter. The market signal.
                 </p>
               </div>
 
