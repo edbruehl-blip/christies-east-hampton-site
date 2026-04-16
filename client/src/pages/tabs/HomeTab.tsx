@@ -111,7 +111,7 @@ function SectionA() {
                 textAlign: 'center',
                 lineHeight: 1.5,
               }}>
-                Tap for<br/>Market Report
+                James Christie · Founder · Est. 1766
               </div>
             </div>
           </div>
@@ -189,13 +189,14 @@ function SectionA() {
                   fontSize: 11,
                   letterSpacing: '0.18em',
                   textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
+                  color: '#1B2A4A',
+                  background: '#C8AC78',
+                  border: '1px solid #C8AC78',
                   cursor: 'pointer',
+                  fontWeight: 600,
                 }}
               >
-                ↓ Download Christie’s Letter · PDF
+                ↓ Download Christie's Letter · PDF
               </button>
               <a
                 href="/letters/christies"
@@ -361,6 +362,8 @@ export default function HomeTab() {
   return (
     <div>
       <SectionA />
+      {/* Gold rule separator — visual breathing room between hero and Christie's story */}
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.35)', margin: '0' }} />
       <SectionB />
       {/* SectionWilliam removed — audio player now lives in SectionA below founding letter */}
       <AuctionHouseServices />

@@ -35,8 +35,7 @@ For category one, use only these verified 2025 medians as the Hamptons data foun
 Cover each category in one to two sentences. Deliver as a spoken brief. Begin now.
 
 One — Hamptons Luxury Real Estate Market. Source only named transactions or reports published within 30 days. Two — Christie's International Real Estate. Global auction results and brand news from Christie's official releases only. Three — Ultra-High-Net-Worth Buyer Activity. Named sources only. No characterizations of unnamed buyer behavior. Four — Competing Brokerage Intelligence. Named firms, named agents, named transactions only. Five — Federal Reserve and Mortgage Rate Watch. Current Freddie Mac PMMS rate and Fed statement language only. Six — Equity Markets and Wealth Effect. Named index levels from today only. S&P 500, VIX, 10-year Treasury. Seven — Hamptons Development and Zoning. Named projects, named municipalities, named board decisions only. Eight — Christie's Auction Calendar. Upcoming named sales with estimates from Christie's official calendar only. Nine — Private Collector Market. Named auction results or named publications within 30 days only. Ten — Hamptons Social and Cultural Calendar. Named events with confirmed dates only. Eleven — Geopolitical Risk and Safe-Haven Demand. Named geopolitical events from named news sources only. Twelve — Recruiting Intelligence. Named agents, named firms, named moves from named publications only. Thirteen — Media and Press. Named articles from named publications within 7 days only. Fourteen — Scripture. One verse. Tuned to today's macro tone. Book, chapter, verse cited.
-
-Close with Soli Deo Gloria.`;
+`;
 
 // ─── Fetch news brief from Perplexity ─────────────────────────────────────────
 export async function fetchCronkiteBrief(): Promise<string> {

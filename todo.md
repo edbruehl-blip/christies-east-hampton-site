@@ -1955,3 +1955,22 @@
 - [x] All tabs remain public until May 26, 2026 — no nav bar changes for April 29 launch
 - [x] /future standalone route: scaffold soft auth-gate (infrastructure ready, activation flag for May 26)
 - [ ] Auth-gate activation date: May 26, 2026 — flip FUTURE_AUTH_ENABLED flag to true
+
+## April 16 Punch List — Operator Brief
+
+### P0 — Before April 25
+- [ ] Fix Zoila Vesting Cliff in FutureTab Assumptions table: "October 25, 2025" → "November 4, 2026 · activates 2027 forward"
+- [ ] Confirm $430M fully scrubbed from codebase (search-and-destroy across FutureTab, ProFormaPage, InstitutionalMindMap)
+- [ ] Fix print chart truncation: FUTURE tab dark/print mode arc chart cuts off at 2028, must show full 2036
+
+### P1 — Before April 29
+- [ ] INTRO button: add "INTRO" text label to FloatingDashboardIntro floating gold button
+- [ ] HOME hero: make PDF download button primary (navy fill, cream text), "Open & Print" secondary (outlined gold border)
+- [ ] HOME portrait: replace "Tap for Market Report" caption with "James Christie · Founder · Est. 1766"
+- [ ] MARKET tab: move CFS donut + rate environment sidebar to top as two-column hero row, above hamlet tiles
+- [ ] HOME Section B: add paddingTop 80px breathing room between hero and Christie's story section
+
+### P2 — Before May 7
+- [ ] SDG scrub: remove "Soli Deo Gloria" from whatsapp-inbound.ts line 39 prompt template (SDG internal-only per April 16 ruling)
+- [ ] INTEL tab: add branded loading skeleton to Miro and Trello iframes
+- [ ] INTEL Document Library: apply active variant to pinned MatrixCard items

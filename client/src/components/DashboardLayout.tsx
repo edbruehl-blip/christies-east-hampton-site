@@ -178,7 +178,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
 
   // Format the updatedAt ISO string into a short local time stamp
   const updatedLabel = market.updatedAt
-    ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZoneName: "short" })}`
+    ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York", timeZoneName: "short" })}`
     : null;
 
   // Wire Five: live Hamptons Median from Market Matrix B23

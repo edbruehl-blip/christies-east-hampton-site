@@ -17,7 +17,7 @@
  * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
@@ -683,10 +683,33 @@ const INTEL_SECTIONS = [
 ];
 
 function IntelStickyNav() {
+  const [activeId, setActiveId] = useState<string>('intel-layer-1');
+
+  useEffect(() => {
+    const sectionIds = INTEL_SECTIONS.map(s => s.id);
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) setActiveId(id);
+        },
+        { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
+
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
+
   return (
     <div
       style={{
@@ -702,30 +725,34 @@ function IntelStickyNav() {
         padding: '0 16px',
       }}
     >
-      {INTEL_SECTIONS.map(s => (
-        <button
-          key={s.id}
-          onClick={() => scrollTo(s.id)}
-          style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 10,
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase',
-            color: 'rgba(200,172,120,0.8)',
-            background: 'transparent',
-            border: 'none',
-            padding: '10px 14px',
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-            borderBottom: '2px solid transparent',
-            transition: 'color 0.15s, border-color 0.15s',
-          }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#C8AC78'; (e.target as HTMLButtonElement).style.borderBottomColor = '#C8AC78'; }}
-          onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'rgba(200,172,120,0.8)'; (e.target as HTMLButtonElement).style.borderBottomColor = 'transparent'; }}
-        >
-          {s.label}
-        </button>
-      ))}
+      {INTEL_SECTIONS.map(s => {
+        const isActive = s.id === activeId;
+        return (
+          <button
+            key={s.id}
+            onClick={() => scrollTo(s.id)}
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 10,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase',
+              color: isActive ? '#C8AC78' : 'rgba(200,172,120,0.6)',
+              background: 'transparent',
+              border: 'none',
+              padding: '10px 14px',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              borderBottom: isActive ? '2px solid #C8AC78' : '2px solid transparent',
+              transition: 'color 0.15s, border-color 0.15s',
+              fontWeight: isActive ? 600 : 400,
+            }}
+            onMouseEnter={e => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78'; (e.currentTarget as HTMLButtonElement).style.borderBottomColor = 'rgba(200,172,120,0.5)'; } }}
+            onMouseLeave={e => { if (!isActive) { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(200,172,120,0.6)'; (e.currentTarget as HTMLButtonElement).style.borderBottomColor = 'transparent'; } }}
+          >
+            {s.label}
+          </button>
+        );
+      })}
     </div>
   );
 }

@@ -630,7 +630,7 @@ export default function MarketTab() {
   return (
     <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
 
-      {/* ── Hamptons Market Signal ─────────────────────────────────────────── */}
+      {/* ── Market Signal Hero Row: Donut + Rate Environment (two-column) ──────────────── */}
       <section className="px-6 py-10" style={{ background: '#FAF8F4' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
@@ -647,8 +647,27 @@ export default function MarketTab() {
             Eleven-Hamlet Volume Distribution &middot; East End Territory
           </h2>
 
-          <div className="flex justify-center">
-            <HamletDonut data={mergedData} />
+          {/* Two-column hero: donut left, rate environment right — stacks on mobile */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '40px', alignItems: 'start' }}
+            className="market-hero-grid"
+          >
+            <div className="flex justify-center">
+              <HamletDonut data={mergedData} />
+            </div>
+            <div>
+              <div
+                className="uppercase mb-4"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+              >
+                Rate Environment
+              </div>
+              <RateEnvironment
+                liveMortgageRate={liveMortgageRate}
+                mortgageDate={mortgageDate}
+                treasuryRate={liveTreasuryRate}
+                treasuryChange={liveTreasuryChange}
+              />
+            </div>
           </div>
 
           {/* Market Report PDF button removed — Sprint 14 architectural rule (Ed ruling Apr 15 2026):
@@ -657,7 +676,7 @@ export default function MarketTab() {
         </div>
       </section>
 
-      {/* ── Hamlet Tiles by Tier ─────────────────────────────────────────── */}
+      {/* ── Hamlet Tiles by Tier ──────────────────────────────────────────────────── */}
       <section className="px-6 pb-14" style={{ background: '#FAF8F4' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
@@ -701,23 +720,7 @@ export default function MarketTab() {
         </div>
       </section>
 
-      {/* ── Rate Environment ────────────────────────────────────────────── */}
-      <section className="px-6 pb-10" style={{ background: '#FAF8F4' }}>
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div
-            className="uppercase mb-4"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
-          >
-            Rate Environment
-          </div>
-          <RateEnvironment
-            liveMortgageRate={liveMortgageRate}
-            mortgageDate={mortgageDate}
-            treasuryRate={liveTreasuryRate}
-            treasuryChange={liveTreasuryChange}
-          />
-        </div>
-      </section>
+      {/* Rate Environment moved to hero row above hamlet tiles — April 16 2026 */}
 
       {/* P1 — Request Territory Briefing CTA */}
       <section className="px-6 pb-14 pt-2" style={{ background: '#FAF8F4' }}>
