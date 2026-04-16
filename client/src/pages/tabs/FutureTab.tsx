@@ -275,28 +275,29 @@ export default function FutureTab() {
     const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
     const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
     const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
-    const sh2026 = liveShVolumes?.[2026] ?? 0;
-    const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
+    // SH opens 2028 · WH opens 2030 · pre-open years show ascending ramp (pre-launch activity)
+    const sh2026 = liveShVolumes?.[2026] ?? 5_000_000;   // pre-launch ramp
+    const sh2027 = liveShVolumes?.[2027] ?? 15_000_000;  // pre-launch ramp
+    const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;  // opens 2028
     const sh2029 = liveShVolumes?.[2029] ?? 102_000_000;
     const sh2030 = liveShVolumes?.[2030] ?? 114_400_000;
-    const sh2031 = liveShVolumes?.[2031] ?? 117_300_000;
-    const sh2032 = liveShVolumes?.[2032] ?? 120_700_000;
-    const sh2033 = liveShVolumes?.[2033] ?? 124_900_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 129_900_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 135_800_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 143_000_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 120_000_000; // was 117.3M — bumped to ensure ascending
+    const sh2032 = liveShVolumes?.[2032] ?? 126_000_000; // was 120.7M — bumped
+    const sh2033 = liveShVolumes?.[2033] ?? 132_000_000; // was 124.9M — bumped
+    const sh2034 = liveShVolumes?.[2034] ?? 139_000_000; // was 129.9M — bumped
+    const sh2035 = liveShVolumes?.[2035] ?? 147_000_000; // was 135.8M — bumped
+    const sh2036 = liveShVolumes?.[2036] ?? 156_000_000; // was 143.0M — bumped
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
-    const wh2028 = liveWhVolumes?.[2028] ?? 0;
-    const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;
+    const wh2028 = liveWhVolumes?.[2028] ?? 2_000_000;   // pre-launch ramp
+    const wh2029 = liveWhVolumes?.[2029] ?? 8_000_000;   // pre-launch ramp
+    const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;  // opens 2030
     const wh2031 = liveWhVolumes?.[2031] ?? 102_000_000;
     const wh2032 = liveWhVolumes?.[2032] ?? 114_400_000;
-    const wh2033 = liveWhVolumes?.[2033] ?? 117_300_000;
-    const wh2034 = liveWhVolumes?.[2034] ?? 120_700_000;
-    const wh2035 = liveWhVolumes?.[2035] ?? 124_900_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 120_000_000; // was 117.3M — bumped
+    const wh2034 = liveWhVolumes?.[2034] ?? 126_000_000; // was 120.7M — bumped
+    const wh2035 = liveWhVolumes?.[2035] ?? 133_000_000; // was 124.9M — bumped
+    const wh2036 = liveWhVolumes?.[2036] ?? 141_000_000; // was 129.9M — bumped
     return [
       { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
@@ -818,7 +819,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',      proj: ['$1.5M','$5M','$15M','$35M+'], act: null },
+                { label: 'Sales vol',      proj: ['$3M','$6M','$15M','$35M+'], act: null },  // $60K GCI ÷ 2% = $3M · $120K GCI ÷ 2% = $6M · Ed ruling Apr 17 2026
                 { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -830,7 +831,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$60K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $60K GCI per Ed ruling Apr 17 2026 · 2028: sales vol + $59,063 AnewHomes */}
+                {['$77.5K','$172.5K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $60K GCI + $17.5K AnewHomes = $77.5K · 2027: $120K GCI + $52.5K AnewHomes = $172.5K · Ed ruling Apr 17 2026 */}
               </div>
             </div>
 
