@@ -285,11 +285,11 @@ export default function FutureTab() {
     // Corrected per Perplexity dispatch Apr 16 2026 · prior $162M/$108M was artificially capped
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 15_000_000;   // 6 producers × $500K GCI ÷ 2%
-    const sh2029 = liveShVolumes?.[2029] ?? 30_000_000;   // 12 producers × $500K GCI ÷ 2%
-    const sh2030 = liveShVolumes?.[2030] ?? 45_000_000;   // 12 producers × $750K GCI ÷ 2%
-    const sh2031 = liveShVolumes?.[2031] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2%
-    const sh2032 = liveShVolumes?.[2032] ?? 648_000_000;  // 8% YoY
+    const sh2028 = liveShVolumes?.[2028] ?? 150_000_000;  // 6 producers × $500K GCI ÷ 2% = $150M
+    const sh2029 = liveShVolumes?.[2029] ?? 300_000_000;  // 12 producers × $500K GCI ÷ 2% = $300M
+    const sh2030 = liveShVolumes?.[2030] ?? 450_000_000;  // 12 producers × $750K GCI ÷ 2% = $450M
+    const sh2031 = liveShVolumes?.[2031] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2% = $600M
+    const sh2032 = liveShVolumes?.[2032] ?? 648_000_000;  // 8% YoY post-maturity
     const sh2033 = liveShVolumes?.[2033] ?? 700_000_000;
     const sh2034 = liveShVolumes?.[2034] ?? 756_000_000;
     const sh2035 = liveShVolumes?.[2035] ?? 817_000_000;
@@ -298,11 +298,11 @@ export default function FutureTab() {
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 15_000_000;   // 6 producers × $500K GCI ÷ 2%
-    const wh2031 = liveWhVolumes?.[2031] ?? 30_000_000;   // 12 producers × $500K GCI ÷ 2%
-    const wh2032 = liveWhVolumes?.[2032] ?? 45_000_000;   // 12 producers × $750K GCI ÷ 2%
-    const wh2033 = liveWhVolumes?.[2033] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2%
-    const wh2034 = liveWhVolumes?.[2034] ?? 648_000_000;  // 8% YoY
+    const wh2030 = liveWhVolumes?.[2030] ?? 150_000_000;  // 6 producers × $500K GCI ÷ 2% = $150M
+    const wh2031 = liveWhVolumes?.[2031] ?? 300_000_000;  // 12 producers × $500K GCI ÷ 2% = $300M
+    const wh2032 = liveWhVolumes?.[2032] ?? 450_000_000;  // 12 producers × $750K GCI ÷ 2% = $450M
+    const wh2033 = liveWhVolumes?.[2033] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2% = $600M
+    const wh2034 = liveWhVolumes?.[2034] ?? 648_000_000;  // 8% YoY post-maturity
     const wh2035 = liveWhVolumes?.[2035] ?? 700_000_000;
     const wh2036 = liveWhVolumes?.[2036] ?? 756_000_000;
     return [
