@@ -9,6 +9,7 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
+import { StaggeredRampChart } from '@/components/StaggeredRampChart';
 
 // ─── PDF mode detection ─────────────────────────────────────────────────────
 // When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
@@ -591,6 +592,11 @@ export default function FutureTab() {
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
             12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+          </div>
+
+          {/* ── Staggered Office Ramp Chart ────────────────────────────── */}
+          <div style={{ marginTop: 10, marginBottom: 4 }}>
+            <StaggeredRampChart />
           </div>
 
           {/* Gap Bridge footer */}
