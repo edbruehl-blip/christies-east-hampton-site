@@ -178,9 +178,21 @@ const NODES: MapNode[] = [
     name: "INTERNATIONAL PIPELINE",
     title: "CIREG International Referrals · CPS-1 Framework",
     type: "CATEGORY", status: "ACTIVE",
-    note: "International projects pipeline flowing through CIREG Tri-State using the CPS-1 and CPS-12 New York Attorney General framework. Ricardo (Lisbon) — CIREG international referral, active. Dominican Republic — development/investment through CIREG international network, active. Jonathan Wilhelm — Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality network. Flambeaux Wine — through Art Murray, TOWN dinner series.",
+    note: "International projects pipeline flowing through CIREG Tri-State using the CPS-1 and CPS-12 New York Attorney General framework. Ricardo (Lisbon) — CIREG international referral, active. Dominican Republic — development/investment through CIREG international network, active. Jonathan Wilhelm — Mayacama Golf Club, Park City/Deer Valley, UHNW hospitality. Flambeaux Wine — through Art Murray, TOWN dinner series.",
     x: 1500, y: 760, r: R,
     members: ["Ricardo (Lisbon) — Active", "Dominican Republic — Active", "Jonathan Wilhelm · Mayacama", "Flambeaux Wine · Art Murray"],
+    rw: R, rh: R },
+
+  // ── CPS-1 — Christie's Private Sales · second ring off INTERNATIONAL PIPELINE ──
+  // Added Apr 16 2026 per Ed ruling · Trello card #178 · trello.com/c/QHnzc5gZ
+  // Award-gated per Doctrine 38 — does not load into PIPE until award confirmed
+  { id: "cps1",
+    name: "CPS-1 · PRIVATE SALES",
+    title: "Christie's Private Sales · Dominique Silvera-Chittell · Caribbean",
+    type: "PARTNER", status: "WARM",
+    note: "CPS-1 — Christie's Private Sales referral node. Dominique Silvera-Chittell: Christie's Private Sales specialist, Caribbean corridor. Mill Reef context. Jarvis Slade connection map. Stephen Lash intro node. Award-gated per Doctrine 38 — does not enter PIPE until working relationship confirmed post-call. Trello card #178 live in CHRISTIE'S NETWORK list. Drive assets: RL-003, RL-005, RL-012, EH Market Report. Alert sent to Jarvis and Angel on activation Apr 16 2026.",
+    x: 1720, y: 960, r: R,
+    members: ["Dominique Silvera-Chittell (CPS Specialist)", "Mill Reef · Caribbean corridor", "Jarvis Slade — connection map", "Stephen Lash — intro node"],
     rw: R, rh: R },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -529,6 +541,7 @@ const CONNECTIONS: MapConnection[] = [
   { from: "cire_global",      to: "cireg_affiliate",  style: "hierarchy" },
   { from: "cireg_affiliate",  to: "intl_pipeline",    style: "hierarchy" },
   { from: "intl_pipeline",    to: "ed",               style: "hierarchy" },
+  { from: "intl_pipeline",    to: "cps1",             style: "partner" },   // CPS-1 second ring · Apr 16 2026
 
   // ── PIPE — left of Ed, SOCIAL as second ring ──────────────────────────────────
   { from: "ed",               to: "pipe_node",        style: "partner" },
