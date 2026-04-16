@@ -518,7 +518,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
         Net profit after ALL build costs. Separate from Christie's commission income entirely.
         All seven AnewHomes participants aware and agreeable. Not yet formalized.
-        † Zoila Ortega Astor start date April 25, 2026 · 6-month vesting period · cliff October 25, 2026 · activates 2027 forward. Reverts to pool if she does not make the cut.
+        † Zoila Ortega Astor start date May 4, 2026 · 6-month vesting period · cliff November 4, 2026 · activates 2027 forward. Reverts to pool if she does not make the cut.
       </div>
 
       <div style={PAGE_FOOTER}>
@@ -637,7 +637,7 @@ export default function ProFormaPage() {
     { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 20_000_000, act2026: 4_570_000, proj2027: 30_000_000 },
     { name: 'Jarvis Slade', role: 'COO & Agent', status: 'Active', proj2026: 8_000_000, act2026: 0, proj2027: 15_000_000 },
     { name: 'Angel Theodore', role: 'Operations', status: 'Active', proj2026: 0, act2026: 0, proj2027: 0 },
-    { name: 'Zoila Ortega Astor', role: 'Office Director', status: 'Joining Apr 25', proj2026: 5_000_000, act2026: 0, proj2027: 10_000_000 },
+    { name: 'Zoila Ortega Astor', role: 'Office Director', status: 'Joining May 4', proj2026: 5_000_000, act2026: 0, proj2027: 10_000_000 },
     { name: 'Scott Smith', role: 'Agent', status: 'Joining Jun 1', proj2026: 5_000_000, act2026: 0, proj2027: 12_000_000 },
     { name: 'Richard Bruehl', role: 'Strategic Mentor', status: 'Active', proj2026: 0, act2026: 0, proj2027: 0 },
   ];

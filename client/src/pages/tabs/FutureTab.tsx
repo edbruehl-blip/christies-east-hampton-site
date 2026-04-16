@@ -151,7 +151,7 @@ export default function FutureTab() {
     producer2027: angelProducer && angelProducer.gci2027 > 0 ? `$${Math.round(angelProducer.gci2027 / 1000)}K` : '$132.5K',
   };
   const CANONICAL_ZOILA = {
-    nestSalary:  '$70K/yr ($5,833/mo) · Start Apr 25, 2026 · through Q1 2027',
+    nestSalary:  '$70K/yr ($5,833/mo) · Start May 4, 2026 · through Q1 2027',
     total2026:   zoilaNest && zoilaProducer && (zoilaNest.gci2026 + zoilaProducer.gci2026) > 0
                    ? `$${Math.round((zoilaNest.gci2026 + zoilaProducer.gci2026 + 30_000) / 1000)}K`
                    : '$130K', // $70K nest + $30K producer ramp + $0 vest AnewHomes + $30K ICA Override
@@ -463,7 +463,7 @@ export default function FutureTab() {
               phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
               shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
               client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
-              team: 'Zoila incoming April 25. Flagship Relaunch April 29.',
+              team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
             },
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
@@ -523,7 +523,7 @@ export default function FutureTab() {
               { label: 'ICA Override',              value: '5% of Ed gross personal GCI to each ICA member (Jarvis, Angel, Zoila) · Scott outside pool' },
               { label: 'AnewHomes Net Build Profit', value: 'Y1 $50K · Y2 $150K · 12.5% annual growth → $432K by 2036' },
               { label: 'AnewHomes Equity',          value: 'Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5% (D23)' },
-              { label: 'Zoila Vesting Cliff',       value: 'October 25, 2026 · activates 2027 forward' },
+              { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
                 <span style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
@@ -780,7 +780,7 @@ export default function FutureTab() {
               {[
                 { label: 'Nest salary',       vals: ['$70K','$17.5K','—','—'] },
                 { label: 'Producer ramp',     vals: [CANONICAL_ZOILA.producer2026, CANONICAL_ZOILA.producer2027,'—','—'] },
-                { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Oct 25 2026 · activates 2027 · 12.5% growth from $50K NOP base
+                { label: 'AnewHomes 5% †',    vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // vesting cliff Nov 4 2026 · activates 2027 · 12.5% growth from $50K NOP base
                 { label: 'ICA Override †',   vals: ['$30K','$90K','$100K','$180K'] }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Team + pool',       vals: ['—','incl.','incl.','incl.'] },
               ].map(row => (
@@ -796,7 +796,7 @@ export default function FutureTab() {
                 {[CANONICAL_ZOILA.total2026, CANONICAL_ZOILA.total2027, CANONICAL_ZOILA.total2028, CANONICAL_ZOILA.total2036].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                † AnewHomes 5% equity vesting cliff Oct 25, 2026 → Apr 25, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity &middot; future flagship pool &middot; 20% YoY 2028+
+                † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity &middot; future flagship pool &middot; 20% YoY 2028+
               </div>
             </div>
 
@@ -859,7 +859,7 @@ export default function FutureTab() {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 10 }}>
           <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: '1 1 100%', width: '100%', minWidth: 0 }}>
             * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% (D40) &middot; two parties only &middot; AnewHomes splits: Jarvis 5% &middot; Angel 5% &middot; Zoila 5% &middot; Pool 5% (D23) &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
-            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning April 25, 2026 &middot; vesting cliff October 25, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
+            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning May 4, 2026 &middot; vesting cliff November 4, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
           </div>
           <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>
             The foundation is proven. The model is working. The next 14 days set the trajectory.
