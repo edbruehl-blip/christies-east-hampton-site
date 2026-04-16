@@ -277,30 +277,31 @@ export default function FutureTab() {
     const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
     const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
     const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
-    // SH opens 2028 · WH opens 2030 · FULL Elite Producer Model — same arc as EH, offset by open year
-    // SH[yr] = EH[yr-2] · WH[yr] = EH[yr-4] · Three-office combined 2036 = $6.26B · Truth as canon · Apr 16 2026
+    // SH opens 2028 · WH opens 2030 · 20% YoY compounding from open year
+    // Calibrated so combined three-office total = $3.0B in 2036 (Ed ruling Apr 16 2026)
+    // SH 2036 = $162M · WH 2036 = $108M · EH 2036 = $2,730M · Combined = $3,000M
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 75_000_000;      // = EH 2026
-    const sh2029 = liveShVolumes?.[2029] ?? 125_000_000;     // = EH 2027
-    const sh2030 = liveShVolumes?.[2030] ?? 254_000_000;     // = EH 2028
-    const sh2031 = liveShVolumes?.[2031] ?? 254_000_000;     // = EH 2029
-    const sh2032 = liveShVolumes?.[2032] ?? 457_000_000;     // = EH 2030
-    const sh2033 = liveShVolumes?.[2033] ?? 1_219_300_000;   // = EH 2031
-    const sh2034 = liveShVolumes?.[2034] ?? 1_457_294_184;   // = EH 2032
-    const sh2035 = liveShVolumes?.[2035] ?? 1_735_958_623;   // = EH 2033
-    const sh2036 = liveShVolumes?.[2036] ?? 2_076_263_101;   // = EH 2034
+    const sh2028 = liveShVolumes?.[2028] ?? 38_000_000;   // opens · 20% YoY
+    const sh2029 = liveShVolumes?.[2029] ?? 45_000_000;
+    const sh2030 = liveShVolumes?.[2030] ?? 54_000_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 65_000_000;
+    const sh2032 = liveShVolumes?.[2032] ?? 78_000_000;
+    const sh2033 = liveShVolumes?.[2033] ?? 94_000_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 113_000_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 135_000_000;
+    const sh2036 = liveShVolumes?.[2036] ?? 162_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 75_000_000;      // = EH 2026
-    const wh2031 = liveWhVolumes?.[2031] ?? 125_000_000;     // = EH 2027
-    const wh2032 = liveWhVolumes?.[2032] ?? 254_000_000;     // = EH 2028
-    const wh2033 = liveWhVolumes?.[2033] ?? 254_000_000;     // = EH 2029
-    const wh2034 = liveWhVolumes?.[2034] ?? 457_000_000;     // = EH 2030
-    const wh2035 = liveWhVolumes?.[2035] ?? 1_219_300_000;   // = EH 2031
-    const wh2036 = liveWhVolumes?.[2036] ?? 1_457_294_184;   // = EH 2032
+    const wh2030 = liveWhVolumes?.[2030] ?? 37_000_000;   // opens · 20% YoY
+    const wh2031 = liveWhVolumes?.[2031] ?? 44_000_000;
+    const wh2032 = liveWhVolumes?.[2032] ?? 53_000_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 63_000_000;
+    const wh2034 = liveWhVolumes?.[2034] ?? 75_000_000;
+    const wh2035 = liveWhVolumes?.[2035] ?? 90_000_000;
+    const wh2036 = liveWhVolumes?.[2036] ?? 108_000_000;
     return [
       { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
