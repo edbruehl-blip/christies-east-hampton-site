@@ -277,31 +277,34 @@ export default function FutureTab() {
     const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
     const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
     const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
-    // SH opens 2028 · WH opens 2030 · 20% YoY compounding from open year
-    // Calibrated so combined three-office total = $3.0B in 2036 (Ed ruling Apr 16 2026)
-    // SH 2036 = $162M · WH 2036 = $108M · EH 2036 = $2,730M · Combined = $3,000M
+    // SH opens 2028 · WH opens 2030 · ELITE PRODUCER MODEL (correct EPM values)
+    // 12 producers per office · $500K GCI Y1 · $750K Y2 · $1M Y3+ · 8% YoY post-maturity
+    // Volume = GCI ÷ 2% commission rate
+    // SH 2036 = $882M · WH 2036 = $756M · Combined three-office 2036 = $4.37B
+    // $3.0B = institutional floor label on arc (EH alone) · NOT a cap on EPM output
+    // Corrected per Perplexity dispatch Apr 16 2026 · prior $162M/$108M was artificially capped
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 38_000_000;   // opens · 20% YoY
-    const sh2029 = liveShVolumes?.[2029] ?? 45_000_000;
-    const sh2030 = liveShVolumes?.[2030] ?? 54_000_000;
-    const sh2031 = liveShVolumes?.[2031] ?? 65_000_000;
-    const sh2032 = liveShVolumes?.[2032] ?? 78_000_000;
-    const sh2033 = liveShVolumes?.[2033] ?? 94_000_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 113_000_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 135_000_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 162_000_000;
+    const sh2028 = liveShVolumes?.[2028] ?? 15_000_000;   // 6 producers × $500K GCI ÷ 2%
+    const sh2029 = liveShVolumes?.[2029] ?? 30_000_000;   // 12 producers × $500K GCI ÷ 2%
+    const sh2030 = liveShVolumes?.[2030] ?? 45_000_000;   // 12 producers × $750K GCI ÷ 2%
+    const sh2031 = liveShVolumes?.[2031] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2%
+    const sh2032 = liveShVolumes?.[2032] ?? 648_000_000;  // 8% YoY
+    const sh2033 = liveShVolumes?.[2033] ?? 700_000_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 756_000_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 817_000_000;
+    const sh2036 = liveShVolumes?.[2036] ?? 882_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 37_000_000;   // opens · 20% YoY
-    const wh2031 = liveWhVolumes?.[2031] ?? 44_000_000;
-    const wh2032 = liveWhVolumes?.[2032] ?? 53_000_000;
-    const wh2033 = liveWhVolumes?.[2033] ?? 63_000_000;
-    const wh2034 = liveWhVolumes?.[2034] ?? 75_000_000;
-    const wh2035 = liveWhVolumes?.[2035] ?? 90_000_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 108_000_000;
+    const wh2030 = liveWhVolumes?.[2030] ?? 15_000_000;   // 6 producers × $500K GCI ÷ 2%
+    const wh2031 = liveWhVolumes?.[2031] ?? 30_000_000;   // 12 producers × $500K GCI ÷ 2%
+    const wh2032 = liveWhVolumes?.[2032] ?? 45_000_000;   // 12 producers × $750K GCI ÷ 2%
+    const wh2033 = liveWhVolumes?.[2033] ?? 600_000_000;  // maturity: 12 × $1M GCI ÷ 2%
+    const wh2034 = liveWhVolumes?.[2034] ?? 648_000_000;  // 8% YoY
+    const wh2035 = liveWhVolumes?.[2035] ?? 700_000_000;
+    const wh2036 = liveWhVolumes?.[2036] ?? 756_000_000;
     return [
       { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
