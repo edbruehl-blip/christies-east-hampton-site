@@ -6,6 +6,9 @@
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
  *   /pro-forma → Pro Forma live renderer (no nav chrome, Puppeteer PDF target)
  *   /future           → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
+ *                        Auth-gate infrastructure scaffolded — activation flag: FUTURE_AUTH_ENABLED
+ *                        Currently: false (all tabs public until May 26, 2026 per Ed ruling April 16)
+ *                        To activate: set FUTURE_AUTH_ENABLED = true
  *   /letters/flagship   → Flagship AI-Letter live renderer (no nav chrome, Puppeteer PDF target)
  *   /letters/christies  → Christie's Letter to the Families (no nav chrome, Puppeteer PDF target)
  *   /cards/uhnw-path     → UHNW Wealth Path Card (no nav chrome, Puppeteer PDF target)
@@ -23,6 +26,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardLayout, type TabId } from "./components/DashboardLayout";
 import { FloatingDashboardIntro } from "./components/FloatingDashboardIntro";
+import { useAuth } from "./_core/hooks/useAuth";
+import { getLoginUrl } from "./const";
 
 // Tab pages
 import HomeTab   from "./pages/tabs/HomeTab";
@@ -39,6 +44,50 @@ import FlagshipLetterPage from "./pages/FlagshipLetterPage";
 import ChristiesLetterPage from "./pages/ChristiesLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
+
+// ─── Auth Gate Feature Flag ───────────────────────────────────────────────────
+// Set to true on May 26, 2026 to activate auth-gate on /future standalone route.
+// All tabs remain public until that date per Ed ruling April 16, 2026.
+const FUTURE_AUTH_ENABLED = false;
+
+// ─── Protected Future Route ───────────────────────────────────────────────────
+// When FUTURE_AUTH_ENABLED is true, unauthenticated visitors to /future are
+// redirected to the Manus OAuth login page. Authenticated users see FutureTab.
+// When FUTURE_AUTH_ENABLED is false, /future renders FutureTab for everyone.
+function ProtectedFutureRoute() {
+  const { isAuthenticated, loading } = useAuth();
+  if (!FUTURE_AUTH_ENABLED) {
+    return <FutureTab />;
+  }
+
+  if (loading) {
+    // Show a minimal loading state while auth resolves
+    return (
+      <div style={{
+        minHeight: "100vh",
+        background: "#0a1628",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        fontFamily: "var(--font-condensed, 'Barlow Condensed', sans-serif)",
+        color: "#C8AC78",
+        fontSize: "0.75rem",
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+      }}>
+        Verifying access…
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    // Redirect to Manus OAuth login
+    window.location.href = getLoginUrl();
+    return null;
+  }
+
+  return <FutureTab />;
+}
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -74,7 +123,7 @@ function App() {
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
-            <Route path="/future" component={FutureTab} />
+            <Route path="/future" component={ProtectedFutureRoute} />
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
             <Route component={Dashboard} />
           </Switch>

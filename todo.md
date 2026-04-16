@@ -1943,3 +1943,15 @@
 
 - [x] Strip William/DASHBOARD paragraph from FLAGSHIP_LETTER_TEXT source constant in letter-content.ts
 - [x] Apply Flambeaux visual treatment to FloatingDashboardIntro printable letter surface — INTRO button now opens /letters/flagship (live Flambeaux route)
+
+## April 29 Launch Prep — Auth Gate + Nav Cleanup (April 16, 2026)
+- [ ] Auth-gate /future standalone route — ProtectedRoute wrapper with Manus OAuth redirect
+- [ ] Auth-gate FUTURE tab in main dashboard — show auth wall when not logged in
+- [ ] Remove PIPE, FUTURE, INTEL from public TABS array in DashboardLayout.tsx
+- [ ] Add auth-gated tab access: PIPE/FUTURE/INTEL visible only when isAuthenticated
+- [ ] Verify /future standalone route redirects to login when unauthenticated
+
+## Auth Gate Scope Correction — April 16, 2026 (Ed ruling)
+- [x] All tabs remain public until May 26, 2026 — no nav bar changes for April 29 launch
+- [x] /future standalone route: scaffold soft auth-gate (infrastructure ready, activation flag for May 26)
+- [ ] Auth-gate activation date: May 26, 2026 — flip FUTURE_AUTH_ENABLED flag to true
