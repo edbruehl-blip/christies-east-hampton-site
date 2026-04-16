@@ -757,9 +757,9 @@ export default function FutureTab() {
               {[
                 { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K base · Ed ruling Apr 16 2026
+                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$966K+'], act: null }, // 20% YoY from $200K · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
-                { label: 'ICA Override *',   proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
+                { label: 'ICA Override *',   proj: ['—','—','—','—'], act: null }, // Deal-event trigger only · activates on co-deal where Jarvis brings buyer/seller · Ed ruling Apr 16 2026
                 { label: 'Net pool ref †',   proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool + livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool + livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
@@ -776,11 +776,11 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$232.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
+                {['$202.5K','$247.5K','$296.4K','$988K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% only · ICA Override excluded (deal-event, not projected) · Ed ruling Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
-                * ICA Override = 5% of Ed gross personal GCI per year (OUTPUTS row 46) &middot; Projected total excludes direct NOP split &middot;
-                &dagger; Net pool ref = total NOP pool shown for context only &middot; Jarvis participates via ICA Override, not direct split (D40: Ed 35% / Ilija 65% only)
+                * ICA Override = deal-event trigger only &middot; activates when Jarvis brings buyer or seller on a co-deal &middot; at 50/50 split Jarvis gives 5% to Angel, Ed gives 5% to Zoila &middot; net 45/45 each &middot; not projected annually &middot; Ed ruling Apr 16 2026 &middot;
+                &dagger; Net pool ref = total NOP pool shown for context only &middot; Jarvis participates via ICA Override on co-deal events, not direct split (D40: Ed 35% / Ilija 65% only)
               </div>
             </div>
           </div>
