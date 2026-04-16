@@ -9,6 +9,7 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
+import { StaggeredRampChart } from '@/components/StaggeredRampChart';
 
 // ─── PDF mode detection ─────────────────────────────────────────────────────
 // When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
@@ -57,7 +58,7 @@ const MILESTONE_TARGETS = {
   2031: { volume: 1_219_300_000, display: '$1.2B',   label: '2031', isBaseline: false },  // OUTPUTS B37
 } as const;
 
-const MAX_VOLUME = 4_368_000_000; // 2036 combined three-office EPM total: EH $2.73B + SH $882M + WH $756M (corrected Apr 16 2026)
+const MAX_VOLUME = 3_000_000_000; // 2036 combined three-office EPM total: $3.0B institutional floor · Council dispatch Apr 16 2026 · 7% post-maturity · 36 seats
 const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
 // NOTE: Bar heights are expressed as PERCENTAGES of CHART_HEIGHT so they scale on all screen sizes
 
@@ -258,53 +259,51 @@ export default function FutureTab() {
     const vol2026 = liveVolumes?.[2026] ?? 75_000_000;
     const vol2027 = liveVolumes?.[2027] ?? 125_906_749;
     const vol2028 = liveVolumes?.[2028] ?? 253_866_793;
-    const vol2029 = liveVolumes?.[2029] ?? 456_833_410;
-    const vol2030 = liveVolumes?.[2030] ?? 752_578_949;
-    const vol2031 = liveVolumes?.[2031] ?? 1_219_300_000;
-    const vol2032 = liveVolumes?.[2032] ?? 1_457_294_184;
-    const vol2033 = liveVolumes?.[2033] ?? 1_735_958_623;
-    const vol2034 = liveVolumes?.[2034] ?? 2_076_263_101;
-    const vol2035 = liveVolumes?.[2035] ?? 2_492_014_824;
-    const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;
+    const vol2029 = liveVolumes?.[2029] ?? 622_000_000;   // Council EPM Apr 16 2026
+    const vol2030 = liveVolumes?.[2030] ?? 1_270_000_000;  // Council EPM Apr 16 2026
+    const vol2031 = liveVolumes?.[2031] ?? 1_980_000_000;  // Council EPM Apr 16 2026
+    const vol2032 = liveVolumes?.[2032] ?? 2_250_000_000;  // Council EPM Apr 16 2026
+    const vol2033 = liveVolumes?.[2033] ?? 2_450_000_000;  // Council EPM Apr 16 2026
+    const vol2034 = liveVolumes?.[2034] ?? 2_620_000_000;  // Council EPM Apr 16 2026
+    const vol2035 = liveVolumes?.[2035] ?? 2_800_000_000;  // Council EPM Apr 16 2026
+    const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;  // Council EPM Apr 16 2026 · institutional floor
+    // EH volumes — Council EPM dispatch Apr 16 2026 · per-seat math + 7% post-maturity lift
     const eh2026 = liveEhVolumes?.[2026] ?? 75_000_000;
-    const eh2027 = liveEhVolumes?.[2027] ?? 125_906_749;
-    const eh2028 = liveEhVolumes?.[2028] ?? 211_000_000;  // Perplexity EPM dispatch Apr 16 2026
-    const eh2029 = liveEhVolumes?.[2029] ?? 322_000_000;
-    const eh2030 = liveEhVolumes?.[2030] ?? 596_000_000;
-    const eh2031 = liveEhVolumes?.[2031] ?? 1_003_000_000;
-    const eh2032 = liveEhVolumes?.[2032] ?? 1_083_000_000;
-    const eh2033 = liveEhVolumes?.[2033] ?? 1_494_000_000;
-    const eh2034 = liveEhVolumes?.[2034] ?? 1_613_000_000;
-    const eh2035 = liveEhVolumes?.[2035] ?? 2_305_000_000;
-    const eh2036 = liveEhVolumes?.[2036] ?? 2_730_000_000;
-    // SH opens 2028 · WH opens 2030 · ELITE PRODUCER MODEL (correct EPM values)
-    // 12 producers per office · $500K GCI Y1 · $750K Y2 · $1M Y3+ · 8% YoY post-maturity
-    // Volume = GCI ÷ 2% commission rate
-    // SH 2036 = $882M · WH 2036 = $756M · Combined three-office 2036 = $4.37B
-    // $3.0B = institutional floor label on arc (EH alone) · NOT a cap on EPM output
-    // Corrected per Perplexity dispatch Apr 16 2026 · prior $162M/$108M was artificially capped
+    const eh2027 = liveEhVolumes?.[2027] ?? 126_000_000;
+    const eh2028 = liveEhVolumes?.[2028] ?? 285_000_000;
+    const eh2029 = liveEhVolumes?.[2029] ?? 385_000_000;
+    const eh2030 = liveEhVolumes?.[2030] ?? 608_000_000;
+    const eh2031 = liveEhVolumes?.[2031] ?? 779_000_000;
+    const eh2032 = liveEhVolumes?.[2032] ?? 811_000_000;
+    const eh2033 = liveEhVolumes?.[2033] ?? 853_000_000;
+    const eh2034 = liveEhVolumes?.[2034] ?? 907_000_000;
+    const eh2035 = liveEhVolumes?.[2035] ?? 974_000_000;
+    const eh2036 = liveEhVolumes?.[2036] ?? 1_045_000_000;
+    // SH opens 2028 · WH opens 2030 · Council EPM dispatch Apr 16 2026
+    // Per-seat: $500K Y1 · $750K Y2 · $1M Y3+ · 7% post-maturity · Vol = GCI ÷ 2%
+    // Combined three-office 2036 = $3.0B · institutional floor · north star
     const sh2026 = liveShVolumes?.[2026] ?? 0;
     const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 150_000_000;  // Perplexity EPM dispatch Apr 16 2026
-    const sh2029 = liveShVolumes?.[2029] ?? 300_000_000;
-    const sh2030 = liveShVolumes?.[2030] ?? 525_000_000;
-    const sh2031 = liveShVolumes?.[2031] ?? 606_000_000;
-    const sh2032 = liveShVolumes?.[2032] ?? 654_000_000;
-    const sh2033 = liveShVolumes?.[2033] ?? 707_000_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 764_000_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 825_000_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 890_000_000;
+    const sh2028 = liveShVolumes?.[2028] ?? 76_000_000;
+    const sh2029 = liveShVolumes?.[2029] ?? 237_000_000;
+    const sh2030 = liveShVolumes?.[2030] ?? 515_000_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 742_000_000;
+    const sh2032 = liveShVolumes?.[2032] ?? 779_000_000;
+    const sh2033 = liveShVolumes?.[2033] ?? 815_000_000;
+    const sh2034 = liveShVolumes?.[2034] ?? 873_000_000;
+    const sh2035 = liveShVolumes?.[2035] ?? 931_000_000;
+    const sh2036 = liveShVolumes?.[2036] ?? 1_000_000_000;
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
     const wh2028 = liveWhVolumes?.[2028] ?? 0;
     const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 150_000_000;  // Perplexity EPM dispatch Apr 16 2026
-    const wh2031 = liveWhVolumes?.[2031] ?? 375_000_000;
-    const wh2032 = liveWhVolumes?.[2032] ?? 525_000_000;
-    const wh2033 = liveWhVolumes?.[2033] ?? 606_000_000;
-    const wh2034 = liveWhVolumes?.[2034] ?? 654_000_000;
-    const wh2035 = liveWhVolumes?.[2035] ?? 707_000_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 763_000_000;
+    const wh2030 = liveWhVolumes?.[2030] ?? 147_000_000;
+    const wh2031 = liveWhVolumes?.[2031] ?? 460_000_000;
+    const wh2032 = liveWhVolumes?.[2032] ?? 660_000_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 782_000_000;
+    const wh2034 = liveWhVolumes?.[2034] ?? 839_000_000;
+    const wh2035 = liveWhVolumes?.[2035] ?? 895_000_000;
+    const wh2036 = liveWhVolumes?.[2036] ?? 963_000_000;
     return [
       // vol = combined EH+SH+WH total — drives bar height AND label (fixed Apr 16 2026)
       { year: '2025', vol: 15_000_000,                    display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
@@ -318,7 +317,7 @@ export default function FutureTab() {
       { year: '2033', vol: eh2033+sh2033+wh2033,          display: fmtM(eh2033+sh2033+wh2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
       { year: '2034', vol: eh2034+sh2034+wh2034,          display: fmtM(eh2034+sh2034+wh2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
       { year: '2035', vol: eh2035+sh2035+wh2035,          display: fmtM(eh2035+sh2035+wh2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
-      { year: '2036', vol: eh2036+sh2036+wh2036,          display: '$4.4B',       actualVol: 0,       note: "$4.4B · Three-Office Ascension Arc Complete · EPM", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
+      { year: '2036', vol: eh2036+sh2036+wh2036,          display: '$3.0B',       actualVol: 0,       note: "$3.0B · Three-Office Ascension Arc Complete · EPM · 36 seats · institutional floor", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
     ];
   }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
 
@@ -484,7 +483,7 @@ export default function FutureTab() {
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$3.0B trajectory · three-office combined 2036.</strong> Year 2 Profit Pool activates. 36 elite producers across three offices by 2031.</>,
+              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7% post-maturity. Two-thirds seats, one-third market. Year 2 Profit Pool activates.</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
               team: "36 elite producers across three offices by 2031 · pure compound mode through 2036 · recruiting engine dormant.",
             },
@@ -592,15 +591,20 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; No caps &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+            12 elite producers per office &middot; Cap intentional &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+          </div>
+
+          {/* ── Staggered Office Ramp Chart ────────────────────────────── */}
+          <div style={{ marginTop: 10, marginBottom: 4 }}>
+            <StaggeredRampChart />
           </div>
 
           {/* Gap Bridge footer */}
           <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
             <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
-              Base engine $1.93B by 2036. Three market-level forces &mdash; deal-size appreciation, commission rate dynamics, brand premium &mdash; compound to{' '}
-              <span style={{ color: GOLD, fontWeight: 600 }}>$3.16B adjusted combined volume by 2036</span>.
-              {' '}Arc uses <strong>$3.0B</strong> as the institutional north star &mdash; a conservative rounding of the $3.16B adjusted figure. Full canonical math in Recruiting Engine Reference document.
+              Base engine $2.01B by 2036 (per-seat math only, no market lift). 7% post-maturity growth adds ~$1B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
+              <span style={{ color: GOLD, fontWeight: 600 }}>$3.0B combined · institutional floor · north star.</span>
+              {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
             </span>
           </div>
         </div>
