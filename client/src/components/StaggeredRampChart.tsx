@@ -197,7 +197,7 @@ export function StaggeredRampChart() {
                         <rect
                           x={barX} y={LABEL_H + CHART_H - y3h - y2h}
                           width={BAR_W} height={y2h}
-                          fill={o.y2} rx={0}
+                          fill={String(o.y2)} rx={0}
                         />
                       )}
                       {/* Y1 segment (top = newest) */}
@@ -205,7 +205,7 @@ export function StaggeredRampChart() {
                         <rect
                           x={barX} y={LABEL_H + CHART_H - y3h - y2h - y1h}
                           width={BAR_W} height={y1h}
-                          fill={o.y1} rx={0}
+                          fill={String(o.y1)} rx={0}
                         />
                       )}
                       {/* Bar-top GCI label */}

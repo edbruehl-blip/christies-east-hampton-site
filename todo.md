@@ -2032,3 +2032,21 @@ These cannot move until Ed gives the word. Do not estimate or fill in.
 ## Standing Item — Post-April 29
 
 - [ ] Dominique Silvera-Chittell — standalone Trello card not yet created. Awaiting Ed's signal after the call.
+
+## Commit 24337b1 — Apr 16 2026 (50% entry credit + print CSS + MindMap D5)
+
+- [x] A1: Angel producer ramp Y1 $50K → $25K (50% entry credit · Ed ruling Apr 16)
+- [x] A2: Zoila producer ramp Y1 $50K → $25K (50% entry credit · Ed ruling Apr 16)
+- [x] A3: Angel 2026 total $152.5K → $127.5K
+- [x] A4: Zoila 2026 total $150K → $125K
+- [x] A5: Scott GCI Y1 $75K → $37.5K (50% entry credit · Ed ruling Apr 16)
+- [x] B1: Scott 2026 total confirmed $55K ($37.5K GCI + $17.5K AH)
+- [x] C1–C5: Print CSS — page breaks, partner card column integrity, headcount table 6pt, StaggeredRampChart print, Gap Bridge page break
+- [x] D5: MindMap — 3 new nodes: PIPE TAB · INTEL TAB · MASTER INDEX, all wired to Ed with intelligence-style edges
+
+## Manny Queue — D1–D4 (from 24337b1 dispatch · Apr 16 2026)
+
+- [ ] D1: /report route — verify live status on custom domain (christiesrealestategroupeh.com/report)
+- [ ] D2: Doctrine surface — add to dashboard (tab or modal) — surface the 41 canonical doctrines
+- [ ] D3: Case study content — wire Griff card content to live site
+- [ ] D4: Christie's Ladder — surface on dashboard or as printable
