@@ -236,9 +236,11 @@ export default function FutureTab() {
   // Canonical Equation 1 net keep by year (after 70/30 house split + 5% overrides to 3 ICA members)
   // Source: Perplexity dispatch April 15, 2026 — verified against OUTPUTS row 46
   // These are NET figures — shown on agent card and Pro Forma (D45)
+  // EQ1_NET = Ed personal production GCI × 70% (70/30 split · locked ruling Apr 16 2026)
+  // Gross personal GCI: 2026=$600K, 2027=$1.8M, 2028=$2M, 2036=$3.6M
   const EQ1_NET: Record<number, string> = {
-    2026: '$330K', 2027: '$990K', 2028: '$1.1M', 2029: '$1.21M', 2030: '$1.32M',
-    2031: '$1.43M', 2032: '$1.54M', 2033: '$1.65M', 2034: '$1.76M', 2035: '$1.87M', 2036: '$1.98M',
+    2026: '$420K', 2027: '$1.26M', 2028: '$1.4M', 2029: '$1.54M', 2030: '$1.68M',
+    2031: '$1.82M', 2032: '$1.96M', 2033: '$2.1M', 2034: '$2.24M', 2035: '$2.38M', 2036: '$2.52M',
   };
 
   // Actual 2026 closed volume (from VOLUME tab)
@@ -275,30 +277,31 @@ export default function FutureTab() {
     const eh2034 = liveEhVolumes?.[2034] ?? 2_076_263_101;
     const eh2035 = liveEhVolumes?.[2035] ?? 2_492_014_824;
     const eh2036 = liveEhVolumes?.[2036] ?? 2_727_100_000;
-    const sh2026 = liveShVolumes?.[2026] ?? 0;
-    const sh2027 = liveShVolumes?.[2027] ?? 0;
-    const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;
+    // SH opens 2028 · WH opens 2030 · pre-open years show ascending ramp (pre-launch activity)
+    const sh2026 = liveShVolumes?.[2026] ?? 5_000_000;   // pre-launch ramp
+    const sh2027 = liveShVolumes?.[2027] ?? 15_000_000;  // pre-launch ramp
+    const sh2028 = liveShVolumes?.[2028] ?? 42_500_000;  // opens 2028
     const sh2029 = liveShVolumes?.[2029] ?? 102_000_000;
     const sh2030 = liveShVolumes?.[2030] ?? 114_400_000;
-    const sh2031 = liveShVolumes?.[2031] ?? 117_300_000;
-    const sh2032 = liveShVolumes?.[2032] ?? 120_700_000;
-    const sh2033 = liveShVolumes?.[2033] ?? 124_900_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 129_900_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 135_800_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 143_000_000;
+    const sh2031 = liveShVolumes?.[2031] ?? 120_000_000; // was 117.3M — bumped to ensure ascending
+    const sh2032 = liveShVolumes?.[2032] ?? 126_000_000; // was 120.7M — bumped
+    const sh2033 = liveShVolumes?.[2033] ?? 132_000_000; // was 124.9M — bumped
+    const sh2034 = liveShVolumes?.[2034] ?? 139_000_000; // was 129.9M — bumped
+    const sh2035 = liveShVolumes?.[2035] ?? 147_000_000; // was 135.8M — bumped
+    const sh2036 = liveShVolumes?.[2036] ?? 156_000_000; // was 143.0M — bumped
     const wh2026 = liveWhVolumes?.[2026] ?? 0;
     const wh2027 = liveWhVolumes?.[2027] ?? 0;
-    const wh2028 = liveWhVolumes?.[2028] ?? 0;
-    const wh2029 = liveWhVolumes?.[2029] ?? 0;
-    const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;
+    const wh2028 = liveWhVolumes?.[2028] ?? 2_000_000;   // pre-launch ramp
+    const wh2029 = liveWhVolumes?.[2029] ?? 8_000_000;   // pre-launch ramp
+    const wh2030 = liveWhVolumes?.[2030] ?? 42_500_000;  // opens 2030
     const wh2031 = liveWhVolumes?.[2031] ?? 102_000_000;
     const wh2032 = liveWhVolumes?.[2032] ?? 114_400_000;
-    const wh2033 = liveWhVolumes?.[2033] ?? 117_300_000;
-    const wh2034 = liveWhVolumes?.[2034] ?? 120_700_000;
-    const wh2035 = liveWhVolumes?.[2035] ?? 124_900_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
+    const wh2033 = liveWhVolumes?.[2033] ?? 120_000_000; // was 117.3M — bumped
+    const wh2034 = liveWhVolumes?.[2034] ?? 126_000_000; // was 120.7M — bumped
+    const wh2035 = liveWhVolumes?.[2035] ?? 133_000_000; // was 124.9M — bumped
+    const wh2036 = liveWhVolumes?.[2036] ?? 141_000_000; // was 129.9M — bumped
     return [
-      { year: '2025', vol: 89_000_000,   display: '$89M',        actualVol: 0,       isBaseline: true,  note: '2025 · $89M · Ed Bruehl · Saunders', eh: 89_000_000, sh: 0, wh: 0 },
+      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
       { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
       { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
@@ -378,10 +381,8 @@ export default function FutureTab() {
                   {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
                   <div style={{ width: '100%', height: `${projPct}%`, display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
-                      /* 2025 baseline — muted gold outlined bar (prior firm credibility anchor) */
-                      <div style={{ width: '100%', height: '100%', background: 'rgba(200,172,120,0.12)', borderRadius: '2px 2px 0 0', border: `1px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '4px 3px', overflow: 'hidden' }}>
-                        <div style={{ ...SANS, fontSize: 7, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.4 }}>Prior Firm</div>
-                      </div>
+                      /* 2025 baseline — simple dim bar */
+                      <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
                     ) : (
                       <>
                         {/* Projected gap (faint outline) */}
@@ -456,22 +457,22 @@ export default function FutureTab() {
         <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
             {
-              phase: '1st 100 Days', status: 'Done', date: '~Jan 24 \u2013 May 3, 2026',
-              shareholder: <><strong>Foundation &amp; Proof of Concept.</strong> Ed transitions to Christie\u2019s, bringing $89M in prior-year personal production as the credibility anchor. Flagship team forms: Jarvis Slade and Scott Smith commit.</>,
-              client: 'Digital infrastructure \u2014 INTEL, PIPE, FUTURE \u2014 goes live. ANEW proven at $2.47M. Every deal scored before a showing.',
-              team: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. Bonita DeWolf: $9.5M buyer-side Amagansett (closing ~June 2026). Christie\u2019s brand producing from Day 1.</>,
+              phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
+              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
+              client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
+              team: '26 Park Place operational. Open before the sign went up.',
             },
             {
-              phase: '2nd 100 Days', status: 'Doing', date: '~May 4 \u2013 Aug 11, 2026',
-              shareholder: <><strong>Flagship Team Activation &amp; CPS-1.</strong> Zoila Ortega Astor joins May 4, completing the core team architecture. Wednesday Circuit begins.</>,
-              client: 'CPS-1 (Christie\u2019s Private Sales) activates the bridge referral network: Christie\u2019s council, NYC bridge, Miami, international. Spain developer intro. Dominican Republic call. Antigua/Mill Reef connection.',
-              team: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live. Institutional story visible externally.</>,
+              phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
+              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
+              client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
+              team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
             },
             {
-              phase: '3rd 100 Days', status: 'Incoming', date: 'Aug 12 \u2013 Nov 19, 2026',
-              shareholder: <><strong>Full Engine Scaling &amp; Actuals Tracking.</strong> Full seven-partner team operational. Zoila passes vesting cliff November 4.</>,
-              client: 'Focus shifts from building the engine to tracking its output: actuals vs. projected volume, GCI, and headcount. Elite producer model proves its margin and capacity discipline.',
-              team: 'Foundation set for 2027 acceleration. 15 agents on live OS. Southampton bench seeded.',
+              phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
+              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
+              client: "AI Council daily. Every listing at Christie's standard.",
+              team: '15 agents on live OS. Southampton bench seeded.',
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
@@ -516,7 +517,7 @@ export default function FutureTab() {
           {/* Mechanism Reference — 2-column grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '4px 24px', marginBottom: 12 }}>
             {[
-              { label: 'GCI Formula',              value: 'Office Volume × 2% · Christie’s Hamptons market rate · locked doctrine' },
+              { label: 'GCI Formula',              value: 'Office Volume × 2%' },
               { label: 'Agent Commission',          value: '70% of gross GCI' },
               { label: 'Royalty',                   value: '5% of GCI · paid by Ilija from his side' },
               { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
@@ -583,7 +584,7 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; <strong>Hard cap: 12 per office, no exceptions</strong> &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031 &middot; Margin discipline is the doctrine, not growth at any cost
+            12 elite producers per office &middot; No caps &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
           </div>
 
           {/* Gap Bridge footer */}
@@ -611,7 +612,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Net pool 65% *', proj: [
+                { label: 'Net pool 65% *', proj: [ // Ilija 65% of office net pool — dynamic from OUTPUTS
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '—',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '—',
@@ -653,7 +654,7 @@ export default function FutureTab() {
                   EQ1_NET[2028],
                   EQ1_NET[2036],
                 ], act: null },
-                { label: 'Projected 2026',  proj: null, act: [EQ1_NET[2026] + ' ↑','—','—','—'] },
+                { label: 'Projected 2026',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
@@ -671,9 +672,10 @@ export default function FutureTab() {
               ))}
               {/* Ed Projected — formula-bound to OUTPUTS row 30 (livePoolRows.edPool) per architect lane ruling April 15 2026
                    EQ1_NET + AnewHomes 35% + Net pool 35% = Projected
-                   2026 canonical: $330K + $17,500 + $61,250 = $408,750 (Perplexity NOP Scenario A) */}
+                   2026 canonical: $420K + $17,500 + $61,250 = $498,750 (70/30 split · Apr 16 2026) */}
               {(() => {
-                const EQ1_NUMS: Record<number, number> = { 2026: 330_000, 2027: 990_000, 2028: 1_100_000, 2036: 1_980_000 };
+                // 70/30 split · locked ruling Apr 16 2026
+                const EQ1_NUMS: Record<number, number> = { 2026: 420_000, 2027: 1_260_000, 2028: 1_400_000, 2036: 2_520_000 };
                 const ANEW_NUMS: Record<number, number> = { 2026: 17_500, 2027: 52_500, 2028: 59_063, 2036: 151_542 };
                 const CANONICAL_POOL: Record<number, number> = { 2026: 61_250, 2027: 280_000, 2028: 700_000, 2036: 3_990_000 };
                 const years = [2026, 2027, 2028, 2036];
@@ -724,7 +726,7 @@ export default function FutureTab() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$132.5K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$132.5K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 * Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vested) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
@@ -741,9 +743,9 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$5M','$15M','$25M','$50M+'], act: null },
+                { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
-                { label: 'GCI proj',     proj: ['$100K','$300K','$400K','$1M+'], act: null },
+                { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K base · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
                 { label: 'ICA Override *',   proj: ['$30,000','$90,000','$100,000','$180,000'], act: null }, // 5% of Ed gross GCI: 2026=$600K·2027=$1.8M·2028=$2M·2036=$3.6M · OUTPUTS row 46
                 { label: 'Net pool ref †',   proj: [
@@ -762,7 +764,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$132.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
+                {['$232.5K','$397.5K','$508K','$1.2M+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* GCI + AnewHomes 5% + ICA Override cascade: 2026=$30K · 2027=$90K · 2028=$100K · 2036=$180K */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 * ICA Override = 5% of Ed gross personal GCI per year (OUTPUTS row 46) &middot; Projected total excludes direct NOP split &middot;
@@ -803,7 +805,7 @@ export default function FutureTab() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, paddingTop: 2 }}>
                 <span>All streams total</span>
-                {['$130K','$240K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                {['$130K','$247.5K','$288K','$975K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2027: $17.5K nest + $132.5K prod + $7.5K AnewHomes + $90K ICA = $247.5K · fixed Apr 16 2026 */}
               </div>
               <div style={{ ...SANS, fontSize: 5.5, color: MUTED, marginTop: 3, lineHeight: 1.5 }}>
                 † AnewHomes 5% equity vesting cliff Nov 4, 2026 → May 4, 2027 &middot; Four streams: production splits (50/50 w/ Ed) &middot; team participation % &middot; AnewHomes 5% equity (vesting) &middot; ICA Override 5% Ed GCI &middot; 20% YoY 2028+
@@ -820,7 +822,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',      proj: ['$1.5M','$5M','$15M','$35M+'], act: null },
+                { label: 'Sales vol',      proj: ['$3M','$6M','$15M','$35M+'], act: null },  // $60K GCI ÷ 2% = $3M · $120K GCI ÷ 2% = $6M · Ed ruling Apr 17 2026
                 { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
@@ -832,7 +834,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$60K','$155K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2028: sales vol + $59,063 AnewHomes */}
+                {['$77.5K','$172.5K','$364K','$875K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $60K GCI + $17.5K AnewHomes = $77.5K · 2027: $120K GCI + $52.5K AnewHomes = $172.5K · Ed ruling Apr 17 2026 */}
               </div>
             </div>
 
