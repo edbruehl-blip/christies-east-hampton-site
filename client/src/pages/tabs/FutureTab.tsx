@@ -298,7 +298,7 @@ export default function FutureTab() {
     const wh2035 = liveWhVolumes?.[2035] ?? 0;
     const wh2036 = liveWhVolumes?.[2036] ?? 129_900_000;
     return [
-      { year: '2025', vol: 15_000_000,   display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
+      { year: '2025', vol: 89_000_000,   display: '$89M',        actualVol: 0,       isBaseline: true,  note: '2025 · $89M · Ed Bruehl · Saunders', eh: 89_000_000, sh: 0, wh: 0 },
       { year: '2026', vol: vol2026,      display: fmtM(vol2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
       { year: '2027', vol: vol2027,      display: fmtM(vol2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
       { year: '2028', vol: vol2028,      display: fmtM(vol2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
@@ -378,8 +378,10 @@ export default function FutureTab() {
                   {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
                   <div style={{ width: '100%', height: `${projPct}%`, display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
-                      /* 2025 baseline — simple dim bar */
-                      <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
+                      /* 2025 baseline — muted gold outlined bar (prior firm credibility anchor) */
+                      <div style={{ width: '100%', height: '100%', background: 'rgba(200,172,120,0.12)', borderRadius: '2px 2px 0 0', border: `1px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '4px 3px', overflow: 'hidden' }}>
+                        <div style={{ ...SANS, fontSize: 7, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.4 }}>Prior Firm</div>
+                      </div>
                     ) : (
                       <>
                         {/* Projected gap (faint outline) */}
@@ -454,22 +456,22 @@ export default function FutureTab() {
         <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
             {
-              phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
-              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
-              client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
-              team: '26 Park Place operational. Open before the sign went up.',
+              phase: '1st 100 Days', status: 'Done', date: '~Jan 24 \u2013 May 3, 2026',
+              shareholder: <><strong>Foundation &amp; Proof of Concept.</strong> Ed transitions to Christie\u2019s, bringing $89M in prior-year personal production as the credibility anchor. Flagship team forms: Jarvis Slade and Scott Smith commit.</>,
+              client: 'Digital infrastructure \u2014 INTEL, PIPE, FUTURE \u2014 goes live. ANEW proven at $2.47M. Every deal scored before a showing.',
+              team: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. Bonita DeWolf: $9.5M buyer-side Amagansett (closing ~June 2026). Christie\u2019s brand producing from Day 1.</>,
             },
             {
-              phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
-              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
-              client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
-              team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
+              phase: '2nd 100 Days', status: 'Doing', date: '~May 4 \u2013 Aug 11, 2026',
+              shareholder: <><strong>Flagship Team Activation &amp; CPS-1.</strong> Zoila Ortega Astor joins May 4, completing the core team architecture. Wednesday Circuit begins.</>,
+              client: 'CPS-1 (Christie\u2019s Private Sales) activates the bridge referral network: Christie\u2019s council, NYC bridge, Miami, international. Spain developer intro. Dominican Republic call. Antigua/Mill Reef connection.',
+              team: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live. Institutional story visible externally.</>,
             },
             {
-              phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
-              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
-              client: "AI Council daily. Every listing at Christie's standard.",
-              team: '15 agents on live OS. Southampton bench seeded.',
+              phase: '3rd 100 Days', status: 'Incoming', date: 'Aug 12 \u2013 Nov 19, 2026',
+              shareholder: <><strong>Full Engine Scaling &amp; Actuals Tracking.</strong> Full seven-partner team operational. Zoila passes vesting cliff November 4.</>,
+              client: 'Focus shifts from building the engine to tracking its output: actuals vs. projected volume, GCI, and headcount. Elite producer model proves its margin and capacity discipline.',
+              team: 'Foundation set for 2027 acceleration. 15 agents on live OS. Southampton bench seeded.',
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
@@ -514,7 +516,7 @@ export default function FutureTab() {
           {/* Mechanism Reference — 2-column grid */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '4px 24px', marginBottom: 12 }}>
             {[
-              { label: 'GCI Formula',              value: 'Office Volume × 2%' },
+              { label: 'GCI Formula',              value: 'Office Volume × 2% · Christie’s Hamptons market rate · locked doctrine' },
               { label: 'Agent Commission',          value: '70% of gross GCI' },
               { label: 'Royalty',                   value: '5% of GCI · paid by Ilija from his side' },
               { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
@@ -581,7 +583,7 @@ export default function FutureTab() {
 
           {/* Table footnote */}
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; No caps &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031
+            12 elite producers per office &middot; <strong>Hard cap: 12 per office, no exceptions</strong> &middot; $500K Year 1 &rarr; $1M Year 3 &rarr; 2% annual appreciation &middot; Recruiting engine dormant 2031 &middot; Margin discipline is the doctrine, not growth at any cost
           </div>
 
           {/* Gap Bridge footer */}

@@ -1974,3 +1974,17 @@
 - [x] SDG scrub: "Soli Deo Gloria" removed from whatsapp-inbound.ts prompt template
 - [ ] INTEL tab: add branded loading skeleton to Miro and Trello iframes
 - [ ] INTEL Document Library: apply active variant to pinned MatrixCard items
+
+## Manny Sprint — April 17, 2026 (Pro Forma Refinements)
+
+- [ ] Update three 100-day narrative blocks with canonical text from Jarvis brief
+- [ ] Add 2025 $89M baseline bar to Ascension Arc chart (muted gold, labeled "Ed Bruehl · Saunders")
+- [ ] Add 2% commission footnote below Headcount Scaling table
+- [ ] Add headcount cap doctrine note (12 per office, elite producer model)
+- [ ] Add EH-CIREG Profit Pool row to Jarvis card
+- [ ] Add EH-CIREG Profit Pool row to Angel card
+- [ ] Confirm EH-CIREG Profit Pool row present on Zoila card (with vesting asterisk)
+- [ ] Confirm Scott card does NOT show profit pool row
+- [ ] Update Scott card structure: GCI line + AnewHomes line + Total (HOLD — awaiting Perplexity OUTPUTS confirmation)
+- [ ] Build Actual vs. Projected tracking layer (new Google Sheet + FUTURE tab section)
+- [ ] Fix descending bars on EH 2027-2028 and Southampton 2030-2031 (HOLD — awaiting Perplexity OUTPUTS confirmation)
