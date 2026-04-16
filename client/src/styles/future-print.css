@@ -107,18 +107,28 @@
   }
 
   /* ── Chart — reduce max-height so it doesn't consume a full page ─────────── */
+  /* FIX 2: Calibrated to fit chart + 100 Days cards + assumptions block + full headcount table */
+  /* (all 11 rows through 2036) + footnotes + gap bridge paragraph on page 1 at Letter size */
   .future-chart-frame {
-    max-height: 220px !important;
+    max-height: 180px !important;
     overflow: hidden !important;
   }
 
-  /* ── Hide INTRO button and OPEN GROWTH MODEL V2 button from print ─────────── */
+  /* ── Hide INTRO button, OPEN GROWTH MODEL V2 button, and audio/toast elements from print ─── */
+  /* FIX 3: Hide INTRO button (FloatingDashboardIntro has className="no-print" which is already */
+  /* covered by the .no-print rule above, but belt-and-suspenders selectors here too) */
+  /* FIX 4: Hide Sonner audio error toast (ElevenLabs fallback state) from print */
   [data-print-hide],
   .future-intro-button,
   .future-growth-model-button,
+  .no-print,
   button[aria-label*="INTRO"],
   button[aria-label*="Growth Model"],
-  a[aria-label*="Growth Model"] {
+  a[aria-label*="Growth Model"],
+  [data-sonner-toaster],
+  [data-sonner-toast],
+  ol[data-sonner-toaster],
+  li[data-sonner-toast] {
     display: none !important;
   }
 

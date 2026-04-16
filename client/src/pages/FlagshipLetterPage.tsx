@@ -27,6 +27,21 @@ const RULE_COLOR  = 'rgba(200,172,120,0.35)';
 const CIREG_LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
 const ED_HEADSHOT      = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/ed-headshot-primary_0f6df1af.jpg';
 
+// ─── Favicon injection (Rule: every standalone page route MUST have the Christie's favicon) ──
+function useFavicon() {
+  useEffect(() => {
+    const FAVICON_URL = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/favicon_656f6f8c.ico';
+    let link = document.querySelector<HTMLLinkElement>('link[rel~="icon"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = FAVICON_URL;
+    document.title = "Christie's East Hampton — Flagship Letter";
+  }, []);
+}
+
 // ─── PDF mode detection ────────────────────────────────────────────────────────
 function useIsPdfMode(): boolean {
   const [isPdf, setIsPdf] = useState(false);
@@ -73,6 +88,7 @@ function sanitizeContent(text: string): string {
 export default function FlagshipLetterPage() {
   const [downloading, setDownloading] = useState(false);
   const isPdfMode = useIsPdfMode();
+  useFavicon();
 
   const { data, isLoading, error } = trpc.flagship.getLetter.useQuery();
 

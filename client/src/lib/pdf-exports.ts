@@ -30,6 +30,7 @@ import {
 import { MASTER_HAMLET_DATA } from '../data/hamlet-master';
 import { LENS_LABELS } from '../calculators/anew-calculator';
 import { loadImageAsDataUrl } from './pdf-engine';
+import { LOGO_WHITE_B64 } from './cdn-assets';
 
 // Type alias for live Market Matrix rows -- exact mirror of server/sheets-helper.ts MarketMatrixHamlet
 // Field names must match the tRPC response shape from trpc.market.hamletMatrix.useQuery()
@@ -541,8 +542,10 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.text('CHRISTIE\'S · EST. 1766', PAGE.w / 2, 27, { align: 'center' });
 
   // Logo -- centered, 64mm wide on navy hero (base64, no CDN call)
-  if (logoImg) {
-    try { doc.addImage(logoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26); } catch { /* skip */ }
+  // FIX 1: Use LOGO_WHITE_B64 — logoImg is LOGO_BLACK_B64 which is invisible on navy background
+  const heroLogoImg = LOGO_WHITE_B64 || logoImg;
+  if (heroLogoImg) {
+    try { doc.addImage(heroLogoImg, 'PNG', PAGE.w / 2 - 32, 33, 64, 26); } catch { /* skip */ }
   }
 
   doc.setFontSize(28);

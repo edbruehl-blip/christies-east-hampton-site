@@ -32,7 +32,13 @@
   header,
   .back-bar,
   [data-no-print],
-  button[data-pdf-download] {
+  .no-print,
+  button[data-pdf-download],
+  /* FIX 3+4: Hide INTRO button and Sonner audio error toast from Market Report PDF */
+  [data-sonner-toaster],
+  [data-sonner-toast],
+  ol[data-sonner-toaster],
+  li[data-sonner-toast] {
     display: none !important;
   }
 
