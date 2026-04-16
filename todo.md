@@ -2019,3 +2019,16 @@
 - [x] INTRO button personalization: /letters/flagship?person=angel and ?person=jarvis — implemented in FlagshipLetterPage.tsx
 - [x] BruehlBriefBulletin.tsx: TS direction error resolved — direction fields now typed literals in data (Perplexity 6f194fd)
 - [x] Trello: Jarvis Slade card already added by Perplexity (card #176, FLAGSHIP TEAM list) — no action needed
+
+## Three Open Rulings — Awaiting Ed · April 16, 2026
+
+These cannot move until Ed gives the word. Do not estimate or fill in.
+
+- [ ] RULING 1 — Jarvis ICA Override basis: Live card shows $30K/2026. Footnote says 5% of Ed's gross GCI. At $30K that implies Ed GCI = $600K. But canonical Ed 2026 GCI is $420K (70/30 EQ1 split). Which Ed GCI ramp is the Override pegged to? Ed will give a number.
+- [ ] RULING 2 — Jarvis sales volume 2027–2028: Live shows $15M/2027 · $25M/2028. At 2% commission those imply GCI $300K/$500K, which is higher than $240K/$288K shown. Keep round numbers or align to GCI back-calc?
+- [ ] RULING 3 — Jarvis 2036 GCI cap: Live shows $1.24M+ (pure 20% compound, uncapped). Does the $1M cap + 2% appreciation rule apply to Jarvis the same way it applies to Angel and Zoila?
+- [ ] When Ed gives all three rulings: update Jarvis partner card in FutureTab.tsx + update Trello Jarvis card description to match. One commit closes all three.
+
+## Standing Item — Post-April 29
+
+- [ ] Dominique Silvera-Chittell — standalone Trello card not yet created. Awaiting Ed's signal after the call.
