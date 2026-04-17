@@ -37,6 +37,7 @@ import ReportPage         from "./pages/ReportPage";
 import ProFormaPage       from "./pages/ProFormaPage";
 import FlagshipLetterPage from "./pages/FlagshipLetterPage";
 import ChristiesLetterPage from "./pages/ChristiesLetterPage";
+import AngelLetterPage     from "./pages/AngelLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 
@@ -73,6 +74,7 @@ function App() {
             <Route path="/pro-forma" component={ProFormaPage} />
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
+            <Route path="/letters/angel" component={AngelLetterPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={FutureTab} />
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
