@@ -333,8 +333,19 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             {hamlet.name}
           </h3>
           <span
-            className="shrink-0 px-2 py-0.5 text-[10px] uppercase tracking-wider"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', letterSpacing: '0.12em' }}
+            className="shrink-0"
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              background: '#C8AC78',
+              color: '#1B2A4A',
+              fontSize: 9,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              padding: '3px 8px 2px',
+              fontWeight: 600,
+              boxShadow: '0 1px 4px rgba(200,172,120,0.35)',
+              border: '1px solid rgba(200,172,120,0.6)',
+            }}
           >
             CIS {hamlet.liveCis.toFixed(1)}
           </span>
@@ -360,7 +371,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           <div>
             <div
               className="text-[10px] uppercase tracking-wider mb-0.5"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', letterSpacing: '0.14em' }}
             >
               CIS
             </div>

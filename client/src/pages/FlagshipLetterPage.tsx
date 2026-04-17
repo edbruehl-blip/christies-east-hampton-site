@@ -364,7 +364,7 @@ export default function FlagshipLetterPage() {
           .no-print { display: none !important; }
           .letter-header { display: none !important; }
           .print-only-header { display: block !important; }
-          body { background: #FFFFFF !important; }
+          body { background: #FAF8F4 !important; }
           main { padding: 0 !important; }
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           p { color: #1B2A4A !important; font-size: 14pt !important; line-height: 1.8 !important; }
