@@ -16,15 +16,33 @@
 @media print {
   /* ── Page setup ── */
   @page {
-    size: A4 landscape;
-    margin: 0;
+    size: auto;
+    margin: 0.5in;
   }
 
   html,
-  body {
+  body,
+  #root {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* ── Section title headers in print ── */
+  .report-section::before {
+    content: attr(data-section-title);
+    display: block;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #C8AC78;
+    text-align: right;
+    padding-bottom: 4pt;
+    margin-bottom: 8pt;
+    border-bottom: 0.5pt solid rgba(200, 172, 120, 0.3);
   }
 
   /* ── Hide non-report chrome ── */

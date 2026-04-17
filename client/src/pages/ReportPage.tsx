@@ -547,7 +547,7 @@ const TAG_COLORS: Record<string, string> = {
 
 function Section2() {
   return (
-    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="2" title="Hamptons Local Intelligence" />
         <div
@@ -818,7 +818,7 @@ function Section3() {
   const cfs = calcCFS(ticker);
 
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="3" title="Market Intelligence" />
         <div
@@ -1231,7 +1231,7 @@ function Section4() {
   const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.anewScore - a.anewScore);
 
   return (
-    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
@@ -1351,7 +1351,7 @@ function Section3Condensed() {
 // ─── SECTION 5 · MAPS / CIS Intelligence ────────────────────────────────────
 function Section5() {
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · CIS Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="5" title="MAPS / CIS Intelligence" />
         <div
@@ -1524,7 +1524,7 @@ function Section5() {
 // ─── SECTION 6 · Resources & Authority ───────────────────────────────────────
 function Section6() {
   return (
-    <section style={{ background: '#FAF8F4' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#FAF8F4' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="6" title="Resources & Authority" />
         <div
