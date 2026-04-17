@@ -901,7 +901,9 @@ export default function IntelTab() {
       <IntelligenceWebLayer />
 
       {/* Section 9 — Bruehl Brief Bulletin Board */}
-      <BruehlBriefBulletin />
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <BruehlBriefBulletin />
+      </div>
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>

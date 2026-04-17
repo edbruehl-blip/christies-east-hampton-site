@@ -1939,3 +1939,13 @@
 - [x] Item 7b: Update report-print.css — size:auto, min-height:0, section title headers via ::before
 - [x] Item 7c: Add data-section-title attributes to each section wrapper in ReportPage.tsx
 - [x] Item 7d: Hamlet tiles in /report already use CIS-only gold chip (no tier badge) — parity confirmed, no change needed
+
+## Apr 17 — Site Cleanup Dispatch (Perp · 7 Items · 3 Commits)
+
+- [ ] Item 1: FUTURE PDF page 1 blank — add nav/ticker/sticky hide selectors to future-print.css
+- [ ] Item 2: FUTURE PDF blank bottom — confirm min-height:0 height:auto on html/body/#root in future-print.css
+- [ ] Item 3: INTEL Bulletin Board too wide — wrap BruehlBriefBulletin in maxWidth var(--frame-max-w) div
+- [ ] Item 4: MAPS hamlet PDF cards — add CIS badge (top-left, gold) to PDF download card photo overlay
+- [ ] Item 5: MAPS tab — remove Hamlet Intelligence Matrix grid (11-card photo grid); keep map, CIS Calculator, PDF download buttons
+- [ ] Item 6: Nav bar — remove HOME tab; logo click is only way home; order: MARKET · MAPS · PIPE · FUTURE · INTEL
+- [ ] Item 7: Confirm @page { size: auto } is live in future-print.css

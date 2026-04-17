@@ -39,6 +39,20 @@
   /* Dashboard header layers */
   [class*="sticky"],
   [class*="fixed"],
+  /* Exact class-name fragments from live DOM (Perp audit Apr 17 2026) */
+  [class*="nav-"],
+  [class*="NavBar"],
+  [class*="ticker"],
+  [class*="market-data"],
+  [class*="social-strip"],
+  [class*="tab-bar"],
+  [class*="TopBar"],
+  [class*="SiteHeader"],
+  /* Sticky/fixed positioned elements that aren't content */
+  [style*="position: sticky"],
+  [style*="position: fixed"],
+  [style*="position:sticky"],
+  [style*="position:fixed"],
   /* Any sign-in prompts (should be gone, but belt-and-suspenders) */
   a[href*="oauth"],
   a[href*="login"] {
