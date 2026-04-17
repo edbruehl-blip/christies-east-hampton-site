@@ -343,7 +343,7 @@ export default function FutureTab() {
 
 
   return (
-      <div ref={tabRef} style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
+      <div ref={tabRef} className="future-main-wrapper" style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -552,7 +552,7 @@ export default function FutureTab() {
           <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
-          <div style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
+          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 7, ...SANS }}>
               <thead>
                 <tr>
