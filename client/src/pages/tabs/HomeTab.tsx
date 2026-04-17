@@ -414,7 +414,7 @@ function SectionA() {
 // Calm, private-wealth. No grid. No tiles. No KPIs.
 function SectionB() {
   const galleryImages = [
-    AUCTION_LOT_LIBRARY.roomPrimary,
+    AUCTION_LOT_LIBRARY.auctionRoomIllustration,
     AUCTION_LOT_LIBRARY.roomFallback,
     AUCTION_LOT_LIBRARY.hermesWall,
     AUCTION_LOT_LIBRARY.patekPhilippe,

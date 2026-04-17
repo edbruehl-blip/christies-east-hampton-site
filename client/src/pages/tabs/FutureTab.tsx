@@ -440,7 +440,7 @@ export default function FutureTab() {
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
                   {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
-                  <div style={{ width: '100%', height: `${projPct}%`, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ width: '100%', height: `${projPct}%`, minHeight: '4%', display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
                       /* 2025 baseline — simple dim bar */
                       <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
@@ -597,7 +597,7 @@ export default function FutureTab() {
           marginBottom: 10,
         }}>
           {/* Section header */}
-          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
             Assumptions &middot; Governing Principle &middot; Not Yet Contractual
           </div>
 
@@ -616,18 +616,18 @@ export default function FutureTab() {
               { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-                <span style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
-                <span style={{ ...SANS, fontSize: 7, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
+                <span style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
+                <span style={{ ...SANS, fontSize: 8, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
               </div>
             ))}
           </div>
 
           {/* Headcount Scaling Table */}
-          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
           <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 7, ...SANS }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
               <thead>
                 <tr>
                   {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH GCI','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
@@ -652,19 +652,19 @@ export default function FutureTab() {
                   { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.16M', combGci:'$41.52M', combVol:'$2.08B', avgGci:'$1153K' },
                 ].map((r, i) => (
                   <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
-                    <td style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
                   </tr>
                 ))}
               </tbody>
