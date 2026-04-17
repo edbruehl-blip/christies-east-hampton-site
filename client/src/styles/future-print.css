@@ -79,16 +79,10 @@
     white-space: nowrap !important;
   }
 
-  /* ── C4: StaggeredRampChart print ───────────────────────────────────── */
-  .staggered-ramp-chart canvas,
-  .staggered-ramp-chart svg {
-    image-rendering: auto;
-    max-width: 100%;
-  }
-
-  /* ── C5: Gap Bridge page break ───────────────────────────────────────── */
-  .gap-bridge-section {
-    page-break-after: always;
+  /* ── C4: StaggeredRampChart — hidden from print (removed from screen render) ── */
+  .staggered-ramp-chart,
+  .staggered-ramp-section {
+    display: none !important;
   }
 
   /* ── Main content area ───────────────────────────────────────────────────── */
@@ -97,9 +91,7 @@
   }
 
   /* ── FUTURE tab header — keep it, it's the pro forma title ──────────────── */
-  /* The navy header with "Future" headline stays */
-
-  /* ── Tables ──────────────────────────────────────────────────────────────── */
+  /* The navy header with "Future" headline stays */  /* ── Tables ──────────────────────────────────────────────────────────────────── */
   table {
     page-break-inside: auto;
     border-collapse: collapse !important;
@@ -107,10 +99,15 @@
 
   tr {
     page-break-inside: avoid;
+    break-inside: avoid;
     page-break-after: auto;
   }
 
-  thead {
+  /* ── Headcount table: keep all rows together, avoid mid-row splits ──────── */
+  .headcount-table {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }  thead {
     display: table-header-group;
   }
 
@@ -176,28 +173,25 @@
   a[href]::after {
     content: none !important;
   }
-
-  /* ── Pro forma footer ────────────────────────────────────────────────────── */
-  /* Injected via the print-footer div added to FutureTab */
+  /* ── Pro forma footer ────────────────────────────────────────────────────────── */
+  /* Static position (not fixed) so it flows with content and renders correctly */
   .future-print-footer {
-    display: block !important;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 8px 0.65in;
-    border-top: 1px solid rgba(200, 172, 120, 0.4);
-    background: #0a1628;
+    display: flex !important;
+    position: static !important;
+    width: 100%;
+    margin-top: 12pt;
+    padding: 6pt 0 0;
+    border-top: 0.5pt solid rgba(200, 172, 120, 0.4);
+    background: transparent;
     font-family: "Barlow Condensed", sans-serif;
     font-size: 7pt;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    display: flex;
     justify-content: space-between;
     align-items: center;
-  }
-
-  .future-print-footer .footer-left {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  } .future-print-footer .footer-left {
     color: #c8ac78;
     font-weight: 600;
   }
@@ -208,6 +202,25 @@
 
   .future-print-footer .footer-right {
     color: rgba(200, 172, 120, 0.4);
+  }
+
+  /* ── Strip excess bottom padding that creates blank page 3 ─────────────── */
+  .future-growth-model-button {
+    display: none !important;
+  }
+
+  /* Strip min-height and padding from the outer wrapper to kill blank footer */
+  [class*="pb-"],
+  [class*="pt-"],
+  [class*="mb-"],
+  [class*="mt-"] {
+    /* Only strip on the outermost wrapper — targeted via specific class */
+  }
+
+  /* Kill the large bottom padding on the main content wrapper */
+  .future-main-wrapper {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   /* ── Hide footer in screen view ─────────────────────────────────────────── */

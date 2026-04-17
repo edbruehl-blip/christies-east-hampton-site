@@ -40,7 +40,7 @@ const FOUNDING_PARAGRAPHS = [
   "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
   "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
   "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
-  "The door is always open whenever you are ready to walk through it.",
+  "The door is always open — we look forward to meeting you.",
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
@@ -414,7 +414,7 @@ function SectionA() {
 // Calm, private-wealth. No grid. No tiles. No KPIs.
 function SectionB() {
   const galleryImages = [
-    AUCTION_LOT_LIBRARY.roomPrimary,
+    AUCTION_LOT_LIBRARY.auctionRoomIllustration,
     AUCTION_LOT_LIBRARY.roomFallback,
     AUCTION_LOT_LIBRARY.hermesWall,
     AUCTION_LOT_LIBRARY.patekPhilippe,

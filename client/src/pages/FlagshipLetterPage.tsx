@@ -106,6 +106,7 @@ export default function FlagshipLetterPage() {
 
         {/* Hero area: James Christie portrait + letter title */}
         <div
+          className="flagship-hero-row"
           style={{
             position: 'relative', zIndex: 2,
             display: 'flex', alignItems: 'flex-end', gap: 32,
@@ -114,7 +115,7 @@ export default function FlagshipLetterPage() {
           }}
         >
           {/* James Christie portrait */}
-          <div style={{ flexShrink: 0 }}>
+          <div className="flagship-hero-portrait" style={{ flexShrink: 0 }}>
             <div style={{
               padding: 4,
               border: `2px solid ${GOLD}`,
@@ -224,9 +225,43 @@ export default function FlagshipLetterPage() {
           </div>
         )}
 
-        {/* Letter body — portrait shown in hero header; no float duplicate in body */}
+        {/* Letter body — James Christie portrait floats left on screen */}
         {paragraphs.length > 0 && (
           <>
+            {/* Portrait float — screen only, first paragraph wraps around it */}
+            <div
+              className="no-print flagship-body-portrait"
+              style={{
+                float: 'left',
+                marginRight: 28,
+                marginBottom: 12,
+                marginTop: 4,
+              }}
+            >
+              <div style={{
+                padding: 3,
+                border: `2px solid ${GOLD}`,
+                boxShadow: `0 0 0 1px rgba(200,172,120,0.25), 0 6px 20px rgba(27,42,74,0.15)`,
+                background: CREAM,
+              }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie — Founder, Christie's, Est. 1766"
+                  style={{
+                    width: 80, height: 102,
+                    objectFit: 'cover', objectPosition: 'center 20%',
+                    display: 'block',
+                  }}
+                />
+              </div>
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: GOLD, fontSize: 8, letterSpacing: '0.14em',
+                textTransform: 'uppercase', marginTop: 5, textAlign: 'center',
+              }}>
+                James Christie<br/>Est. 1766
+              </div>
+            </div>
 
             {paragraphs.map((para, i) => {
               if (isSectionHeading(para)) {
@@ -318,6 +353,12 @@ export default function FlagshipLetterPage() {
       {/* ── Styles: fonts + print ─────────────────────────────────────────── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600&display=swap');
+
+        @media (max-width: 639px) {
+          .flagship-hero-portrait { display: none !important; }
+          .flagship-hero-row { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+          .flagship-body-portrait { display: none !important; }
+        }
 
         @media print {
           .no-print { display: none !important; }

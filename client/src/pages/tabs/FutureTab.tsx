@@ -9,7 +9,6 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
-import { StaggeredRampChart } from '@/components/StaggeredRampChart';
 
 // ─── PDF mode detection ─────────────────────────────────────────────────────
 // When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
@@ -45,6 +44,54 @@ const WH_COLOR   = '#5a7a5a';                    // Westhampton — warm sage gr
 const EH_FAINT   = 'rgba(200,172,120,0.20)';
 const SH_FAINT   = 'rgba(58,90,122,0.35)';
 const WH_FAINT   = 'rgba(90,122,90,0.35)';
+
+// Cohort sub-segment colors — shade variations within each office color family
+// Founding (base, full saturation) → Targeted (Engine 1, mid) → Organic (Engine 2, lighter)
+const EH_FOUNDING = '#c8ac78';                     // EH base — full gold
+const EH_TARGETED = 'rgba(200,172,120,0.72)';      // EH Engine 1 — mid gold
+const EH_ORGANIC  = 'rgba(200,172,120,0.45)';      // EH Engine 2 — light gold
+const SH_FOUNDING = '#3a5a7a';                     // SH base — full steel
+const SH_TARGETED = 'rgba(58,90,122,0.72)';        // SH Engine 1 — mid steel
+const SH_ORGANIC  = 'rgba(58,90,122,0.45)';        // SH Engine 2 — light steel
+const WH_FOUNDING = '#5a7a5a';                     // WH base — full sage
+const WH_TARGETED = 'rgba(90,122,90,0.72)';        // WH Engine 1 — mid sage
+const WH_ORGANIC  = 'rgba(90,122,90,0.45)';        // WH Engine 2 — light sage
+
+// EPM cohort ramp parameters (from ASSUMPTIONS + ROSTER)
+// Founding: Ed + named producers (5 seats EH, 3 SH, 2 WH at open)
+// Targeted: Engine 1 hires ($500K→$750K→$1M ramp)
+// Organic: Engine 2 hires ($250K→$500K→$750K ramp)
+const EPM_FOUNDING_SEATS = { eh: 5, sh: 3, wh: 2 };
+const EPM_ENGINE1_GCI_Y1 = 500_000;  // Engine 1 Y1 GCI per seat
+const EPM_ENGINE2_GCI_Y1 = 250_000;  // Engine 2 Y1 GCI per seat
+
+/**
+ * Compute cohort sub-segments for one office zone.
+ * Splits the total office GCI into Founding / Targeted / Organic proportions
+ * based on EPM ramp parameters and years since office opened.
+ * Totals always sum to `total` — no rounding drift.
+ */
+function computeCohorts(total: number, yearsOpen: number, _unused: number): { founding: number; targeted: number; organic: number } {
+  if (total <= 0 || yearsOpen < 0) return { founding: total, targeted: 0, organic: 0 };
+  // Founding team GCI grows at 20% compound from base $600K/seat
+  const foundingGciPerSeat = 600_000 * Math.pow(1.2, yearsOpen);
+  // Engine 1: seats ramp in over years 1-4, each at $500K→$750K→$1M
+  const engine1Seats = Math.min(Math.max(yearsOpen, 0), 4); // up to 4 targeted seats
+  const engine1GciPerSeat = EPM_ENGINE1_GCI_Y1 * Math.pow(1.5, Math.min(yearsOpen, 2));
+  // Engine 2: organic seats from year 2 onward
+  const engine2Seats = Math.max(yearsOpen - 1, 0) * 2;
+  const engine2GciPerSeat = EPM_ENGINE2_GCI_Y1 * Math.pow(1.5, Math.min(Math.max(yearsOpen - 1, 0), 2));
+  // Raw proportions
+  const rawFounding = foundingGciPerSeat;
+  const rawTargeted = engine1Seats * engine1GciPerSeat;
+  const rawOrganic  = engine2Seats * engine2GciPerSeat;
+  const rawTotal = rawFounding + rawTargeted + rawOrganic || 1;
+  // Scale to actual total, preserve exact sum
+  const founding = Math.round(total * rawFounding / rawTotal);
+  const targeted = Math.round(total * rawTargeted / rawTotal);
+  const organic  = total - founding - targeted; // remainder avoids rounding drift
+  return { founding: Math.max(founding, 0), targeted: Math.max(targeted, 0), organic: Math.max(organic, 0) };
+}
 
 const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
@@ -123,21 +170,6 @@ export default function FutureTab() {
   });
   // Wire: ROSTER tab — Angel/Zoila dual-track nest + producer rows
   const { data: gmData } = trpc.future.growthModel.useQuery(undefined, {
-    retry: false, staleTime: 5 * 60 * 1000,
-  });
-
-  // Build 1 · Endpoint 1: Headcount Scaling Table — OUTPUTS!A74:E85
-  const { data: headcountData } = trpc.future.headcountTable.useQuery(undefined, {
-    retry: false, staleTime: 5 * 60 * 1000,
-  });
-
-  // Build 1 · Endpoint 2: 100-Day Milestone Cards — OUTPUTS!A67:C71
-  const { data: milestonesData } = trpc.future.milestones.useQuery(undefined, {
-    retry: false, staleTime: 5 * 60 * 1000,
-  });
-
-  // Build 1 · Endpoint 3: Partner Stream Cards — ROSTER!A2:N16
-  const { data: partnerCardsData } = trpc.future.partnerCards.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
 
@@ -359,7 +391,7 @@ export default function FutureTab() {
 
 
   return (
-      <div ref={tabRef} style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
+      <div ref={tabRef} className="future-main-wrapper" style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -408,7 +440,7 @@ export default function FutureTab() {
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
                   {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
-                  <div style={{ width: '100%', height: `${projPct}%`, display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ width: '100%', height: `${projPct}%`, minHeight: '4%', display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
                       /* 2025 baseline — simple dim bar */
                       <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
@@ -424,25 +456,40 @@ export default function FutureTab() {
                             )}
                           </div>
                         )}
-                        {/* Westhampton layer (sage green) — top of stack */}
-                        {whPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, background: WH_COLOR, borderTop: `1px solid rgba(90,122,90,0.6)` }} />
-                        )}
-                        {/* Southampton layer (navy/steel) */}
-                        {shPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, background: SH_COLOR, borderTop: `1px solid rgba(58,90,122,0.6)` }} />
-                        )}
-                        {/* East Hampton layer (gold/amber) — base */}
-                        {ehPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, background: actPct > 0 ? GOLD : EH_COLOR, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0' }}>
-                            {actPct > 0 && (
-                              <>
-                                <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
-                                {/* 2026 YTD label removed — too small to read on mobile */}
-                              </>
-                            )}
-                          </div>
-                        )}
+                        {/* Westhampton — cohort sub-segments (Founding/Targeted/Organic) */}
+                        {whPct > 0 && (() => {
+                          const wh = computeCohorts(bar.wh, parseInt(bar.year) - 2030, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(90,122,90,0.6)` }}>
+                              {wh.organic  > 0 && <div title={`WH Organic: ${fmtM(wh.organic)}`}  style={{ flex: wh.organic,  background: WH_ORGANIC,  minHeight: 1 }} />}
+                              {wh.targeted > 0 && <div title={`WH Engine 1: ${fmtM(wh.targeted)}`} style={{ flex: wh.targeted, background: WH_TARGETED, minHeight: 1 }} />}
+                              {wh.founding > 0 && <div title={`WH Founding: ${fmtM(wh.founding)}`} style={{ flex: wh.founding, background: WH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
+                        {/* Southampton — cohort sub-segments */}
+                        {shPct > 0 && (() => {
+                          const sh = computeCohorts(bar.sh, parseInt(bar.year) - 2028, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(58,90,122,0.6)` }}>
+                              {sh.organic  > 0 && <div title={`SH Organic: ${fmtM(sh.organic)}`}  style={{ flex: sh.organic,  background: SH_ORGANIC,  minHeight: 1 }} />}
+                              {sh.targeted > 0 && <div title={`SH Engine 1: ${fmtM(sh.targeted)}`} style={{ flex: sh.targeted, background: SH_TARGETED, minHeight: 1 }} />}
+                              {sh.founding > 0 && <div title={`SH Founding: ${fmtM(sh.founding)}`} style={{ flex: sh.founding, background: SH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
+                        {/* East Hampton — cohort sub-segments */}
+                        {ehPct > 0 && (() => {
+                          const eh = computeCohorts(bar.eh, parseInt(bar.year) - 2026, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, display: 'flex', flexDirection: 'column' }}>
+                              {actPct > 0 && <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />}
+                              {eh.organic  > 0 && <div title={`EH Organic: ${fmtM(eh.organic)}`}  style={{ flex: eh.organic,  background: EH_ORGANIC,  minHeight: 1 }} />}
+                              {eh.targeted > 0 && <div title={`EH Engine 1: ${fmtM(eh.targeted)}`} style={{ flex: eh.targeted, background: EH_TARGETED, minHeight: 1 }} />}
+                              {eh.founding > 0 && <div title={`EH Founding: ${fmtM(eh.founding)}`} style={{ flex: eh.founding, background: EH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
                       </>
                     )}
                   </div>
@@ -461,47 +508,58 @@ export default function FutureTab() {
             ))}
           </div>
         </div>
-
-        {/* ── Legend ──────────────────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 14, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
+        {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
+        <div style={{ display: 'flex', gap: 10, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
             East Hampton &middot; 2026–2036
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_FOUNDING, flexShrink: 0 }} />
             Southampton &middot; opens 2028
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_FOUNDING, flexShrink: 0 }} />
             Westhampton &middot; opens 2030
+          </div>
+          <div style={{ width: 1, height: 10, background: '#2a3a4a', flexShrink: 0, margin: '0 2px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
+            Founding
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_TARGETED, border: '0.5px solid rgba(200,172,120,0.4)', flexShrink: 0 }} />
+            Engine 1
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_ORGANIC, border: '0.5px solid rgba(200,172,120,0.25)', flexShrink: 0 }} />
+            Engine 2
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
             <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
-            Projected — live from Growth Model v2 VOLUME Row 17
+            Projected — live from Growth Model v2
           </div>
         </div>
-
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
         <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
             {
               phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
-              shareholder: <><strong>{milestonesData ? `$${(milestonesData.closedVolume / 1_000_000).toFixed(2)}M closed.` : '$4.57M closed.'}</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
+              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
               client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
               team: '26 Park Place operational. Open before the sign went up.',
             },
             {
               phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
-              shareholder: <><strong>{milestonesData ? `$${(milestonesData.activePipeline / 1_000_000).toFixed(2)}M active.` : '$13.62M active.'}</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
+              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
               client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
               team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
             },
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
-              shareholder: <><strong>{milestonesData ? `$${(milestonesData.volumeTarget / 1_000_000).toFixed(0)}M target.` : '$75M target.'}</strong> First Wednesday Caravan. East End market presence locked.</>,
-              client: `AI Council daily. Every listing at Christie's standard.`,
-              team: `${milestonesData ? milestonesData.agentsOnOS : 15} agents on live OS. Southampton bench seeded.`,
+              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
+              client: "AI Council daily. Every listing at Christie's standard.",
+              team: '5 agents on live OS. Scott incoming June. Southampton bench seeded.',
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
@@ -539,7 +597,7 @@ export default function FutureTab() {
           marginBottom: 10,
         }}>
           {/* Section header */}
-          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
             Assumptions &middot; Governing Principle &middot; Not Yet Contractual
           </div>
 
@@ -558,18 +616,18 @@ export default function FutureTab() {
               { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
             ].map(({ label, value }) => (
               <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-                <span style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
-                <span style={{ ...SANS, fontSize: 7, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
+                <span style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
+                <span style={{ ...SANS, fontSize: 8, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
               </div>
             ))}
           </div>
 
           {/* Headcount Scaling Table */}
-          <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
-          <div style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 7, ...SANS }}>
+          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8, WebkitOverflowScrolling: 'touch' as const }}>
+            <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
               <thead>
                 <tr>
                   {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH GCI','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
@@ -578,54 +636,37 @@ export default function FutureTab() {
                 </tr>
               </thead>
               <tbody>
-                {/* Build 1 · Endpoint 1: EH/SH/WH headcount live from OUTPUTS!A74:E85 · fallback to canonical if sheet unavailable */}
-                {(headcountData?.rows ?? [
-                  // Canonical fallback · Recalculated Apr 16 2026
-                  { year:'2026', eh:9,  sh:0,  wh:0,  total:9  },
-                  { year:'2027', eh:12, sh:0,  wh:0,  total:12 },
-                  { year:'2028', eh:12, sh:6,  wh:0,  total:18 },
-                  { year:'2029', eh:12, sh:12, wh:0,  total:24 },
-                  { year:'2030', eh:12, sh:12, wh:6,  total:30 },
-                  { year:'2031', eh:12, sh:12, wh:12, total:36 },
-                  { year:'2032', eh:12, sh:12, wh:12, total:36 },
-                  { year:'2033', eh:12, sh:12, wh:12, total:36 },
-                  { year:'2034', eh:12, sh:12, wh:12, total:36 },
-                  { year:'2035', eh:12, sh:12, wh:12, total:36 },
-                  { year:'2036', eh:12, sh:12, wh:12, total:36 },
-                ]).map((r, i) => {
-                  // GCI columns remain hardcoded (OUTPUTS A74:E85 only has Year/EH/SH/WH/Total per dispatch)
-                  const GCI_LOOKUP: Record<string, { edGci:string, namedGci:string, engineGci:string, officeGci:string, ahGci:string, combGci:string, combVol:string, avgGci:string }> = {
-                    '2026': { edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
-                    '2027': { edGci:'$0.72M', namedGci:'$0.57M', engineGci:'$3.75M', officeGci:'$5.04M', ahGci:'$0.06M', combGci:'$5.10M', combVol:'$0.25B', avgGci:'$420K' },
-                    '2028': { edGci:'$0.86M', namedGci:'$0.68M', engineGci:'$7.75M', officeGci:'$9.30M', ahGci:'$0.06M', combGci:'$9.36M', combVol:'$0.47B', avgGci:'$517K' },
-                    '2029': { edGci:'$1.04M', namedGci:'$0.82M', engineGci:'$13.00M', officeGci:'$14.86M', ahGci:'$0.07M', combGci:'$14.93M', combVol:'$0.75B', avgGci:'$619K' },
-                    '2030': { edGci:'$1.24M', namedGci:'$0.99M', engineGci:'$20.64M', officeGci:'$22.87M', ahGci:'$0.08M', combGci:'$22.95M', combVol:'$1.15B', avgGci:'$762K' },
-                    '2031': { edGci:'$1.49M', namedGci:'$1.18M', engineGci:'$25.52M', officeGci:'$28.20M', ahGci:'$0.09M', combGci:'$28.29M', combVol:'$1.41B', avgGci:'$783K' },
-                    '2032': { edGci:'$1.79M', namedGci:'$1.42M', engineGci:'$31.91M', officeGci:'$35.12M', ahGci:'$0.10M', combGci:'$35.22M', combVol:'$1.76B', avgGci:'$976K' },
-                    '2033': { edGci:'$2.15M', namedGci:'$1.70M', engineGci:'$32.55M', officeGci:'$36.40M', ahGci:'$0.11M', combGci:'$36.52M', combVol:'$1.83B', avgGci:'$1011K' },
-                    '2034': { edGci:'$2.58M', namedGci:'$2.04M', engineGci:'$33.20M', officeGci:'$37.82M', ahGci:'$0.13M', combGci:'$37.95M', combVol:'$1.90B', avgGci:'$1051K' },
-                    '2035': { edGci:'$3.10M', namedGci:'$2.45M', engineGci:'$33.87M', officeGci:'$39.41M', ahGci:'$0.14M', combGci:'$39.56M', combVol:'$1.98B', avgGci:'$1095K' },
-                    '2036': { edGci:'$3.72M', namedGci:'$2.94M', engineGci:'$34.54M', officeGci:'$41.20M', ahGci:'$0.16M', combGci:'$41.36M', combVol:'$2.07B', avgGci:'$1144K' },
-                  };
-                  const gci = GCI_LOOKUP[r.year] ?? { edGci:'—', namedGci:'—', engineGci:'—', officeGci:'—', ahGci:'—', combGci:'—', combVol:'—', avgGci:'—' };
-                  return (
+                {[
+                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.5% post-maturity (Ed ruling B)
+                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
+                  // Zoila Y2 locked $150K (was $120K) · +$30K compounds 20% through 2036 · Apr 16 2026
+                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.06M', combGci:'$5.13M', combVol:'$0.26B', avgGci:'$423K' },
+                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.06M', combGci:'$9.39M', combVol:'$0.47B', avgGci:'$522K' },
+                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$13.00M', officeGci:'$14.90M', ahGci:'$0.07M', combGci:'$14.97M', combVol:'$0.75B', avgGci:'$624K' },
+                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$20.64M', officeGci:'$22.92M', ahGci:'$0.08M', combGci:'$23.00M', combVol:'$1.15B', avgGci:'$764K' },
+                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$25.52M', officeGci:'$28.25M', ahGci:'$0.09M', combGci:'$28.34M', combVol:'$1.42B', avgGci:'$787K' },
+                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$31.91M', officeGci:'$35.19M', ahGci:'$0.10M', combGci:'$35.29M', combVol:'$1.76B', avgGci:'$980K' },
+                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$32.55M', officeGci:'$36.49M', ahGci:'$0.11M', combGci:'$36.60M', combVol:'$1.83B', avgGci:'$1017K' },
+                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$33.20M', officeGci:'$37.93M', ahGci:'$0.13M', combGci:'$38.06M', combVol:'$1.90B', avgGci:'$1057K' },
+                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$33.87M', officeGci:'$39.55M', ahGci:'$0.14M', combGci:'$39.69M', combVol:'$1.98B', avgGci:'$1103K' },
+                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.16M', combGci:'$41.52M', combVol:'$2.08B', avgGci:'$1153K' },
+                ].map((r, i) => (
                   <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
-                    <td style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.total}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.edGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.namedGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.engineGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.officeGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.ahGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{gci.combGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{gci.combVol}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.avgGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
                   </tr>
-                  );
-                })}
+                ))}
               </tbody>
             </table>
           </div>
@@ -635,10 +676,7 @@ export default function FutureTab() {
             12 elite producers per office &middot; Cap intentional &middot; $500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
           </div>
 
-          {/* ── Staggered Office Ramp Chart ────────────────────────────── */}
-          <div style={{ marginTop: 10, marginBottom: 4 }}>
-            <StaggeredRampChart />
-          </div>
+
 
           {/* Gap Bridge footer */}
           <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
@@ -905,33 +943,36 @@ export default function FutureTab() {
               </div>
             </div>
 
-            {/* Richard */}
-            <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
-                {['Stream','2026','2027','2028','2036'].map(h => (
-                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
-                ))}
-              </div>
-              {[
-                { label: 'AnewHomes *', proj: ['$5,000','$15,000','$16,875','$43,298'], act: null }, // 10% · 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
-              ].map(row => (
-                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
-                  <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? []).map((v, i) => (
-                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
-                  ))}
-                </div>
-              ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 12.5% growth from $50K NOP base */}
-              </div>
-            </div>
 
           </div>
 
+        </div>
+
+        {/* ── Richard Bruehl — Advisory row (centered, full-width) ─────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 0 }}>
+          <div style={{ ...cardStyle, width: 'calc(33.333% - 6px)', minWidth: 220 }}>
+            <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
+            <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+              {['Stream','2026','2027','2028','2036'].map(h => (
+                <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+              ))}
+            </div>
+            {[
+              { label: 'AnewHomes *', proj: ['$5,000','$15,000','$16,875','$43,298'], act: null },
+            ].map(row => (
+              <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                <span style={{ color: MUTED }}>{row.label}</span>
+                {(row.proj ?? []).map((v, i) => (
+                  <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                ))}
+              </div>
+            ))}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+              <span>Projected</span>
+              {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+            </div>
+          </div>
         </div>
 
         {/* ── Footer ─────────────────────────────────────────────────────────── */}
@@ -962,8 +1003,8 @@ export default function FutureTab() {
 
       {/* Print footer */}
       <div className="future-print-footer">
-        <span className="footer-left">Ed Bruehl &middot; Managing Director</span>
-        <span className="footer-center">Christie&apos;s International Real Estate Group East Hampton</span>
+        <span className="footer-left">Ed Bruehl &nbsp;&middot;&nbsp; Managing Director</span>
+        <span className="footer-center">Christie&apos;s &nbsp;&middot;&nbsp; International Real Estate Group &nbsp;&middot;&nbsp; East Hampton</span>
         <span className="footer-right">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
       </div>
     </div>

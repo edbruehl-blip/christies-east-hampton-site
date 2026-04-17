@@ -704,7 +704,7 @@ export default function MarketTab() {
             )}
           </div>
 
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
             {mergedData.map(hamlet => (
               <HamletTile key={hamlet.id} hamlet={hamlet} />
             ))}

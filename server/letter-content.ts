@@ -73,7 +73,9 @@ James Christie built his house on one insight: teach people what they own, and w
 
 Here is what we are asking. Open the INTEL tab. Add a contact. Update a deal. Connect a node. Text William and tell us what he gets right and what he misses. The more data you put in, the more intelligence comes back out.
 
-Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began. That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.`;
+Tell the truth. Know the territory. Sit on the same side of the table as the client. Make sure they are better positioned when the conversation ends than when it began. That is the Christie's way. It has been since 1766. It is what Ed came here to build. And it is what this system was designed to protect.
+
+The door is always open — we look forward to meeting you.`
 
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.
@@ -93,7 +95,7 @@ Christie's events, auctions, private sales, collector evenings, are more accessi
 
 Everything discovered along the way, the people, the relationships, and the institutional access Christie's carries, is something we now get to share with this community.
 
-The door is open whenever you are ready to walk through it.`;
+The door is always open — we look forward to meeting you.`;
 
 // ─── Council Brief Lead Summary Paragraph (Doctrine 37) ──────────────────────
 // Source: Claude, Architect — Monday April 13, 2026 2:45 AM
