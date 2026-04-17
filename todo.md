@@ -2058,3 +2058,8 @@ These cannot move until Ed gives the word. Do not estimate or fill in.
 - [x] Build 1 — future.partnerCards: tRPC endpoint + sheets-helper reads ROSTER!A2:N16 · wired into FutureTab partner stream cards with canonical fallback
 - [x] Build 2 — INTEL Trello tile: replaced iframe embed with Option A branded static tile · 11 lanes · 3-column grid · navy/gold · Cormorant Garamond · "Open Full Board →" button · "Open in Trello ↗" preserved top-right
 - [x] Build 3 — UHNW Path Card print fallback: handleDownload now falls back to window.print() if /api/pdf returns non-200 or throws · pop-up blocked → window.print() on current page
+
+## Bug Fixes — Apr 17, 2026
+
+- [x] Duplicate James Christie portrait on Flagship Letter page — removed body-float instance; hero header portrait is the single canonical display
+- [x] StaggeredRampChart bad colors — Y2/Y1 bar segments were using seat-count numbers as SVG fill values (String(o.y2) = "3", not a hex color); fixed by preserving y2color/y1color from OFFICES definition before cohort spread overwrites them

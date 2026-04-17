@@ -89,7 +89,7 @@ export function StaggeredRampChart() {
         const offset = yr - o.open;
         const cohorts = getSeatCohorts(o.open, yr, o.ramp, o.max);
         const avg = avgGci(cohorts.y1, cohorts.y2, cohorts.y3plus, offset);
-        return { ...o, ...cohorts, avgGci: avg, offset };
+        return { ...o, ...cohorts, avgGci: avg, offset, y2color: o.y2, y1color: o.y1 };
       }),
     }));
   }, []);
@@ -197,7 +197,7 @@ export function StaggeredRampChart() {
                         <rect
                           x={barX} y={LABEL_H + CHART_H - y3h - y2h}
                           width={BAR_W} height={y2h}
-                          fill={String(o.y2)} rx={0}
+                          fill={o.y2color} rx={0}
                         />
                       )}
                       {/* Y1 segment (top = newest) */}
@@ -205,7 +205,7 @@ export function StaggeredRampChart() {
                         <rect
                           x={barX} y={LABEL_H + CHART_H - y3h - y2h - y1h}
                           width={BAR_W} height={y1h}
-                          fill={String(o.y1)} rx={0}
+                          fill={o.y1color} rx={0}
                         />
                       )}
                       {/* Bar-top GCI label */}
