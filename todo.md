@@ -1904,8 +1904,8 @@
 
 ## Apr 17 — Perp Dispatch Edits
 
-- [ ] Jarvis sales volumes → '$12M','$14.4M','$62M+'
-- [ ] Richard subtitle → FLAGSHIP TEAM · Strategic Mentor · 10% AnewHomes
-- [ ] Richard card → Column 3 under Scott (remove standalone centered wrapper)
-- [ ] Miro fallback copy → IntelTab.tsx below the iframe
-- [ ] state.json Richard role field → updated to match
+- [x] Jarvis sales volumes → '$12M','$14.4M','$62M+'
+- [x] Richard subtitle → FLAGSHIP TEAM · Strategic Mentor · 10% AnewHomes
+- [x] Richard card → Column 3 under Scott (remove standalone centered wrapper)
+- [x] Miro fallback copy → IntelTab.tsx below the iframe
+- [x] state.json Richard role field → updated to match
