@@ -1942,10 +1942,10 @@
 
 ## Apr 17 — Site Cleanup Dispatch (Perp · 7 Items · 3 Commits)
 
-- [ ] Item 1: FUTURE PDF page 1 blank — add nav/ticker/sticky hide selectors to future-print.css
-- [ ] Item 2: FUTURE PDF blank bottom — confirm min-height:0 height:auto on html/body/#root in future-print.css
-- [ ] Item 3: INTEL Bulletin Board too wide — wrap BruehlBriefBulletin in maxWidth var(--frame-max-w) div
-- [ ] Item 4: MAPS hamlet PDF cards — add CIS badge (top-left, gold) to PDF download card photo overlay
-- [ ] Item 5: MAPS tab — remove Hamlet Intelligence Matrix grid (11-card photo grid); keep map, CIS Calculator, PDF download buttons
-- [ ] Item 6: Nav bar — remove HOME tab; logo click is only way home; order: MARKET · MAPS · PIPE · FUTURE · INTEL
-- [ ] Item 7: Confirm @page { size: auto } is live in future-print.css
+- [x] Item 1: FUTURE PDF page 1 blank — add nav/ticker/sticky hide selectors to future-print.css
+- [x] Item 2: FUTURE PDF blank bottom — confirmed already present (min-height:0, height:auto on lines 55-56)
+- [x] Item 3: INTEL Bulletin Board too wide — wrap BruehlBriefBulletin in maxWidth var(--frame-max-w) div
+- [x] Item 4: MAPS hamlet PDF cards — add CIS badge (top-left, gold) to PDF download card photo overlay
+- [x] Item 5: MAPS tab — remove Hamlet Intelligence Matrix grid (11-card photo grid); keep map, CIS Calculator, PDF download buttons
+- [x] Item 6: Nav bar — remove HOME tab; logo click is only way home; order: MARKET · MAPS · PIPE · FUTURE · INTEL
+- [x] Item 7: Confirmed @page { size: auto; margin: 0.4in 0.5in } already live in future-print.css
