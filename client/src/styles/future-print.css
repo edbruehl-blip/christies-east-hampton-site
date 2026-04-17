@@ -13,7 +13,7 @@
   /* ── Page setup ─────────────────────────────────────────────────────────── */
   @page {
     size: auto;
-    margin: 0.5in;
+    margin: 0.4in 0.5in;
   }
 
   /* ── Force color printing ────────────────────────────────────────────────── */
@@ -102,12 +102,11 @@
     break-inside: avoid;
     page-break-after: auto;
   }
-
-  /* ── Headcount table: keep all rows together, avoid mid-row splits ──────── */
+  /* ── Headcount table: page breaks handled by size: auto ───────────── */
+  /* Removed page-break-inside: avoid per Perp Round 3 dispatch Apr 17 2026 — footnote was pushing to page 2 */
   .headcount-table {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }  thead {
+    /* page breaks handled by size: auto */
+  } thead {
     display: table-header-group;
   }
 

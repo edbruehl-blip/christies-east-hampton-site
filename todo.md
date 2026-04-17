@@ -1916,3 +1916,8 @@
 - [x] Fix 2A: future-print.css @page → size: auto; margin: 0.5in
 - [x] Fix 2B: future-print.css remove page-break-before: always from .future-participant-grid
 - [x] Fix 2C: future-print.css add page-break-inside: avoid to .future-main-wrapper and children
+
+## Apr 17 — Perp Round 3 Dispatch
+
+- [x] Change C: future-print.css remove break-inside: avoid from .headcount-table (footnote was pushing to page 2)
+- [x] Change A update: @page margin refined to 0.4in 0.5in per Round 3 spec
