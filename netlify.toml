@@ -6,8 +6,26 @@
   NODE_VERSION = "22"
   PNPM_VERSION = "9"
 
+# Force no-cache on index.html so Cloudflare always fetches fresh
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Pragma = "no-cache"
+
+# Static assets (JS/CSS) can cache — they have unique hashes
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-# Build trigger Fri Apr 17 14:34:51 EDT 2026
