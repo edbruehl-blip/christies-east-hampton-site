@@ -24,12 +24,12 @@ import { trpc } from "@/lib/trpc";
 export type TabId = "home" | "market" | "maps" | "pipe" | "future" | "intel";
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: "home",   label: "HOME"   },
   { id: "market", label: "MARKET" },
   { id: "maps",   label: "MAPS"   },
   { id: "pipe",   label: "PIPE"   },
   { id: "future", label: "FUTURE" },
   { id: "intel",  label: "INTEL"  },
+  // HOME removed per Perp dispatch Apr 17 2026 — logo click is the only way home
 ];
 
 // ── Social icon SVGs ──────────────────────────────────────────────────────────

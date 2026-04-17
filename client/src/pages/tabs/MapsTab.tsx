@@ -495,6 +495,11 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.75) 100%)' }} />
+        {hamlet.liveCis && (
+          <div style={{ position: 'absolute', top: 8, left: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 8px 2px', fontWeight: 600, boxShadow: '0 1px 4px rgba(200,172,120,0.35)' }}>
+            CIS {hamlet.liveCis.toFixed(1)}
+          </div>
+        )}
         {hamletListings.length > 0 && (
           <div style={{ position: 'absolute', top: 8, right: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
             {hamletListings.length} ACTIVE
@@ -714,43 +719,13 @@ export default function MapsTab() {
           <PaumanokPlate />
         </div>
       </div>
-      {/* ── Layer 2: CIS Calculator ───────────────────────────────────────── */}
+      {/* ── Layer 2: CIS Calculator ──────────────────────────────────────────────────── */}
       <CISCalculatorLayer />
 
-      {/* ── Layer 3: Eleven Hamlet Matrix ────────────────────────────────────── */}
-      <div style={{ borderBottom: '1px solid rgba(27,42,74,0.12)' }}>
-        <div className="px-6 pt-8 pb-4" style={{ background: '#FAF8F4' }}>
-          <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-              Eleven Hamlets · East End
-            </div>
-            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.5rem' }}>
-              Hamlet Intelligence Matrix
-            </h2>
-            <p className="mt-1 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-              Click any hamlet to expand the full intelligence panel. Download individual hamlet PDFs directly from each card.
-            </p>
-          </div>
-        </div>
+      {/* Layer 3: Hamlet Intelligence Matrix grid removed per Perp dispatch Apr 17 2026 */}
+      {/* Map + CIS Calculator + PDF download buttons in HamletDetailPanel are preserved */}
 
-        <div className="px-6 pb-8">
-          <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {MASTER_HAMLET_DATA.map(hamlet => (
-              <HamletMatrixCard
-                key={hamlet.id}
-                hamlet={hamlet}
-                isExpanded={activeHamlet?.id === hamlet.id}
-                onExpand={() => setActiveHamlet(prev => prev?.id === hamlet.id ? null : hamlet)}
-                liveListings={liveListings}
-              />
-            ))}
-          </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Layer 4 + 5: Hamlet Detail Panel + Print Output ──────────────── */}
+      {/* ── Layer 4 + 5: Hamlet Detail Panel + Print Output ────────────────── */}
       {activeHamlet && (
         <HamletDetailPanel
           hamlet={activeHamlet}
