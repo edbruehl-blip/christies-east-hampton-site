@@ -626,8 +626,8 @@ export default function FutureTab() {
           <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
-          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8 }}>
-            <table style={{ width: '100%', borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
+          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8, WebkitOverflowScrolling: 'touch' as const }}>
+            <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
               <thead>
                 <tr>
                   {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH GCI','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
