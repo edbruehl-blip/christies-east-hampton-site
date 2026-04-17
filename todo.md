@@ -2066,5 +2066,5 @@ These cannot move until Ed gives the word. Do not estimate or fill in.
 
 ## Apr 17 — Mobile Fix + Angel Brief
 
-- [ ] Fix duplicate portrait on HOME mobile — hide portrait column on mobile (md:block), keep single portrait in letter section on all screen sizes
-- [ ] Write Angel team-thread onboarding document — full platform brief, access points, publish workflow, emergency protocol
+- [x] Fix duplicate portrait on HOME mobile — hide portrait column on mobile (md:block), keep single portrait in letter section on all screen sizes
+- [x] Write Angel team-thread onboarding document — full platform brief, access points, publish workflow, emergency protocol
