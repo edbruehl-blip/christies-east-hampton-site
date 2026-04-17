@@ -943,33 +943,36 @@ export default function FutureTab() {
               </div>
             </div>
 
-            {/* Richard */}
-            <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
-                {['Stream','2026','2027','2028','2036'].map(h => (
-                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
-                ))}
-              </div>
-              {[
-                { label: 'AnewHomes *', proj: ['$5,000','$15,000','$16,875','$43,298'], act: null }, // 10% · 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
-              ].map(row => (
-                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
-                  <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? []).map((v, i) => (
-                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
-                  ))}
-                </div>
-              ))}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                <span>Projected</span>
-                {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 12.5% growth from $50K NOP base */}
-              </div>
-            </div>
 
           </div>
 
+        </div>
+
+        {/* ── Richard Bruehl — Advisory row (centered, full-width) ─────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 0 }}>
+          <div style={{ ...cardStyle, width: 'calc(33.333% - 6px)', minWidth: 220 }}>
+            <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
+            <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+              {['Stream','2026','2027','2028','2036'].map(h => (
+                <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+              ))}
+            </div>
+            {[
+              { label: 'AnewHomes *', proj: ['$5,000','$15,000','$16,875','$43,298'], act: null },
+            ].map(row => (
+              <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                <span style={{ color: MUTED }}>{row.label}</span>
+                {(row.proj ?? []).map((v, i) => (
+                  <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                ))}
+              </div>
+            ))}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+              <span>Projected</span>
+              {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+            </div>
+          </div>
         </div>
 
         {/* ── Footer ─────────────────────────────────────────────────────────── */}
@@ -1000,8 +1003,8 @@ export default function FutureTab() {
 
       {/* Print footer */}
       <div className="future-print-footer">
-        <span className="footer-left">Ed Bruehl &middot; Managing Director</span>
-        <span className="footer-center">Christie&apos;s International Real Estate Group East Hampton</span>
+        <span className="footer-left">Ed Bruehl &nbsp;&middot;&nbsp; Managing Director</span>
+        <span className="footer-center">Christie&apos;s &nbsp;&middot;&nbsp; International Real Estate Group &nbsp;&middot;&nbsp; East Hampton</span>
         <span className="footer-right">{new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
       </div>
     </div>
