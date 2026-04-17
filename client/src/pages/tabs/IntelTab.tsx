@@ -159,6 +159,11 @@ function MindMapSection() {
           Live read-only embed · Edits made in Miro reflect on next load.{' '}
           <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
           {' '}to edit, drag nodes, and add new ones.
+          <span style={{ display: 'block', marginTop: 6, color: '#7a8a8e', fontSize: 9 }}>
+            If the board does not load, open it directly at{' '}
+            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>miro.com/app/board/uXjVGj6Oc40</a>
+            {' '}· Miro requires a free account to view in embed mode on some browsers.
+          </span>
         </div>
       </div>
     </div>

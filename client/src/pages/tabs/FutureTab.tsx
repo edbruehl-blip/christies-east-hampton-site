@@ -847,7 +847,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$10M','$15M','$25M','$50M+'], act: null },
+                { label: 'Sales vol',    proj: ['$12M','$14.4M','$62M+','—'], act: null }, // Perp-verified Apr 17 2026 · 2026=$12M · 2027=$14.4M · 2036=$62M+ (exact $61.9M, rounded up per Ed ruling)
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
@@ -943,16 +943,10 @@ export default function FutureTab() {
               </div>
             </div>
 
-
-          </div>
-
-        </div>
-
-        {/* ── Richard Bruehl — Advisory row (centered, full-width) ─────────────── */}
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 2, marginBottom: 0 }}>
-          <div style={{ ...cardStyle, width: 'calc(33.333% - 6px)', minWidth: 220 }}>
-            <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
-            <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Advisory &middot; AnewHomes</div>
+            {/* Richard — Column 3, below Scott */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Richard Bruehl</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>FLAGSHIP TEAM &middot; Strategic Mentor &middot; 10% AnewHomes</div>
             <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
               {['Stream','2026','2027','2028','2036'].map(h => (
                 <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
@@ -972,6 +966,7 @@ export default function FutureTab() {
               <span>Projected</span>
               {['$5K','$15K','$17K','$43K'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
             </div>
+          </div>
           </div>
         </div>
 
