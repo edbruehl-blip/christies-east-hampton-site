@@ -259,6 +259,15 @@
     /* Only strip on the outermost wrapper — targeted via specific class */
   }
 
+  /* Fix right-side bleed: scale content 8% to pull rightmost column inside page margin */
+  .future-main-wrapper {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    transform: scale(0.92);
+    transform-origin: top left;
+  }
+
   /* Kill the large bottom padding on the main content wrapper */
   /* Fix 2C: prevent any automatic page breaks inside the main wrapper */
   .future-main-wrapper,
