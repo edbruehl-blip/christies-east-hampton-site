@@ -45,6 +45,54 @@ const EH_FAINT   = 'rgba(200,172,120,0.20)';
 const SH_FAINT   = 'rgba(58,90,122,0.35)';
 const WH_FAINT   = 'rgba(90,122,90,0.35)';
 
+// Cohort sub-segment colors — shade variations within each office color family
+// Founding (base, full saturation) → Targeted (Engine 1, mid) → Organic (Engine 2, lighter)
+const EH_FOUNDING = '#c8ac78';                     // EH base — full gold
+const EH_TARGETED = 'rgba(200,172,120,0.72)';      // EH Engine 1 — mid gold
+const EH_ORGANIC  = 'rgba(200,172,120,0.45)';      // EH Engine 2 — light gold
+const SH_FOUNDING = '#3a5a7a';                     // SH base — full steel
+const SH_TARGETED = 'rgba(58,90,122,0.72)';        // SH Engine 1 — mid steel
+const SH_ORGANIC  = 'rgba(58,90,122,0.45)';        // SH Engine 2 — light steel
+const WH_FOUNDING = '#5a7a5a';                     // WH base — full sage
+const WH_TARGETED = 'rgba(90,122,90,0.72)';        // WH Engine 1 — mid sage
+const WH_ORGANIC  = 'rgba(90,122,90,0.45)';        // WH Engine 2 — light sage
+
+// EPM cohort ramp parameters (from ASSUMPTIONS + ROSTER)
+// Founding: Ed + named producers (5 seats EH, 3 SH, 2 WH at open)
+// Targeted: Engine 1 hires ($500K→$750K→$1M ramp)
+// Organic: Engine 2 hires ($250K→$500K→$750K ramp)
+const EPM_FOUNDING_SEATS = { eh: 5, sh: 3, wh: 2 };
+const EPM_ENGINE1_GCI_Y1 = 500_000;  // Engine 1 Y1 GCI per seat
+const EPM_ENGINE2_GCI_Y1 = 250_000;  // Engine 2 Y1 GCI per seat
+
+/**
+ * Compute cohort sub-segments for one office zone.
+ * Splits the total office GCI into Founding / Targeted / Organic proportions
+ * based on EPM ramp parameters and years since office opened.
+ * Totals always sum to `total` — no rounding drift.
+ */
+function computeCohorts(total: number, yearsOpen: number, _unused: number): { founding: number; targeted: number; organic: number } {
+  if (total <= 0 || yearsOpen < 0) return { founding: total, targeted: 0, organic: 0 };
+  // Founding team GCI grows at 20% compound from base $600K/seat
+  const foundingGciPerSeat = 600_000 * Math.pow(1.2, yearsOpen);
+  // Engine 1: seats ramp in over years 1-4, each at $500K→$750K→$1M
+  const engine1Seats = Math.min(Math.max(yearsOpen, 0), 4); // up to 4 targeted seats
+  const engine1GciPerSeat = EPM_ENGINE1_GCI_Y1 * Math.pow(1.5, Math.min(yearsOpen, 2));
+  // Engine 2: organic seats from year 2 onward
+  const engine2Seats = Math.max(yearsOpen - 1, 0) * 2;
+  const engine2GciPerSeat = EPM_ENGINE2_GCI_Y1 * Math.pow(1.5, Math.min(Math.max(yearsOpen - 1, 0), 2));
+  // Raw proportions
+  const rawFounding = foundingGciPerSeat;
+  const rawTargeted = engine1Seats * engine1GciPerSeat;
+  const rawOrganic  = engine2Seats * engine2GciPerSeat;
+  const rawTotal = rawFounding + rawTargeted + rawOrganic || 1;
+  // Scale to actual total, preserve exact sum
+  const founding = Math.round(total * rawFounding / rawTotal);
+  const targeted = Math.round(total * rawTargeted / rawTotal);
+  const organic  = total - founding - targeted; // remainder avoids rounding drift
+  return { founding: Math.max(founding, 0), targeted: Math.max(targeted, 0), organic: Math.max(organic, 0) };
+}
+
 const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
 
@@ -408,25 +456,40 @@ export default function FutureTab() {
                             )}
                           </div>
                         )}
-                        {/* Westhampton layer (sage green) — top of stack */}
-                        {whPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, background: WH_COLOR, borderTop: `1px solid rgba(90,122,90,0.6)` }} />
-                        )}
-                        {/* Southampton layer (navy/steel) */}
-                        {shPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, background: SH_COLOR, borderTop: `1px solid rgba(58,90,122,0.6)` }} />
-                        )}
-                        {/* East Hampton layer (gold/amber) — base */}
-                        {ehPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, background: actPct > 0 ? GOLD : EH_COLOR, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2px 2px 0' }}>
-                            {actPct > 0 && (
-                              <>
-                                <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />
-                                {/* 2026 YTD label removed — too small to read on mobile */}
-                              </>
-                            )}
-                          </div>
-                        )}
+                        {/* Westhampton — cohort sub-segments (Founding/Targeted/Organic) */}
+                        {whPct > 0 && (() => {
+                          const wh = computeCohorts(bar.wh, parseInt(bar.year) - 2030, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(90,122,90,0.6)` }}>
+                              {wh.organic  > 0 && <div title={`WH Organic: ${fmtM(wh.organic)}`}  style={{ flex: wh.organic,  background: WH_ORGANIC,  minHeight: 1 }} />}
+                              {wh.targeted > 0 && <div title={`WH Engine 1: ${fmtM(wh.targeted)}`} style={{ flex: wh.targeted, background: WH_TARGETED, minHeight: 1 }} />}
+                              {wh.founding > 0 && <div title={`WH Founding: ${fmtM(wh.founding)}`} style={{ flex: wh.founding, background: WH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
+                        {/* Southampton — cohort sub-segments */}
+                        {shPct > 0 && (() => {
+                          const sh = computeCohorts(bar.sh, parseInt(bar.year) - 2028, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(58,90,122,0.6)` }}>
+                              {sh.organic  > 0 && <div title={`SH Organic: ${fmtM(sh.organic)}`}  style={{ flex: sh.organic,  background: SH_ORGANIC,  minHeight: 1 }} />}
+                              {sh.targeted > 0 && <div title={`SH Engine 1: ${fmtM(sh.targeted)}`} style={{ flex: sh.targeted, background: SH_TARGETED, minHeight: 1 }} />}
+                              {sh.founding > 0 && <div title={`SH Founding: ${fmtM(sh.founding)}`} style={{ flex: sh.founding, background: SH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
+                        {/* East Hampton — cohort sub-segments */}
+                        {ehPct > 0 && (() => {
+                          const eh = computeCohorts(bar.eh, parseInt(bar.year) - 2026, 0);
+                          return (
+                            <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, display: 'flex', flexDirection: 'column' }}>
+                              {actPct > 0 && <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />}
+                              {eh.organic  > 0 && <div title={`EH Organic: ${fmtM(eh.organic)}`}  style={{ flex: eh.organic,  background: EH_ORGANIC,  minHeight: 1 }} />}
+                              {eh.targeted > 0 && <div title={`EH Engine 1: ${fmtM(eh.targeted)}`} style={{ flex: eh.targeted, background: EH_TARGETED, minHeight: 1 }} />}
+                              {eh.founding > 0 && <div title={`EH Founding: ${fmtM(eh.founding)}`} style={{ flex: eh.founding, background: EH_FOUNDING, minHeight: 1 }} />}
+                            </div>
+                          );
+                        })()}
                       </>
                     )}
                   </div>
@@ -445,27 +508,38 @@ export default function FutureTab() {
             ))}
           </div>
         </div>
-
-        {/* ── Legend ──────────────────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 14, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
+        {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
+        <div style={{ display: 'flex', gap: 10, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
             East Hampton &middot; 2026–2036
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_FOUNDING, flexShrink: 0 }} />
             Southampton &middot; opens 2028
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_COLOR, flexShrink: 0 }} />
+            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_FOUNDING, flexShrink: 0 }} />
             Westhampton &middot; opens 2030
+          </div>
+          <div style={{ width: 1, height: 10, background: '#2a3a4a', flexShrink: 0, margin: '0 2px' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
+            Founding
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_TARGETED, border: '0.5px solid rgba(200,172,120,0.4)', flexShrink: 0 }} />
+            Engine 1
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
+            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_ORGANIC, border: '0.5px solid rgba(200,172,120,0.25)', flexShrink: 0 }} />
+            Engine 2
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
             <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
-            Projected — live from Growth Model v2 VOLUME Row 17
+            Projected — live from Growth Model v2
           </div>
         </div>
-
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
         <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
           {[
