@@ -106,6 +106,7 @@ export default function FlagshipLetterPage() {
 
         {/* Hero area: James Christie portrait + letter title */}
         <div
+          className="flagship-hero-row"
           style={{
             position: 'relative', zIndex: 2,
             display: 'flex', alignItems: 'flex-end', gap: 32,
@@ -114,7 +115,7 @@ export default function FlagshipLetterPage() {
           }}
         >
           {/* James Christie portrait */}
-          <div style={{ flexShrink: 0 }}>
+          <div className="flagship-hero-portrait" style={{ flexShrink: 0 }}>
             <div style={{
               padding: 4,
               border: `2px solid ${GOLD}`,
@@ -229,7 +230,7 @@ export default function FlagshipLetterPage() {
           <>
             {/* Portrait float — screen only, first paragraph wraps around it */}
             <div
-              className="no-print"
+              className="no-print flagship-body-portrait"
               style={{
                 float: 'left',
                 marginRight: 28,
@@ -352,6 +353,12 @@ export default function FlagshipLetterPage() {
       {/* ── Styles: fonts + print ─────────────────────────────────────────── */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600&display=swap');
+
+        @media (max-width: 639px) {
+          .flagship-hero-portrait { display: none !important; }
+          .flagship-hero-row { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
+          .flagship-body-portrait { display: none !important; }
+        }
 
         @media print {
           .no-print { display: none !important; }

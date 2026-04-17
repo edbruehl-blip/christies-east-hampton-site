@@ -20,13 +20,24 @@ const BRIEF_BYLINE = 'Claude, Architect · Christie\'s International Real Estate
 
 export default function CouncilBriefPage() {
   const isPdfMode = useIsPdfMode();
-  const handleDownload = () => {
-    const a = document.createElement('a');
-    a.href = '/api/pdf?url=/council-brief';
-    a.download = `Christies_EH_Council_Brief_${new Date().toISOString().slice(0, 10)}.pdf`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  const handleDownload = async () => {
+    // Doctrine 43: try Puppeteer endpoint first; fall back to window.print() if unavailable
+    try {
+      const res = await fetch('/api/pdf?url=/council-brief', { method: 'HEAD' });
+      if (res.ok) {
+        const a = document.createElement('a');
+        a.href = '/api/pdf?url=/council-brief';
+        a.download = `Christies_EH_Council_Brief_${new Date().toISOString().slice(0, 10)}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return;
+      }
+    } catch (_) {
+      // Puppeteer endpoint unreachable — fall through to window.print()
+    }
+    // Fallback: browser print dialog
+    window.print();
   };
 
   // PDF light-mode tokens
