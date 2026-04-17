@@ -128,7 +128,7 @@ function FoundingLetterSection() {
         }} />
 
         <div
-          className="relative flex flex-col md:grid"
+          className="relative flex flex-col lg:grid"
           style={{
             gridTemplateColumns: '200px 1fr',
             gap: 0,
@@ -137,7 +137,7 @@ function FoundingLetterSection() {
           }}
         >
           {/* Portrait column — desktop only */}
-          <div className="hidden md:flex" style={{ padding: '32px 20px 32px 28px', flexDirection: 'column', gap: 20 }}>
+          <div className="hidden lg:flex" style={{ padding: '32px 20px 32px 28px', flexDirection: 'column', gap: 20 }}>
             <div
               onClick={() => navigate('/report')}
               style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
@@ -175,7 +175,7 @@ function FoundingLetterSection() {
           <div style={{ padding: '32px 28px 32px 28px' }}>
             {/* Mobile-only portrait — desktop portrait is in the left column */}
             <div
-              className="flex md:hidden"
+              className="flex lg:hidden"
               onClick={() => navigate('/report')}
               style={{ cursor: 'pointer', alignItems: 'center', gap: 16, marginBottom: 20 }}
             >

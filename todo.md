@@ -1921,3 +1921,7 @@
 
 - [x] Change C: future-print.css remove break-inside: avoid from .headcount-table (footnote was pushing to page 2)
 - [x] Change A update: @page margin refined to 0.4in 0.5in per Round 3 spec
+
+## Apr 17 — Portrait Column Breakpoint Fix
+
+- [x] Change portrait column visibility from md:block to lg:block in PublicPage.tsx — prevents duplicate at mid-width (900-1023px)
