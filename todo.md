@@ -1928,14 +1928,14 @@
 
 ## Apr 17 — Master Dispatch (Perp · 7 Items · 3 Commits)
 
-- [ ] Item 1: Delete Tier Legend block from MarketTab.tsx (lines 558–584), remove TIER_COLORS/TIER_BADGE_COLORS if unused
-- [ ] Item 2a: Add FUTURE PDF page title header to future-print.css (.future-main-wrapper::before)
-- [ ] Item 2b: Letter PDF title header already present — no change needed
-- [ ] Item 3: Fix FUTURE PDF blank bottom — add html/body/#root min-height:0 and .future-main-wrapper padding-bottom:0 to future-print.css
-- [ ] Item 4: Fix Letter PDF lead summary box — add .lead-summary-box className + print CSS to ChristiesLetterPage.tsx
-- [ ] Item 5: CIS badge brand-up — gold bg / navy text, box-shadow, border in MarketTab.tsx
-- [ ] Item 6: Flagship Letter print CSS — change body background from #FFFFFF to #FAF8F4 in FlagshipLetterPage.tsx
-- [ ] Item 7a: Remove William/audio from ReportPage.tsx Section 1 (audio state + TTS buttons + player)
-- [ ] Item 7b: Update report-print.css — size:auto, min-height:0, section title headers via ::before
-- [ ] Item 7c: Add data-section-title attributes to each section wrapper in ReportPage.tsx
-- [ ] Item 7d: Remove tier badge chips from ReportPage.tsx hamlet tiles, check VIX references
+- [x] Item 1: Delete Tier Legend block from MarketTab.tsx (lines 558–584), remove TIER_COLORS/TIER_BADGE_COLORS if unused
+- [x] Item 2a: Add FUTURE PDF page title header to future-print.css (.future-main-wrapper::before)
+- [x] Item 2b: Letter PDF title header already present — no change needed
+- [x] Item 3: Fix FUTURE PDF blank bottom — add html/body/#root min-height:0 and .future-main-wrapper padding-bottom:0 to future-print.css
+- [x] Item 4: Fix Letter PDF lead summary box — add .lead-summary-box className + print CSS to ChristiesLetterPage.tsx
+- [x] Item 5: CIS badge brand-up — gold bg / navy text, box-shadow, border in MarketTab.tsx
+- [x] Item 6: Flagship Letter print CSS — change body background from #FFFFFF to #FAF8F4 in FlagshipLetterPage.tsx
+- [x] Item 7a: Section 1 already clean — no William/audio controls present, no change needed
+- [x] Item 7b: Update report-print.css — size:auto, min-height:0, section title headers via ::before
+- [x] Item 7c: Add data-section-title attributes to each section wrapper in ReportPage.tsx
+- [x] Item 7d: Hamlet tiles in /report already use CIS-only gold chip (no tier badge) — parity confirmed, no change needed
