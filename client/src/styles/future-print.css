@@ -12,8 +12,8 @@
 @media print {
   /* ── Page setup ─────────────────────────────────────────────────────────── */
   @page {
-    size: letter portrait;
-    margin: 0.75in 0.65in 0.85in 0.65in;
+    size: auto;
+    margin: 0.5in;
   }
 
   /* ── Force color printing ────────────────────────────────────────────────── */
@@ -59,9 +59,9 @@
     overflow: visible !important;
   }
 
-  /* ── C1: Page break before partner cards grid ─────────────────────── */
+  /* ── C1: Partner cards grid ─────────────────────────────── */
+  /* page-break-before: always removed per Perp dispatch Apr 17 2026 — single continuous portrait */
   .future-participant-grid {
-    page-break-before: always;
     margin-top: 0 !important;
   }
 
@@ -218,7 +218,11 @@
   }
 
   /* Kill the large bottom padding on the main content wrapper */
-  .future-main-wrapper {
+  /* Fix 2C: prevent any automatic page breaks inside the main wrapper */
+  .future-main-wrapper,
+  .future-main-wrapper * {
+    page-break-inside: avoid;
+    break-inside: avoid;
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
   }

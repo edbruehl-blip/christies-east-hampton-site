@@ -1909,3 +1909,10 @@
 - [x] Richard card → Column 3 under Scott (remove standalone centered wrapper)
 - [x] Miro fallback copy → IntelTab.tsx below the iframe
 - [x] state.json Richard role field → updated to match
+
+## Apr 17 — Perp Round 2 Dispatch
+
+- [x] Fix 1: Restore Jarvis 2026 $10M — FutureTab.tsx Sales vol array → ['$10M','$12M','$14.4M','$62M+']
+- [x] Fix 2A: future-print.css @page → size: auto; margin: 0.5in
+- [x] Fix 2B: future-print.css remove page-break-before: always from .future-participant-grid
+- [x] Fix 2C: future-print.css add page-break-inside: avoid to .future-main-wrapper and children

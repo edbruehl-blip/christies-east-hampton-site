@@ -847,7 +847,7 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'Sales vol',    proj: ['$12M','$14.4M','$62M+','—'], act: null }, // Perp-verified Apr 17 2026 · 2026=$12M · 2027=$14.4M · 2036=$62M+ (exact $61.9M, rounded up per Ed ruling)
+                { label: 'Sales vol',    proj: ['$10M','$12M','$14.4M','$62M+'], act: null }, // Perp-verified Apr 17 2026 · 2026=$10M · 2027=$12M · 2028=$14.4M · 2036=$62M+ (exact $61.9M, rounded up per Ed ruling)
                 { label: 'Actual vol',   proj: null, act: ['—','—','—','—'] },
                 { label: 'GCI proj',     proj: ['$200K','$240K','$288K','$1.24M+'], act: null }, // 20% YoY from $200K · no cap · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
