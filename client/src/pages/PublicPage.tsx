@@ -136,8 +136,8 @@ function FoundingLetterSection() {
             alignItems: 'start',
           }}
         >
-          {/* Portrait column */}
-          <div style={{ padding: '32px 20px 32px 28px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Portrait column — desktop only */}
+          <div className="hidden md:flex" style={{ padding: '32px 20px 32px 28px', flexDirection: 'column', gap: 20 }}>
             <div
               onClick={() => navigate('/report')}
               style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
@@ -172,7 +172,30 @@ function FoundingLetterSection() {
           </div>
 
           {/* Founding letter column */}
-          <div style={{ padding: '32px 36px 32px 12px' }}>
+          <div style={{ padding: '32px 28px 32px 28px' }}>
+            {/* Mobile-only portrait — desktop portrait is in the left column */}
+            <div
+              className="flex md:hidden"
+              onClick={() => navigate('/report')}
+              style={{ cursor: 'pointer', alignItems: 'center', gap: 16, marginBottom: 20 }}
+            >
+              <div style={{
+                padding: 3,
+                border: `2px solid ${GOLD}`,
+                boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 6px 20px rgba(0,0,0,0.5)',
+                background: 'rgba(27,42,74,0.4)',
+                flexShrink: 0,
+              }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie — Founder, Christie's, Est. 1766"
+                  style={{ width: 64, height: 82, objectFit: 'cover', objectPosition: 'center 35%', display: 'block' }}
+                />
+              </div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', lineHeight: 1.6 }}>
+                James Christie<br/>Est. 1766<br/><span style={{ opacity: 0.6 }}>Tap → Market Report</span>
+              </div>
+            </div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>

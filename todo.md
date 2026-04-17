@@ -2063,3 +2063,8 @@ These cannot move until Ed gives the word. Do not estimate or fill in.
 
 - [x] Duplicate James Christie portrait on Flagship Letter page — removed body-float instance; hero header portrait is the single canonical display
 - [x] StaggeredRampChart bad colors — Y2/Y1 bar segments were using seat-count numbers as SVG fill values (String(o.y2) = "3", not a hex color); fixed by preserving y2color/y1color from OFFICES definition before cohort spread overwrites them
+
+## Apr 17 — Mobile Fix + Angel Brief
+
+- [ ] Fix duplicate portrait on HOME mobile — hide portrait column on mobile (md:block), keep single portrait in letter section on all screen sizes
+- [ ] Write Angel team-thread onboarding document — full platform brief, access points, publish workflow, emergency protocol
