@@ -583,7 +583,7 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
     "Everything I found along the way -- the people, the relationships, and the institutional access Christie's carries -- is something I now get to share with this community.",
     "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
     "Behind every conversation we have, there is a system verifying every number and every relationship in real time -- so when we sit down together, nothing is guessed.",
-    "The door is always open whenever you are ready to walk through it.",
+    "The door is always open — we look forward to meeting you.",
   ];
   let lY = letterY + 6;
   doc.setFontSize(7.5);
@@ -1102,7 +1102,7 @@ export async function generateChristiesLetter(): Promise<void> {
       text: 'When the time comes to understand what you have, how to protect it, and what it might mean to the right buyer \u2014 the conversation is already open.',
     },
     {
-      text: 'The door is open whenever you are ready to walk through it.',
+      text: 'The door is always open — we look forward to meeting you.',
       italic: true,
     },
   ];
