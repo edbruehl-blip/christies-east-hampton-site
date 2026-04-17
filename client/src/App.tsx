@@ -49,6 +49,7 @@ import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 // Set to true on May 26, 2026 to activate auth-gate on /future standalone route.
 // All tabs remain public until that date per Ed ruling April 16, 2026.
 const FUTURE_AUTH_ENABLED = false;
+// bundle-refresh: 2026-04-17T19:12Z — StaggeredRampChart Y1/Y2 color fix + mobile portrait fix
 
 // ─── Protected Future Route ───────────────────────────────────────────────────
 // When FUTURE_AUTH_ENABLED is true, unauthenticated visitors to /future are
