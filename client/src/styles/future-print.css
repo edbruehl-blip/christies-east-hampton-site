@@ -80,6 +80,8 @@
 
   /* ── Print page title ───────────────────────────────────────────────────── */
   .future-main-wrapper::before {
+    page-break-after: avoid;
+    break-after: avoid;
     content: "CHRISTIE'S EAST HAMPTON  \00B7  ASCENSION ARC  \00B7  PARTNERSHIP PROJECTIONS";
     display: block;
     font-family: "Barlow Condensed", sans-serif;
@@ -214,6 +216,8 @@
   /* ── Pro forma footer ────────────────────────────────────────────────────────── */
   /* Static position (not fixed) so it flows with content and renders correctly */
   .future-print-footer {
+    page-break-after: avoid;
+    break-after: avoid;
     display: flex !important;
     position: static !important;
     width: 100%;
