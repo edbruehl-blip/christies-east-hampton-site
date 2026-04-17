@@ -1900,3 +1900,4 @@
 - [ ] Fix Zoila total: add ICA Override to sum 100000 to 130000
 - [ ] Fix footnote: Ed 35pct Ilija 65pct
 - [ ] Fix AnewHomes footnote splits: Jarvis 5pct Angel 5pct Zoila 5pct Pool 5pct
+
