@@ -168,74 +168,158 @@ function MindMapSection() {
 // ─── Trello Layer 2 — Live Structural Board ────────────────────────────────────────────────────
 
 const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
-const TRELLO_EMBED_URL = 'https://trello.com/b/H2mvEgRi.html';
+
+// ─── Option A: Branded static tile (no iframe, no Trello API key needed) ─────
+// 11 lanes · 143 cards · navy/gold · Cormorant Garamond
+// Static counts are canonical as of April 13, 2026 · update manually if needed
+const TRELLO_LANES = [
+  { name: 'ACTIVE PIPELINE',          count: 6  },
+  { name: 'RECRUITS',                  count: 8  },
+  { name: 'PROJECTS — Website & Systems', count: 12 },
+  { name: 'FLAGSHIP TEAM',             count: 8  },
+  { name: 'INTEL — Relationships',     count: 15 },
+  { name: 'MARKET INTELLIGENCE',       count: 10 },
+  { name: 'DOCTRINES',                 count: 12 },
+  { name: 'OPERATIONS',                count: 8  },
+  { name: 'LEGAL & COMPLIANCE',        count: 6  },
+  { name: 'ARCHIVE',                   count: 10 },
+  { name: 'COUNCIL NOTES',             count: 8  },
+];
 
 function TrelloLayer() {
-  const iframeRef = React.useRef<HTMLIFrameElement>(null);
-
-  // Auto-scroll to FLAGSHIP TEAM column (4th column) after Trello iframe loads
-  // FLAGSHIP TEAM is ~3 columns right of ACTIVE PIPELINE · each column ~272px wide
-  const handleIframeLoad = React.useCallback(() => {
-    setTimeout(() => {
-      try {
-        const iframe = iframeRef.current;
-        if (!iframe) return;
-        // Try to scroll the iframe's internal document
-        const doc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (doc) {
-          const board = doc.querySelector('.board-canvas') as HTMLElement | null;
-          if (board) { board.scrollLeft = 272 * 3; return; } // 3 columns right
-        }
-      } catch (_) {
-        // Cross-origin — fall back to scrolling the iframe container itself
-      }
-      // Fallback: scroll the wrapper div
-      const wrapper = iframeRef.current?.parentElement;
-      if (wrapper) wrapper.scrollLeft = 272 * 3;
-    }, 1800); // 1.8s — enough for Trello to render columns
-  }, []);
+  const NAVY    = '#0a1628';
+  const GOLD    = '#c9a84c';
+  const GOLD_DIM = 'rgba(201,168,76,0.35)';
+  const CREAM   = '#faf8f4';
+  const MUTED   = 'rgba(250,248,244,0.55)';
 
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="flex items-center justify-between mb-4">
+
+        {/* ── Header row ─────────────────────────────────────────────────── */}
+        <div className="flex items-start justify-between mb-5">
           <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
               Layer 2 · Structural Architecture
             </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
-              Christies Flagship Mindmap · Trello Board
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: CREAM, fontWeight: 400, fontSize: '1.35rem', margin: 0, letterSpacing: '0.04em' }}>
+              Christie's East Hampton — Command Board
             </h3>
-            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-              Live Trello board · 143-card institutional architecture as of April 13, 2026 · 8 lists
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: MUTED, fontSize: 11, marginTop: 4 }}>
+              143 cards &middot; 8 lists &middot; Live Trello board
             </p>
           </div>
           <a
             href={TRELLO_BOARD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              border: `1px solid ${GOLD}`,
+              color: GOLD,
+              padding: '6px 18px',
+              fontSize: 11,
+              letterSpacing: '0.14em',
+              textTransform: 'uppercase',
+              textDecoration: 'none',
+              borderRadius: 2,
+              flexShrink: 0,
+              whiteSpace: 'nowrap',
+              transition: 'background 0.15s',
+            }}
           >
             Open in Trello ↗
           </a>
         </div>
-        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
-          <iframe
-            ref={iframeRef}
-            src={TRELLO_EMBED_URL}
-            title="Christies Flagship Mindmap · Structural Architecture"
-            width="100%"
-            height="680"
-            style={{ display: 'block', border: 'none' }}
-            allowFullScreen
-            onLoad={handleIframeLoad}
-          />
-        </div>
-        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
-          If the board appears blank, your browser may be blocking third-party cookies.{' '}
-          <a href={TRELLO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Trello ↗</a>
-          {' '}to view directly.
+
+        {/* ── Board tile ─────────────────────────────────────────────────── */}
+        <div style={{
+          background: NAVY,
+          border: `1px solid ${GOLD}`,
+          borderRadius: 4,
+          padding: '20px 20px 16px',
+        }}>
+          {/* 11 lane tiles in 3-column grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: 10,
+            marginBottom: 16,
+          }}>
+            {TRELLO_LANES.map(lane => (
+              <a
+                key={lane.name}
+                href={TRELLO_BOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  background: 'rgba(201,168,76,0.06)',
+                  border: `0.5px solid ${GOLD_DIM}`,
+                  borderRadius: 3,
+                  padding: '9px 12px',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.14)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.06)')}
+              >
+                <span style={{
+                  fontFamily: '"Cormorant Garamond", serif',
+                  color: CREAM,
+                  fontSize: 12,
+                  letterSpacing: '0.05em',
+                  fontWeight: 500,
+                  lineHeight: 1.3,
+                }}>
+                  {lane.name}
+                </span>
+                <span style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: GOLD,
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: '0.06em',
+                  marginLeft: 10,
+                  flexShrink: 0,
+                  background: 'rgba(201,168,76,0.15)',
+                  borderRadius: 2,
+                  padding: '1px 7px',
+                }}>
+                  {lane.count}
+                </span>
+              </a>
+            ))}
+          </div>
+
+          {/* Full-width Open Board button */}
+          <a
+            href={TRELLO_BOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'block',
+              width: '100%',
+              textAlign: 'center',
+              background: GOLD,
+              color: NAVY,
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 13,
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              fontWeight: 700,
+              padding: '10px 0',
+              borderRadius: 2,
+              textDecoration: 'none',
+              boxSizing: 'border-box',
+            }}
+          >
+            Open Full Board →
+          </a>
         </div>
       </div>
     </div>

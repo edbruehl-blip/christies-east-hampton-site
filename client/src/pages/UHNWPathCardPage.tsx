@@ -103,7 +103,20 @@ export default function UHNWPathCardPage() {
     setDownloading(true);
     try {
       const res = await fetch('/api/pdf?url=/cards/uhnw-path');
-      if (!res.ok) throw new Error('PDF generation failed');
+      if (!res.ok) {
+        // Build 3 · Doctrine 43 fallback: Puppeteer failed → open page and trigger browser print dialog
+        console.warn('[UHNWPathCard] PDF endpoint returned', res.status, '— falling back to window.print()');
+        const printWin = window.open('/cards/uhnw-path', '_blank');
+        if (printWin) {
+          printWin.addEventListener('load', () => {
+            setTimeout(() => printWin.print(), 500);
+          });
+        } else {
+          // Pop-up blocked — print current page as last resort
+          window.print();
+        }
+        return;
+      }
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -113,7 +126,9 @@ export default function UHNWPathCardPage() {
       a.click();
       URL.revokeObjectURL(url);
     } catch (err) {
-      console.error('[UHNWPathCard] PDF download failed:', err);
+      // Network error — fall back to window.print()
+      console.error('[UHNWPathCard] PDF download failed, falling back to print:', err);
+      window.print();
     } finally {
       setDownloading(false);
     }

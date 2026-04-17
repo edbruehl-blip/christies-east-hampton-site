@@ -126,6 +126,21 @@ export default function FutureTab() {
     retry: false, staleTime: 5 * 60 * 1000,
   });
 
+  // Build 1 · Endpoint 1: Headcount Scaling Table — OUTPUTS!A74:E85
+  const { data: headcountData } = trpc.future.headcountTable.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+
+  // Build 1 · Endpoint 2: 100-Day Milestone Cards — OUTPUTS!A67:C71
+  const { data: milestonesData } = trpc.future.milestones.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+
+  // Build 1 · Endpoint 3: Partner Stream Cards — ROSTER!A2:N16
+  const { data: partnerCardsData } = trpc.future.partnerCards.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+
   // Extract Angel and Zoila nest/producer rows from ROSTER
   const rosterAgents = gmData?.agents ?? [];
   const angelNest     = rosterAgents.find(a => a.name === 'Angel Theodore (Nest)');
@@ -472,21 +487,21 @@ export default function FutureTab() {
           {[
             {
               phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
-              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
+              shareholder: <><strong>{milestonesData ? `$${(milestonesData.closedVolume / 1_000_000).toFixed(2)}M closed.` : '$4.57M closed.'}</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
               client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
               team: '26 Park Place operational. Open before the sign went up.',
             },
             {
               phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
-              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
+              shareholder: <><strong>{milestonesData ? `$${(milestonesData.activePipeline / 1_000_000).toFixed(2)}M active.` : '$13.62M active.'}</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
               client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
               team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
             },
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
-              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
-              client: "AI Council daily. Every listing at Christie's standard.",
-              team: '15 agents on live OS. Southampton bench seeded.',
+              shareholder: <><strong>{milestonesData ? `$${(milestonesData.volumeTarget / 1_000_000).toFixed(0)}M target.` : '$75M target.'}</strong> First Wednesday Caravan. East End market presence locked.</>,
+              client: `AI Council daily. Every listing at Christie's standard.`,
+              team: `${milestonesData ? milestonesData.agentsOnOS : 15} agents on live OS. Southampton bench seeded.`,
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
@@ -563,36 +578,54 @@ export default function FutureTab() {
                 </tr>
               </thead>
               <tbody>
-                {[
-                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.5% post-maturity (Ed ruling B)
-                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
-                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.57M', engineGci:'$3.75M', officeGci:'$5.04M', ahGci:'$0.06M', combGci:'$5.10M', combVol:'$0.25B', avgGci:'$420K' },
-                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.68M', engineGci:'$7.75M', officeGci:'$9.30M', ahGci:'$0.06M', combGci:'$9.36M', combVol:'$0.47B', avgGci:'$517K' },
-                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.82M', engineGci:'$13.00M', officeGci:'$14.86M', ahGci:'$0.07M', combGci:'$14.93M', combVol:'$0.75B', avgGci:'$619K' },
-                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$0.99M', engineGci:'$20.64M', officeGci:'$22.87M', ahGci:'$0.08M', combGci:'$22.95M', combVol:'$1.15B', avgGci:'$762K' },
-                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.18M', engineGci:'$25.52M', officeGci:'$28.20M', ahGci:'$0.09M', combGci:'$28.29M', combVol:'$1.41B', avgGci:'$783K' },
-                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.42M', engineGci:'$31.91M', officeGci:'$35.12M', ahGci:'$0.10M', combGci:'$35.22M', combVol:'$1.76B', avgGci:'$976K' },
-                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.70M', engineGci:'$32.55M', officeGci:'$36.40M', ahGci:'$0.11M', combGci:'$36.52M', combVol:'$1.83B', avgGci:'$1011K' },
-                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.04M', engineGci:'$33.20M', officeGci:'$37.82M', ahGci:'$0.13M', combGci:'$37.95M', combVol:'$1.90B', avgGci:'$1051K' },
-                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.45M', engineGci:'$33.87M', officeGci:'$39.41M', ahGci:'$0.14M', combGci:'$39.56M', combVol:'$1.98B', avgGci:'$1095K' },
-                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$2.94M', engineGci:'$34.54M', officeGci:'$41.20M', ahGci:'$0.16M', combGci:'$41.36M', combVol:'$2.07B', avgGci:'$1144K' },
-                ].map((r, i) => (
+                {/* Build 1 · Endpoint 1: EH/SH/WH headcount live from OUTPUTS!A74:E85 · fallback to canonical if sheet unavailable */}
+                {(headcountData?.rows ?? [
+                  // Canonical fallback · Recalculated Apr 16 2026
+                  { year:'2026', eh:9,  sh:0,  wh:0,  total:9  },
+                  { year:'2027', eh:12, sh:0,  wh:0,  total:12 },
+                  { year:'2028', eh:12, sh:6,  wh:0,  total:18 },
+                  { year:'2029', eh:12, sh:12, wh:0,  total:24 },
+                  { year:'2030', eh:12, sh:12, wh:6,  total:30 },
+                  { year:'2031', eh:12, sh:12, wh:12, total:36 },
+                  { year:'2032', eh:12, sh:12, wh:12, total:36 },
+                  { year:'2033', eh:12, sh:12, wh:12, total:36 },
+                  { year:'2034', eh:12, sh:12, wh:12, total:36 },
+                  { year:'2035', eh:12, sh:12, wh:12, total:36 },
+                  { year:'2036', eh:12, sh:12, wh:12, total:36 },
+                ]).map((r, i) => {
+                  // GCI columns remain hardcoded (OUTPUTS A74:E85 only has Year/EH/SH/WH/Total per dispatch)
+                  const GCI_LOOKUP: Record<string, { edGci:string, namedGci:string, engineGci:string, officeGci:string, ahGci:string, combGci:string, combVol:string, avgGci:string }> = {
+                    '2026': { edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
+                    '2027': { edGci:'$0.72M', namedGci:'$0.57M', engineGci:'$3.75M', officeGci:'$5.04M', ahGci:'$0.06M', combGci:'$5.10M', combVol:'$0.25B', avgGci:'$420K' },
+                    '2028': { edGci:'$0.86M', namedGci:'$0.68M', engineGci:'$7.75M', officeGci:'$9.30M', ahGci:'$0.06M', combGci:'$9.36M', combVol:'$0.47B', avgGci:'$517K' },
+                    '2029': { edGci:'$1.04M', namedGci:'$0.82M', engineGci:'$13.00M', officeGci:'$14.86M', ahGci:'$0.07M', combGci:'$14.93M', combVol:'$0.75B', avgGci:'$619K' },
+                    '2030': { edGci:'$1.24M', namedGci:'$0.99M', engineGci:'$20.64M', officeGci:'$22.87M', ahGci:'$0.08M', combGci:'$22.95M', combVol:'$1.15B', avgGci:'$762K' },
+                    '2031': { edGci:'$1.49M', namedGci:'$1.18M', engineGci:'$25.52M', officeGci:'$28.20M', ahGci:'$0.09M', combGci:'$28.29M', combVol:'$1.41B', avgGci:'$783K' },
+                    '2032': { edGci:'$1.79M', namedGci:'$1.42M', engineGci:'$31.91M', officeGci:'$35.12M', ahGci:'$0.10M', combGci:'$35.22M', combVol:'$1.76B', avgGci:'$976K' },
+                    '2033': { edGci:'$2.15M', namedGci:'$1.70M', engineGci:'$32.55M', officeGci:'$36.40M', ahGci:'$0.11M', combGci:'$36.52M', combVol:'$1.83B', avgGci:'$1011K' },
+                    '2034': { edGci:'$2.58M', namedGci:'$2.04M', engineGci:'$33.20M', officeGci:'$37.82M', ahGci:'$0.13M', combGci:'$37.95M', combVol:'$1.90B', avgGci:'$1051K' },
+                    '2035': { edGci:'$3.10M', namedGci:'$2.45M', engineGci:'$33.87M', officeGci:'$39.41M', ahGci:'$0.14M', combGci:'$39.56M', combVol:'$1.98B', avgGci:'$1095K' },
+                    '2036': { edGci:'$3.72M', namedGci:'$2.94M', engineGci:'$34.54M', officeGci:'$41.20M', ahGci:'$0.16M', combGci:'$41.36M', combVol:'$2.07B', avgGci:'$1144K' },
+                  };
+                  const gci = GCI_LOOKUP[r.year] ?? { edGci:'—', namedGci:'—', engineGci:'—', officeGci:'—', ahGci:'—', combGci:'—', combVol:'—', avgGci:'—' };
+                  return (
                   <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
                     <td style={{ ...SANS, fontSize: 7, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
                     <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
                     <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
                     <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
-                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.total}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.edGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.namedGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.engineGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.officeGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.ahGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{gci.combGci}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{gci.combVol}</td>
+                    <td style={{ ...SANS, fontSize: 7, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{gci.avgGci}</td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>

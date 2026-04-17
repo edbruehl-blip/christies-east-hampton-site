@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian, readHeadcountTable, readMilestones, readPartnerCards } from './sheets-helper';
 import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
@@ -428,6 +428,30 @@ export const appRouter = router({
       .mutation(async () => {
         const pdfBuffer = await generateProFormaPDF();
         return { pdf: pdfBuffer.toString('base64') };
+      }),
+
+    // Build 1 · Endpoint 1: Headcount Scaling Table
+    // Source: OUTPUTS!A74:E85 — Year | EH | SH | WH | Total
+    // Fallback: hardcoded canonical values if sheet unavailable
+    headcountTable: publicProcedure
+      .query(async () => {
+        return readHeadcountTable();
+      }),
+
+    // Build 1 · Endpoint 2: 100-Day Milestone Cards
+    // Source: OUTPUTS!A67:C71 — closedVolume, activePipeline, volumeTarget, agentsOnOS
+    // Fallback: hardcoded canonical values if sheet unavailable
+    milestones: publicProcedure
+      .query(async () => {
+        return readMilestones();
+      }),
+
+    // Build 1 · Endpoint 3: Partner Stream Cards
+    // Source: ROSTER!A2:N16 — named producers GCI by year
+    // Fallback: hardcoded canonical values if sheet unavailable
+    partnerCards: publicProcedure
+      .query(async () => {
+        return readPartnerCards();
       }),
   }),
 

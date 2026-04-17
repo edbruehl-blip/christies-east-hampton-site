@@ -2050,3 +2050,11 @@ These cannot move until Ed gives the word. Do not estimate or fill in.
 - [ ] D2: Doctrine surface — add to dashboard (tab or modal) — surface the 41 canonical doctrines
 - [ ] D3: Case study content — wire Griff card content to live site
 - [ ] D4: Christie's Ladder — surface on dashboard or as printable
+
+## April 16 Dispatch — Three Builds (Apr 17, 2026)
+
+- [x] Build 1 — future.headcountTable: tRPC endpoint + sheets-helper reads OUTPUTS!A74:E85 · wired into FutureTab headcount table with canonical fallback
+- [x] Build 1 — future.milestones: tRPC endpoint + sheets-helper reads OUTPUTS!A67:C71 · wired into 100-Day cards (closedVolume, activePipeline, volumeTarget, agentsOnOS)
+- [x] Build 1 — future.partnerCards: tRPC endpoint + sheets-helper reads ROSTER!A2:N16 · wired into FutureTab partner stream cards with canonical fallback
+- [x] Build 2 — INTEL Trello tile: replaced iframe embed with Option A branded static tile · 11 lanes · 3-column grid · navy/gold · Cormorant Garamond · "Open Full Board →" button · "Open in Trello ↗" preserved top-right
+- [x] Build 3 — UHNW Path Card print fallback: handleDownload now falls back to window.print() if /api/pdf returns non-200 or throws · pop-up blocked → window.print() on current page

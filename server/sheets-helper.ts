@@ -1041,3 +1041,153 @@ export async function readHamptonsMedian(): Promise<{ value: number; formatted: 
     return fallback;
   }
 }
+
+// ─── Build 1 · Endpoint 1: future.headcountTable ─────────────────────────────
+// Range: OUTPUTS!A74:E85 (header row A74 + 11 data rows A75:E85)
+// Columns: Year | EH | SH | WH | Total
+// Sheet ID: 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag
+export interface HeadcountRow {
+  year: string;
+  eh: number;
+  sh: number;
+  wh: number;
+  total: number;
+}
+
+export async function readHeadcountTable(): Promise<{ rows: HeadcountRow[] }> {
+  const fallback: { rows: HeadcountRow[] } = {
+    rows: [
+      { year: '2026', eh: 9,  sh: 0,  wh: 0,  total: 9  },
+      { year: '2027', eh: 12, sh: 0,  wh: 0,  total: 12 },
+      { year: '2028', eh: 12, sh: 6,  wh: 0,  total: 18 },
+      { year: '2029', eh: 12, sh: 12, wh: 0,  total: 24 },
+      { year: '2030', eh: 12, sh: 12, wh: 6,  total: 30 },
+      { year: '2031', eh: 12, sh: 12, wh: 12, total: 36 },
+      { year: '2032', eh: 12, sh: 12, wh: 12, total: 36 },
+      { year: '2033', eh: 12, sh: 12, wh: 12, total: 36 },
+      { year: '2034', eh: 12, sh: 12, wh: 12, total: 36 },
+      { year: '2035', eh: 12, sh: 12, wh: 12, total: 36 },
+      { year: '2036', eh: 12, sh: 12, wh: 12, total: 36 },
+    ],
+  };
+  try {
+    const auth = await getAuth();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: 'OUTPUTS!A74:E85',
+    });
+    const rawRows = (res.data.values as string[][]) ?? [];
+    // Row 0 is the header row (A74); data starts at row 1
+    const dataRows = rawRows.slice(1).filter(r => r && r[0]);
+    if (dataRows.length === 0) return fallback;
+    const rows: HeadcountRow[] = dataRows.map(r => ({
+      year:  String(r[0] ?? '').trim(),
+      eh:    parseInt(r[1] ?? '0', 10) || 0,
+      sh:    parseInt(r[2] ?? '0', 10) || 0,
+      wh:    parseInt(r[3] ?? '0', 10) || 0,
+      total: parseInt(r[4] ?? '0', 10) || 0,
+    }));
+    return { rows };
+  } catch {
+    return fallback;
+  }
+}
+
+// ─── Build 1 · Endpoint 2: future.milestones ─────────────────────────────────
+// Range: OUTPUTS!A67:C71 (header A67 + 4 data rows A68:C71)
+// Columns: Milestone Label | Value | Notes
+// M4 (row 71, col B) = "5 agents on live OS" count
+export interface MilestonesData {
+  closedVolume: number;
+  activePipeline: number;
+  volumeTarget: number;
+  agentsOnOS: number;
+}
+
+export async function readMilestones(): Promise<MilestonesData> {
+  const fallback: MilestonesData = {
+    closedVolume:    4_570_000,
+    activePipeline: 13_620_000,
+    volumeTarget:   75_000_000,
+    agentsOnOS:     5,
+  };
+  try {
+    const auth = await getAuth();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: 'OUTPUTS!A67:C71',
+    });
+    const rawRows = (res.data.values as string[][]) ?? [];
+    // Row 0 = header (A67), rows 1-4 = data (A68:C71)
+    const dataRows = rawRows.slice(1);
+    if (dataRows.length < 4) return fallback;
+    const parseMilestone = (r: string[] | undefined): number => {
+      if (!r) return 0;
+      const raw = r[1] ?? '';
+      return parseDollar(raw) || parseInt(raw.replace(/[^0-9]/g, ''), 10) || 0;
+    };
+    return {
+      closedVolume:    parseMilestone(dataRows[0]),
+      activePipeline:  parseMilestone(dataRows[1]),
+      volumeTarget:    parseMilestone(dataRows[2]),
+      agentsOnOS:      parseMilestone(dataRows[3]),
+    };
+  } catch {
+    return fallback;
+  }
+}
+
+// ─── Build 1 · Endpoint 3: future.partnerCards ───────────────────────────────
+// Range: ROSTER!A2:N16 (rows 2-16 = named producers: Ed, Angel, Zoila, Jarvis, Scott + Nest rows)
+// Returns name, role, status, gci2026, gci2027, gci2028
+export interface PartnerCardAgent {
+  name: string;
+  role: string;
+  status: string;
+  gci2026: number;
+  gci2027: number;
+  gci2028: number;
+}
+
+export async function readPartnerCards(): Promise<{ agents: PartnerCardAgent[] }> {
+  const fallback: { agents: PartnerCardAgent[] } = {
+    agents: [
+      { name: 'Ed Bruehl',    role: 'Managing Director',   status: 'Active', gci2026: 600_000, gci2027: 720_000,  gci2028: 864_000  },
+      { name: 'Angel',        role: 'Partner Agent',        status: 'Active', gci2026: 127_500, gci2027: 181_000,  gci2028: 195_600  },
+      { name: 'Zoila',        role: 'Partner Agent',        status: 'Active', gci2026: 125_000, gci2027: 175_000,  gci2028: 188_400  },
+      { name: 'Jarvis Slade', role: 'Partner Agent',        status: 'Active', gci2026:  55_000, gci2027: 142_500,  gci2028: 167_000  },
+      { name: 'Scott',        role: 'AnewHomes Principal',  status: 'Active', gci2026:  77_500, gci2027:  90_000,  gci2028: 108_000  },
+    ],
+  };
+  try {
+    const auth = await getAuth();
+    const sheets = google.sheets({ version: 'v4', auth });
+    const res = await sheets.spreadsheets.values.get({
+      spreadsheetId: GROWTH_MODEL_SHEET_ID,
+      range: 'ROSTER!A2:N16',
+    });
+    const rawRows = (res.data.values as string[][]) ?? [];
+    const agents: PartnerCardAgent[] = rawRows
+      .filter(r => r && r[0] && r[2] && r[3]
+        && !r[0].includes('SUBTOTAL')
+        && !r[0].includes('ENGINE')
+        && !r[0].includes('TOTAL')
+        && !r[0].includes('HOUSE')
+        && !r[0].includes('AGENT COUNT')
+        && !r[0].includes('EXISTING AGENTS'))
+      .map(r => ({
+        name:    String(r[0] ?? '').trim(),
+        role:    String(r[2] ?? '').trim(),
+        status:  String(r[3] ?? '').trim(),
+        gci2026: parseDollar(r[8]  ?? '') || parseFloat(r[8]  ?? '0') || 0,
+        gci2027: parseDollar(r[9]  ?? '') || parseFloat(r[9]  ?? '0') || 0,
+        gci2028: parseDollar(r[10] ?? '') || parseFloat(r[10] ?? '0') || 0,
+      }));
+    if (agents.length === 0) return fallback;
+    return { agents };
+  } catch {
+    return fallback;
+  }
+}
