@@ -52,6 +52,31 @@
     background: #0a1628 !important;
     margin: 0 !important;
     padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* ── Kill bottom padding/margin on tab wrapper ──────────────────────────── */
+  [class*="future-tab"],
+  [class*="tab-content"] {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+  }
+
+  /* ── Print page title ───────────────────────────────────────────────────── */
+  .future-main-wrapper::before {
+    content: "CHRISTIE'S EAST HAMPTON  \00B7  ASCENSION ARC  \00B7  PARTNERSHIP PROJECTIONS";
+    display: block;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(200, 172, 120, 0.7);
+    text-align: center;
+    padding-bottom: 6pt;
+    margin-bottom: 8pt;
+    border-bottom: 0.5pt solid rgba(200, 172, 120, 0.25);
   }
 
   /* ── Ensure all content is visible (no overflow clipping) ─────────────── */

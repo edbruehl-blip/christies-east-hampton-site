@@ -95,7 +95,7 @@ export default function ChristiesLetterPage() {
         {error && <div style={{ color: '#e57373', fontSize: '0.9rem', textAlign: 'center', padding: '60px 0' }}>Unable to load letter. Please refresh.</div>}
 
         {lead && (
-          <div style={{ background: NAVY, borderLeft: `3px solid ${GOLD}`, padding: '20px 24px', marginBottom: 40, borderRadius: 2 }}>
+          <div className="lead-summary-box" style={{ background: NAVY, borderLeft: `3px solid ${GOLD}`, padding: '20px 24px', marginBottom: 40, borderRadius: 2 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 8 }}>Lead Summary</div>
             <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1rem', lineHeight: 1.7, color: '#FAF8F4', margin: 0, fontStyle: 'italic' }}>{lead}</p>
           </div>
@@ -146,6 +146,20 @@ export default function ChristiesLetterPage() {
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
           p { color: #1B2A4A !important; font-size: 14pt !important; line-height: 1.8 !important; }
           img { max-width: 100% !important; }
+          .lead-summary-box {
+            background: #1B2A4A !important;
+            background-color: #1B2A4A !important;
+            border-left: 3px solid #C8AC78 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+          .lead-summary-box p {
+            color: #FAF8F4 !important;
+            font-style: italic !important;
+          }
+          .lead-summary-box div {
+            color: #C8AC78 !important;
+          }
         }
       `}</style>
     </div>

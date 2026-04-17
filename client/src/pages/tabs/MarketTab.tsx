@@ -555,33 +555,6 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
         </div>
       </div>
 
-      {/* Tier legend */}
-      <div
-        className="p-5 border"
-        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
-      >
-        <div
-          className="uppercase mb-3"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
-        >
-          Tier Legend
-        </div>
-        <div className="flex flex-col gap-2">
-          {(Object.entries(TIER_COLORS) as [HamletTier, string][]).map(([tier, color]) => (
-            <div key={tier} className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-sm shrink-0"
-                style={{ background: color }}
-              />
-              <span
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#384249', fontSize: 11, letterSpacing: '0.08em' }}
-              >
-                {tier}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
