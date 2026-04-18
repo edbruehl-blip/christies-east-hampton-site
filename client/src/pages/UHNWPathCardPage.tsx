@@ -2,7 +2,7 @@
  * /cards/uhnw-path — UHNW Wealth Path Card · HTML Renderer
  *
  * Standalone route — no nav chrome, landscape print-ready.
- * "What James Christie Knew" — 8-rung wealth path from Tenant to UHNW Estate.
+ * The UHNW Wealth Path — 8-rung wealth path from Tenant to UHNW Estate.
  *
  * PDF download: GET /api/pdf?url=/cards/uhnw-path
  * Route registered in App.tsx as /cards/uhnw-path
@@ -222,7 +222,7 @@ export default function UHNWPathCardPage() {
           <img src={CIREG_LOGO} alt="Christie's" style={{ height: 22 }} />
           <div style={{ textAlign: 'center' }}>
             <div style={{ color: CREAM, fontSize: 15, fontWeight: 700, letterSpacing: '0.04em' }}>
-              What James Christie Knew
+              The UHNW Wealth Path
             </div>
             <div style={{ color: GOLD, fontSize: 10, letterSpacing: '0.12em', marginTop: 2 }}>
               Ed Bruehl · Managing Director · Christie's East Hampton
@@ -303,7 +303,7 @@ export default function UHNWPathCardPage() {
               {/* Ed's Hook */}
               <div style={{ borderLeft: `2px solid ${BLUE}`, paddingLeft: 6, marginBottom: 8 }}>
                 <div style={{ fontSize: 7.5, fontWeight: 700, color: BLUE, letterSpacing: '0.08em', marginBottom: 2 }}>
-                  ED'S HOOK
+                  ADVISORY NOTE
                 </div>
                 <div style={{ fontSize: 8, fontStyle: 'italic', color: DARK, lineHeight: 1.4 }}>
                   {rung.hook}
@@ -313,7 +313,7 @@ export default function UHNWPathCardPage() {
               {/* Perplexity Hunt */}
               <div style={{ borderLeft: `2px solid ${ORANGE}`, paddingLeft: 6, marginBottom: 8 }}>
                 <div style={{ fontSize: 7.5, fontWeight: 700, color: ORANGE, letterSpacing: '0.08em', marginBottom: 2 }}>
-                  PERPLEXITY HUNT
+                  MARKET CONTEXT
                 </div>
                 <div style={{ fontSize: 8, color: '#666', lineHeight: 1.4 }}>
                   {rung.hunt}
@@ -323,7 +323,7 @@ export default function UHNWPathCardPage() {
               {/* Wealth Anchor */}
               <div style={{ borderLeft: `2px solid ${PURPLE}`, paddingLeft: 6 }}>
                 <div style={{ fontSize: 7.5, fontWeight: 700, color: PURPLE, letterSpacing: '0.08em', marginBottom: 2 }}>
-                  WEALTH ANCHOR
+                  CLIENT STORY
                 </div>
                 <div style={{ fontSize: 8, fontStyle: 'italic', color: '#555', lineHeight: 1.4 }}>
                   {rung.anchor}

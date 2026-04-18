@@ -5,7 +5,7 @@
       "id": "sagaponack",
       "cis": 9.4,
       "anchor": "Wölffer Estate Vineyard",
-      "local_spot": "Sagaponack General Store",
+      "local_spot": "The Seafood Shop — the best fish market on the East End, open year-round",
       "secret": "The back road along Sagg Main — farmland on one side, ocean light on the other. Nothing like it on the East End.",
       "practical_note": "No village center. You are here for the land and the light. Parking is never a problem."
     },
@@ -22,10 +22,10 @@
       "name": "Bridgehampton",
       "id": "bridgehampton",
       "cis": 9.1,
-      "anchor": "Bridgehampton Commons — the working heart of the South Fork",
+      "anchor": "Bridgehampton Commons — the working heart of the East End",
       "local_spot": "Almond Restaurant — year-round, honest, and the best room in the hamlet",
       "secret": "The Bridgehampton-Sag Harbor Turnpike at dusk. Farm stands, vineyards, and open sky in one straight line.",
-      "practical_note": "The most central hamlet on the South Fork. Equidistant to Southampton and East Hampton. Underrated as a base."
+      "practical_note": "The most central hamlet on the East End. Equidistant to Southampton and East Hampton. Underrated as a base."
     },
     {
       "name": "Southampton Village",
@@ -50,7 +50,7 @@
       "id": "amagansett",
       "cis": 8.9,
       "anchor": "The Stephen Talkhouse — the most legendary music venue on the East End",
-      "local_spot": "Estia's Little Kitchen — the best breakfast on the South Fork, full stop",
+      "local_spot": "Estia's Little Kitchen — now in Sag Harbor. The best breakfast on the East End, worth the drive.",
       "secret": "Indian Wells Beach on a Tuesday in September. The hamlet that still feels like what the entire East End used to be.",
       "practical_note": "The last hamlet before Montauk. Off-season advantage is significant. Year-round community is tight and real."
     },
@@ -77,7 +77,7 @@
       "id": "springs",
       "cis": 6.8,
       "anchor": "Pollock-Krasner House — Jackson Pollock painted here because the light was honest and the rent was low",
-      "local_spot": "The Springs General Store — the oldest continuously operating store on the East End",
+      "local_spot": "Bostwick's Chowder House — the year-round local institution on Three Mile Harbor",
       "secret": "Accabonac Harbor at dawn. The dock meets the marsh and the land remembers what it was.",
       "practical_note": "The most affordable entry point in the township. The buyer who understands trajectory buys Springs before the market does."
     },
@@ -86,7 +86,7 @@
       "id": "montauk",
       "cis": 8.2,
       "anchor": "Montauk Lighthouse — the end of the road and the beginning of the Atlantic",
-      "local_spot": "Gosman's Dock — the year-round institution where the fishing boats still come in",
+      "local_spot": "Gosman's Dock — the institution where the fishing boats still come in. Under new ownership as of 2024.",
       "secret": "Camp Hero State Park at the very tip. Radar towers, bluffs, and the most dramatic coastline on the East End. No crowds, ever.",
       "practical_note": "Raw, unhurried, and unapologetically its own. The East End's last wild place. Off-season advantage is the highest of any hamlet."
     },
@@ -94,8 +94,8 @@
       "name": "Wainscott",
       "id": "wainscott",
       "cis": 8.8,
-      "anchor": "115 Beach Lane — the hamlet's record transaction at $59M, closed March 2026",
-      "local_spot": "Townline BBQ — the year-round local institution that the whole corridor treats as its dining room",
+      "anchor": "115 Beach Lane — $59M off-market close, March 2026",
+      "local_spot": "Bridgehampton Inn Restaurant — the year-round anchor of the Wainscott corridor",
       "secret": "The dune path to the ocean at the end of Beach Lane. Nothing between you and the horizon.",
       "practical_note": "The smallest hamlet by volume. Two percent of East End transactions. The buyer who finds it before the market does wins."
     }

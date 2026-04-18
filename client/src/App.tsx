@@ -45,6 +45,7 @@ import ChristiesLetterPage from "./pages/ChristiesLetterPage";
 import AngelLetterPage     from "./pages/AngelLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
+import NeighborhoodCardPage from "./pages/NeighborhoodCardPage";
 import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
 
 // ─── Auth Gate Feature Flag ───────────────────────────────────────────────────
@@ -130,6 +131,7 @@ function App() {
             <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={ProtectedFutureRoute} />
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
+            <Route path="/cards/bike" component={NeighborhoodCardPage} />
             <Route component={Dashboard} />
           </Switch>
           {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}

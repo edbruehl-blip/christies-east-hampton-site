@@ -14,18 +14,18 @@
  *
  * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
+ *
+ * William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling.
+ * All TTS/ElevenLabs code paths removed. INTRO button keeps printable letter behavior.
  */
 
-import { useState, useRef } from 'react';
-import { toast } from 'sonner';
 import { useLocation } from 'wouter';
 import { EmbedFrame } from '@/components/EmbedFrame';
-import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES, AUCTION_LOT_LIBRARY } from '@/lib/cdn-assets';
-import { AuctionHouseServices } from '@/components/AuctionHouseServices';
-// WilliamAudioPlayer removed — HOME now uses the same inline fetch-blob player as /report
-import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
+import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-assets';
+// AuctionHouseServices import removed B2 Apr 18 2026 — component moved to /report
+// WilliamAudioPlayer removed C5 Apr 18 2026 — audio permanently retired
+// EstateAdvisoryCard removed — no longer used in HomeTab after B2/C5 cleanup
 // pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
-import { trpc } from '@/lib/trpc';
 
 // Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
 const FOUNDING_PARAGRAPHS = [
@@ -44,98 +44,13 @@ const FOUNDING_PARAGRAPHS = [
 ];
 
 // ─── Section A · Hero ─────────────────────────────────────────────────────────
-type HomeAudioChannel = 'christies' | 'market';
-
+// William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling
 function SectionA() {
   const [, navigate] = useLocation();
 
   const auctionRoomSrc = GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
-
-  // ── Inline audio state machine (streaming src pattern — no fetch-blob wait) ──
-  const [audioState, setAudioState] = useState<'idle' | 'loading' | 'playing' | 'paused' | 'error'>('idle');
-  const [audioChannel, setAudioChannel] = useState<HomeAudioChannel>('christies');
-  const [audioProgress, setAudioProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [audioDuration, setAudioDuration] = useState(0);
-  const [shareState, setShareState] = useState<'idle' | 'copied'>('idle');
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  function fmtTime(s: number) {
-    if (!isFinite(s) || isNaN(s)) return '0:00';
-    return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
-  }
-
-  function stopAudio() {
-    if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
-    setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0);
-  }
-
-  function togglePause() {
-    const a = audioRef.current;
-    if (!a) return;
-    if (audioState === 'playing') { a.pause(); setAudioState('paused'); }
-    else if (audioState === 'paused') { a.play(); setAudioState('playing'); }
-  }
-
-  function handleRewind() {
-    const a = audioRef.current;
-    if (a) a.currentTime = Math.max(0, a.currentTime - 15);
-  }
-
-  function handleForward() {
-    const a = audioRef.current;
-    if (a) a.currentTime = Math.min(a.duration || 0, a.currentTime + 15);
-  }
-
-  function handleShare() {
-    const ep = audioChannel === 'christies' ? '/api/tts/christies-letter'
-      : '/api/tts/market-report';
-    navigator.clipboard.writeText(window.location.origin + ep)
-      .then(() => { setShareState('copied'); setTimeout(() => setShareState('idle'), 2500); })
-      .catch(() => toast.error('Could not copy link.'));
-  }
-
-  function handleScrub(e: React.MouseEvent<HTMLDivElement>) {
-    const a = audioRef.current;
-    if (!a || !a.duration) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    a.currentTime = ((e.clientX - r.left) / r.width) * a.duration;
-  }
-
-  function handleListen(channel: HomeAudioChannel) {
-    if (audioState === 'playing' && audioChannel === channel) { stopAudio(); return; }
-    if (audioState === 'playing' || audioState === 'loading') stopAudio();
-    setAudioChannel(channel);
-    setAudioState('loading');
-    setAudioProgress(0);
-    const endpoint = channel === 'christies' ? '/api/tts/christies-letter'
-      : '/api/tts/market-report';
-    // Streaming src — browser plays as first chunks arrive, no full-download wait.
-    // Server supports Range requests so seek/skip work correctly.
-    const audio = new Audio(endpoint);
-    audioRef.current = audio;
-    audio.onloadedmetadata = () => setAudioDuration(audio.duration);
-    audio.ontimeupdate = () => {
-      if (audio.duration) {
-        setAudioProgress(Math.round((audio.currentTime / audio.duration) * 100));
-        setCurrentTime(audio.currentTime);
-      }
-    };
-    audio.onplaying = () => setAudioState('playing');
-    audio.onended = () => { setAudioState('idle'); setAudioProgress(0); setCurrentTime(0); setAudioDuration(0); };
-    audio.onerror = () => { setAudioState('error'); toast.error('Audio playback failed.'); setTimeout(() => setAudioState('idle'), 3000); };
-    audio.play().catch((e) => {
-      console.error(e);
-      setAudioState('error');
-      toast.error('Audio generation failed. Please try again.');
-      setTimeout(() => setAudioState('idle'), 3000);
-    });
-  }
-
-  const channelLabel = audioChannel === 'christies' ? "Christie's Letter"
-    : 'Market Brief';
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
@@ -265,93 +180,7 @@ function SectionA() {
               </div>
             </div>
 
-            {/* ── WILLIAM AUDIO — RETIRED PERMANENTLY · Apr 15 2026 · Re-enable requires new Ed ruling ── */}
-            <div style={{ marginTop: 28, maxWidth: 520 }}>
-              {/* Two trigger buttons — idle or error state (Flagship Letter moved to floating button) */}
-              {(audioState === 'idle' || audioState === 'error') && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-                  {(['christies', 'market'] as const).map((ch) => {
-                    const labels: Record<HomeAudioChannel, string> = {
-                      christies: "Christie's Letter",
-                      market: 'Market Brief',
-                    };
-                    return (
-                      <button
-                        key={ch}
-                        onClick={() => handleListen(ch)}
-                        style={{
-                          background: 'none',
-                          border: '1px solid rgba(200,172,120,0.28)',
-                          color: 'rgba(200,172,120,0.75)',
-                          fontFamily: '"Barlow Condensed", sans-serif',
-                          fontSize: 9,
-                          letterSpacing: '0.2em',
-                          textTransform: 'uppercase',
-                          padding: '9px 10px',
-                          cursor: 'pointer',
-                          lineHeight: 1.3,
-                          transition: 'all 0.2s',
-                        }}
-                      >
-                        {audioState === 'error' && audioChannel === ch ? '⚠ Retry' : `▶ ${labels[ch]}`}
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-              {/* Expanded player — loading / playing / paused */}
-              {(audioState === 'loading' || audioState === 'playing' || audioState === 'paused') && (
-                <div style={{ border: '1px solid rgba(200,172,120,0.45)', background: 'rgba(200,172,120,0.06)', padding: '12px 16px' }}>
-                  {/* Status row */}
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10, flexWrap: 'wrap', gap: 8 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      {audioState === 'loading' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C8AC78" strokeWidth="2.5" style={{ flexShrink: 0, animation: 'spin 1s linear infinite' }}>
-                          <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
-                          <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
-                        </svg>
-                      ) : (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 2, height: 14 }}>
-                          {[0.6, 1, 0.75, 1, 0.5].map((h, i) => (
-                            <span key={i} style={{ display: 'block', width: 3, borderRadius: 2, background: '#C8AC78', height: `${h * 100}%`, animation: `wave-bar 0.8s ease-in-out ${i * 0.12}s infinite alternate` }} />
-                          ))}
-                        </div>
-                      )}
-                      <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                        {audioState === 'loading' ? 'Synthesizing…' : channelLabel}
-                      </span>
-                    </div>
-                    {/* Controls — only when playing or paused */}
-                    {(audioState === 'playing' || audioState === 'paused') && (
-                      <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                        <button onClick={handleRewind} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>↺ −15</button>
-                        <button onClick={togglePause} style={{ background: 'rgba(200,172,120,0.15)', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>{audioState === 'paused' ? '▶ Resume' : '⏸ Pause'}</button>
-                        <button onClick={handleForward} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer' }}>+15 ↻</button>
-                        <button onClick={stopAudio} style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.3)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 9px', cursor: 'pointer' }}>◼ Stop</button>
-                        <button onClick={handleShare} style={{ background: shareState === 'copied' ? 'rgba(5,150,105,0.15)' : 'rgba(200,172,120,0.1)', border: `1px solid ${shareState === 'copied' ? 'rgba(5,150,105,0.6)' : 'rgba(200,172,120,0.3)'}`, color: shareState === 'copied' ? '#6ee7b7' : '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '3px 7px', cursor: 'pointer', transition: 'all 0.2s' }}>{shareState === 'copied' ? '✓ Copied' : '↗ Share'}</button>
-                      </div>
-                    )}
-                  </div>
-                  {/* Scrub bar + time */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <div onClick={handleScrub} style={{ flex: 1, height: 5, background: 'rgba(200,172,120,0.15)', borderRadius: 3, overflow: 'hidden', cursor: (audioState === 'playing' || audioState === 'paused') ? 'pointer' : 'default', position: 'relative' }}>
-                      <div style={{ height: '100%', background: '#C8AC78', borderRadius: 3, width: `${audioProgress}%`, transition: 'width 0.4s linear' }} />
-                    </div>
-                    {(audioState === 'playing' || audioState === 'paused') && audioDuration > 0 && (
-                      <span style={{ fontFamily: 'monospace', fontSize: 9, color: 'rgba(200,172,120,0.6)', whiteSpace: 'nowrap', minWidth: 64, textAlign: 'right' }}>{fmtTime(currentTime)} / {fmtTime(audioDuration)}</span>
-                    )}
-                  </div>
-                  {audioState === 'loading' && (
-                    <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(200,172,120,0.5)', fontSize: 10, marginTop: 6, textAlign: 'center' }}>Downloading audio…</div>
-                  )}
-                </div>
-              )}
-              {/* CSS keyframes for wave-bar and spin */}
-              <style>{`
-                @keyframes wave-bar { from { transform: scaleY(0.4); } to { transform: scaleY(1); } }
-                @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-              `}</style>
-            </div>
+            {/* ── INTRO BUTTONS — PDF download + printable letter (William audio RETIRED C5) ── */}
             <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16, marginBottom: 32 }}>
               <button
                 onClick={() => {
@@ -377,7 +206,7 @@ function SectionA() {
                   cursor: 'pointer',
                 }}
               >
-                ↓ Download Christie’s Letter · PDF
+                ↓ Download Christie's Letter · PDF
               </button>
               <a
                 href="/letters/christies"
@@ -413,15 +242,6 @@ function SectionA() {
 // ─── Section B · Christie's Channel · Story · Video · Gallery ─────────────────
 // Calm, private-wealth. No grid. No tiles. No KPIs.
 function SectionB() {
-  const galleryImages = [
-    AUCTION_LOT_LIBRARY.auctionRoomIllustration,
-    AUCTION_LOT_LIBRARY.roomFallback,
-    AUCTION_LOT_LIBRARY.hermesWall,
-    AUCTION_LOT_LIBRARY.patekPhilippe,
-    AUCTION_LOT_LIBRARY.screamingEagle,
-    AUCTION_LOT_LIBRARY.hermesBirkinRed,
-  ];
-
   return (
     <div style={{ background: '#1B2A4A' }}>
 
@@ -461,394 +281,84 @@ function SectionB() {
         </div>
       </div>
 
-      {/* ── Gallery Image Box ── */}
-      <div style={{ padding: '56px 40px', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Christie's · Gallery
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
-            Art. Beauty. Provenance.
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6 }}>
-            {galleryImages.map((src, i) => (
-              <div key={i} style={{ aspectRatio: '4/3', overflow: 'hidden', background: '#1B2A4A' }}>
-                <img
-                  src={src}
-                  alt={`Christie's gallery ${i + 1}`}
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease' }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.04)'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = 'scale(1)'; }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* Gallery section removed B2 Apr 18 2026 — assets moved to /report */}
 
     </div>
   );
 }
 
-// SectionWilliam removed — dead code, audio player lives in SectionA inline fetch-blob pattern
-
+// SectionWilliam removed — dead code, audio player retired C5 Apr 18 2026
 // ─── HomeTab ─────────────────────────────────────────────────────────────────────────────
 // SectionC (duplicate footer) removed — DashboardLayout renders the single
 // "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
+
+// ─── Bike Card section (A1) ──────────────────────────────────────────────────
+function BikeCardSection() {
+  return (
+    <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
+          Christie's East Hampton · Neighborhood Intelligence
+        </div>
+        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 12, maxWidth: 560 }}>
+          The Neighborhood Card
+        </h2>
+        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: 20, maxWidth: 560 }}>
+          Eleven hamlets. One standard. CIS-ranked intelligence for every neighborhood on the East End — formatted for print, leave-behind, and client conversation.
+        </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          <a
+            href="/cards/bike"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '9px 20px',
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: '#FAF8F4',
+              background: 'rgba(200,172,120,0.08)',
+              border: '1px solid rgba(200,172,120,0.5)',
+              cursor: 'pointer', textDecoration: 'none',
+            }}
+          >
+            ↗ View Neighborhood Card
+          </a>
+          <button
+            onClick={() => {
+              const a = document.createElement('a');
+              a.href = '/api/pdf?url=/cards/bike';
+              a.download = 'Christies_EH_Neighborhood_Card_' + new Date().toISOString().slice(0,10) + '.pdf';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+            }}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '9px 20px',
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+              color: '#C8AC78',
+              background: 'transparent',
+              border: '1px solid rgba(200,172,120,0.35)',
+              cursor: 'pointer',
+            }}
+          >
+            ↓ Download PDF
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── HomeTab default export ───────────────────────────────────────────────────
 export default function HomeTab() {
-  const [pdfLoading, setPdfLoading] = useState(false);
-  const { data: matrixResponse } = trpc.market.hamletMatrix.useQuery(undefined, {
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
-  });
-
-  const handleFlagshipLetterPdf = () => {
-    // Doctrine 43: open letter page in new tab — user hits ↓ Download PDF there.
-    window.open('/letters/flagship', '_blank');
-  };
-
-  const handleMarketReportPdf = async () => {
-    setPdfLoading(true);
-    try {
-      // Puppeteer architecture — photographs /market page (SD-8 migration from jsPDF)
-      const res = await fetch('/api/pdf?url=/market');
-      if (!res.ok) throw new Error(`PDF generation failed: ${res.status}`);
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Christies_EH_Market_Report_${new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    } finally {
-      setPdfLoading(false);
-    }
-  };
-
   return (
     <div>
       <SectionA />
       <SectionB />
-      {/* SectionWilliam removed — audio player now lives in SectionA below founding letter */}
-      <AuctionHouseServices />
-
-      {/* ── THE PLATFORM Section ── */}
-      <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', padding: 'clamp(80px, 10vw, 120px) 40px' }}>
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-
-          {/* Title */}
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
-            Christie's East Hampton
-          </div>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: 'clamp(1.6rem, 3vw, 2rem)', letterSpacing: '0.18em', textTransform: 'uppercase', fontWeight: 400, marginBottom: 0 }}>
-            The Platform
-          </div>
-          <div style={{ height: 1, background: '#C8AC78', maxWidth: 480, margin: '14px 0 40px', opacity: 0.7 }} />
-
-          {/* Main headline */}
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: 'clamp(1.6rem, 3.5vw, 2.5rem)', lineHeight: 1.2, fontWeight: 400, marginBottom: 48, maxWidth: 760 }}>
-            This is not a real estate website. It is a live operating system.
-          </div>
-
-          {/* Two-column grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 340px), 1fr))', gap: 'clamp(32px, 5vw, 64px)', marginBottom: 64 }}>
-
-            {/* Left — intro paragraph */}
-            <div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: 'clamp(1rem, 1.5vw, 1.125rem)', lineHeight: 1.8, margin: 0 }}>
-                Market intelligence. Pipeline. Relationships. Team rhythm. Content. Growth. Everything speaks to everything else in one place. If it matters, it lives here. If it is not here, it does not exist.
-              </p>
-            </div>
-
-            {/* Right — six system blocks */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
-
-              {/* HOME */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Home
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The opening move. The letter. The market signal.
-                </p>
-              </div>
-
-              {/* MARKET */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Market
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  All eleven hamlets scored through the Christie's Intelligence Score. Verified data. No opinion.
-                </p>
-              </div>
-
-              {/* PIPE */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Pipe
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The live deal engine. Every opportunity, every status, every next step.
-                </p>
-              </div>
-
-              {/* MAPS */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Maps
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  Geography as usable intelligence. Hamlet data on a live map with a deal calculator.
-                </p>
-              </div>
-
-              {/* INTEL */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Intel
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The spiderweb. Every relationship and institutional connection mapped for use.
-                </p>
-              </div>
-
-              {/* FUTURE */}
-              <div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontSize: 12, letterSpacing: '0.28em', textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-                  Future
-                </div>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: 'clamp(0.875rem, 1.2vw, 1rem)', lineHeight: 1.7, margin: 0 }}>
-                  The Ascension Arc. Sales volume by year, built agent by agent. Conservative. Structured. Real.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Bottom tagline */}
-          <div style={{ textAlign: 'center', paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.15)' }}>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.8rem', lineHeight: 1.6, margin: 0, letterSpacing: '0.04em' }}>
-              This is not brokerage. This is an intelligence-driven estate advisory platform under the Christie's standard.
-            </p>
-          </div>
-
-        </div>
-      </div>
-
-      {/* ── Collateral Cards — UHNW Wealth Card + Bike Card ── */}
-      <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Christie's Collateral · Print-Ready
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 8 }}>
-            Shareable Intelligence Cards
-          </h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 32, maxWidth: 560 }}>
-            Print-ready cards for estate conversations. Open the link, print to card stock, and share. Each card carries the Christie's standard.
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-
-            {/* UHNW Wealth Card */}
-            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                UHNW Wealth Card · 8.5×11 Landscape
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
-                What James Christie Knew
-              </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
-                The eight rungs of structured ownership — from tenant to trust. Structured ownership, art-secured lending, and the Christie's standard for legacy. Print to card stock.
-              </p>
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                <a
-                  href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_card_final_v2_f0243b24.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 8,
-                    padding: '9px 20px',
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                    color: '#FAF8F4',
-                    background: 'rgba(200,172,120,0.08)',
-                    border: '1px solid rgba(200,172,120,0.5)',
-                    textDecoration: 'none',
-                  }}
-                >
-                  Open &amp; Print ↗
-                </a>
-                <button
-                  onClick={async () => {
-                    try {
-                      const res = await fetch('/api/pdf?url=/cards/uhnw-path');
-                      if (!res.ok) throw new Error('PDF failed');
-                      const blob = await res.blob();
-                      const url = URL.createObjectURL(blob);
-                      const a = document.createElement('a');
-                      a.href = url;
-                      a.download = 'Christies_EH_UHNW_Path_Card.pdf';
-                      document.body.appendChild(a);
-                      a.click();
-                      document.body.removeChild(a);
-                      URL.revokeObjectURL(url);
-                    } catch (e) {
-                      console.error('UHNW PDF error:', e);
-                    }
-                  }}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 8,
-                    padding: '9px 20px',
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                    color: '#FAF8F4',
-                    background: 'rgba(200,172,120,0.08)',
-                    border: '1px solid rgba(200,172,120,0.5)',
-                    cursor: 'pointer',
-                  }}
-                >
-                  ↓ Download PDF
-                </button>
-              </div>
-            </div>
-
-            {/* Bike Card */}
-            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                Neighborhood Card · 2 per 8.5×11 Sheet
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
-                Christie's Neighborhood Card
-              </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
-                East End map on the front. Christie's institutional creed and services on the back. Hamptons Median · At Record Levels. Cut horizontally — two cards per sheet.
-              </p>
-              <a
-                href="https://files.manuscdn.com/user_upload_by_module/session_file/115914870/jVcYBHlOrEoybmSp.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  textDecoration: 'none',
-                }}
-              >
-                Open &amp; Print ↗
-              </a>
-            </div>
-
-            {/* Christie's Letter */}
-            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                Christie's Letter · 8.5×11 Portrait
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
-                To the Families of the East End
-              </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
-                Ed's founding letter on the Christie's standard — twelve paragraphs, one page. Print to letterhead and hand-deliver, or text the link directly.
-              </p>
-              <a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_letter_export_v3_fff0dbd1.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  textDecoration: 'none',
-                }}
-              >
-                Open &amp; Print ↗
-              </a>
-            </div>
-
-            {/* Flagship Letter PDF */}
-            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                Flagship Letter · Council Document
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
-                Christie's Flagship Letter
-              </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
-                Origin story — platform, team, and model.
-              </p>
-              <button
-                onClick={handleFlagshipLetterPdf}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: 'pointer',
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                ↑ Open Letter · Print PDF
-              </button>
-            </div>
-
-            {/* Market Report PDF — Item 5, council-approved Apr 7 2026 */}
-            <div style={{ background: 'rgba(250,248,244,0.04)', border: '1px solid rgba(200,172,120,0.2)', borderTop: '3px solid #C8AC78', padding: '24px 28px' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-                Market Report · 5-Page PDF
-              </div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2, marginBottom: 8 }}>
-                Christie's Hamptons Market Report
-              </div>
-              <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 16 }}>
-                Founding letter · eleven-hamlet atlas with live CIS scores and medians · Ed's contact block. Generated from live Market Matrix data at time of download.
-              </p>
-              <button
-                onClick={handleMarketReportPdf}
-                disabled={pdfLoading}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: pdfLoading ? 'rgba(200,172,120,0.04)' : 'rgba(200,172,120,0.08)',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: pdfLoading ? 'wait' : 'pointer',
-                  opacity: pdfLoading ? 0.6 : 1,
-                  transition: 'opacity 0.2s',
-                }}
-              >
-                {pdfLoading ? 'Generating…' : '↓ Download PDF'}
-              </button>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {/* Estate Advisory Card — one locked copy source, three surfaces */}
-      {/* framed=true adds Christie's gold border for HOME tab usage */}
-      <div style={{ background: '#FAF8F4', borderTop: '1px solid rgba(27,42,74,0.08)', padding: '48px 40px 64px' }}>
-        <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
-            Estate Advisory
-          </div>
-          <EstateAdvisoryCard framed />
-        </div>
-      </div>
+      <BikeCardSection />
     </div>
   );
 }

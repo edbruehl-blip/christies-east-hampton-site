@@ -7,6 +7,7 @@
  */
 
 import React, { useMemo, useRef, useState, useEffect } from 'react';
+import { LOGO_WHITE } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
 
@@ -121,9 +122,15 @@ function fmtM(n: number): string {
 // on screen — dark navy, gold, all partner cards with live data.
 // No separate page, no light-mode inversion. window.print() on current tab.
 function PrintFutureButton() {
+  const handlePrint = () => {
+    const prev = document.title;
+    document.title = "Christies_EH_Future_Projections";
+    window.print();
+    document.title = prev;
+  };
   return (
     <button
-      onClick={() => window.print()}
+      onClick={handlePrint}
       className="no-print future-intro-button"
       data-print-hide="true"
       style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer' }}
@@ -393,6 +400,11 @@ export default function FutureTab() {
   return (
       <div ref={tabRef} className="future-main-wrapper" style={{ background: BG, padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+        {/* ── Print-only header: Christie's logo + document title ─────────── */}
+        <div className="future-print-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 8, marginBottom: 12 }}>
+          <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22, width: 'auto' }} />
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>Future Projections &middot; Christie&apos;s East Hampton &middot; Confidential</div>
+        </div>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${GOLD}`, paddingBottom: 8, marginBottom: 12, gap: 6 }}>
@@ -630,7 +642,7 @@ export default function FutureTab() {
             <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
               <thead>
                 <tr>
-                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH GCI','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
+                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH Profit','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
                     <th key={h} style={{ ...SANS, fontSize: 6.5, color: GOLD, fontWeight: 600, textAlign: h === 'Year' ? 'left' as const : 'right' as const, padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER}`, whiteSpace: 'nowrap' as const }}>{h}</th>
                   ))}
                 </tr>
@@ -926,7 +938,8 @@ export default function FutureTab() {
                 ))}
               </div>
               {[
-                { label: 'GCI proj',       proj: ['$37.5K','$90K','$108K','$464K+'], act: null },  // 50% entry credit Y1 ($37.5K of $75K target) · 20% compound from $75K base · no cap · Ed ruling Apr 16 2026
+                { label: 'Gross GCI',      proj: ['$37.5K','$90K','$108K','$464K+'], act: null },  // 50% entry credit Y1 · 20% compound from $75K base · Ed ruling Apr 16 2026
+                { label: 'Agent Take 70%', proj: ['$26.3K','$63K','$75.6K','$324.8K+'], act: null },  // Standard 70% agent commission formula · Ed ruling Apr 18 2026
                 { label: 'Sales vol',      proj: ['$3.75M','$4.5M','$5.4M','$23.2M+'], act: null },  // GCI ÷ 2% · Ed ruling Apr 16 2026
                 { label: 'AnewHomes 35%',  proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base · Perplexity Apr 15 2026
               ].map(row => (
@@ -939,7 +952,7 @@ export default function FutureTab() {
               ))}
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                 <span>Projected</span>
-                {['$55K','$142.5K','$167K','$615K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $37.5K GCI (50% entry credit) + $17.5K AH = $55K · 2027: $90K GCI + $52.5K AH = $142.5K · 2028: $108K GCI + $59K AH = $167K · 2036: $464K GCI + $151.5K AH = $615.5K · Ed ruling Apr 16 2026 — 50% entry credit on all partner cards */}
+                {['$43.8K','$115.5K','$134.6K','$476.3K+'].map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)} {/* 2026: $26.3K (70% of $37.5K gross) + $17.5K AH = $43.8K · 2027: $63K + $52.5K AH = $115.5K · 2028: $75.6K + $59K AH = $134.6K · 2036: $324.8K + $151.5K AH = $476.3K · Ed ruling Apr 18 2026 — 70% standard agent commission formula */}
               </div>
             </div>
 

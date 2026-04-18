@@ -47,7 +47,7 @@ const SEVEN_STEPS = [
   { n: '3', title: 'Introduce Structured Capital', body: 'Explain that wealth requires architecture, not just accumulation.' },
   { n: '4', title: 'Run the CIS', body: 'Evaluate potential real estate assets using the Christie\'s Intelligence Score.' },
   { n: '5', title: 'Explain the Waterfall', body: 'Detail how trusts and insurance can fund the real estate acquisition.' },
-  { n: '6', title: 'Open the Doors', body: 'Connect the client with the necessary specialists (e.g., Adam Kalb for insurance/trusts).' },
+  { n: '6', title: 'Open the Doors', body: 'Connect the client with the necessary specialists — a trusted financial architect for insurance and trusts, a financing specialist for acquisition structure.' },
   { n: '7', title: 'Establish Governance', body: 'Set the expectation for long-term stewardship and regular review.' },
 ];
 
@@ -360,9 +360,9 @@ export default function ArchitectureOfWealthPage() {
 
         <div style={{ margin: '16px 0 32px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {[
-            { label: 'Door One: The Financial Architect', body: 'We are connecting you with Adam Kalb. He understands Structured Capital. He will help you set up the Waterfall — the trust, the insurance policy, and the borrowing structure that makes the money work twice.' },
+            { label: 'Door One: The Financial Architect', body: 'We are connecting you with a trusted financial architect who understands Structured Capital. He will help you set up the Waterfall — the trust, the insurance policy, and the borrowing structure that makes the money work twice.' },
             { label: 'Door Two: The Credential', body: 'Authority in your field is not optional — it is the foundation of the table you will eventually sit at. Pursue the credential that gives you standing in your chosen domain. Know it cold. The credential is not the destination; it is the price of admission to the right rooms.' },
-            { label: 'Door Three: The Name', body: 'You carry a name with integrity. Use it. When you call Adam, tell him we sent you.' },
+            { label: 'Door Three: The Name', body: 'You carry a name with integrity. Use it. When you call, tell them we sent you.' },
           ].map(door => (
             <div key={door.label} style={{ borderLeft: `3px solid ${GOLD}`, paddingLeft: 16 }}>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 600, fontSize: '1.05rem', marginBottom: 4 }}>{door.label}</div>
@@ -378,8 +378,8 @@ export default function ArchitectureOfWealthPage() {
         <div style={{ margin: '16px 0 40px', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
             'Read this document twice.',
-            'Call Joe Carrello. He is the financing mind — the person who can tell you what a VA purchase-plus-renovation loan looks like, what creative structures exist, and how to sequence the first acquisition. He turns a good idea into a plan with steps.',
-            'Call Adam Kalb. Tell him you are ready to build the base.',
+            'Connect with a trusted financing specialist — someone who can tell you what a purchase-plus-renovation loan looks like, what creative structures exist, and how to sequence the first acquisition. They turn a good idea into a plan with steps.',
+            'Connect with a financial architect. Tell them you are ready to build the base.',
           ].map((step, i) => (
             <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
               <div style={{

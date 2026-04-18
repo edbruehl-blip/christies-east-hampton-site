@@ -1302,7 +1302,7 @@ export async function generateUHNWPathCard(): Promise<void> {
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(12);
   doc.setTextColor(249, 245, 239);
-  doc.text('What James Christie Knew', W / 2, mt + 0.18, { align: 'center' });
+  doc.text('Path to UHNW Wealth', W / 2, mt + 0.18, { align: 'center' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6);
   doc.setTextColor(200, 172, 120);
@@ -1846,31 +1846,8 @@ export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Prom
   doc.setTextColor(...CN.cream);
   doc.text(`${dominant.name} · ${dominant.liveShare}% of East End dollar volume`, P.ml + 4, dominantY + 11);
 
-  // ── Tier legend ───────────────────────────────────────────────────────────────
-  const tierY = dominantY + 22;
-  doc.setFontSize(6);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(...CN.gold);
-  doc.text('TIER KEY', P.ml, tierY);
-  let tx = P.ml + 20;
-  const tiers: Array<{ label: string; color: [number, number, number] }> = [
-    { label: 'Ultra-Trophy', color: [200, 172, 120] },
-    { label: 'Trophy',       color: [27, 42, 74] },
-    { label: 'Premier',      color: [56, 66, 73] },
-    { label: 'Opportunity',  color: [122, 138, 142] },
-  ];
-  for (const t of tiers) {
-    doc.setFillColor(...t.color);
-    doc.rect(tx, tierY - 2.5, 3, 3, 'F');
-    doc.setFontSize(5.5);
-    doc.setFont('helvetica', 'normal');
-    doc.setTextColor(...CN.charcoal);
-    doc.text(t.label, tx + 4.5, tierY);
-    tx += 32;
-  }
-
-  // ── Source attribution ────────────────────────────────────────────────────────
-  const srcY = tierY + 8;
+  // ── Source attribution ─────────────────────────────────────────────────────────────────────────────────
+  const srcY = dominantY + 22;
   doc.setFontSize(5);
   doc.setFont('helvetica', 'italic');
   doc.setTextColor(...CN.muted);

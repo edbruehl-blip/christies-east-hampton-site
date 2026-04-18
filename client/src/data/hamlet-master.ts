@@ -489,7 +489,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     photo: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
     imageUrl: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/wainscott-dunes_4b7f6398.jpg',
-    vibeText: 'A dune path to the ocean and nothing between you and the horizon. In March 2026, 115 Beach Lane closed at $59M — the hamlet\'s record transaction and the anchor behind a CIS of 8.8, despite a thin sample of 10 to 20 transactions per year. Wainscott has the fewest houses, the highest privacy, and the strongest case for long-term appreciation on the East End.',
+    vibeText: 'A dune path to the ocean and nothing between you and the horizon. 115 Beach Lane — $59M off-market close, March 2026. Despite a thin sample of 10 to 20 transactions per year, Wainscott has the fewest houses, the highest privacy, and the strongest case for long-term appreciation on the East End.',
     eeleListings: [
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },
       { address: 'TBD', price: 'TBD', beds: null, baths: null, sqft: 'TBD', url: 'https://www.christiesrealestategroup.com/search#', placeholder: true },

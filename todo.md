@@ -1970,3 +1970,32 @@
 - [x] Item 3: /report 404 — resolves on next publish (route correct in code)
 - [x] Item 4: MAPS Hamlet Highlights — selected-hamlet module below CIS Calculator, driven by curated JSON
 - [ ] Item 5: GitHub push after commit
+
+## Apr 18 — Combined Build Brief (Council-Approved)
+### PRIORITY A — Must Land Before April 29
+- [ ] A1: Neighborhood Card at /cards/bike (NeighborhoodCardPage.tsx, pdf-route.ts, HomeTab update)
+- [ ] A2: Remove Joe Carrello + Adam Kalb from all surfaces (ArchitectureOfWealthPage, UHNWPathCardPage, ReportPage)
+- [ ] A3: UHNW card internal label strip (ED'S HOOK, PERPLEXITY HUNT, WEALTH ANCHOR→CLIENT STORY, title lock)
+- [ ] A4: Tier legend removal from pdf-exports.ts + trophy language scrub
+- [ ] A5: Wainscott anchor fix in hamlet-master.ts + hamlet-highlights.json v2 structure update
+- [ ] A6: CIS Medallion Badge component — Christie's Red ring, white score, apply everywhere
+- [ ] A7: Pro Forma PDF fix (AH GCI bleed, browser chrome hide, title + filename, logo)
+- [ ] A8: Scott Smith commission fix (70% formula, 50% entry credit)
+- [ ] A9: AH GCI column rename → AH Profit
+### PRIORITY B — Ship Before April 29 If Possible
+- [ ] B1: Capital Flow Signal → Last Significant Sale spotlight card
+- [ ] B2: Homepage bottom cleanup (remove 6 service cards, gallery, CTA)
+- [ ] B3: /report full visual mirror (Neighborhood Card, UHNW Card, Architecture, service cards, gallery)
+- [ ] B4: Hamlet cards separation (MARKET=data, MAPS=lifestyle) + CTA "OPEN FULL MARKET CARD →"
+- [ ] B5: New Listings field on MARKET cards (build component, wire JSON when Ponder delivers)
+- [ ] B6: Nav bar HOME removed — verify clean
+- [ ] B7: Both cards on /report bottom (Neighborhood Card + UHNW Path Card)
+### PRIORITY C — Post-Launch
+- [ ] C1: FUTURE auth gate — confirm OPEN (FUTURE_AUTH_ENABLED = false)
+- [ ] C2: "What James Christie Knew" title retirement — audit all surfaces
+- [ ] C3: INTEL tab usability spec (Ponder will write spec separately)
+- [ ] C4: South Fork → East End global cleanup
+- [ ] C5: William/audio canon retirement — remove all TTS/audio surfaces
+- [ ] C6: Competitor names footnote doctrine — audit (current FUTURE footnote is fine)
+- [ ] C7: state.json sprint 11 catch-up
+- [ ] C8: Griff letter unsigned institutional (Ponder content task, no build)

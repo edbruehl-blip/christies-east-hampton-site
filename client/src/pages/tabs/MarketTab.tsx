@@ -17,6 +17,7 @@
 
 import { useMemo, useState } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
+import { CISBadge } from '@/components/CISBadge';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
@@ -332,23 +333,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           >
             {hamlet.name}
           </h3>
-          <span
-            className="shrink-0"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              background: '#C8AC78',
-              color: '#1B2A4A',
-              fontSize: 9,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              padding: '3px 8px 2px',
-              fontWeight: 600,
-              boxShadow: '0 1px 4px rgba(200,172,120,0.35)',
-              border: '1px solid rgba(200,172,120,0.6)',
-            }}
-          >
-            CIS {hamlet.liveCis.toFixed(1)}
-          </span>
+          <CISBadge score={hamlet.liveCis} size="sm" className="shrink-0" />
         </div>
 
         {/* Median price */}
@@ -542,7 +527,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
         </div>
       </div>
 
-      {/* Capital Flow Signal */}
+      {/* Last Significant Sale Spotlight — B1 Apr 18 2026 */}
       <div
         className="p-5 border"
         style={{ borderColor: 'rgba(200,172,120,0.4)', background: '#1B2A4A' }}
@@ -551,18 +536,24 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           className="uppercase mb-2"
           style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
         >
-          Capital Flow Signal
+          Last Significant Sale
         </div>
         <div
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontWeight: 600, fontSize: '1.1rem', letterSpacing: '0.08em' }}
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.05rem', lineHeight: 1.3 }}
         >
-          INSTITUTIONAL INFLOW
+          Sagaponack Village
         </div>
         <div
           className="mt-1"
-          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.72rem', lineHeight: 1.5 }}
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.78rem', lineHeight: 1.5 }}
         >
-          Ultra-HNWI capital rotating into highest-CIS hamlets. Sagaponack + EH Village leading absorption.
+          Daniels Lane · $27,500,000 · March 2025
+        </div>
+        <div
+          className="mt-2"
+          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.68rem', lineHeight: 1.5, borderTop: '1px solid rgba(200,172,120,0.2)', paddingTop: 8 }}
+        >
+          Highest-CIS hamlet · Dominant corridor · CIS 9.4
         </div>
       </div>
 

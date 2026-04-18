@@ -41,6 +41,7 @@ import {
   generateEastHamptonVillageReport,
 } from '@/lib/pdf-exports';
 import hamletHighlightsData from '@/data/hamlet-highlights.json';
+import { CISBadge } from '@/components/CISBadge';
 
 // ─── CDN URLs for GeoJSON ─────────────────────────────────────────────────────
 
@@ -519,8 +520,8 @@ function HamletHighlightsModule() {
                 />
               )}
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }} />
-              <div style={{ position: 'absolute', top: 12, left: 12, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 10px 2px', fontWeight: 700 }}>
-                CIS {highlight.cis.toFixed(1)}
+              <div style={{ position: 'absolute', top: 10, left: 10 }}>
+                <CISBadge score={highlight.cis} size="sm" />
               </div>
               <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
                 <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.5rem', lineHeight: 1.2 }}>{highlight.name}</div>

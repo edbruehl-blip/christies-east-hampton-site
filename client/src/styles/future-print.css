@@ -13,7 +13,18 @@
   /* ── Page setup ─────────────────────────────────────────────────────────── */
   @page {
     size: auto;
-    margin: 0.4in 0.5in;
+    margin: 0.5in;
+    /* Suppress browser chrome: date, URL, page numbers */
+    @top-left { content: none; }
+    @top-center { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+  }
+  /* Show the print-only Christie's logo header */
+  .future-print-header {
+    display: flex !important;
   }
 
   /* ── Force color printing ────────────────────────────────────────────────── */
