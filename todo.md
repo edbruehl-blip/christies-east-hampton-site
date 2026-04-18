@@ -1949,3 +1949,16 @@
 - [x] Item 5: MAPS tab — remove Hamlet Intelligence Matrix grid (11-card photo grid); keep map, CIS Calculator, PDF download buttons
 - [x] Item 6: Nav bar — remove HOME tab; logo click is only way home; order: MARKET · MAPS · PIPE · FUTURE · INTEL
 - [x] Item 7: Confirmed @page { size: auto; margin: 0.4in 0.5in } already live in future-print.css
+
+## Apr 17 — Ponder All-Inclusive Audit Dispatch
+- [x] Item 1: Capital Flow Signal copy — "trophy assets" → "highest-CIS hamlets" in MarketTab.tsx
+- [x] Item 8: Verify audio/TTS controls removed from ReportPage Section 1
+- [x] Item 9A: Verify /report route is live (not 404)
+- [ ] Item 10: Push all local commits to GitHub (47 commits ahead of github/main)
+- [x] Bike Card: Fix byline formatting (two lines)
+- [x] Bike Card: Replace back quote with institutional creed voice
+- [x] Bike Card: Replace "CPS-1 brokers worldwide" with "Certified brokers in 50+ countries"
+- [x] Bike Card: Replace market number with "At Record Levels"
+- [x] Bike Card: Inject four-hamlet strip data
+- [x] Bike Card: Add "See all 11 at christiesrealestategroupeh.com/market" reference
+- [x] Architecture of Wealth: Build printable /architecture-of-wealth page (Flambeaux treatment)

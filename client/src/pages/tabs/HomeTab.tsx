@@ -724,10 +724,10 @@ export default function HomeTab() {
                 Christie's Neighborhood Card
               </div>
               <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: 20 }}>
-                East End map on the front. Ed's voice and Christie's services on the back. Hamptons Median · $2.34M · Record High. Cut horizontally — two cards per sheet.
+                East End map on the front. Christie's institutional creed and services on the back. Hamptons Median · At Record Levels. Cut horizontally — two cards per sheet.
               </p>
               <a
-                href="https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies_neighborhood_bike_card_v2_9887d2db.html"
+                href="https://files.manuscdn.com/user_upload_by_module/session_file/115914870/jVcYBHlOrEoybmSp.html"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

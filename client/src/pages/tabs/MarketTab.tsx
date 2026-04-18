@@ -562,7 +562,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           className="mt-1"
           style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.72rem', lineHeight: 1.5 }}
         >
-          Ultra-HNWI capital rotating into Hamptons trophy assets. Sagaponack + EH Village leading absorption.
+          Ultra-HNWI capital rotating into highest-CIS hamlets. Sagaponack + EH Village leading absorption.
         </div>
       </div>
 

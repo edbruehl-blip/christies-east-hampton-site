@@ -45,6 +45,7 @@ import ChristiesLetterPage from "./pages/ChristiesLetterPage";
 import AngelLetterPage     from "./pages/AngelLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
+import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
 
 // ─── Auth Gate Feature Flag ───────────────────────────────────────────────────
 // Set to true on May 26, 2026 to activate auth-gate on /future standalone route.
@@ -125,6 +126,7 @@ function App() {
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
             <Route path="/letters/angel" component={AngelLetterPage} />
+            <Route path="/architecture-of-wealth" component={ArchitectureOfWealthPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={ProtectedFutureRoute} />
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
