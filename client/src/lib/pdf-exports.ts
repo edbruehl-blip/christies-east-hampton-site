@@ -769,7 +769,8 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   }
 
   // Doctrine block -- fills remaining space on Page 4 after Wainscott card
-  const doctrineY = atlasY + 8;
+  // Apr 17 dispatch: reduce dead space below Wainscott card (atlasY + 4 instead of + 8)
+  const doctrineY = atlasY + 4;
   if (doctrineY + 24 < PAGE.h - PAGE.mb) {
     doc.setDrawColor(...C.gold);
     doc.setLineWidth(0.3);
@@ -838,20 +839,17 @@ export async function generateMarketReport(opts?: GenerateMarketReportOpts | str
   doc.text('edbruehl@christiesrealestategroup.com', PAGE.ml + 8, y + 19);
   y += 28;
 
-  // Two QR codes side by side -- website QR (left) + WhatsApp QR (right)
+  // Website QR only -- WhatsApp QR removed per Apr 17 dispatch (not part of public client path)
   if (qrImg) {
     try { doc.addImage(qrImg, 'PNG', PAGE.ml, y, 22, 22); } catch { /* skip */ }
-    try { doc.addImage(qrImg, 'PNG', PAGE.ml + 28, y, 22, 22); } catch { /* skip */ }
   } else {
     doc.setFillColor(240, 238, 234);
     doc.rect(PAGE.ml, y, 22, 22, 'F');
-    doc.rect(PAGE.ml + 28, y, 22, 22, 'F');
   }
   doc.setFontSize(5.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'normal');
   doc.text('Website', PAGE.ml + 11, y + 25, { align: 'center' });
-  doc.text('WhatsApp', PAGE.ml + 39, y + 25, { align: 'center' });
 
    drawFooter(doc, 5, 5, qrImg);
   const filename = targetHamlet

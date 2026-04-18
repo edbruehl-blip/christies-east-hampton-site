@@ -70,6 +70,11 @@
     height: auto !important;
   }
 
+  /* ── Strip min-height: 100vh that causes blank void at bottom of page 2 ── */
+  .future-main-wrapper {
+    min-height: 0 !important;
+  }
+
   /* ── Kill bottom padding/margin on tab wrapper ──────────────────────────── */
   [class*="future-tab"],
   [class*="tab-content"] {
@@ -115,9 +120,18 @@
   /* ── C3: Headcount table column width ───────────────────────────────── */
   .headcount-table th,
   .headcount-table td {
-    font-size: 6pt !important;
-    padding: 1px 3px !important;
+    font-size: 5.5pt !important;
+    padding: 1px 2px !important;
     white-space: nowrap !important;
+  }
+
+  /* ── C3b: Hide last two columns (Combined Vol, Avg GCI/Prod) in print if still clipping ── */
+  /* nth-child counts: Year=1 EH=2 SH=3 WH=4 Total=5 EdGCI=6 NamedGCI=7 EngineGCI=8 OfficeGCI=9 AHGCI=10 CombGCI=11 CombVol=12 AvgGCI=13 */
+  .headcount-table th:nth-child(12),
+  .headcount-table th:nth-child(13),
+  .headcount-table td:nth-child(12),
+  .headcount-table td:nth-child(13) {
+    display: none !important;
   }
 
   /* ── C4: StaggeredRampChart — hidden from print (removed from screen render) ── */
@@ -259,12 +273,12 @@
     /* Only strip on the outermost wrapper — targeted via specific class */
   }
 
-  /* Fix right-side bleed: scale content 8% to pull rightmost column inside page margin */
+  /* Fix right-side bleed: scale 0.88 per Apr 17 dispatch — pulls Combined Vol + Avg GCI/Prod inside margin */
   .future-main-wrapper {
     width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
-    transform: scale(0.92);
+    transform: scale(0.88);
     transform-origin: top left;
   }
 

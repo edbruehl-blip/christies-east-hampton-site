@@ -1962,3 +1962,11 @@
 - [x] Bike Card: Inject four-hamlet strip data
 - [x] Bike Card: Add "See all 11 at christiesrealestategroupeh.com/market" reference
 - [x] Architecture of Wealth: Build printable /architecture-of-wealth page (Flambeaux treatment)
+
+## Apr 17 — Final Dispatch (eb424a92 → next)
+
+- [x] Item 1: FUTURE PDF — fix table clipping (scale 0.88 / font -1pt / print-only column hide) + strip blank void
+- [x] Item 2: Market Report PDF — cream bg page 1, text overlap fix, Wainscott spacing, kill WhatsApp QR
+- [x] Item 3: /report 404 — resolves on next publish (route correct in code)
+- [x] Item 4: MAPS Hamlet Highlights — selected-hamlet module below CIS Calculator, driven by curated JSON
+- [ ] Item 5: GitHub push after commit

@@ -30,6 +30,45 @@
     height: auto !important;
   }
 
+  /* ── Item 2 Fix A: Force Page 1 section background to cream ── */
+  /* Section1 has background: #1B2A4A (navy) on screen — in print, force cream */
+  #report-page-content > section:first-of-type {
+    background: #FAF8F4 !important;
+    color: #1B2A4A !important;
+  }
+
+  /* Force all text inside Section1 to be legible on cream background */
+  #report-page-content > section:first-of-type * {
+    color: #1B2A4A !important;
+  }
+
+  /* Preserve gold accents inside Section1 */
+  #report-page-content > section:first-of-type [style*="color: #C8AC78"],
+  #report-page-content > section:first-of-type [style*="color:#C8AC78"],
+  #report-page-content > section:first-of-type [style*="color: rgb(200, 172, 120)"] {
+    color: #C8AC78 !important;
+  }
+
+  /* ── Item 2 Fix B: Closing line spacing — prevent collision with gold footer bar ── */
+  /* The last paragraph in the founding letter needs bottom margin before the signature block */
+  #report-page-content > section:first-of-type p:last-of-type {
+    margin-bottom: 24pt !important;
+    page-break-after: avoid;
+  }
+
+  /* ── Item 2 Fix C: Wainscott dead space — move doctrine block up ── */
+  /* The doctrine block follows the Wainscott card on Page 4 — reduce top spacing */
+  .report-doctrine-block {
+    margin-top: 8pt !important;
+    padding-top: 8pt !important;
+  }
+
+  /* ── Item 2 Fix D: Remove WhatsApp QR — keep Website QR only ── */
+  /* The WhatsApp QR is the second QR block on Page 5 */
+  .report-whatsapp-qr {
+    display: none !important;
+  }
+
   /* ── Section title headers in print ── */
   .report-section::before {
     content: attr(data-section-title);

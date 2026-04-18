@@ -40,6 +40,7 @@ import {
   generateMarketReport,
   generateEastHamptonVillageReport,
 } from '@/lib/pdf-exports';
+import hamletHighlightsData from '@/data/hamlet-highlights.json';
 
 // ─── CDN URLs for GeoJSON ─────────────────────────────────────────────────────
 
@@ -458,6 +459,108 @@ function CISCalculatorLayer() {
 
 // ─── Layer 3 + 4: Eleven Hamlet Matrix + PDF Download ────────────────────────────
 
+// ─── Hamlet Highlights: Selected-hamlet local intelligence module ────────────
+// Spec: Apr 17 2026 dispatch — one card, updates on hamlet selection
+// Data: Ponder-curated static JSON (hamlet-highlights.json)
+// Placement: below CIS Calculator
+
+interface HamletHighlight {
+  name: string;
+  id: string;
+  cis: number;
+  anchor: string;
+  local_spot: string;
+  secret: string;
+  practical_note: string;
+}
+
+const HAMLET_HIGHLIGHTS: HamletHighlight[] = (hamletHighlightsData as { hamlets: HamletHighlight[] }).hamlets;
+
+function HamletHighlightsModule() {
+  const [selectedId, setSelectedId] = useState<string>('east-hampton-village');
+  const highlight = HAMLET_HIGHLIGHTS.find(h => h.id === selectedId) ?? HAMLET_HIGHLIGHTS[1];
+  const hamletData = MASTER_HAMLET_DATA.find(h => h.id === selectedId);
+  const photo = hamletData?.imageUrl || hamletData?.photo || '';
+
+  return (
+    <div style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
+      {/* Section header */}
+      <div className="px-6 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div className="flex items-center justify-between flex-wrap gap-4">
+            <div>
+              <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
+              <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>Hamlet Highlights</h2>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 10, fontWeight: 600 }}>Select Hamlet</label>
+              <select
+                value={selectedId}
+                onChange={e => setSelectedId(e.target.value)}
+                style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', background: '#FAF8F4', border: '1px solid #C8AC78', padding: '6px 12px', fontSize: '0.875rem', minWidth: 220 }}
+              >
+                {HAMLET_HIGHLIGHTS.map(h => (
+                  <option key={h.id} value={h.id}>{h.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="px-6 py-8">
+        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div style={{ position: 'relative', overflow: 'hidden', minHeight: 280 }}>
+              {photo && (
+                <img
+                  src={photo}
+                  alt={highlight.name}
+                  style={{ width: '100%', height: 280, objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+                />
+              )}
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }} />
+              <div style={{ position: 'absolute', top: 12, left: 12, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 10px 2px', fontWeight: 700 }}>
+                CIS {highlight.cis.toFixed(1)}
+              </div>
+              <div style={{ position: 'absolute', bottom: 16, left: 16, right: 16 }}>
+                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.5rem', lineHeight: 1.2 }}>{highlight.name}</div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-5">
+              <div style={{ borderLeft: '2px solid #C8AC78', paddingLeft: 14 }}>
+                <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 9, fontWeight: 600 }}>The Anchor</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.875rem', lineHeight: 1.6 }}>{highlight.anchor}</div>
+              </div>
+              <div style={{ borderLeft: '2px solid rgba(200,172,120,0.45)', paddingLeft: 14 }}>
+                <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 9, fontWeight: 600 }}>The Local Spot</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)', fontSize: '0.875rem', lineHeight: 1.6 }}>{highlight.local_spot}</div>
+              </div>
+              <div style={{ borderLeft: '2px solid rgba(200,172,120,0.25)', paddingLeft: 14 }}>
+                <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 9, fontWeight: 600 }}>The Secret</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.875rem', lineHeight: 1.6, fontStyle: 'italic' }}>{highlight.secret}</div>
+              </div>
+              <div style={{ background: 'rgba(250,248,244,0.05)', padding: '10px 14px', borderTop: '1px solid rgba(200,172,120,0.15)' }}>
+                <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', letterSpacing: '0.16em', fontSize: 9, fontWeight: 600 }}>Practical Note</div>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.8125rem', lineHeight: 1.6 }}>{highlight.practical_note}</div>
+              </div>
+              <button
+                onClick={() => {
+                  const marketTab = document.querySelector('[data-tab="market"]') as HTMLElement | null;
+                  if (marketTab) marketTab.click();
+                }}
+                className="mt-auto py-2.5 text-xs uppercase tracking-widest transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'transparent', color: '#C8AC78', letterSpacing: '0.2em', border: '1px solid rgba(200,172,120,0.4)' }}
+              >
+                Open Full Market Card →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { hamlet: HamletData; onExpand: () => void; isExpanded: boolean; liveListings: Record<string, LiveListing[]> }) {
   const hamletListings = liveListings[hamlet.id] || [];
   const [downloading, setDownloading] = useState(false);
@@ -721,6 +824,9 @@ export default function MapsTab() {
       </div>
       {/* ── Layer 2: CIS Calculator ──────────────────────────────────────────────────── */}
       <CISCalculatorLayer />
+
+      {/* ── Hamlet Highlights: Local intelligence module (Apr 17 2026 dispatch) ─── */}
+      <HamletHighlightsModule />
 
       {/* Layer 3: Hamlet Intelligence Matrix grid removed per Perp dispatch Apr 17 2026 */}
       {/* Map + CIS Calculator + PDF download buttons in HamletDetailPanel are preserved */}

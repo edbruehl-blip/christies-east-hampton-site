@@ -391,7 +391,7 @@ export default function FutureTab() {
 
 
   return (
-      <div ref={tabRef} className="future-main-wrapper" style={{ background: BG, minHeight: '100vh', padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
+      <div ref={tabRef} className="future-main-wrapper" style={{ background: BG, padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
