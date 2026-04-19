@@ -358,7 +358,8 @@ export default function HomeTab() {
     <div>
       <SectionA />
       <SectionB />
-      <BikeCardSection />
+      {/* BikeCardSection hidden V6 Apr 18 2026 — Ponder delivers Neighborhood Card PDF mockup Sunday Apr 19; unhide when asset is ready */}
+      {/* <BikeCardSection /> */}
     </div>
   );
 }

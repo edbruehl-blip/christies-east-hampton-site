@@ -545,35 +545,10 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
         </div>
       </div>
 
-      {/* Last Significant Sale Spotlight — B1 Apr 18 2026 */}
-      <div
-        className="p-5 border"
-        style={{ borderColor: 'rgba(200,172,120,0.4)', background: '#1B2A4A' }}
-      >
-        <div
-          className="uppercase mb-2"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
-        >
-          Last Significant Sale
-        </div>
-        <div
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.05rem', lineHeight: 1.3 }}
-        >
-          Sagaponack Village
-        </div>
-        <div
-          className="mt-1"
-          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.78rem', lineHeight: 1.5 }}
-        >
-          Daniels Lane · $27,500,000 · March 2025
-        </div>
-        <div
-          className="mt-2"
-          style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: '0.68rem', lineHeight: 1.5, borderTop: '1px solid rgba(200,172,120,0.2)', paddingTop: 8 }}
-        >
-          Highest-CIS hamlet · Dominant corridor · CIS 9.4
-        </div>
-      </div>
+      {/* Last Significant Sale Spotlight — KILLED V2 Apr 18 2026
+           Per-hamlet last sale data already on each hamlet tile card.
+           Standalone Sagaponack block was redundant. M3 Thursday will wire live data per hamlet.
+           Do not restore this block — data redistributes naturally to hamlet tiles. */}
 
     </div>
   );
@@ -707,7 +682,7 @@ export default function MarketTab() {
           <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
               Sources: Verified market intelligence &middot; Christie's East Hampton internal analysis &middot; The Real Deal &middot; Behind The Hedges &middot; MLS-backed public records.
-              Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per council doctrine.
+              Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per institutional methodology.
             </p>
           </div>
         </div>

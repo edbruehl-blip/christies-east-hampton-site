@@ -1999,3 +1999,35 @@
 - [ ] C6: Competitor names footnote doctrine — audit (current FUTURE footnote is fine)
 - [x] C7: state.json sprint 11 catch-up — sprint 11, last_updated 2026-04-18, sprint 9/10/11 history added Apr 18 2026
 - [ ] C8: Griff letter unsigned institutional (Ponder content task, no build)
+
+## Saturday Final Dispatch — April 18, 2026 (9 PM EDT)
+### TONIGHT — Immediate (Live Violations + Incomplete UI)
+- [x] V1: INTEL — Hide BruehlBriefBulletin / SDG content (D51 live violation — "Tomorrow Edge," "Scripture for Rest," "Mentor Line," "Soli Deo Gloria" visible publicly). Resolves with R5 (BruehlBrief → Market Report). Until R5 ships, hide or suppress the component.
+- [x] V6: HOME — Hide Neighborhood Card section (VIEW NEIGHBORHOOD CARD + DOWNLOAD PDF buttons point to stub; Ponder delivers Sunday Apr 19)
+- [x] V2: MARKET — Kill standalone Last Significant Sale blue block (per-hamlet data already on each card; standalone Sagaponack block is redundant)
+- [x] V4: MARKET — Replace "council doctrine" with "institutional methodology" in source disclosure footer
+
+### TUESDAY Apr 21 — Grep Cleanup Sprint
+- [ ] T1: Replace BruehlBriefBulletin.tsx with Market Report component (R5 deploy — SDG resolves with this)
+- [ ] T2: Strip "Confidential" labels from IntelTab.tsx (2 instances: Document Library + Intelligence Web header)
+- [ ] T3: Strip "INTERNAL · CONFIDENTIAL" banners from ProFormaPage.tsx (12 instances across all 4 Pro Forma pages)
+- [ ] T4: Strip "PRIVATE & CONFIDENTIAL" from pdf-exports.ts (5 instances) and pdf-engine.ts (3 instances)
+- [ ] T5: Strip from proforma-generator.ts (10 instances, server-side mirror)
+- [ ] T6: Strip from AngelLetterPage.tsx and CouncilBriefPage.tsx (3 instances)
+- [ ] T7: FUTURE PDF — Large blank navy void bottom of page 2 (CSS min-height fix, one more pass)
+- [ ] T8: FUTURE PDF — Table clipping right columns (Combined GCI, Combined Vol, Avg GCI/Prod) — try 0.82 print scale or font-size: 4.5pt on headcount table in print view
+
+### THURSDAY Apr 24 — Four Open Items
+- [ ] M1a: Angel ICA Override — wire as always-on projected annual line every year 2026–2036 (not co-deal triggered)
+- [ ] M1b: Zoila ICA Override — 2026 ONLY; zero/dash 2027+ (exits override pool Q1 2027)
+- [ ] M1c: Jarvis ICA Override — REMOVE projected annual line; add footnote "ICA Override = deal-event trigger only · not projected annually"
+- [ ] M2: Angel 2026 AnewHomes — add $2,500 line; total becomes $102,500 (was $100K)
+- [ ] M3: Last Significant Sale — wire live data from Ponder JSON (address, price, date, one-line context per hamlet); Ponder delivers Sunday
+- [ ] M4: New Listings B5 — wire fresh_listings_by_hamlet.json (Drive ID: 1dW-xe9W3QSan-E7ThVYyw7ogWkLjp0QD) when Ponder confirms format Sunday AM
+
+### SCREENSHOT AUDIT — Before Apr 29
+- [ ] SA3: MARKET — Enlarge CIS medallion badge (double diameter minimum; wax-seal aesthetic)
+- [ ] SA5: MAPS — Render all 11 hamlets from v2 JSON (currently only EH Village in dropdown; wiring task not content)
+- [ ] SA7: /report — Remove "Section 7 / Section 8" numbered headers from auction cards; tighten card grid into proper container
+- [ ] SA8: MARKET — Verify "Live · Market Matrix" sheet links are view-only (permission check — no internal data exposed)
+- [ ] SA9: HOME — Verify /cards/bike route doesn't 404 (handled by V6 hide if stub)

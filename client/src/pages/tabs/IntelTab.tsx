@@ -900,10 +900,13 @@ export default function IntelTab() {
       <div id="intel-layer-6" />
       <IntelligenceWebLayer />
 
-      {/* Section 9 — Bruehl Brief Bulletin Board */}
-      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+      {/* Section 9 — Bruehl Brief Bulletin Board — HIDDEN V1 Apr 18 2026 (D51 violation during open phase)
+           "Tomorrow Edge", "Scripture for Rest", "Mentor Line", "Soli Deo Gloria" are personal council material.
+           Resolves with R5 Tuesday: BruehlBriefBulletin → Market Report component.
+           Do NOT unhide until R5 ships. */}
+      {/* <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <BruehlBriefBulletin />
-      </div>
+      </div> */}
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
