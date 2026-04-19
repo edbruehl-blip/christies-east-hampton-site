@@ -96,7 +96,6 @@ export default function AngelLetterPage() {
 
         {/* Confidential banner */}
         <div style={{ background: NAVY, borderLeft: `3px solid ${GOLD}`, padding: '14px 20px', marginBottom: 40, borderRadius: 2 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 6 }}>Confidential · Internal Team Document</div>
           <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '0.95rem', lineHeight: 1.6, color: '#FAF8F4', margin: 0, fontStyle: 'italic' }}>
             This letter is your Day One orientation artifact. It contains your role, your equity terms, the team structure, and the doctrines that govern how we operate. Keep it. Reference it. It is yours.
           </p>

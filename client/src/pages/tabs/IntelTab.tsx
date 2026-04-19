@@ -779,7 +779,7 @@ function IntelligenceWebLayer() {
           Intelligence Web
         </div>
         <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
-          48 entities · Jarvis Top Agents · Whale Intelligence · Auction Referrals · Internal use only.
+          48 entities · Jarvis Top Agents · Whale Intelligence · Auction Referrals.
         </div>
         <IntelligenceWebTabs />
       </div>

@@ -562,8 +562,6 @@ export async function generateProFormaPDF(): Promise<Buffer> {
      PAGE 1 — THE ASCENSION ARC
 ═══════════════════════════════════════════════════════════════════════════ -->
 <div class="page">
-  <div class="confidential-banner">INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
-
   <div class="page-header">
     <img class="logo" src="${LOGO_BLACK}" alt="Christie's International Real Estate Group">
     <div class="meta">
@@ -619,12 +617,12 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="footnote">
     * All projections labeled MODEL. 2026 Closed ($4.57M) and Active (${exclusiveStr}) are verified actuals.
     2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
-    Data source: Growth Model v2 · Christie's East Hampton · INTERNAL ONLY.
+    Data source: Growth Model v2 · Christie's East Hampton.
   </div>
 
   <div class="page-footer">
     <span>Christie's East Hampton · Pro Forma · ${generatedAt}</span>
-    <span>INTERNAL · CONFIDENTIAL · Page 1 of 4</span>
+    <span>Page 1 of 4</span>
   </div>
 </div>
 
@@ -632,8 +630,6 @@ export async function generateProFormaPDF(): Promise<Buffer> {
      PAGE 2 — THE MACHINE
 ═══════════════════════════════════════════════════════════════════════════ -->
 <div class="page">
-  <div class="confidential-banner">INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
-
   <div class="page-header">
     <img class="logo" src="${LOGO_BLACK}" alt="Christie's International Real Estate Group">
     <div class="meta">
@@ -646,7 +642,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="page-title">The Machine</div>
   <div class="page-subtitle">Agent Roster · 9 Named + 7 TBD = 16 for 2026 · Sales Volume</div>
 
-  <div class="internal-banner">★ Sales Volume Only — GCI Internal · Not for External Distribution</div>
+  <div class="internal-banner">★ Sales Volume Only</div>
 
   <table>
     <thead>
@@ -693,7 +689,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="page-footer">
     <span>Christie's East Hampton · Pro Forma · ${generatedAt}</span>
-    <span>INTERNAL · CONFIDENTIAL · Page 2 of 4</span>
+    <span>Page 2 of 4</span>
   </div>
 </div>
 
@@ -701,8 +697,6 @@ export async function generateProFormaPDF(): Promise<Buffer> {
      PAGE 3 — THE ECONOMICS
 ═══════════════════════════════════════════════════════════════════════════ -->
 <div class="page">
-  <div class="confidential-banner">INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
-
   <div class="page-header">
     <img class="logo" src="${LOGO_BLACK}" alt="Christie's International Real Estate Group">
     <div class="meta">
@@ -715,7 +709,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="page-title">The Economics</div>
   <div class="page-subtitle">Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
-  <div class="internal-banner">★ INTERNAL ONLY — GCI and Profit Pool · Not for External Documents · Governing Principle *</div>
+  <div class="internal-banner">★ GCI and Profit Pool · Governing Principle *</div>
 
   <div class="section-label" style="margin-bottom:8px">Profit Pool · 2026–2036 Projection</div>
   <div style="background:#fff;border:1px solid rgba(27,42,74,0.1);padding:8px 10px;margin-bottom:10px;font-family:'Barlow Condensed',sans-serif;font-size:8.5px;color:#384249;line-height:1.6">
@@ -813,7 +807,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="page-footer">
     <span>Christie's East Hampton · Pro Forma · ${generatedAt}</span>
-    <span>INTERNAL · CONFIDENTIAL · Page 3 of 4</span>
+    <span>Page 3 of 4</span>
   </div>
 </div>
 
@@ -821,8 +815,6 @@ export async function generateProFormaPDF(): Promise<Buffer> {
      PAGE 4 — DEFENSIBLE NUMBERS + CONTACT
 ═══════════════════════════════════════════════════════════════════════════ -->
 <div class="page">
-  <div class="confidential-banner">INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
-
   <div class="page-header">
     <img class="logo" src="${LOGO_BLACK}" alt="Christie's International Real Estate Group">
     <div class="meta">
@@ -901,7 +893,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
   <div class="page-footer">
     <span>Christie's East Hampton · Pro Forma · ${generatedAt}</span>
-    <span>INTERNAL · CONFIDENTIAL · Page 4 of 4</span>
+    <span>Page 4 of 4</span>
   </div>
 </div>
 

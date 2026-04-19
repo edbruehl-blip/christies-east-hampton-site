@@ -189,20 +189,20 @@ export default function FutureTab() {
 
   // Canonical locked trajectory (Ed ruling April 14, 2026)
   // Used as display source; ROSTER cells override when Perplexity populates them
-  // 2026: $70K nest + $30K producer ramp = $100K total
+  // 2026: $70K nest + $25K producer ramp (50% entry credit on $50K) = $127.5K total
   // 2027: $17.5K Q1 nest + $132.5K Q2-Q4 production = $150K floor
   // 2028+: 20% YoY compound — $180K, $216K, $259K, $311K, $373K, $447K, $537K, $644K, $773K
   const CANONICAL_ANGEL = {
     nestSalary:  '$70K/yr ($5,833/mo) through Q1 2027',
     total2026:   angelNest && angelProducer && (angelNest.gci2026 + angelProducer.gci2026) > 0
                    ? `$${Math.round((angelNest.gci2026 + angelProducer.gci2026 + 2_500 + 30_000) / 1000)}K`
-                   : '$132.5K', // $70K nest + $30K producer + $2,500 AnewHomes + $30K ICA Override (Angel has no vesting clause)
+                   : '$127.5K', // $70K nest + $25K producer (50% entry credit) + $2,500 AnewHomes + $30K ICA Override (Angel has no vesting clause)
     total2027:   angelNest && angelProducer && (angelNest.gci2027 + angelProducer.gci2027) > 0
                    ? `$${Math.round((angelNest.gci2027 + angelProducer.gci2027) / 1000)}K`
                    : '$150K',
     total2028:   '$180K',
     total2036:   '$773K',
-    producer2026: angelProducer && angelProducer.gci2026 > 0 ? `$${Math.round(angelProducer.gci2026 / 1000)}K` : '$30K',
+    producer2026: angelProducer && angelProducer.gci2026 > 0 ? `$${Math.round(angelProducer.gci2026 / 1000)}K` : '$25K', // 50% entry credit on $50K producer ramp
     producer2027: angelProducer && angelProducer.gci2027 > 0 ? `$${Math.round(angelProducer.gci2027 / 1000)}K` : '$132.5K',
   };
   const CANONICAL_ZOILA = {

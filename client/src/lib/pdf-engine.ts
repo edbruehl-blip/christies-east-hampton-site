@@ -298,12 +298,6 @@ export function drawFooter(doc: jsPDF, pageNum: number, totalPages: number, qrIm
   doc.setFont('helvetica', 'normal');
   doc.text("Christie's International Real Estate Group · 26 Park Place, East Hampton NY 11937", cx, y + 5, { align: 'center' });
 
-  // Private & Confidential — centered, small caps style
-  doc.setFontSize(5.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'bold');
-  doc.text('PRIVATE & CONFIDENTIAL', cx, y + 10, { align: 'center' });
-
   // Page number — right-aligned
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);

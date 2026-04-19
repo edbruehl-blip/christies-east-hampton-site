@@ -150,7 +150,7 @@ export async function generateAnewBuildMemo(result: AnewOutput): Promise<void> {
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'italic');
-  const disclaimer = 'This memo is prepared for internal use by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance. This document is confidential and intended solely for the named recipient.';
+  const disclaimer = 'This memo is prepared by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance.';
   y = wrapText(doc, disclaimer, PAGE.ml, y, PAGE.contentW, 4.5);
 
   drawFooter(doc, 2, 2, qrImg);
@@ -471,7 +471,7 @@ export async function generateInvestmentMemo(result: AnewOutput): Promise<void> 
   doc.setFontSize(6.5);
   doc.setTextColor(...C.muted);
   doc.setFont('helvetica', 'italic');
-  const disclaimer = 'This memorandum is prepared for internal use by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance. This document is confidential.';
+  const disclaimer = 'This memorandum is prepared by Christie\'s East Hampton. All projections are estimates based on current market data and are not guarantees of future performance.';
   y = wrapText(doc, disclaimer, PAGE.ml, y, PAGE.contentW, 4.5);
 
   drawFooter(doc, 2, 2, qrImg);

@@ -149,7 +149,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
             ...LABEL_FONT, color: 'rgba(27,42,74,0.35)', fontSize: 8,
             letterSpacing: '0.18em', textTransform: 'uppercase', textAlign: 'right',
           }}>
-            Private &amp; Confidential · Christie's East Hampton · christiesrealestategroupeh.com
+            Christie's East Hampton · christiesrealestategroupeh.com
           </div>
         </div>
       </div>

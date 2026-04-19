@@ -238,7 +238,6 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
 
   return (
     <div style={PAGE_STYLE}>
-      <div style={CONFIDENTIAL_BANNER}>INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
       <PageHeader generatedAt={generatedAt} />
 
       <div style={SECTION_LABEL}>Page 1 of 4</div>
@@ -297,12 +296,12 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
       <div style={FOOTNOTE}>
         * All projections labeled MODEL. 2026 Closed ($4.57M) and Active ({exclusiveStr}) are verified actuals.
         2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
-        Data source: Growth Model v2 · Christie's East Hampton · INTERNAL ONLY.
+        Data source: Growth Model v2 · Christie's East Hampton.
       </div>
 
       <div style={PAGE_FOOTER}>
         <span style={FOOTER_SPAN}>Christie's East Hampton · Pro Forma · {generatedAt}</span>
-        <span style={FOOTER_SPAN}>INTERNAL · CONFIDENTIAL · Page 1 of 4</span>
+        <span style={FOOTER_SPAN}>Page 1 of 4</span>
       </div>
     </div>
   );
@@ -340,7 +339,6 @@ function Page2({ generatedAt, agents, total }: {
 }) {
   return (
     <div style={PAGE_STYLE}>
-      <div style={CONFIDENTIAL_BANNER}>INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
       <PageHeader generatedAt={generatedAt} />
 
       <div style={SECTION_LABEL}>Page 2 of 4</div>
@@ -348,7 +346,7 @@ function Page2({ generatedAt, agents, total }: {
       <div style={PAGE_SUBTITLE}>Agent Roster · 9 Named + 7 TBD = 16 for 2026 · Sales Volume</div>
 
       <div style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
-        ★ Sales Volume Only — GCI Internal · Not for External Distribution
+        ★ Sales Volume Only
       </div>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
@@ -402,7 +400,7 @@ function Page2({ generatedAt, agents, total }: {
 
       <div style={PAGE_FOOTER}>
         <span style={FOOTER_SPAN}>Christie's East Hampton · Pro Forma · {generatedAt}</span>
-        <span style={FOOTER_SPAN}>INTERNAL · CONFIDENTIAL · Page 2 of 4</span>
+        <span style={FOOTER_SPAN}>Page 2 of 4</span>
       </div>
     </div>
   );
@@ -417,7 +415,6 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
 
   return (
     <div style={PAGE_STYLE}>
-      <div style={CONFIDENTIAL_BANNER}>INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
       <PageHeader generatedAt={generatedAt} />
 
       <div style={SECTION_LABEL}>Page 3 of 4</div>
@@ -425,7 +422,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
       <div style={PAGE_SUBTITLE}>Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
       <div style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
-        ★ INTERNAL ONLY — GCI and Profit Pool · Not for External Documents · Governing Principle *
+        ★ GCI and Profit Pool · Governing Principle *
       </div>
 
       <div style={{ ...SECTION_LABEL, marginBottom: 8 }}>Profit Pool · 2026–2036 Projection</div>
@@ -523,7 +520,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
 
       <div style={PAGE_FOOTER}>
         <span style={FOOTER_SPAN}>Christie's East Hampton · Pro Forma · {generatedAt}</span>
-        <span style={FOOTER_SPAN}>INTERNAL · CONFIDENTIAL · Page 3 of 4</span>
+        <span style={FOOTER_SPAN}>Page 3 of 4</span>
       </div>
     </div>
   );
@@ -546,7 +543,6 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
 
   return (
     <div style={PAGE_STYLE}>
-      <div style={CONFIDENTIAL_BANNER}>INTERNAL · CONFIDENTIAL · NOT FOR DISTRIBUTION</div>
       <PageHeader generatedAt={generatedAt} />
 
       <div style={SECTION_LABEL}>Page 4 of 4</div>
@@ -599,7 +595,7 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
 
       <div style={PAGE_FOOTER}>
         <span style={FOOTER_SPAN}>Christie's East Hampton · Pro Forma · {generatedAt}</span>
-        <span style={FOOTER_SPAN}>INTERNAL · CONFIDENTIAL · Page 4 of 4</span>
+        <span style={FOOTER_SPAN}>Page 4 of 4</span>
       </div>
     </div>
   );
