@@ -62,15 +62,18 @@ function SectionA() {
           style={{ display: 'block' }}
         />
         <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to right, rgba(27,42,74,0.97) 0%, rgba(27,42,74,0.88) 50%, rgba(27,42,74,0.55) 100%)'
+          background: 'rgba(27,42,74,0.90)'
         }} />
 
+        {/* Centered wrapper — max 920px, horizontally centered */}
+        <div className="relative" style={{ display: 'flex', justifyContent: 'center', minHeight: 'calc(100vh - 120px)', padding: '0 16px' }}>
         <div
-          className="relative flex flex-col md:grid"
+          className="flex flex-col md:grid"
           style={{
             gridTemplateColumns: '200px 1fr',
             gap: 0,
-            minHeight: 'calc(100vh - 120px)',
+            width: '100%',
+            maxWidth: 920,
             alignItems: 'start',
           }}
         >
@@ -231,15 +234,14 @@ function SectionA() {
                 ↗ Open &amp; Print
               </a>
             </div>
-
+          </div>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-// ─── Section B · Christie's Channel · Story · Video · Gallery ─────────────────
+// ─── Section BB · Christie's Channel · Story · Video · Gallery ─────────────────
 // Calm, private-wealth. No grid. No tiles. No KPIs.
 function SectionB() {
   return (

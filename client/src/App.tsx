@@ -101,12 +101,12 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
     case "pipe":   return <PipeTab />;
     case "future": return <FutureTab />;
     case "intel":  return <IntelTab />;
-    default:       return <MarketTab />; // HOME removed from nav — default to MARKET
+    default:       return <HomeTab />;
   }
 }
 
 function Dashboard() {
-  const [activeTab, setActiveTab] = useState<TabId>("market"); // HOME removed from nav per Perp dispatch Apr 17 2026 — logo click navigates home
+  const [activeTab, setActiveTab] = useState<TabId>("home"); // HOME is the front door — default on refresh (D34)
   return (
     <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
       <TabContent activeTab={activeTab} />
