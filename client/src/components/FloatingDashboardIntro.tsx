@@ -85,7 +85,7 @@ export function FloatingDashboardIntro() {
       setLoading(true);
       // iOS Safari fix: set src and call load() before play() within the gesture
       if (!audio.src || audio.src === window.location.href) {
-        audio.src = '/api/tts/flagship';
+        audio.src = '/api/tts/flagship-letter';
         audio.load();
       }
       audio.play().catch(err => {

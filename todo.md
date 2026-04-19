@@ -2069,3 +2069,8 @@
 
 ## Apr 19 Portrait Float Fix
 - [x] James Christie portrait floats inline with letter text on mobile — float:left, marginRight 24px, text wraps alongside and below (no orphaned portrait column)
+
+## Apr 19 Bug Fixes
+- [x] Audio button not working — diagnose and fix AUDIO play button on /letters/flagship and /letters/christies
+- [x] PDF logo invisible — Christie's logo now visible via ?pdf=1 detection (Puppeteer does not trigger @media print)
+- [x] Ed headshot circle — signature block headshot is now a circle with gold border (border-radius: 50%)
