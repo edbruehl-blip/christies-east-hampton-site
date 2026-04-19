@@ -12,6 +12,7 @@ import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route
 import { registerWhatsAppInbound } from "../whatsapp-inbound";
 import listingsRouter, { syncListings } from "../listings-sync-route";
 import pdfRouter from "../pdf-route";
+import { registerTtsRoute, warmFlagshipCache } from "../tts-route";
 import cron from "node-cron";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -132,6 +133,12 @@ async function startServer() {
 
   // PDF render — Puppeteer-based PDF generation for the market report
   app.use(pdfRouter);
+
+  // TTS — ElevenLabs voice synthesis for William floating button (D34 amendment)
+  registerTtsRoute(app);
+  // Pre-warm the flagship letter audio cache on startup so first click is instant
+  const elevenKey = process.env.ELEVENLABS_API_KEY;
+  if (elevenKey) warmFlagshipCache(elevenKey);
 
   // Temporary debug endpoint — check Chromium availability on deployed server
   app.get('/api/debug/chromium', async (_req, res) => {
