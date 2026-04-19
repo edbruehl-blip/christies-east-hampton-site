@@ -300,11 +300,11 @@ const NODES: MapNode[] = [
 
   { id: "attorneys_node",
     name: "ATTORNEYS",
-    title: "Pierre Debbas · Tarbet · Lester · McGrath",
+    title: "Jacqueline Aleman · Tarbet · Lester · McGrath",
     type: "ATTORNEY", status: "ACTIVE",
-    note: "Pierre Debbas: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Property analysis reports tracked in Pipeline Sheet. FOIL properties list maintained. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions.",
+    note: "Jacqueline Aleman, Esq.: Manhattan + Hamptons RE law, co-host The Bruehl Report, Ep. 1 live. Property analysis reports tracked in Pipeline Sheet. FOIL properties list maintained. Jonathan Tarbet: land use, zoning, EH Town history, 132 N Main St East Hampton. Brian Lester: trusts, estates, RE litigation, every major transaction. Seamus McGrath: RE law, East Hampton, active on East End transactions.",
     x: 1320, y: 1280, r: R,
-    members: ["Pierre Debbas — First", "Jonathan Tarbet", "Brian Lester", "Seamus McGrath"],
+    members: ["Jacqueline Aleman — First", "Jonathan Tarbet", "Brian Lester", "Seamus McGrath"],
     rw: R, rh: R },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -347,11 +347,11 @@ const NODES: MapNode[] = [
 
   { id: "podcast_node",
     name: "PODCAST",
-    title: "The Bruehl Report · Pierre Debbas Co-Host · Ep 1 Live Apr 30",
+    title: "The Bruehl Report · Jacqueline Aleman Co-Host · Ep 1 Live Apr 30",
     type: "CATEGORY", status: "ACTIVE",
-    note: "The Bruehl Report. Ed Bruehl and Pierre Debbas co-hosts. Episode 1 Live April 30. Platform for brand amplification, attorney relationship deepening, and UHNW audience reach. Pending guests populate as confirmed. Pulls from Podcast Calendar sheet.",
+    note: "The Bruehl Report. Ed Bruehl and Jacqueline Aleman co-hosts. Episode 1 Live April 30. Platform for brand amplification, attorney relationship deepening, and UHNW audience reach. Pending guests populate as confirmed. Pulls from Podcast Calendar sheet.",
     x: 720, y: 1660, r: R,
-    members: ["Ed Bruehl — Host", "Pierre Debbas — Co-Host", "Ep. 1 Live Apr 30"],
+    members: ["Ed Bruehl — Host", "Jacqueline Aleman — Co-Host", "Ep. 1 Live Apr 30"],
     rw: R, rh: R },
 
   // ════════════════════════════════════════════════════════════════════════════

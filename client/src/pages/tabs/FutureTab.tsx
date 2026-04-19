@@ -557,8 +557,8 @@ export default function FutureTab() {
           {[
             {
               phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
-              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. OS live Day 1.</>,
-              client: 'ANEW proven at $2.47M. Every deal scored before a showing.',
+              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. Dashboard live Day 1.</>,
+              client: 'AnewHomes proven at $2.47M. Every deal scored before a showing.',
               team: '26 Park Place operational. Open before the sign went up.',
             },
             {
@@ -570,14 +570,14 @@ export default function FutureTab() {
             {
               phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
               shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
-              client: "AI Council daily. Every listing at Christie's standard.",
-              team: '5 agents on live OS. Scott incoming June. Southampton bench seeded.',
+              client: "Daily intelligence briefing. Every listing at Christie's standard.",
+              team: '5 agents on live OS. Scott incoming June. Southampton hiring pipeline started.',
             },
             {
               phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7.5% post-maturity. Two-thirds seats, one-third market. Year 2 Profit Pool activates.</>,
+              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7.0% post-maturity. Growth from adding agents (⅔) plus market appreciation (⅓). Profit sharing begins Year 2 (2027).</>,
               client: "Global Christie's brand. Legacy practice beyond a brokerage.",
-              team: "36 elite producers across three offices by 2031 · pure compound mode through 2036 · recruiting engine dormant.",
+              team: "36 elite producers across three offices by 2031 · Steady growth through 2036 — fully staffed · All offices fully staffed — team complete.",
             },
           ].map(c => (
             <div key={c.phase} style={cardStyle}>
@@ -649,7 +649,7 @@ export default function FutureTab() {
               </thead>
               <tbody>
                 {[
-                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.5% post-maturity (Ed ruling B)
+                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.0% post-maturity (Ed ruling, Ponder flag Apr 19 2026)
                   { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$216K' }, // AH Profit corrected Issue #1 Apr 19 2026
                   // Zoila Y2 locked $150K (was $120K) · +$30K compounds 20% through 2036 · Apr 16 2026
                   { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.15M', combGci:'$5.22M', combVol:'$0.26B', avgGci:'$435K' },
@@ -693,7 +693,7 @@ export default function FutureTab() {
           {/* Gap Bridge footer */}
           <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
             <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
-              Base engine $2.07B by 2036 (per-seat math only, no market lift). 7.5% post-maturity growth adds ~$0.93B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
+              Base engine $2.07B by 2036 (per-seat math only, no market lift). 7.0% post-maturity growth adds ~$0.93B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
               <span style={{ color: GOLD, fontWeight: 600 }}>$3.0B combined · institutional floor · north star.</span>
               {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> 50% entry-year credit on mid-year starts. EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
             </span>
@@ -708,7 +708,8 @@ export default function FutureTab() {
             {/* Ilija */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Franchise Principal &middot; CIREG Tri-State</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 2 }}>Franchise Principal &middot; CIREG Tri-State</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5, fontStyle: 'italic' }}>9 by year-end 2026, scaling to 36 by 2031</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
                 {['Stream','2026','2027','2028','2036'].map(h => (
                   <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>

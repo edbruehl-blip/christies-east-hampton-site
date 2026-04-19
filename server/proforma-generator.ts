@@ -573,6 +573,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="section-label">Page 1 of 4</div>
   <div class="page-title">The Ascension Arc</div>
   <div class="page-subtitle">2025–2036 Sales Volume Trajectory · $3B Horizon</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:7.5px;letter-spacing:0.08em;text-transform:uppercase;color:#8a7a5a;margin-bottom:10px">FUTURE PROJECTIONS · CPS-1 PRO FORMA · WITHIN THE EXISTING GROWTH PLAN</div>
 
   <div class="kpi-strip">
     <div class="kpi-card">
@@ -708,6 +709,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
   <div class="section-label">Page 3 of 4</div>
   <div class="page-title">The Economics</div>
   <div class="page-subtitle">Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
+  <div style="font-family:'Barlow Condensed',sans-serif;font-size:7.5px;letter-spacing:0.06em;color:#8a7a5a;margin-bottom:6px">CIREG Profit Pool — the share of firm profit after agents, royalty, and office costs</div>
 
   <div class="internal-banner">★ GCI and Profit Pool · Governing Principle *</div>
 
@@ -716,7 +718,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
     Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
     Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
-    Paid at year end. Not salary. Not splits. Profit participation. Source: Growth Model v2 OUTPUTS D39/D41.
+    Paid at year end. Not salary. Not splits. Profit participation. Growth after offices are fully staffed — 7.0%. Source: Growth Model v2 OUTPUTS D39/D41.
   </div>
 
   <table style="margin-bottom:14px">

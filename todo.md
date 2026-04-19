@@ -2074,3 +2074,11 @@
 - [x] Audio button not working — diagnose and fix AUDIO play button on /letters/flagship and /letters/christies
 - [x] PDF logo invisible — Christie's logo now visible via ?pdf=1 detection (Puppeteer does not trigger @media print)
 - [x] Ed headshot circle — signature block headshot is now a circle with gold border (border-radius: 50%)
+
+## Apr 20 Council Dispatch — Locked Rulings
+- [ ] P0: Fix Ed GCI ramp in FutureTab — locked 20% ramp ($600K → $720K → $864K → ... → $3,715K). Do NOT touch office volumes or NOP.
+- [ ] Verify Ilija compounding table matches FUTURE tab
+- [x] Update Ilija headcount to "9 by year-end 2026, scaling to 36 by 2031"
+- [x] Rename "Fine Properties" → "Christie's CPS-1 Pipeline" + add multi-market sentence + swap Pierre → Jacqueline (Drive doc requires manual edit; InstitutionalMindMap.tsx Pierre→Jacqueline done)
+- [x] Branded pro forma — 3 phrase fixes applied in proforma-generator.ts (WITHIN THE EXISTING GROWTH PLAN, CIREG subtitle, post-maturity label)
+- [x] 100 Days cards — 8 jargon items to plain English applied in FutureTab.tsx (skip 2nd card per dispatch)
