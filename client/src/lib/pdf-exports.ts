@@ -1524,7 +1524,7 @@ export async function generateFlagshipLetter(): Promise<void> {
       text: "Scott Smith is joining in June and brings specific expertise to the AnewHomes lane \u2014 the development track that sits alongside brokerage as a separate, disciplined line. The office is no longer just selling assets. It is beginning to shape them.",
     },
     {
-      text: "Zoila Ortega Astor joins as Office Director on April 15. She is the administrative anchor \u2014 the person who makes the office function as an institution rather than as a collection of individuals. 26 Park Place becomes a real office the day she walks in.",
+      text: "Zoila Ortega Astor joins as Office Director on May 4. She is the administrative anchor \u2014 the person who makes the office function as an institution rather than as a collection of individuals. 26 Park Place becomes a real office the day she walks in.",
     },
     // The Breakthrough / intelligence layer
     {
