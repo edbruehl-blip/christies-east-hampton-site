@@ -7,7 +7,7 @@
  */
 
 import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { LOGO_WHITE } from '@/lib/cdn-assets';
+import { LOGO_WHITE, LOGO_BLACK } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
 
@@ -402,8 +402,8 @@ export default function FutureTab() {
       <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         {/* ── Print-only header: Christie's logo + document title ─────────── */}
         <div className="future-print-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 8, marginBottom: 12 }}>
-          <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22, width: 'auto' }} />
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>Future Projections &middot; Christie&apos;s East Hampton &middot; Confidential</div>
+          <img src={isPdfMode ? LOGO_BLACK : LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22, width: 'auto' }} />
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: isPdfMode ? '#1B2A4A' : '#C8AC78', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>Future Projections &middot; Christie&apos;s East Hampton</div>
         </div>
 
         {/* ── Header ─────────────────────────────────────────────────────────── */}
@@ -986,7 +986,7 @@ export default function FutureTab() {
         {/* ── Footer ─────────────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 10 }}>
           <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: '1 1 100%', width: '100%', minWidth: 0 }}>
-            * Governing principle &middot; not yet contractual &middot; internal only &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% (D40) &middot; two parties only &middot; AnewHomes splits: Jarvis 5% &middot; Angel 5% &middot; Zoila 5% &middot; Pool 5% (D23) &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
+            * Governing principle &middot; not yet contractual &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 35% / Ilija 65% (D40) &middot; two parties only &middot; AnewHomes splits: Jarvis 5% &middot; Angel 5% &middot; Zoila 5% &middot; Pool 5% (D23) &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen<br />
             &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning May 4, 2026 &middot; vesting cliff November 4, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
           </div>
           <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>

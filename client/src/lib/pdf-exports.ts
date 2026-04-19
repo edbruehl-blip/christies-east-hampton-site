@@ -1140,11 +1140,7 @@ export async function generateChristiesLetter(): Promise<void> {
   doc.text("Christie\u2019s International Real Estate Group \u00b7 East Hampton", ml, y);
   y += 10;
 
-  // ── SDG line -- small, muted ───────────────────────────────────────────────
-  doc.setFontSize(7.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'italic');
-  doc.text('Soli Deo Gloria.', ml, y);
+  // D51: SDG preserved in source, stripped from public PDF render (Apr 19 2026)
 
   // ── Two QR codes -- bottom right (Website + Ed vCard) ───────────────────────
   const QRCode = (await import('qrcode')).default;
@@ -1204,11 +1200,7 @@ export async function generateChristiesLetter(): Promise<void> {
     PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
 
-  // ── Private & Confidential ─────────────────────────────────────────────────────
-  doc.setFontSize(5.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'bold');
-  doc.text('PRIVATE & CONFIDENTIAL', PAGE.w / 2, footerRuleY + 10, { align: 'center' });
+  // D36: PRIVATE & CONFIDENTIAL label stripped from public PDF (Apr 19 2026)
 
   downloadPdf(doc, `Christies-EH-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }
@@ -1444,7 +1436,7 @@ export async function generateUHNWPathCard(): Promise<void> {
 
 // ─── generateFlagshipLetter -- Sprint 30 · Internal Council Document ──────────
 // Universal orientation letter: Christie's East Hampton — for anyone reading this
-// Christie's navy/gold standard · CONFIDENTIAL · Not for client distribution
+// Christie's navy/gold standard · council orientation letter
 // ─────────────────────────────────────────────────────────────────────────────
 export async function generateFlagshipLetter(): Promise<void> {
   const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
@@ -1660,10 +1652,7 @@ export async function generateFlagshipLetter(): Promise<void> {
   y += 5;
   doc.text("Christie\u2019s International Real Estate Group \u00b7 East Hampton", ml, y);
   y += 8;
-  doc.setFontSize(7.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'italic');
-  doc.text('Soli Deo Gloria.', ml, y);
+  // D51: SDG preserved in source, stripped from public PDF render (Apr 19 2026)
 
   // ── Bottom gold rule + footer ─────────────────────────────────────────────
   const footerRuleY = PAGE.h - 22;
@@ -1677,10 +1666,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     'Ed Bruehl, Managing Director  \u00b7  M: 646.752.1233  \u00b7  O: 631.771.7004  \u00b7  edbruehl@christiesrealestategroup.com  \u00b7  26 Park Place, East Hampton NY 11937',
     PAGE.w / 2, footerRuleY + 5, { align: 'center' }
   );
-  doc.setFontSize(5.5);
-  doc.setTextColor(...C.muted);
-  doc.setFont('helvetica', 'bold');
-  doc.text('INTERNAL \u00b7 TEAM-FACING \u00b7 NOT FOR CLIENT DISTRIBUTION', PAGE.w / 2, footerRuleY + 10, { align: 'center' });
+  // D36: INTERNAL · TEAM-FACING label stripped from public PDF (Apr 19 2026)
 
   downloadPdf(doc, `Christies-Flagship-Letter-${today().replace(/\s/g, '-')}.pdf`);
 }

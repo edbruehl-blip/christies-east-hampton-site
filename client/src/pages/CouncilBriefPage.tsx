@@ -321,9 +321,9 @@ export default function CouncilBriefPage() {
         <p style={{ marginTop: 16 }}>
           Tonight was the opening moment of an institution that has ten years of operational discipline ahead before the destination comes into view. Monday April 13 is Day One of the institution running as an institution rather than as a project. Zoila Ortega Astor arrives Wednesday April 15. Scott Smith arrives June 1. The Dan's Papers pilot runs June through August. Pierre Debbas podcasts inaugural April 30. The April 29 public launch is the next visible milestone. The Ilija Pavlovic mentorship conversation Monday or Tuesday is a mentorship moment not a pitch.
         </p>
-        <p style={{ marginTop: 24, fontStyle: 'italic', color: 'rgba(200,172,120,0.8)' }}>
-          In the name of the living God and His Son Jesus Christ. Soli Deo Gloria — to the glory of God alone.
-        </p>
+        {/* D51: SDG benediction preserved in source, stripped from public render (Apr 19 2026)
+             Original: In the name of the living God and His Son Jesus Christ. Soli Deo Gloria — to the glory of God alone.
+        */}
         <p
           style={{
             marginTop: 20,
@@ -385,7 +385,7 @@ export default function CouncilBriefPage() {
             color: 'rgba(200,172,120,0.4)',
           }}
         >
-          Christie's East Hampton · Flagship AI Dashboard · Confidential
+          Christie's East Hampton · Flagship AI Dashboard
         </span>
         <span
           style={{

@@ -36,7 +36,7 @@
  *   FLAGSHIP TEAM · EAST HAMPTON OFFICE · FAMILY & FRIENDS
  *   WHALE INTELLIGENCE · ATTORNEYS · RECRUITING · ANEW HOMES
  *   MEDIA (with PODCAST as second-ring) · RELATIONSHIP INTELLIGENCE
- *   WILLIAM · INTEL LIBRARY · EXPORTS · PERPLEXITY · RESOURCES
+ *   INTEL LIBRARY · EXPORTS · PERPLEXITY · RESOURCES
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -354,22 +354,13 @@ const NODES: MapNode[] = [
     members: ["Ed Bruehl — Host", "Pierre Debbas — Co-Host", "Ep. 1 Live Apr 30"],
     rw: R, rh: R },
 
-  // ══════════════════════════════════════════════════════════════════════════
+  // ════════════════════════════════════════════════════════════════════════════
   // BELOW ED — Row 4 (y:1680)
-  // WILLIAM · INTEL LIBRARY · PERPLEXITY
-  // ══════════════════════════════════════════════════════════════════════════
+  // INTEL LIBRARY · PERPLEXITY
+  // D25: WILLIAM node removed from public map (Apr 19 2026)
+  // ════════════════════════════════════════════════════════════════════════════
 
-  { id: "william_node",
-    name: "WILLIAM",
-    title: "Intelligence Voice · On-Demand Audio + NEWS Commands · 631-239-7190",
-    type: "CATEGORY", status: "ACTIVE",
-    note: "William: the intelligence voice of the institution. Audio links on every dashboard page open a live briefing in Ed's voice. Inbound keywords to 631-239-7190: NEWS (current market report), LETTER (Internal Flagship Letter PDF), BRIEF (morning scorecard), PIPELINE (deal status), STATUS (platform status). Powered by Perplexity API + ElevenLabs TTS. Twilio WhatsApp delivery.",
-    x: 380, y: 1680, r: R,
-    members: ["On-Demand Audio — Every Tab", "NEWS Command", "LETTER Command (PDF)", "BRIEF · PIPELINE · STATUS"],
-    rw: R, rh: R },
-
-  { id: "intel_library",
-    name: "INTEL LIBRARY",
+  { id: "intel_library", name: "INTEL LIBRARY",
     title: "Thirteen Sheets · Hamptons Intelligence Archive",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
     note: "All thirteen Google Sheets that form the intelligence backbone of Christie's East Hampton. One tap per sheet. Accessible from INTEL Layer 3.",
@@ -594,7 +585,7 @@ const CONNECTIONS: MapConnection[] = [
   { from: "media_node",       to: "podcast_node",     style: "social" },
 
   // ── Row 4 below Ed ───────────────────────────────────────────────
-  { from: "ed",               to: "william_node",     style: "partner" },
+  // D25: ed→william_node edge removed (Apr 19 2026)
   { from: "ed",               to: "intel_library",    style: "intelligence" },
   { from: "ed",               to: "perplexity",       style: "partner" },
   { from: "ed",               to: "pipe_tab",         style: "intelligence" },   // D5: PIPE TAB node · Apr 16 2026
@@ -669,7 +660,7 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   rel_intel:         { fill: "#1A3D2A", stroke: "#2D5A3D",               headerColor: "#6FCF97" },
   podcast_node:      { fill: "#1A1A2A", stroke: "rgba(120,172,200,0.6)", headerColor: "rgba(180,225,255,0.9)" },
   // Row 4 below Ed
-  william_node:      { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#c8ac78" },
+  // D25: william_node color entry removed (Apr 19 2026)
   perplexity:        { fill: "#2A1F2A", stroke: "#9B7EC8",               headerColor: "#9B7EC8" },
   // Social
   social:            { fill: "#2A1F2A", stroke: "#9B7EC8",               headerColor: "#9B7EC8" },

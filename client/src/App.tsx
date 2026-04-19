@@ -108,9 +108,13 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
 function Dashboard() {
   const [activeTab, setActiveTab] = useState<TabId>("home"); // HOME is the front door — default on refresh (D34)
   return (
-    <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
-      <TabContent activeTab={activeTab} />
-    </DashboardLayout>
+    <>
+      <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
+        <TabContent activeTab={activeTab} />
+      </DashboardLayout>
+      {/* D16: FloatingDashboardIntro scoped to HOME tab only (Apr 19 2026) */}
+      {activeTab === "home" && <FloatingDashboardIntro />}
+    </>
   );
 }
 
@@ -134,8 +138,7 @@ function App() {
             <Route path="/cards/bike" component={NeighborhoodCardPage} />
             <Route component={Dashboard} />
           </Switch>
-          {/* Floating Dashboard Introduction button — fixed bottom-right, all pages, z-index 9999 */}
-          <FloatingDashboardIntro />
+          {/* D16: FloatingDashboardIntro moved to Dashboard component, HOME tab only (Apr 19 2026) */}
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>

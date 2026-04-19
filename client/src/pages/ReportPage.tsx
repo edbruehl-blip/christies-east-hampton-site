@@ -825,7 +825,7 @@ function Section3() {
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
         >
-          {/* CFS card — Correction 11: editorial label only, no donut ring, no raw score */}
+          {/* Last Significant Sale — D24 replacement for Capital Flow Signal (Apr 19 2026) */}
           <div
             style={{
               background: 'rgba(250,248,244,0.05)',
@@ -843,7 +843,7 @@ function Section3() {
                 marginBottom: 16,
               }}
             >
-              Capital Flow Signal
+              Last Significant Sale
             </div>
             <div
               style={{
@@ -856,7 +856,7 @@ function Section3() {
                 marginBottom: 10,
               }}
             >
-              INSTITUTIONAL<br />INFLOW
+              EAST END<br />SPOTLIGHT
             </div>
             <div
               style={{
@@ -867,7 +867,7 @@ function Section3() {
                 maxWidth: 220,
               }}
             >
-              Capital is moving into the East End from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.
+              The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model v2.
             </div>
           </div>
 
@@ -1287,7 +1287,7 @@ function Section4() {
 
 // ─── SECTION 3B · Market Intelligence (Page 4 fill) ────────────────────────
 // Placed after the Hamlet Atlas to fill the empty space on Page 4 after Wainscott.
-// Per Sprint 29 directive: use the Capital Flow Signal, Rate Environment, and
+// Per Sprint 29 directive: use the Last Significant Sale, Rate Environment, and
 // Hamptons Median cards to fill the empty vertical space — no compression.
 function Section3Condensed() {
   const [ticker, setTicker] = useState<TickerData>({
@@ -1325,16 +1325,16 @@ function Section3Condensed() {
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="3" title="Market Intelligence · Capital Flow" />
+        <SectionLabel n="3" title="Market Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
         >
-          {/* Capital Flow Signal */}
+          {/* Last Significant Sale — D24 replacement (Apr 19 2026) */}
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Capital Flow Signal</div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>INSTITUTIONAL<br />INFLOW</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>Capital is moving into the East End from institutional and family office sources. Buyer demand exceeds available inventory across all CIS tiers.</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Last Significant Sale</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>EAST END<br />SPOTLIGHT</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model v2.</div>
           </div>
 
           {/* Rate Environment */}

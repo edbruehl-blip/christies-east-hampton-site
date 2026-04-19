@@ -21,7 +21,7 @@ import React, { useState, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
-import BruehlBriefBulletin from '@/components/BruehlBriefBulletin';
+// BruehlBriefBulletin removed — replaced by Market Report component (D51 · Apr 19 2026)
 
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
 // Recurring every Wednesday from May 7, 2026
@@ -113,8 +113,8 @@ function sheetOpenUrl(id: string) {
 // ─── Mind Map Layer 1 — Miro Live Embed (wired Sit-Down Six, April 13, 2026) ─────────────────
 // Miro embed URL (live read-only): https://miro.com/app/live-embed/uXjVGj6Oc40=/
 // Miro board URL (editable, requires Miro sign-in): https://miro.com/app/board/uXjVGj6Oc40=/
-// Mindmap.so room URL preserved for reference: https://mindmap.so/#room=cc340672a9e261ccf64a,gaG2vQBk4Ud1bmurdwi5PA
 // React D3 InstitutionalMindMap placeholder replaced by live Miro embed per Sit-Down Six.
+// Mindmap.so is DEAD per doctrine — URL stripped from public render (D36 · Apr 19 2026)
 
 const MIRO_EMBED_URL = 'https://miro.com/app/live-embed/uXjVGj6Oc40=/';
 const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
@@ -212,7 +212,7 @@ function TrelloLayer() {
               Christie's East Hampton — Command Board
             </h3>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: MUTED, fontSize: 11, marginTop: 4 }}>
-              143 cards &middot; 8 lists &middot; Live Trello board
+              188 cards &middot; 13 lists &middot; Live Trello board
             </p>
           </div>
           <a
@@ -629,7 +629,7 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   {
     id: 'broker-onboarding-final',
     label: 'Broker Onboarding — What You Are Walking Into',
-    description: 'Confidential · Internal Use Only. Five sections: What This Office Is, What You Are Joining, The Five Roles, The Deal Flow, The Wednesday Circuit, and The Christie\'s Standard. Issued by Ed Bruehl, Managing Director. Christie\'s International Real Estate Group · East Hampton.',
+    description: 'Five sections: What This Office Is, What You Are Joining, The Five Roles, The Deal Flow, The Wednesday Circuit, and The Christie\'s Standard. Issued by Ed Bruehl, Managing Director. Christie\'s International Real Estate Group · East Hampton.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christie_Broker_Onboarding_FINAL_d7d66dab.pdf',
     pinned: true,
   },
