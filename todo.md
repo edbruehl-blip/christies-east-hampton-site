@@ -2054,3 +2054,15 @@
 - [x] R17: CIS medallion badge too small — enlarge, wax-seal spec holds (SA3 queue)
 - [x] R18: Griff letter: unsigned institutional note. No intro, no exit, no AI voice attribution.
 - [x] R19: William resurrection — D34 amended. One floating audio button on HOME only. Voice ID fjnwTZkKtQOJaYzGLa6n.
+
+## Apr 19 2026 — Button Rename + Council Audit
+
+- [ ] Rename floating button: INTRO → PDF, WILLIAM → AUDIO (FloatingDashboardIntro.tsx)
+- [ ] Walk live site and write full council audit comparing flagship letter to live build
+
+## Apr 19 2026 — HomeTab Fixes (from live audit)
+
+- [ ] Fix hero gap — reduce section minHeight from 100vh to auto with tight paddingBottom
+- [ ] Fix duplicate James Christie on mobile — hide background image on mobile, keep grid portrait
+- [ ] Fix iOS audio — synchronous play() on button click, set src after (iOS Safari gesture chain)
+- [ ] Rename floating buttons: INTRO → PDF, WILLIAM → AUDIO (done in dev, needs checkpoint)

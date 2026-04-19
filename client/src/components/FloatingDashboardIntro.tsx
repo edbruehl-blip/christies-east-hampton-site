@@ -1,7 +1,7 @@
 /**
  * FloatingDashboardIntro — Fixed bottom-right button bar, all pages.
  *
- * Left  · INTRO     — opens /letters/flagship in a new tab (PDF-printable letter)
+ * Left  · PDF       — opens /letters/flagship in a new tab (PDF-printable letter)
  * ──────────────────────────────────────────────────────────────────────────────
  * Right · WILLIAM audio bar (D34 amendment — one surface, one letter):
  *         «15  — rewind 15 seconds
@@ -54,10 +54,14 @@ export function FloatingDashboardIntro() {
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  /** Lazily create the Audio element on first interaction */
+  /** Lazily create the Audio element on first interaction.
+   *  iOS Safari requires Audio() to be created AND .play() called
+   *  synchronously within the same user gesture. We create the element
+   *  with an empty src, then set src + call load() + play() together.
+   */
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
-      const audio = new Audio('/api/tts/flagship');
+      const audio = new Audio();
       audio.preload = 'none';
       audio.onended   = () => setPlaying(false);
       audio.onpause   = () => setPlaying(false);
@@ -79,8 +83,13 @@ export function FloatingDashboardIntro() {
       audio.pause();
     } else {
       setLoading(true);
+      // iOS Safari fix: set src and call load() before play() within the gesture
+      if (!audio.src || audio.src === window.location.href) {
+        audio.src = '/api/tts/flagship';
+        audio.load();
+      }
       audio.play().catch(err => {
-        console.error('[William] Audio play failed:', err);
+        console.error('[Audio] Play failed:', err);
         setLoading(false);
       });
     }
@@ -114,8 +123,8 @@ export function FloatingDashboardIntro() {
         overflow: 'hidden',
       }}
     >
-      {/* INTRO — opens flagship letter */}
-      <button onClick={handleIntroClick} aria-label="Open Introduction Letter" style={btnBase}>
+      {/* PDF — opens flagship letter */}
+      <button onClick={handleIntroClick} aria-label="Open Introduction Letter PDF" style={btnBase}>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
           style={{ flexShrink: 0 }}>
@@ -123,7 +132,7 @@ export function FloatingDashboardIntro() {
           <polyline points="15 3 21 3 21 9" />
           <line x1="10" y1="14" x2="21" y2="3" />
         </svg>
-        <span>Intro</span>
+        <span>PDF</span>
       </button>
 
       <Divider />
@@ -167,7 +176,7 @@ export function FloatingDashboardIntro() {
             <polygon points="5,3 19,12 5,21" />
           </svg>
         )}
-        <span>{playing ? 'Pause' : 'William'}</span>
+        <span>{playing ? 'Pause' : 'Audio'}</span>
       </button>
 
       <Divider />
