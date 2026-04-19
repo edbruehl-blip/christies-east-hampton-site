@@ -25,7 +25,7 @@
  *
  *   RIGHT TRACK (Real Estate):
  *     CIH / Robert Reffkin → Thad Wong + Mike Golden → Gavin Swartzman
- *     → CIREG TRI-STATE (Ilija Pavlovic)
+ *     → CIREG TRI-STATE (Ilija Pavlovich)
  *     → International Pipeline sub-node (Ricardo Lisbon, Dominican Republic,
  *       Jonathan Wilhelm, Flambeaux Wine)
  *
@@ -167,11 +167,11 @@ const NODES: MapNode[] = [
 
   { id: "cireg_affiliate",
     name: "CIREG TRI-STATE",
-    title: "Ilija Pavlovic · Exclusive NY/NJ/CT Affiliate",
+    title: "Ilija Pavlovich · Exclusive NY/NJ/CT Affiliate",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Christie's International Real Estate Group (CIREG) — Ilija Pavlović's exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Ed's direct operating chain. Sherri Balassone: VP Corporate Broker / BOR for East Hampton, licensed NY Bar attorney, legal and compliance anchor. Melissa True: Christie's NYC Flatiron, father Richard True (Palm Beach builder), key referral node.",
+    note: "Christie's International Real Estate Group (CIREG) — Ilija Pavlovich's exclusive CIRE affiliate for NY/NJ/CT. ~30 offices, ~1,200 agents, $4B+ annual volume. Ed's direct operating chain. Sherri Balassone: VP Corporate Broker / BOR for East Hampton, licensed NY Bar attorney, legal and compliance anchor. Melissa True: Christie's NYC Flatiron, father Richard True (Palm Beach builder), key referral node.",
     x: 1500, y: 540, r: R,
-    members: ["Ilija Pavlović (Owner/CEO)", "Sherri Balassone (VP/BOR)", "Melissa True (NYC Flatiron)"],
+    members: ["Ilija Pavlovich (Owner/CEO)", "Sherri Balassone (VP/BOR)", "Melissa True (NYC Flatiron)"],
     rw: R, rh: R },
 
   { id: "intl_pipeline",
@@ -203,7 +203,7 @@ const NODES: MapNode[] = [
     name: "FLAGSHIP TEAM",
     title: "Christie's East Hampton · 26 Park Place · Click for team hierarchy",
     type: "HIERARCHY", status: "ACTIVE",
-    note: "Ed Bruehl — Managing Director. $1B+ career sales. 20+ years East End. Appointed by Ilija Pavlović Nov 2025. Bridge between the auction house relationship and the real estate operating chain. Click to view full team hierarchy.",
+    note: "Ed Bruehl — Managing Director. $1B+ career sales. 20+ years East End. Appointed by Ilija Pavlovich Nov 2025. Bridge between the auction house relationship and the real estate operating chain. Click to view full team hierarchy.",
     x: 900, y: 900, r: R,
     clickAction: { type: "toast", message: "Opening Flagship Team hierarchy…" } },
 

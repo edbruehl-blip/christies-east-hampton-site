@@ -564,7 +564,7 @@ export default function FutureTab() {
             {
               phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
               shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
-              client: "Dan's Papers from $115K to $9K. Export suite in every deal.",
+              client: "Creative long-term collaboration with Dan's Papers — outreach into NYC through Melissa True and her Rockefeller and Flatiron teams. Export suite in every deal.",
               team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
             },
             {
@@ -707,7 +707,7 @@ export default function FutureTab() {
           <div>
             {/* Ilija */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovich</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 2 }}>Franchise Principal &middot; CIREG Tri-State</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5, fontStyle: 'italic' }}>9 by year-end 2026, scaling to 36 by 2031</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>

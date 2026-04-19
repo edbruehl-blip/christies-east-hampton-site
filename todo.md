@@ -2082,3 +2082,8 @@
 - [x] Rename "Fine Properties" → "Christie's CPS-1 Pipeline" + add multi-market sentence + swap Pierre → Jacqueline (Drive doc requires manual edit; InstitutionalMindMap.tsx Pierre→Jacqueline done)
 - [x] Branded pro forma — 3 phrase fixes applied in proforma-generator.ts (WITHIN THE EXISTING GROWTH PLAN, CIREG subtitle, post-maturity label)
 - [x] 100 Days cards — 8 jargon items to plain English applied in FutureTab.tsx (skip 2nd card per dispatch)
+
+- [x] Angel card (2nd 100 Days): remove Dan's Papers numbers → creative long-term collaboration + Melissa True / Rockefeller / Flatiron language (FutureTab.tsx + letter-content.ts)
+- [x] Ilija → Ilija Pavlovich everywhere (FutureTab.tsx, InstitutionalMindMap.tsx, letter-content.ts, pdf-exports.ts — 7 locations)
+- [x] Flagship letter: add generational wealth + "not to sell / uncover value" language near James Christie closing paragraph
+- [x] Flagship letter: add transparency line ("No filtered data, no hidden numbers") near tab-walk paragraph

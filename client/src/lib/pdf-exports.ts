@@ -1510,7 +1510,7 @@ export async function generateFlagshipLetter(): Promise<void> {
     // Origin and build
     {
       heading: "How It Was Built",
-      text: "It started with a conviction. Ed always knew a moment would come when he would build something like Christie\u2019s \u2014 and walk this land the way Frank Newbold did. Years later, watching Christie\u2019s East Hampton operate below its potential, he recognized the moment. After multiple conversations \u2014 including a lunch with Ilija Pavlovic at Rockefeller Center \u2014 he made the decision to take it on. He brought a document: the Christie\u2019s East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system. That is the sequence.",
+      text: "It started with a conviction. Ed always knew a moment would come when he would build something like Christie's — and walk this land the way Frank Newbold did. Years later, watching Christie's East Hampton operate below its potential, he recognized the moment. After multiple conversations — including a lunch with Ilija Pavlovich at Rockefeller Center — he made the decision to take it on. He brought a document: the Christie's East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system. That is the sequence.",
     },
     // Second 100 Days / Angel operational truth
     {
