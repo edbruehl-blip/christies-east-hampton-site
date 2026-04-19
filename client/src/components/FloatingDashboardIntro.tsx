@@ -8,7 +8,7 @@
  *         ▶/⏸  — play / pause toggle (shows loading spinner while buffering)
  *         15»  — skip forward 15 seconds
  *
- * Audio endpoint: /api/tts/founding-letter
+ * Audio endpoint: /api/tts/flagship
  * Voice ID: fjnwTZkKtQOJaYzGLa6n · Model: eleven_turbo_v2
  * Audio element is created once and reused — no re-fetch on play/pause.
  *
@@ -57,7 +57,7 @@ export function FloatingDashboardIntro() {
   /** Lazily create the Audio element on first interaction */
   function getAudio(): HTMLAudioElement {
     if (!audioRef.current) {
-      const audio = new Audio('/api/tts/founding-letter');
+      const audio = new Audio('/api/tts/flagship');
       audio.preload = 'none';
       audio.onended   = () => setPlaying(false);
       audio.onpause   = () => setPlaying(false);
@@ -148,7 +148,7 @@ export function FloatingDashboardIntro() {
       {/* Play / Pause */}
       <button
         onClick={handlePlayPause}
-        aria-label={playing ? 'Pause William' : 'Play William — founding letter'}
+        aria-label={playing ? 'Pause William' : 'Play William — flagship letter'}
         style={{ ...btnBase, padding: '5px 10px', minWidth: 44 }}
       >
         {loading ? (

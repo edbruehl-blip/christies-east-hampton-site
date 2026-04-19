@@ -235,8 +235,12 @@ function SectionA() {
               </a>
             </div>
           </div>
-          </div>
+          {/* /home-letter-col */}
+          {/* /grid */}
         </div>
+        {/* /centered-wrapper */}
+        </div>
+        {/* /relative minHeight */}
       </div>
     </section>
   );
