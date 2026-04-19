@@ -16,6 +16,7 @@
  */
 
 import { useMemo, useState } from 'react';
+import { Link } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { CISBadge } from '@/components/CISBadge';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
@@ -420,6 +421,23 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
         )}
 
         {/* Per-card source attribution removed per April 7 directive — single citation at matrix footer only */}
+
+        {/* B4: View Full Report CTA */}
+        <Link
+          href={`/report?hamlet=${hamlet.id}`}
+          className="block mt-1 pt-2 border-t text-center"
+          style={{
+            borderColor: 'rgba(27,42,74,0.08)',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 9,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase',
+            color: '#C8AC78',
+            textDecoration: 'none',
+          }}
+        >
+          View Full Report
+        </Link>
       </div>
     </MatrixCard>
   );

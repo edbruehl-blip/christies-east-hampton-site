@@ -2,8 +2,8 @@
   "_meta": {
     "title": "Christie's East Hampton — Platform State",
     "description": "Full system memory. Read this file at session open before taking any action. Updated every sprint. Do not invent structure not present here.",
-    "last_updated": "2026-04-14",
-    "sprint": 10,
+    "last_updated": "2026-04-18",
+    "sprint": 11,
     "platform_url": "https://www.christiesrealestategroupeh.com",
     "dev_project": "christies-eh-replatform",
     "stack": "React 19 + Tailwind 4 + Express 4 + tRPC 11 + Drizzle ORM + MySQL + Puppeteer (headless Chromium v146)"
@@ -931,17 +931,60 @@
         "Flagship AI-Letter renamed from Internal Flagship Letter"
       ]
     },
-    "sprint_9_queue": [
-      "Pro Forma live URL renderer at /pro-forma — Ilija gate (Monday April 13-14)",
-      "Flagship AI-Letter live URL renderer at /letters/flagship",
-      "James Christie Letter live URL renderer at /letters/james-christie",
-      "Puppeteer PDF endpoint wired to Pro Forma",
-      "Four William audio files wired to Google Doc sources",
-      "Mind Map Legend node + council sub-cluster on FLAGSHIP TEAM node",
-      "Monday Flagship Meeting Agenda template",
-      "Wednesday Office Meeting Agenda template",
-      "GitHub backup push to christies-eh-dashboard"
-    ]
+    "sprint_9": {
+      "completed": "2026-04-14",
+      "deliverables": [
+        "Live Market Matrix Google Sheet overlay wired to MARKET tab (tRPC market.hamletMatrix)",
+        "MAPS Hamlet Highlights module — 11-hamlet selector, photo/CIS badge/Anchor/Local Spot/Secret/Practical Note card",
+        "hamlet-highlights.json v1 built with Ponder-curated data",
+        "Capital Flow Signal copy fix (trophy assets → highest-CIS hamlets)",
+        "Bike Card v3 — 6 spec changes (byline, creed quote, services grid, market line, hamlet strip, footer)",
+        "Architecture of Wealth page at /architecture-of-wealth — Flambeaux treatment, Cormorant Garamond, window.print()",
+        "FUTURE PDF: scale 0.88, table font 5.5pt, columns 12+13 hidden in print, min-height void stripped",
+        "Market Report PDF: cream bg page 1, text overlap fixed, Wainscott doctrine block moved up, WhatsApp QR removed",
+        "CIS badge gold brand-up, Flagship Letter cream print background",
+        "/report print overhaul (size:auto, section title headers, data-section-title on all 5 sections)"
+      ]
+    },
+    "sprint_10": {
+      "completed": "2026-04-17",
+      "deliverables": [
+        "FUTURE PDF @page margin 0.5in, browser chrome suppressed, Christie's logo print header, document.title set",
+        "FUTURE PDF: scale 0.88 confirmed, blank bottom fixed, right-side bleed fixed",
+        "CIS Medallion Badge component (CISBadge.tsx) — circular medallion with Christie's Red outer ring",
+        "CISBadge wired into MarketTab hamlet tiles + MapsTab HamletHighlightsModule",
+        "Last Significant Sale spotlight card in MarketTab (replaced Capital Flow Signal)",
+        "Gallery section + AuctionHouseServices removed from HomeTab",
+        "HOME removed from nav bar — MARKET is default tab, logo click navigates home",
+        "INTEL Bulletin Board wrapped in max-width container",
+        "Hamlet Intelligence Matrix grid removed from MAPS",
+        "Perp dispatch: Jarvis Sales vol $12M/$14.4M/$62M+, Richard subtitle FLAGSHIP TEAM·Strategic Mentor·10% AnewHomes",
+        "Richard card moved to Column 3 under Scott in FutureTab"
+      ]
+    },
+    "sprint_11": {
+      "completed": "2026-04-18",
+      "deliverables": [
+        "A1: NeighborhoodCardPage at /cards/bike — two-sided printable card, CIS medallion hamlet strip, East End map placeholder",
+        "A2: Joe Carrello + Adam Kalb removed from ArchitectureOfWealthPage",
+        "A3: UHNW card internal scaffolding stripped (ED'S HOOK→ADVISORY NOTE, PERPLEXITY HUNT→MARKET CONTEXT, WEALTH ANCHOR→CLIENT STORY)",
+        "A4: Tier legend removed from pdf-exports.ts generateMarketReport, trophy language scrubbed",
+        "A5: Wainscott anchor fixed in hamlet-master.ts, hamlet-highlights.json v2 corrections applied",
+        "A6: CISBadge medallion component built (client/src/components/CISBadge.tsx)",
+        "A7: FUTURE PDF @page margin 0.5in, browser chrome suppressed, Christie's logo print header, document.title set",
+        "A8: Scott Smith 70% commission formula fixed in FutureTab",
+        "A9: AH GCI column renamed to AH Profit in FutureTab headcount table",
+        "B1: Capital Flow Signal replaced with Last Significant Sale spotlight card in MarketTab",
+        "B2: Gallery section + AuctionHouseServices removed from HomeTab",
+        "B4: View Full Report CTA added below each hamlet tile in MarketTab → /report?hamlet={id}",
+        "B4: ReportPage Section4 wired to ?hamlet= query param — auto-opens hamlet panel and scrolls to section",
+        "C2: What James Christie Knew retired → Path to UHNW Wealth in HomeTab and pdf-exports.ts",
+        "C4: South Fork → East End global cleanup (hamlet-highlights.json, NeighborhoodCardPage)",
+        "C5: William audio permanently retired — all TTS/audio code removed from HomeTab, INTRO button keeps PDF/print behavior",
+        "PIPE token kill: Sheet ID fragment removed from PipeTab footer — now reads LIVE · SERVER-PROXIED · SINGLE SOURCE OF TRUTH",
+        "GitHub push: 13786e0 → edbruehl-blip/christies-east-hampton-site"
+      ]
+    }
   },
   "github_backup": {
     "status": "complete",

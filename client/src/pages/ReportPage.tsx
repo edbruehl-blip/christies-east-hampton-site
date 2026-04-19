@@ -1225,13 +1225,29 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
 }
 
 function Section4() {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  // B4: Read ?hamlet= query param and pre-open the matching hamlet panel
+  const [selectedId, setSelectedId] = useState<string | null>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const h = params.get('hamlet');
+    return h && MASTER_HAMLET_DATA.some(d => d.id === h) ? h : null;
+  });
   const selectedHamlet = MASTER_HAMLET_DATA.find((h) => h.id === selectedId) ?? null;
   // Correction 3: render all 11 hamlets in CIS-descending order
   const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.anewScore - a.anewScore);
 
+  // B4: Auto-scroll to this section when hamlet param is present
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('hamlet')) {
+      const el = document.getElementById('section-hamlet-atlas');
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+      }
+    }
+  }, []);
+
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
