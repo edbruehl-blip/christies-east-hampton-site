@@ -589,7 +589,7 @@ function PipelineTable() {
       {/* Footer */}
       <div className="flex items-center justify-between mt-3 px-1">
         <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
-          Live · Server-Proxied · Single Source of Truth · {OFFICE_PIPELINE_SHEET_ID.slice(0, 16)}…
+          LIVE · SERVER-PROXIED · SINGLE SOURCE OF TRUTH
         </span>
         <span style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.7rem', color: '#7a8a8e', fontStyle: 'italic' }}>
           {dealRows.length} deal{dealRows.length !== 1 ? 's' : ''} · refreshes every 60s
