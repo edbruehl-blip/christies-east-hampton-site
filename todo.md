@@ -2087,3 +2087,42 @@
 - [x] Ilija → Ilija Pavlovich everywhere (FutureTab.tsx, InstitutionalMindMap.tsx, letter-content.ts, pdf-exports.ts — 7 locations)
 - [x] Flagship letter: add generational wealth + "not to sell / uncover value" language near James Christie closing paragraph
 - [x] Flagship letter: add transparency line ("No filtered data, no hidden numbers") near tab-walk paragraph
+
+## Council Brief — April 19, 2026 · Full Queue (10 Rulings Locked)
+
+### P0 — ICA Overrides + AnewHomes
+- [ ] M1a: Angel ICA Override — ALWAYS-ON (permanent, not just 2026)
+- [ ] M1b: Zoila ICA Override — 2026 ONLY label (expires end of year)
+- [ ] M1c: Jarvis ICA Override — footnote-only (deal-event trigger, not projected annually)
+- [ ] M2: Angel 2026 AnewHomes add $2,500 line → total $102,500
+
+### Ed GCI Full Surface Alignment (G1–G5) — FLAG WHEN COMPLETE
+- [ ] G1: Growth Model v2 OUTPUTS tab — correct ED PERSONAL GCI row to locked ramp (do NOT touch office volumes or NOP)
+- [ ] G2: FUTURE tab partner cards — align Ed's card to $600K → 20% YoY ramp
+- [ ] G3: proforma-generator.ts — align Ed GCI derivation to ramp
+- [ ] G4: Ilija CPS-1 Channel derivation — Core/Channel split recomputes (Projected totals unchanged, NOP × 65%)
+- [ ] G5: FutureTab.tsx Ascension card — 7.5% → 7.0% (overlaps C3)
+
+### Cleanup Punch List
+- [ ] C3: Fix remaining 7.5% → 7.0% in FutureTab.tsx (code comments lines 60/276/289, footnote line 610)
+- [ ] C7: Strip "The door is always open" from HomeTab FOUNDING_PARAGRAPHS AND tts-route.ts
+
+### SA / T / UX Fixes
+- [ ] SA7: /report — remove Section 7/8 numbered headers from auction cards
+- [ ] SA9: /report — remove duplicate Section 3 label (line 1328; line 823 stays)
+- [ ] SA10: /report video list — "Pierre Debbas Esq." → "Jacqueline Aleman, Esq." (line 1798)
+- [ ] UX-4: Rename floating buttons INTRO → PDF, WILLIAM → AUDIO (FloatingDashboardIntro.tsx)
+- [ ] F1: Relabel "2026 ACTUAL" bar → "2026 TARGET" in FutureTab.tsx chart data
+- [ ] SH1: Bonita GCI formula error — $30M at 2% = $600K, currently shows $0
+- [ ] SH2: OUTPUTS vs VOLUME reconciliation — both tell same $75M 2026 story
+- [ ] T2–T6 (low priority): Remove unused CONFIDENTIAL_BANNER variable (ProFormaPage.tsx) and orphan .confidential-banner CSS (proforma-generator.ts) — confirmed NOT rendering on any public surface
+
+### HOME Video Reel (V1–V4)
+- [ ] V-reel: Download V1–V4 from Drive, upload to CDN, embed full-bleed video reel below Section B per spec (edge-to-edge, no maxWidth, bare video tags, navy background)
+
+### JSON Wiring
+- [ ] M3: Wire last_significant_sale.json from Drive → Last Significant Sale spotlight on MARKET tab
+- [ ] M4: Wire fresh_listings_by_hamlet.json from Drive → New Listings B5 on MARKET tab
+
+### CIS Medallion
+- [ ] R6: CIS medallion — one step up from current diameter on Hamlet cards (not double per ruling 9)

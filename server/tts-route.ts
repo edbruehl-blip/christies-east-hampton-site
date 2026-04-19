@@ -14,8 +14,6 @@ The East End is not a market. It is a territory — eleven distinct hamlets, eac
 
 This platform exists to carry the Christie's standard into every conversation, every deal brief, every family meeting on the East End. Not to impress. To serve.
 
-The door is always open — we look forward to meeting you.
-
 Ed Bruehl. Managing Director. Christie's International Real Estate Group, East Hampton.`;
 
 // ─── Letter texts imported from ./letter-content.ts ─────────────────────────

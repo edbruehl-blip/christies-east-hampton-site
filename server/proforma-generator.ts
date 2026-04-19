@@ -740,7 +740,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div class="econ-block-title">Ed Bruehl · Three Income Streams · 2026</div>
       <div class="econ-line">
         <span class="label">Ed Net Personal Production (Eq. 1)</span>
-        <span class="value">$330,000*</span>
+        <span class="value">$420,000*</span>
       </div>
       <div class="econ-line">
         <span class="label">Profit Pool Share — Ed 35% (Eq. 2)</span>
@@ -753,7 +753,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total 2026 (MODEL)</span>
-          <span class="value" style="color:#C8AC78">${fmtFull(330_000 + pool2026.ed + 17_500)}*</span>
+          <span class="value" style="color:#C8AC78">${fmtFull(420_000 + pool2026.ed + 17_500)}*</span>
         </div>
       </div>
     </div>

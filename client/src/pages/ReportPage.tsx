@@ -1325,7 +1325,6 @@ function Section3Condensed() {
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="3" title="Market Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
@@ -1795,7 +1794,7 @@ const YOUTUBE_VIDEOS = [
   { id: 'DEVo7NabIy8', title: "Bringing James Christie's Legacy to the Hamptons" },
   { id: 'FCsLbt_EgJ8', title: 'Get to Know Me — Ed Bruehl, Hamptons Real Estate' },
   { id: 'gucsKvabi_k', title: 'Uncovering Value in Hamptons Real Estate — Traveling Podcast' },
-  { id: 'WhTXS0xz-Hs', title: 'Your Hamptons Real Estate Podcast Ep. 1 — Pierre Debbas Esq.' },
+  { id: 'WhTXS0xz-Hs', title: 'Your Hamptons Real Estate Podcast Ep. 1 — Jacqueline Aleman, Esq.' },
   { id: 'IueHmzSSMT4', title: 'Your Hamptons Real Estate Podcast Ep. 2 — Marit Molin' },
   { id: 'Vksowg9h2iQ', title: 'Your Hamptons Real Estate Podcast Ep. 3 — Brad Beyer' },
   { id: '3w7p8ZnrsdU', title: 'Found Inventory in the Hamptons — Ed Bruehl' },
@@ -1959,7 +1958,6 @@ function Section7() {
   return (
     <section style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="7" title="Christie's Auction Intelligence" />
         <p style={{
           fontFamily: '"Source Sans 3", sans-serif',
           color: 'rgba(250,248,244,0.55)',
