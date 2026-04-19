@@ -356,9 +356,20 @@ const NODES: MapNode[] = [
 
   // ════════════════════════════════════════════════════════════════════════════
   // BELOW ED — Row 4 (y:1680)
-  // INTEL LIBRARY · PERPLEXITY
-  // D25: WILLIAM node removed from public map (Apr 19 2026)
+  // INTEL LIBRARY · PERPLEXITY · WILLIAM (D25+D34 resurrected · D49 amended)
   // ════════════════════════════════════════════════════════════════════════════
+
+  // D25 + D34 resurrected Apr 19 2026 · D49 amended: Audio + PDF Active
+  // William = the voice of the flagship letter. AUDIO button on HOME plays the letter.
+  // PDF button on HOME opens the printable flagship letter. One surface, one letter.
+  { id: "william_node",
+    name: "WILLIAM",
+    title: "Voice of the Flagship Letter · Audio + PDF Active",
+    type: "CATEGORY", status: "ACTIVE",
+    note: "William is the voice of the flagship letter — the ElevenLabs TTS voice that reads Ed's founding letter aloud. D49 amended: Audio + PDF Active. The AUDIO button on HOME plays the full institutional letter. The PDF button opens the printable version. Both pull from the same source (letter-content.ts) and update together on every deploy. One surface. One letter. One voice.",
+    x: 1080, y: 1680, r: R,
+    members: ["AUDIO button — HOME tab", "PDF button — HOME tab", "Source: letter-content.ts", "D25 + D34 resurrected · D49 amended"],
+    clickAction: { type: "toast", message: "William: Voice of the Flagship Letter · Audio + PDF Active · D49 amended" } },
 
   { id: "intel_library", name: "INTEL LIBRARY",
     title: "Thirteen Sheets · Hamptons Intelligence Archive",
@@ -580,12 +591,11 @@ const CONNECTIONS: MapConnection[] = [
   { from: "ed",               to: "anew_homes",       style: "partner" },
   { from: "ed",               to: "media_node",       style: "partner" },
   { from: "ed",               to: "rel_intel",        style: "recruit" },
-
-  // ── PODCAST — second ring under MEDIA ─────────────────────────────────────────
   { from: "media_node",       to: "podcast_node",     style: "social" },
 
-  // ── Row 4 below Ed ───────────────────────────────────────────────
-  // D25: ed→william_node edge removed (Apr 19 2026)
+  // ── Row 4 below Ed ──────────────────────────────────────────────────────────────────────────────────────
+  // D25 + D34 resurrected (Apr 19 2026) · D49 amended: Audio + PDF Active
+  { from: "ed",               to: "william_node",     style: "partner" },   // D25 resurrected · William = voice of flagship letter
   { from: "ed",               to: "intel_library",    style: "intelligence" },
   { from: "ed",               to: "perplexity",       style: "partner" },
   { from: "ed",               to: "pipe_tab",         style: "intelligence" },   // D5: PIPE TAB node · Apr 16 2026
