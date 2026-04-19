@@ -68,21 +68,17 @@ function SectionA() {
         {/* Centered wrapper — max 920px, horizontally centered */}
         <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '40px 16px 48px' }}>
         <div
-          className="flex flex-col md:grid"
           style={{
-            gridTemplateColumns: '200px 1fr',
-            gap: 0,
             width: '100%',
             maxWidth: 920,
-            alignItems: 'start',
           }}
         >
-          {/* ── LEFT COLUMN: portrait + identity card ── */}
-          {/* Doctrine 43 / Sprint 11: portrait top-aligned with letter text */}
-          <div style={{ padding: '20px 20px 20px 28px', display: 'flex', flexDirection: 'column', gap: 20, alignItems: 'center' }}>
+          {/* ── SINGLE COLUMN: portrait floats left inside letter text ── */}
+          <div className="home-letter-col" style={{ padding: '20px 28px 32px 28px' }}>
+            {/* Portrait floated left — wraps into text on all screen sizes */}
             <div
               onClick={() => navigate('/report')}
-              style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}
+              style={{ cursor: 'pointer', float: 'left', marginRight: 24, marginBottom: 12, marginTop: 4 }}
               title="Tap portrait for the full Market Report"
             >
               <div style={{
@@ -118,10 +114,6 @@ function SectionA() {
                 Tap for<br/>Market Report
               </div>
             </div>
-          </div>
-
-          {/* ── RIGHT COLUMN: founding letter ── */}
-          <div className="home-letter-col" style={{ padding: '20px 36px 32px 12px' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
               A Letter from the Desk
             </div>
@@ -224,9 +216,10 @@ function SectionA() {
                 ↗ Open &amp; Print
               </a>
             </div>
+            {/* clearfix so section height contains the float */}
+            <div style={{ clear: 'both' }} />
           </div>
           {/* /home-letter-col */}
-          {/* /grid */}
         </div>
         {/* /centered-wrapper */}
         </div>

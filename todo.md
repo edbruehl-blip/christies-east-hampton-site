@@ -2066,3 +2066,6 @@
 - [ ] Fix duplicate James Christie on mobile — hide background image on mobile, keep grid portrait
 - [ ] Fix iOS audio — synchronous play() on button click, set src after (iOS Safari gesture chain)
 - [ ] Rename floating buttons: INTRO → PDF, WILLIAM → AUDIO (done in dev, needs checkpoint)
+
+## Apr 19 Portrait Float Fix
+- [x] James Christie portrait floats inline with letter text on mobile — float:left, marginRight 24px, text wraps alongside and below (no orphaned portrait column)
