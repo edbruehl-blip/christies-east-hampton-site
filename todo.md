@@ -2031,3 +2031,26 @@
 - [ ] SA7: /report — Remove "Section 7 / Section 8" numbered headers from auction cards; tighten card grid into proper container
 - [ ] SA8: MARKET — Verify "Live · Market Matrix" sheet links are view-only (permission check — no internal data exposed)
 - [ ] SA9: HOME — Verify /cards/bike route doesn't 404 (handled by V6 hide if stub)
+
+## Saturday Final Close — April 18, 2026 · 10:20 PM EDT (Rulings 14–19)
+
+### TONIGHT — William Floating Button (D34 Amended)
+- [ ] W1: Build WilliamFloatingButton component — gold #C8AC78, 48px circle, bottom-right, play/pause toggle, dismissible X, HOME only
+- [ ] W2: Wire /api/tts/william endpoint — ElevenLabs voice fjnwTZkKtQOJaYzGLa6n, generate from founding letter text, cache MP3 to S3
+- [ ] W3: Mount WilliamFloatingButton in HomeTab only — no other tabs get audio (D34 amendment)
+- [ ] W4: Letter swap path — when Manny writes his own intro letter, POST new text to /api/tts/william/regenerate, S3 key updates, button plays new file. No infrastructure changes needed.
+
+### MONDAY — Sheet Fixes (Manny + Ed)
+- [ ] SH1: Bonita GCI formula error in VOLUME tab — $30M at 2% = $600K, currently shows $0
+- [ ] SH2: OUTPUTS vs VOLUME reconciliation — different calculation paths, need to tell same $75M story for 2026
+
+### FUTURE TAB — Relabel
+- [ ] F1: Relabel "2026 ACTUAL" bar → "2026 TARGET" (already in Sit-Down Two brief, confirm in code)
+
+### RULINGS LOCKED TONIGHT (for reference)
+- [x] R14: Miro STAYS. Not replaced by Mindmap.so. WILLIAM node killed.
+- [x] R15: Mindmap.so: DEAD. Not a post-launch evaluation. Not referenced again.
+- [x] R16: Kill standalone Last Significant Sale blue block — DONE V2 Apr 18 2026
+- [x] R17: CIS medallion badge too small — enlarge, wax-seal spec holds (SA3 queue)
+- [x] R18: Griff letter: unsigned institutional note. No intro, no exit, no AI voice attribution.
+- [x] R19: William resurrection — D34 amended. One floating audio button on HOME only. Voice ID fjnwTZkKtQOJaYzGLa6n.
