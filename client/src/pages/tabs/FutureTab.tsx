@@ -650,18 +650,18 @@ export default function FutureTab() {
               <tbody>
                 {[
                   // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.5% post-maturity (Ed ruling B)
-                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$210K' },
+                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$216K' }, // AH Profit corrected Issue #1 Apr 19 2026
                   // Zoila Y2 locked $150K (was $120K) · +$30K compounds 20% through 2036 · Apr 16 2026
-                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.06M', combGci:'$5.13M', combVol:'$0.26B', avgGci:'$423K' },
-                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.06M', combGci:'$9.39M', combVol:'$0.47B', avgGci:'$522K' },
-                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$13.00M', officeGci:'$14.90M', ahGci:'$0.07M', combGci:'$14.97M', combVol:'$0.75B', avgGci:'$624K' },
-                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$20.64M', officeGci:'$22.92M', ahGci:'$0.08M', combGci:'$23.00M', combVol:'$1.15B', avgGci:'$764K' },
-                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$25.52M', officeGci:'$28.25M', ahGci:'$0.09M', combGci:'$28.34M', combVol:'$1.42B', avgGci:'$787K' },
-                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$31.91M', officeGci:'$35.19M', ahGci:'$0.10M', combGci:'$35.29M', combVol:'$1.76B', avgGci:'$980K' },
-                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$32.55M', officeGci:'$36.49M', ahGci:'$0.11M', combGci:'$36.60M', combVol:'$1.83B', avgGci:'$1017K' },
-                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$33.20M', officeGci:'$37.93M', ahGci:'$0.13M', combGci:'$38.06M', combVol:'$1.90B', avgGci:'$1057K' },
-                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$33.87M', officeGci:'$39.55M', ahGci:'$0.14M', combGci:'$39.69M', combVol:'$1.98B', avgGci:'$1103K' },
-                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.16M', combGci:'$41.52M', combVol:'$2.08B', avgGci:'$1153K' },
+                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.15M', combGci:'$5.22M', combVol:'$0.26B', avgGci:'$435K' },
+                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.17M', combGci:'$9.50M', combVol:'$0.47B', avgGci:'$528K' },
+                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$13.00M', officeGci:'$14.90M', ahGci:'$0.19M', combGci:'$15.09M', combVol:'$0.75B', avgGci:'$629K' },
+                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$20.64M', officeGci:'$22.92M', ahGci:'$0.21M', combGci:'$23.13M', combVol:'$1.16B', avgGci:'$771K' },
+                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$25.52M', officeGci:'$28.25M', ahGci:'$0.24M', combGci:'$28.49M', combVol:'$1.42B', avgGci:'$791K' },
+                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$31.91M', officeGci:'$35.19M', ahGci:'$0.27M', combGci:'$35.46M', combVol:'$1.77B', avgGci:'$985K' },
+                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$32.55M', officeGci:'$36.49M', ahGci:'$0.30M', combGci:'$36.79M', combVol:'$1.84B', avgGci:'$1022K' },
+                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$33.20M', officeGci:'$37.93M', ahGci:'$0.34M', combGci:'$38.27M', combVol:'$1.91B', avgGci:'$1063K' },
+                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$33.87M', officeGci:'$39.55M', ahGci:'$0.38M', combGci:'$39.93M', combVol:'$2.00B', avgGci:'$1109K' },
+                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.43M', combGci:'$41.79M', combVol:'$2.09B', avgGci:'$1161K' },
                 ].map((r, i) => (
                   <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
                     <td style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>

@@ -175,20 +175,22 @@ function MindMapSection() {
 const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 
 // ─── Option A: Branded static tile (no iframe, no Trello API key needed) ─────
-// 11 lanes · 143 cards · navy/gold · Cormorant Garamond
-// Static counts are canonical as of April 13, 2026 · update manually if needed
+// 13 lanes · 188 cards · navy/gold · Cormorant Garamond · Ponder audit Apr 19 2026
+// Static counts canonical as of April 19, 2026 · Ponder audit · Issue #2
 const TRELLO_LANES = [
-  { name: 'ACTIVE PIPELINE',          count: 6  },
-  { name: 'RECRUITS',                  count: 8  },
-  { name: 'PROJECTS — Website & Systems', count: 12 },
-  { name: 'FLAGSHIP TEAM',             count: 8  },
-  { name: 'INTEL — Relationships',     count: 15 },
-  { name: 'MARKET INTELLIGENCE',       count: 10 },
-  { name: 'DOCTRINES',                 count: 12 },
-  { name: 'OPERATIONS',                count: 8  },
-  { name: 'LEGAL & COMPLIANCE',        count: 6  },
-  { name: 'ARCHIVE',                   count: 10 },
-  { name: 'COUNCIL NOTES',             count: 8  },
+  { name: 'THIS WEEK',                    count: 6  },
+  { name: 'ACTIVE PIPELINE',              count: 22 },
+  { name: 'RECRUITS',                     count: 28 },
+  { name: 'PROJECTS — Website & Systems', count: 28 },
+  { name: 'FLAGSHIP TEAM',                count: 7  },
+  { name: 'BROKER ONBOARDING',            count: 2  },
+  { name: "CHRISTIE'S NETWORK",           count: 18 },
+  { name: 'EAST HAMPTON OFFICE',          count: 5  },
+  { name: 'KEY CLIENTS — Whales',         count: 8  },
+  { name: 'CASE STUDY — James Christie',  count: 3  },
+  { name: 'DOCTRINE LIBRARY',             count: 53 },
+  { name: 'FLAGSHIP LETTER ARCHIVE',      count: 2  },
+  { name: 'Market Intelligence Reports',  count: 6  },
 ];
 
 function TrelloLayer() {
