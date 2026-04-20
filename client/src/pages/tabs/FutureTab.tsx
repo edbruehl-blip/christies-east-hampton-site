@@ -598,117 +598,6 @@ export default function FutureTab() {
           ))}
         </div>
 
-        {/* ── Divider + Income note ──────────────────────────────────────────── */}
-        <hr style={{ border: 'none', borderTop: `0.5px solid ${CHARCOAL}`, margin: '6px 0 8px' }} />
-        <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
-          All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
-        </div>
-
-        {/* ── G6 Operator Control Panel ────────────────────────────────────── */}
-        {!isPdfMode && <OperatorControlPanel />}
-
-        {/* ── Assumptions Block ─────────────────────────────────────────────── */}
-        <div className="future-assumptions-block" style={{
-          background: CARD_BG,
-          border: `0.5px solid ${GOLD_FAINT_BORDER}`,
-          borderRadius: 4,
-          padding: '14px 16px 12px',
-          marginBottom: 10,
-        }}>
-          {/* Section header */}
-          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
-            Assumptions &middot; Governing Principle &middot; Not Yet Contractual
-          </div>
-
-          {/* Mechanism Reference — 2-column grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '4px 24px', marginBottom: 12 }}>
-            {[
-              { label: 'GCI Formula',              value: 'Office Volume × 2%' },
-              { label: 'Agent Commission',          value: '70% of gross GCI' },
-              { label: 'Royalty',                   value: '5% of GCI · paid by Ilija from his side' },
-              { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
-              { label: 'Net Operating Profit',      value: 'GCI − Royalty − Splits − Overhead' },
-              { label: 'NOP Split',                 value: 'Ed 35% / Ilija 65% · two parties only (D40)' },
-              { label: 'ICA Override',              value: 'Deal-event trigger only · not projected annually · at co-deal 50/50 split: Jarvis gives 5% to Angel, Ed gives 5% to Zoila · net 45/45 each · Ed ruling Apr 16 2026' },
-              { label: 'AnewHomes Net Build Profit', value: 'Y1 $50K · Y2 $150K · 12.5% annual growth → $432K by 2036' },
-              { label: 'AnewHomes Equity',          value: 'Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5% (D23)' },
-              { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
-            ].map(({ label, value }) => (
-              <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-                <span style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
-                <span style={{ ...SANS, fontSize: 8, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Headcount Scaling Table — wrapped in headcount-landscape-page for PF3 landscape print */}
-          <div className="headcount-landscape-page" style={{ marginTop: 24 }}>
-          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
-            Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
-          </div>
-          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8, WebkitOverflowScrolling: 'touch' as const }}>
-            <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
-              <thead>
-                <tr>
-                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH Profit','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
-                    <th key={h} style={{ ...SANS, fontSize: 6.5, color: GOLD, fontWeight: 600, textAlign: h === 'Year' ? 'left' as const : 'right' as const, padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER}`, whiteSpace: 'nowrap' as const }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {[
-                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.0% post-maturity (Ed ruling, Ponder flag Apr 19 2026)
-                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$216K' }, // AH Profit corrected Issue #1 Apr 19 2026
-                  // Zoila Y2 locked $150K (was $120K) · +$30K compounds 20% through 2036 · Apr 16 2026
-                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.15M', combGci:'$5.22M', combVol:'$0.26B', avgGci:'$435K' },
-                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.17M', combGci:'$9.50M', combVol:'$0.47B', avgGci:'$528K' },
-                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$13.00M', officeGci:'$14.90M', ahGci:'$0.19M', combGci:'$15.09M', combVol:'$0.75B', avgGci:'$629K' },
-                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$20.64M', officeGci:'$22.92M', ahGci:'$0.21M', combGci:'$23.13M', combVol:'$1.16B', avgGci:'$771K' },
-                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$25.52M', officeGci:'$28.25M', ahGci:'$0.24M', combGci:'$28.49M', combVol:'$1.42B', avgGci:'$791K' },
-                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$31.91M', officeGci:'$35.19M', ahGci:'$0.27M', combGci:'$35.46M', combVol:'$1.77B', avgGci:'$985K' },
-                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$32.55M', officeGci:'$36.49M', ahGci:'$0.30M', combGci:'$36.79M', combVol:'$1.84B', avgGci:'$1022K' },
-                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$33.20M', officeGci:'$37.93M', ahGci:'$0.34M', combGci:'$38.27M', combVol:'$1.91B', avgGci:'$1063K' },
-                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$33.87M', officeGci:'$39.55M', ahGci:'$0.38M', combGci:'$39.93M', combVol:'$2.00B', avgGci:'$1109K' },
-                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.43M', combGci:'$41.79M', combVol:'$2.09B', avgGci:'$1161K' },
-                ].map((r, i) => (
-                  <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
-                    <td style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
-                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Table footnote */}
-          <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
-            12 elite producers per office &middot; Cap intentional &middot; $500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
-          </div>
-          </div> {/* end headcount-landscape-page */}
-
-
-
-          {/* Gap Bridge footer */}
-          <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
-            <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
-              Base engine $2.07B by 2036 (per-seat math only, no market lift). 7.0% post-maturity growth adds ~$0.93B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
-              <span style={{ color: GOLD, fontWeight: 600 }}>$3.0B combined · institutional floor · north star.</span>
-              {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> 50% entry-year credit on mid-year starts. EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
-            </span>
-          </div>
-        </div>
-
         {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
         {/* Build 3 · Apr 20 2026 · Uniform structure · Correct streams per person · CIREG Profit dollarized */}
         {/* Math: CIREG Profit base = NOP · Ed 29.75% · Ilija 25% of Ed Gross GCI · Angel/Jarvis/Zoila 1.75% each */}
@@ -716,54 +605,8 @@ export default function FutureTab() {
         {/* Perplexity confirmed Apr 20 2026 */}
         <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 9 }}>
 
-          {/* Column 1: Ilija + Ed */}
+          {/* Column 1: Ed + Ilija */}
           <div>
-            {/* Ilija */}
-            <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
-              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Franchise Principal &middot; CIREG Tri-State</div>
-              {/* Build 5: Subtitle line removed — headcount scaling shows in table */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
-                {['Stream','2026','2027','2028','2036'].map(h => (
-                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
-                ))}
-              </div>
-              {/* Build 3 · Ilija streams: Net pool 65%, CIREG 25% Ed Gross (incl. above, franchise traceback), CPS-1 (incl.) */}
-              {/* CIREG 25% of Ed Gross GCI: $150K / $180K / $216K / $929K · Perp confirmed Apr 20 2026 */}
-              {[
-                { label: 'Net pool 65% *', proj: [
-                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '$114K',
-                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '$280K',
-                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '$892K',
-                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '$7.43M',
-                ], act: null },
-                { label: 'CIREG 25% Ed Gross (incl. above)', proj: ['$150K','$180K','$216K','$929K'], act: null }, // 25% of Ed personal GCI · franchise traceback · incl. in pool above · Perp Apr 20 2026
-                { label: 'CPS-1 (incl. above)', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
-              ].map(row => (
-                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
-                  <span style={{ color: MUTED }}>{row.label}</span>
-                  {(row.proj ?? []).map((v, i) => (
-                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
-                  ))}
-                </div>
-              ))}
-              {/* All streams total = Net pool 65% (which already includes CIREG traceback) */}
-              {(() => {
-                const CANONICAL_ILIJA: Record<number, number> = { 2026: 114_000, 2027: 280_000, 2028: 892_000, 2036: 7_430_000 };
-                const years = [2026, 2027, 2028, 2036];
-                const totals = years.map(yr => {
-                  const pool = livePoolRows?.find(r => r.year === String(yr))?.ilijaPool;
-                  return pool !== undefined ? fmtM(pool) : fmtM(CANONICAL_ILIJA[yr]);
-                });
-                return (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
-                    <span>All streams total</span>
-                    {totals.map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
-                  </div>
-                );
-              })()}
-            </div>
-
             {/* Ed */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
               <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ed Bruehl</div>
@@ -811,6 +654,53 @@ export default function FutureTab() {
               })()}
 
             </div>
+
+            {/* Ilija */}
+            <div style={{ ...cardStyle, marginBottom: 7 }}>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
+              <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5 }}>Franchise Principal &middot; CIREG Tri-State</div>
+              {/* Build 5: Subtitle line removed — headcount scaling shows in table */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+                {['Stream','2026','2027','2028','2036'].map(h => (
+                  <span key={h} style={{ ...SANS, fontSize: 7, color: GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+                ))}
+              </div>
+              {/* Build 3 · Ilija streams: Net pool 65%, CIREG 25% Ed Gross (incl. above, franchise traceback), CPS-1 (incl.) */}
+              {/* CIREG 25% of Ed Gross GCI: $150K / $180K / $216K / $929K · Perp confirmed Apr 20 2026 */}
+              {[
+                { label: 'Net pool 65% *', proj: [
+                  livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '$114K',
+                  livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '$280K',
+                  livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '$892K',
+                  livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '$7.43M',
+                ], act: null },
+                { label: 'CIREG 25% Ed Gross (incl. above)', proj: ['$150K','$180K','$216K','$929K'], act: null }, // 25% of Ed personal GCI · franchise traceback · incl. in pool above · Perp Apr 20 2026
+                { label: 'CPS-1 (incl. above)', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
+              ].map(row => (
+                <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
+                  <span style={{ color: MUTED }}>{row.label}</span>
+                  {(row.proj ?? []).map((v, i) => (
+                    <span key={i} style={{ textAlign: 'right' as const, color: DIM, fontStyle: 'italic', fontSize: 6.5 }}>{v}</span>
+                  ))}
+                </div>
+              ))}
+              {/* All streams total = Net pool 65% (which already includes CIREG traceback) */}
+              {(() => {
+                const CANONICAL_ILIJA: Record<number, number> = { 2026: 114_000, 2027: 280_000, 2028: 892_000, 2036: 7_430_000 };
+                const years = [2026, 2027, 2028, 2036];
+                const totals = years.map(yr => {
+                  const pool = livePoolRows?.find(r => r.year === String(yr))?.ilijaPool;
+                  return pool !== undefined ? fmtM(pool) : fmtM(CANONICAL_ILIJA[yr]);
+                });
+                return (
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                    <span>All streams total</span>
+                    {totals.map((v,i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
+                  </div>
+                );
+              })()}
+            </div>
+
           </div>
 
           {/* Column 2: Angel + Jarvis */}
@@ -1007,6 +897,118 @@ export default function FutureTab() {
             The foundation is proven. The model is working. The next 14 days set the trajectory.
           </div>
         </div>
+
+        {/* ── Divider + Income note ──────────────────────────────────────────── */}
+        <hr style={{ border: 'none', borderTop: `0.5px solid ${CHARCOAL}`, margin: '6px 0 8px' }} />
+        <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
+          All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
+        </div>
+
+        {/* ── G6 Operator Control Panel ────────────────────────────────────── */}
+        {!isPdfMode && <OperatorControlPanel />}
+
+        {/* ── Assumptions Block ─────────────────────────────────────────────── */}
+        <div className="future-assumptions-block" style={{
+          background: CARD_BG,
+          border: `0.5px solid ${GOLD_FAINT_BORDER}`,
+          borderRadius: 4,
+          padding: '14px 16px 12px',
+          marginBottom: 10,
+        }}>
+          {/* Section header */}
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase' as const, fontWeight: 700, marginBottom: 10 }}>
+            Assumptions &middot; Governing Principle &middot; Not Yet Contractual
+          </div>
+
+          {/* Mechanism Reference — 2-column grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '4px 24px', marginBottom: 12 }}>
+            {[
+              { label: 'GCI Formula',              value: 'Office Volume × 2%' },
+              { label: 'Agent Commission',          value: '70% of gross GCI' },
+              { label: 'Royalty',                   value: '5% of GCI · paid by Ilija from his side' },
+              { label: 'Overhead',                  value: 'MAX($200K, 6% of GCI)' },
+              { label: 'Net Operating Profit',      value: 'GCI − Royalty − Splits − Overhead' },
+              { label: 'NOP Split',                 value: 'Ed 35% / Ilija 65% · two parties only (D40)' },
+              { label: 'ICA Override',              value: 'Deal-event trigger only · not projected annually · at co-deal 50/50 split: Jarvis gives 5% to Angel, Ed gives 5% to Zoila · net 45/45 each · Ed ruling Apr 16 2026' },
+              { label: 'AnewHomes Net Build Profit', value: 'Y1 $50K · Y2 $150K · 12.5% annual growth → $432K by 2036' },
+              { label: 'AnewHomes Equity',          value: 'Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5% (D23)' },
+              { label: 'Zoila Vesting Cliff',       value: 'November 4, 2026 · activates 2027 forward' },
+            ].map(({ label, value }) => (
+              <div key={label} style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                <span style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' as const, flexShrink: 0, minWidth: 140 }}>{label}</span>
+                <span style={{ ...SANS, fontSize: 8, color: TEXT_MUTED, lineHeight: 1.5 }}>{value}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Headcount Scaling Table — wrapped in headcount-landscape-page for PF3 landscape print */}
+          <div className="headcount-landscape-page" style={{ marginTop: 24 }}>
+          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
+            Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
+          </div>
+          <div className="headcount-table" style={{ overflowX: 'auto' as const, marginBottom: 8, WebkitOverflowScrolling: 'touch' as const }}>
+            <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse' as const, fontSize: 8, ...SANS }}>
+              <thead>
+                <tr>
+                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH Profit','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
+                    <th key={h} style={{ ...SANS, fontSize: 6.5, color: GOLD, fontWeight: 600, textAlign: h === 'Year' ? 'left' as const : 'right' as const, padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER}`, whiteSpace: 'nowrap' as const }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  // Recalculated Apr 16 2026 · Ed GCI = gross $600K 20% compound · Named = real Y1 starts 50% entry-credit Y1 only · Engine = EPM recruited seats · 7.0% post-maturity (Ed ruling, Ponder flag Apr 19 2026)
+                  { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$216K' }, // AH Profit corrected Issue #1 Apr 19 2026
+                  // Zoila Y2 locked $150K (was $120K) · +$30K compounds 20% through 2036 · Apr 16 2026
+                  { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.15M', combGci:'$5.22M', combVol:'$0.26B', avgGci:'$435K' },
+                  { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.17M', combGci:'$9.50M', combVol:'$0.47B', avgGci:'$528K' },
+                  { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$13.00M', officeGci:'$14.90M', ahGci:'$0.19M', combGci:'$15.09M', combVol:'$0.75B', avgGci:'$629K' },
+                  { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$20.64M', officeGci:'$22.92M', ahGci:'$0.21M', combGci:'$23.13M', combVol:'$1.16B', avgGci:'$771K' },
+                  { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$25.52M', officeGci:'$28.25M', ahGci:'$0.24M', combGci:'$28.49M', combVol:'$1.42B', avgGci:'$791K' },
+                  { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$31.91M', officeGci:'$35.19M', ahGci:'$0.27M', combGci:'$35.46M', combVol:'$1.77B', avgGci:'$985K' },
+                  { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$32.55M', officeGci:'$36.49M', ahGci:'$0.30M', combGci:'$36.79M', combVol:'$1.84B', avgGci:'$1022K' },
+                  { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$33.20M', officeGci:'$37.93M', ahGci:'$0.34M', combGci:'$38.27M', combVol:'$1.91B', avgGci:'$1063K' },
+                  { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$33.87M', officeGci:'$39.55M', ahGci:'$0.38M', combGci:'$39.93M', combVol:'$2.00B', avgGci:'$1109K' },
+                  { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$34.54M', officeGci:'$41.36M', ahGci:'$0.43M', combGci:'$41.79M', combVol:'$2.09B', avgGci:'$1161K' },
+                ].map((r, i) => (
+                  <tr key={r.year} style={{ background: i % 2 === 0 ? 'transparent' : 'rgba(200,172,120,0.04)' }}>
+                    <td style={{ ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, padding: '2px 5px', textAlign: 'left' as const }}>{r.year}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.eh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.sh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.wh}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.tot}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.edGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.namedGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.engineGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.officeGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.ahGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combGci}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const, fontWeight: 600 }}>{r.combVol}</td>
+                    <td style={{ ...SANS, fontSize: 8, color: DIM, padding: '2px 5px', textAlign: 'right' as const }}>{r.avgGci}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Table footnote */}
+          <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
+            12 elite producers per office &middot; Cap intentional &middot; $500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
+          </div>
+          </div> {/* end headcount-landscape-page */}
+
+
+
+          {/* Gap Bridge footer */}
+          <div style={{ borderTop: `0.5px solid ${GOLD_FAINT_BORDER}`, paddingTop: 8 }}>
+            <span style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', lineHeight: 1.6 }}>
+              Base engine $2.07B by 2036 (per-seat math only, no market lift). 7.0% post-maturity growth adds ~$0.93B &mdash; conservative vs Compass 11.3%, Saunders 10%+.{' '}
+              <span style={{ color: GOLD, fontWeight: 600 }}>$3.0B combined · institutional floor · north star.</span>
+              {' '}Per-seat ramp: <strong>$500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% appreciation.</strong> 50% entry-year credit on mid-year starts. EH 2026 (9&rarr;12) &middot; SH 2028 (6&rarr;12) &middot; WH 2030 (6&rarr;12). Council dispatch Apr 16 2026.
+            </span>
+          </div>
+        </div>
+
 
         {/* ── Growth Model link only — Pro Forma PDF button (top-right) is the sole export ── */}
         <div className="future-growth-model-button" data-print-hide="true" style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>

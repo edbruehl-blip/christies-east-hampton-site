@@ -2217,3 +2217,11 @@
 - [x] OCP-P5: Added row "Angel / Jarvis / Zoila (1.75% each)" → 2036 $199.5K ≈ $200K each
 - [x] OCP-P6: ED TOTAL TAKE now includes AnewHomes 35% → 2036 $6.1435M → $6.1M display
 - [x] OCP-P7: All 7 invariants verified · 34/34 tests pass · Apr 20 2026
+
+## PF8 — Partner Card Relocation · April 20, 2026
+
+- [x] PF8-1: Mapped — partner cards lines 712-1009, 100-day row ends line 599, OCP at 607
+- [x] PF8-2: Partner cards moved to directly after 100-day row (line 600) · 3-col grid preserved
+- [x] PF8-3: Col1=Ed+Ilija (swapped) · Col2=Angel+Jarvis · Col3=Zoila+Scott+Richard · matches PDF layout
+- [x] PF8-4: Ilija $7.43M 2036 confirmed in CANONICAL_ILIJA · ties OCP table $7.4M ✓
+- [x] PF8-5: 34/34 tests pass · checkpoint + publish
