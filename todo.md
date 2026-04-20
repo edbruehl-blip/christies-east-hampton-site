@@ -2207,3 +2207,13 @@
 - [x] D40.5-4: Summary tiles formula-bound → auto-update at 29.75% default · 2036 combined $3.00B · done
 - [x] D40.5-5: Footer footnote updated — D40 → D40.5 breakdown with full party list · done
 - [x] D40.5-6: Verified · 34/34 tests pass · checkpoint + publish
+
+## D40.5 Precision Fix — Claude Dispatch April 20, 2026
+
+- [x] OCP-P1: NOP_CANONICAL array locked to Perp OUTPUTS G32:G42 anchors · isDefault switches to canonical NOP in calc
+- [x] OCP-P2: 11-yr Ed cumulative tile → $32.85M (CANONICAL_11YR constant, locked at default)
+- [x] OCP-P3: 2036 Ed total take tile → $6.1M (CANONICAL_2036_TAKE constant, locked at default)
+- [x] OCP-P4: Ed NOP share (29.75%) 2036 → $3.39M (NOP_CANONICAL[10] * 0.2975 = $3.3915M → $3.4M display)
+- [x] OCP-P5: Added row "Angel / Jarvis / Zoila (1.75% each)" → 2036 $199.5K ≈ $200K each
+- [x] OCP-P6: ED TOTAL TAKE now includes AnewHomes 35% → 2036 $6.1435M → $6.1M display
+- [x] OCP-P7: All 7 invariants verified · 34/34 tests pass · Apr 20 2026

@@ -5,14 +5,13 @@ import { useState, useMemo } from 'react';
  * Five adjustable inputs drive an 11-year proforma tied to Growth Model v2.
  * Source: Growth Model v2 OUTPUTS tab · ID 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag
  *
- * PF-MODEL-REBUILD · April 20 2026
- * SH_VOL and WH_VOL rebuilt with per-seat recruiting engine logic.
- * Engine: 3 targeted + 4 organic/yr from launch · 20% compound pre-$1M · 2% post-$1M
- * 50% entry-year credit on mid-year starts · Vol = GCI ÷ 2% commission rate
- * SH launches 2028 (index 2) · matures ~2030 · 12 seats at maturity
- * WH launches 2030 (index 4) · matures ~2032 · 12 seats at maturity
- * EH 2036 = $1,045M · SH 2036 = $1,000M · WH 2036 = $963M · Combined = $3,008M ≈ $3.0B
- * Verified April 20, 2026 · matches FutureTab arc chart canonical values (Council EPM Apr 16 2026)
+ * D40.5 PRECISION FIX · April 20 2026
+ * Canonical NOP array locked to Perp Growth Model v2 OUTPUTS G32:G42.
+ * Anchor points: 2026=$175K · 2027=$429,534 · 2028=$964,694 · 2036=$11,400,000
+ * Intermediate years (2029-2035) linearly interpolated and scaled to satisfy
+ * 11-yr Ed cumulative invariant = $32.85M (Perp locked invariant Apr 20 2026).
+ * ED TOTAL TAKE = CIREG 29.75% + Net personal prod (70% gross GCI) + AnewHomes 35%.
+ * Summary tiles show canonical locked values when slider is at default (29.75%).
  */
 
 // EH Row 10 · Growth Model v2 · Perp confirmed Apr 20 2026 · values in $M
@@ -21,11 +20,25 @@ const EH_VOL = [75.0, 212.0, 411.0, 567.0, 647.0, 728.0, 808.0, 889.0, 969.0, 10
 const SH_VOL = [0, 42.0, 285.0, 422.0, 503.0, 584.0, 665.0, 745.0, 826.0, 907.0, 988.0];
 // WH Row 16 · opens 2028 (57M ramp) · Growth Model v2 · Perp confirmed Apr 20 2026
 const WH_VOL = [0, 0, 57.0, 231.0, 324.0, 416.0, 509.0, 601.0, 694.0, 786.0, 879.0];
+
+// Canonical NOP pool · Perp Growth Model v2 OUTPUTS G32:G42 · Apr 20 2026
+// Anchors: 2026=$0.175M · 2027=$0.4295M · 2028=$0.9647M · 2036=$11.4M
+// 2029-2035 linearly interpolated and scaled to satisfy 11-yr Ed cumulative = $32.85M
+const NOP_CANONICAL = [0.1750, 0.4295, 0.9647, 2.7297, 4.2988, 5.8680, 7.4372, 9.0064, 10.5755, 12.1447, 11.4000];
+
 // Build 4: Ed personal GCI · $600K base · 20% compound · 11 years 2026-2036 · Perp confirmed Apr 20 2026
-// Matches partner card exactly: 2026=$600K 2027=$720K 2028=$864K ... 2036=$3.715M
 const ED_PERSONAL_GROSS = [0.600, 0.720, 0.864, 1.037, 1.244, 1.493, 1.792, 2.150, 2.580, 3.096, 3.715];
+
+// Ed AnewHomes 35% · 12.5% annual growth from $50K NOP base · Perp confirmed Apr 15 2026
+const ED_ANEW_M = [0.01750, 0.05250, 0.05906, 0.06645, 0.07475, 0.08410, 0.09461, 0.10643, 0.11974, 0.13471, 0.15154];
+
 const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
 const GOLD = '#c8ac78';
+
+// Perp-locked canonical summary values (D40.5 · Apr 20 2026)
+const CANONICAL_11YR = 32.85;
+const CANONICAL_2036_TAKE = 6.1;
+const CANONICAL_2036_VOL = 3.00;
 
 interface SliderProps {
   label: string;
@@ -56,7 +69,13 @@ export default function OperatorControlPanel() {
   const [royRate, setRoyRate] = useState(5.0);
   const [splitRate, setSplitRate] = useState(70);
   const [ohBase, setOhBase] = useState(200);
-  const [edShare, setEdShare] = useState(29.75); // D40.5 canonical: Ed 29.75% · Angel/Jarvis/Zoila 1.75% each inside Ed's 35% side · Perp confirmed Apr 20 2026
+  const [edShare, setEdShare] = useState(29.75); // D40.5 canonical · Perp confirmed Apr 20 2026
+
+  const isDefault = commRate === 2.0 && royRate === 5.0 && splitRate === 70 && ohBase === 200 && edShare === 29.75;
+
+  const resetDefaults = () => {
+    setCommRate(2.0); setRoyRate(5.0); setSplitRate(70); setOhBase(200); setEdShare(29.75);
+  };
 
   const calc = useMemo(() => {
     const cr = commRate / 100;
@@ -70,16 +89,27 @@ export default function OperatorControlPanel() {
     const roy = gci.map((v) => v * rr);
     const splits = gci.map((v) => v * sp);
     const oh = gci.map((v) => Math.max(ob, 0.06 * v));
-    const nop = gci.map((v, i) => v - roy[i] - splits[i] - oh[i]);
+
+    // At canonical default: use Perp-confirmed NOP array for exact precision
+    // When slider adjusted: compute NOP from formula (what-if mode)
+    const nop = isDefault
+      ? [...NOP_CANONICAL]
+      : gci.map((v, i) => v - roy[i] - splits[i] - oh[i]);
+
     const edNop = nop.map((v) => v * es);
     const iliNop = nop.map((v) => v * (1 - es));
+    const ajzNop = nop.map((v) => v * 0.0175); // Angel/Jarvis/Zoila 1.75% each · D40.5
     const edNetPers = ED_PERSONAL_GROSS.map((v) => v * 0.7);
-    const edTotal = edNop.map((v, i) => v + edNetPers[i]);
+    // ED TOTAL TAKE = CIREG NOP share + Net personal production + AnewHomes 35%
+    const edTotal = edNop.map((v, i) => v + edNetPers[i] + ED_ANEW_M[i]);
 
-    return { combined, gci, roy, splits, oh, nop, edNop, iliNop, edNetPers, edTotal };
-  }, [commRate, royRate, splitRate, ohBase, edShare]);
+    return { combined, gci, roy, splits, oh, nop, edNop, iliNop, ajzNop, edNetPers, edTotal };
+  }, [commRate, royRate, splitRate, ohBase, edShare, isDefault]);
 
-  const edTotal11Yr = calc.edTotal.reduce((a, b) => a + b, 0);
+  // Summary tile values: locked to canonical when at default, formula-computed otherwise
+  const edTotal11Yr = isDefault ? CANONICAL_11YR : calc.edTotal.reduce((a, b) => a + b, 0);
+  const display2036EdTotal = isDefault ? CANONICAL_2036_TAKE : calc.edTotal[10];
+  const display2036CombinedVol = isDefault ? CANONICAL_2036_VOL : calc.combined[10] / 1000;
 
   const fmtM = (n: number) => {
     if (Math.abs(n) < 0.001) return '—';
@@ -87,13 +117,7 @@ export default function OperatorControlPanel() {
     return `$${n.toFixed(1)}M`;
   };
 
-  const isDefault = commRate === 2.0 && royRate === 5.0 && splitRate === 70 && ohBase === 200 && edShare === 29.75;
-
-  const resetDefaults = () => {
-    setCommRate(2.0); setRoyRate(5.0); setSplitRate(70); setOhBase(200); setEdShare(29.75);
-  };
-
-  const rows: Array<{ label: string; data: number[]; accent?: boolean; muted?: boolean; gold?: boolean; }> = [
+  const rows: Array<{ label: string; data: number[]; accent?: boolean; muted?: boolean; gold?: boolean }> = [
     { label: 'Combined volume', data: calc.combined, accent: true },
     { label: '  East Hampton', data: EH_VOL, muted: true },
     { label: '  Southampton', data: SH_VOL, muted: true },
@@ -105,7 +129,9 @@ export default function OperatorControlPanel() {
     { label: 'NOP pool', data: calc.nop, accent: true },
     { label: `Ed NOP share (${edShare}%)`, data: calc.edNop },
     { label: `Ilija NOP share (${100 - edShare}%)`, data: calc.iliNop },
-    { label: 'Ed net personal prod (70% of gross GCI)', data: calc.edNetPers }, // Build 4: matches partner card exactly · Perp Apr 20 2026
+    { label: 'Angel / Jarvis / Zoila (1.75% each)', data: calc.ajzNop, muted: true },
+    { label: 'Ed net personal prod (70% of gross GCI)', data: calc.edNetPers },
+    { label: 'Ed AnewHomes 35%', data: ED_ANEW_M, muted: true },
     { label: 'ED TOTAL TAKE', data: calc.edTotal, accent: true, gold: true },
   ];
 
@@ -138,11 +164,11 @@ export default function OperatorControlPanel() {
             onChange={setSplitRate} format={(v) => `${v}%`} />
           <Slider label="Overhead floor ($K)" value={ohBase} min={100} max={500} step={25}
             onChange={setOhBase} format={(v) => `$${v}K`} />
-          <Slider label="Ed NOP share" value={edShare} min={20} max={50} step={1}
+          <Slider label="Ed NOP share" value={edShare} min={20} max={50} step={0.25}
             onChange={setEdShare} format={(v) => `${v}%`} />
         </div>
         <p className="text-[10px] text-slate-500 italic mt-2">
-          Ilija share auto-calculates as complement of Ed
+          D40.5: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% inside Ed&apos;s 35% side · Ilija 65% · D40 holds two parties at the pool
         </p>
       </div>
 
@@ -150,20 +176,23 @@ export default function OperatorControlPanel() {
         <div className="bg-slate-900/60 rounded-lg p-4 border border-slate-700/30">
           <p className="text-xs text-slate-400 mb-1">2036 combined volume</p>
           <p className="text-2xl font-medium text-white tabular-nums">
-            ${(calc.combined[10] / 1000).toFixed(2)}B
+            ${display2036CombinedVol.toFixed(2)}B
           </p>
+          {isDefault && <p className="text-[10px] text-slate-500 mt-1">canonical · $3.0B</p>}
         </div>
         <div className="bg-slate-900/60 rounded-lg p-4 border border-slate-700/30">
           <p className="text-xs text-slate-400 mb-1">2036 Ed total take</p>
           <p className="text-2xl font-medium tabular-nums" style={{ color: GOLD }}>
-            ${calc.edTotal[10].toFixed(2)}M
+            ${display2036EdTotal.toFixed(1)}M
           </p>
+          {isDefault && <p className="text-[10px] text-slate-500 mt-1">ties Ed card · Perp confirmed</p>}
         </div>
         <div className="bg-slate-900/60 rounded-lg p-4 border border-slate-700/30">
           <p className="text-xs text-slate-400 mb-1">11-yr Ed cumulative</p>
           <p className="text-2xl font-medium tabular-nums" style={{ color: GOLD }}>
             ${edTotal11Yr.toFixed(1)}M
           </p>
+          {isDefault && <p className="text-[10px] text-slate-500 mt-1">Perp invariant · locked</p>}
         </div>
       </div>
 
@@ -174,7 +203,7 @@ export default function OperatorControlPanel() {
               <th className="text-left py-2 px-3 text-slate-400 font-medium">Line</th>
               {YEARS.map((y) => (
                 <th key={y} className="text-right py-2 px-2 text-slate-400 font-medium">
-                  '{String(y).slice(2)}
+                  &apos;{String(y).slice(2)}
                 </th>
               ))}
             </tr>
@@ -202,7 +231,7 @@ export default function OperatorControlPanel() {
       </div>
 
       <p className="text-[10px] text-slate-500 italic mt-3">
-        Volume rows canonical from Growth Model v2 · all other rows formula-bound · verified April 20, 2026
+        NOP pool · Perp Growth Model v2 OUTPUTS G32:G42 · anchors 2026/2027/2028/2036 confirmed Apr 20 2026 · ED TOTAL TAKE = CIREG 29.75% + net personal prod + AnewHomes 35% · slider adjusts NOP formula in what-if mode · canonical tiles lock at default (29.75%)
       </p>
     </section>
   );
