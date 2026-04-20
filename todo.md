@@ -2251,3 +2251,9 @@
 - [x] ARC-2: Milestone callout row added below year strip · 2028 Southampton + 2030 Westhampton · cream rule above+below · 8pt letterspaced uppercase · done
 - [x] CPS1-FN: ‡ CPS-1 Pipeline footnote added to footer · Ed-sourced pipeline, UHNW buyers, $100K→$1.5M cap→+2%/yr, visibility line not additive · done
 - [x] ARC-3: 34/34 tests pass · HMR clean 5:47 PM · checkpoint
+
+## CPS-1 ‡ Label + GM7 Re-run — Apr 20, 2026
+
+- [x] CPS1-LABEL: ‡ added to all 5 CPS-1 row labels · Python fix applied (sed unicode collision resolved) · done
+- [x] GM7-RERUN: PDF regenerated → 290,256 bytes · 1-page · Southampton callout + ‡ footnote captured · done
+- [x] CHECKPOINT: 34/34 tests pass · HMR clean 5:59 PM · checkpoint
