@@ -2263,3 +2263,10 @@
 - [x] ZD-ASCENSION: ASCENSION ARC · 2026–2036 · THREE OFFICES divider added above bar chart · isPdfMode-gated · done
 - [x] GM7-FINAL: PDF regenerated → 290,685 bytes · 1-page · ASCENSION ARC divider captured (screen-only, PDF-gated) · done
 - [x] CHECKPOINT: 34/34 tests pass · HMR clean 6:05 PM · checkpoint
+
+## Arc Chart Segment Fix — Apr 20, 2026
+
+- [x] ARC-SEG-1: BARS data correct — WH 2036 = $879M = 29.3% of $3.0B in fallback · root cause was live sheet rows 15/16 returning zero for out-years
+- [x] ARC-SEG-2: Stacking formula correct — issue was sheets-helper.ts using live zero values instead of canonical fallbacks for SH/WH out-years
+- [x] ARC-SEG-3: sheets-helper.ts fixed — shLive/whLive: use live if > 0, else SH_CANONICAL/WH_CANONICAL · WH 2036 $879M = 29.3% · SH 2036 $988M = 33% · EH 2036 $1.13B = 37.7%
+- [x] ARC-SEG-4: 34/34 tests pass · checkpoint

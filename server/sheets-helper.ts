@@ -944,11 +944,26 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
     const shProjByYear: Record<number, number> = {};
     const whProjByYear: Record<number, number> = {};
     const combProjByYear: Record<number, number> = {};
+    // Canonical per-office fallback values (Growth Model v2 · Perp confirmed Apr 20 2026)
+    // Used when live sheet rows 15/16 are zero or unpopulated for out-years
+    const SH_CANONICAL: Record<number, number> = {
+      2026: 0, 2027: 42_000_000, 2028: 285_000_000, 2029: 422_000_000,
+      2030: 503_000_000, 2031: 584_000_000, 2032: 665_000_000,
+      2033: 745_000_000, 2034: 826_000_000, 2035: 907_000_000, 2036: 988_000_000,
+    };
+    const WH_CANONICAL: Record<number, number> = {
+      2026: 0, 2027: 0, 2028: 57_000_000, 2029: 231_000_000,
+      2030: 324_000_000, 2031: 416_000_000, 2032: 509_000_000,
+      2033: 601_000_000, 2034: 694_000_000, 2035: 786_000_000, 2036: 879_000_000,
+    };
     for (const [yr, col] of Object.entries(PROJ_COLS)) {
       const y = parseInt(yr, 10);
       ehProjByYear[y]   = parseDollar(totalRow[col]);
-      shProjByYear[y]   = parseDollar(shRow[col]);
-      whProjByYear[y]   = parseDollar(whRow[col]);
+      // Use live value if non-zero, else fall back to canonical (live sheet may not populate out-years)
+      const shLive = parseDollar(shRow[col]);
+      const whLive = parseDollar(whRow[col]);
+      shProjByYear[y]   = shLive > 0 ? shLive : (SH_CANONICAL[y] ?? 0);
+      whProjByYear[y]   = whLive > 0 ? whLive : (WH_CANONICAL[y] ?? 0);
       combProjByYear[y] = parseDollar(combRow[col]);
     }
 
