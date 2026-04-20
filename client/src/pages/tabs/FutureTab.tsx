@@ -598,6 +598,15 @@ export default function FutureTab() {
           ))}
         </div>
 
+        {/* ── Zone Divider: Partnership Projections ─────────────────────────── */}
+        <div style={{ margin: '10px 0 12px', textAlign: 'center' as const }}>
+          <div style={{ borderTop: `0.5px solid ${GOLD}`, marginBottom: 6 }} />
+          <span style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 2.5, textTransform: 'uppercase' as const, fontWeight: 500 }}>
+            Partnership Projections &middot; D40.5 &middot; Verified April 20, 2026
+          </span>
+          <div style={{ borderTop: `0.5px solid ${GOLD}`, marginTop: 6 }} />
+        </div>
+
         {/* ── Participant Cards Grid (3 columns) ─────────────────────────────── */}
         {/* Build 3 · Apr 20 2026 · Uniform structure · Correct streams per person · CIREG Profit dollarized */}
         {/* Math: CIREG Profit base = NOP · Ed 29.75% · Ilija 25% of Ed Gross GCI · Angel/Jarvis/Zoila 1.75% each */}
@@ -903,6 +912,17 @@ export default function FutureTab() {
         <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
           All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
+
+        {/* ── Zone Divider: Operator Control Panel ──────────────────────────── */}
+        {!isPdfMode && (
+          <div style={{ margin: '14px 0 12px', textAlign: 'center' as const }}>
+            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginBottom: 6 }} />
+            <span style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 2.5, textTransform: 'uppercase' as const, fontWeight: 500 }}>
+              Operator Control Panel
+            </span>
+            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginTop: 6 }} />
+          </div>
+        )}
 
         {/* ── G6 Operator Control Panel ────────────────────────────────────── */}
         {!isPdfMode && <OperatorControlPanel />}

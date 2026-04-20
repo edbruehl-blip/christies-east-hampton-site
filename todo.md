@@ -2225,3 +2225,9 @@
 - [x] PF8-3: Col1=Ed+Ilija (swapped) · Col2=Angel+Jarvis · Col3=Zoila+Scott+Richard · matches PDF layout
 - [x] PF8-4: Ilija $7.43M 2036 confirmed in CANONICAL_ILIJA · ties OCP table $7.4M ✓
 - [x] PF8-5: 34/34 tests pass · checkpoint + publish
+
+## Zone Dividers — Apr 20, 2026
+
+- [x] ZD-1: PARTNERSHIP PROJECTIONS · D40.5 · Verified April 20, 2026 divider added above partner cards · gold rule above + below · done
+- [x] ZD-2: OPERATOR CONTROL PANEL divider added above OCP · same gold rule treatment · isPdfMode-gated · done
+- [x] ZD-3: HMR clean 5:06 PM · 34/34 tests pass · checkpoint
