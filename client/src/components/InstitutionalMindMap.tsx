@@ -670,7 +670,7 @@ const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColo
   rel_intel:         { fill: "#1A3D2A", stroke: "#2D5A3D",               headerColor: "#6FCF97" },
   podcast_node:      { fill: "#1A1A2A", stroke: "rgba(120,172,200,0.6)", headerColor: "rgba(180,225,255,0.9)" },
   // Row 4 below Ed
-  // D25: william_node color entry removed (Apr 19 2026)
+  william_node:     { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" }, // D25 resurrected Apr 19 2026
   perplexity:        { fill: "#2A1F2A", stroke: "#9B7EC8",               headerColor: "#9B7EC8" },
   // Social
   social:            { fill: "#2A1F2A", stroke: "#9B7EC8",               headerColor: "#9B7EC8" },

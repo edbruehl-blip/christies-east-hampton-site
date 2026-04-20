@@ -1,19 +1,19 @@
 /**
  * HOME TAB — Three sections only.
  *
- * Section A · Full-bleed hero — auction room background.
+ * Section A  ·  Full-bleed hero — auction room background.
  *             Left column: portrait thumbnail (top) + identity card (below).
  *             Right column: founding letter — FIRST TEXT ABOVE THE FOLD.
  *             Portrait click → navigates to /report.
  *
- * Section B · Christie's channel · story · video · gallery — calm, private-wealth.
+ * Section B  ·  Christie's channel  ·  story  ·  video  ·  gallery — calm, private-wealth.
  *
- * Section C · Footer — one line only. "Art. Beauty. Provenance. · Since 1766."
+ * Section C  ·  Footer — one line only. "Art. Beauty. Provenance.  ·  Since 1766."
  *
  * HOME = the door.  /report = the room.
  *
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
- * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
+ * Design: navy #1B2A4A  ·  gold #C8AC78  ·  charcoal #384249  ·  cream #FAF8F4
+ * Typography: Cormorant Garamond (titles)  ·  Source Sans 3 (body)  ·  Barlow Condensed (labels)
  *
  * William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling.
  * All TTS/ElevenLabs code paths removed. INTRO button keeps printable letter behavior.
@@ -42,7 +42,7 @@ const FOUNDING_PARAGRAPHS = [
   "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
 ];
 
-// ─── Section A · Hero ─────────────────────────────────────────────────────────
+// ─── Section A  ·  Hero ─────────────────────────────────────────────────────────
 // William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling
 function SectionA() {
   const [, navigate] = useLocation();
@@ -160,7 +160,7 @@ function SectionA() {
                 Ed Bruehl
               </div>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                Managing Director · Christie's East Hampton
+                Managing Director  ·  Christie's East Hampton
               </div>
             </div>
 
@@ -190,7 +190,7 @@ function SectionA() {
                   cursor: 'pointer',
                 }}
               >
-                ↓ Download Christie's Letter · PDF
+                ↓ Download Christie's Letter  ·  PDF
               </button>
               <a
                 href="/letters/christies"
@@ -227,7 +227,7 @@ function SectionA() {
     </section>
   );
 }
-// ─── Section BB · Christie's Channel · Story · Video · Gallery ─────────────────
+// ─── Section BB  ·  Christie's Channel  ·  Story  ·  Video  ·  Gallery ─────────────────
 // Calm, private-wealth. No grid. No tiles. No KPIs.
 function SectionB() {
   return (
@@ -237,7 +237,7 @@ function SectionB() {
       <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            Christie's · Est. 1766
+            Christie's  ·  Est. 1766
           </div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, maxWidth: 560 }}>
             The Authority on Art, Beauty, and Provenance
@@ -252,7 +252,7 @@ function SectionB() {
       <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Christie's · Auction Intelligence
+            Christie's  ·  Auction Intelligence
           </div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
             Bringing James Christie's Legacy to the Hamptons
@@ -278,7 +278,7 @@ function SectionB() {
 // SectionWilliam removed — dead code, audio player retired C5 Apr 18 2026
 // ─── HomeTab ─────────────────────────────────────────────────────────────────────────────
 // SectionC (duplicate footer) removed — DashboardLayout renders the single
-// "Art. Beauty. Provenance. · Since 1766." doctrine line. One footer, defined once.
+// "Art. Beauty. Provenance.  ·  Since 1766." doctrine line. One footer, defined once.
 
 // ─── Bike Card section (A1) ──────────────────────────────────────────────────
 function BikeCardSection() {
@@ -286,7 +286,7 @@ function BikeCardSection() {
     <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
         <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-          Christie's East Hampton · Neighborhood Intelligence
+          Christie's East Hampton  ·  Neighborhood Intelligence
         </div>
         <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 12, maxWidth: 560 }}>
           The Neighborhood Card
@@ -340,12 +340,96 @@ function BikeCardSection() {
   );
 }
 
+// ─── Section V  ·  Video Reel  ·  V1/V2/V3  ·  Full-bleed self-hosted ─────────────
+// V1 = Life Less Ordinary brand reel (Apr 3 2026)
+// V2 = Christie's 250th Heritage (Jan 22 2026)
+// V3 = Tash Perrin (Nov 3 2025)
+// V4 = Ed Screen Recording (Apr 19 2026) — internal only, not rendered here
+const VIDEO_REEL = [
+  {
+    key: 'v1',
+    src: '/manus-storage/v1_april3_2026_7d954a08.mov',
+    title: 'Life Less Ordinary',
+    label: "Christie's East Hampton - Brand Reel",
+  },
+  {
+    key: 'v2',
+    src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
+    title: "Christie's 250th Heritage",
+    label: "Christie's - Est. 1766 - 250 Years",
+  },
+  {
+    key: 'v3',
+    src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
+    title: 'Tash Perrin',
+    label: "Christie's International Real Estate Group",
+  },
+];
+
+function SectionVideoReel() {
+  return (
+    <div style={{ background: '#0D1B2A' }}>
+      {VIDEO_REEL.map((v) => (
+        <div
+          key={v.key}
+          style={{
+            width: '100%',
+            borderBottom: '1px solid rgba(200,172,120,0.12)',
+            position: 'relative',
+          }}
+        >
+          {/* Label overlay */}
+          <div style={{
+            position: 'absolute',
+            top: 20,
+            left: 24,
+            zIndex: 2,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            pointerEvents: 'none',
+          }}>
+            <div style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 9,
+              letterSpacing: '0.22em',
+              textTransform: 'uppercase',
+              color: 'rgba(200,172,120,0.75)',
+            }}>{v.label}</div>
+            <div style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              fontSize: 'clamp(1rem, 2vw, 1.4rem)',
+              fontWeight: 400,
+              color: '#FAF8F4',
+              lineHeight: 1.2,
+            }}>{v.title}</div>
+          </div>
+          <video
+            src={v.src}
+            controls
+            playsInline
+            preload="metadata"
+            style={{
+              display: 'block',
+              width: '100%',
+              maxHeight: '80vh',
+              objectFit: 'contain',
+              background: '#000',
+            }}
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ─── HomeTab default export ───────────────────────────────────────────────────
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
       <SectionB />
+      <SectionVideoReel />
       {/* BikeCardSection hidden V6 Apr 18 2026 — Ponder delivers Neighborhood Card PDF mockup Sunday Apr 19; unhide when asset is ready */}
       {/* <BikeCardSection /> */}
     </div>
