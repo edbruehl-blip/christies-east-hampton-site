@@ -2257,3 +2257,9 @@
 - [x] CPS1-LABEL: ‡ added to all 5 CPS-1 row labels · Python fix applied (sed unicode collision resolved) · done
 - [x] GM7-RERUN: PDF regenerated → 290,256 bytes · 1-page · Southampton callout + ‡ footnote captured · done
 - [x] CHECKPOINT: 34/34 tests pass · HMR clean 5:59 PM · checkpoint
+
+## ASCENSION ARC Zone Divider — Apr 20, 2026
+
+- [x] ZD-ASCENSION: ASCENSION ARC · 2026–2036 · THREE OFFICES divider added above bar chart · isPdfMode-gated · done
+- [x] GM7-FINAL: PDF regenerated → 290,685 bytes · 1-page · ASCENSION ARC divider captured (screen-only, PDF-gated) · done
+- [x] CHECKPOINT: 34/34 tests pass · HMR clean 6:05 PM · checkpoint

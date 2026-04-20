@@ -426,6 +426,17 @@ export default function FutureTab() {
           </div>
         </div>
 
+        {/* ── Zone Divider: Ascension Arc ─────────────────────────────────── */}
+        {!isPdfMode && (
+          <div style={{ margin: '10px 0 12px', textAlign: 'center' as const }}>
+            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginBottom: 6 }} />
+            <span style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 2.5, textTransform: 'uppercase' as const, fontWeight: 500 }}>
+              Ascension Arc &middot; 2026&ndash;2036 &middot; Three Offices
+            </span>
+            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginTop: 6 }} />
+          </div>
+        )}
+
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
         <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: CHART_BG, padding: '14px 14px 0', marginBottom: 10 }}>
           {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
