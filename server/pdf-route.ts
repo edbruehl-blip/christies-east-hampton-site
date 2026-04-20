@@ -186,6 +186,11 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
       timeout: 45_000,
     });
 
+    // Activate @media print CSS — REQUIRED for D43 cream palette.
+    // page.pdf() does NOT trigger @media print by default.
+    // This must come AFTER goto() so the page is loaded before media type switches.
+    await page.emulateMediaType('print');
+
     // Wait for all fonts to load — with 5s timeout fallback for restricted networks
     // (conference rooms, flights, offline environments)
     // Puppeteer runs localhost-to-localhost so Google Fonts CDN must be reachable.

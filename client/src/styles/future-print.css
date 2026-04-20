@@ -1,30 +1,34 @@
 /**
- * FUTURE TAB — Print Stylesheet
+ * FUTURE TAB — Print Stylesheet v4
  * Christie's International Real Estate Group East Hampton
- * Spec April 15 2026: Print the FUTURE tab full-scroll exactly as it appears
- * on screen — dark navy #0a1628, gold #c8ac78, all partner cards with live data.
- * No light-mode inversion. window.print() on current tab.
+ * D43 Print Mode Spec — April 20 2026
  *
- * Usage: imported in FutureTab.tsx
- * Hides all dashboard chrome, preserves dark navy/gold exactly as on screen.
+ * v4 changes (Apr 20 2026):
+ *   PF1-v2 · Extend cream palette to every component container
+ *   PF1-v2 · Logo container background inverted to cream
+ *   PF3-v2 · Remove dedicated landscape page — table scales to fit on page 2
+ *   PF4    · DashboardLayout footer banner inverted to cream/charcoal (not dark navy)
+ *
+ * D43 Palette:
+ *   Background:    #f7f6f2  cream
+ *   Border:        #d4d1ca  warm divider
+ *   Text primary:  #28251d  charcoal
+ *   Text secondary:#7a7974  muted
+ *   Accent gold:   #c9a84c  headers, ED TOTAL TAKE, brand marks
+ *   Accent teal:   #01696F  section dividers (optional)
  */
 
 @media print {
   /* ── Page setup ─────────────────────────────────────────────────────────── */
   @page {
-    size: auto;
-    margin: 0.5in;
-    /* Suppress browser chrome: date, URL, page numbers */
-    @top-left { content: none; }
+    size: Letter portrait;
+    margin: 0.45in;
+    @top-left   { content: none; }
     @top-center { content: none; }
-    @top-right { content: none; }
-    @bottom-left { content: none; }
+    @top-right  { content: none; }
+    @bottom-left   { content: none; }
     @bottom-center { content: none; }
-    @bottom-right { content: none; }
-  }
-  /* Show the print-only Christie's logo header */
-  .future-print-header {
-    display: flex !important;
+    @bottom-right  { content: none; }
   }
 
   /* ── Force color printing ────────────────────────────────────────────────── */
@@ -34,8 +38,253 @@
     color-adjust: exact !important;
   }
 
-  /* ── Hide all dashboard chrome ────────────────────────────────────────────────────── */
-  /* Nav, tabs, ticker, social bar, header controls */
+  /* ── Global cream inversion — body and root ─────────────────────────────── */
+  html,
+  body,
+  #root {
+    background: #f7f6f2 !important;
+    color: #28251d !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  /* ── DashboardLayout wrapper ─────────────────────────────────────────────── */
+  /* The outer flex column that wraps sidebar + main content */
+  [class*="dashboard-layout"],
+  [class*="DashboardLayout"],
+  div[style*="display: flex"][style*="min-height"] {
+    background: #f7f6f2 !important;
+  }
+
+  /* ── PF4: DashboardLayout footer banner — invert from dark navy to cream ── */
+  footer,
+  footer[style*="background"],
+  [class*="footer"],
+  [class*="Footer"] {
+    background: #f7f6f2 !important;
+    border-top: 0.5pt solid #c9a84c !important;
+    color: #28251d !important;
+  }
+  footer span,
+  footer div,
+  [class*="footer"] span,
+  [class*="footer"] div {
+    color: #28251d !important;
+  }
+
+  /* ── Main wrapper — cream, no overflow clipping ──────────────────────────── */
+  .future-main-wrapper {
+    background: #f7f6f2 !important;
+    color: #28251d !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    transform: scale(0.90);
+    transform-origin: top left;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* ── Print title line above chart ──────────────────────────────────────── */
+  .future-main-wrapper::before {
+    page-break-after: avoid;
+    break-after: avoid;
+    content: "CHRISTIE'S EAST HAMPTON  \00B7  ASCENSION ARC  \00B7  PARTNERSHIP PROJECTIONS";
+    display: block;
+    font-family: "Barlow Condensed", sans-serif;
+    font-size: 7pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c9a84c;
+    text-align: center;
+    padding-bottom: 6pt;
+    margin-bottom: 8pt;
+    border-bottom: 0.5pt solid #d4d1ca;
+  }
+
+  /* ── PF1-v2: Print header (logo row) ────────────────────────────────────── */
+  .future-print-header {
+    display: flex !important;
+    background: #f7f6f2 !important;
+    border-bottom-color: #d4d1ca !important;
+  }
+  .future-print-header * {
+    color: #28251d !important;
+  }
+
+  /* ── PF1-v2: Ascension Arc chart frame ──────────────────────────────────── */
+  .future-chart-frame {
+    background: #e8e6e2 !important;
+    border-color: #d4d1ca !important;
+    max-height: 180px !important;
+    overflow: hidden !important;
+  }
+  /* Bar labels and year labels inside chart */
+  .future-bar-label,
+  .future-year-label {
+    color: #c9a84c !important;
+  }
+  /* Arc note text */
+  .arc-note-desktop {
+    color: #7a7974 !important;
+  }
+
+  /* ── PF1-v2: 100-Day milestone cards ────────────────────────────────────── */
+  .future-cards-grid {
+    background: transparent !important;
+  }
+  .future-cards-grid > div {
+    background: #f7f6f2 !important;
+    border: 0.5px solid #d4d1ca !important;
+    color: #28251d !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .future-cards-grid > div * {
+    color: #28251d !important;
+  }
+  /* Gold accent elements inside milestone cards */
+  .future-cards-grid [style*="color: rgb(200, 172, 120)"],
+  .future-cards-grid [style*="color:#c8ac78"],
+  .future-cards-grid [style*="color: #c8ac78"] {
+    color: #c9a84c !important;
+  }
+
+  /* ── PF1-v2: Assumptions Block ───────────────────────────────────────────── */
+  .assumptions-block {
+    background: #f7f6f2 !important;
+    border: 0.5px solid #d4d1ca !important;
+    color: #28251d !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .assumptions-block * {
+    color: #28251d !important;
+    background: transparent !important;
+    border-color: #d4d1ca !important;
+  }
+  .assumptions-block table,
+  .assumptions-block .headcount-table {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ── PF3-v2: Headcount Scaling table — NO dedicated landscape page ──────── */
+  /* Remove the landscape page break. Scale the table to fit portrait. */
+  .headcount-landscape-page {
+    page-break-before: auto !important;
+    break-before: auto !important;
+    page: auto !important;
+  }
+  .headcount-table {
+    background: #f7f6f2 !important;
+    overflow: visible !important;
+    width: 100% !important;
+  }
+  .headcount-table th,
+  .headcount-table td {
+    font-size: 5pt !important;
+    padding: 1px 2px !important;
+    white-space: nowrap !important;
+    background: #f7f6f2 !important;
+    color: #28251d !important;
+    border-color: #d4d1ca !important;
+  }
+  .headcount-table thead th {
+    background: #ede9e3 !important;
+    color: #28251d !important;
+  }
+  /* ED TOTAL TAKE row — gold accent */
+  .headcount-table tr[data-row="ed-total"],
+  .headcount-table tr.ed-total-row {
+    background: #f0ece3 !important;
+  }
+  .headcount-table tr[data-row="ed-total"] td,
+  .headcount-table tr.ed-total-row td {
+    color: #c9a84c !important;
+    font-weight: 700 !important;
+  }
+  /* Hide last two columns (Combined Vol, Avg GCI/Prod) to prevent right bleed */
+  .headcount-table th:nth-child(12),
+  .headcount-table th:nth-child(13),
+  .headcount-table td:nth-child(12),
+  .headcount-table td:nth-child(13) {
+    display: none !important;
+  }
+
+  /* ── PF1-v2: Partner cards grid ─────────────────────────────────────────── */
+  .future-participant-grid {
+    margin-top: 0 !important;
+    background: transparent !important;
+  }
+  .future-participant-grid > div {
+    background: #f7f6f2 !important;
+    border: 0.5px solid #d4d1ca !important;
+    color: #28251d !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .future-participant-grid > div * {
+    color: #28251d !important;
+    border-color: #d4d1ca !important;
+  }
+  /* Gold accent elements inside partner cards */
+  .future-participant-grid [style*="color: rgb(200, 172, 120)"],
+  .future-participant-grid [style*="color:#c8ac78"],
+  .future-participant-grid [style*="color: #c8ac78"],
+  .future-participant-grid [style*="color: #c9a84c"] {
+    color: #c9a84c !important;
+  }
+  /* Muted secondary text */
+  .future-participant-grid [style*="color: rgb(180, 170, 155)"],
+  .future-participant-grid [style*="color:#b4aa9b"],
+  .future-participant-grid [style*="color: #b4aa9b"] {
+    color: #7a7974 !important;
+  }
+  /* Card header backgrounds (dark navy on screen) */
+  .future-participant-grid [style*="background: rgb(13, 26, 42)"],
+  .future-participant-grid [style*="background:#0d1a2a"],
+  .future-participant-grid [style*="background: #0d1a2a"],
+  .future-participant-grid [style*="background: rgb(10, 22, 40)"],
+  .future-participant-grid [style*="background:#0a1628"],
+  .future-participant-grid [style*="background: #0a1628"] {
+    background: #ede9e3 !important;
+  }
+
+  /* ── PF1-v2: Gap Bridge footer paragraph ─────────────────────────────────── */
+  /* The "Gap Bridge" text block between headcount table and partner cards */
+  .future-main-wrapper > div[style*="background"],
+  .future-main-wrapper > section[style*="background"] {
+    background: #f7f6f2 !important;
+    color: #28251d !important;
+  }
+
+  /* ── Catch-all: any remaining dark backgrounds inside future-main-wrapper ── */
+  .future-main-wrapper [style*="background: #0a1628"],
+  .future-main-wrapper [style*="background:#0a1628"],
+  .future-main-wrapper [style*="background: rgb(10, 22, 40)"],
+  .future-main-wrapper [style*="background: #0d1a2a"],
+  .future-main-wrapper [style*="background:#0d1a2a"],
+  .future-main-wrapper [style*="background: rgb(13, 26, 42)"],
+  .future-main-wrapper [style*="background: #1a2d4a"],
+  .future-main-wrapper [style*="background:#1a2d4a"],
+  .future-main-wrapper [style*="background: #1B2A4A"],
+  .future-main-wrapper [style*="background:#1B2A4A"] {
+    background: #f7f6f2 !important;
+  }
+
+  /* ── Catch-all: dark text colors that need to stay dark ─────────────────── */
+  /* (These are already dark so no change needed — belt-and-suspenders) */
+
+  /* ── Show the print-only Christie's logo header ──────────────────────────── */
+  .future-print-header {
+    display: flex !important;
+  }
+
+  /* ── Hide all dashboard chrome ───────────────────────────────────────────── */
   header,
   nav,
   [data-tab-bar],
@@ -47,10 +296,8 @@
   .ticker-strip,
   .social-strip,
   .market-data-strip,
-  /* Dashboard header layers */
   [class*="sticky"],
   [class*="fixed"],
-  /* Exact class-name fragments from live DOM (Perp audit Apr 17 2026) */
   [class*="nav-"],
   [class*="NavBar"],
   [class*="ticker"],
@@ -59,203 +306,75 @@
   [class*="tab-bar"],
   [class*="TopBar"],
   [class*="SiteHeader"],
-  /* Sticky/fixed positioned elements that aren't content */
   [style*="position: sticky"],
   [style*="position: fixed"],
   [style*="position:sticky"],
   [style*="position:fixed"],
-  /* Any sign-in prompts (should be gone, but belt-and-suspenders) */
   a[href*="oauth"],
-  a[href*="login"] {
-    display: none !important;
-  }
-
-  /* ── Body and root — keep dark navy background ───────────────────────── */
-  html,
-  body,
-  #root {
-    background: #0a1628 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    min-height: 0 !important;
-    height: auto !important;
-  }
-
-  /* ── Strip min-height: 100vh that causes blank void at bottom of page 2 ── */
-  .future-main-wrapper {
-    min-height: 0 !important;
-  }
-
-  /* ── Kill bottom padding/margin on tab wrapper ──────────────────────────── */
-  [class*="future-tab"],
-  [class*="tab-content"] {
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-    min-height: 0 !important;
-  }
-
-  /* ── Print page title ───────────────────────────────────────────────────── */
-  .future-main-wrapper::before {
-    page-break-after: avoid;
-    break-after: avoid;
-    content: "CHRISTIE'S EAST HAMPTON  \00B7  ASCENSION ARC  \00B7  PARTNERSHIP PROJECTIONS";
-    display: block;
-    font-family: "Barlow Condensed", sans-serif;
-    font-size: 7pt;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(200, 172, 120, 0.7);
-    text-align: center;
-    padding-bottom: 6pt;
-    margin-bottom: 8pt;
-    border-bottom: 0.5pt solid rgba(200, 172, 120, 0.25);
-  }
-
-  /* ── Ensure all content is visible (no overflow clipping) ─────────────── */
-  * {
-    overflow: visible !important;
-  }
-
-  /* ── C1: Partner cards grid ─────────────────────────────── */
-  /* page-break-before: always removed per Perp dispatch Apr 17 2026 — single continuous portrait */
-  .future-participant-grid {
-    margin-top: 0 !important;
-  }
-
-  /* ── C2: Partner card column integrity ──────────────────────────────── */
-  .future-participant-grid > div {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-
-  /* ── PF3: Headcount table landscape page ────────────────────────────── */
-  /* Force the headcount table section onto its own landscape page to prevent
-     the AH Profit column from bleeding off the right edge (PF3 fix Apr 20 2026) */
-  .headcount-landscape-page {
-    page-break-before: always;
-    break-before: page;
-  }
-  @page landscape-page {
-    size: Letter landscape;
-    margin: 0.4in;
-  }
-  .headcount-landscape-page {
-    page: landscape-page;
-    overflow: visible !important;
-  }
-
-  /* ── C3: Headcount table column width ───────────────────────────────── */
-  .headcount-table th,
-  .headcount-table td {
-    font-size: 5.5pt !important;
-    padding: 1px 2px !important;
-    white-space: nowrap !important;
-  }
-
-  /* ── C3b: Hide last two columns (Combined Vol, Avg GCI/Prod) in print if still clipping ── */
-  /* nth-child counts: Year=1 EH=2 SH=3 WH=4 Total=5 EdGCI=6 NamedGCI=7 EngineGCI=8 OfficeGCI=9 AHGCI=10 CombGCI=11 CombVol=12 AvgGCI=13 */
-  .headcount-table th:nth-child(12),
-  .headcount-table th:nth-child(13),
-  .headcount-table td:nth-child(12),
-  .headcount-table td:nth-child(13) {
-    display: none !important;
-  }
-
-  /* ── C4: StaggeredRampChart — hidden from print (removed from screen render) ── */
-  .staggered-ramp-chart,
-  .staggered-ramp-section {
-    display: none !important;
-  }
-
-  /* ── Main content area ───────────────────────────────────────────────────── */
-  .min-h-screen {
-    min-height: unset !important;
-  }
-
-  /* ── FUTURE tab header — keep it, it's the pro forma title ──────────────── */
-  /* The navy header with "Future" headline stays */  /* ── Tables ──────────────────────────────────────────────────────────────────── */
-  table {
-    page-break-inside: auto;
-    border-collapse: collapse !important;
-  }
-
-  tr {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    page-break-after: auto;
-  }
-  /* ── Headcount table: page breaks handled by size: auto ───────────── */
-  /* Removed page-break-inside: avoid per Perp Round 3 dispatch Apr 17 2026 — footnote was pushing to page 2 */
-  .headcount-table {
-    /* page breaks handled by size: auto */
-  } thead {
-    display: table-header-group;
-  }
-
-  /* ── Assumptions Block headcount scaling table — keep together ─────────── */
-  .assumptions-block {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  .assumptions-block table,
-  .assumptions-block .headcount-table {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
-  /* ── Section breaks ──────────────────────────────────────────────────────── */
-  /* Each major section starts on a new page if it doesn't fit */
-  .mb-10 {
-    page-break-inside: avoid;
-  }
-
-  /* ── Chart — reduce max-height so it doesn't consume a full page ─────────── */
-  /* FIX 2: Calibrated to fit chart + 100 Days cards + assumptions block + full headcount table */
-  /* (all 11 rows through 2036) + footnotes + gap bridge paragraph on page 1 at Letter size */
-  .future-chart-frame {
-    max-height: 180px !important;
-    overflow: hidden !important;
-  }
-
-  /* ── Hide INTRO button, OPEN GROWTH MODEL V2 button, and audio/toast elements from print ─── */
-  /* FIX 3: Hide INTRO button (FloatingDashboardIntro has className="no-print" which is already */
-  /* covered by the .no-print rule above, but belt-and-suspenders selectors here too) */
-  /* FIX 4: Hide Sonner audio error toast (ElevenLabs fallback state) from print */
+  a[href*="login"],
   [data-print-hide],
   .future-intro-button,
   .future-growth-model-button,
-  .no-print,
   button[aria-label*="INTRO"],
   button[aria-label*="Growth Model"],
   a[aria-label*="Growth Model"],
   [data-sonner-toaster],
   [data-sonner-toast],
   ol[data-sonner-toaster],
-  li[data-sonner-toast] {
+  li[data-sonner-toast],
+  .staggered-ramp-chart,
+  .staggered-ramp-section {
     display: none !important;
   }
 
-  /* Force page break before Profit Pool and ANEW sections */
-  /* These are the internal-only sections — keep them together */
-  .uppercase.mb-2,
-  .uppercase.mb-3 {
-    page-break-before: auto;
-    page-break-after: avoid;
-  }
-
-  /* ── Shadows → none in print ─────────────────────────────────────────────── */
+  /* ── Ensure all content is visible ──────────────────────────────────────── */
   * {
+    overflow: visible !important;
     box-shadow: none !important;
     text-shadow: none !important;
+  }
+
+  /* ── Tables ──────────────────────────────────────────────────────────────── */
+  table {
+    page-break-inside: auto;
+    border-collapse: collapse !important;
+  }
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+
+  /* ── Kill excess spacing ─────────────────────────────────────────────────── */
+  [class*="future-tab"],
+  [class*="tab-content"] {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    min-height: 0 !important;
+  }
+  .future-main-wrapper,
+  .future-main-wrapper * {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  .min-h-screen {
+    min-height: unset !important;
+  }
+
+  /* ── Section breaks ──────────────────────────────────────────────────────── */
+  .mb-10 {
+    page-break-inside: avoid;
   }
 
   /* ── Links — suppress URL display ───────────────────────────────────────── */
   a[href]::after {
     content: none !important;
   }
-  /* ── Pro forma footer ────────────────────────────────────────────────────────── */
-  /* Static position (not fixed) so it flows with content and renders correctly */
+
+  /* ── Pro forma print footer ──────────────────────────────────────────────── */
   .future-print-footer {
     page-break-after: avoid;
     break-after: avoid;
@@ -264,8 +383,8 @@
     width: 100%;
     margin-top: 12pt;
     padding: 6pt 0 0;
-    border-top: 0.5pt solid rgba(200, 172, 120, 0.4);
-    background: transparent;
+    border-top: 0.5pt solid #c9a84c;
+    background: #f7f6f2 !important;
     font-family: "Barlow Condensed", sans-serif;
     font-size: 7pt;
     letter-spacing: 0.14em;
@@ -274,104 +393,54 @@
     align-items: center;
     page-break-inside: avoid;
     break-inside: avoid;
-  } .future-print-footer .footer-left {
-    color: #c8ac78;
+  }
+  .future-print-footer .footer-left {
+    color: #c9a84c !important;
     font-weight: 600;
   }
-
   .future-print-footer .footer-center {
-    color: rgba(200, 172, 120, 0.65);
+    color: #7a7974 !important;
   }
-
   .future-print-footer .footer-right {
-    color: rgba(200, 172, 120, 0.4);
+    color: #7a7974 !important;
   }
-
-  /* ── Strip excess bottom padding that creates blank page 3 ─────────────── */
-  .future-growth-model-button {
-    display: none !important;
-  }
-
-  /* Strip min-height and padding from the outer wrapper to kill blank footer */
-  [class*="pb-"],
-  [class*="pt-"],
-  [class*="mb-"],
-  [class*="mt-"] {
-    /* Only strip on the outermost wrapper — targeted via specific class */
-  }
-
-  /* Fix right-side bleed: scale 0.88 per Apr 17 dispatch — pulls Combined Vol + Avg GCI/Prod inside margin */
-  .future-main-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-    transform: scale(0.88);
-    transform-origin: top left;
-  }
-
-  /* Kill the large bottom padding on the main content wrapper */
-  /* Fix 2C: prevent any automatic page breaks inside the main wrapper */
-  .future-main-wrapper,
-  .future-main-wrapper * {
-    page-break-inside: avoid;
-    break-inside: avoid;
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* ── Hide footer in screen view ─────────────────────────────────────────── */
 }
 
-/* Screen: hide the print footer */
+/* ── Screen: hide the print footer ──────────────────────────────────────────── */
 @media screen {
   .future-print-footer {
     display: none !important;
   }
 }
 
-/* Mobile: hide the Arc Complete note inside the 2036 bar — too cramped at <768px */
+/* ── Mobile responsive ───────────────────────────────────────────────────────── */
 @media screen and (max-width: 767px) {
   .arc-note-desktop {
     display: none !important;
   }
-
-  /* 4-card grid: 2 columns on mobile */
   .future-cards-grid {
     grid-template-columns: 1fr 1fr !important;
   }
-
-  /* Participant cards: 1 column on mobile */
   .future-participant-grid {
     grid-template-columns: 1fr !important;
   }
-
-  /* Bar dollar labels: smaller on mobile to prevent overflow */
   .future-bar-label {
     font-size: 8px !important;
     white-space: nowrap;
   }
-
-  /* Year strip labels: smaller on mobile */
   .future-year-label {
     font-size: 7px !important;
   }
-
-  /* Chart bars row: tighter gap on mobile */
   .future-bars-row {
     gap: 3px !important;
   }
-
-  /* Chart frame: more top padding so $1.823B label clears the border */
   .future-chart-frame {
     padding-top: 40px !important;
   }
-
-  /* Home page letter right column: center text on mobile */
   .home-letter-col {
     padding: 24px 20px 24px 20px !important;
     text-align: center;
   }
-
   .home-letter-col p,
   .home-letter-col div {
     text-align: left;

@@ -24,14 +24,11 @@
 import { trpc } from '@/lib/trpc';
 import { useState, useEffect, useRef } from 'react';
 
-// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
+// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────────────
+// PF1 fix (April 20, 2026): synchronous URL param read — Puppeteer captures first render
+// before useEffect fires, so async version always returns false on first render.
 function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
+  return typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('pdf') === '1';
 }
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -527,10 +524,11 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
 }
 
 // ─── Page 4: Defensible Numbers ───────────────────────────────────────────────
-function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
+function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
   generatedAt: string;
   activePipelineStr: string;
   exclusiveStr: string;
+  isPdfMode?: boolean;
 }) {
   const defCards = [
     { value: '$4.57M', label: 'Closed Volume', note: 'Verified · First 100 days, office closed' },
@@ -571,13 +569,13 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
         </div>
       </div>
 
-      {/* Contact card */}
-      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: '#1B2A4A', padding: '18px 20px', marginTop: 16 }}>
-        <img src={ED_HEADSHOT} alt="Ed Bruehl" style={{ width: 70, height: 70, objectFit: 'cover', objectPosition: 'top' }} />
+      {/* Contact card — D43 spec: cream palette in PDF mode, navy on screen */}
+      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: isPdfMode ? '#eeecea' : '#1B2A4A', border: isPdfMode ? '1px solid #d4d1ca' : 'none', padding: '18px 20px', marginTop: 16 }}>
+        <img src={ED_HEADSHOT} alt="Ed Bruehl" style={{ width: 70, height: 70, objectFit: 'cover', objectPosition: 'top', border: isPdfMode ? '1px solid #d4d1ca' : 'none' }} />
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 10 }}>Managing Director · Christie's East Hampton</div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.7 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: isPdfMode ? '#28251d' : '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a84c', marginBottom: 10 }}>Managing Director · Christie's East Hampton</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, color: isPdfMode ? '#7a7974' : 'rgba(250,248,244,0.7)', lineHeight: 1.7 }}>
             M: 646.752.1233 · O: 631.771.7004<br />
             edbruehl@christiesrealestategroup.com<br />
             26 Park Place · East Hampton, NY 11937<br />
@@ -735,7 +733,7 @@ export default function ProFormaPage() {
         <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
         <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
-        <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} /></div>
+        <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} isPdfMode={isPdfMode} /></div>
       </div>
     </>
   );

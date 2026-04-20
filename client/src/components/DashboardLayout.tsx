@@ -173,6 +173,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
   const [, navigate] = useLocation();
   const market = useMarketData();
 
+  // PDF mode — synchronous URL param read so first Puppeteer render is already correct
+  const isPdfMode = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('pdf') === '1';
+
   // Ticker content — exact production copy
   const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton\u2002·\u2002Exceptional Service";
 
@@ -204,8 +207,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       {/* ══════════════════════════════════════════════════════════════════
           LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot
           Background: Navy #1B2A4A
+          Hidden in PDF mode (D43 spec: FutureTab renders its own print header)
       ══════════════════════════════════════════════════════════════════ */}
-      <div
+      {!isPdfMode && <div
         className="sticky top-0 z-50"
         style={{ background: "#1B2A4A", borderBottom: "1px solid rgba(200,172,120,0.18)" }}
       >
@@ -463,21 +467,23 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           )}
           {/* Data current as of label removed — Sprint 33 directive */}
         </div>
-      </div>
+      </div>}
 
       {/* ── Main Content Area ── */}
       <main className="flex-1" style={{ overflowX: 'hidden', width: '100%' }}>
         {children}
       </main>
 
-      {/* ── Footer ── */}
-      <footer style={{ background: "#1B2A4A", padding: "12px 24px", marginTop: "auto" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
-          <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#C8AC78" }}>
-            Art. Beauty. Provenance. · Since 1766.
-          </span>
-        </div>
-      </footer>
+      {/* ── Footer — hidden in PDF/print mode (D43 spec: FutureTab renders its own print footer) ── */}
+      {!isPdfMode && (
+        <footer style={{ background: "#1B2A4A", padding: "12px 24px", marginTop: "auto" }}>
+          <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
+            <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#C8AC78" }}>
+              Art. Beauty. Provenance. · Since 1766.
+            </span>
+          </div>
+        </footer>
+      )}
     </div>
   );
 }
