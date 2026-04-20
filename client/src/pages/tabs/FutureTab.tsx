@@ -642,7 +642,7 @@ export default function FutureTab() {
           </div>
 
           {/* Headcount Scaling Table — wrapped in headcount-landscape-page for PF3 landscape print */}
-          <div className="headcount-landscape-page">
+          <div className="headcount-landscape-page" style={{ marginTop: 24 }}>
           <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
