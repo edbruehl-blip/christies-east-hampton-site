@@ -456,7 +456,7 @@ export default function FutureTab() {
               return (
                 <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
                   {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
-                  <div style={{ width: '100%', height: `${projPct}%`, minHeight: '4%', display: 'flex', flexDirection: 'column' }}>
+                  <div style={{ width: '100%', height: `${projPct}%`, minHeight: 12, display: 'flex', flexDirection: 'column' }}>
                     {isBaseline ? (
                       /* 2025 baseline — simple dim bar */
                       <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
@@ -518,10 +518,28 @@ export default function FutureTab() {
           </div>
 
           {/* Year strip */}
-          <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 10px' }}>
+          <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 6px' }}>
             {BARS.map(b => b.year).map(yr => (
               <div key={yr} className="future-year-label" style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
             ))}
+          </div>
+
+          {/* Milestone callout row — Southampton 2028 · Westhampton 2030 */}
+          <div style={{ display: 'flex', gap: 8, paddingBottom: 10 }}>
+            {BARS.map((bar) => {
+              const isSH = bar.year === '2028';
+              const isWH = bar.year === '2030';
+              if (!isSH && !isWH) return <div key={bar.year} style={{ flex: 1 }} />;
+              return (
+                <div key={bar.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                  <div style={{ width: '80%', borderTop: `0.5px solid rgba(248,245,240,0.45)` }} />
+                  <span style={{ ...SANS, fontSize: 7, color: 'rgba(248,245,240,0.70)', letterSpacing: 1.8, textTransform: 'uppercase' as const, textAlign: 'center' as const, lineHeight: 1.3 }}>
+                    {isSH ? 'Southampton\nopens' : 'Westhampton\nopens'}
+                  </span>
+                  <div style={{ width: '80%', borderTop: `0.5px solid rgba(248,245,240,0.45)` }} />
+                </div>
+              );
+            })}
           </div>
         </div>
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
@@ -900,7 +918,8 @@ export default function FutureTab() {
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 10, paddingTop: 6, borderTop: `0.5px solid ${CHARCOAL}`, gap: 10 }}>
           <div style={{ ...SANS, fontSize: 6.5, color: DIM, fontStyle: 'italic', lineHeight: 1.6, flex: '1 1 100%', width: '100%', minWidth: 0 }}>
             * Governing principle &middot; not yet contractual &middot; Net pool = GCI (vol&times;2%) minus 5% franchise royalty minus 70% agent splits minus overhead &middot; Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (D40.5 inside Ed&rsquo;s 35% side) &middot; Ilija 65% &middot; D40 holds two parties at the pool &middot; AnewHomes splits: Jarvis 5% &middot; Angel 5% &middot; Zoila 5% &middot; Pool 5% (D23) &middot; Actuals update per closing via Perplexity &rarr; Growth Model v2 &rarr; dashboard live &middot; PDF = html2pdf snapshot of live screen &middot; Ed Keep Formula: Gross GCI less 5% brand royalty, less 25% Ilija franchise share, less 5% ICA overrides to team &middot; Principal structure, not standard agent split<br />
-            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning May 4, 2026 &middot; vesting cliff November 4, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%
+            &dagger; Zoila AnewHomes 5% in 6-month vesting period beginning May 4, 2026 &middot; vesting cliff November 4, 2026 &middot; activates 2027 forward &middot; AnewHomes split: Ed 35% &middot; Scott 35% &middot; Richard 10% &middot; Jarvis 5% &middot; Angel 5% &middot; Zoila 5% vesting &middot; Pool 5%<br />
+            &Dagger; CPS-1 Pipeline &mdash; Ed-sourced developer pipeline through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. Projected $100K 2026 ramping to $1.5M cap by 2029&ndash;2030, then 2% annual growth. Visibility line &mdash; already flows through Flagship ICA and NOP pool, not additive to listed streams.
           </div>
           <div style={{ ...SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap' }}>
             The foundation is proven. The model is working. The next 14 days set the trajectory.

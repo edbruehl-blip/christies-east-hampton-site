@@ -2238,3 +2238,16 @@
 - [x] IL-2: iliNop now uses 0.65 constant → 2036 $7.41M → $7.4M display · ties partner card · Perp signed off
 - [x] GM7: PDF regenerated → 1 page, 287955 bytes, white bg, three-zone layout confirmed in render · done
 - [x] IL-3: All three surfaces tie at $7.4M · 34/34 tests pass · checkpoint
+
+## Arc Chart Visual Fixes — Apr 20, 2026
+
+- [ ] ARC-1: Add minimum 10-12px bar height for early-year bars (2025 $20M, 2026 $75M) — scale stays truthful, bars stay visible
+- [ ] ARC-2: Add "Southampton opens" cream callout annotation at 2028 column — same styling as existing Westhampton annotation (thin cream rule, 8pt letterspaced caption)
+- [ ] ARC-3: Verify HMR clean, run tests, checkpoint, publish
+
+## Arc Chart + CPS-1 Footnote — Apr 20, 2026
+
+- [x] ARC-1: minHeight: 12 on bar wrapper · 2025 bar floor 12px regardless of scale · done
+- [x] ARC-2: Milestone callout row added below year strip · 2028 Southampton + 2030 Westhampton · cream rule above+below · 8pt letterspaced uppercase · done
+- [x] CPS1-FN: ‡ CPS-1 Pipeline footnote added to footer · Ed-sourced pipeline, UHNW buyers, $100K→$1.5M cap→+2%/yr, visibility line not additive · done
+- [x] ARC-3: 34/34 tests pass · HMR clean 5:47 PM · checkpoint
