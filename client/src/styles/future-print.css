@@ -244,14 +244,48 @@
   .future-participant-grid [style*="color: #b4aa9b"] {
     color: #7a7974 !important;
   }
-  /* Card header backgrounds (dark navy on screen) */
+  /* Card header backgrounds (dark navy on screen) — all known NAVY_CARD values */
   .future-participant-grid [style*="background: rgb(13, 26, 42)"],
   .future-participant-grid [style*="background:#0d1a2a"],
   .future-participant-grid [style*="background: #0d1a2a"],
   .future-participant-grid [style*="background: rgb(10, 22, 40)"],
   .future-participant-grid [style*="background:#0a1628"],
-  .future-participant-grid [style*="background: #0a1628"] {
+  .future-participant-grid [style*="background: #0a1628"],
+  .future-participant-grid [style*="background: rgb(13, 30, 51)"],
+  .future-participant-grid [style*="background:#0d1e33"],
+  .future-participant-grid [style*="background: #0d1e33"],
+  .future-participant-grid [style*="background: #1B2A4A"],
+  .future-participant-grid [style*="background:#1B2A4A"] {
     background: #ede9e3 !important;
+  }
+  /* Broad catch-all: any inline background on partner card children */
+  .future-participant-grid [style*="background"] {
+    background: #faf8f4 !important;
+    border: 1px solid rgba(200, 172, 120, 0.4) !important;
+  }
+  /* Restore the outer card border after broad catch-all */
+  .future-participant-grid > div {
+    background: #f7f6f2 !important;
+    border: 0.5px solid #d4d1ca !important;
+  }
+  /* ── URGENT PF-PAGE3: Partner card inner divs — navy-on-navy fix ─────────── */
+  /* Target inner div containers that carry the dark CARD_BG inline style */
+  .future-participant-grid > div > div {
+    background: #faf8f4 !important;
+    border: 1px solid rgba(200, 172, 120, 0.4) !important;
+    color: #384249 !important;
+  }
+  /* All text inside partner cards defaults to charcoal */
+  .future-participant-grid * {
+    color: #384249 !important;
+  }
+  /* Gold accent — restore gold for name headers and key figures */
+  .future-participant-grid [style*="rgb(200, 172, 120)"],
+  .future-participant-grid [style*="#c8ac78"],
+  .future-participant-grid [style*="#C8AC78"],
+  .future-participant-grid [style*="#c9a84c"],
+  .future-participant-grid [style*="#C9A84C"] {
+    color: #c8ac78 !important;
   }
 
   /* ── PF1-v2: Gap Bridge footer paragraph ─────────────────────────────────── */
@@ -272,7 +306,10 @@
   .future-main-wrapper [style*="background: #1a2d4a"],
   .future-main-wrapper [style*="background:#1a2d4a"],
   .future-main-wrapper [style*="background: #1B2A4A"],
-  .future-main-wrapper [style*="background:#1B2A4A"] {
+  .future-main-wrapper [style*="background:#1B2A4A"],
+  .future-main-wrapper [style*="background: #0d1e33"],
+  .future-main-wrapper [style*="background:#0d1e33"],
+  .future-main-wrapper [style*="background: rgb(13, 30, 51)"] {
     background: #f7f6f2 !important;
   }
 
