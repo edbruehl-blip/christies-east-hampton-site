@@ -2194,3 +2194,7 @@
 
 - [ ] PF7: Pro Forma consolidation — before April 29
 - [ ] L11: Password gate rotation — Sunday April 27
+
+## CPS-1 Curve Update — April 20, 2026
+
+- [x] CPS-1: Updated all 5 partner cards (Ed, Ilija, Angel, Jarvis, Zoila) — curve values $100K/$250K/$500K/$1.69M tagged (incl. above) · Apr 20 2026

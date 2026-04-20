@@ -738,7 +738,7 @@ export default function FutureTab() {
                   livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '$7.43M',
                 ], act: null },
                 { label: 'CIREG 25% Ed Gross (incl. above)', proj: ['$150K','$180K','$216K','$929K'], act: null }, // 25% of Ed personal GCI · franchise traceback · incl. in pool above · Perp Apr 20 2026
-                { label: 'CPS-1 contribution (incl.)', proj: ['incl.','incl.','incl.','incl.'], act: null }, // visibility line only · not additive
+                { label: 'CPS-1 (incl. above)', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -783,7 +783,7 @@ export default function FutureTab() {
                 ], act: null }, // 70% of gross · after team overrides paid · Ed ruling Apr 16 2026
                 { label: 'CIREG Profit 29.75%', proj: ['$52K','$128K','$287K','$3.39M'], act: null }, // 29.75% of NOP · Perp sheet confirmed Apr 20 2026 · NOP: $175K/$430K/$965K/$11.4M
                 { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base
-                { label: 'CPS-1 contribution (incl.)', proj: ['incl.','incl.','incl.','incl.'], act: null }, // visibility line only · not additive
+                { label: 'CPS-1 (incl. above)', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -833,7 +833,7 @@ export default function FutureTab() {
                 { label: 'AnewHomes 5% *',         vals: ['$2,500','$7.5K','$8,438','$21,649'] }, // Y1 vested · 12.5% growth from $50K NOP base
                 { label: 'ICA Override (5% Ed gross, always-on through 2036)', vals: ['$30K','$36K','$43.2K','$186K'] }, // 5% of Ed gross GCI · always-on · Angel in Ed's lane on every deal · Ed ruling Apr 16 2026
                 { label: 'CIREG Profit 1.75% *',   vals: ['$3K','$8K','$17K','$200K'] }, // 1.75% of NOP · Perp sheet confirmed Apr 20 2026 · NOP: $175K/$430K/$965K/$11.4M
-                { label: 'CPS-1 contribution (incl.)', vals: ['incl.','incl.','incl.','incl.'] }, // visibility line only · not additive
+                { label: 'CPS-1 (incl. above)',                vals: ['$100K','$250K','$500K','$1.69M'] }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -876,7 +876,7 @@ export default function FutureTab() {
                 { label: 'AnewHomes 5%', proj: ['$2,500','$7,500','$8,438','$21,649'], act: null }, // 12.5% growth from $50K NOP base
                 { label: 'ICA Override (5% Ed gross, always-on through 2036)', proj: ['$30K','$36K','$43.2K','$186K'], act: null }, // always-on · 5% of Ed gross GCI · Jarvis in Ed's lane · dispatch Apr 20 2026
                 { label: 'CIREG Profit 1.75% *', proj: ['$3K','$8K','$17K','$200K'], act: null }, // 1.75% of NOP · Perp sheet confirmed Apr 20 2026 · NOP: $175K/$430K/$965K/$11.4M
-                { label: 'CPS-1 contribution (incl.)', proj: ['incl.','incl.','incl.','incl.'], act: null }, // visibility line only · not additive
+                { label: 'CPS-1 (incl. above)', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -917,7 +917,7 @@ export default function FutureTab() {
                 { label: 'AnewHomes 5% (vesting cliff Nov 4 2026) †', vals: ['$0 vest','$7.5K','$8,438','$21,649'] }, // activates 2027 forward
                 { label: 'ICA Override (2026 + Q1 2027 only) †',     vals: ['$30K','$9K','—','—'] }, // 2026=$30K (full yr) · Q1 2027=$9K ($36K×25%) · exits once producing own book
                 { label: 'CIREG Profit 1.75% (same vesting) †',      vals: ['$0 vest','$8K','$17K','$200K'] }, // 1.75% of NOP · vesting cliff Nov 4 2026 · activates 2027 · Perp sheet confirmed Apr 20 2026
-                { label: 'CPS-1 contribution (incl.)',                vals: ['incl.','incl.','incl.','incl.'] }, // visibility line only · not additive
+                { label: 'CPS-1 (incl. above)',                vals: ['$100K','$250K','$500K','$1.69M'] }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
