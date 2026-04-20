@@ -2156,3 +2156,10 @@
 - [x] ILIJA-1: Ilija Pavlovic surname fix — 7 instances corrected across InstitutionalMindMap.tsx, pdf-exports.ts, FutureTab.tsx, letter-content.ts
 - [x] G6: OperatorControlPanel.tsx — placed on FUTURE tab between Arc chart legend and Assumptions Block; canonical defaults verified ($3.00B / $6.51M / $37.4M)
 - [ ] ASSUMP-1: Verify Assumptions Block Lines 9-12 render correctly after Perplexity pushes PDF
+
+## Proforma PDF Fixes (FUTURE tab Puppeteer render only)
+- [ ] PF1: Fix @media print stylesheet — Puppeteer must render cream palette (#f7f6f2 bg, #28251d text, #01696F/#c9a84c headers)
+- [ ] PF2: Swap logo to black PNG (https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png) in print/cream mode
+- [ ] PF3: Fix Headcount Scaling table right-edge clipping — force landscape or reduce column set for print
+- [ ] PF4: Add page-break-before CSS so partner cards flow naturally (no whitespace gap before footer) [Tuesday]
+- [ ] PF5: Three distinct office colors in Ascension Arc — EH #c8ac78, SH deeper bronze, WH charcoal [Tuesday]

@@ -14,15 +14,17 @@ import OperatorControlPanel from '@/components/OperatorControlPanel';
 
 // ─── PDF mode detection ─────────────────────────────────────────────────────
 // When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
-// for institutional print quality (dark text on white background).
-// Dashboard screen stays dark navy. PDF export inverts to light.
+// for institutional print quality (dark text on cream background per D43 spec).
+// Dashboard screen stays dark navy. PDF export inverts to cream/charcoal.
+// CRITICAL: Must be synchronous (not useEffect) so Puppeteer captures cream
+// palette on the very first render — useEffect fires after paint, too late.
 function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
+  // Read synchronously from URL — safe because window is always defined in browser
+  // and Puppeteer navigates to the full URL before React hydrates.
+  if (typeof window !== 'undefined') {
+    return new URLSearchParams(window.location.search).get('pdf') === '1';
+  }
+  return false;
 }
 
 // ─── Design tokens (match wireframe exactly) ─────────────────────────────────
@@ -113,7 +115,8 @@ const CHART_HEIGHT = 160; // px — the bars ROW container height (desktop)
 
 function fmtM(n: number): string {
   if (n >= 1_000_000_000) return `$${(n / 1_000_000_000).toFixed(1)}B`; // $1.8B, $1.5B etc.
-  if (n >= 1_000_000) return `$${Math.round(n / 1_000_000)}M`;           // $939M, $799M etc.
+  if (n >= 20_000_000) return `$${Math.round(n / 1_000_000)}M`;          // $939M, $799M etc. — whole number for large values
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;          // $7.4M, $6.8M etc. — one decimal for partner card precision
   if (n >= 1_000) return `$${Math.round(n / 1_000)}K`;
   return `$${n.toLocaleString()}`;
 }
@@ -147,12 +150,12 @@ export default function FutureTab() {
   const isPdfMode = useIsPdfMode();
 
   // PDF light-mode color overrides — dark text on white background for institutional print
-  const PDF_BG       = '#ffffff';
-  const PDF_CARD_BG  = '#f8f6f2';
-  const PDF_CHART_BG = '#f4f2ee';
-  const PDF_TEXT     = '#1a2a3a';
-  const PDF_MUTED    = '#4a5568';
-  const PDF_BORDER   = 'rgba(200,172,120,0.5)';
+  const PDF_BG       = '#f7f6f2'; // D43 cream — institutional print background
+  const PDF_CARD_BG  = '#eeecea'; // D43 card surface — slightly deeper cream
+  const PDF_CHART_BG = '#e8e6e2'; // D43 chart frame — warm off-white
+  const PDF_TEXT     = '#28251d'; // D43 charcoal — primary text
+  const PDF_MUTED    = '#5a5650'; // D43 muted — secondary labels
+  const PDF_BORDER   = 'rgba(200,172,120,0.5)'; // gold divider — unchanged
 
   // Dynamic tokens — screen uses dark navy, PDF uses light paper
   const BG       = isPdfMode ? PDF_BG       : NAVY;
@@ -638,7 +641,8 @@ export default function FutureTab() {
             ))}
           </div>
 
-          {/* Headcount Scaling Table */}
+          {/* Headcount Scaling Table — wrapped in headcount-landscape-page for PF3 landscape print */}
+          <div className="headcount-landscape-page">
           <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1, textTransform: 'uppercase' as const, fontWeight: 600, marginBottom: 6 }}>
             Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
           </div>
@@ -691,6 +695,7 @@ export default function FutureTab() {
           <div style={{ ...SANS, fontSize: 6.5, color: TEXT_MUTED, fontStyle: 'italic', marginBottom: 8, lineHeight: 1.5 }}>
             12 elite producers per office &middot; Cap intentional &middot; $500K Y1 &rarr; $750K Y2 &rarr; $1M Y3 &rarr; 2% annual appreciation &middot; 50% entry-year credit on mid-year starts &middot; Recruiting engine dormant 2031
           </div>
+          </div> {/* end headcount-landscape-page */}
 
 
 
@@ -775,7 +780,6 @@ export default function FutureTab() {
                   EQ1_NET[2028],
                   EQ1_NET[2036],
                 ], act: null },
-                { label: 'Projected 2026',  proj: null, act: [EQ1_NET[2026] + ' \u2191','—','—','—'] },
                 { label: 'Net pool 35% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.edPool) : '—',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.edPool) : '—',
