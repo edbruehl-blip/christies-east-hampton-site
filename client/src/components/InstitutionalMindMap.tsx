@@ -34,7 +34,7 @@
  *
  * BELOW ED (in order):
  *   FLAGSHIP TEAM · EAST HAMPTON OFFICE · FAMILY & FRIENDS
- *   WHALE INTELLIGENCE · ATTORNEYS · RECRUITING · ANEW HOMES
+ *   WHALE INTELLIGENCE · ATTORNEYS · RECRUITING · AnewHomes
  *   MEDIA (with PODCAST as second-ring) · RELATIONSHIP INTELLIGENCE
  *   INTEL LIBRARY · EXPORTS · PERPLEXITY · RESOURCES
  * ─────────────────────────────────────────────────────────────────────────────
@@ -235,12 +235,12 @@ const NODES: MapNode[] = [
   // ══════════════════════════════════════════════════════════════════════════
 
   { id: "competitors_node",
-    name: "COMPETITORS",
-    title: "Compass · Sotheby's · Corcoran · Brown Harris · Elliman",
+    name: "MARKET INTELLIGENCE",
+    title: "East End Competitive Landscape · Internal Only",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Primary competitive landscape on the East End. Compass: largest agent count, Anywhere merger exposure. Sotheby's International Realty: luxury brand competitor. Corcoran: Hamptons market share. Brown Harris Stevens: legacy East End presence. Douglas Elliman: volume player. Perplexity monitors weekly for broker intelligence.",
+    note: "Internal market intelligence node. Tracks the East End competitive landscape for strategic positioning. Perplexity monitors weekly for broker intelligence, market share shifts, and recruiting signals. Internal use only — no competitor names on public surfaces.",
     x: 1240, y: 900, r: R,
-    members: ["Compass", "Sotheby's IR", "Corcoran", "Brown Harris Stevens", "Douglas Elliman"],
+    members: ["East End Competitive Landscape", "Broker Intelligence — Perplexity Weekly", "Market Share Tracking", "Recruiting Signals"],
     rw: R, rh: R },
 
   // ══════════════════════════════════════════════════════════════════════════
@@ -309,11 +309,11 @@ const NODES: MapNode[] = [
 
   // ══════════════════════════════════════════════════════════════════════════
   // BELOW ED — Row 3 (y:1480)
-  // ANEW HOMES · MEDIA (with PODCAST second-ring) · RELATIONSHIP INTELLIGENCE
+  // AnewHomes · MEDIA (with PODCAST second-ring) · RELATIONSHIP INTELLIGENCE
   // ══════════════════════════════════════════════════════════════════════════
 
   { id: "anew_homes",
-    name: "ANEW HOMES",
+    name: "AnewHomes",
     title: "New Construction Division · Three Active Deals",
     type: "CATEGORY", status: "ACTIVE",
     note: "New construction division. Three active deals: 140 Hands Creek Road $3.3M land / $9.9M exit — Lily Fan anchor. 9 Daniels Hole proof of concept $2.47M CLOSED. 2 Old Hollow $2.1M CLOSED. Calculator link inside — tapping opens MAPS CIS calculator directly. Richard Bruehl holds 10% equity as Strategic Mentor.",
@@ -359,17 +359,18 @@ const NODES: MapNode[] = [
   // INTEL LIBRARY · PERPLEXITY · WILLIAM (D25+D34 resurrected · D49 amended)
   // ════════════════════════════════════════════════════════════════════════════
 
-  // D25 + D34 resurrected Apr 19 2026 · D49 amended: Audio + PDF Active
-  // William = the voice of the flagship letter. AUDIO button on HOME plays the letter.
-  // PDF button on HOME opens the printable flagship letter. One surface, one letter.
+  // D25 + D34 resurrected Apr 19 2026 · D49 amended: Bounded-surface form Apr 20 2026
+  // William = one floating audio button on HOME for the institutional intro letter.
+  // WhatsApp keywords NEWS, LETTER, FLAGSHIP, BRIEF retired April 20 2026.
+  // WhatsApp-layer code and routes retired. One surface. One letter. One voice.
   { id: "william_node",
     name: "WILLIAM",
-    title: "Voice of the Flagship Letter · Audio + PDF Active",
+    title: "Voice of the Flagship Letter · HOME Floating Audio Active",
     type: "CATEGORY", status: "ACTIVE",
-    note: "William is the voice of the flagship letter — the ElevenLabs TTS voice that reads Ed's founding letter aloud. D49 amended: Audio + PDF Active. The AUDIO button on HOME plays the full institutional letter. The PDF button opens the printable version. Both pull from the same source (letter-content.ts) and update together on every deploy. One surface. One letter. One voice.",
+    note: "William is the voice of the flagship letter — one floating audio button on HOME for the institutional intro letter. D34 amended to bounded-surface form Apr 20 2026. D49 amended: HOME Floating Audio Active. WhatsApp keywords NEWS, LETTER, FLAGSHIP, BRIEF retired April 20 2026. WhatsApp-layer code and routes retired. PDF export active. Source: letter-content.ts. One surface. One letter. One voice.",
     x: 1080, y: 1680, r: R,
-    members: ["AUDIO button — HOME tab", "PDF button — HOME tab", "Source: letter-content.ts", "D25 + D34 resurrected · D49 amended"],
-    clickAction: { type: "toast", message: "William: Voice of the Flagship Letter · Audio + PDF Active · D49 amended" } },
+    members: ["HOME floating audio button — institutional intro letter", "PDF button — HOME tab", "Source: letter-content.ts", "WhatsApp keywords retired Apr 20 2026", "D34 bounded-surface form · D49 amended"],
+    clickAction: { type: "toast", message: "William: HOME Floating Audio Active · WhatsApp keywords retired Apr 20 2026 · D49 amended" } },
 
   { id: "intel_library", name: "INTEL LIBRARY",
     title: "Thirteen Sheets · Hamptons Intelligence Archive",

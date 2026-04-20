@@ -1487,7 +1487,7 @@ function Section5() {
                 marginBottom: 8,
               }}
             >
-              ANEW Homes · Ed Bruehl
+              AnewHomes · Ed Bruehl
             </div>
             <div
               style={{

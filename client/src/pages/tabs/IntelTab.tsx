@@ -787,12 +787,74 @@ function IntelligenceWebLayer() {
   );
 }
 
+// ─── CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) ──────────────
+// Embedded below Calendar section per v5 Round 2 dispatch.
+// Source: eds_corkboard_v2.html — uploaded to CDN Apr 20 2026.
+
+function CorkboardLayer() {
+  const CORKBOARD_URL = '/manus-storage/eds_corkboard_v2_591571f9.html';
+  return (
+    <div style={{ background: '#FAF8F4', padding: '0 0 32px 0' }}>
+      {/* Layer label */}
+      <div style={{ maxWidth: 'var(--frame-max-w, 1200px)', margin: '0 auto', padding: '32px 24px 16px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+              Corkboard · Day One
+            </div>
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
+              Ed's Corkboard v2
+            </h3>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(56,66,73,0.65)', fontSize: '0.78rem', marginTop: 4 }}>
+              Day One orientation · Key Relationships · First-name-only Ilija
+            </p>
+          </div>
+          <a
+            href={CORKBOARD_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 10,
+              letterSpacing: '0.16em',
+              textTransform: 'uppercase' as const,
+              color: '#C8AC78',
+              border: '1px solid rgba(200,172,120,0.4)',
+              borderRadius: 3,
+              padding: '6px 14px',
+              textDecoration: 'none',
+              whiteSpace: 'nowrap' as const,
+            }}
+          >
+            Open / Print ↗
+          </a>
+        </div>
+      </div>
+      {/* Full-width iframe embed */}
+      <div style={{ width: '100%', background: '#f8f4ed' }}>
+        <iframe
+          src={CORKBOARD_URL}
+          title="Ed's Corkboard v2 · Day One"
+          style={{
+            width: '100%',
+            height: 680,
+            border: 'none',
+            display: 'block',
+          }}
+          sandbox="allow-same-origin allow-scripts"
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Sticky Section Navigator ─────────────────────────────────────────────────
 
 const INTEL_SECTIONS = [
   { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
   { id: 'intel-layer-2', label: 'Layer 2 · Trello Board' },
   { id: 'intel-layer-3', label: 'Layer 3 · Calendar' },
+  { id: 'intel-layer-corkboard', label: 'Corkboard · Day One' },
   { id: 'intel-layer-4', label: 'Layer 4 · Thirteen Sheets' },
   { id: 'intel-layer-5', label: 'Layer 5 · Documents' },
   { id: 'intel-layer-6', label: 'Layer 6 · Intel Web' },
@@ -887,6 +949,12 @@ export default function IntelTab() {
       {/* Layer 3 — Master Calendar */}
       <div id="intel-layer-3" />
       <CalendarLayer />
+
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
+
+      {/* CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) */}
+      <div id="intel-layer-corkboard" />
+      <CorkboardLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
