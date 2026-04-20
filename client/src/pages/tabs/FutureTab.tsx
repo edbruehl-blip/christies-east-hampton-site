@@ -10,6 +10,7 @@ import React, { useMemo, useRef, useState, useEffect } from 'react';
 import { LOGO_WHITE, LOGO_BLACK } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
+import OperatorControlPanel from '@/components/OperatorControlPanel';
 
 // ─── PDF mode detection ─────────────────────────────────────────────────────
 // When Puppeteer navigates with ?pdf=1, the page switches to light-mode styles
@@ -600,6 +601,9 @@ export default function FutureTab() {
           All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
 
+        {/* ── G6 Operator Control Panel ────────────────────────────────────── */}
+        {!isPdfMode && <OperatorControlPanel />}
+
         {/* ── Assumptions Block ─────────────────────────────────────────────── */}
         <div style={{
           background: CARD_BG,
@@ -707,7 +711,7 @@ export default function FutureTab() {
           <div>
             {/* Ilija */}
             <div style={{ ...cardStyle, marginBottom: 7 }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovich</div>
+              <div style={{ ...SANS, fontSize: 9, color: GOLD, fontWeight: 500, marginBottom: 1 }}>Ilija Pavlovic</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 2 }}>Franchise Principal &middot; CIREG Tri-State</div>
               <div style={{ ...SANS, fontSize: 6.5, color: MUTED, marginBottom: 5, fontStyle: 'italic' }}>9 by year-end 2026, scaling to 36 by 2031</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>

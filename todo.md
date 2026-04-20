@@ -2151,3 +2151,8 @@
 
 ### CORK1 (v5 Round 2)
 - [x] CORK1: Embed eds_corkboard_v2.html on INTEL tab below Calendar section (iframe, full-width, print link)
+
+## Monday April 20 — Three Priority Items (End of Day)
+- [x] ILIJA-1: Ilija Pavlovic surname fix — 7 instances corrected across InstitutionalMindMap.tsx, pdf-exports.ts, FutureTab.tsx, letter-content.ts
+- [x] G6: OperatorControlPanel.tsx — placed on FUTURE tab between Arc chart legend and Assumptions Block; canonical defaults verified ($3.00B / $6.51M / $37.4M)
+- [ ] ASSUMP-1: Verify Assumptions Block Lines 9-12 render correctly after Perplexity pushes PDF
