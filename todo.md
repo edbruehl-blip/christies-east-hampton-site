@@ -2171,3 +2171,12 @@
 - [x] PF-PAGE3 partner card cream inversion — added .future-participant-grid > div > div rules, #0d1e33 to catch-all
 - [x] ProFormaPage.tsx useIsPdfMode fixed to synchronous URL param read (no useEffect)
 - [x] DashboardLayout header hidden in PDF mode via isPdfMode guard
+
+## FUTURE Tab PDF Rebuild — April 20, 2026 (Awaiting Perp math confirmation)
+
+- [x] Build 1: One-page PDF layout — kill three-page split, one continuous page matching live screen
+- [x] Build 2: Remove Assumptions block and Operator Control Panel from PDF only (keep on live page)
+- [x] Build 3: Partner card rebuild — uniform structure, correct streams per person (7 cards)
+- [x] Build 4: Ed personal net row reconcile — replace office-wide agent payouts with Ed actual net
+- [x] Build 5: Kill Ilija subtitle "9 by year-end 2026, scaling to 36 by 2031" from PDF
+- [x] Build 6: Doctrine confirmation — competitor names stay, Christie's brand strip stays, date stamp updates

@@ -21,7 +21,9 @@ const EH_VOL = [75.0, 126.0, 285.0, 385.0, 608.0, 779.0, 811.0, 853.0, 907.0, 97
 const SH_VOL = [0, 0, 76.0, 237.0, 515.0, 742.0, 779.0, 815.0, 873.0, 931.0, 1000.0];
 // WH: launches 2030 (index 4) · 6→12 seats · same per-seat engine · matures 2032 · values in $M
 const WH_VOL = [0, 0, 0, 0, 147.0, 460.0, 660.0, 782.0, 839.0, 895.0, 963.0];
-const ED_PERSONAL_GROSS = [0.600, 1.800, 2.000, 2.200, 2.400, 2.600, 2.800, 3.000, 3.200, 3.400, 3.600];
+// Build 4: Ed personal GCI · $600K base · 20% compound · 11 years 2026-2036 · Perp confirmed Apr 20 2026
+// Matches partner card exactly: 2026=$600K 2027=$720K 2028=$864K ... 2036=$3.715M
+const ED_PERSONAL_GROSS = [0.600, 0.720, 0.864, 1.037, 1.244, 1.493, 1.792, 2.150, 2.580, 3.096, 3.715];
 const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
 const GOLD = '#c8ac78';
 
@@ -103,7 +105,7 @@ export default function OperatorControlPanel() {
     { label: 'NOP pool', data: calc.nop, accent: true },
     { label: `Ed NOP share (${edShare}%)`, data: calc.edNop },
     { label: `Ilija NOP share (${100 - edShare}%)`, data: calc.iliNop },
-    { label: 'Ed personal net (70% of gross)', data: calc.edNetPers },
+    { label: 'Ed net personal prod (70% of gross GCI)', data: calc.edNetPers }, // Build 4: matches partner card exactly · Perp Apr 20 2026
     { label: 'ED TOTAL TAKE', data: calc.edTotal, accent: true, gold: true },
   ];
 

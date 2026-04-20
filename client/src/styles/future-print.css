@@ -24,7 +24,7 @@
 @media print {
   /* ── Page setup — tight margins for dense one-page layout ─────────────── */
   @page {
-    size: Letter landscape;
+    size: auto; /* Puppeteer controls page dimensions for one-continuous-page output */
     margin: 0.3in 0.35in;
     @top-left   { content: none; }
     @top-center { content: none; }
@@ -216,7 +216,14 @@
     color: #7a7974 !important;
   }
 
-  /* ── Assumptions Block ────────────────────────────────────────────────── */
+  /* ── Build 2: Hide Assumptions block and Operator Control Panel from PDF ── */
+  /* Both stay on the live screen; removed from print per dispatch Apr 20 2026 */
+  .future-assumptions-block,
+  section[aria-label="Operator Control Panel"] {
+    display: none !important;
+  }
+
+  /* ── Assumptions Block (legacy selector kept for compat) ────────────── */
   .assumptions-block,
   .future-main-wrapper > div[style*="background"] {
     background: #f7f6f2 !important;

@@ -18,7 +18,7 @@ const browser = await puppeteer.launch({
 });
 
 const page = await browser.newPage();
-// Wide viewport to match the live screen layout
+// Standard viewport width, tall enough to render all content without scroll
 await page.setViewport({ width: 1440, height: 900 });
 
 // Navigate to /future WITHOUT ?pdf=1 — same as what window.print() sees
@@ -36,14 +36,23 @@ await page.emulateMediaType('print');
 await new Promise(r => setTimeout(r, 1500));
 
 // Measure the full content height after print styles are applied
+// Use offsetTop + offsetHeight of the last child of body to get true document height
 const contentHeight = await page.evaluate(() => {
-  // Get the future-main-wrapper height (the actual content)
-  const wrapper = document.querySelector('.future-main-wrapper');
-  if (wrapper) {
-    return wrapper.scrollHeight + 120; // add margin buffer
-  }
-  // Fallback: full document scroll height
-  return document.documentElement.scrollHeight + 120;
+  // Walk all direct children of body and find the one with the greatest bottom edge
+  let maxBottom = 0;
+  const walk = (el, offsetY = 0) => {
+    const children = Array.from(el.children);
+    for (const child of children) {
+      const h = child.offsetTop + child.offsetHeight;
+      if (h > maxBottom) maxBottom = h;
+      walk(child, offsetY);
+    }
+  };
+  walk(document.body);
+  // Also check scrollHeight
+  const scrollH = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+  // Add 200px buffer: accounts for Puppeteer margin overhead (0.35in top+bottom = ~67px) plus safety
+  return Math.max(maxBottom, scrollH) + 200;
 });
 
 console.log(`[Print] Content height: ${contentHeight}px`);
@@ -57,10 +66,12 @@ const pageHeightIn = (contentHeight / 96).toFixed(2); // convert px to inches (9
 console.log(`[Print] Page size: ${pageWidthIn}in x ${pageHeightIn}in`);
 
 // Generate PDF with dynamic height — one continuous page
+// preferCSSPageSize: false forces Puppeteer to use width/height params, not @page CSS size
 const pdfBuffer = await page.pdf({
   width: `${pageWidthIn}in`,
   height: `${pageHeightIn}in`,
   printBackground: true,
+  preferCSSPageSize: false,
   margin: { top: `${marginIn}in`, right: `${marginIn}in`, bottom: `${marginIn}in`, left: `${marginIn}in` },
 });
 
