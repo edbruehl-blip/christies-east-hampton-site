@@ -56,7 +56,7 @@ export default function OperatorControlPanel() {
   const [royRate, setRoyRate] = useState(5.0);
   const [splitRate, setSplitRate] = useState(70);
   const [ohBase, setOhBase] = useState(200);
-  const [edShare, setEdShare] = useState(35);
+  const [edShare, setEdShare] = useState(29.75); // D40.5 canonical: Ed 29.75% · Angel/Jarvis/Zoila 1.75% each inside Ed's 35% side · Perp confirmed Apr 20 2026
 
   const calc = useMemo(() => {
     const cr = commRate / 100;
@@ -87,10 +87,10 @@ export default function OperatorControlPanel() {
     return `$${n.toFixed(1)}M`;
   };
 
-  const isDefault = commRate === 2.0 && royRate === 5.0 && splitRate === 70 && ohBase === 200 && edShare === 35;
+  const isDefault = commRate === 2.0 && royRate === 5.0 && splitRate === 70 && ohBase === 200 && edShare === 29.75;
 
   const resetDefaults = () => {
-    setCommRate(2.0); setRoyRate(5.0); setSplitRate(70); setOhBase(200); setEdShare(35);
+    setCommRate(2.0); setRoyRate(5.0); setSplitRate(70); setOhBase(200); setEdShare(29.75);
   };
 
   const rows: Array<{ label: string; data: number[]; accent?: boolean; muted?: boolean; gold?: boolean; }> = [

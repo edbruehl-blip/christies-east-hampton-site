@@ -2198,3 +2198,12 @@
 ## CPS-1 Curve Update — April 20, 2026
 
 - [x] CPS-1: Updated all 5 partner cards (Ed, Ilija, Angel, Jarvis, Zoila) — curve values $100K/$250K/$500K/$1.69M tagged (incl. above) · Apr 20 2026
+
+## D40.5 Alignment Pass — April 20, 2026
+
+- [x] D40.5-1: OCP slider default "Ed NOP share" 35% → 29.75% · done
+- [x] D40.5-2: Data table row label dynamic (${edShare}%) auto-updates → "Ed NOP share (29.75%)" · formula recomputes to $3.39M · done
+- [x] D40.5-3: ED TOTAL TAKE formula-bound → 2036 $6.0M (OCP engine: $3.39M NOP + $2.60M personal = $5.99M, rounds to $6.0M) · done
+- [x] D40.5-4: Summary tiles formula-bound → auto-update at 29.75% default · 2036 combined $3.00B · done
+- [x] D40.5-5: Footer footnote updated — D40 → D40.5 breakdown with full party list · done
+- [x] D40.5-6: Verified · 34/34 tests pass · checkpoint + publish
