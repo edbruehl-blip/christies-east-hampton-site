@@ -126,20 +126,36 @@ function fmtM(n: number): string {
 // on screen — dark navy, gold, all partner cards with live data.
 // No separate page, no light-mode inversion. window.print() on current tab.
 function PrintFutureButton() {
-  const handlePrint = () => {
-    const prev = document.title;
-    document.title = "Christies_EH_Future_Projections";
-    window.print();
-    document.title = prev;
+  const [loading, setLoading] = React.useState(false);
+  const handleDownload = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/pdf?url=/future');
+      if (!res.ok) throw new Error('PDF generation failed');
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Christies_EH_Partnership_Projections.pdf';
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('[PDF]', e);
+      // Fallback to window.print() if server PDF fails
+      window.print();
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <button
-      onClick={handlePrint}
+      onClick={handleDownload}
+      disabled={loading}
       className="no-print future-intro-button"
       data-print-hide="true"
-      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer' }}
+      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: loading ? 'rgba(200,172,120,0.5)' : GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: loading ? 'wait' : 'pointer' }}
     >
-      &#8595; Print &middot; PDF
+      {loading ? 'Generating…' : '\u2193 Download · PDF'}
     </button>
   );
 }
@@ -438,7 +454,7 @@ export default function FutureTab() {
         )}
 
         {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: CHART_BG, padding: '14px 14px 0', marginBottom: 10 }}>
+        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: CHART_BG, padding: '14px 14px 0', marginBottom: 6 }}>
           {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
             {BARS.map((bar) => (
@@ -476,11 +492,7 @@ export default function FutureTab() {
                         {/* Projected gap (faint outline) */}
                         {gapPct > 0 && (
                           <div style={{ width: '100%', flex: `0 0 ${gapPct / projPct * 100}%`, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden' }}>
-                            {bar.note && (
-                              <div className="arc-note-desktop" style={{ ...SANS, fontSize: 8, color: PROJ_TEXT, textAlign: 'center', fontStyle: 'italic', lineHeight: 1.5 }}>
-                                {bar.note}
-                              </div>
-                            )}
+
                           </div>
                         )}
                         {/* Westhampton — cohort sub-segments (Founding/Targeted/Organic) */}
@@ -567,26 +579,14 @@ export default function FutureTab() {
             <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_FOUNDING, flexShrink: 0 }} />
             Westhampton &middot; opens 2030
           </div>
-          <div style={{ width: 1, height: 10, background: '#2a3a4a', flexShrink: 0, margin: '0 2px' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
-            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
-            Founding
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
-            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_TARGETED, border: '0.5px solid rgba(200,172,120,0.4)', flexShrink: 0 }} />
-            Engine 1
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4, ...SANS, fontSize: 7, color: '#666' }}>
-            <div style={{ width: 9, height: 9, borderRadius: 1, background: EH_ORGANIC, border: '0.5px solid rgba(200,172,120,0.25)', flexShrink: 0 }} />
-            Engine 2
-          </div>
+
           <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
             <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
             Projected — live from Growth Model v2
           </div>
         </div>
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
-        <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 9 }}>
+        <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 16 }}>
           {[
             {
               phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
@@ -664,7 +664,7 @@ export default function FutureTab() {
                 ], act: null }, // 70% of gross · after team overrides paid · Ed ruling Apr 16 2026
                 { label: 'CIREG Profit 29.75%', proj: ['$52K','$128K','$287K','$3.39M'], act: null }, // 29.75% of NOP · Perp sheet confirmed Apr 20 2026 · NOP: $175K/$430K/$965K/$11.4M
                 { label: 'AnewHomes 35%', proj: ['$17,500','$52,500','$59,063','$151,542'], act: null }, // 12.5% annual growth from $50K NOP base
-                { label: 'CPS-1 (incl. above) ‡', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
+                { label: 'CPS-1 visibility ‡', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -684,7 +684,7 @@ export default function FutureTab() {
                 const years = [2026, 2027, 2028, 2036];
                 const totals = years.map(yr => fmtM(EQ1_NUMS[yr] + CIREG_NUMS[yr] + ANEW_NUMS[yr]));
                 return (
-                  <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7.5, color: GOLD, fontWeight: 500, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 8.5, color: GOLD, fontWeight: 700, borderTop: `0.5px solid ${CHARCOAL}`, paddingTop: 3, marginTop: 2 }}>
                     <span>All streams total</span>
                     {totals.map((v, i) => <span key={i} style={{ textAlign: 'right' as const }}>{v}</span>)}
                   </div>
@@ -706,14 +706,14 @@ export default function FutureTab() {
               {/* Build 3 · Ilija streams: Net pool 65%, CIREG 25% Ed Gross (incl. above, franchise traceback), CPS-1 (incl.) */}
               {/* CIREG 25% of Ed Gross GCI: $150K / $180K / $216K / $929K · Perp confirmed Apr 20 2026 */}
               {[
-                { label: 'Net pool 65% *', proj: [
+                { label: 'NOP pool 65% *', proj: [
                   livePoolRows?.find(r=>r.year==='2026') ? fmtM(livePoolRows.find(r=>r.year==='2026')!.ilijaPool) : '$114K',
                   livePoolRows?.find(r=>r.year==='2027') ? fmtM(livePoolRows.find(r=>r.year==='2027')!.ilijaPool) : '$280K',
                   livePoolRows?.find(r=>r.year==='2028') ? fmtM(livePoolRows.find(r=>r.year==='2028')!.ilijaPool) : '$892K',
                   livePoolRows?.find(r=>r.year==='2036') ? fmtM(livePoolRows.find(r=>r.year==='2036')!.ilijaPool) : '$7.43M',
                 ], act: null },
                 { label: 'CIREG 25% Ed Gross (incl. above)', proj: ['$150K','$180K','$216K','$929K'], act: null }, // 25% of Ed personal GCI · franchise traceback · incl. in pool above · Perp Apr 20 2026
-                { label: 'CPS-1 (incl. above) ‡', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
+                { label: 'CPS-1 visibility ‡', proj: ['$100K','$250K','$500K','$1.69M'], act: null }, // CPS-1 curve: $100K/$250K/$500K/$1M/$1.5M cap/2% → 2036: $1,689,244 · incl. in pool above · not additive
               ].map(row => (
                 <div key={row.label} style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...SANS, fontSize: 7, lineHeight: 1.65 }}>
                   <span style={{ color: MUTED }}>{row.label}</span>
@@ -943,16 +943,7 @@ export default function FutureTab() {
           All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
         </div>
 
-        {/* ── Zone Divider: Operator Control Panel ──────────────────────────── */}
-        {!isPdfMode && (
-          <div style={{ margin: '14px 0 12px', textAlign: 'center' as const }}>
-            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginBottom: 6 }} />
-            <span style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 2.5, textTransform: 'uppercase' as const, fontWeight: 500 }}>
-              Operator Control Panel
-            </span>
-            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginTop: 6 }} />
-          </div>
-        )}
+        {/* ── Zone Divider: Operator Control Panel — removed PF9 (OCP follows immediately, divider redundant) ── */}
 
         {/* ── G6 Operator Control Panel ────────────────────────────────────── */}
         {!isPdfMode && <OperatorControlPanel />}

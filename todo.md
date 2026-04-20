@@ -2270,3 +2270,16 @@
 - [x] ARC-SEG-2: Stacking formula correct — issue was sheets-helper.ts using live zero values instead of canonical fallbacks for SH/WH out-years
 - [x] ARC-SEG-3: sheets-helper.ts fixed — shLive/whLive: use live if > 0, else SH_CANONICAL/WH_CANONICAL · WH 2036 $879M = 29.3% · SH 2036 $988M = 33% · EH 2036 $1.13B = 37.7%
 - [x] ARC-SEG-4: 34/34 tests pass · checkpoint
+
+## PF9 Eight-Fix Polish Pass — Apr 20, 2026
+
+- [x] PF9-0: Canonical fallbacks already match Perp patch · live sheet VOLUME rows now populated · no code change needed
+- [x] PF9-1: Founding/Engine 1/Engine 2 legend items removed · three office colors + Projected remain
+- [x] PF9-2: In-bar bar.note rendering removed · axis caption rail has both milestones (Southampton 2028 + Westhampton 2030)
+- [x] PF9-3: Print button now fetches /api/pdf?url=/future → institutional PDF download, no browser chrome · fallback to window.print() on error
+- [x] PF9-4: Chart frame marginBottom 10→6 · 100-day cards marginBottom 9→16
+- [x] PF9-5: All streams total row fontSize 7.5→8.5, fontWeight 500→700 · explanatory rows remain at 7/DIM
+- [x] PF9-6: CPS-1 label changed to 'CPS-1 visibility ‡' on Ed and Ilija cards
+- [x] PF9-7: Ilija label 'Net pool 65%' → 'NOP pool 65%'
+- [x] PF9-8: OPERATOR CONTROL PANEL zone divider removed (OCP follows immediately, divider redundant)
+- [x] PF9-CHECKPOINT: 34/34 tests pass · HMR clean 7:07 PM · checkpoint
