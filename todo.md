@@ -2126,3 +2126,28 @@
 
 ### CIS Medallion
 - [ ] R6: CIS medallion — one step up from current diameter on Hamlet cards (not double per ruling 9)
+
+## Monday April 20 — Institutional Cleanup Dispatch
+
+### Section 4 — Live Site Drift (launch-blocking)
+- [ ] L1: MARKET tab subtitle "Nine Hamlets" → "Eleven Hamlets" on every public surface + Home Letter body
+- [ ] L2: Valuation Matrix row-wiring bug — Row 1 onclick goToHamletCard('wainscott') → sagaponack; data-hamlet-id wainscott → sagaponack. Verify all rows.
+- [ ] L3: AnewHomes naming in Home Letter — fix "ANEW Homes" (×2) and "ANEW home" (×1) → "AnewHomes" (one word, canon)
+- [ ] L5: Southampton PDF — strip "Compass consolidation recruiting" parenthetical from Tier 2 Profile (no competitor names rule)
+- [ ] L6: Assumptions Block PDF — Zoila vesting cliff "October 25, 2026" → "November 4, 2026" (Perplexity owns; do not duplicate)
+- [ ] L11: Password gate — rotate 'Christ2026' plaintext and move server-side before May 26 (Tuesday work)
+
+### Section 5 — MindMap Cleanup
+- [ ] M1: KEEP William node — retire WhatsApp keywords (NEWS, LETTER, FLAGSHIP, BRIEF) and WhatsApp-layer code/routes
+- [ ] M2: Rename COMPETITORS node → "MARKET INTELLIGENCE"; scrub any competitor names in detail
+- [ ] M3: Fix or remove broken "h" orphan placeholder node
+- [ ] M4: Correct "ANEW HOMES" → "AnewHomes" on MindMap node
+- [ ] M5: Add CPS-1 node to MindMap (same as v5 C5)
+
+### Section 6 — Trello Cleanup
+- [ ] T1: Consolidate Jarvis duplicate — keep "Jarvis Slade — COO · Agent", archive "Jarvis J. Slade Jr."
+- [ ] T2: Personalize Zoila onboarding template card (list 69e14f075a0f1bf4a054edfe) — Zoila Ortega Astor, due May 4, 2026
+- [ ] T3: Rewrite Trello D49 card — "HOME Floating Audio Active. One floating audio button on HOME for the institutional intro letter. All other William/audio surfaces retired. WhatsApp keywords NEWS, LETTER, FLAGSHIP, BRIEF retired April 20. D34 amended to bounded-surface form. PDF export active."
+
+### CORK1 (v5 Round 2)
+- [ ] CORK1: Embed eds_corkboard_v2.html on INTEL tab below Calendar section (iframe, full-width, print link)
