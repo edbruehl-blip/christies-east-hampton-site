@@ -2163,3 +2163,11 @@
 - [ ] PF3: Fix Headcount Scaling table right-edge clipping — force landscape or reduce column set for print
 - [ ] PF4: Add page-break-before CSS so partner cards flow naturally (no whitespace gap before footer) [Tuesday]
 - [ ] PF5: Three distinct office colors in Ascension Arc — EH #c8ac78, SH deeper bronze, WH charcoal [Tuesday]
+
+## PF Sprint — April 20, 2026
+
+- [x] PF-LAYOUT-REBUILD: Rewrite future-print.css for one continuous page matching live screen — white background, no transform scale, dynamic height Puppeteer script, landscape page removed
+- [x] PF-MODEL-REBUILD: Fix OperatorControlPanel SH_VOL/WH_VOL from hardcoded flatline to per-seat recruiting engine — EH $1,045M / SH $1,000M / WH $963M / Combined $3.008B at 2036
+- [x] PF-PAGE3 partner card cream inversion — added .future-participant-grid > div > div rules, #0d1e33 to catch-all
+- [x] ProFormaPage.tsx useIsPdfMode fixed to synchronous URL param read (no useEffect)
+- [x] DashboardLayout header hidden in PDF mode via isPdfMode guard

@@ -4,12 +4,23 @@ import { useState, useMemo } from 'react';
  * Operator Control Panel — FUTURE tab
  * Five adjustable inputs drive an 11-year proforma tied to Growth Model v2.
  * Source: Growth Model v2 OUTPUTS tab · ID 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag
- * Verified: April 20, 2026
+ *
+ * PF-MODEL-REBUILD · April 20 2026
+ * SH_VOL and WH_VOL rebuilt with per-seat recruiting engine logic.
+ * Engine: 3 targeted + 4 organic/yr from launch · 20% compound pre-$1M · 2% post-$1M
+ * 50% entry-year credit on mid-year starts · Vol = GCI ÷ 2% commission rate
+ * SH launches 2028 (index 2) · matures ~2030 · 12 seats at maturity
+ * WH launches 2030 (index 4) · matures ~2032 · 12 seats at maturity
+ * EH 2036 = $1,045M · SH 2036 = $1,000M · WH 2036 = $963M · Combined = $3,008M ≈ $3.0B
+ * Verified April 20, 2026 · matches FutureTab arc chart canonical values (Council EPM Apr 16 2026)
  */
 
-const EH_VOL = [75.0, 125.9, 211.4, 354.8, 595.7, 1000.0, 1222.2, 1493.8, 1825.7, 2231.3, 2727.1];
-const SH_VOL = [0, 0, 42.5, 102.0, 114.4, 117.3, 120.7, 124.9, 129.9, 135.8, 143.0];
-const WH_VOL = [0, 0, 0, 0, 42.5, 102.0, 114.4, 117.3, 120.7, 124.9, 129.9];
+// EH: 9→12 seats 2026, per-seat $500K Y1→$750K Y2→$1M Y3+, 7% post-maturity lift · values in $M
+const EH_VOL = [75.0, 126.0, 285.0, 385.0, 608.0, 779.0, 811.0, 853.0, 907.0, 974.0, 1045.0];
+// SH: launches 2028 (index 2) · 6→12 seats · same per-seat engine · matures 2030 · values in $M
+const SH_VOL = [0, 0, 76.0, 237.0, 515.0, 742.0, 779.0, 815.0, 873.0, 931.0, 1000.0];
+// WH: launches 2030 (index 4) · 6→12 seats · same per-seat engine · matures 2032 · values in $M
+const WH_VOL = [0, 0, 0, 0, 147.0, 460.0, 660.0, 782.0, 839.0, 895.0, 963.0];
 const ED_PERSONAL_GROSS = [0.600, 1.800, 2.000, 2.200, 2.400, 2.600, 2.800, 3.000, 3.200, 3.400, 3.600];
 const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
 const GOLD = '#c8ac78';

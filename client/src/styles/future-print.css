@@ -1,28 +1,31 @@
 /**
- * FUTURE TAB — Print Stylesheet v4
+ * FUTURE TAB — Print Stylesheet v5
  * Christie's International Real Estate Group East Hampton
- * D43 Print Mode Spec — April 20 2026
+ * PF-LAYOUT-REBUILD · April 20 2026
  *
- * v4 changes (Apr 20 2026):
- *   PF1-v2 · Extend cream palette to every component container
- *   PF1-v2 · Logo container background inverted to cream
- *   PF3-v2 · Remove dedicated landscape page — table scales to fit on page 2
- *   PF4    · DashboardLayout footer banner inverted to cream/charcoal (not dark navy)
+ * Spec: One continuous page. Preserve live screen layout verbatim.
+ * White background only. Text colors auto-invert. Chart colors stay.
+ * Remove: nav bar, ticker, social strip, weather, print button, growth model button.
+ * Keep: Ascension Arc, 100-day cards, Operator Control Panel (sliders), 11-yr table,
+ *        Assumptions block, Partner cards, Christie's brand strip top, date strip bottom.
  *
- * D43 Palette:
- *   Background:    #f7f6f2  cream
+ * Color palette (white-background print):
+ *   Background:    #ffffff  white
+ *   Card surface:  #f7f6f2  cream
  *   Border:        #d4d1ca  warm divider
  *   Text primary:  #28251d  charcoal
  *   Text secondary:#7a7974  muted
- *   Accent gold:   #c9a84c  headers, ED TOTAL TAKE, brand marks
- *   Accent teal:   #01696F  section dividers (optional)
+ *   Accent gold:   #c8ac78  (headers, ED TOTAL TAKE, brand marks)
+ *   Chart EH:      #c8ac78  gold (unchanged)
+ *   Chart SH:      #4a7c9e  blue (unchanged)
+ *   Chart WH:      #5a8a6a  green (unchanged)
  */
 
 @media print {
-  /* ── Page setup ─────────────────────────────────────────────────────────── */
+  /* ── Page setup — tight margins for dense one-page layout ─────────────── */
   @page {
-    size: Letter portrait;
-    margin: 0.45in;
+    size: Letter landscape;
+    margin: 0.3in 0.35in;
     @top-left   { content: none; }
     @top-center { content: none; }
     @top-right  { content: none; }
@@ -31,18 +34,18 @@
     @bottom-right  { content: none; }
   }
 
-  /* ── Force color printing ────────────────────────────────────────────────── */
+  /* ── Force color printing ─────────────────────────────────────────────── */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 
-  /* ── Global cream inversion — body and root ─────────────────────────────── */
+  /* ── Global white background ──────────────────────────────────────────── */
   html,
   body,
   #root {
-    background: #f7f6f2 !important;
+    background: #ffffff !important;
     color: #28251d !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -50,89 +53,69 @@
     height: auto !important;
   }
 
-  /* ── DashboardLayout wrapper ─────────────────────────────────────────────── */
-  /* The outer flex column that wraps sidebar + main content */
+  /* ── DashboardLayout wrapper ──────────────────────────────────────────── */
   [class*="dashboard-layout"],
   [class*="DashboardLayout"],
   div[style*="display: flex"][style*="min-height"] {
-    background: #f7f6f2 !important;
+    background: #ffffff !important;
   }
 
-  /* ── PF4: DashboardLayout footer banner — invert from dark navy to cream ── */
-  footer,
-  footer[style*="background"],
-  [class*="footer"],
-  [class*="Footer"] {
-    background: #f7f6f2 !important;
-    border-top: 0.5pt solid #c9a84c !important;
-    color: #28251d !important;
-  }
-  footer span,
-  footer div,
-  [class*="footer"] span,
-  [class*="footer"] div {
-    color: #28251d !important;
-  }
-
-  /* ── Main wrapper — cream, no overflow clipping ──────────────────────────── */
+  /* ── Main wrapper — no transform, no overflow clipping ───────────────── */
   .future-main-wrapper {
-    background: #f7f6f2 !important;
+    background: #ffffff !important;
     color: #28251d !important;
     min-height: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
     overflow: visible !important;
-    transform: scale(0.90);
-    transform-origin: top left;
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
+    /* NO transform: scale — preserve native layout density */
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
-  /* ── Print title line above chart ──────────────────────────────────────── */
+  /* ── Print title strip above chart ───────────────────────────────────── */
   .future-main-wrapper::before {
-    page-break-after: avoid;
-    break-after: avoid;
     content: "CHRISTIE'S EAST HAMPTON  \00B7  ASCENSION ARC  \00B7  PARTNERSHIP PROJECTIONS";
     display: block;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 7pt;
+    font-size: 6.5pt;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #c9a84c;
+    color: #c8ac78;
     text-align: center;
-    padding-bottom: 6pt;
-    margin-bottom: 8pt;
+    padding-bottom: 5pt;
+    margin-bottom: 6pt;
     border-bottom: 0.5pt solid #d4d1ca;
+    page-break-after: avoid;
+    break-after: avoid;
   }
 
-  /* ── PF1-v2: Print header (logo row) ────────────────────────────────────── */
+  /* ── Print header (logo row) ──────────────────────────────────────────── */
   .future-print-header {
     display: flex !important;
-    background: #f7f6f2 !important;
+    background: #ffffff !important;
     border-bottom-color: #d4d1ca !important;
   }
   .future-print-header * {
     color: #28251d !important;
   }
 
-  /* ── PF1-v2: Ascension Arc chart frame ──────────────────────────────────── */
+  /* ── Ascension Arc chart frame ────────────────────────────────────────── */
   .future-chart-frame {
-    background: #e8e6e2 !important;
+    background: #f0ede8 !important;
     border-color: #d4d1ca !important;
-    max-height: 180px !important;
+    max-height: 160px !important;
     overflow: hidden !important;
   }
-  /* Bar labels and year labels inside chart */
   .future-bar-label,
   .future-year-label {
-    color: #c9a84c !important;
+    color: #c8ac78 !important;
   }
-  /* Arc note text */
   .arc-note-desktop {
     color: #7a7974 !important;
   }
 
-  /* ── PF1-v2: 100-Day milestone cards ────────────────────────────────────── */
+  /* ── 100-Day milestone cards ──────────────────────────────────────────── */
   .future-cards-grid {
     background: transparent !important;
   }
@@ -146,34 +129,110 @@
   .future-cards-grid > div * {
     color: #28251d !important;
   }
-  /* Gold accent elements inside milestone cards */
   .future-cards-grid [style*="color: rgb(200, 172, 120)"],
   .future-cards-grid [style*="color:#c8ac78"],
   .future-cards-grid [style*="color: #c8ac78"] {
-    color: #c9a84c !important;
+    color: #c8ac78 !important;
   }
 
-  /* ── PF1-v2: Assumptions Block ───────────────────────────────────────────── */
-  .assumptions-block {
+  /* ── Operator Control Panel — invert dark slate to cream ─────────────── */
+  /* Section wrapper */
+  section[aria-label="Operator Control Panel"] {
+    background: #f7f6f2 !important;
+    border-color: #d4d1ca !important;
+    color: #28251d !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  /* Header */
+  section[aria-label="Operator Control Panel"] header h2 {
+    color: #c8ac78 !important;
+  }
+  section[aria-label="Operator Control Panel"] header p {
+    color: #7a7974 !important;
+  }
+  /* Slider container and summary cards */
+  section[aria-label="Operator Control Panel"] .bg-slate-900\/60,
+  section[aria-label="Operator Control Panel"] .bg-slate-900\/40,
+  section[aria-label="Operator Control Panel"] [class*="bg-slate-9"] {
+    background: #ede9e3 !important;
+    border-color: #d4d1ca !important;
+  }
+  /* Slider labels */
+  section[aria-label="Operator Control Panel"] .text-slate-300,
+  section[aria-label="Operator Control Panel"] .text-slate-400,
+  section[aria-label="Operator Control Panel"] .text-slate-500 {
+    color: #7a7974 !important;
+  }
+  /* Slider values and white text */
+  section[aria-label="Operator Control Panel"] .text-white {
+    color: #28251d !important;
+  }
+  /* Summary card values */
+  section[aria-label="Operator Control Panel"] p.text-2xl {
+    color: #28251d !important;
+  }
+  section[aria-label="Operator Control Panel"] p.text-2xl[style*="color"] {
+    color: #c8ac78 !important;
+  }
+  /* Table */
+  section[aria-label="Operator Control Panel"] table {
+    background: #f7f6f2 !important;
+  }
+  section[aria-label="Operator Control Panel"] thead tr {
+    background: #ede9e3 !important;
+    border-color: #d4d1ca !important;
+  }
+  section[aria-label="Operator Control Panel"] th {
+    color: #7a7974 !important;
+    background: #ede9e3 !important;
+  }
+  section[aria-label="Operator Control Panel"] td {
+    color: #28251d !important;
+  }
+  section[aria-label="Operator Control Panel"] td.text-slate-200 {
+    color: #28251d !important;
+  }
+  section[aria-label="Operator Control Panel"] td.text-slate-500 {
+    color: #7a7974 !important;
+  }
+  /* ED TOTAL TAKE gold row */
+  section[aria-label="Operator Control Panel"] tr td[style*="color: rgb(200, 172, 120)"],
+  section[aria-label="Operator Control Panel"] tr td[style*="color:#c8ac78"],
+  section[aria-label="Operator Control Panel"] tr td[style*="color: #c8ac78"] {
+    color: #c8ac78 !important;
+  }
+  /* Hide reset button (interactive only) */
+  section[aria-label="Operator Control Panel"] button {
+    display: none !important;
+  }
+  /* Hide range input thumb — show as static bar */
+  section[aria-label="Operator Control Panel"] input[type="range"] {
+    accent-color: #c8ac78;
+    opacity: 0.7;
+  }
+  /* Footer note */
+  section[aria-label="Operator Control Panel"] p.text-\[10px\] {
+    color: #7a7974 !important;
+  }
+
+  /* ── Assumptions Block ────────────────────────────────────────────────── */
+  .assumptions-block,
+  .future-main-wrapper > div[style*="background"] {
     background: #f7f6f2 !important;
     border: 0.5px solid #d4d1ca !important;
     color: #28251d !important;
     break-inside: avoid;
     page-break-inside: avoid;
   }
-  .assumptions-block * {
+  .assumptions-block *,
+  .future-main-wrapper > div[style*="background"] * {
     color: #28251d !important;
     background: transparent !important;
     border-color: #d4d1ca !important;
   }
-  .assumptions-block table,
-  .assumptions-block .headcount-table {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
 
-  /* ── PF3-v2: Headcount Scaling table — NO dedicated landscape page ──────── */
-  /* Remove the landscape page break. Scale the table to fit portrait. */
+  /* ── Headcount Scaling table ──────────────────────────────────────────── */
   .headcount-landscape-page {
     page-break-before: auto !important;
     break-before: auto !important;
@@ -198,28 +257,13 @@
     color: #28251d !important;
   }
   /* ED TOTAL TAKE row — gold accent */
-  .headcount-table tr[data-row="ed-total"],
-  .headcount-table tr.ed-total-row {
-    background: #f0ece3 !important;
-  }
-  .headcount-table tr[data-row="ed-total"] td,
-  .headcount-table tr.ed-total-row td {
-    color: #c9a84c !important;
-    font-weight: 700 !important;
-  }
-  /* Hide last two columns (Combined Vol, Avg GCI/Prod) to prevent right bleed */
-  .headcount-table th:nth-child(12),
-  .headcount-table th:nth-child(13),
-  .headcount-table td:nth-child(12),
-  .headcount-table td:nth-child(13) {
-    display: none !important;
+  .headcount-table tr.ed-total td,
+  .headcount-table tr[data-row="ed-total"] td {
+    color: #c8ac78 !important;
+    font-weight: 600 !important;
   }
 
-  /* ── PF1-v2: Partner cards grid ─────────────────────────────────────────── */
-  .future-participant-grid {
-    margin-top: 0 !important;
-    background: transparent !important;
-  }
+  /* ── Partner cards — cream inversion ─────────────────────────────────── */
   .future-participant-grid > div {
     background: #f7f6f2 !important;
     border: 0.5px solid #d4d1ca !important;
@@ -231,12 +275,27 @@
     color: #28251d !important;
     border-color: #d4d1ca !important;
   }
-  /* Gold accent elements inside partner cards */
-  .future-participant-grid [style*="color: rgb(200, 172, 120)"],
-  .future-participant-grid [style*="color:#c8ac78"],
-  .future-participant-grid [style*="color: #c8ac78"],
-  .future-participant-grid [style*="color: #c9a84c"] {
-    color: #c9a84c !important;
+  /* Inner div containers (NAVY_CARD = #0d1e33) */
+  .future-participant-grid > div > div {
+    background: #faf8f4 !important;
+    border: 1px solid rgba(200, 172, 120, 0.4) !important;
+    color: #28251d !important;
+  }
+  /* All text inside partner cards defaults to charcoal */
+  .future-participant-grid * {
+    color: #28251d !important;
+  }
+  /* Broad catch-all: any inline background on partner card children */
+  .future-participant-grid [style*="background"] {
+    background: #faf8f4 !important;
+  }
+  /* Gold accent — restore gold for name headers and key figures */
+  .future-participant-grid [style*="rgb(200, 172, 120)"],
+  .future-participant-grid [style*="#c8ac78"],
+  .future-participant-grid [style*="#C8AC78"],
+  .future-participant-grid [style*="#c9a84c"],
+  .future-participant-grid [style*="#C9A84C"] {
+    color: #c8ac78 !important;
   }
   /* Muted secondary text */
   .future-participant-grid [style*="color: rgb(180, 170, 155)"],
@@ -244,7 +303,7 @@
   .future-participant-grid [style*="color: #b4aa9b"] {
     color: #7a7974 !important;
   }
-  /* Card header backgrounds (dark navy on screen) — all known NAVY_CARD values */
+  /* Card header backgrounds — all known NAVY_CARD values */
   .future-participant-grid [style*="background: rgb(13, 26, 42)"],
   .future-participant-grid [style*="background:#0d1a2a"],
   .future-participant-grid [style*="background: #0d1a2a"],
@@ -258,45 +317,8 @@
   .future-participant-grid [style*="background:#1B2A4A"] {
     background: #ede9e3 !important;
   }
-  /* Broad catch-all: any inline background on partner card children */
-  .future-participant-grid [style*="background"] {
-    background: #faf8f4 !important;
-    border: 1px solid rgba(200, 172, 120, 0.4) !important;
-  }
-  /* Restore the outer card border after broad catch-all */
-  .future-participant-grid > div {
-    background: #f7f6f2 !important;
-    border: 0.5px solid #d4d1ca !important;
-  }
-  /* ── URGENT PF-PAGE3: Partner card inner divs — navy-on-navy fix ─────────── */
-  /* Target inner div containers that carry the dark CARD_BG inline style */
-  .future-participant-grid > div > div {
-    background: #faf8f4 !important;
-    border: 1px solid rgba(200, 172, 120, 0.4) !important;
-    color: #384249 !important;
-  }
-  /* All text inside partner cards defaults to charcoal */
-  .future-participant-grid * {
-    color: #384249 !important;
-  }
-  /* Gold accent — restore gold for name headers and key figures */
-  .future-participant-grid [style*="rgb(200, 172, 120)"],
-  .future-participant-grid [style*="#c8ac78"],
-  .future-participant-grid [style*="#C8AC78"],
-  .future-participant-grid [style*="#c9a84c"],
-  .future-participant-grid [style*="#C9A84C"] {
-    color: #c8ac78 !important;
-  }
 
-  /* ── PF1-v2: Gap Bridge footer paragraph ─────────────────────────────────── */
-  /* The "Gap Bridge" text block between headcount table and partner cards */
-  .future-main-wrapper > div[style*="background"],
-  .future-main-wrapper > section[style*="background"] {
-    background: #f7f6f2 !important;
-    color: #28251d !important;
-  }
-
-  /* ── Catch-all: any remaining dark backgrounds inside future-main-wrapper ── */
+  /* ── Catch-all: any remaining dark backgrounds inside future-main-wrapper */
   .future-main-wrapper [style*="background: #0a1628"],
   .future-main-wrapper [style*="background:#0a1628"],
   .future-main-wrapper [style*="background: rgb(10, 22, 40)"],
@@ -313,15 +335,12 @@
     background: #f7f6f2 !important;
   }
 
-  /* ── Catch-all: dark text colors that need to stay dark ─────────────────── */
-  /* (These are already dark so no change needed — belt-and-suspenders) */
-
-  /* ── Show the print-only Christie's logo header ──────────────────────────── */
+  /* ── Show the print-only Christie's logo header ───────────────────────── */
   .future-print-header {
     display: flex !important;
   }
 
-  /* ── Hide all dashboard chrome ───────────────────────────────────────────── */
+  /* ── Hide all dashboard chrome and interactive-only elements ─────────── */
   header,
   nav,
   [data-tab-bar],
@@ -364,14 +383,14 @@
     display: none !important;
   }
 
-  /* ── Ensure all content is visible ──────────────────────────────────────── */
+  /* ── Ensure all content is visible ───────────────────────────────────── */
   * {
     overflow: visible !important;
     box-shadow: none !important;
     text-shadow: none !important;
   }
 
-  /* ── Tables ──────────────────────────────────────────────────────────────── */
+  /* ── Tables ───────────────────────────────────────────────────────────── */
   table {
     page-break-inside: auto;
     border-collapse: collapse !important;
@@ -385,45 +404,35 @@
     display: table-header-group;
   }
 
-  /* ── Kill excess spacing ─────────────────────────────────────────────────── */
+  /* ── Kill excess spacing ──────────────────────────────────────────────── */
   [class*="future-tab"],
   [class*="tab-content"] {
     padding-bottom: 0 !important;
     margin-bottom: 0 !important;
     min-height: 0 !important;
   }
-  .future-main-wrapper,
-  .future-main-wrapper * {
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-  }
   .min-h-screen {
     min-height: unset !important;
   }
 
-  /* ── Section breaks ──────────────────────────────────────────────────────── */
-  .mb-10 {
-    page-break-inside: avoid;
-  }
-
-  /* ── Links — suppress URL display ───────────────────────────────────────── */
+  /* ── Links — suppress URL display ────────────────────────────────────── */
   a[href]::after {
     content: none !important;
   }
 
-  /* ── Pro forma print footer ──────────────────────────────────────────────── */
+  /* ── Pro forma print footer ───────────────────────────────────────────── */
   .future-print-footer {
     page-break-after: avoid;
     break-after: avoid;
     display: flex !important;
     position: static !important;
     width: 100%;
-    margin-top: 12pt;
-    padding: 6pt 0 0;
-    border-top: 0.5pt solid #c9a84c;
-    background: #f7f6f2 !important;
+    margin-top: 10pt;
+    padding: 5pt 0 0;
+    border-top: 0.5pt solid #c8ac78;
+    background: #ffffff !important;
     font-family: "Barlow Condensed", sans-serif;
-    font-size: 7pt;
+    font-size: 6.5pt;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     justify-content: space-between;
@@ -432,7 +441,7 @@
     break-inside: avoid;
   }
   .future-print-footer .footer-left {
-    color: #c9a84c !important;
+    color: #c8ac78 !important;
     font-weight: 600;
   }
   .future-print-footer .footer-center {
@@ -441,16 +450,24 @@
   .future-print-footer .footer-right {
     color: #7a7974 !important;
   }
+
+  /* ── DashboardLayout footer banner — hide in print ───────────────────── */
+  footer,
+  footer[style*="background"],
+  [class*="footer"],
+  [class*="Footer"] {
+    display: none !important;
+  }
 }
 
-/* ── Screen: hide the print footer ──────────────────────────────────────────── */
+/* ── Screen: hide the print footer ──────────────────────────────────────── */
 @media screen {
   .future-print-footer {
     display: none !important;
   }
 }
 
-/* ── Mobile responsive ───────────────────────────────────────────────────────── */
+/* ── Mobile responsive ───────────────────────────────────────────────────── */
 @media screen and (max-width: 767px) {
   .arc-note-desktop {
     display: none !important;
