@@ -15,12 +15,12 @@ import { useState, useMemo } from 'react';
  * Verified April 20, 2026 · matches FutureTab arc chart canonical values (Council EPM Apr 16 2026)
  */
 
-// EH: 9→12 seats 2026, per-seat $500K Y1→$750K Y2→$1M Y3+, 7% post-maturity lift · values in $M
-const EH_VOL = [75.0, 126.0, 285.0, 385.0, 608.0, 779.0, 811.0, 853.0, 907.0, 974.0, 1045.0];
-// SH: launches 2028 (index 2) · 6→12 seats · same per-seat engine · matures 2030 · values in $M
-const SH_VOL = [0, 0, 76.0, 237.0, 515.0, 742.0, 779.0, 815.0, 873.0, 931.0, 1000.0];
-// WH: launches 2030 (index 4) · 6→12 seats · same per-seat engine · matures 2032 · values in $M
-const WH_VOL = [0, 0, 0, 0, 147.0, 460.0, 660.0, 782.0, 839.0, 895.0, 963.0];
+// EH Row 10 · Growth Model v2 · Perp confirmed Apr 20 2026 · values in $M
+const EH_VOL = [75.0, 212.0, 411.0, 567.0, 647.0, 728.0, 808.0, 889.0, 969.0, 1050.0, 1130.0];
+// SH Row 15 · opens 2027 (42M ramp) · Growth Model v2 · Perp confirmed Apr 20 2026
+const SH_VOL = [0, 42.0, 285.0, 422.0, 503.0, 584.0, 665.0, 745.0, 826.0, 907.0, 988.0];
+// WH Row 16 · opens 2028 (57M ramp) · Growth Model v2 · Perp confirmed Apr 20 2026
+const WH_VOL = [0, 0, 57.0, 231.0, 324.0, 416.0, 509.0, 601.0, 694.0, 786.0, 879.0];
 // Build 4: Ed personal GCI · $600K base · 20% compound · 11 years 2026-2036 · Perp confirmed Apr 20 2026
 // Matches partner card exactly: 2026=$600K 2027=$720K 2028=$864K ... 2036=$3.715M
 const ED_PERSONAL_GROSS = [0.600, 0.720, 0.864, 1.037, 1.244, 1.493, 1.792, 2.150, 2.580, 3.096, 3.715];

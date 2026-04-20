@@ -2180,3 +2180,17 @@
 - [x] Build 4: Ed personal net row reconcile — replace office-wide agent payouts with Ed actual net
 - [x] Build 5: Kill Ilija subtitle "9 by year-end 2026, scaling to 36 by 2031" from PDF
 - [x] Build 6: Doctrine confirmation — competitor names stay, Christie's brand strip stays, date stamp updates
+
+## Growth Model v2 Sheet Sync — April 20, 2026
+
+- [ ] GM1: Verify tRPC reads VOLUME Rows 10/15/16 from live sheet (EH/SH/WH)
+- [ ] GM2: Update EH/SH/WH fallback arrays to new sheet values (EH $75M→$1.13B, SH $0→$988M, WH $0→$879M)
+- [ ] GM3: Update OperatorControlPanel EH/SH/WH arrays to match new sheet values
+- [ ] GM4: Verify three-office bar chart shows EH 37.8% / SH 32.9% / WH 29.3% at 2036
+- [x] GM5: Update card math — Ed 29.75% NOP, Angel/Jarvis/Zoila 1.75% NOP, CPS-1 new curve — CIREG $17K 2028 corrected (was $24K), Angel $212.6K / Jarvis $356.6K / Zoila $205.4K totals updated
+- [x] GM6: Add Ed Keep Formula footnote to Assumptions block — added to footer * line: Gross GCI less 5% brand royalty, less 25% Ilija franchise share, less 5% ICA overrides to team · Principal structure, not standard agent split
+- [x] L6: Zoila vesting date — confirmed already "November 4, 2026" on line 635 (Assumptions block) and line 1004 (footer †). No change needed — was applied in prior session.
+- [ ] GM7: Regenerate PDF and verify 7 Perp invariants
+
+- [ ] PF7: Pro Forma consolidation — before April 29
+- [ ] L11: Password gate rotation — Sunday April 27
