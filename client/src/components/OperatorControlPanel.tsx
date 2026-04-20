@@ -97,7 +97,7 @@ export default function OperatorControlPanel() {
       : gci.map((v, i) => v - roy[i] - splits[i] - oh[i]);
 
     const edNop = nop.map((v) => v * es);
-    const iliNop = nop.map((v) => v * (1 - es));
+    const iliNop = nop.map((v) => v * 0.65); // Ilija always 65% — D40.5 redistributes within Ed's 35%, not from Ilija's side · D40 doctrine
     const ajzNop = nop.map((v) => v * 0.0175); // Angel/Jarvis/Zoila 1.75% each · D40.5
     const edNetPers = ED_PERSONAL_GROSS.map((v) => v * 0.7);
     // ED TOTAL TAKE = CIREG NOP share + Net personal production + AnewHomes 35%
@@ -128,7 +128,7 @@ export default function OperatorControlPanel() {
     { label: '  less overhead', data: calc.oh.map((v) => -v), muted: true },
     { label: 'NOP pool', data: calc.nop, accent: true },
     { label: `Ed NOP share (${edShare}%)`, data: calc.edNop },
-    { label: `Ilija NOP share (${100 - edShare}%)`, data: calc.iliNop },
+    { label: 'Ilija NOP share (65%)', data: calc.iliNop }, // Ilija fixed at 65% · D40 · D40.5 does not affect Ilija's side
     { label: 'Angel / Jarvis / Zoila (1.75% each)', data: calc.ajzNop, muted: true },
     { label: 'Ed net personal prod (70% of gross GCI)', data: calc.edNetPers },
     { label: 'Ed AnewHomes 35%', data: ED_ANEW_M, muted: true },

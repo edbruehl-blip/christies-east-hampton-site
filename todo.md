@@ -2231,3 +2231,10 @@
 - [x] ZD-1: PARTNERSHIP PROJECTIONS · D40.5 · Verified April 20, 2026 divider added above partner cards · gold rule above + below · done
 - [x] ZD-2: OPERATOR CONTROL PANEL divider added above OCP · same gold rule treatment · isPdfMode-gated · done
 - [x] ZD-3: HMR clean 5:06 PM · 34/34 tests pass · checkpoint
+
+## Ilija 65% Fix + GM7 PDF — Apr 20, 2026
+
+- [x] IL-1: OCP label fixed → 'Ilija NOP share (65%)' · hardcoded, not formula-derived · done
+- [x] IL-2: iliNop now uses 0.65 constant → 2036 $7.41M → $7.4M display · ties partner card · Perp signed off
+- [x] GM7: PDF regenerated → 1 page, 287955 bytes, white bg, three-zone layout confirmed in render · done
+- [x] IL-3: All three surfaces tie at $7.4M · 34/34 tests pass · checkpoint
