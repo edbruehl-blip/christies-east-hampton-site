@@ -662,46 +662,102 @@ export default function FutureTab() {
         {/* ═══════════════════════════════════════════════════════════════════ */}
         <AscensionArcChart isPdfMode={isPdfMode} />
 
-        {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
-        <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 16 }}>
-          {[
-            {
-              phase: '1st 100 Days', status: 'Done', date: 'Dec 2025 \u2013 Mar 2026',
-              shareholder: <><strong>$4.57M closed.</strong> 9 Daniels Hole $2.47M. 2 Old Hollow $2.1M. Dashboard live Day 1.</>,
-              client: 'AnewHomes proven at $2.47M. Every deal scored before a showing.',
-              team: '26 Park Place operational. Open before the sign went up.',
-            },
-            {
-              phase: '2nd 100 Days', status: 'Doing', date: 'Mar \u2013 Apr 29 2026',
-              shareholder: <><strong>$13.62M active.</strong> 25 Horseshoe $5.75M in contract. 191 Bull Path $3.6M live.</>,
-              client: "Creative long-term collaboration with Dan's Papers — outreach into NYC through Melissa True and her Rockefeller and Flatiron teams. Export suite in every deal.",
-              team: 'Zoila incoming May 4. Flagship Relaunch April 29.',
-            },
-            {
-              phase: '3rd 100 Days', status: 'Incoming', date: 'Apr 29 \u2013 Aug 2026',
-              shareholder: <><strong>$75M target.</strong> First Wednesday Caravan. East End market presence locked.</>,
-              client: "Daily intelligence briefing. Every listing at Christie's standard.",
-              team: '5 agents on live OS. Scott incoming June. Southampton hiring pipeline started.',
-            },
-            {
-              phase: 'Ascension', status: 'Vision', date: '2027 \u2013 2036',
-              shareholder: <><strong>$3.0B · three-office combined 2036.</strong> 36 elite producers. 7.0% post-maturity. Growth from adding agents (\u2154) plus market appreciation (\u2153). Profit sharing begins Year 2 (2027).</>,
-              client: "Global Christie's brand. Legacy practice beyond a brokerage.",
-              team: "36 elite producers across three offices by 2031 \u00b7 Steady growth through 2036 \u2014 fully staffed \u00b7 All offices fully staffed \u2014 team complete.",
-            },
-          ].map(c => (
-            <div key={c.phase} style={{ background: isPdfMode ? '#eeecea' : '#0d1e33', border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderRadius: 4, padding: '7px 9px' }}>
-              <div style={{ ...SANS, fontSize: 9, color: GOLD, letterSpacing: 1, textTransform: 'uppercase', fontWeight: 500 }}>{c.phase}</div>
-              <div style={{ ...SANS, fontSize: 7, color: '#888', letterSpacing: 1, textTransform: 'uppercase' }}>{c.status}</div>
-              <div style={{ ...SANS, fontSize: 7, color: DIM, paddingBottom: 5, marginBottom: 5, borderBottom: `0.5px solid #1e2d3d` }}>{c.date}</div>
-              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase', margin: '4px 0 2px' }}>Shareholder</div>
-              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.shareholder}</div>
-              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase', margin: '4px 0 2px' }}>Client</div>
-              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.client}</div>
-              <div style={{ ...SANS, fontSize: 7, color: GOLD, letterSpacing: 0.8, textTransform: 'uppercase', margin: '4px 0 2px' }}>Team</div>
-              <div style={{ ...SANS, fontSize: 7.5, color: '#aaa', lineHeight: 1.6 }}>{c.team}</div>
-            </div>
-          ))}
+        {/* ── 100-Day Blocks · v15 FINAL (April 21 2026) ──────────────────────── */}
+        {/* PAGE 2 of 3 in PDF output                                             */}
+        <div style={{ marginBottom: 16 }}>
+          {/* Section header */}
+          <div style={{
+            textAlign: 'center',
+            fontSize: 10.5,
+            letterSpacing: 3.5,
+            textTransform: 'uppercase' as const,
+            color: isPdfMode ? '#1a3a5c' : '#c8ac78',
+            paddingBottom: 9,
+            borderBottom: isPdfMode ? '1px solid #947231' : '1px solid rgba(148,114,49,0.4)',
+            marginBottom: 12,
+            fontFamily: 'Georgia, serif',
+          }}>
+            Christie&apos;s &middot; International Real Estate Group &middot; East Hampton &middot; Est. 1766
+          </div>
+
+          {/* Four-column grid */}
+          <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,minmax(0,1fr))', gap: 9 }}>
+            {([
+              {
+                accent: '#9a9a9a',
+                lbl: '1st 100 Days', st: 'Done', dt: 'Dec 2025 \u2013 Mar 2026',
+                sh: '$4.57M closed. 9 Daniels Hole Road $2.47M. 2 Old Hollow $2.10M. Dashboard live Day 1.',
+                cl: 'AnewHomes proven at $2.47M. Every deal scored before the first showing.',
+                tm: '26 Park Place operational. Open before the sign went up.',
+              },
+              {
+                accent: isPdfMode ? '#947231' : '#c8ac78',
+                lbl: '2nd 100 Days', st: 'Doing', dt: 'Mar \u2013 Apr 29, 2026',
+                sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active.',
+                cl: 'Schneps Media pilot in motion. Dan\u2019s Papers channel in play. NYC outreach through Melissa True, Rockefeller and Flatiron desks.',
+                tm: 'Angel Day One April 25. Zoila start May 4. Flagship relaunch April 29.',
+              },
+              {
+                accent: '#c8946b',
+                lbl: '3rd 100 Days', st: 'Incoming', dt: 'Apr 29 \u2013 Aug 2026',
+                sh: '$75M 2026 trajectory. First Wednesday Caravan live. East End flagship presence.',
+                cl: 'Daily intelligence briefing in market. Every listing at Christie\u2019s standard.',
+                tm: '5 agents on live OS. Scott joins June 1. Southampton pre-launch in motion.',
+              },
+              {
+                accent: '#1a3a5c',
+                lbl: 'Ascension', st: 'Vision', dt: '2027 \u2013 2036',
+                sh: '$3.00B three-office combined 2036. 36 elite producers at maturity. Profit sharing opens Year 2 (2027).',
+                cl: 'Global Christie\u2019s brand. Legacy practice. Not a brokerage.',
+                tm: 'Three offices fully staffed by 2031. Team complete. Steady growth carries through 2036.',
+              },
+            ] as Array<{accent:string;lbl:string;st:string;dt:string;sh:string;cl:string;tm:string}>).map(c => {
+              const cardBg    = isPdfMode ? '#faf7f1' : '#141d28';
+              const hdrBg     = isPdfMode ? '#efe6d1' : '#1c2638';
+              const cardBorder = isPdfMode ? `2px solid #000` : `1px solid rgba(148,114,49,0.4)`;
+              const hdrBorderB = isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)';
+              const lblColor  = isPdfMode ? '#947231' : '#c8ac78';
+              const stColor   = isPdfMode ? '#1a3a5c' : '#ebe6db';
+              const dtColor   = isPdfMode ? '#5a5041' : '#c8ac78';
+              const secHdr    = isPdfMode ? '#947231' : '#c8ac78';
+              const bodyColor = isPdfMode ? '#2a2a2a' : '#d8d6c8';
+              return (
+                <div key={c.lbl} style={{
+                  background: cardBg,
+                  border: cardBorder,
+                  borderLeft: `5px solid ${c.accent}`,
+                  overflow: 'hidden',
+                }}>
+                  {/* Card header */}
+                  <div style={{ background: hdrBg, padding: '8px 10px', borderBottom: `1px solid ${hdrBorderB}` }}>
+                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, letterSpacing: 1.8, color: lblColor, fontWeight: 500, marginBottom: 3, textTransform: 'uppercase' as const }}>{c.lbl}</div>
+                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 12, letterSpacing: 1.5, color: stColor, fontWeight: 500, textTransform: 'uppercase' as const, lineHeight: 1.1 }}>{c.st}</div>
+                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 7.5, color: dtColor, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: isPdfMode ? 1 : 0.85 }}>{c.dt}</div>
+                  </div>
+                  {/* Card body */}
+                  <div style={{ padding: '9px 10px 10px' }}>
+                    <div style={{ marginBottom: 8 }}>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Shareholder</div>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.sh}</div>
+                    </div>
+                    <div style={{ marginBottom: 8 }}>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Client</div>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.cl}</div>
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Team</div>
+                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.tm}</div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Page 2 of 3 pagination */}
+          <div style={{ textAlign: 'center', marginTop: 10, fontFamily: 'Georgia,serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
+            Page 2 of 3
+          </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
@@ -811,9 +867,9 @@ export default function FutureTab() {
         {/* Brand footer */}
         <BrandFooter isPdfMode={isPdfMode} />
 
-        {/* Page 2 of 2 pagination */}
+        {/* Page 3 of 3 pagination */}
         <div style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
-          Page 2 of 2
+            Page 3 of 3
         </div>
 
       </div>

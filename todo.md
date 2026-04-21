@@ -2340,3 +2340,20 @@
 - [x] Trailing markers glued with &nbsp; (no orphan wrapping)
 - [x] Kill list: OCP removed, "Verified April 20 2026" removed, Ed-centric framing removed
 - [x] 34/34 tests passing
+
+## Addendum 2 — April 21 2026
+- [ ] Fix PDF cream rendering (#faf7f1 substrate, charcoal text, 2px #000 borders)
+- [ ] Replace 100-day blocks with v15 canonical copy (dual-substrate styles)
+- [ ] Add "Partnership Projections 2026–2036" section break before partner cards
+- [ ] Update pagination to Page 2 of 3 (100-day blocks) and Page 3 of 3 (partner cards)
+- [ ] Implement persistent Puppeteer browser pool (sub-4s PDF export)
+
+## Addendum 2 — April 21 2026
+- [x] PDF cream rendering fixed: skip emulateMediaType for /future path (isPdfMode React system is sole cream trigger)
+- [x] 100-day blocks replaced with v15 canonical copy (kills 7.0% post-maturity, fully staffed redundancy, em-dash clutter)
+- [x] 100-day blocks dual-substrate styles: dark #141d28/#1c2638, cream #faf7f1/#efe6d1, left-border accents
+- [x] Section header added above 100-day grid (Christie's · CIREG · East Hampton · Est. 1766)
+- [x] Pagination updated: Page 2 of 3 (100-day blocks), Page 3 of 3 (partner cards + brand footer)
+- [x] Persistent Puppeteer browser pool: warm browser reuse, page.close() per export, 5-min idle timeout
+- [x] Dead headcountRows constant and GOLD_FAINT_BORDER_CSS alias removed
+- [x] 34/34 tests passing

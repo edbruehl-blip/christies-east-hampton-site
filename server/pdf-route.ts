@@ -97,6 +97,67 @@ function getServerPort(): number {
   return parseInt(process.env.PORT ?? '3000', 10);
 }
 
+// ─── Persistent Browser Pool ─────────────────────────────────────────────────
+// Keep a single warm Chromium instance alive between PDF requests.
+// browser.newPage() per export (~20ms) vs puppeteer.launch() per export (~1.5s).
+// Health check restarts the browser if it dies.
+// 5-minute idle timeout: browser closes if no requests arrive, rebuilds on next.
+let poolBrowser: import('puppeteer-core').Browser | null = null;
+let poolIdleTimer: ReturnType<typeof setTimeout> | null = null;
+const POOL_IDLE_MS = 5 * 60 * 1000; // 5 minutes
+
+async function getBrowserFromPool(): Promise<import('puppeteer-core').Browser> {
+  // Reset idle timer on every use
+  if (poolIdleTimer) {
+    clearTimeout(poolIdleTimer);
+    poolIdleTimer = null;
+  }
+
+  // Health-check existing instance
+  if (poolBrowser) {
+    try {
+      // If the browser process is still alive, pages() resolves quickly
+      await poolBrowser.pages();
+      console.log('[PDF Pool] Reusing warm browser');
+      schedulePoolIdle();
+      return poolBrowser;
+    } catch {
+      console.warn('[PDF Pool] Warm browser died, relaunching...');
+      poolBrowser = null;
+    }
+  }
+
+  // Launch fresh browser
+  const execPath = await waitForChromium();
+  poolBrowser = await puppeteer.launch({
+    executablePath: execPath,
+    headless: true,
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-gpu',
+      '--no-first-run',
+      '--no-zygote',
+      '--single-process',
+      '--disable-extensions',
+    ],
+  });
+  console.log('[PDF Pool] Fresh browser launched');
+  schedulePoolIdle();
+  return poolBrowser;
+}
+
+function schedulePoolIdle(): void {
+  poolIdleTimer = setTimeout(async () => {
+    if (poolBrowser) {
+      console.log('[PDF Pool] Idle timeout — closing browser to free memory');
+      try { await poolBrowser.close(); } catch { /* ignore */ }
+      poolBrowser = null;
+    }
+  }, POOL_IDLE_MS);
+}
+
 /**
  * Generic live-URL-first PDF endpoint — new architecture
  * Usage: GET /api/pdf?url=/pro-forma
@@ -151,7 +212,7 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
   const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
   const filename = `${urlToFilename(urlPath)}_${today}.pdf`;
 
-  let browser = null;
+  let page: import('puppeteer-core').Page | null = null;
   try {
     const port = getServerPort();
     // Append ?pdf=1 so the page can detect PDF render mode and switch to light-mode styles
@@ -159,23 +220,9 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
 
     console.log(`[PDF] Photographing ${targetUrl}`);
 
-    browser = await puppeteer.launch({
-      // waitForChromium polls until Chrome is ready (handles cold-start race on deployed containers)
-      executablePath: await waitForChromium(),
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-gpu',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process',
-        '--disable-extensions',
-      ],
-    });
-
-    const page = await browser.newPage();
+    // Use persistent browser pool — avoids 1.5s cold-start per request
+    const browser = await getBrowserFromPool();
+    page = await browser.newPage();
 
     // Letter paper width at 96dpi = 816px. Use 1x scale for clean rendering.
     await page.setViewport({ width: 816, height: 1056, deviceScaleFactor: 1 });
@@ -193,10 +240,14 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
       timeout: 45_000,
     });
 
-    // Activate @media print CSS — REQUIRED for D43 cream palette.
-    // page.pdf() does NOT trigger @media print by default.
-    // This must come AFTER goto() so the page is loaded before media type switches.
-    await page.emulateMediaType('print');
+    // Activate @media print CSS for non-/future paths.
+    // For /future: the isPdfMode React dual-substrate system handles cream rendering
+    // via inline styles. emulateMediaType('print') would trigger future-print.css
+    // @media print rules that fight the isPdfMode inline styles with !important overrides.
+    // Skip it for /future — the ?pdf=1 param is the sole cream trigger.
+    if (!isFuturePath) {
+      await page.emulateMediaType('print');
+    }
 
     // Wait for fonts to load — capped at 3s for /future (Georgia is system stack, no CDN needed)
     // capped at 5s for all other paths (Cormorant Garamond, Barlow Condensed from Google Fonts CDN)
@@ -237,8 +288,9 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
       margin: { top: '0', right: '0', bottom: '0', left: '0' },
     });
 
-    await browser.close();
-    browser = null;
+    // Close the page (not the browser) — pool keeps browser alive for next request
+    await page.close();
+    page = null;
 
     console.log(`[PDF] Generated ${filename} (${pdfBuffer.length} bytes)`);
 
@@ -251,8 +303,9 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
 
     res.send(Buffer.from(pdfBuffer));
   } catch (err) {
-    if (browser) {
-      try { await browser.close(); } catch { /* ignore */ }
+    // Close the page on error; browser pool stays alive
+    if (page) {
+      try { await page.close(); } catch { /* ignore */ }
     }
     console.error('[PDF] Error generating PDF:', err);
     const errMsg = err instanceof Error ? err.message : String(err);
