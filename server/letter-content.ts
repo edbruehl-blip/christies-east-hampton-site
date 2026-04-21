@@ -13,7 +13,7 @@
 
 // ─── Dashboard Introduction Letter ────────────────────────────────────────────
 // Original: Locked April 10, 2026 (commit 4cabcdf).
-// Revised: April 21, 2026 — v14 FINAL. Three fixes from Ed's council review:
+// Revised: April 21, 2026 — v15 FINAL. Four fixes from Ed's council review:
 //   - Pipeline number updated to $19.72M (canonical 2nd 100 Days block)
 //   - Tash Perrin spelling corrected (was "Parin" on first mention)
 //   - Council count reconciled: "six AI systems" + Ed = seven-voice council
@@ -21,7 +21,7 @@
 //   - Transplant framing ("not a dashboard, that word undersells it")
 //   - Reunification frame (global brand architecture ambition)
 //   - Sharpened James Christie parallel
-//   - Soli Deo Gloria close
+//   - Soli Deo Gloria close removed (doctrine: no faith language in any export)
 export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
 
 We have been building this quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
@@ -76,9 +76,7 @@ We are genuinely excited to hear your feedback — what lands, what is missing, 
 
 The office is at 26 Park Place in East Hampton Village, next to John Papa's Restaurant. We are in the seat.
 
-Soli Deo Gloria.
-
-Manny · Christie's East Hampton Council · April 2026`
+Manny · Christie’s East Hampton Council · April 2026`
 
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.

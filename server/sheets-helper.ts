@@ -397,6 +397,25 @@ export async function readIntelWebRows(): Promise<IntelWebEntity[]> {
 
 const GROWTH_MODEL_SHEET_ID = "1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag";
 
+// ─── Server-side in-memory cache (5-minute TTL) ───────────────────────────────
+// Prevents redundant Google Sheets API calls on every page load.
+// ProFormaPage fires 3 tRPC queries → 6+ Sheets round-trips without this.
+// Cache is per-process; resets on server restart (acceptable for financial projections).
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+interface CacheEntry<T> { data: T; ts: number; }
+const _cache = new Map<string, CacheEntry<unknown>>();
+
+function fromCache<T>(key: string): T | null {
+  const entry = _cache.get(key) as CacheEntry<T> | undefined;
+  if (!entry) return null;
+  if (Date.now() - entry.ts > CACHE_TTL_MS) { _cache.delete(key); return null; }
+  return entry.data;
+}
+function toCache<T>(key: string, data: T): T {
+  _cache.set(key, { data, ts: Date.now() });
+  return data;
+}
+
 export interface GrowthModelOutputRow {
   year: number;
   agents: number;
@@ -435,6 +454,8 @@ export interface GrowthModelData {
 }
 
 export async function readGrowthModelData(): Promise<GrowthModelData> {
+  const cached = fromCache<GrowthModelData>('growthModelData');
+  if (cached) return cached;
   const sheets = getSheetsClient();
 
   const empty: GrowthModelData = {
@@ -509,14 +530,14 @@ export async function readGrowthModelData(): Promise<GrowthModelData> {
     // Summary values from OUTPUTS
     const row2026 = outputs.find(o => o.year === 2026);
 
-    return {
+    return toCache('growthModelData', {
       outputs,
       agents,
       assumptions,
       totalGci2026:   row2026?.totalGci   ?? 0,
       houseTake2026:  row2026?.houseTake  ?? 0,
       agentCount2026: row2026?.agents     ?? 0,
-    };
+    });
   } catch {
     return empty;
   }
@@ -630,6 +651,8 @@ function parseDollar(s: string | undefined): number {
 }
 
 export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; total: VolumeTotal }> {
+  const cachedVol = fromCache<{ agents: VolumeAgent[]; total: VolumeTotal }>('growthModelVolume');
+  if (cachedVol) return cachedVol;
     const empty = {
     agents: [],
     total: {
@@ -799,7 +822,7 @@ export async function readGrowthModelVolume(): Promise<{ agents: VolumeAgent[]; 
       };
     }
 
-    return { agents, total };
+    return toCache('growthModelVolume', { agents, total });
   } catch {
     return empty;
   }
@@ -818,6 +841,8 @@ export interface PipelineKpis {
 }
 
 export async function getPipelineKpis(): Promise<PipelineKpis> {
+  const cachedKpis = fromCache<PipelineKpis>('pipelineKpis');
+  if (cachedKpis) return cachedKpis;
   const fallback: PipelineKpis = {
     activeTotalM: '$10.98M',
     exclusiveTotalM: '$13.62M',
@@ -851,13 +876,13 @@ export async function getPipelineKpis(): Promise<PipelineKpis> {
       return `$${n.toLocaleString()}`;
     };
 
-    return {
+    return toCache('pipelineKpis', {
       activeTotalM: fmt(activeTotal),
       exclusiveTotalM: fmt(exclusiveTotal),
       relationshipBookM: fmt(totalBook),
       closedYtdM: fmt(closedYtd),
       dealCount,
-    };
+    });
   } catch {
     return fallback;
   }
@@ -892,8 +917,9 @@ export interface AscensionArcData {
 }
 
 export async function readAscensionArcData(): Promise<AscensionArcData> {
+  const cachedArc = fromCache<AscensionArcData>('ascensionArcData');
+  if (cachedArc) return cachedArc;
   const empty: AscensionArcData = { years: [], edActualVolume2026: 0 };
-
   try {
     const sheets = getSheetsClient();
 
@@ -1027,7 +1053,7 @@ export async function readAscensionArcData(): Promise<AscensionArcData> {
 
     const edActualVolume2026 = parseDollar(edRow[5]); // VOLUME F2 = Ed actual vol 2026
 
-    return { years, edActualVolume2026 };
+    return toCache('ascensionArcData', { years, edActualVolume2026 });
   } catch {
     return empty;
   }

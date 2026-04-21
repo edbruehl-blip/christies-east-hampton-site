@@ -2402,3 +2402,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Propagate canonical Zoila footnote to FutureTab.tsx footnotes section
 - [x] Propagate canonical Zoila footnote to ProFormaPage.tsx Page 2 footnotes (line 597) and Page 3 footnotes (line 725)
 - [x] Verify Pages 3 & 4 cream substrate renders correctly in browser — CONFIRMED: all inner boxes cream (#faf7f1) in ?pdf=1 mode, no dark navy visible
+
+## Speed + Letter Audit · April 21 2026
+
+- [x] Diagnose Pro Forma page load speed — root cause: 6 uncached Google Sheets API calls per page load (4-8s)
+- [x] Fix Pro Forma speed: added 5-minute server-side in-memory cache to readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData — cache hit = ~0ms vs ~2-4s cold
+- [x] Audit Manny letter: TTS confirmed eleven_turbo_v2 — correct. Soli Deo Gloria removed (doctrine violation). Letter bumped to v15 FINAL.
+- [x] Fresh-eyes full site report delivered to council
