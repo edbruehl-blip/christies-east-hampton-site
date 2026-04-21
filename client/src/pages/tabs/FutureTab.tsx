@@ -41,61 +41,17 @@ const DIM        = '#c8c8c8'; // was #555 — bumped to near-white for card data
 const MUTED      = '#a0a8b0'; // was #666 — bumped for label contrast on dark navy (Ed ruling Apr 14 2026)
 const PROJ_TEXT  = 'rgba(200,172,120,0.80)';
 
-// SD-8 Phase Two: three-office stacked bar colors
-const EH_COLOR   = '#c8ac78';                    // East Hampton — gold/amber (matches GOLD)
-const SH_COLOR   = '#3a5a7a';                    // Southampton — navy/steel
-const WH_COLOR   = '#5a7a5a';                    // Westhampton — warm sage green
-const EH_FAINT   = 'rgba(200,172,120,0.20)';
-const SH_FAINT   = 'rgba(58,90,122,0.35)';
-const WH_FAINT   = 'rgba(90,122,90,0.35)';
-
-// Cohort sub-segment colors — shade variations within each office color family
-// Founding (base, full saturation) → Targeted (Engine 1, mid) → Organic (Engine 2, lighter)
-const EH_FOUNDING = '#c8ac78';                     // EH base — full gold
-const EH_TARGETED = 'rgba(200,172,120,0.72)';      // EH Engine 1 — mid gold
-const EH_ORGANIC  = 'rgba(200,172,120,0.45)';      // EH Engine 2 — light gold
-const SH_FOUNDING = '#3a5a7a';                     // SH base — full steel
-const SH_TARGETED = 'rgba(58,90,122,0.72)';        // SH Engine 1 — mid steel
-const SH_ORGANIC  = 'rgba(58,90,122,0.45)';        // SH Engine 2 — light steel
-const WH_FOUNDING = '#5a7a5a';                     // WH base — full sage
-const WH_TARGETED = 'rgba(90,122,90,0.72)';        // WH Engine 1 — mid sage
-const WH_ORGANIC  = 'rgba(90,122,90,0.45)';        // WH Engine 2 — light sage
-
-// EPM cohort ramp parameters (from ASSUMPTIONS + ROSTER)
-// Founding: Ed + named producers (5 seats EH, 3 SH, 2 WH at open)
-// Targeted: Engine 1 hires ($500K→$750K→$1M ramp)
-// Organic: Engine 2 hires ($250K→$500K→$750K ramp)
-const EPM_FOUNDING_SEATS = { eh: 5, sh: 3, wh: 2 };
-const EPM_ENGINE1_GCI_Y1 = 500_000;  // Engine 1 Y1 GCI per seat
-const EPM_ENGINE2_GCI_Y1 = 250_000;  // Engine 2 Y1 GCI per seat
-
-/**
- * Compute cohort sub-segments for one office zone.
- * Splits the total office GCI into Founding / Targeted / Organic proportions
- * based on EPM ramp parameters and years since office opened.
- * Totals always sum to `total` — no rounding drift.
- */
-function computeCohorts(total: number, yearsOpen: number, _unused: number): { founding: number; targeted: number; organic: number } {
-  if (total <= 0 || yearsOpen < 0) return { founding: total, targeted: 0, organic: 0 };
-  // Founding team GCI grows at 20% compound from base $600K/seat
-  const foundingGciPerSeat = 600_000 * Math.pow(1.2, yearsOpen);
-  // Engine 1: seats ramp in over years 1-4, each at $500K→$750K→$1M
-  const engine1Seats = Math.min(Math.max(yearsOpen, 0), 4); // up to 4 targeted seats
-  const engine1GciPerSeat = EPM_ENGINE1_GCI_Y1 * Math.pow(1.5, Math.min(yearsOpen, 2));
-  // Engine 2: organic seats from year 2 onward
-  const engine2Seats = Math.max(yearsOpen - 1, 0) * 2;
-  const engine2GciPerSeat = EPM_ENGINE2_GCI_Y1 * Math.pow(1.5, Math.min(Math.max(yearsOpen - 1, 0), 2));
-  // Raw proportions
-  const rawFounding = foundingGciPerSeat;
-  const rawTargeted = engine1Seats * engine1GciPerSeat;
-  const rawOrganic  = engine2Seats * engine2GciPerSeat;
-  const rawTotal = rawFounding + rawTargeted + rawOrganic || 1;
-  // Scale to actual total, preserve exact sum
-  const founding = Math.round(total * rawFounding / rawTotal);
-  const targeted = Math.round(total * rawTargeted / rawTotal);
-  const organic  = total - founding - targeted; // remainder avoids rounding drift
-  return { founding: Math.max(founding, 0), targeted: Math.max(targeted, 0), organic: Math.max(organic, 0) };
-}
+// Council-locked three-office stacked bar colors (April 20, 2026 final spec)
+const EH_COLOR   = '#9e1b32';  // Christie's red — East Hampton flagship
+const SH_COLOR   = '#1a3a5c';  // Deep ink navy — Southampton
+const WH_COLOR   = '#f37a1f';  // Hermès orange — Westhampton
+// Legacy aliases used in partner cards / headcount table / legend
+const EH_FOUNDING = EH_COLOR;
+const SH_FOUNDING = SH_COLOR;
+const WH_FOUNDING = WH_COLOR;
+const EH_FAINT    = 'rgba(158,27,50,0.20)';
+const SH_FAINT    = 'rgba(26,58,92,0.20)';
+const WH_FAINT    = 'rgba(243,122,31,0.20)';
 
 const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
@@ -157,6 +113,152 @@ function PrintFutureButton() {
     >
       {loading ? 'Generating…' : '\u2193 Download · PDF'}
     </button>
+  );
+}
+
+// ─── Council-locked Ascension Arc Chart Component ───────────────────────────
+// Spec: April 20 2026 · Ed + Council approved · No interpretation
+interface ArcBarDatum {
+  year: string;
+  eh: number;  // millions
+  sh: number;  // millions
+  wh: number;  // millions
+  combined: number; // millions
+  display: string;
+}
+
+function AscensionArcChart({ data, isPdfMode }: { data: ArcBarDatum[]; isPdfMode: boolean }) {
+  const [tooltip, setTooltip] = React.useState<{ x: number; y: number; d: ArcBarDatum } | null>(null);
+
+  const C_EH   = '#9e1b32';
+  const C_SH   = '#1a3a5c';
+  const C_WH   = '#f37a1f';
+  const C_GOLD = '#c8ac78';
+  const C_BG   = isPdfMode ? '#e8e6e2' : '#0f1820';
+  const C_GRID = 'rgba(200,172,120,0.10)';
+  const C_AXIS = isPdfMode ? '#384249' : 'rgba(248,245,240,0.55)';
+  const C_YEAR = isPdfMode ? '#1a1a1a' : '#f8f5f0';
+
+  const MAX_M = 3200;
+  const CHART_H = 260;
+  const Y_TICKS = [0, 500, 1000, 1500, 2000, 2500, 3000];
+
+  function pct(m: number) { return Math.max(0, Math.min(100, (m / MAX_M) * 100)); }
+  function fmtTick(m: number): string {
+    if (m === 0) return '$0M';
+    if (m >= 1000) return `$${m / 1000}B`;
+    return `$${m}M`;
+  }
+
+  return (
+    <div style={{ marginBottom: 20 }}>
+      {/* Chart header */}
+      <div style={{ textAlign: 'center' as const, marginBottom: 14 }}>
+        <div style={{ fontFamily: 'Georgia, serif', fontSize: 22, letterSpacing: 5, color: isPdfMode ? '#1a1a1a' : '#e8e4de', textTransform: 'uppercase' as const, fontWeight: 400, lineHeight: 1.2, marginBottom: 6 }}>
+          Christie&rsquo;s East Hampton Flagship
+        </div>
+        <div style={{ fontFamily: 'Georgia, serif', fontSize: 14, color: '#9e1b32', fontStyle: 'italic', letterSpacing: 0.5 }}>
+          Ascension Arc &middot; 2026 through 2036 and beyond
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 40, marginBottom: 16, flexWrap: 'wrap' }}>
+        {[
+          { color: C_EH, label: 'East Hampton · flagship · since 2026' },
+          { color: C_SH, label: 'Southampton · opens 2028' },
+          { color: C_WH, label: 'Westhampton · opens 2030' },
+        ].map(({ color, label }) => (
+          <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ width: 20, height: 20, background: color, flexShrink: 0 }} />
+            <span style={{ fontFamily: 'Georgia, serif', fontSize: 14, color: isPdfMode ? '#384249' : '#c8c8c8' }}>{label}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Chart body */}
+      <div className="future-chart-frame" style={{ background: C_BG, borderRadius: 4, padding: '20px 20px 0', position: 'relative' as const, border: `0.5px solid ${C_GOLD}` }}>
+        {/* Y-axis grid lines */}
+        <div style={{ position: 'absolute' as const, left: 52, right: 20, top: 20, height: CHART_H, pointerEvents: 'none' }}>
+          {Y_TICKS.map(m => (
+            <div key={m} style={{ position: 'absolute' as const, bottom: `${pct(m)}%`, left: 0, right: 0 }}>
+              <div style={{ borderTop: `1px solid ${C_GRID}`, width: '100%' }} />
+            </div>
+          ))}
+        </div>
+        {/* Y-axis tick labels */}
+        <div style={{ position: 'absolute' as const, left: 0, top: 20, height: CHART_H, width: 50, pointerEvents: 'none' }}>
+          {Y_TICKS.map(m => (
+            <div key={m} style={{ position: 'absolute' as const, bottom: `${pct(m)}%`, right: 4, transform: 'translateY(50%)', fontFamily: 'Georgia, serif', fontSize: 13, color: C_AXIS, whiteSpace: 'nowrap' as const, textAlign: 'right' as const }}>
+              {fmtTick(m)}
+            </div>
+          ))}
+        </div>
+
+        {/* Bars area */}
+        <div style={{ marginLeft: 52, display: 'flex', alignItems: 'flex-end', gap: 6, height: CHART_H, position: 'relative' as const }}>
+          {data.map((d) => {
+            const totalH = pct(d.combined);
+            const ehH  = d.combined > 0 ? (d.eh  / d.combined) * 100 : 100;
+            const shH  = d.combined > 0 ? (d.sh  / d.combined) * 100 : 0;
+            const whH  = d.combined > 0 ? (d.wh  / d.combined) * 100 : 0;
+            return (
+              <div key={d.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%', position: 'relative' as const }}
+                onMouseEnter={(e) => { const r = (e.currentTarget as HTMLElement).getBoundingClientRect(); setTooltip({ x: r.left + r.width / 2, y: r.top, d }); }}
+                onMouseLeave={() => setTooltip(null)}
+              >
+                <div style={{ fontFamily: 'Georgia, serif', fontSize: 13, fontWeight: 700, color: C_GOLD, marginBottom: 4, textAlign: 'center' as const, whiteSpace: 'nowrap' as const, lineHeight: 1 }}>
+                  {d.display}
+                </div>
+                <div style={{ width: '100%', height: `${totalH}%`, minHeight: 12, display: 'flex', flexDirection: 'column', cursor: 'default' }}>
+                  {d.wh > 0 && <div style={{ flex: whH, background: C_WH, border: `1px solid ${C_BG}`, minHeight: 4 }} />}
+                  {d.sh > 0 && <div style={{ flex: shH, background: C_SH, border: `1px solid ${C_BG}`, minHeight: 4 }} />}
+                  <div style={{ flex: ehH, background: C_EH, border: `1px solid ${C_BG}`, minHeight: 12 }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* X-axis year labels */}
+        <div style={{ marginLeft: 52, display: 'flex', gap: 6, borderTop: `1px solid ${C_AXIS}`, paddingTop: 10, paddingBottom: 14 }}>
+          {data.map((d) => (
+            <div key={d.year} style={{ flex: 1, textAlign: 'center' as const, fontFamily: 'Georgia, serif', fontSize: 14, fontWeight: 700, color: C_YEAR }}>
+              {d.year}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Chart footer */}
+      <div style={{ textAlign: 'center' as const, marginTop: 12, fontFamily: 'Georgia, serif', fontSize: 12, color: '#384249', fontStyle: 'italic', letterSpacing: 4 }}>
+        ART &middot; BEAUTY &middot; PROVENANCE &middot; SINCE 1766
+      </div>
+
+      {/* Hover tooltip */}
+      {tooltip && (
+        <div style={{ position: 'fixed' as const, left: tooltip.x, top: tooltip.y - 8, transform: 'translate(-50%, -100%)', background: '#faf7f1', border: `1.5px solid ${C_GOLD}`, borderRadius: 4, padding: '10px 14px', zIndex: 9999, pointerEvents: 'none', minWidth: 180, boxShadow: '0 4px 16px rgba(0,0,0,0.18)' }}>
+          <div style={{ fontFamily: 'Georgia, serif', fontSize: 13, fontWeight: 700, color: '#1a1a1a', marginBottom: 8 }}>{tooltip.d.year}</div>
+          {[
+            { label: 'East Hampton', val: tooltip.d.eh, color: C_EH },
+            { label: 'Southampton',  val: tooltip.d.sh, color: C_SH },
+            { label: 'Westhampton',  val: tooltip.d.wh, color: C_WH },
+          ].map(({ label, val, color }) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', gap: 16, fontFamily: 'Georgia, serif', fontSize: 12, color: '#384249', marginBottom: 3 }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 10, height: 10, background: color, display: 'inline-block', flexShrink: 0 }} />
+                {label}
+              </span>
+              <span style={{ fontWeight: 600 }}>{val > 0 ? `$${val >= 1000 ? (val/1000).toFixed(1)+'B' : val.toFixed(1)+'M'}` : '—'}</span>
+            </div>
+          ))}
+          <div style={{ borderTop: `1px solid ${C_GOLD}`, marginTop: 6, paddingTop: 6, display: 'flex', justifyContent: 'space-between', fontFamily: 'Georgia, serif', fontSize: 13, color: '#9e1b32', fontWeight: 700 }}>
+            <span>Combined</span>
+            <span>{tooltip.d.display}</span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -335,72 +437,44 @@ export default function FutureTab() {
   }
 
   // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)
-  const BARS = useMemo(() => {
-    // Sprint 13: canonical OUTPUTS B32:B42 fallback values (Perplexity April 15, 2026)
-    const vol2026 = liveVolumes?.[2026] ?? 75_000_000;
-    const vol2027 = liveVolumes?.[2027] ?? 125_906_749;
-    const vol2028 = liveVolumes?.[2028] ?? 253_866_793;
-    const vol2029 = liveVolumes?.[2029] ?? 622_000_000;   // Council EPM Apr 16 2026
-    const vol2030 = liveVolumes?.[2030] ?? 1_270_000_000;  // Council EPM Apr 16 2026
-    const vol2031 = liveVolumes?.[2031] ?? 1_980_000_000;  // Council EPM Apr 16 2026
-    const vol2032 = liveVolumes?.[2032] ?? 2_250_000_000;  // Council EPM Apr 16 2026
-    const vol2033 = liveVolumes?.[2033] ?? 2_450_000_000;  // Council EPM Apr 16 2026
-    const vol2034 = liveVolumes?.[2034] ?? 2_620_000_000;  // Council EPM Apr 16 2026
-    const vol2035 = liveVolumes?.[2035] ?? 2_800_000_000;  // Council EPM Apr 16 2026
-    const vol2036 = liveVolumes?.[2036] ?? 3_000_000_000;  // Council EPM Apr 16 2026 · institutional floor
-    // EH volumes — Growth Model v2 · Perp confirmed Apr 20 2026 · Row 10
-    const eh2026 = liveEhVolumes?.[2026] ?? 75_000_000;
-    const eh2027 = liveEhVolumes?.[2027] ?? 212_000_000;
-    const eh2028 = liveEhVolumes?.[2028] ?? 411_000_000;
-    const eh2029 = liveEhVolumes?.[2029] ?? 567_000_000;
-    const eh2030 = liveEhVolumes?.[2030] ?? 647_000_000;
-    const eh2031 = liveEhVolumes?.[2031] ?? 728_000_000;
-    const eh2032 = liveEhVolumes?.[2032] ?? 808_000_000;
-    const eh2033 = liveEhVolumes?.[2033] ?? 889_000_000;
-    const eh2034 = liveEhVolumes?.[2034] ?? 969_000_000;
-    const eh2035 = liveEhVolumes?.[2035] ?? 1_050_000_000;
-    const eh2036 = liveEhVolumes?.[2036] ?? 1_130_000_000;
-    // SH Row 15 · WH Row 16 · Growth Model v2 · Perp confirmed Apr 20 2026
-    // SH opens 2027 (42M ramp) · WH opens 2028 (57M ramp)
-    // Combined three-office 2036 = $3.0B exact · institutional floor · north star
-    const sh2026 = liveShVolumes?.[2026] ?? 0;
-    const sh2027 = liveShVolumes?.[2027] ?? 42_000_000;
-    const sh2028 = liveShVolumes?.[2028] ?? 285_000_000;
-    const sh2029 = liveShVolumes?.[2029] ?? 422_000_000;
-    const sh2030 = liveShVolumes?.[2030] ?? 503_000_000;
-    const sh2031 = liveShVolumes?.[2031] ?? 584_000_000;
-    const sh2032 = liveShVolumes?.[2032] ?? 665_000_000;
-    const sh2033 = liveShVolumes?.[2033] ?? 745_000_000;
-    const sh2034 = liveShVolumes?.[2034] ?? 826_000_000;
-    const sh2035 = liveShVolumes?.[2035] ?? 907_000_000;
-    const sh2036 = liveShVolumes?.[2036] ?? 988_000_000;
-    const wh2026 = liveWhVolumes?.[2026] ?? 0;
-    const wh2027 = liveWhVolumes?.[2027] ?? 0;
-    const wh2028 = liveWhVolumes?.[2028] ?? 57_000_000;
-    const wh2029 = liveWhVolumes?.[2029] ?? 231_000_000;
-    const wh2030 = liveWhVolumes?.[2030] ?? 324_000_000;
-    const wh2031 = liveWhVolumes?.[2031] ?? 416_000_000;
-    const wh2032 = liveWhVolumes?.[2032] ?? 509_000_000;
-    const wh2033 = liveWhVolumes?.[2033] ?? 601_000_000;
-    const wh2034 = liveWhVolumes?.[2034] ?? 694_000_000;
-    const wh2035 = liveWhVolumes?.[2035] ?? 786_000_000;
-    const wh2036 = liveWhVolumes?.[2036] ?? 879_000_000;
-    return [
-      // vol = combined EH+SH+WH total — drives bar height AND label (fixed Apr 16 2026)
-      { year: '2025', vol: 15_000_000,                    display: '$20M',        actualVol: 0,       isBaseline: true,  eh: 15_000_000, sh: 0, wh: 0 },
-      { year: '2026', vol: eh2026+sh2026+wh2026,          display: fmtM(eh2026+sh2026+wh2026), actualVol: act2026, note: '2026 TARGET · EH Flagship',  eh: eh2026, sh: sh2026, wh: wh2026 },
-      { year: '2027', vol: eh2027+sh2027+wh2027,          display: fmtM(eh2027+sh2027+wh2027), actualVol: 0,       eh: eh2027, sh: sh2027, wh: wh2027 },
-      { year: '2028', vol: eh2028+sh2028+wh2028,          display: fmtM(eh2028+sh2028+wh2028), actualVol: 0,       note: 'Southampton opens',  eh: eh2028, sh: sh2028, wh: wh2028 },
-      { year: '2029', vol: eh2029+sh2029+wh2029,          display: fmtM(eh2029+sh2029+wh2029), actualVol: 0,       eh: eh2029, sh: sh2029, wh: wh2029 },
-      { year: '2030', vol: eh2030+sh2030+wh2030,          display: fmtM(eh2030+sh2030+wh2030), actualVol: 0,       note: 'Westhampton opens',  eh: eh2030, sh: sh2030, wh: wh2030 },
-      { year: '2031', vol: eh2031+sh2031+wh2031,          display: fmtM(eh2031+sh2031+wh2031), actualVol: 0,       eh: eh2031, sh: sh2031, wh: wh2031 },
-      { year: '2032', vol: eh2032+sh2032+wh2032,          display: fmtM(eh2032+sh2032+wh2032), actualVol: 0,       eh: eh2032, sh: sh2032, wh: wh2032 },
-      { year: '2033', vol: eh2033+sh2033+wh2033,          display: fmtM(eh2033+sh2033+wh2033), actualVol: 0,       eh: eh2033, sh: sh2033, wh: wh2033 },
-      { year: '2034', vol: eh2034+sh2034+wh2034,          display: fmtM(eh2034+sh2034+wh2034), actualVol: 0,       eh: eh2034, sh: sh2034, wh: wh2034 },
-      { year: '2035', vol: eh2035+sh2035+wh2035,          display: fmtM(eh2035+sh2035+wh2035), actualVol: 0,       eh: eh2035, sh: sh2035, wh: wh2035 },
-      { year: '2036', vol: eh2036+sh2036+wh2036,          display: '$3.0B',       actualVol: 0,       note: "$3.0B · Three-Office Ascension Arc Complete · EPM · 36 seats · institutional floor", isFinal: true, eh: eh2036, sh: sh2036, wh: wh2036 },
-    ];
-  }, [liveVolumes, liveEhVolumes, liveShVolumes, liveWhVolumes, act2026]);
+  // ── Council-locked CHART_DATA — Growth Model v2 VOLUME tab · April 20 2026 ──
+  // Direct from Perp's raw VOLUME pull. No derivation. All values in millions.
+  // Live tRPC data overrides when available; these are the exact council-locked fallbacks.
+  const CHART_DATA = useMemo((): ArcBarDatum[] => {
+    // EH Row 10 · SH Row 15 · WH Row 16 · Growth Model v2 VOLUME tab
+    // Council-locked exact values (millions) — April 20 2026
+    const EH_M = [20, 75, 212, 411, 567, 647, 728, 808, 889, 969, 1050, 1130];
+    const SH_M = [0,   0,  42, 285, 422, 503, 584, 665, 745, 826,  907,  988];
+    const WH_M = [0,   0,   0,  57, 231, 324, 416, 509, 601, 694,  786,  879];
+    const YEARS = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
+    return YEARS.map((yr, i) => {
+      const liveEh = liveEhVolumes?.[yr];
+      const liveSh = liveShVolumes?.[yr];
+      const liveWh = liveWhVolumes?.[yr];
+      const eh = (liveEh && liveEh > 0) ? liveEh / 1_000_000 : EH_M[i];
+      const sh = (liveSh && liveSh > 0) ? liveSh / 1_000_000 : SH_M[i];
+      const wh = (liveWh && liveWh > 0) ? liveWh / 1_000_000 : WH_M[i];
+      const combined = eh + sh + wh;
+      let display: string;
+      if (yr === 2036) { display = '$3.0B'; }
+      else if (yr === 2025) { display = '$20M'; }
+      else if (combined >= 1000) { display = `$${(combined / 1000).toFixed(2).replace(/\\.?0+$/, '')}B`; }
+      else if (combined >= 100) { display = `$${Math.round(combined)}M`; }
+      else { display = `$${combined.toFixed(1)}M`; }
+      return { year: String(yr), eh, sh, wh, combined, display };
+    });
+  }, [liveEhVolumes, liveShVolumes, liveWhVolumes]);
+
+  // Legacy BARS alias — used by partner cards / headcount table below chart
+  const BARS = useMemo(() => CHART_DATA.map(d => ({
+    year: d.year,
+    vol: d.combined * 1_000_000,
+    display: d.display,
+    actualVol: 0,
+    eh: d.eh * 1_000_000,
+    sh: d.sh * 1_000_000,
+    wh: d.wh * 1_000_000,
+  })), [CHART_DATA]);
 
   // ─── Card border style (uniform per wireframe) ────────────────────────
   const cardStyle: React.CSSProperties = {
@@ -426,15 +500,12 @@ export default function FutureTab() {
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: isPdfMode ? '#1B2A4A' : '#C8AC78', letterSpacing: '0.18em', textTransform: 'uppercase' as const }}>Future Projections &middot; Christie&apos;s East Hampton</div>
         </div>
 
-        {/* ── Header ─────────────────────────────────────────────────────────── */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${GOLD}`, paddingBottom: 8, marginBottom: 12, gap: 6 }}>
-          <div style={{ ...SANS, fontSize: 8.5, color: GOLD, letterSpacing: 1.5, flexShrink: 0 }}>
+        {/* ── Page header: Christie's bar + Print button ─────────────────── */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${GOLD}`, paddingBottom: 8, marginBottom: 16, gap: 6 }}>
+          <div style={{ ...SANS, fontSize: 8.5, color: GOLD, letterSpacing: 1.5 }}>
             CHRISTIE&apos;S &middot; INTERNATIONAL REAL ESTATE GROUP &middot; EAST HAMPTON &middot; EST. 1766
           </div>
-          <div style={{ ...SANS, fontSize: 16, color: TEXT_PRIMARY, letterSpacing: 3, textTransform: 'uppercase' as const, flex: '1 1 auto', textAlign: 'center' as const }}>
-            Ascension Arc &middot; <span style={{ fontSize: 8, color: MUTED, fontWeight: 400, letterSpacing: 0.5 }}>Canonical Adjusted Trajectory</span>
-          </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexShrink: 0 }}>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             {!isPdfMode && ((arcData && !arcLoading) || (volData && !volLoading)) ? (
               <span style={{ ...SANS, color: '#4ade80', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' as const }}>&#9679; Live</span>
             ) : null}
@@ -442,149 +513,9 @@ export default function FutureTab() {
           </div>
         </div>
 
-        {/* ── Zone Divider: Ascension Arc ─────────────────────────────────── */}
-        {!isPdfMode && (
-          <div style={{ margin: '10px 0 12px', textAlign: 'center' as const }}>
-            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginBottom: 6 }} />
-            <span style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 2.5, textTransform: 'uppercase' as const, fontWeight: 500 }}>
-              Ascension Arc &middot; 2026&ndash;2036 &middot; Three Offices
-            </span>
-            <div style={{ borderTop: `0.5px solid ${GOLD}`, marginTop: 6 }} />
-          </div>
-        )}
+        {/* Council-locked Ascension Arc Chart */}
+        <AscensionArcChart data={CHART_DATA} isPdfMode={isPdfMode} />
 
-        {/* ── Chart Frame ────────────────────────────────────────────────────── */}
-        <div className="future-chart-frame" style={{ border: `0.5px solid ${GOLD}`, borderRadius: 4, background: CHART_BG, padding: '14px 14px 0', marginBottom: 6 }}>
-          {/* Dollar labels row — sits above the bars, outside the fixed-height bars container */}
-          <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-            {BARS.map((bar) => (
-              <div key={bar.year} className="future-bar-label" style={{ flex: 1, minWidth: 0, ...SANS, fontSize: 8, color: GOLD, fontWeight: 600, textAlign: 'center', whiteSpace: 'normal', overflow: 'visible', lineHeight: 1.2, wordBreak: 'break-all' }}>
-                {bar.display}
-              </div>
-            ))}
-          </div>
-          {/* Bars row — fixed height container, bars use % heights so they always fit */}
-          <div className="future-bars-row" style={{ display: 'flex', alignItems: 'flex-end', gap: 8, height: CHART_HEIGHT, overflow: 'hidden' }}>
-
-            {BARS.map((bar) => {
-              // All heights are PERCENTAGES of the container (0–92%)
-              const projPct = barPct(bar.vol); // e.g. 92 for the tallest bar
-              const actPct  = bar.actualVol > 0 ? Math.max(8, Math.round((bar.actualVol / bar.vol) * projPct)) : 0;
-              const isBaseline = bar.year === '2025';
-              // Three-office stacked percentages — each segment is proportional to its share of combined vol
-              // MUST use (office_vol / combined_vol) * projPct so EH always grows visually (SD-8 Phase Two fix Apr 16 2026)
-              const combined = bar.eh + bar.sh + bar.wh;
-              const ehPct = combined > 0 && bar.eh > 0 ? Math.max(2, Math.round((bar.eh / combined) * projPct)) : (projPct > 0 ? projPct : 0);
-              const shPct = combined > 0 && bar.sh > 0 ? Math.max(1, Math.round((bar.sh / combined) * projPct)) : 0;
-              const whPct = combined > 0 && bar.wh > 0 ? Math.max(1, Math.round((bar.wh / combined) * projPct)) : 0;
-              const stackedPct = ehPct + shPct + whPct;
-              const gapPct = Math.max(0, projPct - stackedPct);
-
-              return (
-                <div key={bar.year} style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end', height: '100%' }}>
-                  {/* Bar column — height is a PERCENTAGE of the container so it always fits */}
-                  <div style={{ width: '100%', height: `${projPct}%`, minHeight: 12, display: 'flex', flexDirection: 'column' }}>
-                    {isBaseline ? (
-                      /* 2025 baseline — simple dim bar */
-                      <div style={{ width: '100%', height: '100%', background: '#1e2d3d', borderRadius: '2px 2px 0 0', border: '0.5px solid #2a3a4a', borderBottom: 'none' }} />
-                    ) : (
-                      <>
-                        {/* Projected gap (faint outline) */}
-                        {gapPct > 0 && (
-                          <div style={{ width: '100%', flex: `0 0 ${gapPct / projPct * 100}%`, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderBottom: 'none', borderRadius: '2px 2px 0 0', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4px 3px', overflow: 'hidden' }}>
-
-                          </div>
-                        )}
-                        {/* Westhampton — cohort sub-segments (Founding/Targeted/Organic) */}
-                        {whPct > 0 && (() => {
-                          const wh = computeCohorts(bar.wh, parseInt(bar.year) - 2030, 0);
-                          return (
-                            <div style={{ width: '100%', flex: `0 0 ${whPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(90,122,90,0.6)` }}>
-                              {wh.organic  > 0 && <div title={`WH Organic: ${fmtM(wh.organic)}`}  style={{ flex: wh.organic,  background: WH_ORGANIC,  minHeight: 1 }} />}
-                              {wh.targeted > 0 && <div title={`WH Engine 1: ${fmtM(wh.targeted)}`} style={{ flex: wh.targeted, background: WH_TARGETED, minHeight: 1 }} />}
-                              {wh.founding > 0 && <div title={`WH Founding: ${fmtM(wh.founding)}`} style={{ flex: wh.founding, background: WH_FOUNDING, minHeight: 1 }} />}
-                            </div>
-                          );
-                        })()}
-                        {/* Southampton — cohort sub-segments */}
-                        {shPct > 0 && (() => {
-                          const sh = computeCohorts(bar.sh, parseInt(bar.year) - 2028, 0);
-                          return (
-                            <div style={{ width: '100%', flex: `0 0 ${shPct / projPct * 100}%`, display: 'flex', flexDirection: 'column', borderTop: `1px solid rgba(58,90,122,0.6)` }}>
-                              {sh.organic  > 0 && <div title={`SH Organic: ${fmtM(sh.organic)}`}  style={{ flex: sh.organic,  background: SH_ORGANIC,  minHeight: 1 }} />}
-                              {sh.targeted > 0 && <div title={`SH Engine 1: ${fmtM(sh.targeted)}`} style={{ flex: sh.targeted, background: SH_TARGETED, minHeight: 1 }} />}
-                              {sh.founding > 0 && <div title={`SH Founding: ${fmtM(sh.founding)}`} style={{ flex: sh.founding, background: SH_FOUNDING, minHeight: 1 }} />}
-                            </div>
-                          );
-                        })()}
-                        {/* East Hampton — cohort sub-segments */}
-                        {ehPct > 0 && (() => {
-                          const eh = computeCohorts(bar.eh, parseInt(bar.year) - 2026, 0);
-                          return (
-                            <div style={{ width: '100%', flex: `0 0 ${ehPct / projPct * 100}%`, display: 'flex', flexDirection: 'column' }}>
-                              {actPct > 0 && <div style={{ width: '100%', height: 2, background: GOLD_LIGHT, flexShrink: 0 }} />}
-                              {eh.organic  > 0 && <div title={`EH Organic: ${fmtM(eh.organic)}`}  style={{ flex: eh.organic,  background: EH_ORGANIC,  minHeight: 1 }} />}
-                              {eh.targeted > 0 && <div title={`EH Engine 1: ${fmtM(eh.targeted)}`} style={{ flex: eh.targeted, background: EH_TARGETED, minHeight: 1 }} />}
-                              {eh.founding > 0 && <div title={`EH Founding: ${fmtM(eh.founding)}`} style={{ flex: eh.founding, background: EH_FOUNDING, minHeight: 1 }} />}
-                            </div>
-                          );
-                        })()}
-                      </>
-                    )}
-                  </div>
-                </div>
-              );
-            })}
-
-
-
-          </div>
-
-          {/* Year strip */}
-          <div style={{ display: 'flex', gap: 8, borderTop: `0.5px solid ${CHARCOAL}`, padding: '8px 0 6px' }}>
-            {BARS.map(b => b.year).map(yr => (
-              <div key={yr} className="future-year-label" style={{ flex: 1, ...SANS, fontSize: 10, color: GOLD, fontWeight: 700, textAlign: 'center' }}>{yr}</div>
-            ))}
-          </div>
-
-          {/* Milestone callout row — Southampton 2028 · Westhampton 2030 */}
-          <div style={{ display: 'flex', gap: 8, paddingBottom: 10 }}>
-            {BARS.map((bar) => {
-              const isSH = bar.year === '2028';
-              const isWH = bar.year === '2030';
-              if (!isSH && !isWH) return <div key={bar.year} style={{ flex: 1 }} />;
-              return (
-                <div key={bar.year} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
-                  <div style={{ width: '80%', borderTop: `0.5px solid rgba(248,245,240,0.45)` }} />
-                  <span style={{ ...SANS, fontSize: 7, color: 'rgba(248,245,240,0.70)', letterSpacing: 1.8, textTransform: 'uppercase' as const, textAlign: 'center' as const, lineHeight: 1.3 }}>
-                    {isSH ? 'Southampton\nopens' : 'Westhampton\nopens'}
-                  </span>
-                  <div style={{ width: '80%', borderTop: `0.5px solid rgba(248,245,240,0.45)` }} />
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
-        <div style={{ display: 'flex', gap: 10, marginBottom: 9, alignItems: 'center', flexWrap: 'wrap' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FOUNDING, flexShrink: 0 }} />
-            East Hampton &middot; 2026–2036
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: SH_FOUNDING, flexShrink: 0 }} />
-            Southampton &middot; opens 2028
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: WH_FOUNDING, flexShrink: 0 }} />
-            Westhampton &middot; opens 2030
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 5, ...SANS, fontSize: 7.5, color: '#888' }}>
-            <div style={{ width: 11, height: 11, borderRadius: 1, background: EH_FAINT, border: `0.5px solid ${GOLD_FAINT_BORDER}`, flexShrink: 0 }} />
-            Projected — live from Growth Model v2
-          </div>
-        </div>
         {/* ── 100-Day Cards (4 cards) ─────────────────────────────────────────── */}
         <div className="future-cards-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: 6, marginBottom: 16 }}>
           {[

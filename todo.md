@@ -2283,3 +2283,12 @@
 - [x] PF9-7: Ilija label 'Net pool 65%' → 'NOP pool 65%'
 - [x] PF9-8: OPERATOR CONTROL PANEL zone divider removed (OCP follows immediately, divider redundant)
 - [x] PF9-CHECKPOINT: 34/34 tests pass · HMR clean 7:07 PM · checkpoint
+
+## Council-Locked Ascension Arc Chart — April 20, 2026
+
+- [x] Replace old cohort-segmented chart with council-locked institutional chart (Christie's red / deep navy / Hermès orange)
+- [x] Remove computeCohorts, EPM constants, Founding/Engine/Organic cohort colors
+- [x] Insert AscensionArcChart component: Georgia serif header/legend/footer, Y-axis grid, gold combined labels, hover tooltips
+- [x] Replace BARS useMemo with CHART_DATA (12 years, 3 offices, council-locked fallback arrays)
+- [x] Remove old 4-item legend row (EH/SH/WH/Projected) from below chart
+- [x] 34/34 tests passing after change
