@@ -707,31 +707,31 @@ export default function FutureTab() {
             {([
               {
                 accent: '#9a9a9a',
-                lbl: '1st 100 Days', st: 'Done', dt: 'Dec 2025 \u2013 Mar 2026',
-                sh: '$4.57M closed. 9 Daniels Hole Road $2.47M. 2 Old Hollow $2.10M. Dashboard live Day 1.',
-                cl: 'AnewHomes proven at $2.47M. Every deal scored before the first showing.',
-                tm: '26 Park Place operational. Open before the sign went up.',
+                lbl: '1ST 100 DAYS', st: 'DONE', dt: 'Dec 2025 – Mar 2026',
+                sh: '$4.57M closed. 9 Daniels Hole Road $2.47M, AnewHomes debut. 2 Old Hollow Road $2.10M. Pipeline built to $19.72M.',
+                cl: 'Office rebuilt as an auction house. Art hung, desks reduced, podcast studio installed. Hamptons Real Estate Podcast live. First Private Collector Series events — Watches, Art, Wine. Wednesday Caravan launched.',
+                tm: '26 Park Place open before the sign went up. Angel Theodore led the transformation. Dashboard live Day 1.',
               },
               {
                 accent: isPdfMode ? '#947231' : '#c8ac78',
-                lbl: '2nd 100 Days', st: 'Doing', dt: 'Mar \u2013 Apr 29, 2026',
-                sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active.',
-                cl: 'Schneps Media pilot in motion. Dan\u2019s Papers channel in play. NYC outreach through Melissa True, Rockefeller and Flatiron desks.',
-                tm: 'Angel Day One April 25. Zoila start May 4. Flagship relaunch April 29.',
+                lbl: '2ND 100 DAYS', st: 'DOING', dt: 'Mar – Apr 29, 2026',
+                sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active. Two additional closings this quarter.',
+                cl: 'Stephen Lash engaged. Dan’s Papers pilot with Schneps Media in motion. NYC outreach through Melissa True, Rockefeller and Flatiron desks.',
+                tm: 'Jarvis Slade joined as COO and Agent. Angel Day One April 25. Zoila Ortega Astor starts May 4. Flagship relaunch April 29.',
               },
               {
                 accent: '#c8946b',
-                lbl: '3rd 100 Days', st: 'Incoming', dt: 'Apr 29 \u2013 Aug 2026',
-                sh: '$75M 2026 trajectory. First Wednesday Caravan live. East End flagship presence.',
-                cl: 'Daily intelligence briefing in market. Every listing at Christie\u2019s standard.',
-                tm: '5 agents on live OS. Scott joins June 1. Southampton pre-launch in motion.',
+                lbl: '3RD 100 DAYS', st: 'INCOMING', dt: 'Apr 29 – Aug 2026',
+                sh: '$75M 2026 trajectory. First Wednesday Caravan live. East End flagship presence established.',
+                cl: 'Daily intelligence briefing in market. Every listing held to the Christie’s standard.',
+                tm: 'Five agents on live operating system. Scott Smith joins June 1. Southampton pre-launch in motion.',
               },
               {
                 accent: '#1a3a5c',
-                lbl: 'Ascension', st: 'Vision', dt: '2027 \u2013 2036',
+                lbl: 'ASCENSION', st: 'VISION', dt: '2027 – 2036',
                 sh: '$3.00B three-office combined 2036. 36 elite producers at maturity. Profit sharing opens Year 2 (2027).',
-                cl: 'Global Christie\u2019s brand. Legacy practice. Not a brokerage.',
-                tm: 'Three offices fully staffed by 2031. Team complete. Steady growth carries through 2036.',
+                cl: 'Global Christie’s brand. Legacy practice. Not a brokerage.',
+                tm: 'Three offices. Three markets. One standard.',
               },
             ] as Array<{accent:string;lbl:string;st:string;dt:string;sh:string;cl:string;tm:string}>).map(c => {
               const cardBg    = isPdfMode ? '#faf7f1' : '#141d28';
@@ -752,8 +752,9 @@ export default function FutureTab() {
                 }}>
                   {/* Card header */}
                   <div style={{ background: hdrBg, padding: '8px 10px', borderBottom: `1px solid ${hdrBorderB}` }}>
-                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, letterSpacing: 1.8, color: lblColor, fontWeight: 500, marginBottom: 3, textTransform: 'uppercase' as const }}>{c.lbl}</div>
-                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 12, letterSpacing: 1.5, color: stColor, fontWeight: 500, textTransform: 'uppercase' as const, lineHeight: 1.1 }}>{c.st}</div>
+                    {/* Option A stacked equal — both labels 22px serif, equal weight */}
+                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 13, letterSpacing: 1.8, color: lblColor, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const, lineHeight: 1.15 }}>{c.lbl}</div>
+                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 13, letterSpacing: 1.5, color: stColor, fontWeight: 400, textTransform: 'uppercase' as const, fontStyle: 'italic', lineHeight: 1.15 }}>{c.st}</div>
                     <div style={{ fontFamily: 'Georgia,serif', fontSize: 7.5, color: dtColor, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: isPdfMode ? 1 : 0.85 }}>{c.dt}</div>
                   </div>
                   {/* Card body */}

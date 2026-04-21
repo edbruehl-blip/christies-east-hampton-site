@@ -21,7 +21,7 @@
 
 import { useLocation } from 'wouter';
 import { EmbedFrame } from '@/components/EmbedFrame';
-import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-assets';
+import { GALLERY_IMAGES } from '@/lib/cdn-assets';
 // AuctionHouseServices import removed B2 Apr 18 2026 — component moved to /report
 // WilliamAudioPlayer removed C5 Apr 18 2026 — audio permanently retired
 // EstateAdvisoryCard removed — no longer used in HomeTab after B2/C5 cleanup
@@ -74,70 +74,29 @@ function SectionA() {
             maxWidth: 920,
           }}
         >
-          {/* ── SINGLE COLUMN: portrait floats left inside letter text ── */}
+          {/* ── SINGLE COLUMN: clean letter, no portrait ── */}
           <div className="home-letter-col" style={{ padding: '20px 28px 32px 28px' }}>
-            {/* Portrait floated left — wraps into text on all screen sizes */}
-            <div
-              onClick={() => navigate('/report')}
-              style={{ cursor: 'pointer', float: 'left', marginRight: 24, marginBottom: 12, marginTop: 4 }}
-              title="Tap portrait for the full Market Report"
-            >
+            {/* Option 1 header — single line, personal, full stop */}
+            <div style={{ marginBottom: 22 }}>
               <div style={{
-                padding: 4,
-                border: '2px solid #C8AC78',
-                boxShadow: '0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.65)',
-                background: 'rgba(27,42,74,0.4)',
-                display: 'inline-block',
+                fontFamily: '"Cormorant Garamond", serif',
+                color: '#FAF8F4',
+                fontWeight: 400,
+                fontSize: 'clamp(1.1rem, 2vw, 1.45rem)',
+                lineHeight: 1.2,
+                marginBottom: 4,
               }}>
-                <img
-                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-                  alt="James Christie — Founder, Christie's, Est. 1766"
-                  className="block"
-                  style={{
-                    width: 'clamp(90px, 14vw, 130px)',
-                    height: 'clamp(115px, 18vw, 165px)',
-                    objectFit: 'cover',
-                    objectPosition: 'center 35%',
-                    display: 'block',
-                  }}
-                />
+                A Letter from Ed Bruehl
               </div>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
-                fontSize: 9,
-                letterSpacing: '0.18em',
+                color: 'rgba(200,172,120,0.75)',
+                fontSize: 10,
+                letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                marginTop: 9,
-                textAlign: 'center',
-                lineHeight: 1.5,
               }}>
-                Tap for<br/>Market Report
+                Managing Director · East Hampton Flagship
               </div>
-            </div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>
-              A Letter from the Desk
-            </div>
-            <h2 style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              color: '#FAF8F4',
-              fontWeight: 400,
-              fontSize: 'clamp(1.15rem, 2vw, 1.5rem)',
-              lineHeight: 1.25,
-              marginBottom: 18,
-              maxWidth: 560,
-            }}>
-              CHRISTIE'S EAST HAMPTON
-            </h2>
-            <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
-              fontSize: 10,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              marginBottom: 18,
-            }}>
-              Art. Beauty. Provenance. Since 1766.
             </div>
 
             <div style={{ maxWidth: 620 }}>
@@ -157,68 +116,42 @@ function SectionA() {
               ))}
             </div>
 
-            <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.18)' }}>
+            {/* ── Signature ── */}
+            <div style={{ marginTop: 28, paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.18)' }}>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1rem', fontStyle: 'italic', marginBottom: 4 }}>
                 Ed Bruehl
               </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 14 }}>
                 Managing Director  ·  Christie's East Hampton
+              </div>
+              {/* Provenance close — lives at the end, after the work is done */}
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.45)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
+                Art. Beauty. Provenance. Since 1766.
               </div>
             </div>
 
-            {/* ── INTRO BUTTONS — PDF download + printable letter (William audio RETIRED C5) ── */}
-            <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 16, marginBottom: 32 }}>
+            {/* ── CONTINUE TO MARKET REPORT button ── */}
+            <div style={{ marginBottom: 32 }}>
               <button
-                onClick={() => {
-                  const a = document.createElement('a');
-                  a.href = '/api/pdf?url=/letters/welcome';
-                  a.download = 'Christies_EH_Letter_' + new Date().toISOString().slice(0,10) + '.pdf';
-                  document.body.appendChild(a);
-                  a.click();
-                  document.body.removeChild(a);
-                }}
+                onClick={() => navigate('/report')}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 8,
-                  padding: '9px 20px',
+                  gap: 10,
+                  padding: '11px 24px',
                   fontFamily: '"Barlow Condensed", sans-serif',
                   fontSize: 11,
-                  letterSpacing: '0.18em',
+                  letterSpacing: '0.2em',
                   textTransform: 'uppercase',
                   color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.08)',
+                  background: 'rgba(200,172,120,0.10)',
                   border: '1px solid rgba(200,172,120,0.5)',
                   cursor: 'pointer',
                 }}
               >
-                ↓ Download Neighborhood Letter  ·  PDF
+                Continue to Market Report →
               </button>
-              <a
-                href="/letters/welcome"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 8,
-                  padding: '9px 20px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  color: '#C8AC78',
-                  background: 'transparent',
-                  border: '1px solid rgba(200,172,120,0.35)',
-                  cursor: 'pointer',
-                  textDecoration: 'none',
-                }}
-              >
-                ↗ Open &amp; Print
-              </a>
             </div>
-            {/* clearfix so section height contains the float */}
-            <div style={{ clear: 'both' }} />
           </div>
           {/* /home-letter-col */}
         </div>
