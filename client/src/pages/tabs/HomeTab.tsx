@@ -21,13 +21,15 @@
 
 import { useLocation } from 'wouter';
 import { EmbedFrame } from '@/components/EmbedFrame';
-import { GALLERY_IMAGES } from '@/lib/cdn-assets';
+import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 // AuctionHouseServices import removed B2 Apr 18 2026 — component moved to /report
 // WilliamAudioPlayer removed C5 Apr 18 2026 — audio permanently retired
 // EstateAdvisoryCard removed — no longer used in HomeTab after B2/C5 cleanup
 // pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
 
 // Neighborhood Letter v15 — council-locked April 21 2026 (Addendum 5 dispatch)
+// James Christie portrait restored Apr 21 2026 — Addendum dispatch (portrait left, letter right)
+// CTA hover state upgraded Apr 21 2026 — gold fill on hover, navy text
 // Em-dashes in P2, P9, P10 are intentional — do not strip.
 // "Standard" capitalization is intentional voice architecture — P5 lowercase → P7/P9 capital.
 const FOUNDING_PARAGRAPHS = [
@@ -74,8 +76,34 @@ function SectionA() {
             maxWidth: 920,
           }}
         >
-          {/* ── SINGLE COLUMN: clean letter, no portrait ── */}
-          <div className="home-letter-col" style={{ padding: '20px 28px 32px 28px' }}>
+          {/* ── TWO-COLUMN: portrait left · letter right ── */}
+          <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+
+            {/* ── LEFT: James Christie portrait — provenance marker ── */}
+            <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 4 }}>
+              <div style={{ border: '1px solid #947231', padding: 3, background: 'rgba(27,42,74,0.6)' }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie, founder of Christie's, London 1766"
+                  style={{ display: 'block', width: 128, height: 128, objectFit: 'cover', objectPosition: 'top center' }}
+                />
+              </div>
+              <div style={{
+                fontFamily: '"Georgia", serif',
+                fontStyle: 'italic',
+                fontSize: 9,
+                color: '#947231',
+                letterSpacing: '1px',
+                textAlign: 'center',
+                marginTop: 6,
+                lineHeight: 1.5,
+              }}>
+                James Christie<br />London · 1766
+              </div>
+            </div>
+
+            {/* ── RIGHT: letter ── */}
+          <div className="home-letter-col" style={{ flex: 1, minWidth: 0, padding: '4px 0 32px 0' }}>
             {/* Option 1 header — single line, personal, full stop */}
             <div style={{ marginBottom: 22 }}>
               <div style={{
@@ -143,17 +171,28 @@ function SectionA() {
                   fontSize: 11,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
-                  color: '#FAF8F4',
-                  background: 'rgba(200,172,120,0.10)',
+                  color: '#C8AC78',
+                  background: 'transparent',
                   border: '1px solid rgba(200,172,120,0.5)',
                   cursor: 'pointer',
+                  transition: 'background 0.18s, color 0.18s',
+                }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#C8AC78';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#1B2A4A';
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78';
                 }}
               >
-                Continue to Market Report →
+                CONTINUE TO MARKET REPORT →
               </button>
             </div>
           </div>
           {/* /home-letter-col */}
+          </div>
+          {/* /two-col wrapper */}
         </div>
         {/* /centered-wrapper */}
         </div>

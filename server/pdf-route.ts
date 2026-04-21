@@ -228,12 +228,22 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     await page.setViewport({ width: 816, height: 1056, deviceScaleFactor: 1 });
 
     // Path-aware wait strategy:
-    // /future — Chart.js canvas renders synchronously; no external network fetches needed.
-    //           Use domcontentloaded + short post-load wait for fastest export.
-    // All other paths — keep networkidle0 to ensure tRPC data and external assets settle.
-    const isFuturePath = urlPath === '/future' || urlPath.startsWith('/future?');
-    const waitUntilStrategy = isFuturePath ? 'domcontentloaded' : 'networkidle0';
-    const postLoadWaitMs   = isFuturePath ? 600 : 2000;
+    // FAST-TRACK paths — self-contained React pages, no live tRPC data, no external API calls.
+    //   /future, /pro-forma, /letters/*, /cards/* — use domcontentloaded + short post-load wait.
+    //   These pages render entirely from static props + inline data; networkidle0 adds 4-8s for nothing.
+    // LIVE-DATA paths — /report, /market — pull live tRPC/Yahoo Finance data; keep networkidle0.
+    const isFastTrack = (
+      urlPath === '/future' || urlPath.startsWith('/future?') ||
+      urlPath === '/pro-forma' || urlPath.startsWith('/pro-forma?') ||
+      urlPath.startsWith('/letters/') ||
+      urlPath.startsWith('/cards/')
+    );
+    const waitUntilStrategy = isFastTrack ? 'domcontentloaded' : 'networkidle0';
+    // Fast-track: 800ms for canvas-heavy (/future), 1200ms for multi-page print docs (/pro-forma, /letters)
+    // Live-data: 2000ms post-networkidle0 to let React state settle
+    const postLoadWaitMs = isFastTrack
+      ? (urlPath === '/future' || urlPath.startsWith('/future?') ? 600 : 1200)
+      : 2000;
 
     await page.goto(targetUrl, {
       waitUntil: waitUntilStrategy,
@@ -245,13 +255,20 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     // via inline styles. emulateMediaType('print') would trigger future-print.css
     // @media print rules that fight the isPdfMode inline styles with !important overrides.
     // Skip it for /future — the ?pdf=1 param is the sole cream trigger.
-    if (!isFuturePath) {
+    if (!isFastTrack) {
       await page.emulateMediaType('print');
+    } else if (urlPath !== '/future' && !urlPath.startsWith('/future?')) {
+      // /pro-forma and /letters/* use isPdfMode inline styles (same as /future).
+      // emulateMediaType('print') would fight those inline styles with !important overrides.
+      // Skip it — the ?pdf=1 param is the sole cream/light-mode trigger.
     }
 
     // Wait for fonts to load — capped at 3s for /future (Georgia is system stack, no CDN needed)
     // capped at 5s for all other paths (Cormorant Garamond, Barlow Condensed from Google Fonts CDN)
-    const fontTimeout = isFuturePath ? 3000 : 5000;
+    // Fast-track pages use Google Fonts CDN (Cormorant Garamond, Barlow Condensed).
+    // Cap at 3s — if fonts haven't loaded by then, system fallbacks are acceptable.
+    // Live-data pages keep 5s to allow full asset settlement.
+    const fontTimeout = isFastTrack ? 3000 : 5000;
     await page.evaluate(async (timeout: number) => {
       try {
         await Promise.race([

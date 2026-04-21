@@ -2383,3 +2383,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Item 10: CPS1 label → "CPS1 + CIRE Node" everywhere (FutureTab legend row2 + ProFormaPage legend row2)
 - [x] Item 11: Richard card role label → "Strategic Advisor – AnewHomes Co. Partner" · stream label "AnewHomes 10%"
 - [x] Item 12: PDF filename → Christies_EH_Flagship_Pro_Forma (pdf-route.ts URL_TO_FILENAME updated)
+
+## Dispatch Addendum · HOME Letter Surface · April 21 2026
+
+- [x] Restore James Christie portrait: left of letter block, 120-140px square, 1px gold #947231 border, caption "JAMES CHRISTIE · LONDON · 1766" (Georgia italic, 9pt, gold #947231, letterspaced, centered beneath frame), pure provenance marker — NOT linked, NOT a button
+- [x] Restore "CONTINUE TO MARKET REPORT →" CTA: centered below signature block, gold #c8ac78 text on dark navy, 11px letterspaced caps, hover → gold-filled bg + navy text, routes to /report
+- [x] Audit Dashboard/founding letter quality — v15 confirmed live, 11 paragraphs intact, voice architecture correct, em-dashes preserved, signature block clean
+- [x] Diagnose and fix PDF export speed: /pro-forma and all other PDF pipes — expanded fast-track to /pro-forma, /letters/*, /cards/* (domcontentloaded + 1200ms vs networkidle0 + 2000ms)
