@@ -612,9 +612,11 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
 }
 
 // ─── Page 3: The Economics ────────────────────────────────────────────────────
-function Page3({ generatedAt, liveNetProfitByYear }: {
+// isPdfMode: cream substrate doctrine — all 4 pages receive isPdfMode (Dispatch Addendum 2, April 21 2026)
+function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
   generatedAt: string;
   liveNetProfitByYear: Record<string, number>;
+  isPdfMode?: boolean;
 }) {
   const pool2026 = profitPool('2026', liveNetProfitByYear['2026']);
 
@@ -626,12 +628,12 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
       <div style={PAGE_TITLE}>The Economics</div>
       <div style={PAGE_SUBTITLE}>Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
-      <div style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
+      <div style={{ background: isPdfMode ? 'rgba(200,172,120,0.08)' : 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
         ★ GCI and Profit Pool · Governing Principle *
       </div>
 
       <div style={{ ...SECTION_LABEL, marginBottom: 8 }}>Profit Pool · 2026–2036 Projection</div>
-      <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '8px 10px', marginBottom: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.6 }}>
+      <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '8px 10px', marginBottom: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.6 }}>
         Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
         Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
         Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
@@ -664,10 +666,10 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         </tbody>
       </table>
 
-      {/* Two income blocks */}
+        {/* Two income blocks */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
         {/* Ed's Three Income Streams */}
-        <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
+        <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
             ['Ed Net Personal Production (Eq. 1)', `${fmtFull(EQ1_CASCADE['2026'])}*`],
@@ -688,7 +690,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         </div>
 
         {/* AnewHomes Split */}
-        <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
+        <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes · Net Build Profit Split</div>
           {[
             ['Ed Bruehl (35%)', '$17,500 Y1 / $52,500 Y2*'],
@@ -940,7 +942,7 @@ export default function ProFormaPage() {
       <div className="pro-forma-wrapper" style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
         <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} isPdfMode={isPdfMode} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
-        <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
+        <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} isPdfMode={isPdfMode} /></div>
         <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} isPdfMode={isPdfMode} /></div>
       </div>
     </>

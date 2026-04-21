@@ -2390,3 +2390,9 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Restore "CONTINUE TO MARKET REPORT →" CTA: centered below signature block, gold #c8ac78 text on dark navy, 11px letterspaced caps, hover → gold-filled bg + navy text, routes to /report
 - [x] Audit Dashboard/founding letter quality — v15 confirmed live, 11 paragraphs intact, voice architecture correct, em-dashes preserved, signature block clean
 - [x] Diagnose and fix PDF export speed: /pro-forma and all other PDF pipes — expanded fast-track to /pro-forma, /letters/*, /cards/* (domcontentloaded + 1200ms vs networkidle0 + 2000ms)
+
+## Dispatch Addendum 2 · Three Final Items Before Publish · April 21 2026
+
+- [x] Item A1: Swap ticker ^TYX → ^TNX in market-route.ts so "10Y TREASURY" label matches actual 10-Year Treasury data
+- [x] Item A2: Extend isPdfMode cream substrate to ProFormaPage Pages 3 and 4 — all 4 pages now receive isPdfMode; Page3 inner boxes + GCI banner cream-wired; storageProxy TS error also fixed (0 TS errors total)
+- [x] Item A3: Fix MapsTab.tsx liveCis TypeScript errors — added liveCis?: number to HamletData interface in hamlet-master.ts; 0 TS errors confirmed across full codebase

@@ -68,6 +68,14 @@ export interface HamletData {
   cisNote?: string;
 
   /**
+   * Live CIS score — displayed as a gold badge on the hamlet matrix card.
+   * Set when a live CIS score is available for the hamlet.
+   * Leave undefined for all other hamlets.
+   * Added April 21 2026 — Dispatch Addendum 2 TS fix.
+   */
+  liveCis?: number;
+
+  /**
    * SUB-HAMLET SCAFFOLD — DATA LAYER ONLY
    * ─────────────────────────────────────────────────────────────────────────
    * This field is a reserved container for future sub-hamlet granularity

@@ -102,12 +102,12 @@ export function registerMarketRoute(app: Express) {
   app.get("/api/market-data", async (_req, res) => {
     try {
       // Fetch all in parallel
-      const [sp, gold, silver, vix, tyx, btc] = await Promise.all([
+      const [sp, gold, silver, vix, tnx, btc] = await Promise.all([
         fetchYF("%5EGSPC"),   // S&P 500
         fetchYF("GC%3DF"),    // Gold futures
         fetchYF("SI%3DF"),    // Silver futures
         fetchYF("%5EVIX"),    // VIX
-        fetchYF("%5ETYX"),    // 30Y Treasury yield
+        fetchYF("%5ETNX"),    // 10Y Treasury yield (^TNX) — matches "10Y TREASURY" label in nav strip
         fetchBTC(),           // Bitcoin
       ]);
 
@@ -126,8 +126,8 @@ export function registerMarketRoute(app: Express) {
         vix: vix
           ? `${vix.price.toFixed(2)} (${vix.change >= 0 ? "+" : ""}${vix.change.toFixed(2)}%)`
           : null,
-        treasury: tyx
-          ? `${tyx.price.toFixed(2)}%`
+        treasury: tnx
+          ? `${tnx.price.toFixed(2)}%`
           : null,
         btc: btc
           ? `$${btc.price.toLocaleString("en-US", { maximumFractionDigits: 0 })} (${btc.change >= 0 ? "+" : ""}${btc.change.toFixed(2)}%)`
