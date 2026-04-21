@@ -180,9 +180,16 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     // Letter paper width at 96dpi = 816px. Use 1x scale for clean rendering.
     await page.setViewport({ width: 816, height: 1056, deviceScaleFactor: 1 });
 
-    // Navigate and wait for all network activity to settle (fonts, images, tRPC data)
+    // Path-aware wait strategy:
+    // /future — Chart.js canvas renders synchronously; no external network fetches needed.
+    //           Use domcontentloaded + short post-load wait for fastest export.
+    // All other paths — keep networkidle0 to ensure tRPC data and external assets settle.
+    const isFuturePath = urlPath === '/future' || urlPath.startsWith('/future?');
+    const waitUntilStrategy = isFuturePath ? 'domcontentloaded' : 'networkidle0';
+    const postLoadWaitMs   = isFuturePath ? 600 : 2000;
+
     await page.goto(targetUrl, {
-      waitUntil: 'networkidle0',
+      waitUntil: waitUntilStrategy,
       timeout: 45_000,
     });
 
@@ -191,31 +198,30 @@ router.get('/api/pdf', async (req: Request, res: Response) => {
     // This must come AFTER goto() so the page is loaded before media type switches.
     await page.emulateMediaType('print');
 
-    // Wait for all fonts to load — with 5s timeout fallback for restricted networks
-    // (conference rooms, flights, offline environments)
-    // Puppeteer runs localhost-to-localhost so Google Fonts CDN must be reachable.
-    // The timeout fallback ensures PDF generation proceeds with system fonts if CDN is unavailable.
-    await page.evaluate(async () => {
+    // Wait for fonts to load — capped at 3s for /future (Georgia is system stack, no CDN needed)
+    // capped at 5s for all other paths (Cormorant Garamond, Barlow Condensed from Google Fonts CDN)
+    const fontTimeout = isFuturePath ? 3000 : 5000;
+    await page.evaluate(async (timeout: number) => {
       try {
         await Promise.race([
           document.fonts.ready,
-          new Promise<void>(resolve => setTimeout(resolve, 5000)),
+          new Promise<void>(resolve => setTimeout(resolve, timeout)),
         ]);
-        // Force font rendering by measuring text in each font family used on Pro Forma
+        // Force font rendering by measuring text in each font family used on the page
         const testEl = document.createElement('span');
         testEl.style.cssText = 'position:absolute;visibility:hidden;font-size:72px;top:-9999px';
         document.body.appendChild(testEl);
-        for (const font of ['Playfair Display', 'Cormorant Garamond', 'Barlow Condensed', 'Inter', 'Source Sans 3']) {
+        for (const font of ['Playfair Display', 'Cormorant Garamond', 'Barlow Condensed', 'Inter', 'Source Sans 3', 'Georgia']) {
           testEl.style.fontFamily = `'${font}', serif`;
           testEl.textContent = 'AaBbCcDdEeFf1234';
           void testEl.offsetWidth; // force layout reflow
         }
         document.body.removeChild(testEl);
       } catch { /* proceed with system fonts if CDN unavailable */ }
-    });
+    }, fontTimeout);
 
-    // Additional wait for tRPC data to render (live sheet data)
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    // Post-load wait: Chart.js canvas needs one animation frame to rasterize
+    await new Promise((resolve) => setTimeout(resolve, postLoadWaitMs));
 
     // Hide the print/back buttons before photographing
     await page.evaluate(() => {

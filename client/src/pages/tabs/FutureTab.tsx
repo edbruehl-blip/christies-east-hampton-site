@@ -633,21 +633,6 @@ export default function FutureTab() {
     { label: <>AnewHomes&nbsp;*</>,      v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: C_ANEW },
   ];
 
-  // ─── Headcount table data (unchanged from previous build) ─────────────────
-  const GOLD_FAINT_BORDER_CSS = GOLD_FAINT_BORDER;
-  const headcountRows = [
-    { year:'2026', eh:9,  sh:0,  wh:0,  tot:9,  edGci:'$0.60M', namedGci:'$0.29M', engineGci:'$1.00M', officeGci:'$1.89M', ahGci:'$0.05M', combGci:'$1.94M', combVol:'$0.10B', avgGci:'$216K' },
-    { year:'2027', eh:12, sh:0,  wh:0,  tot:12, edGci:'$0.72M', namedGci:'$0.60M', engineGci:'$3.75M', officeGci:'$5.07M', ahGci:'$0.15M', combGci:'$5.22M', combVol:'$0.26B', avgGci:'$435K' },
-    { year:'2028', eh:12, sh:6,  wh:0,  tot:18, edGci:'$0.86M', namedGci:'$0.72M', engineGci:'$7.75M', officeGci:'$9.33M', ahGci:'$0.17M', combGci:'$9.50M', combVol:'$0.47B', avgGci:'$528K' },
-    { year:'2029', eh:12, sh:12, wh:0,  tot:24, edGci:'$1.04M', namedGci:'$0.86M', engineGci:'$14.6M', officeGci:'$16.5M', ahGci:'$0.19M', combGci:'$16.7M', combVol:'$0.83B', avgGci:'$695K' },
-    { year:'2030', eh:12, sh:12, wh:6,  tot:30, edGci:'$1.24M', namedGci:'$1.04M', engineGci:'$21.9M', officeGci:'$24.2M', ahGci:'$0.21M', combGci:'$24.4M', combVol:'$1.22B', avgGci:'$814K' },
-    { year:'2031', eh:12, sh:12, wh:12, tot:36, edGci:'$1.49M', namedGci:'$1.24M', engineGci:'$30.6M', officeGci:'$33.3M', ahGci:'$0.24M', combGci:'$33.6M', combVol:'$1.68B', avgGci:'$932K' },
-    { year:'2032', eh:12, sh:12, wh:12, tot:36, edGci:'$1.79M', namedGci:'$1.49M', engineGci:'$32.8M', officeGci:'$36.1M', ahGci:'$0.27M', combGci:'$36.4M', combVol:'$1.82B', avgGci:'$1.01M' },
-    { year:'2033', eh:12, sh:12, wh:12, tot:36, edGci:'$2.15M', namedGci:'$1.79M', engineGci:'$35.2M', officeGci:'$39.1M', ahGci:'$0.30M', combGci:'$39.4M', combVol:'$1.97B', avgGci:'$1.09M' },
-    { year:'2034', eh:12, sh:12, wh:12, tot:36, edGci:'$2.58M', namedGci:'$2.15M', engineGci:'$37.7M', officeGci:'$42.5M', ahGci:'$0.34M', combGci:'$42.8M', combVol:'$2.14B', avgGci:'$1.19M' },
-    { year:'2035', eh:12, sh:12, wh:12, tot:36, edGci:'$3.10M', namedGci:'$2.58M', engineGci:'$40.5M', officeGci:'$46.2M', ahGci:'$0.39M', combGci:'$46.6M', combVol:'$2.33B', avgGci:'$1.29M' },
-    { year:'2036', eh:12, sh:12, wh:12, tot:36, edGci:'$3.72M', namedGci:'$3.10M', engineGci:'$43.5M', officeGci:'$50.3M', ahGci:'$0.43M', combGci:'$50.7M', combVol:'$2.54B', avgGci:'$1.41M' },
-  ];
 
   return (
     <div className="future-main-wrapper" style={{ background: BG, padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
@@ -826,50 +811,9 @@ export default function FutureTab() {
         {/* Brand footer */}
         <BrandFooter isPdfMode={isPdfMode} />
 
-        {/* ── Divider + Income note ──────────────────────────────────────────── */}
-        <hr style={{ border: 'none', borderTop: `0.5px solid ${CHARCOAL}`, margin: '6px 0 8px' }} />
-        <div style={{ ...SANS, fontSize: 7, color: '#888', marginBottom: 7, letterSpacing: 0.3, fontStyle: 'italic' }}>
-          All figures verified in sheet {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} &middot; Projected = gray italic &middot; Actual = gold bold &middot; Governing principle &middot; not yet contractual
-        </div>
-
-        {/* ── Headcount Scaling Table ────────────────────────────────────────── */}
-        <div className="future-assumptions-block" style={{ background: isPdfMode ? '#eeecea' : '#0d1e33', border: `0.5px solid ${GOLD_FAINT_BORDER}`, borderRadius: 4, padding: '14px 16px 12px', marginBottom: 10 }}>
-          <div style={{ ...SANS, fontSize: 8, color: GOLD, letterSpacing: 1.2, textTransform: 'uppercase', fontWeight: 700, marginBottom: 10 }}>
-            Headcount Scaling &middot; Elite Producer Model &middot; <span style={{ color: MUTED, fontWeight: 400 }}>Base Engine Math</span>
-          </div>
-          <div className="headcount-table" style={{ overflowX: 'auto', marginBottom: 8, WebkitOverflowScrolling: 'touch' }}>
-            <table style={{ width: '100%', minWidth: 820, borderCollapse: 'collapse', fontSize: 8, ...SANS }}>
-              <thead>
-                <tr>
-                  {['Year','EH','SH','WH','Total','Ed GCI','Named GCI','Engine GCI','Office GCI','AH Profit','Combined GCI','Combined Vol','Avg GCI/Prod'].map(h => (
-                    <th key={h} style={{ ...SANS, fontSize: 6.5, color: GOLD, fontWeight: 600, textAlign: h === 'Year' ? 'left' : 'right', padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER_CSS}`, whiteSpace: 'nowrap' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {headcountRows.map((row, idx) => (
-                  <tr key={row.year} style={{ background: idx % 2 === 0 ? GOLD_FAINT_BG : 'transparent' }}>
-                    {[row.year, row.eh, row.sh, row.wh, row.tot, row.edGci, row.namedGci, row.engineGci, row.officeGci, row.ahGci, row.combGci, row.combVol, row.avgGci].map((v, ci) => (
-                      <td key={ci} style={{ ...SANS, fontSize: 7, color: DIM, textAlign: ci === 0 ? 'left' : 'right', padding: '2px 5px', borderBottom: `0.5px solid ${GOLD_FAINT_BORDER_CSS}`, whiteSpace: 'nowrap' }}>{String(v)}</td>
-                    ))}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* Growth Model link */}
-        <div className="future-growth-model-button" data-print-hide="true" style={{ display: 'flex', justifyContent: 'center', marginTop: 14 }}>
-          <a
-            href="https://docs.google.com/spreadsheets/d/1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag/edit"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Growth Model v2"
-            style={{ ...SANS, background: 'transparent', border: `0.5px solid rgba(200,172,120,0.4)`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase', textDecoration: 'none' }}
-          >
-            Open Growth Model v2
-          </a>
+        {/* Page 2 of 2 pagination */}
+        <div style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
+          Page 2 of 2
         </div>
 
       </div>
