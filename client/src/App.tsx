@@ -40,9 +40,10 @@ import IntelTab  from "./pages/tabs/IntelTab";
 // Standalone pages
 import ReportPage         from "./pages/ReportPage";
 import ProFormaPage       from "./pages/ProFormaPage";
-import FlagshipLetterPage from "./pages/FlagshipLetterPage";
-import ChristiesLetterPage from "./pages/ChristiesLetterPage";
-import AngelLetterPage     from "./pages/AngelLetterPage";
+import FlagshipLetterPage      from "./pages/FlagshipLetterPage";
+import ChristiesLetterPage     from "./pages/ChristiesLetterPage";
+import AngelLetterPage         from "./pages/AngelLetterPage";
+import NeighborhoodLetterPage  from "./pages/NeighborhoodLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 import NeighborhoodCardPage from "./pages/NeighborhoodCardPage";
@@ -131,6 +132,7 @@ function App() {
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
             <Route path="/letters/angel" component={AngelLetterPage} />
+            <Route path="/letters/welcome" component={NeighborhoodLetterPage} />
             <Route path="/architecture-of-wealth" component={ArchitectureOfWealthPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
             <Route path="/future" component={ProtectedFutureRoute} />

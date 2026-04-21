@@ -371,7 +371,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {market.sp500 && market.btc && <Sep />}
           <DataItem label="Bitcoin" value={market.btc} />
           {market.btc && market.mortgage && <Sep />}
-          <DataItem label="30Y Fixed Mtg" value={market.mortgage} />
+          <DataItem label="30Y MORTGAGE" value={market.mortgage} />
           {market.mortgage && market.gold && <Sep />}
           <DataItem label="Gold" value={market.gold} />
           {updatedLabel && (
@@ -408,7 +408,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {market.silver && market.vix && <Sep />}
           <DataItem label="VIX" value={market.vix} />
           {market.vix && market.treasury && <Sep />}
-          <DataItem label="30Y Treasury" value={market.treasury} />
+          <DataItem label="10Y TREASURY" value={market.treasury} />
           <Sep />
           <DataItem label="Hamptons Median · East End · Q4 2025 · Record High" value={hamptonsMedianDisplay} gold />
         </div>

@@ -27,19 +27,21 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY, GALLERY_IMAGES } from '@/lib/cdn-asset
 // EstateAdvisoryCard removed — no longer used in HomeTab after B2/C5 cleanup
 // pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
 
-// Twelve paragraphs — council-approved final version (Sprint 32, April 8, 2026)
+// Neighborhood Letter v15 — council-locked April 21 2026 (Addendum 5 dispatch)
+// Em-dashes in P2, P9, P10 are intentional — do not strip.
+// "Standard" capitalization is intentional voice architecture — P5 lowercase → P7/P9 capital.
 const FOUNDING_PARAGRAPHS = [
-  "For twenty years on the East End — raising a family, working alongside some of the sharpest minds on earth — this place taught me one clear lesson — the families who love it most are the ones who protect and preserve it.",
-  "That devotion to stewardship is what made me most curious. Over time, working across the East End, I found myself wondering whether there was a better way to serve the people who trust us with what they own.",
-  "The deeper I looked, the clearer the answer became. In 1766, James Christie built a 260-year institution not by moving assets, but by helping people understand the true value of what they own before deciding what to do with it.",
-  "After a year of studying the institution — and understanding what it stood for — I was honored to be invited in and named Managing Director, serving the families of this community.",
-  "Most people are taught to transact. The families who build lasting wealth learn to hold, structure, and borrow against it instead. They hold. They rent for income. They structure inside an LLC and improve it over time. They pass it forward. Real estate here is not inventory — it is legacy.",
-  "Christie's expands what we can do together — art appraisals, collection management, art-secured lending, and estate continuity across generations. A depth of service that begins where most real estate conversations end.",
-  "Christie's events — auctions, private sales, collector evenings — are more accessible than most people realize. We can make the introduction — Christie's network spans specialists, advisors, and relationships in over fifty countries.",
-  "When a transaction is the right decision, the role remains the same — uncover every layer of value before the market sees it, then represent it at the highest level.",
-  "Everything I found along the way — the people, the relationships, and the institutional access Christie's carries — is something I now get to share with this community.",
-  "This is not a high-volume brokerage. It is a practice built for the families of the East End who want to be understood before they are advised.",
-  "Behind every conversation we have, there is a system verifying every number and every relationship in real time — so when we sit down together, nothing is guessed.",
+  "Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, the water, and the pace. We stayed because this place became home.",
+  "For twenty years, I've been helping families buy and sell — but mostly steward — property here. The lesson, over and over, is simple. The families who love this place most are the ones who protect it first. Real estate on the East End is not inventory. For our families, it is legacy. The asset your grandchildren will thank you for.",
+  "My favorite piece of advice, after all these years: never sell Hamptons real estate. Hold it. Improve it. Structure it. Pass it down. Let it compound across generations. If the timing is truly right to sell, we prepare it properly, market it professionally, and price it to win or continue holding.",
+  "I underwrite property the way I once analyzed portfolios on Wall Street. Replacement cost, comparable performance, exit scenarios. Most agents price on emotion. We help families understand value first, and sell only when it is the best long-term strategy.",
+  "That instinct led me to Christie's. James Christie, in 1766, held his first sale in London on one idea — and it became the standard that has carried his name forward ever since. Help people understand the true value of what they own before deciding what to do with it. He did not build an auction house. He built a way of handling objects, and families, and homes that has carried over 250 years.",
+  "I am grateful to be chosen as Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. From here, three worlds converge. Christie's London heritage. Our Rockefeller Center NYC auction house. And the Hamptons, one of the most significant luxury markets on earth. Across 1,000 offices in 52 countries, the rule is simple. Service first. Your interests first. Always.",
+  "What the Standard brings begins where most real estate conversations end. Art appraisals. Art-secured lending. Estate continuity across generations. Specialists in fine art, jewelry, watches, wine, and automobiles join your team. When you sell, your property reaches collectors. When you buy, our global network brings new product home. But mostly, the work is stewardship.",
+  "Christie's auction house events are more accessible than most people realize. NYC auctions, private sales, and collector evenings come right to your inbox when you join our list. And right here in East Hampton, we host our own. Each week we record the Hamptons Real Estate Podcast, featuring the people shaping this community. Each month we gather to spotlight local artists and mentors whose work deserves a larger stage.",
+  "I am honored to carry the Christie's Standard forward here, with energy and care — intelligent, compassionate, patient counsel for the families of the East End who prefer to be understood before they're advised.",
+  "We look forward to seeing you soon. Swing by 26 Park Place — next to John Papas — for coffee or a Yerba Madre. Bring a friend, a mentor, or someone you'd like us to meet, or put on the podcast.",
+  "The flagship is awakening.",
 ];
 
 // ─── Section A  ·  Hero ─────────────────────────────────────────────────────────
@@ -169,7 +171,7 @@ function SectionA() {
               <button
                 onClick={() => {
                   const a = document.createElement('a');
-                  a.href = '/api/pdf?url=/letters/christies';
+                  a.href = '/api/pdf?url=/letters/welcome';
                   a.download = 'Christies_EH_Letter_' + new Date().toISOString().slice(0,10) + '.pdf';
                   document.body.appendChild(a);
                   a.click();
@@ -190,10 +192,10 @@ function SectionA() {
                   cursor: 'pointer',
                 }}
               >
-                ↓ Download Christie's Letter  ·  PDF
+                ↓ Download Neighborhood Letter  ·  PDF
               </button>
               <a
-                href="/letters/christies"
+                href="/letters/welcome"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

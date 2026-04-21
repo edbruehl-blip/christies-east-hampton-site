@@ -92,6 +92,28 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
       },
     };
 
+    // Opening-year labels below X-axis: "SH opens 2028" at index 3, "WH opens 2030" at index 5
+    // Georgia 8.5px italic · #5a5041 cream / #c8ac78 dark · centered under bar
+    const openingYearPlugin = {
+      id: 'arcOpeningYears',
+      afterDraw(chart: Chart) {
+        const { ctx, scales: { x }, chartArea } = chart as any;
+        const openings = [
+          { idx: 3, text: 'SH opens 2028' },
+          { idx: 5, text: 'WH opens 2030' },
+        ];
+        ctx.save();
+        ctx.font = 'italic 8.5px Georgia, serif';
+        ctx.fillStyle = isPdfMode ? '#5a5041' : '#c8ac78';
+        ctx.textAlign = 'center';
+        const yPos = chartArea.bottom + 34; // below the X-axis tick labels
+        openings.forEach(({ idx, text }) => {
+          ctx.fillText(text, x.getPixelForValue(idx), yPos);
+        });
+        ctx.restore();
+      },
+    };
+
     chartRef.current = new Chart(canvasRef.current, {
       type: 'bar',
       data: {
@@ -152,7 +174,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
           },
         },
       },
-      plugins: [totalPlugin as any],
+      plugins: [totalPlugin as any, openingYearPlugin as any],
     });
 
     return () => { chartRef.current?.destroy(); chartRef.current = null; };

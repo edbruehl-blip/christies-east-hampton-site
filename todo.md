@@ -2357,3 +2357,13 @@
 - [x] Persistent Puppeteer browser pool: warm browser reuse, page.close() per export, 5-min idle timeout
 - [x] Dead headcountRows constant and GOLD_FAINT_BORDER_CSS alias removed
 - [x] 34/34 tests passing
+
+## Addendum 5 v3 FINAL — April 21 2026
+
+- [ ] Neighborhood Letter v15 → HOME tab letter + /letters/welcome route
+- [ ] Pro Forma dual-substrate lock: cream PDF / dark web identical content
+- [ ] Levers box header: "MODEL ASSUMPTION LEVERS" (no subheader)
+- [ ] Treasury labels on ticker: "30Y MORTGAGE" + "10Y TREASURY" both explicit
+- [ ] PDF browser pool idle timeout: 30s → 5 minutes
+- [ ] Arc opening-year labels: "SH opens 2028" + "WH opens 2030" below X-axis
+- [ ] Frank Newbold dashboard letter: revert to "still walking the village" framing
