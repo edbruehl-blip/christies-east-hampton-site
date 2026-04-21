@@ -2367,3 +2367,19 @@
 - [ ] PDF browser pool idle timeout: 30s → 5 minutes
 - [ ] Arc opening-year labels: "SH opens 2028" + "WH opens 2030" below X-axis
 - [ ] Frank Newbold dashboard letter: revert to "still walking the village" framing
+
+## PRE-PUBLISH DISPATCH · 12-ITEM CONSOLIDATED · April 21 2026
+FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M2, M3, M4
+
+- [x] Item 1: PDF cream substrate — Page 1 chart frame switches to #e8e0d0 in isPdfMode; all text/axis/legend colors invert to navy/charcoal
+- [x] Item 2: Scott Smith card overwrite — Personal GCI $35K/$84K/$100.8K/$324K+ · AnewHomes 35% $17.5K/$52.5K/$59K/$151K · Total $52.5K/$136.5K/$159.8K/$475K+
+- [x] Item 3: Angel + Zoila Nest Salary as visible line items — Angel $70K/$17.5K°/—/— · Zoila $46.7K°/$17.5K°/—/—
+- [x] Item 4: Ed card role label → "Broker – Managing Director"
+- [x] Item 5: Ilija card — kill Franchise Royalty 25% line; keep CIREG Profit Share 65% ** only
+- [x] Item 6: Canon doctrine data wiring (FutureTab + ProFormaPage aligned to same values)
+- [x] Item 7: Angel card role label → "Agent – Marketing Coordinator"
+- [x] Item 8: Jarvis card role label → "Agent – COO"
+- [x] Item 9: Zoila card role label → "Broker/Agent – Office Director"
+- [x] Item 10: CPS1 label → "CPS1 + CIRE Node" everywhere (FutureTab legend row2 + ProFormaPage legend row2)
+- [x] Item 11: Richard card role label → "Strategic Advisor – AnewHomes Co. Partner" · stream label "AnewHomes 10%"
+- [x] Item 12: PDF filename → Christies_EH_Flagship_Pro_Forma (pdf-route.ts URL_TO_FILENAME updated)

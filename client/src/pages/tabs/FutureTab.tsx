@@ -1,5 +1,5 @@
 /*
- * FUTURE TAB — v14 FINAL · April 21 2026
+ * FUTURE TAB — v15 FINAL · April 21 2026 · 12-item dispatch complete
  * Dispatch: Ed Bruehl · Managing Director · Christie's East Hampton
  * Two pages, two substrates, one design.
  * Page 1: Ascension Arc (Chart.js 4.4.1 five-band)
@@ -187,7 +187,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
   ];
   const legendRow2 = [
     { color: C_ANEW, label: 'AnewHomes Co.' },
-    { color: C_CPS1, label: 'CPS1 · CIRE · CIREG Node' },
+    { color: C_CPS1, label: 'CPS1 + CIRE Node' },
   ];
   const lgTextColor = isPdfMode ? '#3a3a3a' : '#ddd';
 
@@ -363,8 +363,19 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
           <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>AnewHomes 5% and Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. ICA Override applies 2026 and Q1 2027 only.</div>
         </div>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&Dagger; CPS-1 Pipeline</div>
+          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>
           <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. $100K 2026 ramping to $1.5M cap by 2029&ndash;2030. Visibility only &mdash; not additive to totals.</div>
+        </div>
+      </div>
+      {/* Two additional footnotes: ** and ° */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 12, padding: '0 11px 11px' }}>
+        <div>
+          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>** Ilija Franchise Principal</div>
+          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>CIREG Profit Share 65% captures full partnership take. 5% Christie’s master royalty is Ilija’s cost on his side of the partnership. Not surfaced on any partner card.</div>
+        </div>
+        <div>
+          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&deg; Nest Salary</div>
+          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Pro-rated through Q1 2027 producer transition. Angel: $70K/yr full 2026, $17.5K Q1 2027 only. Zoila: $46.7K pro-rated from May 4 2026, $17.5K Q1 2027 only.</div>
         </div>
       </div>
     </div>
@@ -387,11 +398,12 @@ interface CardProps {
   streams: StreamRow[];
   totLabel: string;
   tot: [string, string, string, string];
+  clarifications?: string[];
   isPdfMode: boolean;
   shortYears?: boolean;
 }
 
-function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, isPdfMode, shortYears }: CardProps) {
+function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, clarifications, isPdfMode, shortYears }: CardProps) {
   const bgCard   = isPdfMode ? '#faf7f1' : '#141d28';
   const bgHeader = isPdfMode ? '#efe6d1' : '#1c2638';
   const borderC  = isPdfMode ? '2px solid #000' : '1px solid rgba(148,114,49,0.4)';
@@ -437,6 +449,10 @@ function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, isPdfMo
             <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, color: totValColor, fontStyle: 'normal', fontWeight: 500 }}>{v}</div>
           ))}
         </div>
+        {/* Clarification lines below total */}
+        {clarifications && clarifications.map((line, i) => (
+          <div key={i} style={{ ...SANS, fontSize: 7, color: isPdfMode ? '#7a7a7a' : '#7a8a96', fontStyle: 'italic', paddingLeft: 4, marginTop: 2, lineHeight: 1.3 }}>{line}</div>
+        ))}
       </div>
     </div>
   );
@@ -453,7 +469,7 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
   ];
   const row2 = [
     { color: C_ANEW, label: 'AnewHomes Co.' },
-    { color: C_CPS1, label: 'CPS1 · CIRE · CIREG Node' },
+    { color: C_CPS1, label: 'CPS1 + CIRE Node' },
   ];
   return (
     <div style={{ padding: '13px 0', marginBottom: 13, borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
@@ -605,54 +621,56 @@ export default function FutureTab() {
   const ilijaPool2028 = livePoolRows?.find(r => r.year === '2028')?.ilijaPool;
   const ilijaPool2036 = livePoolRows?.find(r => r.year === '2036')?.ilijaPool;
 
+  // ─── Canonical partner card stream arrays (v15 · 12-item dispatch · April 21 2026) ────
+  // ITALIC_GRAY = reference/visibility lines, never additive to totals
+  const ITALIC_GRAY = '#9a9a9a';
+
   const edStreams: StreamRow[] = [
-    { label: 'Gross GCI (office)',       v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.72M', color: C_EH },
-    { label: 'Net Personal Production',  v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
-    { label: 'Profit Share 29.75%',      v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: C_CPS1 },
-    { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
-    { label: <>CPS-1 visibility&nbsp;&zwj;&#8203;&#8203;&#8203;</>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: C_CPS1 },
+    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.60M', color: ITALIC_GRAY },
+    { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
+    { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
+    { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: C_CPS1 },
+    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: ITALIC_GRAY },
   ];
 
   const ilijaStreams: StreamRow[] = [
-    { label: <>Profit Share 65%&nbsp;*</>,                    v26: ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K', v27: ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K', v28: ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K', v36: ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M', color: C_SH },
-    { label: 'Franchise Royalty 25% Ed Gross (incl.)',         v26: '$150K',  v27: '$180K',  v28: '$216K',  v36: '$929K',  color: C_SH },
-    { label: <>CPS-1 visibility&nbsp;&zwj;&#8203;&#8203;&#8203;</>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: C_CPS1 },
+    { label: <>CIREG Profit Share 65%**</>,                   v26: ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K', v27: ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K', v28: ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K', v36: ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M', color: C_SH },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
   ];
 
   const angelStreams: StreamRow[] = [
-    { label: 'Production Ramp',          v26: '$25K',   v27: '$120K',  v28: '$144K',  v36: '$619K+', color: C_EH },
-    { label: <>AnewHomes 5%&nbsp;*</>,   v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
-    { label: 'ICA Override',             v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'Profit Share 1.75%',       v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
-    { label: <>CPS-1 (incl.)&nbsp;&zwj;&#8203;&#8203;&#8203;</>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: C_CPS1 },
+    { label: 'Personal GCI',             v26: '$17.5K', v27: '$84K',   v28: '$100.8K',v36: '$433K+', color: C_EH },
+    { label: 'Nest Salary',              v26: '$70K',   v27: '$17.5K°', v28: '—',  v36: '—',   color: C_EH },
+    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
+    { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
+    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
   ];
 
   const jarvisStreams: StreamRow[] = [
-    { label: 'Sales Volume',             v26: '$10M',   v27: '$12M',   v28: '$14M',   v36: '$62M+',  color: C_EH },
-    { label: 'Projected GCI',            v26: '$200K',  v27: '$240K',  v28: '$288K',  v36: '$1.24M+',color: C_EH },
+    { label: 'Personal GCI',             v26: '$140K',  v27: '$168K',  v28: '$201.6K',v36: '$868K+', color: C_EH },
     { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
-    { label: 'ICA Override',             v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'Profit Share 1.75%',       v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
-    { label: <>CPS-1 (incl.)&nbsp;&zwj;&#8203;&#8203;&#8203;</>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: C_CPS1 },
+    { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
+    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Production Ramp',                v26: '$25K',  v27: '$150K', v28: '$180K', v36: '$774K+', color: C_EH },
+    { label: 'Personal GCI',                   v26: '$17.5K',v27: '$105K', v28: '$126K', v36: '$542K+', color: C_EH },
+    { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: C_ANEW },
-    { label: <>ICA Override&nbsp;&dagger;</>,   v26: '$30K',  v27: '$9K',   v28: '\u2014', v36: '\u2014', color: '#9a9a9a' },
-    { label: <>Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: C_CPS1 },
-    { label: <>CPS-1 (incl.)&nbsp;&zwj;&#8203;&#8203;&#8203;</>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: C_CPS1 },
+    { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
+    { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: C_CPS1 },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
   ];
 
   const scottStreams: StreamRow[] = [
-    { label: 'Gross GCI',                v26: '$37.5K', v27: '$90K',   v28: '$108K',  v36: '$464K+', color: C_EH },
-    { label: 'Agent Take 70%',           v26: '$26.3K', v27: '$63K',   v28: '$75.6K', v36: '$324K+', color: C_EH },
-    { label: 'Sales Volume',             v26: '$3.75M', v27: '$4.5M',  v28: '$5.4M',  v36: '$23.2M+',color: C_EH },
+    { label: 'Personal GCI',             v26: '$35K',   v27: '$84K',   v28: '$100.8K',v36: '$324K+', color: C_EH },
     { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
   ];
 
   const richardStreams: StreamRow[] = [
-    { label: <>AnewHomes&nbsp;*</>,      v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: C_ANEW },
+    { label: 'AnewHomes 10%',            v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: C_ANEW },
   ];
 
 
@@ -804,22 +822,29 @@ export default function FutureTab() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name="Edward Bruehl"
-              subtitle="Managing Director · Christie's East Hampton"
+              subtitle="Broker – Managing Director"
               streams={edStreams}
-              totLabel="All streams total"
-              tot={['$490K','$684K','$951K','$6.1M']}
+              totLabel="All Streams Total"
+              tot={['$489.5K','$684.5K','$951K','$6.14M']}
+              clarifications={[
+                "Ed's Team GCI reference only — not included in total",
+                "CPS1 + CIRE Node visibility only — not included in total",
+              ]}
               isPdfMode={isPdfMode}
             />
             <PartnerCard
               name="Ilija Pavlovic"
               subtitle="Franchise Principal · CIREG Tri-State"
               streams={ilijaStreams}
-              totLabel="All streams total"
+              totLabel="All Streams Total"
               tot={[
                 ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K',
                 ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K',
                 ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K',
                 ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M',
+              ]}
+              clarifications={[
+                "CPS1 + CIRE Node visibility only — not included in total",
               ]}
               isPdfMode={isPdfMode}
             />
@@ -829,20 +854,26 @@ export default function FutureTab() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name="Angel Theodore"
-              subtitle="Mktg Coord + Sales · Producer transition Q1 2027"
+              subtitle="Agent – Marketing Coordinator"
               nestNote="Nest salary $70K/yr · through Q1 2027"
               streams={angelStreams}
-              totLabel="All streams total"
-              tot={['$130K','$189K','$212K','$1.03M']}
+              totLabel="All Streams Total"
+              tot={['$123K','$152.5K','$168.2K','$840.6K+']}
+              clarifications={[
+                "CPS1 + CIRE Node visibility only — not included in total",
+              ]}
               isPdfMode={isPdfMode}
               shortYears
             />
             <PartnerCard
               name="Jarvis Slade"
-              subtitle="COO · Agent"
+              subtitle="Agent – COO"
               streams={jarvisStreams}
-              totLabel="Projected"
-              tot={['$235K','$291K','$356K','$1.65M']}
+              totLabel="All Streams Total"
+              tot={['$175.5K','$219.5K','$270K','$1.28M']}
+              clarifications={[
+                "CPS1 + CIRE Node visibility only — not included in total",
+              ]}
               isPdfMode={isPdfMode}
               shortYears
             />
@@ -852,29 +883,32 @@ export default function FutureTab() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
-              subtitle="Office Director · Producer transition Q1 2027"
+              subtitle="Broker/Agent – Office Director"
               nestNote="Nest salary $70K/yr · Start May 4 2026"
               streams={zoilaStreams}
-              totLabel="All streams total"
-              tot={['$125K','$192K','$205K','$996K+']}
+              totLabel="All Streams Total"
+              tot={['$94.2K','$147K','$151.4K','$763.6K+']}
+              clarifications={[
+                "CPS1 + CIRE Node visibility only — not included in total",
+              ]}
               isPdfMode={isPdfMode}
               shortYears
             />
             <PartnerCard
               name={<>Scott Smith&nbsp;*</>}
-              subtitle="Agent · AnewHomes Build Partner"
+              subtitle="Agent – AnewHomes Co. Partner"
               streams={scottStreams}
-              totLabel="Projected"
-              tot={['$43.8K','$115K','$134K','$476K+']}
+              totLabel="All Streams Total"
+              tot={['$52.5K','$136.5K','$159.8K','$475K+']}
               isPdfMode={isPdfMode}
               shortYears
             />
             <PartnerCard
               name="Richard Bruehl"
-              subtitle="Flagship Team · Strategic Mentor · 10% AnewHomes"
+              subtitle="Strategic Advisor – AnewHomes Co. Partner"
               streams={richardStreams}
-              totLabel="Projected"
-              tot={['$5K','$15K','$17K','$43K']}
+              totLabel="All Streams Total"
+              tot={['$5K','$15K','$16.9K','$43.3K']}
               isPdfMode={isPdfMode}
               shortYears
             />

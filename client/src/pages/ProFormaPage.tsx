@@ -246,11 +246,12 @@ function KpiCard({ label, value, sub }: { label: string; value: string; sub: str
 }
 
 // ─── Page 1: The Ascension Arc ────────────────────────────────────────────────
-function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear: _liveNetProfitByYear }: {
+function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear: _liveNetProfitByYear, isPdfMode }: {
   generatedAt: string;
   activePipelineStr: string;
   exclusiveStr: string;
   liveNetProfitByYear: Record<string, number>;
+  isPdfMode: boolean;
 }) {
   // Five-band stacked vertical bar chart — v14 FINAL · April 21 2026
   // Colors: council-locked — EH #9e1b32 · AnewHomes #c8946b · CPS1 #6b2838 · SH #1a3a5c · WH #947231 (burnished gold)
@@ -292,10 +293,10 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
         <KpiCard label="$3.1B Horizon" value="2036" sub="MODEL · D7 · OUTPUTS B42" />
       </div>
 
-      {/* Chart frame */}
-      <div style={{ background: '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
+      {/* Chart frame — cream substrate in PDF mode (Doctrine 43) */}
+      <div style={{ background: isPdfMode ? '#e8e0d0' : '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
         {/* Chart title inside frame */}
-        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
+        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: isPdfMode ? '#1B2A4A' : '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
           SALES VOLUME TRAJECTORY · 2025–2036 · ALL OFFICES
         </div>
 
@@ -304,7 +305,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
           {/* Y-axis labels */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', height: CHART_H, paddingBottom: 20, flexShrink: 0 }}>
             {[...Y_TICKS].reverse().map(t => (
-              <div key={t} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: 'rgba(200,172,120,0.5)', letterSpacing: '0.05em' }}>
+              <div key={t} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isPdfMode ? 'rgba(27,42,74,0.6)' : 'rgba(200,172,120,0.5)', letterSpacing: '0.05em' }}>
                 {t === 0 ? '$0' : t >= 1000 ? `$${t/1000}B` : `$${t}M`}
               </div>
             ))}
@@ -319,7 +320,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                 left: 0, right: 0,
                 bottom: `${20 + (t / MAX_M) * (CHART_H - 20)}px`,
                 height: 1,
-                background: t === 0 ? 'rgba(200,172,120,0.25)' : 'rgba(200,172,120,0.08)',
+                background: isPdfMode ? (t === 0 ? 'rgba(27,42,74,0.3)' : 'rgba(27,42,74,0.08)') : (t === 0 ? 'rgba(200,172,120,0.25)' : 'rgba(200,172,120,0.08)'),
               }} />
             ))}
 
@@ -343,7 +344,9 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
 
                 const isBaseline = d.isBaseline;
                 const opacity = isBaseline ? 0.35 : 1;
-                const labelColor = isBaseline ? 'rgba(200,172,120,0.4)' : '#C8AC78';
+                const labelColor = isBaseline
+                  ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)')
+                  : (isPdfMode ? '#1B2A4A' : '#C8AC78');
 
                 return (
                   <div key={d.year} style={{ width: BAR_W, display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
@@ -360,7 +363,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                       <div style={{ height: whH, background: C_WH, flexShrink: 0 }} />
                     </div>
                     {/* Year label */}
-                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? 'rgba(200,172,120,0.4)' : '#C8AC78', marginTop: 3, letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)') : (isPdfMode ? '#1B2A4A' : '#C8AC78'), marginTop: 3, letterSpacing: '0.08em' }}>
                       {d.year}
                     </div>
                   </div>
@@ -377,7 +380,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
             [C_SH,   'Southampton Flagship · 2028'],
             [C_WH,   'Westhampton Flagship · 2030'],
           ].map(([bg, label]) => (
-            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: 'rgba(200,172,120,0.85)' }}>
+            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: isPdfMode ? 'rgba(27,42,74,0.75)' : 'rgba(200,172,120,0.85)' }}>
               <span style={{ width: 14, height: 5, background: bg, display: 'inline-block', flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
               {label}
             </span>
@@ -386,9 +389,9 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 18px', marginTop: 6, justifyContent: 'center' }}>
           {[
             [C_ANEW, 'AnewHomes Co.'],
-            [C_CPS1, 'CPS1 · CIRE · CIREG Node'],
+            [C_CPS1, 'CPS1 + CIRE Node'],
           ].map(([bg, label]) => (
-            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: 'rgba(200,172,120,0.85)' }}>
+            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: isPdfMode ? 'rgba(27,42,74,0.75)' : 'rgba(200,172,120,0.85)' }}>
               <span style={{ width: 14, height: 5, background: bg, display: 'inline-block', flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
               {label}
             </span>
@@ -396,7 +399,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
         </div>
 
         {/* Footer inside frame */}
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: isPdfMode ? 'rgba(27,42,74,0.25)' : 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
           ART · BEAUTY · PROVENANCE · SINCE 1766
         </div>
       </div>
@@ -497,23 +500,22 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         <div>
           <P2Card
             name="Edward Bruehl"
-            subtitle="Managing Director · Christie's East Hampton"
+            subtitle="Broker – Managing Director"
             streams={[
-              { label: 'Gross GCI (office)',           vals: ['$600K','$720K','$864K','$3.72M'] },
-              { label: 'Net Personal Production',      vals: ['$420K','$504K','$605K','$2.60M'] },
-              { label: 'Profit Share 29.75%',          vals: ['$52K','$128K','$287K','$3.39M'] },
-              { label: 'AnewHomes 35%',                vals: ['$17.5K','$52.5K','$59K','$152K'] },
-              { label: 'CPS-1 visibility ‡',           vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: "Ed's Team GCI (ref. only)",    vals: ['$600K','$720K','$864K','$3.60M'] },
+              { label: 'Personal GCI',                 vals: ['$420K','$504K','$605K','$2.60M'] },
+              { label: 'AnewHomes 35% *',              vals: ['$17.5K','$52.5K','$59K','$151K'] },
+              { label: 'CIREG Profit Share 29.75%',    vals: ['$52K','$128K','$287K','$3.39M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
             ]}
-            total={['$490K','$684K','$951K','$6.1M']}
+            total={['$489.5K','$684.5K','$951K','$6.14M']}
           />
           <P2Card
             name="Ilija Pavlovic"
             subtitle="Franchise Principal · CIREG Tri-State"
             streams={[
-              { label: 'Profit Share 65% *',                      vals: ['$114K','$279K','$627K','$7.4M'] },
-              { label: 'Franchise Royalty 25% Ed Gross (incl.)',  vals: ['$150K','$180K','$216K','$929K'] },
-              { label: 'CPS-1 visibility ‡',                      vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CIREG Profit Share 65% **',    vals: ['$114K','$279K','$627K','$7.4M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
             ]}
             total={['$114K','$279K','$627K','$7.4M']}
           />
@@ -523,29 +525,29 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         <div>
           <P2Card
             name="Angel Theodore"
-            subtitle="Mktg Coord + Sales · Producer transition Q1 2027"
+            subtitle="Agent – Marketing Coordinator"
             nestSalary="$70K/yr · through Q1 2027"
             streams={[
-              { label: 'Production Ramp',              vals: ['$25K','$120K','$144K','$619K+'] },
-              { label: 'AnewHomes 5% *',               vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
-              { label: 'ICA Override',                 vals: ['$30K','$36K','$43K','$186K'] },
-              { label: 'Profit Share 1.75%',           vals: ['$3K','$8K','$17K','$200K'] },
-              { label: 'CPS-1 (incl.) ‡',              vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'Personal GCI',                 vals: ['$17.5K','$84K','$100.8K','$433K+'] },
+              { label: 'Nest Salary °',                vals: ['$70K','$17.5K°','—','—'] },
+              { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
+              { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
+              { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
             ]}
-            total={['$130K','$189K','$212K','$1.03M']}
+            total={['$123K','$152.5K','$168.2K','$840.6K+']}
           />
           <P2Card
             name="Jarvis Slade"
-            subtitle="COO · Agent"
+            subtitle="Agent – COO"
             streams={[
-              { label: 'Sales Volume',                 vals: ['$10M','$12M','$14.4M','$62M+'] },
-              { label: 'Projected GCI',                vals: ['$200K','$240K','$288K','$1.24M+'] },
+              { label: 'Personal GCI',                 vals: ['$140K','$168K','$201.6K','$868K+'] },
               { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
-              { label: 'ICA Override',                 vals: ['$30K','$36K','$43K','$186K'] },
-              { label: 'Profit Share 1.75%',           vals: ['$3K','$8K','$17K','$200K'] },
-              { label: 'CPS-1 (incl.) ‡',              vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
+              { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
             ]}
-            total={['$235K','$291K','$356K','$1.65M']}
+            total={['$175.5K','$219.5K','$270K','$1.28M']}
           />
         </div>
 
@@ -553,35 +555,34 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         <div>
           <P2Card
             name="Zoila Ortega Astor †"
-            subtitle="Office Director · Producer transition Q1 2027"
+            subtitle="Broker/Agent – Office Director"
             nestSalary="$70K/yr · Start May 4 2026"
             streams={[
-              { label: 'Production Ramp',              vals: ['$25K','$150K','$180K','$774K+'] },
+              { label: 'Personal GCI',                 vals: ['$17.5K','$105K','$126K','$542K+'] },
+              { label: 'Nest Salary ° †',              vals: ['$46.7K°','$17.5K°','—','—'] },
               { label: 'AnewHomes 5% †',               vals: ['$0','$7.5K','$8.4K','$21.6K'] },
-              { label: 'ICA Override †',               vals: ['$30K','$9K','—','—'] },
-              { label: 'Profit Share 1.75% †',         vals: ['$0','$8K','$17K','$200K'] },
-              { label: 'CPS-1 (incl.) ‡',              vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: "Ed's Team GCI Override †",    vals: ['$30K','$9K','—','—'] },
+              { label: 'CIREG Profit Share 1.75% †',  vals: ['$0','$8K','$17K','$200K'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
             ]}
-            total={['$125K','$192K','$205K','$996K+']}
+            total={['$94.2K','$147K','$151.4K','$763.6K+']}
           />
           <P2Card
             name="Scott Smith *"
-            subtitle="Agent · AnewHomes Build Partner"
+            subtitle="Agent – AnewHomes Co. Partner"
             streams={[
-              { label: 'Gross GCI',                    vals: ['$37.5K','$90K','$108K','$464K+'] },
-              { label: 'Agent Take 70%',               vals: ['$26.3K','$63K','$75.6K','$324K+'] },
-              { label: 'Sales Volume',                 vals: ['$3.75M','$4.5M','$5.4M','$23.2M+'] },
+              { label: 'Personal GCI',                 vals: ['$35K','$84K','$100.8K','$324K+'] },
               { label: 'AnewHomes 35%',                vals: ['$17.5K','$52.5K','$59K','$151K'] },
             ]}
-            total={['$43.8K','$115K','$134K','$476K+']}
+            total={['$52.5K','$136.5K','$159.8K','$475K+']}
           />
           <P2Card
             name="Richard Bruehl"
-            subtitle="Flagship Team · Strategic Mentor · 10% AnewHomes"
+            subtitle="Strategic Advisor – AnewHomes Co. Partner"
             streams={[
-              { label: 'AnewHomes *',                  vals: ['$5K','$15K','$16.9K','$43.3K'] },
+              { label: 'AnewHomes 10%',                vals: ['$5K','$15K','$16.9K','$43.3K'] },
             ]}
-            total={['$5K','$15K','$17K','$43K']}
+            total={['$5K','$15K','$16.9K','$43.3K']}
           />
         </div>
       </div>
@@ -590,9 +591,12 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 8, paddingTop: 6, borderTop: `0.5px solid ${P2_CHARCOAL}` }}>
         <div style={{ ...P2_SANS, fontSize: 6.5, color: P2_DIM, fontStyle: 'italic', lineHeight: 1.6, flex: 1 }}>
           * Governing principle · not yet contractual · Net pool = GCI (vol×2%) minus 5% franchise royalty minus 70% agent splits minus overhead<br />
-          Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed's 35%) · Ilija 65% · AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
-          † Zoila AnewHomes 5% &amp; CIREG 1.75% vest Nov 4, 2026 → activate 2027 forward · ICA Override 2026 + Q1 2027 only<br />
-          ‡ CPS-1 Pipeline — visibility line · flows through Flagship ICA and NOP pool · not additive to listed streams
+          CIREG Profit Share: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed’s 35%) · Ilija 65%<br />
+          AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
+          ** Ilija CIREG 65% is his full take; 5% Christie’s royalty is Ilija’s cost, not surfaced on cards<br />
+          † Zoila AnewHomes 5% &amp; CIREG 1.75% vest Nov 4, 2026 → activate 2027 forward · Override 2026 + Q1 2027 only<br />
+          ‡ CPS1 + CIRE Node — visibility reference only · not additive to any total<br />
+          ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
         </div>
         <div style={{ ...P2_SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap', marginLeft: 12 }}>
           The foundation is proven. The model is working.
@@ -934,7 +938,7 @@ export default function ProFormaPage() {
       </div>
 
       <div className="pro-forma-wrapper" style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
-        <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
+        <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} isPdfMode={isPdfMode} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
         <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
         <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} isPdfMode={isPdfMode} /></div>
