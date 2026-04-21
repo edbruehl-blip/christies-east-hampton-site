@@ -360,7 +360,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&dagger; Zoila Vesting</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>AnewHomes 5% and Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. ICA Override applies 2026 and Q1 2027 only.</div>
+          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>

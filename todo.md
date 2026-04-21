@@ -2396,3 +2396,9 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Item A1: Swap ticker ^TYX → ^TNX in market-route.ts so "10Y TREASURY" label matches actual 10-Year Treasury data
 - [x] Item A2: Extend isPdfMode cream substrate to ProFormaPage Pages 3 and 4 — all 4 pages now receive isPdfMode; Page3 inner boxes + GCI banner cream-wired; storageProxy TS error also fixed (0 TS errors total)
 - [x] Item A3: Fix MapsTab.tsx liveCis TypeScript errors — added liveCis?: number to HamletData interface in hamlet-master.ts; 0 TS errors confirmed across full codebase
+
+## Dispatch Item 4 · Zoila Vesting Footnote Canon · April 21 2026
+
+- [x] Propagate canonical Zoila footnote to FutureTab.tsx footnotes section
+- [x] Propagate canonical Zoila footnote to ProFormaPage.tsx Page 2 footnotes (line 597) and Page 3 footnotes (line 725)
+- [x] Verify Pages 3 & 4 cream substrate renders correctly in browser — CONFIRMED: all inner boxes cream (#faf7f1) in ?pdf=1 mode, no dark navy visible

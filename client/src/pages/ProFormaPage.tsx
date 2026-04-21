@@ -594,7 +594,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
           CIREG Profit Share: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed’s 35%) · Ilija 65%<br />
           AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
           ** Ilija CIREG 65% is his full take; 5% Christie’s royalty is Ilija’s cost, not surfaced on cards<br />
-          † Zoila AnewHomes 5% &amp; CIREG 1.75% vest Nov 4, 2026 → activate 2027 forward · Override 2026 + Q1 2027 only<br />
+          † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.<br />
           ‡ CPS1 + CIRE Node — visibility reference only · not additive to any total<br />
           ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
         </div>
@@ -722,7 +722,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
         Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
         Net profit after ALL build costs. Separate from Christie's commission income entirely.
         All seven AnewHomes participants aware and agreeable. Not yet formalized.
-        † Zoila Ortega Astor start date May 4, 2026 · 6-month vesting period · cliff November 4, 2026 · activates 2027 forward. Reverts to pool if she does not make the cut.
+        † Zoila Ortega Astor: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only. Reverts to pool if she does not make the cut.
       </div>
 
       <div style={PAGE_FOOTER}>
