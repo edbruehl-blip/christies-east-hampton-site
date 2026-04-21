@@ -70,20 +70,41 @@ const EQ1_CASCADE: Record<string, number> = {
   '2036': 1_980_000,
 };
 
-// Sprint 13: canonical OUTPUTS B32:B42 (Perplexity April 15, 2026)
-const OUTLOOK_YEARS = [
-  { year: '2026', vol: 75_000_000 },
-  { year: '2027', vol: 125_906_749 },
-  { year: '2028', vol: 253_866_793 },
-  { year: '2029', vol: 456_833_410 },
-  { year: '2030', vol: 752_578_949 },
-  { year: '2031', vol: 1_219_300_000 },
-  { year: '2032', vol: 1_457_294_184 },
-  { year: '2033', vol: 1_735_958_623 },
-  { year: '2034', vol: 2_076_263_101 },
-  { year: '2035', vol: 2_492_014_824 },
-  { year: '2036', vol: 3_000_000_000 },
-];
+// PF9 v5 council-locked five-band data — April 20 2026
+// EH total · SH · WH from Growth Model v2 VOLUME tab (Perplexity verified)
+// AnewHomes % of EH total · CPS1 % of EH total (visibility bands, not additive)
+interface FiveBandYear {
+  year: string;
+  eh: number;   // EH total (millions)
+  sh: number;   // Southampton (millions)
+  wh: number;   // Westhampton (millions)
+  anewPct: number; // AnewHomes % of EH total
+  cps1Pct: number; // CPS1 % of EH total
+  combined: number; // total all offices (millions)
+  display: string;
+}
+const FIVE_BAND_YEARS: FiveBandYear[] = (() => {
+  const EH_TOTAL = [75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
+  const SH_M     = [0,     0,  42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6,  987.8];
+  const WH_M     = [0,     0,     0,     0,  56.7, 230.5, 352.3, 452.4, 592.9, 737.8,  878.9];
+  const ANEW_PCT = [15,   30,   45,   55,   65,   75,   80,   85,   90,   95,  100];
+  const CPS1_PCT = [20,   50,   70,   85,   95,  100,  102,  104,  106,  108,  110];
+  const YEARS    = ['2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
+  return YEARS.map((yr, i) => {
+    const eh = EH_TOTAL[i];
+    const sh = SH_M[i];
+    const wh = WH_M[i];
+    const combined = eh + sh + wh;
+    let display: string;
+    if (yr === '2036') { display = '$3.1B'; }
+    else if (combined >= 1000) { display = `$${(combined / 1000).toFixed(2).replace(/\.?0+$/, '')}B`; }
+    else if (combined >= 100) { display = `$${Math.round(combined)}M`; }
+    else { display = `$${combined.toFixed(1)}M`; }
+    return { year: yr, eh, sh, wh, anewPct: ANEW_PCT[i], cps1Pct: CPS1_PCT[i], combined, display };
+  });
+})();
+// Legacy alias for Page 3 profit pool table
+const OUTLOOK_YEARS = FIVE_BAND_YEARS.map(d => ({ year: d.year, vol: d.combined * 1_000_000 }));
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
 function fmtDollar(n: number): string {
@@ -225,74 +246,156 @@ function KpiCard({ label, value, sub }: { label: string; value: string; sub: str
 }
 
 // ─── Page 1: The Ascension Arc ────────────────────────────────────────────────
-function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear }: {
+function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear: _liveNetProfitByYear }: {
   generatedAt: string;
   activePipelineStr: string;
   exclusiveStr: string;
   liveNetProfitByYear: Record<string, number>;
 }) {
-  const activeRaw = parseFloat(exclusiveStr.replace(/[^0-9.]/g, '')) * 1_000_000 || 0;
+  // Five-band stacked vertical bar chart — PF9 v5 · April 20 2026
+  // Colors: EH core #9e1b32 · AnewHomes #c8453a · CPS1 #e07b54 · SH #1a3a5c · WH #f37a1f
+  const C_EH   = '#9e1b32';
+  const C_ANEW = '#c8453a';
+  const C_CPS1 = '#e07b54';
+  const C_SH   = '#1a3a5c';
+  const C_WH   = '#f37a1f';
+  const MAX_M  = 3500; // Y-axis max in millions — headroom above $3.1B
+
+  // All 12 years including 2025 baseline
+  const ALL_YEARS: Array<{ year: string; eh: number; sh: number; wh: number; anewPct: number; cps1Pct: number; combined: number; display: string; isBaseline?: boolean }> = [
+    { year: '2025', eh: 20, sh: 0, wh: 0, anewPct: 0, cps1Pct: 0, combined: 20, display: '$20M', isBaseline: true },
+    ...FIVE_BAND_YEARS,
+  ];
+
+  const CHART_H = 220; // px — chart area height
+  const BAR_W   = 38;  // px — bar width
+  const GAP     = 6;   // px — gap between bars
+  const TOTAL_W = ALL_YEARS.length * (BAR_W + GAP) - GAP;
+
+  // Y-axis ticks
+  const Y_TICKS = [0, 500, 1000, 1500, 2000, 2500, 3000];
 
   return (
     <div style={PAGE_STYLE}>
       <PageHeader generatedAt={generatedAt} />
 
       <div style={SECTION_LABEL}>Page 1 of 4</div>
-      <div style={PAGE_TITLE}>The Ascension Arc</div>
-      <div style={PAGE_SUBTITLE}>2025–2036 Sales Volume Trajectory · $3B Horizon</div>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 300, color: '#1B2A4A', lineHeight: 1.1, marginBottom: 2 }}>The Ascension Arc</div>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(56,66,73,0.55)', letterSpacing: '0.04em', marginBottom: 4 }}>Christie's East Hampton Flagship · 2025–2036 Sales Volume Trajectory</div>
+      <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a7a5a', marginBottom: 14 }}>FUTURE PROJECTIONS · CPS-1 PRO FORMA · WITHIN THE EXISTING GROWTH PLAN</div>
 
       {/* KPI Strip */}
-      <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
+      <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
         <KpiCard label="Closed · First 100 Days" value="$4.57M" sub="Verified · Office closed period" />
         <KpiCard label="Active Pipeline" value={activePipelineStr} sub={`Live as of ${generatedAt}`} />
-        <KpiCard label="2026 Baseline Projection" value="$75M" sub="MODEL · D6 · OUTPUTS B32" />
-        <KpiCard label="$3B Horizon" value="2036" sub="MODEL · D7 · OUTPUTS B42" />
+        <KpiCard label="2026 Baseline" value="$75M" sub="MODEL · D6 · OUTPUTS B32" />
+        <KpiCard label="$3.1B Horizon" value="2036" sub="MODEL · D7 · OUTPUTS B42" />
       </div>
 
-      {/* Arc Bars */}
-      <div style={SECTION_LABEL}>Volume Trajectory · 2025–2036</div>
+      {/* Chart frame */}
+      <div style={{ background: '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
+        {/* Chart title inside frame */}
+        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
+          SALES VOLUME TRAJECTORY · 2025–2036 · ALL OFFICES
+        </div>
 
-      {/* 2025 baseline */}
-      <ArcBarRow year="2025" vol={15_000_000} maxVol={MAX_VOLUME} isBaseline />
-
-      {OUTLOOK_YEARS.map(({ year, vol }) => {
-        const closedPct = year === '2026' ? Math.min((vol / MAX_VOLUME) * 100, (4_570_000 / MAX_VOLUME) * 100) : 0;
-        const activePct = year === '2026' ? Math.min((vol / MAX_VOLUME) * 100 - closedPct, (activeRaw / MAX_VOLUME) * 100) : 0;
-        const projPct = (vol / MAX_VOLUME) * 100 - closedPct - activePct;
-        return (
-          <div key={year} style={{ display: 'flex', alignItems: 'center', marginBottom: 7, gap: 10 }}>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, letterSpacing: '0.12em', color: '#C8AC78', width: 32, flexShrink: 0 }}>{year}</div>
-            <div style={{ flex: 1, height: 18, background: 'rgba(27,42,74,0.06)', position: 'relative', overflow: 'hidden' }}>
-              <div style={{ height: '100%', display: 'flex' }}>
-                {year === '2026' ? (
-                  <>
-                    <div style={{ width: `${closedPct}%`, background: '#1B2A4A' }} />
-                    <div style={{ width: `${activePct}%`, background: '#8a7a5a' }} />
-                    <div style={{ width: `${projPct}%`, background: 'rgba(200,172,120,0.4)' }} />
-                  </>
-                ) : (
-                  <div style={{ width: `${(vol / MAX_VOLUME) * 100}%`, background: vol >= 1_000_000_000 ? '#C8AC78' : 'rgba(27,42,74,0.5)' }} />
-                )}
+        {/* Chart body: Y-axis + bars */}
+        <div style={{ display: 'flex', gap: 8 }}>
+          {/* Y-axis labels */}
+          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', height: CHART_H, paddingBottom: 20, flexShrink: 0 }}>
+            {[...Y_TICKS].reverse().map(t => (
+              <div key={t} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: 'rgba(200,172,120,0.5)', letterSpacing: '0.05em' }}>
+                {t === 0 ? '$0' : t >= 1000 ? `$${t/1000}B` : `$${t}M`}
               </div>
-            </div>
-            <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', width: 60, flexShrink: 0, textAlign: 'right' }}>{fmtDollar(vol)}</div>
+            ))}
           </div>
-        );
-      })}
 
-      {/* Legend */}
-      <div style={{ display: 'flex', gap: 16, marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-        {[['#1B2A4A', 'Closed'], ['#8a7a5a', 'Active'], ['rgba(200,172,120,0.4)', 'Projected']].map(([bg, label]) => (
-          <span key={label as string} style={{ display: 'flex', alignItems: 'center', gap: 5, color: 'rgba(56,66,73,0.5)' }}>
-            <span style={{ width: 12, height: 8, background: bg as string, display: 'inline-block' }} />
-            {label}
-          </span>
-        ))}
+          {/* Bar area */}
+          <div style={{ flex: 1, position: 'relative', height: CHART_H }}>
+            {/* Grid lines */}
+            {Y_TICKS.map(t => (
+              <div key={t} style={{
+                position: 'absolute',
+                left: 0, right: 0,
+                bottom: `${20 + (t / MAX_M) * (CHART_H - 20)}px`,
+                height: 1,
+                background: t === 0 ? 'rgba(200,172,120,0.25)' : 'rgba(200,172,120,0.08)',
+              }} />
+            ))}
+
+            {/* Bars */}
+            <div style={{ position: 'absolute', bottom: 20, left: 0, display: 'flex', gap: GAP, alignItems: 'flex-end', height: CHART_H - 20 }}>
+              {ALL_YEARS.map((d) => {
+                const totalH = ((d.combined) / MAX_M) * (CHART_H - 20);
+                const ehH = (d.eh / MAX_M) * (CHART_H - 20);
+
+                // Sub-band heights within EH total
+                const anewRaw = d.eh * (d.anewPct / 100);
+                const cps1Raw = d.eh * (d.cps1Pct / 100);
+                const totalBands = anewRaw + cps1Raw;
+                const scale = totalBands > d.eh ? d.eh / totalBands : 1;
+                const anewH = (anewRaw * scale / MAX_M) * (CHART_H - 20);
+                const cps1H = (cps1Raw * scale / MAX_M) * (CHART_H - 20);
+                const ehCoreH = Math.max(0, ehH - anewH - cps1H);
+
+                const shH = (d.sh / MAX_M) * (CHART_H - 20);
+                const whH = (d.wh / MAX_M) * (CHART_H - 20);
+
+                const isBaseline = d.isBaseline;
+                const opacity = isBaseline ? 0.35 : 1;
+                const labelColor = isBaseline ? 'rgba(200,172,120,0.4)' : '#C8AC78';
+
+                return (
+                  <div key={d.year} style={{ width: BAR_W, display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                    {/* Combined label above bar */}
+                    <div style={{ fontFamily: "'Georgia', serif", fontSize: 6, color: labelColor, marginBottom: 2, whiteSpace: 'nowrap', letterSpacing: '0.02em' }}>
+                      {d.display}
+                    </div>
+                    {/* Stacked bar — bottom to top: EH core, AnewHomes, CPS1, SH, WH */}
+                    <div style={{ width: '100%', height: totalH, display: 'flex', flexDirection: 'column-reverse', opacity }}>
+                      <div style={{ height: ehCoreH, background: C_EH, flexShrink: 0 }} />
+                      <div style={{ height: anewH, background: C_ANEW, flexShrink: 0 }} />
+                      <div style={{ height: cps1H, background: C_CPS1, flexShrink: 0 }} />
+                      <div style={{ height: shH, background: C_SH, flexShrink: 0 }} />
+                      <div style={{ height: whH, background: C_WH, flexShrink: 0 }} />
+                    </div>
+                    {/* Year label */}
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? 'rgba(200,172,120,0.4)' : '#C8AC78', marginTop: 3, letterSpacing: '0.08em' }}>
+                      {d.year}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Legend — two rows */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 14px', marginTop: 10, justifyContent: 'center' }}>
+          {[
+            [C_EH,   'EH Core'],
+            [C_ANEW, 'AnewHomes'],
+            [C_CPS1, 'CPS-1'],
+            [C_SH,   'Southampton'],
+            [C_WH,   'Westhampton'],
+          ].map(([bg, label]) => (
+            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 4, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(200,172,120,0.7)' }}>
+              <span style={{ width: 10, height: 7, background: bg, display: 'inline-block', flexShrink: 0 }} />
+              {label}
+            </span>
+          ))}
+        </div>
+
+        {/* Footer inside frame */}
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
+          ART · BEAUTY · PROVENANCE · SINCE 1766
+        </div>
       </div>
 
       <div style={FOOTNOTE}>
         * All projections labeled MODEL. 2026 Closed ($4.57M) and Active ({exclusiveStr}) are verified actuals.
         2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
+        AnewHomes and CPS-1 bands show visibility within EH total — not additive to EH volume.
         Data source: Growth Model v2 · Christie's East Hampton.
       </div>
 
@@ -304,22 +407,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
   );
 }
 
-function ArcBarRow({ year, vol, maxVol, isBaseline }: { year: string; vol: number; maxVol: number; isBaseline?: boolean }) {
-  const pct = Math.min(100, (vol / maxVol) * 100);
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', marginBottom: 7, gap: 10 }}>
-      <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, letterSpacing: '0.12em', color: isBaseline ? 'rgba(56,66,73,0.4)' : '#C8AC78', width: 32, flexShrink: 0 }}>{year}</div>
-      <div style={{ flex: 1, height: 18, background: 'rgba(27,42,74,0.06)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ height: '100%', display: 'flex' }}>
-          <div style={{ width: `${pct}%`, background: isBaseline ? 'rgba(27,42,74,0.2)' : 'rgba(27,42,74,0.5)' }} />
-        </div>
-      </div>
-      <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: isBaseline ? 'rgba(56,66,73,0.4)' : '#384249', width: 60, flexShrink: 0, textAlign: 'right' }}>{fmtDollar(vol)}</div>
-    </div>
-  );
-}
-
-// ─── Page 2: The Machine ──────────────────────────────────────────────────────
+// ─── Page 2: The Machine — PF9 v5 Partner Cards ─────────────────────────────
 interface AgentRow {
   name: string;
   role: string;
@@ -329,7 +417,56 @@ interface AgentRow {
   proj2027: number;
 }
 
-function Page2({ generatedAt, agents, total }: {
+// Shared partner card styles
+const P2_CARD: React.CSSProperties = {
+  background: '#fff',
+  border: '1px solid rgba(27,42,74,0.1)',
+  borderLeft: '3px solid #C8AC78',
+  padding: '8px 10px',
+  marginBottom: 6,
+};
+const P2_SANS = { fontFamily: "'Barlow Condensed', sans-serif" } as React.CSSProperties;
+const P2_SERIF = { fontFamily: "'Cormorant Garamond', serif" } as React.CSSProperties;
+const P2_GOLD = '#C8AC78';
+const P2_MUTED = 'rgba(56,66,73,0.5)';
+const P2_DIM = 'rgba(56,66,73,0.45)';
+const P2_CHARCOAL = 'rgba(27,42,74,0.12)';
+
+function P2StreamRow({ label, vals, isTotal }: { label: string; vals: string[]; isTotal?: boolean }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, ...P2_SANS, fontSize: isTotal ? 7.5 : 7, lineHeight: 1.65, color: isTotal ? P2_GOLD : P2_MUTED, fontWeight: isTotal ? 600 : 400, borderTop: isTotal ? `0.5px solid ${P2_CHARCOAL}` : undefined, paddingTop: isTotal ? 3 : undefined, marginTop: isTotal ? 2 : undefined }}>
+      <span>{label}</span>
+      {vals.map((v, i) => (
+        <span key={i} style={{ textAlign: 'right', color: isTotal ? P2_GOLD : P2_DIM, fontStyle: isTotal ? 'normal' : 'italic', fontSize: isTotal ? 7.5 : 6.5 }}>{v}</span>
+      ))}
+    </div>
+  );
+}
+
+function P2Card({ name, subtitle, nestSalary, streams, total }: {
+  name: string;
+  subtitle: string;
+  nestSalary?: string;
+  streams: Array<{ label: string; vals: string[] }>;
+  total: string[];
+}) {
+  return (
+    <div style={P2_CARD}>
+      <div style={{ ...P2_SANS, fontSize: 9, color: P2_GOLD, fontWeight: 500, marginBottom: 1 }}>{name}</div>
+      <div style={{ ...P2_SANS, fontSize: 6.5, color: P2_MUTED, marginBottom: nestSalary ? 1 : 4 }}>{subtitle}</div>
+      {nestSalary && <div style={{ ...P2_SANS, fontSize: 6, color: P2_GOLD, opacity: 0.7, marginBottom: 4 }}>Nest salary {nestSalary}</div>}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1fr', gap: 2, marginBottom: 3 }}>
+        {['Stream','2026','2027','2028','2036'].map(h => (
+          <span key={h} style={{ ...P2_SANS, fontSize: 7, color: P2_GOLD, textAlign: h === 'Stream' ? 'left' : 'right' as const }}>{h}</span>
+        ))}
+      </div>
+      {streams.map(r => <P2StreamRow key={r.label} label={r.label} vals={r.vals} />)}
+      <P2StreamRow label="All streams total" vals={total} isTotal />
+    </div>
+  );
+}
+
+function Page2({ generatedAt, agents: _agents, total: _total }: {
   generatedAt: string;
   agents: AgentRow[];
   total: { proj2026: number; act2026: number; proj2027: number };
@@ -338,61 +475,121 @@ function Page2({ generatedAt, agents, total }: {
     <div style={PAGE_STYLE}>
       <PageHeader generatedAt={generatedAt} />
 
-      <div style={SECTION_LABEL}>Page 2 of 4</div>
-      <div style={PAGE_TITLE}>The Machine</div>
-      <div style={PAGE_SUBTITLE}>Agent Roster · 9 Named + 7 TBD = 16 for 2026 · Sales Volume</div>
+      {/* Three-tier header */}
+      <div style={{ ...P2_SANS, fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: P2_GOLD, marginBottom: 4 }}>Page 2 of 4</div>
+      <div style={{ ...P2_SERIF, fontSize: 26, fontWeight: 300, color: '#1B2A4A', lineHeight: 1.1, marginBottom: 2 }}>The Machine</div>
+      <div style={{ ...P2_SERIF, fontSize: 11, fontStyle: 'italic', color: P2_MUTED, letterSpacing: '0.04em', marginBottom: 4 }}>Flagship Team · Income Streams · 2026–2036</div>
+      <div style={{ ...P2_SANS, fontSize: 7.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a7a5a', marginBottom: 12 }}>GOVERNING PRINCIPLE · NOT YET CONTRACTUAL · PROJECTED = ITALIC · ACTUAL = GOLD BOLD</div>
 
-      <div style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
-        ★ Sales Volume Only
+      {/* 3-column partner card grid */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
+
+        {/* Column 1: Ed + Ilija */}
+        <div>
+          <P2Card
+            name="Ed Bruehl"
+            subtitle="Managing Director · Christie's East Hampton"
+            streams={[
+              { label: 'Gross GCI (office)',           vals: ['$600K','$720K','$864K','$3.72M'] },
+              { label: 'Net personal prod',            vals: ['$420K','$504K','$605K','$2.60M'] },
+              { label: 'CIREG Profit 29.75%',          vals: ['$52K','$128K','$287K','$3.39M'] },
+              { label: 'AnewHomes 35%',                vals: ['$17.5K','$52.5K','$59K','$152K'] },
+              { label: 'CPS-1 visibility ‡',           vals: ['$100K','$250K','$500K','$1.69M'] },
+            ]}
+            total={['$490K','$684K','$951K','$6.15M']}
+          />
+          <P2Card
+            name="Ilija Pavlovic"
+            subtitle="Franchise Principal · CIREG Tri-State"
+            streams={[
+              { label: 'NOP pool 65% *',               vals: ['$114K','$280K','$628K','$7.43M'] },
+              { label: 'CIREG 25% Ed Gross (incl.)',   vals: ['$150K','$180K','$216K','$929K'] },
+              { label: 'CPS-1 visibility ‡',           vals: ['$100K','$250K','$500K','$1.69M'] },
+            ]}
+            total={['$114K','$280K','$628K','$7.43M']}
+          />
+        </div>
+
+        {/* Column 2: Angel + Jarvis */}
+        <div>
+          <P2Card
+            name="Angel Theodore *"
+            subtitle="Mktg Coord + Sales · Producer transition Q1 2027"
+            nestSalary="$70K / yr (2026 only)"
+            streams={[
+              { label: 'Nest salary',                  vals: ['$70K','$17.5K','—','—'] },
+              { label: 'Producer ramp',                vals: ['$25K','$120K','$144K','$619K+'] },
+              { label: 'AnewHomes 5% *',               vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
+              { label: 'ICA Override 5% Ed gross',     vals: ['$30K','$36K','$43.2K','$186K'] },
+              { label: 'CIREG Profit 1.75% *',         vals: ['$3K','$8K','$17K','$200K'] },
+              { label: 'CPS-1 (incl. above) ‡',        vals: ['$100K','$250K','$500K','$1.69M'] },
+            ]}
+            total={['$130.5K','$189K','$212.6K','$1.03M']}
+          />
+          <P2Card
+            name="Jarvis Slade"
+            subtitle="COO · Agent"
+            streams={[
+              { label: 'Sales vol',                    vals: ['$10M','$12M','$14.4M','$62M+'] },
+              { label: 'GCI proj',                     vals: ['$200K','$240K','$288K','$1.24M+'] },
+              { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
+              { label: 'ICA Override 5% Ed gross',     vals: ['$30K','$36K','$43.2K','$186K'] },
+              { label: 'CIREG Profit 1.75% *',         vals: ['$3K','$8K','$17K','$200K'] },
+              { label: 'CPS-1 (incl. above) ‡',        vals: ['$100K','$250K','$500K','$1.69M'] },
+            ]}
+            total={['$235.5K','$291.5K','$356.6K','$1.65M']}
+          />
+        </div>
+
+        {/* Column 3: Zoila + Scott + Richard */}
+        <div>
+          <P2Card
+            name="Zoila Ortega Astor †"
+            subtitle="Office Director · Producer transition Q1 2027"
+            nestSalary="$70K / yr (2026 only)"
+            streams={[
+              { label: 'Nest salary',                  vals: ['$70K','$17.5K','—','—'] },
+              { label: 'Producer ramp',                vals: ['$25K','$150K','$180K','$774K+'] },
+              { label: 'AnewHomes 5% (vest Nov 4) †',  vals: ['$0 vest','$7.5K','$8.4K','$21.6K'] },
+              { label: 'ICA Override (2026+Q1 2027) †',vals: ['$30K','$9K','—','—'] },
+              { label: 'CIREG 1.75% (same vesting) †', vals: ['$0 vest','$8K','$17K','$200K'] },
+              { label: 'CPS-1 (incl. above) ‡',        vals: ['$100K','$250K','$500K','$1.69M'] },
+            ]}
+            total={['$125K','$192K','$205.4K','$996K+']}
+          />
+          <P2Card
+            name="Scott Smith *"
+            subtitle="Agent · AnewHomes Build Partner"
+            streams={[
+              { label: 'Gross GCI',                    vals: ['$37.5K','$90K','$108K','$464K+'] },
+              { label: 'Agent Take 70%',               vals: ['$26.3K','$63K','$75.6K','$324.8K+'] },
+              { label: 'Sales vol',                    vals: ['$3.75M','$4.5M','$5.4M','$23.2M+'] },
+              { label: 'AnewHomes 35%',                vals: ['$17.5K','$52.5K','$59K','$151.5K'] },
+            ]}
+            total={['$43.8K','$115.5K','$134.6K','$476.3K+']}
+          />
+          <P2Card
+            name="Richard Bruehl"
+            subtitle="Flagship Team · Strategic Mentor · 10% AnewHomes"
+            streams={[
+              { label: 'AnewHomes 10%',                vals: ['$5K','$15K','$16.9K','$43.3K'] },
+            ]}
+            total={['$5K','$15K','$17K','$43K']}
+          />
+        </div>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
-        <thead>
-          <tr style={{ borderBottom: '1.5px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
-            {['Agent', 'Role', 'Status', '2026 Proj Vol', '2026 Actual', '2027 Proj Vol', '2027 Actual'].map(h => (
-              <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8AC78', fontWeight: 600 }}>{h}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {agents.map((a, i) => (
-            <tr key={a.name} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 1 ? 'rgba(27,42,74,0.015)' : 'transparent' }}>
-              <td style={{ padding: '5px 8px', color: '#384249', fontSize: 9 }}>{a.name}</td>
-              <td style={{ padding: '5px 8px', color: '#384249', fontSize: 9 }}>{a.role}</td>
-              <td style={{ padding: '5px 8px', color: '#384249', fontSize: 9 }}>{a.status}</td>
-              <td style={{ padding: '5px 8px', color: '#384249', fontSize: 9 }}>{fmtDollar(a.proj2026)}</td>
-              <td style={{ padding: '5px 8px', color: a.act2026 > 0 ? '#1B2A4A' : 'rgba(56,66,73,0.3)', fontSize: 9 }}>{a.act2026 > 0 ? fmtDollar(a.act2026) : '—'}</td>
-              <td style={{ padding: '5px 8px', color: '#384249', fontSize: 9 }}>{fmtDollar(a.proj2027)}</td>
-              <td style={{ padding: '5px 8px', color: 'rgba(56,66,73,0.3)', fontSize: 9 }}>—</td>
-            </tr>
-          ))}
-          <tr style={{ borderTop: '1px solid rgba(200,172,120,0.3)', background: 'rgba(27,42,74,0.02)', fontSize: 8 }}>
-            <td colSpan={7} style={{ padding: '4px 8px', letterSpacing: '0.1em', textTransform: 'uppercase', fontSize: 7.5, color: 'rgba(56,66,73,0.4)' }}>
-              + 3 Targeted Hires 2026 ($375K each) + 4 Organic Adds ($50K each) — not shown individually
-            </td>
-          </tr>
-          <tr style={{ borderTop: '1.5px solid #C8AC78', background: 'rgba(27,42,74,0.03)', fontWeight: 600 }}>
-            <td colSpan={3} style={{ padding: '5px 8px', color: '#1B2A4A', fontWeight: 600, fontSize: 9 }}>TOTAL (Baseline)</td>
-            <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{fmtDollar(total.proj2026)}</td>
-            <td style={{ padding: '5px 8px', color: '#1B2A4A', fontWeight: 600, fontSize: 9 }}>{fmtDollar(total.act2026)}</td>
-            <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{fmtDollar(total.proj2027)}</td>
-            <td style={{ padding: '5px 8px', color: 'rgba(56,66,73,0.3)', fontSize: 9 }}>—</td>
-          </tr>
-          <tr style={{ borderTop: '1px dashed rgba(200,172,120,0.5)', background: 'rgba(200,172,120,0.04)' }}>
-            <td colSpan={3} style={{ padding: '5px 8px', color: '#8a7a5a', fontStyle: 'italic', fontSize: 9 }}>AnewHomes — Custom Build · Ed Bruehl exclusively</td>
-            <td style={{ padding: '5px 8px', color: '#8a7a5a', fontSize: 9 }}>$50K net*</td>
-            <td style={{ padding: '5px 8px', color: 'rgba(56,66,73,0.3)', fontSize: 9 }}>—</td>
-            <td style={{ padding: '5px 8px', color: '#8a7a5a', fontSize: 9 }}>$150K net*</td>
-            <td style={{ padding: '5px 8px', color: 'rgba(56,66,73,0.3)', fontSize: 9 }}>—</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style={FOOTNOTE}>
-        * AnewHomes figures are net build profit, not sales volume. Separate from Christie's commission income.
-        Agent count: 9 existing (including Scott Smith pending June 1) + 3 targeted + 4 organic = 16 for 2026.
-        All projections labeled MODEL. Actual columns update as deals close in PIPE.
-        Scott Smith start date pending June 1, 2026 confirmation.
+      {/* Four-corner footer */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 8, paddingTop: 6, borderTop: `0.5px solid ${P2_CHARCOAL}` }}>
+        <div style={{ ...P2_SANS, fontSize: 6.5, color: P2_DIM, fontStyle: 'italic', lineHeight: 1.6, flex: 1 }}>
+          * Governing principle · not yet contractual · Net pool = GCI (vol×2%) minus 5% franchise royalty minus 70% agent splits minus overhead<br />
+          Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed's 35%) · Ilija 65% · AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
+          † Zoila AnewHomes 5% &amp; CIREG 1.75% vest Nov 4, 2026 → activate 2027 forward · ICA Override 2026 + Q1 2027 only<br />
+          ‡ CPS-1 Pipeline — visibility line · flows through Flagship ICA and NOP pool · not additive to listed streams
+        </div>
+        <div style={{ ...P2_SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap', marginLeft: 12 }}>
+          The foundation is proven. The model is working.
+        </div>
       </div>
 
       <div style={PAGE_FOOTER}>

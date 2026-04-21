@@ -2292,3 +2292,28 @@
 - [x] Replace BARS useMemo with CHART_DATA (12 years, 3 offices, council-locked fallback arrays)
 - [x] Remove old 4-item legend row (EH/SH/WH/Projected) from below chart
 - [x] 34/34 tests passing after change
+
+## Council Directive — PF9 v5 + Five-Band Arc — April 20, 2026
+
+- [ ] Five-band Ascension Arc: EH core (#9e1b32) / AnewHomes (#c8946b) / CPS1 (#6b2838) / SH (#1a3a5c) / WH (#947231 burnished gold)
+- [ ] 2px black borders on every segment
+- [ ] Combined totals: #947231, 11px bold Georgia
+- [ ] 2025 baseline bar: 30% opacity
+- [ ] Opening-year markers (SH 2028, WH 2030) below axis, not inside bars
+- [ ] Mobile gold totals: responsive fontSize (10 below 600px, 13 above)
+- [ ] Y-max $3500M, labels inside frame mirror mode
+- [ ] Five-item two-row legend (top: EH/SH/WH; bottom: AnewHomes/CPS1)
+- [ ] PDF parity: proforma-generator.ts arcByYear rebuilt to five-band stacked logic
+- [ ] PF9 Page 2 v5: remove OCP, running head, "Foundation is proven", verification tagline, D40.5, LIVE pill
+- [ ] PF9 Page 2 v5: four-corner footer (1px gold rule, centered brand, Soli Deo Gloria BL, Page 2 of 2 BR)
+- [ ] PF9 Page 2 v5: three-tier header only (no running head)
+- [ ] PF9 Page 2 v5: partner card DNA (2px black border, parchment header, stream color semantics)
+- [ ] PF9 Page 2 v5: Assumptions block (parchment header, 3-column body, canonical subheads)
+- [ ] PF9 Page 2 v5: Nest salary moved into Angel + Zoila nameplates, Nest data row killed
+
+## PF9 v5 Council Directive — Completed April 21 2026
+- [x] Five-band CHART_DATA in FutureTab.tsx: EH core / AnewHomes / CPS1 / SH / WH
+- [x] AscensionArcChart five-band stacked bars with 2025 baseline opacity, two-row legend
+- [x] ProFormaPage.tsx Page 1: five-band stacked vertical bars on dark navy substrate
+- [x] ProFormaPage.tsx Page 2: PF9 v5 partner cards with three-tier header and four-corner footer
+- [x] 34/34 tests passing

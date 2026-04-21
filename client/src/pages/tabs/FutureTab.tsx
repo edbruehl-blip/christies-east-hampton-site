@@ -437,31 +437,46 @@ export default function FutureTab() {
   }
 
   // The eleven projected bars (2026-2036 milestones — live from OUTPUTS B32:B42)
-  // ── Council-locked CHART_DATA — Growth Model v2 VOLUME tab · April 20 2026 ──
-  // Direct from Perp's raw VOLUME pull. No derivation. All values in millions.
-  // Live tRPC data overrides when available; these are the exact council-locked fallbacks.
+  // ── Council-locked CHART_DATA — PF9 v5 · Five-band · April 20 2026 ──────────
+  // Canonical data from Perp's VOLUME tab pull. No derivation. All values in millions.
+  // EH total: 20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3
+  // SH:        0,  0,     0,  42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6,  987.8
+  // WH:        0,  0,     0,     0,     0,  56.7, 230.5, 352.3, 452.4, 592.9, 737.8,  878.9
+  // AnewHomes visibility (% of EH total): 0,15,30,45,55,65,75,80,85,90,95,100
+  // CPS1 visibility (% of EH total): 0,20,50,70,85,95,100,102,104,106,108,110
+  // EH core = EH total minus (AnewHomes + CPS1) per year
   const CHART_DATA = useMemo((): ArcBarDatum[] => {
-    // EH Row 10 · SH Row 15 · WH Row 16 · Growth Model v2 VOLUME tab
-    // Council-locked exact values (millions) — April 20 2026
-    const EH_M = [20, 75, 212, 411, 567, 647, 728, 808, 889, 969, 1050, 1130];
-    const SH_M = [0,   0,  42, 285, 422, 503, 584, 665, 745, 826,  907,  988];
-    const WH_M = [0,   0,   0,  57, 231, 324, 416, 509, 601, 694,  786,  879];
+    const EH_TOTAL = [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
+    const SH_M     = [0,   0,     0,  42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6,  987.8];
+    const WH_M     = [0,   0,     0,     0,     0,  56.7, 230.5, 352.3, 452.4, 592.9, 737.8,  878.9];
+    // AnewHomes visibility: % of EH total (council-locked)
+    const ANEW_PCT = [0, 15, 30, 45, 55, 65, 75, 80, 85, 90, 95, 100];
+    // CPS1 visibility: % of EH total (council-locked)
+    const CPS1_PCT = [0, 20, 50, 70, 85, 95, 100, 102, 104, 106, 108, 110];
     const YEARS = [2025, 2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
     return YEARS.map((yr, i) => {
       const liveEh = liveEhVolumes?.[yr];
       const liveSh = liveShVolumes?.[yr];
       const liveWh = liveWhVolumes?.[yr];
-      const eh = (liveEh && liveEh > 0) ? liveEh / 1_000_000 : EH_M[i];
-      const sh = (liveSh && liveSh > 0) ? liveSh / 1_000_000 : SH_M[i];
-      const wh = (liveWh && liveWh > 0) ? liveWh / 1_000_000 : WH_M[i];
-      const combined = eh + sh + wh;
+      const ehTotal = (liveEh && liveEh > 0) ? liveEh / 1_000_000 : EH_TOTAL[i];
+      const sh      = (liveSh && liveSh > 0) ? liveSh / 1_000_000 : SH_M[i];
+      const wh      = (liveWh && liveWh > 0) ? liveWh / 1_000_000 : WH_M[i];
+      // Visibility bands: percentage of EH total, scaled so ehCore >= 0
+      const anewRaw = ehTotal * (ANEW_PCT[i] / 100);
+      const cps1Raw = ehTotal * (CPS1_PCT[i] / 100);
+      const totalBands = anewRaw + cps1Raw;
+      const scale = totalBands > ehTotal ? ehTotal / totalBands : 1;
+      const anew   = anewRaw * scale;
+      const cps1   = cps1Raw * scale;
+      const ehCore = Math.max(0, ehTotal - anew - cps1);
+      const combined = ehTotal + sh + wh;
       let display: string;
-      if (yr === 2036) { display = '$3.0B'; }
+      if (yr === 2036) { display = '$3.1B'; }
       else if (yr === 2025) { display = '$20M'; }
-      else if (combined >= 1000) { display = `$${(combined / 1000).toFixed(2).replace(/\\.?0+$/, '')}B`; }
+      else if (combined >= 1000) { display = `$${(combined / 1000).toFixed(2).replace(/\.?0+$/, '')}B`; }
       else if (combined >= 100) { display = `$${Math.round(combined)}M`; }
       else { display = `$${combined.toFixed(1)}M`; }
-      return { year: String(yr), eh, sh, wh, combined, display };
+      return { year: String(yr), ehCore, anew, cps1, sh, wh, eh: ehTotal, combined, display };
     });
   }, [liveEhVolumes, liveShVolumes, liveWhVolumes]);
 
