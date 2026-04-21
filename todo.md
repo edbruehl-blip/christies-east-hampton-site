@@ -2317,3 +2317,26 @@
 - [x] ProFormaPage.tsx Page 1: five-band stacked vertical bars on dark navy substrate
 - [x] ProFormaPage.tsx Page 2: PF9 v5 partner cards with three-tier header and four-corner footer
 - [x] 34/34 tests passing
+
+## v14 FINAL Dispatch — April 21 2026
+- [ ] FutureTab.tsx: Chart.js 4.4.1 five-band arc, dark navy #0f1820, ivory totals, two-row legend
+- [ ] FutureTab.tsx: Page 2 partner cards — exact v14 wireframe HTML (Edward Bruehl formal name, plain-English labels, nbsp markers)
+- [ ] FutureTab.tsx: Three-lever Assumptions & Calc (Top Producers/Office PPL, GCI Commission %, Pros Starting Production $K)
+- [ ] FutureTab.tsx: Flagship-focused output cards ($413M / $708M / $3.00B), no Ed-centric framing
+- [ ] FutureTab.tsx: Kill list — remove OCP, D40.5, Verified April 20, Soli Deo Gloria, Hermès orange, old labels
+- [ ] ProFormaPage.tsx: Cream Page 1 arc — Chart.js, #faf7f1, charcoal totals, Page 1 of 2
+- [ ] ProFormaPage.tsx: Cream Page 2 — exact v14_3 wireframe, Page 2 of 2
+- [ ] Brand footer both pages: CHRISTIE'S INTERNATIONAL REAL ESTATE / Art Beauty Provenance / SINCE 1766 #947231
+- [ ] 34/34 tests passing after rebuild
+
+## v14 FINAL — April 21 2026 — COMPLETE
+- [x] Five-band Chart.js 4.5.1 arc (EH/SH/WH/AnewHomes/CPS1) with council-locked colors
+- [x] WH color corrected to burnished gold #947231 (not Hermès orange)
+- [x] Two-row legend on both Page 1 and Page 2
+- [x] Three-lever Assumptions & Calc (PPL/Commission/Starting Production)
+- [x] Three flagship-focused output cards ($413M/$708M/$3.00B at defaults)
+- [x] v14 partner cards: Edward Bruehl, Ilija, Angel, Jarvis, Zoila, Scott, Richard
+- [x] Plain-English row labels per dispatch (Production Ramp, Sales Volume, etc.)
+- [x] Trailing markers glued with &nbsp; (no orphan wrapping)
+- [x] Kill list: OCP removed, "Verified April 20 2026" removed, Ed-centric framing removed
+- [x] 34/34 tests passing
