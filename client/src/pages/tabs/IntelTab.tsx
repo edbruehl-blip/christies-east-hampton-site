@@ -121,17 +121,17 @@ const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
 
 function MindMapSection() {
   return (
-    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
               Layer 1 · Institutional Mind Map
             </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
               Christie's Flagship Mind Map
             </h3>
-            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
               Live Miro board · Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
             </p>
           </div>
@@ -139,13 +139,13 @@ function MindMapSection() {
             href={MIRO_BOARD_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors hover:bg-[#1B2A4A] hover:text-[#C8AC78]"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors"
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.5)', color: '#C8AC78', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
           >
             Open in Miro ↗
           </a>
         </div>
-        <div style={{ border: '1px solid rgba(27,42,74,0.18)', borderRadius: 2, overflow: 'hidden', background: '#fff' }}>
+        <div style={{ border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, overflow: 'hidden', background: '#0D1520' }}>
           <iframe
             src={MIRO_EMBED_URL}
             title="Christie's Flagship Mind Map · Institutional Architecture"
@@ -155,7 +155,7 @@ function MindMapSection() {
             allowFullScreen
           />
         </div>
-        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
           Live read-only embed · Edits made in Miro reflect on next load.{' '}
           <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
           {' '}to edit, drag nodes, and add new ones.
@@ -201,7 +201,7 @@ function TrelloLayer() {
   const MUTED   = 'rgba(250,248,244,0.55)';
 
   return (
-    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
 
         {/* ── Header row ─────────────────────────────────────────────────── */}
@@ -337,7 +337,7 @@ function TrelloLayer() {
 
 function CalendarLayer() {
   return (
-    <div className="px-6 py-8">
+    <div className="px-6 py-8" style={{ background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
       {/* Layer label */}
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
@@ -394,8 +394,8 @@ function CalendarLayer() {
             style={{ display: 'block', border: 'none' }}
           />
           {/* Cookie hint — Google Calendar requires third-party cookies */}
-          <div className="px-3 py-2 text-center" style={{ background: 'rgba(27,42,74,0.03)', borderTop: '1px solid rgba(27,42,74,0.06)' }}>
-            <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: 10 }}>
+          <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.15)', borderTop: '1px solid rgba(200,172,120,0.1)' }}>
+            <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
               If the calendar appears blank, your browser may be blocking third-party cookies. Use 
               <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
             </span>
@@ -794,7 +794,7 @@ function IntelligenceWebLayer() {
 function CorkboardLayer() {
   const CORKBOARD_URL = '/manus-storage/eds_corkboard_v2_591571f9.html';
   return (
-    <div style={{ background: '#FAF8F4', padding: '0 0 32px 0' }}>
+    <div style={{ background: '#1B2A4A', padding: '0 0 32px 0' }}>
       {/* Layer label */}
       <div style={{ maxWidth: 'var(--frame-max-w, 1200px)', margin: '0 auto', padding: '32px 24px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
@@ -802,10 +802,10 @@ function CorkboardLayer() {
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
               Corkboard · Day One
             </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: '1.25rem' }}>
+            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
               Ed's Corkboard v2
             </h3>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(56,66,73,0.65)', fontSize: '0.78rem', marginTop: 4 }}>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.78rem', marginTop: 4 }}>
               Day One orientation · Key Relationships · First-name-only Ilija
             </p>
           </div>
@@ -831,7 +831,7 @@ function CorkboardLayer() {
         </div>
       </div>
       {/* Full-width iframe embed */}
-      <div style={{ width: '100%', background: '#f8f4ed' }}>
+      <div style={{ width: '100%', background: '#0D1520', border: '1px solid rgba(200,172,120,0.2)' }}>
         <iframe
           src={CORKBOARD_URL}
           title="Ed's Corkboard v2 · Day One"
@@ -946,15 +946,15 @@ export default function IntelTab() {
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 3 — Master Calendar */}
-      <div id="intel-layer-3" />
-      <CalendarLayer />
+      {/* CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) — ABOVE CALENDAR per Dispatch Addendum 3 */}
+      <div id="intel-layer-corkboard" />
+      <CorkboardLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) */}
-      <div id="intel-layer-corkboard" />
-      <CorkboardLayer />
+      {/* Layer 3 — Master Calendar */}
+      <div id="intel-layer-3" />
+      <CalendarLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
