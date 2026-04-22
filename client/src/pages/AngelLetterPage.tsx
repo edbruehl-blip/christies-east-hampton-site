@@ -11,7 +11,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY    = '#1B2A4A';
-const GOLD    = '#C8AC78';
+const GOLD    = '#947231';
 const CREAM   = '#FAF8F4';
 const MUTED   = 'rgba(27,42,74,0.6)';
 

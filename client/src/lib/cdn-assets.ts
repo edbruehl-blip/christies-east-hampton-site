@@ -1,6 +1,6 @@
 /**
  * CDN Asset Registry — Christie's East Hampton Dashboard
- * Design System: Navy #1B2A4A · Gold #C8AC78 · Charcoal #384249 · Cream #FAF8F4
+ * Design System: Navy #1B2A4A · Gold #947231 · Charcoal #384249 · Cream #FAF8F4
  * Typography: Cormorant Garamond (headlines) · Barlow Condensed (data/UI)
  *
  * ALL image references in the codebase must come from this file.

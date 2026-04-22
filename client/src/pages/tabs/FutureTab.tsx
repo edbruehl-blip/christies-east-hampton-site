@@ -24,7 +24,7 @@ Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, L
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const NAVY        = '#0f1820';
-const GOLD        = '#c8ac78';
+const GOLD        = '#947231';
 const GOLD_FAINT_BORDER = 'rgba(200,172,120,0.40)';
 const CHARCOAL    = '#384249';
 const DIM         = '#c8c8c8';
@@ -93,7 +93,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
     };
 
     // Opening-year labels below X-axis: "SH opens 2028" at index 3, "WH opens 2030" at index 5
-    // Georgia 8.5px italic · #5a5041 cream / #c8ac78 dark · centered under bar
+    // Georgia 8.5px italic · #5a5041 cream / #947231 dark · centered under bar
     const openingYearPlugin = {
       id: 'arcOpeningYears',
       afterDraw(chart: Chart) {
@@ -105,7 +105,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
         ];
         ctx.save();
         ctx.font = 'italic 8.5px "Cormorant Garamond", serif';
-        ctx.fillStyle = isPdfMode ? '#5a5041' : '#c8ac78';
+        ctx.fillStyle = isPdfMode ? '#5a5041' : '#947231';
         ctx.textAlign = 'center';
         const yPos = chartArea.bottom + 34; // below the X-axis tick labels
         openings.forEach(({ idx, text }) => {
@@ -261,16 +261,16 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
   const hdrBorderB = isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)';
   const titleColor = isPdfMode ? '#1a3a5c' : '#ebe6db';
   const subtitleColor = isPdfMode ? '#5a5041' : '#9a9a8a';
-  const labelColor = isPdfMode ? '#947231' : '#c8ac78';
+  const labelColor = isPdfMode ? '#947231' : '#947231';
   const valueColor = isPdfMode ? '#111' : '#ebe6db';
   const outBg    = '#1a3a5c';
   const outLabel = '#c9bf9f';
   const outValue = '#ebe6db';
-  const notesHdr = isPdfMode ? '#1a3a5c' : '#c8ac78';
+  const notesHdr = isPdfMode ? '#1a3a5c' : '#947231';
   const notesText = isPdfMode ? '#2a2a2a' : '#c0bba8';
   const notesBorder = isPdfMode ? 'rgba(148,114,49,0.3)' : 'rgba(148,114,49,0.25)';
   const rngBg    = isPdfMode ? 'rgba(148,114,49,0.25)' : 'rgba(148,114,49,0.3)';
-  const thumbBg  = isPdfMode ? '#947231' : '#c8ac78';
+  const thumbBg  = isPdfMode ? '#947231' : '#947231';
   const inputBorderB = isPdfMode ? 'rgba(148,114,49,0.4)' : 'rgba(148,114,49,0.3)';
 
   const sliderStyle: React.CSSProperties = {
@@ -411,11 +411,11 @@ function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, clarifi
   const hdrBorderB = isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)';
   const nameColor = isPdfMode ? '#111' : '#ebe6db';
   const subColor  = isPdfMode ? '#5a5041' : '#9a9a8a';
-  const nestColor = isPdfMode ? '#7a6b4a' : '#c8ac78';
-  const hdrColor  = isPdfMode ? '#947231' : '#c8ac78';
+  const nestColor = isPdfMode ? '#7a6b4a' : '#947231';
+  const hdrColor  = isPdfMode ? '#947231' : '#947231';
   const lblColor  = isPdfMode ? '#3a3a3a' : '#d8d6c8';
   const valColor  = isPdfMode ? '#3a3a3a' : '#9aa5b0';
-  const totValColor = isPdfMode ? '#947231' : '#c8ac78';
+  const totValColor = isPdfMode ? '#947231' : '#947231';
   const totBorder = isPdfMode ? '#000' : 'rgba(148,114,49,0.5)';
   const totTextColor = isPdfMode ? '#111' : '#ebe6db';
 
@@ -681,7 +681,7 @@ export default function FutureTab() {
       {!isPdfMode && (
         <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.25)', padding: '28px 24px 20px', borderBottom: '2px solid rgba(200,172,120,0.35)' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
               Growth Model · Ascension Arc · 2026–2036
             </div>
             <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', margin: 0 }}>
@@ -728,7 +728,7 @@ export default function FutureTab() {
             fontSize: 10.5,
             letterSpacing: 3.5,
             textTransform: 'uppercase' as const,
-            color: isPdfMode ? '#1a3a5c' : '#c8ac78',
+            color: isPdfMode ? '#1a3a5c' : '#947231',
             paddingBottom: 9,
             borderBottom: isPdfMode ? '1px solid #947231' : '1px solid rgba(148,114,49,0.4)',
             marginBottom: 12,
@@ -748,7 +748,7 @@ export default function FutureTab() {
                 tm: '26 Park Place open before the sign went up. Angel Theodore led the transformation. Dashboard live Day 1.',
               },
               {
-                accent: isPdfMode ? '#947231' : '#c8ac78',
+                accent: isPdfMode ? '#947231' : '#947231',
                 lbl: '2ND 100 DAYS', st: 'DOING', dt: 'Mar – Apr 29, 2026',
                 sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active. Two additional closings this quarter.',
                 cl: 'Stephen Lash engaged. Dan’s Papers pilot with Schneps Media in motion. NYC outreach through Melissa True, Rockefeller and Flatiron desks.',
@@ -773,10 +773,10 @@ export default function FutureTab() {
               const hdrBg     = isPdfMode ? '#efe6d1' : '#1c2638';
               const cardBorder = isPdfMode ? `2px solid #000` : `1px solid rgba(148,114,49,0.4)`;
               const hdrBorderB = isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)';
-              const lblColor  = isPdfMode ? '#947231' : '#c8ac78';
+              const lblColor  = isPdfMode ? '#947231' : '#947231';
               const stColor   = isPdfMode ? '#1a3a5c' : '#ebe6db';
-              const dtColor   = isPdfMode ? '#5a5041' : '#c8ac78';
-              const secHdr    = isPdfMode ? '#947231' : '#c8ac78';
+              const dtColor   = isPdfMode ? '#5a5041' : '#947231';
+              const secHdr    = isPdfMode ? '#947231' : '#947231';
               const bodyColor = isPdfMode ? '#2a2a2a' : '#d8d6c8';
               return (
                 <div key={c.lbl} style={{

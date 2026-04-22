@@ -11,7 +11,7 @@
  * Section 5 · MAPS / CIS Intelligence — model deal · CIS chip · QR
  * Section 6 · Resources & Authority — Christie's ecosystem · contact block · doctrine footer
  *
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Design: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (body) · Barlow Condensed (labels)
  */
 
@@ -81,7 +81,7 @@ function BackBar() {
         style={{
           background: 'none',
           border: '1px solid rgba(200,172,120,0.35)',
-          color: '#C8AC78',
+          color: '#947231',
           fontFamily: '"Barlow Condensed", sans-serif',
           fontSize: 9,
           letterSpacing: '0.2em',
@@ -109,7 +109,7 @@ function BackBar() {
         onClick={handlePdfDownload}
         disabled={pdfLoading}
         style={{
-          background: pdfLoading ? 'rgba(200,172,120,0.3)' : '#C8AC78',
+          background: pdfLoading ? 'rgba(200,172,120,0.3)' : '#947231',
           border: 'none',
           color: '#1B2A4A',
           fontFamily: '"Barlow Condensed", sans-serif',
@@ -134,7 +134,7 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
       <span
         style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 10,
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -212,7 +212,7 @@ function Section1() {
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
+              color: '#947231',
               fontSize: 10,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -261,7 +261,7 @@ function Section1() {
               : pdfState === 'error' ? 'rgba(192,57,43,0.7)'
               : 'rgba(200,172,120,0.55)'
             }`,
-            color: pdfState === 'done' ? '#6ee7b7' : pdfState === 'error' ? '#f87171' : '#C8AC78',
+            color: pdfState === 'done' ? '#6ee7b7' : pdfState === 'error' ? '#f87171' : '#947231',
             fontFamily: '"Barlow Condensed", sans-serif',
             fontSize: 11,
             letterSpacing: '0.26em',
@@ -318,7 +318,7 @@ function Section1() {
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
-            color: '#C8AC78',
+            color: '#947231',
             fontSize: 10,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -353,7 +353,7 @@ function Section1() {
             key={i}
             style={{
               fontFamily: '"Source Sans 3", sans-serif',
-              color: i === 8 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
+              color: i === 8 ? '#947231' : 'rgba(250,248,244,0.82)',
               fontSize: '0.9375rem',
               lineHeight: 1.75,
               marginBottom: i === 8 ? 0 : 18,
@@ -396,7 +396,7 @@ function Section1() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 10,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -576,7 +576,7 @@ function Section2() {
                   style={{
                     fontFamily: '"Barlow Condensed", sans-serif',
                     background: '#1B2A4A',
-                    color: '#C8AC78',
+                    color: '#947231',
                     fontSize: 9,
                     letterSpacing: '0.2em',
                     textTransform: 'uppercase',
@@ -688,7 +688,7 @@ interface CFSResult {
 }
 
 function calcCFS(t: TickerData): CFSResult {
-  if (!t.loaded) return { score: 0, label: 'Loading', color: '#C8AC78', description: '' };
+  if (!t.loaded) return { score: 0, label: 'Loading', color: '#947231', description: '' };
   const eq = Math.max(0, Math.min(40, 20 + t.sp500Change * 10));
   const vx = t.vix < 20 ? 30 : t.vix < 30 ? 15 : 0;
   const rt = t.treasury10y < 4.5 ? 30 : t.treasury10y < 5.0 ? 15 : 0;
@@ -704,7 +704,7 @@ function calcCFS(t: TickerData): CFSResult {
     return {
       score,
       label: 'Moderate Inflow',
-      color: '#C8AC78',
+      color: '#947231',
       description: 'Mixed signals. Selective buyers active. Institutional quality assets moving.',
     };
   if (score >= 35)
@@ -836,7 +836,7 @@ function Section3() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 9,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -882,7 +882,7 @@ function Section3() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 9,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -936,7 +936,7 @@ function Section3() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 9,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -948,7 +948,7 @@ function Section3() {
             <div
               style={{
                 fontFamily: '"Cormorant Garamond", serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: '2.25rem',
                 fontWeight: 400,
                 lineHeight: 1,
@@ -1011,7 +1011,7 @@ function HamletTile({
       className="text-left w-full"
       style={{
         background: isSelected ? '#1B2A4A' : '#FAF8F4',
-        border: `1px solid ${isSelected ? '#C8AC78' : 'rgba(27,42,74,0.12)'}`,
+        border: `1px solid ${isSelected ? '#947231' : 'rgba(27,42,74,0.12)'}`,
         padding: '16px 18px',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
@@ -1033,7 +1033,7 @@ function HamletTile({
       <div
         style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 14,
           fontWeight: 600,
         }}
@@ -1052,7 +1052,7 @@ function HamletTile({
           marginTop: 4,
         }}
       >
-        CIS {hamlet.anewScore} · {hamlet.volumeShare}% vol
+        {hamlet.volumeShare}% vol
       </div>
     </button>
   );
@@ -1073,7 +1073,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
+              color: '#947231',
               fontSize: 9,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
@@ -1101,7 +1101,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
               margin: '4px 0 0',
             }}
           >
-            CIS {hamlet.anewScore.toFixed(1)} · {hamlet.medianPriceDisplay} median
+            {hamlet.medianPriceDisplay} median
           </p>
         </div>
         <button
@@ -1109,7 +1109,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           style={{
             background: 'none',
             border: '1px solid rgba(200,172,120,0.3)',
-            color: '#C8AC78',
+            color: '#947231',
             fontFamily: '"Barlow Condensed", sans-serif',
             fontSize: 9,
             letterSpacing: '0.18em',
@@ -1133,7 +1133,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                 ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M`
                 : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K`,
           },
-          { label: 'CIS', value: String(hamlet.anewScore) },
+          // CIS stat removed per Ruling 2
           { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
           { label: '4-Year Direction', value: 'Up' },
         ].map((stat) => (
@@ -1156,7 +1156,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 16,
                 fontWeight: 600,
               }}
@@ -1179,7 +1179,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
+              color: '#947231',
               fontSize: 9,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
@@ -1202,7 +1202,7 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
             <span
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 13,
               }}
             >
@@ -1331,14 +1331,14 @@ function Section3Condensed() {
         >
           {/* Last Significant Sale — D24 replacement (Apr 19 2026) */}
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Last Significant Sale</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Last Significant Sale</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>EAST END<br />SPOTLIGHT</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model v2.</div>
           </div>
 
           {/* Rate Environment */}
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Rate Environment</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Rate Environment</div>
             {[
               { label: '30-Year Fixed', value: `${ticker.mortgage30y.toFixed(2)}%` },
               { label: '10-Year Treasury', value: `${ticker.treasury10y.toFixed(2)}%` },
@@ -1352,23 +1352,22 @@ function Section3Condensed() {
 
           {/* Hamptons Median */}
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#947231', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>East End · Q4 2025 · Record High · Verified market intelligence</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Eleven distinct corridors, eleven distinct buyers.</div>
           </div>
         </div>
       </div>
-    </section>
+     </section>
   );
 }
-
-// ─── SECTION 5 · MAPS / CIS Intelligence ────────────────────────────────────
+// ─── SECTION 5 · MAPS Intelligence ────────────────────────────────────────────
 function Section5() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · CIS Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="5" title="MAPS / CIS Intelligence" />
+        <SectionLabel n="5" title="MAPS Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -1383,7 +1382,7 @@ function Section5() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 9,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -1444,7 +1443,7 @@ function Section5() {
                   <div
                     style={{
                       fontFamily: '"Barlow Condensed", sans-serif',
-                      color: '#C8AC78',
+                      color: '#947231',
                       fontSize: 15,
                       fontWeight: 600,
                     }}
@@ -1480,7 +1479,7 @@ function Section5() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 9,
                 letterSpacing: '0.22em',
                 textTransform: 'uppercase',
@@ -1510,7 +1509,7 @@ function Section5() {
                 marginBottom: 16,
               }}
             >
-              The Christie's Intelligence Score evaluates every acquisition on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. A property either passes or it does not.
+              Christie’s East Hampton evaluates every acquisition on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie’s institutional adjacency. A property either passes or it does not.
             </div>
             <a
               href="https://linktr.ee/edbruehlrealestate"
@@ -1518,7 +1517,7 @@ function Section5() {
               rel="noopener noreferrer"
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 10,
                 letterSpacing: '0.18em',
                 textTransform: 'uppercase',
@@ -1593,7 +1592,7 @@ function Section6() {
                     paddingBottom: 8,
                     display: 'block',
                   }}
-                  className="hover:text-[#C8AC78] transition-colors"
+                  className="hover:text-[#947231] transition-colors"
                 >
                   {link.label}
                 </a>
@@ -1703,7 +1702,7 @@ function AuctionGallery() {
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
-            color: '#C8AC78',
+            color: '#947231',
             fontSize: 9,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -1770,7 +1769,7 @@ function AuctionGallery() {
                   right: -12,
                   background: '#1B2A4A',
                   border: '1px solid rgba(200,172,120,0.4)',
-                  color: '#C8AC78',
+                  color: '#947231',
                   width: 28,
                   height: 28,
                   borderRadius: '50%',
@@ -1986,7 +1985,7 @@ function Section7() {
               }}>
                 <div style={{
                   fontFamily: '"Barlow Condensed", sans-serif',
-                  color: '#C8AC78',
+                  color: '#947231',
                   fontSize: 9,
                   letterSpacing: '0.2em',
                   textTransform: 'uppercase',
@@ -2014,7 +2013,7 @@ function Section7() {
                 </div>
                 <div style={{
                   fontFamily: '"Barlow Condensed", sans-serif',
-                  color: '#C8AC78',
+                  color: '#947231',
                   fontSize: 10,
                   letterSpacing: '0.1em',
                   marginBottom: 10,

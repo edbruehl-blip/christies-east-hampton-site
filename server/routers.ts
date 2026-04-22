@@ -11,6 +11,7 @@ import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { FLAGSHIP_LETTER_TEXT, CHRISTIES_LETTER_TEXT } from './letter-content';
+import { dealEngineRouter } from './routers/dealEngine';
 import { eq, asc } from "drizzle-orm";
 
 
@@ -36,6 +37,7 @@ import { eq, asc } from "drizzle-orm";
 
 export const appRouter = router({
   system: systemRouter,
+  dealEngine: dealEngineRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {

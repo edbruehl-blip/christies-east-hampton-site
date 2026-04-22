@@ -15,8 +15,8 @@
  *   Border:        #d4d1ca  warm divider
  *   Text primary:  #28251d  charcoal
  *   Text secondary:#7a7974  muted
- *   Accent gold:   #c8ac78  (headers, ED TOTAL TAKE, brand marks)
- *   Chart EH:      #c8ac78  gold (unchanged)
+ *   Accent gold:   #947231  (headers, ED TOTAL TAKE, brand marks)
+ *   Chart EH:      #947231  gold (unchanged)
  *   Chart SH:      #4a7c9e  blue (unchanged)
  *   Chart WH:      #5a8a6a  green (unchanged)
  */
@@ -81,7 +81,7 @@
     font-size: 6.5pt;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #c8ac78;
+    color: #947231;
     text-align: center;
     padding-bottom: 5pt;
     margin-bottom: 6pt;
@@ -109,7 +109,7 @@
   }
   .future-bar-label,
   .future-year-label {
-    color: #c8ac78 !important;
+    color: #947231 !important;
   }
   .arc-note-desktop {
     color: #7a7974 !important;
@@ -130,9 +130,9 @@
     color: #28251d !important;
   }
   .future-cards-grid [style*="color: rgb(200, 172, 120)"],
-  .future-cards-grid [style*="color:#c8ac78"],
-  .future-cards-grid [style*="color: #c8ac78"] {
-    color: #c8ac78 !important;
+  .future-cards-grid [style*="color:#947231"],
+  .future-cards-grid [style*="color: #947231"] {
+    color: #947231 !important;
   }
 
   /* ── Operator Control Panel — invert dark slate to cream ─────────────── */
@@ -146,7 +146,7 @@
   }
   /* Header */
   section[aria-label="Operator Control Panel"] header h2 {
-    color: #c8ac78 !important;
+    color: #947231 !important;
   }
   section[aria-label="Operator Control Panel"] header p {
     color: #7a7974 !important;
@@ -173,7 +173,7 @@
     color: #28251d !important;
   }
   section[aria-label="Operator Control Panel"] p.text-2xl[style*="color"] {
-    color: #c8ac78 !important;
+    color: #947231 !important;
   }
   /* Table */
   section[aria-label="Operator Control Panel"] table {
@@ -198,9 +198,9 @@
   }
   /* ED TOTAL TAKE gold row */
   section[aria-label="Operator Control Panel"] tr td[style*="color: rgb(200, 172, 120)"],
-  section[aria-label="Operator Control Panel"] tr td[style*="color:#c8ac78"],
-  section[aria-label="Operator Control Panel"] tr td[style*="color: #c8ac78"] {
-    color: #c8ac78 !important;
+  section[aria-label="Operator Control Panel"] tr td[style*="color:#947231"],
+  section[aria-label="Operator Control Panel"] tr td[style*="color: #947231"] {
+    color: #947231 !important;
   }
   /* Hide reset button (interactive only) */
   section[aria-label="Operator Control Panel"] button {
@@ -208,7 +208,7 @@
   }
   /* Hide range input thumb — show as static bar */
   section[aria-label="Operator Control Panel"] input[type="range"] {
-    accent-color: #c8ac78;
+    accent-color: #947231;
     opacity: 0.7;
   }
   /* Footer note */
@@ -266,7 +266,7 @@
   /* ED TOTAL TAKE row — gold accent */
   .headcount-table tr.ed-total td,
   .headcount-table tr[data-row="ed-total"] td {
-    color: #c8ac78 !important;
+    color: #947231 !important;
     font-weight: 600 !important;
   }
 
@@ -298,11 +298,11 @@
   }
   /* Gold accent — restore gold for name headers and key figures */
   .future-participant-grid [style*="rgb(200, 172, 120)"],
-  .future-participant-grid [style*="#c8ac78"],
-  .future-participant-grid [style*="#C8AC78"],
+  .future-participant-grid [style*="#947231"],
+  .future-participant-grid [style*="#947231"],
   .future-participant-grid [style*="#c9a84c"],
   .future-participant-grid [style*="#C9A84C"] {
-    color: #c8ac78 !important;
+    color: #947231 !important;
   }
   /* Muted secondary text */
   .future-participant-grid [style*="color: rgb(180, 170, 155)"],
@@ -436,7 +436,7 @@
     width: 100%;
     margin-top: 10pt;
     padding: 5pt 0 0;
-    border-top: 0.5pt solid #c8ac78;
+    border-top: 0.5pt solid #947231;
     background: #ffffff !important;
     font-family: "Barlow Condensed", sans-serif;
     font-size: 6.5pt;
@@ -448,7 +448,7 @@
     break-inside: avoid;
   }
   .future-print-footer .footer-left {
-    color: #c8ac78 !important;
+    color: #947231 !important;
     font-weight: 600;
   }
   .future-print-footer .footer-center {

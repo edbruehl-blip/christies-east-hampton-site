@@ -1850,3 +1850,151 @@ export async function generateElevenHamletsPDF(liveRows?: LiveMatrixRow[]): Prom
   downloadPdf(doc, `Christies-EH-Eleven-Hamlets-${today().replace(/\s/g, '-')}.pdf`);
 }
 
+
+// ─── ANEW Deal Engine Memo (2 pages) ─────────────────────────────────────────
+export interface DealEngineOutputForPdf {
+  basis:           number;
+  equity:          number;
+  equityPct:       number;
+  noi:             number;
+  capRate:         number;
+  incomeGrade:     string;
+  basisGrade:      string;
+  stewardship:     string;
+  dealType:        string;
+  coc:             number;
+  tenYrValue: { floor: number; base: number; stretch: number; };
+  sellNowAfterTax:   number;
+  hold10yrAfterTax:  number;
+  taxShortTerm:      number;
+  taxLongTerm:       number;
+}
+export interface DealMemoInputs {
+  purchase: number; addlCap: number; baseValue: number;
+  rent: number; holdYears: number; cocPct: number;
+}
+export async function generateAnewDealMemo(opts: {
+  dealName: string; hamlet?: string;
+  inputs: DealMemoInputs; result: DealEngineOutputForPdf;
+}): Promise<void> {
+  const { dealName, hamlet, inputs, result } = opts;
+  const { logoImg } = await loadPdfAssets();
+  const doc = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
+  const GOLD_PDF: [number,number,number] = [148,114,49];
+  const NAVY_PDF: [number,number,number] = [13,27,42];
+  const CREAM_PDF: [number,number,number] = [250,248,244];
+  const MUTED_PDF: [number,number,number] = [140,140,140];
+  const ml = PAGE.ml; const mr = PAGE.mr; const cw = PAGE.contentW;
+  const dateStr = new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'});
+  const goldKv = (label: string, value: string, y: number, accent = false): number => {
+    doc.setFontSize(8); doc.setFont('helvetica','bold'); doc.setTextColor(...MUTED_PDF);
+    doc.text(label.toUpperCase(), ml, y);
+    doc.setFont('helvetica', accent ? 'bold' : 'normal');
+    doc.setTextColor(...(accent ? GOLD_PDF : NAVY_PDF));
+    doc.text(value, ml+80, y); return y+6.5;
+  };
+  const goldDivider = (y: number): number => {
+    doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.4);
+    doc.line(ml, y, PAGE.w-mr, y); return y+5;
+  };
+  // PAGE 1
+  doc.setFillColor(...NAVY_PDF); doc.rect(0,0,PAGE.w,30,'F');
+  doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.8); doc.line(ml,30,PAGE.w-mr,30);
+  if (logoImg) { try { doc.addImage(logoImg,'PNG',ml,8,16,4); } catch {} }
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF);
+  doc.text("CHRISTIE'S EAST HAMPTON · ANEW DEAL ENGINE", PAGE.w/2, 12, {align:'center'});
+  doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.setTextColor(...CREAM_PDF);
+  doc.text(dealName, PAGE.w/2, 21, {align:'center'});
+  if (hamlet) { doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(...GOLD_PDF); doc.text(hamlet, PAGE.w/2, 27, {align:'center'}); }
+  doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(...MUTED_PDF);
+  doc.text(dateStr, PAGE.w-mr, 12, {align:'right'});
+  let y = 40;
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF); doc.text('INPUTS', ml, y);
+  y = goldDivider(y+2);
+  y = goldKv('1. Purchase Price', fmtUSD(inputs.purchase), y);
+  y = goldKv('2. Additional Capital', fmtUSD(inputs.addlCap), y);
+  y = goldKv('3. Base Value (Your Est.)', fmtUSD(inputs.baseValue), y);
+  y = goldKv('4. Annual Rent (Gross)', fmtUSD(inputs.rent), y);
+  y = goldKv('5. Hold Period', inputs.holdYears+' years', y);
+  y = goldKv('6. Cost of Capital', inputs.cocPct.toFixed(1)+'%', y);
+  y += 4;
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF); doc.text('CORE OUTPUTS', ml, y);
+  y = goldDivider(y+2);
+  y = goldKv('All-In Basis', fmtUSD(result.basis), y);
+  y = goldKv('Equity Day One', fmtUSD(result.equity)+'   ('+fmtPct(result.equityPct*100)+')', y);
+  y = goldKv('NOI', fmtUSD(result.noi), y);
+  y = goldKv('Cap Rate', fmtPct(result.capRate*100), y);
+  y = goldKv('Cash-on-Cash', fmtPct(result.coc*100), y);
+  y += 4;
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF); doc.text('GRADES · VERDICT', ml, y);
+  y = goldDivider(y+2);
+  y = goldKv('Income Grade', result.incomeGrade, y, true);
+  y = goldKv('Basis Grade', result.basisGrade, y, true);
+  y = goldKv('Stewardship', result.stewardship, y, true);
+  if (result.dealType) { y = goldKv('Deal Type', result.dealType, y, true); }
+  const doctrineY = PAGE.h-PAGE.mb-22;
+  doc.setFillColor(248,246,240); doc.roundedRect(ml,doctrineY,cw,16,2,2,'F');
+  doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.3); doc.roundedRect(ml,doctrineY,cw,16,2,2,'S');
+  doc.setFontSize(7.5); doc.setFont('helvetica','italic'); doc.setTextColor(...NAVY_PDF);
+  doc.text('Default: Hold. Sell only if redeployment beats compounding.', PAGE.w/2, doctrineY+7, {align:'center'});
+  doc.setFontSize(6.5); doc.setFont('helvetica','normal'); doc.setTextColor(...MUTED_PDF);
+  doc.text('One calculator. Six inputs. Two grades. One verdict.', PAGE.w/2, doctrineY+12, {align:'center'});
+  doc.setFontSize(6); doc.setFont('helvetica','normal'); doc.setTextColor(...MUTED_PDF);
+  doc.text('Page 1 of 2', PAGE.w/2, PAGE.h-8, {align:'center'});
+  doc.text("Christie's East Hampton · ANEW Deal Engine v1", ml, PAGE.h-8);
+  // PAGE 2
+  doc.addPage();
+  doc.setFillColor(...NAVY_PDF); doc.rect(0,0,PAGE.w,30,'F');
+  doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.8); doc.line(ml,30,PAGE.w-mr,30);
+  if (logoImg) { try { doc.addImage(logoImg,'PNG',ml,8,16,4); } catch {} }
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF);
+  doc.text("CHRISTIE'S EAST HAMPTON · ANEW DEAL ENGINE", PAGE.w/2, 12, {align:'center'});
+  doc.setFontSize(11); doc.setFont('helvetica','bold'); doc.setTextColor(...CREAM_PDF);
+  doc.text(dealName+' — Projection', PAGE.w/2, 21, {align:'center'});
+  doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(...MUTED_PDF);
+  doc.text(dateStr, PAGE.w-mr, 12, {align:'right'});
+  y = 40;
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF); doc.text('10-YEAR VALUE PROJECTION', ml, y);
+  y = goldDivider(y+2);
+  const bandW = (cw-8)/3;
+  const bandDefs = [
+    {label:'FLOOR (x0.90)', value:fmtUSD(result.tenYrValue.floor), r:MUTED_PDF[0], g:MUTED_PDF[1], b:MUTED_PDF[2]},
+    {label:'BASE (x1.00)',  value:fmtUSD(result.tenYrValue.base),  r:GOLD_PDF[0],  g:GOLD_PDF[1],  b:GOLD_PDF[2]},
+    {label:'STRETCH (x1.10)',value:fmtUSD(result.tenYrValue.stretch),r:NAVY_PDF[0], g:NAVY_PDF[1],  b:NAVY_PDF[2]},
+  ];
+  bandDefs.forEach((band,i) => {
+    const bx = ml+i*(bandW+4);
+    doc.setFillColor(248,246,240); doc.roundedRect(bx,y,bandW,20,2,2,'F');
+    doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.3); doc.roundedRect(bx,y,bandW,20,2,2,'S');
+    doc.setFontSize(6); doc.setFont('helvetica','bold'); doc.setTextColor(...MUTED_PDF);
+    doc.text(band.label, bx+bandW/2, y+6, {align:'center'});
+    doc.setFontSize(10); doc.setFont('helvetica','bold'); doc.setTextColor(band.r,band.g,band.b);
+    doc.text(band.value, bx+bandW/2, y+15, {align:'center'});
+  });
+  y += 26;
+  doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF); doc.text('AFTER-TAX OUTCOME', ml, y);
+  y = goldDivider(y+2);
+  y = goldKv('Sell Now (After Tax)', fmtUSD(result.sellNowAfterTax), y);
+  y = goldKv('Hold 10 Years (After Tax)', fmtUSD(result.hold10yrAfterTax), y, true);
+  y += 2;
+  doc.setFontSize(6.5); doc.setFont('helvetica','italic'); doc.setTextColor(...MUTED_PDF);
+  doc.text('Tax assumption: '+(result.taxShortTerm*100).toFixed(0)+'% short-term · '+(result.taxLongTerm*100).toFixed(0)+'% long-term · 8% sell costs', ml, y);
+  y += 10;
+  const p2DoctrineY = y+4;
+  doc.setFillColor(...NAVY_PDF); doc.roundedRect(ml,p2DoctrineY,cw,28,3,3,'F');
+  doc.setDrawColor(...GOLD_PDF); doc.setLineWidth(0.5); doc.roundedRect(ml,p2DoctrineY,cw,28,3,3,'S');
+  doc.setFontSize(9); doc.setFont('helvetica','bolditalic'); doc.setTextColor(...GOLD_PDF);
+  doc.text('Default: Hold. Sell only if redeployment beats compounding.', PAGE.w/2, p2DoctrineY+10, {align:'center'});
+  doc.setFontSize(7); doc.setFont('helvetica','normal'); doc.setTextColor(...CREAM_PDF);
+  doc.text('One calculator. Six inputs. Two grades. One verdict.', PAGE.w/2, p2DoctrineY+18, {align:'center'});
+  doc.setFontSize(6.5); doc.setFont('helvetica','italic'); doc.setTextColor(148,114,49);
+  doc.text("That's the hum.", PAGE.w/2, p2DoctrineY+24, {align:'center'});
+  doc.setFontSize(6); doc.setFont('helvetica','normal'); doc.setTextColor(...MUTED_PDF);
+  doc.text('Page 2 of 2', PAGE.w/2, PAGE.h-8, {align:'center'});
+  doc.text("Christie's East Hampton · ANEW Deal Engine v1", ml, PAGE.h-8);
+  doc.setFont('helvetica','bold'); doc.setTextColor(...GOLD_PDF);
+  doc.text('Soli Deo Gloria.', PAGE.w-mr, PAGE.h-8, {align:'right'});
+  const safeName = (dealName||'Deal').replace(/[^a-zA-Z0-9]/g,'_');
+  const dateTag = new Date().toISOString().slice(0,10).replace(/-/g,'');
+  downloadPdf(doc, 'ANEW_'+safeName+'_'+dateTag+'.pdf');
+}

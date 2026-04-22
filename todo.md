@@ -266,7 +266,7 @@
 - [x] UI-FIX-1: Maps tab — replaced D3 SVG plate with live Google Maps aerial view (satellite, centered East Hampton lat 40.9635 lng -72.1851, zoom 11, hamlet markers)
 - [x] UI-FIX-2: Founding letter mobile layout — added flex-col md:grid breakpoint so portrait stacks above text on mobile
 - [x] UI-FIX-3: Nav bar email — added edbruehl@christiesrealestategroup.com as gold mailto link in office/weather bar (DashboardLayout.tsx line 462)
-- [x] UI-FIX-4: Footer stripped to one line — "Art. Beauty. Provenance. · Since 1766." — Christie’s gold (#C8AC78), centered, navy background (DashboardLayout.tsx line 479)
+- [x] UI-FIX-4: Footer stripped to one line — "Art. Beauty. Provenance. · Since 1766." — Christie’s gold (#947231), centered, navy background (DashboardLayout.tsx line 479)
 
 ## Sprint 7 — New Locked Decision (April 2 Final Brief)
 - Business card is the branding anchor: photo + "CHRISTIE'S INTERNATIONAL REAL ESTATE GROUP" + "Art. Beauty. Provenance." + christiesrealestategroup.com — apply this standard to all surfaces
@@ -839,7 +839,7 @@
 
 ### Track Two — HOME Page: THE PLATFORM Section
 - [x] T2-1: Build THE PLATFORM section on HOME page (below YouTube/William, above UHNW Card)
-- [x] T2-2: Title "THE PLATFORM" — Cormorant Garamond, ~28-32px, all caps, thin gold rule (#C8AC78)
+- [x] T2-2: Title "THE PLATFORM" — Cormorant Garamond, ~28-32px, all caps, thin gold rule (#947231)
 - [x] T2-3: Main headline: "This is not a real estate website. It is a live operating system."
 - [x] T2-4: Two-column grid (desktop) / single column (mobile), navy background (#1B2A4A)
 - [x] T2-5: Left column: intro paragraph per directive
@@ -1276,7 +1276,7 @@
 - [ ] CIS: Output panel font — increase weight to medium/semibold and bump size so labels and values read clearly on score generation
 
 ## Sprint 43 — Floating Dashboard Introduction Button (April 9, 2026)
-- [ ] Build FloatingDashboardIntro component: gold #C8AC78 bg, charcoal #384249 text, small caps, play icon, "Dashboard Introduction" label, 44px min tap target
+- [ ] Build FloatingDashboardIntro component: gold #947231 bg, charcoal #384249 text, small caps, play icon, "Dashboard Introduction" label, 44px min tap target
 - [ ] Behavior: plays Flagship Letter audio, stops any other audio first, shows "Preparing your brief" loading state, one audio at a time
 - [ ] Mount in App.tsx: fixed bottom-right, z-index above all content, all tabs/pages
 - [ ] Remove Flagship Letter button from HOME tab (drops to 2 buttons: Christie's Letter + Market Brief)
@@ -2035,7 +2035,7 @@
 ## Saturday Final Close — April 18, 2026 · 10:20 PM EDT (Rulings 14–19)
 
 ### TONIGHT — William Floating Button (D34 Amended)
-- [ ] W1: Build WilliamFloatingButton component — gold #C8AC78, 48px circle, bottom-right, play/pause toggle, dismissible X, HOME only
+- [ ] W1: Build WilliamFloatingButton component — gold #947231, 48px circle, bottom-right, play/pause toggle, dismissible X, HOME only
 - [ ] W2: Wire /api/tts/william endpoint — ElevenLabs voice fjnwTZkKtQOJaYzGLa6n, generate from founding letter text, cache MP3 to S3
 - [ ] W3: Mount WilliamFloatingButton in HomeTab only — no other tabs get audio (D34 amendment)
 - [ ] W4: Letter swap path — when Manny writes his own intro letter, POST new text to /api/tts/william/regenerate, S3 key updates, button plays new file. No infrastructure changes needed.
@@ -2162,7 +2162,7 @@
 - [ ] PF2: Swap logo to black PNG (https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png) in print/cream mode
 - [ ] PF3: Fix Headcount Scaling table right-edge clipping — force landscape or reduce column set for print
 - [ ] PF4: Add page-break-before CSS so partner cards flow naturally (no whitespace gap before footer) [Tuesday]
-- [ ] PF5: Three distinct office colors in Ascension Arc — EH #c8ac78, SH deeper bronze, WH charcoal [Tuesday]
+- [ ] PF5: Three distinct office colors in Ascension Arc — EH #947231, SH deeper bronze, WH charcoal [Tuesday]
 
 ## PF Sprint — April 20, 2026
 
@@ -2387,7 +2387,7 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 ## Dispatch Addendum · HOME Letter Surface · April 21 2026
 
 - [x] Restore James Christie portrait: left of letter block, 120-140px square, 1px gold #947231 border, caption "JAMES CHRISTIE · LONDON · 1766" (Georgia italic, 9pt, gold #947231, letterspaced, centered beneath frame), pure provenance marker — NOT linked, NOT a button
-- [x] Restore "CONTINUE TO MARKET REPORT →" CTA: centered below signature block, gold #c8ac78 text on dark navy, 11px letterspaced caps, hover → gold-filled bg + navy text, routes to /report
+- [x] Restore "CONTINUE TO MARKET REPORT →" CTA: centered below signature block, gold #947231 text on dark navy, 11px letterspaced caps, hover → gold-filled bg + navy text, routes to /report
 - [x] Audit Dashboard/founding letter quality — v15 confirmed live, 11 paragraphs intact, voice architecture correct, em-dashes preserved, signature block clean
 - [x] Diagnose and fix PDF export speed: /pro-forma and all other PDF pipes — expanded fast-track to /pro-forma, /letters/*, /cards/* (domcontentloaded + 1200ms vs networkidle0 + 2000ms)
 
@@ -2456,3 +2456,31 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] EstateAdvisoryCard: rewritten for dark theme (cream text on dark background)
 - [x] matrix-card CSS class: background changed from white to dark semi-transparent
 - [x] Corkboard iframe height expanded from 680px to 1200px (wide open above Miro board)
+
+## Deal Engine v1 + Dark Theme Cleanup (Dispatch Apr 21 2026)
+
+- [ ] CIS kill globally — remove all rendered CIS strings, score badges, 0-10 rankings (grep-zero acceptance)
+- [ ] MARKET dark theme — outer wrapper, donut, rate cards, hamlet tiles all to dark navy
+- [ ] PIPE dark theme — tbody rows to dark navy, alternating rows 5% lighter, text cream
+- [ ] MAPS dark theme — kill white vertical bars on right-side column wrapper
+- [ ] HOME dark theme — custom dark video/audio player replacing browser chrome
+- [ ] Deal Engine tRPC backend — trpc.dealEngine.score with all formulas per spec
+- [ ] Deal Engine UI on MAPS tab — six inputs, output panel, Pro Mode drawer, hamlet dropdown
+- [ ] Deal Engine PDF export — ANEW Deal Memo two-page layout
+- [ ] Acceptance Test 1 — 17 Lenape 12/12 pass
+- [ ] Acceptance Test 2 — 140 Hands Creek zero drift
+- [ ] Acceptance Test 3 — Griff Sonoma (Kinley + Vellutini)
+
+## Deal Engine v1 + Dark Theme Cleanup (Dispatch Apr 21 2026)
+
+- [ ] CIS kill globally -- remove all rendered CIS strings, score badges, 0-10 rankings (grep-zero acceptance)
+- [ ] MARKET dark theme -- outer wrapper, donut, rate cards, hamlet tiles all to dark navy
+- [ ] PIPE dark theme -- tbody rows to dark navy, alternating rows 5% lighter, text cream
+- [ ] MAPS dark theme -- kill white vertical bars on right-side column wrapper
+- [ ] HOME dark theme -- custom dark video/audio player replacing browser chrome
+- [ ] Deal Engine tRPC backend -- trpc.dealEngine.score with all formulas per spec
+- [ ] Deal Engine UI on MAPS tab -- six inputs, output panel, Pro Mode drawer, hamlet dropdown
+- [ ] Deal Engine PDF export -- ANEW Deal Memo two-page layout
+- [ ] Acceptance Test 1 -- 17 Lenape 12/12 pass
+- [ ] Acceptance Test 2 -- 140 Hands Creek zero drift
+- [ ] Acceptance Test 3 -- Griff Sonoma (Kinley + Vellutini)

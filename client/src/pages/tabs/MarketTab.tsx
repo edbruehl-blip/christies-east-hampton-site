@@ -1,6 +1,6 @@
 /**
  * MARKET TAB — East End market intelligence dashboard.
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Design: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
  *   - Hamptons Market Signal — eleven-hamlet volume-share donut ring (Hamptons-native, no macro)
@@ -18,7 +18,7 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
-import { CISBadge } from '@/components/CISBadge';
+// CISBadge import removed per Ruling 2
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
@@ -26,14 +26,14 @@ import { toast } from 'sonner';
 // ─── Tier color palette ───────────────────────────────────────────────────────
 
 const TIER_COLORS: Record<HamletTier, string> = {
-  'Ultra-Trophy': '#C8AC78',   // gold
+  'Ultra-Trophy': '#947231',   // gold
   'Trophy':       '#1B2A4A',   // navy
   'Premier':      '#384249',   // charcoal
   'Opportunity':  '#8a9ba8',   // slate
 };
 
 const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
-  'Ultra-Trophy': { bg: '#C8AC78', text: '#1B2A4A' },
+  'Ultra-Trophy': { bg: '#947231', text: '#1B2A4A' },
   'Trophy':       { bg: '#1B2A4A', text: '#FAF8F4' },
   'Premier':      { bg: '#384249', text: '#FAF8F4' },
   'Opportunity':  { bg: '#e8e4dc', text: '#384249' },
@@ -188,7 +188,7 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
           x={cx}
           y={cy + 22}
           textAnchor="middle"
-          fill="#C8AC78"
+          fill="#947231"
           style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.16em' }}
         >
           SIGNAL
@@ -216,7 +216,7 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
                 x={pos.x}
                 y={pos.y + 9}
                 textAnchor={anchor}
-                fill="#C8AC78"
+                fill="#947231"
                 style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: 9, fontWeight: 600 }}
               >
                 {seg.hamlet.liveVolumeShare}%
@@ -228,7 +228,7 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
 
       <div className="text-center" style={{ maxWidth: 260 }}>
         <span
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
         >
           Dominant corridor
         </span>
@@ -285,7 +285,7 @@ function MarketReportPdfButton() {
         fontSize: 11,
         textTransform: 'uppercase' as const,
         background: '#1B2A4A',
-        color: '#C8AC78',
+        color: '#947231',
         border: '1px solid rgba(200,172,120,0.3)',
         padding: '10px 24px',
         cursor: loading ? 'wait' : 'pointer',
@@ -334,14 +334,14 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           >
             {hamlet.name}
           </h3>
-          <CISBadge score={hamlet.liveCis} size="sm" className="shrink-0" />
+          {/* CIS badge removed per Ruling 2 */}
         </div>
 
         {/* Median price */}
         <div>
           <div
             className="text-[10px] uppercase tracking-wider mb-0.5"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em' }}
           >
             Median Price
           </div>
@@ -352,29 +352,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           </div>
         </div>
 
-        {/* CIS bar */}
-        <div className="flex items-center gap-3">
-          <div>
-            <div
-              className="text-[10px] uppercase tracking-wider mb-0.5"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}
-            >
-              CIS
-            </div>
-            <div
-              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem' }}
-            >
-              {hamlet.liveCis.toFixed(1)}
-              <span style={{ fontSize: '0.75rem', color: '#7a8a8e', marginLeft: 2 }}>/10</span>
-            </div>
-          </div>
-          <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(27,42,74,0.1)' }}>
-            <div
-              className="h-full rounded-full transition-all duration-700"
-              style={{ width: `${hamlet.liveCis * 10}%`, background: '#C8AC78' }}
-            />
-          </div>
-        </div>
+        {/* CIS bar removed per Ruling 2 */}
 
         {/* Volume share bar */}
         <div>
@@ -415,7 +393,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             className="text-[9px] pt-1 border-t flex items-center gap-1"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(27,42,74,0.35)', borderColor: 'rgba(27,42,74,0.06)', letterSpacing: '0.04em', lineHeight: 1.4 }}
           >
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#C8AC78', display: 'inline-block', flexShrink: 0 }} />
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#947231', display: 'inline-block', flexShrink: 0 }} />
             Live &middot; Market Matrix
           </div>
         )}
@@ -432,7 +410,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             fontSize: 9,
             letterSpacing: '0.16em',
             textTransform: 'uppercase',
-            color: '#C8AC78',
+            color: '#947231',
             textDecoration: 'none',
           }}
         >
@@ -472,7 +450,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       >
         <div
           className="uppercase mb-2"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em' }}
         >
           30Y Mortgage Corridor
         </div>
@@ -496,7 +474,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       >
         <div
           className="uppercase mb-2"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em' }}
         >
           Hamptons Median
         </div>
@@ -520,7 +498,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       >
         <div
           className="uppercase mb-2"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em' }}
         >
           10-Year Treasury
         </div>
@@ -632,7 +610,7 @@ export default function MarketTab() {
 
           <div
             className="uppercase mb-2"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 11 }}
           >
             Hamptons Market Signal
           </div>
@@ -653,7 +631,7 @@ export default function MarketTab() {
             <div>
               <div
                 className="uppercase mb-4"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 11 }}
               >
                 Rate Environment
               </div>
@@ -679,7 +657,7 @@ export default function MarketTab() {
           <div className="flex items-center justify-between mb-6">
             <div
               className="uppercase"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 11 }}
             >
               Hamlet Intelligence Matrix
             </div>
@@ -692,7 +670,7 @@ export default function MarketTab() {
             )}
             {!matrixLoading && matrixRows && (
               <div className="flex items-center gap-1.5">
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#C8AC78', display: 'inline-block' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#947231', display: 'inline-block' }} />
                 <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}>
                   Live &middot; Market Matrix
                 </span>
@@ -710,7 +688,7 @@ export default function MarketTab() {
           <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
               Sources: Verified market intelligence &middot; Christie's East Hampton internal analysis &middot; The Real Deal &middot; Behind The Hedges &middot; MLS-backed public records.
-              Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. CIS (Christie’s Intelligence Score) is a proprietary composite index. Last sale data: verified, representative, no outliers per institutional methodology.
+              Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. Last sale data: verified, representative, no outliers per institutional methodology.
             </p>
           </div>
         </div>
@@ -733,7 +711,7 @@ export default function MarketTab() {
               gap: 16,
             }}
           >
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase' as const }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase' as const }}>
               Private Advisory
             </div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', lineHeight: 1.3 }}>
@@ -755,7 +733,7 @@ export default function MarketTab() {
                 fontWeight: 600,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase' as const,
-                color: '#C8AC78',
+                color: '#947231',
                 background: 'transparent',
                 border: '1px solid rgba(200,172,120,0.5)',
                 padding: '12px 28px',

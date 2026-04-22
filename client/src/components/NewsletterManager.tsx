@@ -113,7 +113,7 @@ export function NewsletterManager() {
     <div>
       {/* Header */}
       <div className="mb-5">
-        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Newsletter Infrastructure
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 4 }}>
@@ -156,7 +156,7 @@ export function NewsletterManager() {
       <div className="grid grid-cols-1 gap-5 mb-6 md:grid-cols-2">
         {/* Subscribe form */}
         <div className="p-4 rounded-sm" style={{ background: 'rgba(27,42,74,0.03)', border: '1px solid rgba(27,42,74,0.1)' }}>
-          <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+          <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
             Add Subscriber
           </div>
           <div className="flex flex-col gap-2">
@@ -193,7 +193,7 @@ export function NewsletterManager() {
               }}
               disabled={subscribeMutation.isPending}
               className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] disabled:opacity-50"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.16em' }}
             >
               {subscribeMutation.isPending ? 'Adding…' : 'Add to Beehiiv →'}
             </button>
@@ -202,7 +202,7 @@ export function NewsletterManager() {
 
         {/* SMTP test */}
         <div className="p-4 rounded-sm" style={{ background: 'rgba(27,42,74,0.03)', border: '1px solid rgba(27,42,74,0.1)' }}>
-          <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+          <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
             Test Gmail SMTP
           </div>
           <div className="flex flex-col gap-2">
@@ -234,7 +234,7 @@ export function NewsletterManager() {
 
       {/* Setup checklist */}
       <div className="mb-5">
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
           Setup Checklist — Ed + Manny
         </div>
         <div className="flex flex-col gap-2">
@@ -253,7 +253,7 @@ export function NewsletterManager() {
               >
                 <div className="flex items-center gap-3">
                   <div className="shrink-0 w-5 h-5 flex items-center justify-center text-[9px] rounded-full"
-                    style={{ background: 'rgba(200,172,120,0.12)', color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif' }}>
+                    style={{ background: 'rgba(200,172,120,0.12)', color: '#947231', fontFamily: '"Barlow Condensed", sans-serif' }}>
                     {idx + 1}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -261,7 +261,7 @@ export function NewsletterManager() {
                       {step.label}
                     </div>
                   </div>
-                  <div className="shrink-0 text-xs" style={{ color: '#C8AC78' }}>
+                  <div className="shrink-0 text-xs" style={{ color: '#947231' }}>
                     {isExpanded ? '▲' : '▼'}
                   </div>
                 </div>
@@ -277,7 +277,7 @@ export function NewsletterManager() {
                         rel="noopener noreferrer"
                         onClick={e => e.stopPropagation()}
                         className="inline-block px-3 py-1 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-                        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
+                        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
                       >
                         Open ↗
                       </a>
@@ -292,7 +292,7 @@ export function NewsletterManager() {
 
       {/* Product spec */}
       <div className="p-4 rounded-sm" style={{ background: 'rgba(27,42,74,0.03)', border: '1px solid rgba(27,42,74,0.1)' }}>
-        <div className="text-[10px] uppercase tracking-widest mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+        <div className="text-[10px] uppercase tracking-widest mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
           Product Spec · One Product, Four Surfaces
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -303,7 +303,7 @@ export function NewsletterManager() {
             { label: "WhatsApp", detail: "Monday morning brief via Twilio (live)" },
           ].map(item => (
             <div key={item.label}>
-              <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+              <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                 {item.label}
               </div>
               <div className="text-[10px]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>

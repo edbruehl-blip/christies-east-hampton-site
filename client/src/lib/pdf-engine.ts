@@ -3,7 +3,7 @@
  * Shared utilities for all five export types.
  *
  * Design tokens (mirrored from index.css):
- *   Navy   #1B2A4A   Charcoal #384249   Gold #C8AC78   Cream #FAF8F4
+ *   Navy   #1B2A4A   Charcoal #384249   Gold #947231   Cream #FAF8F4
  *
  * Fonts: Helvetica (jsPDF built-in) used throughout.
  *   Cormorant Garamond is a web font — not embeddable in jsPDF without WOFF2 base64.

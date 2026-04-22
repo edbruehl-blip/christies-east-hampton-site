@@ -3,7 +3,7 @@
  * Five lenses: Develop & Build, Buy & Hold, Buy Renovate & Hold, Buy & Rent, ANEW Development Partnership.
  * All hamlet intelligence pulled from hamlet-master.ts only.
  *
- * Design tokens: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Design tokens: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  */
 
 import { MASTER_HAMLET_DATA, type HamletData } from '../data/hamlet-master';

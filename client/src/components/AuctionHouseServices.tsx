@@ -90,7 +90,7 @@ export function AuctionHouseServices() {
             className="uppercase mb-2"
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
+              color: '#947231',
               letterSpacing: '0.22em',
               fontSize: 10,
             }}
@@ -136,7 +136,7 @@ export function AuctionHouseServices() {
               <div
                 style={{
                   fontFamily: '"Barlow Condensed", sans-serif',
-                  color: '#C8AC78',
+                  color: '#947231',
                   fontSize: 10,
                   letterSpacing: '0.22em',
                   textTransform: 'uppercase',
@@ -229,7 +229,7 @@ export function AuctionHouseServices() {
                 style={{
                   background: 'rgba(250,248,244,0.05)',
                   borderColor: 'rgba(200,172,120,0.2)',
-                  borderLeft: '3px solid #C8AC78',
+                  borderLeft: '3px solid #947231',
                 }}
               >
                 {/* Icon + title row */}
@@ -238,7 +238,7 @@ export function AuctionHouseServices() {
                     style={{
                       fontFamily: 'serif',
                       fontSize: '1.25rem',
-                      color: '#C8AC78',
+                      color: '#947231',
                       lineHeight: 1,
                       marginTop: 2,
                       flexShrink: 0,
@@ -262,7 +262,7 @@ export function AuctionHouseServices() {
                       className="mt-0.5 text-[9px] uppercase tracking-widest"
                       style={{
                         fontFamily: '"Barlow Condensed", sans-serif',
-                        color: '#C8AC78',
+                        color: '#947231',
                         letterSpacing: '0.18em',
                       }}
                     >
@@ -284,7 +284,7 @@ export function AuctionHouseServices() {
                   className="text-[9px] uppercase tracking-widest transition-colors group-hover:text-[#1B2A4A]"
                   style={{
                     fontFamily: '"Barlow Condensed", sans-serif',
-                    color: '#C8AC78',
+                    color: '#947231',
                     letterSpacing: '0.18em',
                   }}
                 >
@@ -301,7 +301,7 @@ export function AuctionHouseServices() {
             href="https://www.christies.com/en/services"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-3 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A] hover:border-[#C8AC78]"
+            className="inline-block px-8 py-3 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#947231] hover:text-[#1B2A4A] hover:border-[#947231]"
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
               borderColor: 'rgba(200,172,120,0.5)',

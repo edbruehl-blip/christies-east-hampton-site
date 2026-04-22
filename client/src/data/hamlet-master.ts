@@ -1,9 +1,9 @@
 /**
  * MASTER_HAMLET_DATA — Single source of truth for all eleven East End hamlets.
  * Every tab, every PDF, every calculator pulls from this file only.
- * Do not modify medians or CIS scores without Ed's explicit approval.
+ * Do not modify medians without Ed's explicit approval.
  *
- * Design tokens: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Design tokens: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels)
  *
  * Restaurant schema (3-tier per hamlet — locked Mar 29 2026):
@@ -55,6 +55,11 @@ export interface HamletData {
   // Geographic center for map pin
   lat: number;
   lng: number;
+  // ── Deal Engine anchors (pre-fill Pro Mode drawer on hamlet select) ──────────
+  /** Annual appreciation rate for this hamlet (default 0.05 = 5%) */
+  appreciation: number;
+  /** Expense ratio for NOI calculation (default 0.35 = 35%) */
+  expenseRatio: number;
   // ANEW multipliers
   qsHamletMult: number;
   qsHamletTier: number;
@@ -151,6 +156,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9076,
     lng: -72.2637,
+    appreciation: 0.055,
+    expenseRatio: 0.35,
     qsHamletMult: 1.18,
     qsHamletTier: 5,
   },
@@ -186,6 +193,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9626,
     lng: -72.1854,
+    appreciation: 0.055,
+    expenseRatio: 0.35,
     qsHamletMult: 1.15,
     qsHamletTier: 5,
   },
@@ -221,6 +230,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9387,
     lng: -72.3065,
+    appreciation: 0.05,
+    expenseRatio: 0.35,
     qsHamletMult: 1.12,
     qsHamletTier: 4,
   },
@@ -256,6 +267,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.8837,
     lng: -72.3898,
+    appreciation: 0.05,
+    expenseRatio: 0.35,
     qsHamletMult: 1.10,
     qsHamletTier: 4,
   },
@@ -291,6 +304,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9165,
     lng: -72.3454,
+    appreciation: 0.05,
+    expenseRatio: 0.35,
     qsHamletMult: 1.08,
     qsHamletTier: 4,
   },
@@ -326,6 +341,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9998,
     lng: -72.2926,
+    appreciation: 0.05,
+    expenseRatio: 0.35,
     qsHamletMult: 1.04,
     qsHamletTier: 3,
   },
@@ -361,6 +378,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9826,
     lng: -72.1326,
+    appreciation: 0.05,
+    expenseRatio: 0.35,
     qsHamletMult: 1.06,
     qsHamletTier: 3,
   },
@@ -399,6 +418,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9826,
     lng: -72.2100,
+    appreciation: 0.045,
+    expenseRatio: 0.35,
     qsHamletMult: 1.05,
     qsHamletTier: 3,
   },
@@ -434,6 +455,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 41.0026,
     lng: -72.1576,
+    appreciation: 0.045,
+    expenseRatio: 0.35,
     qsHamletMult: 0.92,
     qsHamletTier: 1,
   },
@@ -469,6 +492,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 41.0559,
     lng: -71.9565,
+    appreciation: 0.045,
+    expenseRatio: 0.35,
     qsHamletMult: 0.88,
     qsHamletTier: 1,
   },
@@ -505,6 +530,8 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     ],
     lat: 40.9448,
     lng: -72.2365,
+    appreciation: 0.055,
+    expenseRatio: 0.35,
     qsHamletMult: 0.94,
     qsHamletTier: 2,
   },
@@ -518,7 +545,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
 
 // Tier color map — token-driven
 export const TIER_COLORS: Record<HamletTier, string> = {
-  'Ultra-Trophy': '#C8AC78',   // gold
+  'Ultra-Trophy': '#947231',   // gold
   'Trophy':       '#1B2A4A',   // navy
   'Premier':      '#384249',   // charcoal
   'Opportunity':  '#7a8a8e',   // muted

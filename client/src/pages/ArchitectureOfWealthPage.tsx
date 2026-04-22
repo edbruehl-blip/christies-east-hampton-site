@@ -16,7 +16,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY  = '#1B2A4A';
-const GOLD  = '#C8AC78';
+const GOLD  = '#947231';
 const CREAM = '#FAF8F4';
 
 // CDN assets
@@ -45,7 +45,7 @@ const SEVEN_STEPS = [
   { n: '1', title: 'Assess the Rung', body: 'Where is the client on the Christie\'s Ladder?' },
   { n: '2', title: 'Deploy the Parable', body: 'Use the Vanderbilt/Rockefeller story to establish the need for structure.' },
   { n: '3', title: 'Introduce Structured Capital', body: 'Explain that wealth requires architecture, not just accumulation.' },
-  { n: '4', title: 'Run the CIS', body: 'Evaluate potential real estate assets using the Christie\'s Intelligence Score.' },
+  { n: '4', title: 'Run the Analysis', body: 'Evaluate potential real estate assets using the ANEW Deal Engine.' },
   { n: '5', title: 'Explain the Waterfall', body: 'Detail how trusts and insurance can fund the real estate acquisition.' },
   { n: '6', title: 'Open the Doors', body: 'Connect the client with the necessary specialists — a trusted financial architect for insurance and trusts, a financing specialist for acquisition structure.' },
   { n: '7', title: 'Establish Governance', body: 'Set the expectation for long-term stewardship and regular review.' },
@@ -460,17 +460,17 @@ export default function ArchitectureOfWealthPage() {
           </table>
         </div>
 
-        <SubHeading>The Diagnostic Instrument: CIS</SubHeading>
+        <SubHeading>The Diagnostic Instrument: ANEW Deal Engine</SubHeading>
 
         <BodyParagraph>
-          Before advising a client on real estate acquisition (Rungs 3 and 4), the advisor must use the Christie's Intelligence Score (CIS) framework to assess the territory.
+          Before advising a client on real estate acquisition (Rungs 3 and 4), the advisor must use the ANEW Deal Engine to assess the territory.
         </BodyParagraph>
 
         <div style={{ margin: '12px 0 28px', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {[
-            'CIS evaluates the institutional grade of a market or specific asset across four dimensions.',
+            'The ANEW Deal Engine evaluates the institutional grade of a market or specific asset across four dimensions.',
             'It moves the conversation from "how much does it cost?" to "how does this asset perform within a Structured Capital portfolio?"',
-            'CIS is the territory diagnostic instrument in the Seven-Step Conversation Sequence below.',
+            'The ANEW Deal Engine is the territory diagnostic instrument in the Seven-Step Conversation Sequence below.',
           ].map((point, i) => (
             <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
               <div style={{ flexShrink: 0, width: 6, height: 6, borderRadius: '50%', background: GOLD, marginTop: 8 }} />

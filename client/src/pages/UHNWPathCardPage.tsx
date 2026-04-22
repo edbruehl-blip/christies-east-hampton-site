@@ -26,7 +26,7 @@ function useIsPdfMode(): boolean {
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY   = '#384249';
-const GOLD   = '#C8AC78';
+const GOLD   = '#947231';
 const CREAM  = '#F9F5EF';
 const BLUE   = '#2C5D8F';
 const ORANGE = '#C47A3A';

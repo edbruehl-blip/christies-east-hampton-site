@@ -3,99 +3,88 @@
     {
       "name": "Sagaponack",
       "id": "sagaponack",
-      "cis": 9.4,
-      "anchor": "Wölffer Estate Vineyard",
-      "local_spot": "The Seafood Shop — the best fish market on the East End, open year-round",
-      "secret": "The back road along Sagg Main — farmland on one side, ocean light on the other. Nothing like it on the East End.",
+      "anchor": "W\u00f6lffer Estate Vineyard",
+      "local_spot": "The Seafood Shop \u2014 the best fish market on the East End, open year-round",
+      "secret": "The back road along Sagg Main \u2014 farmland on one side, ocean light on the other. Nothing like it on the East End.",
       "practical_note": "No village center. You are here for the land and the light. Parking is never a problem."
     },
     {
       "name": "East Hampton Village",
       "id": "east-hampton-village",
-      "cis": 9.2,
-      "anchor": "Guild Hall — the cultural institution that has anchored the village since 1931",
-      "local_spot": "The Palm at Huntting Inn — the room where deals get made",
+      "anchor": "Guild Hall \u2014 the cultural institution that has anchored the village since 1931",
+      "local_spot": "The Palm at Huntting Inn \u2014 the room where deals get made",
       "secret": "Main Beach at 6am before the season starts. The most beautiful half-mile of sand on the Eastern Seaboard.",
       "practical_note": "Village parking is tight in-season. The Herrick Park lot is the local move. Off-season, the village is yours."
     },
     {
       "name": "Bridgehampton",
       "id": "bridgehampton",
-      "cis": 9.1,
-      "anchor": "Bridgehampton Commons — the working heart of the East End",
-      "local_spot": "Almond Restaurant — year-round, honest, and the best room in the hamlet",
+      "anchor": "Bridgehampton Commons \u2014 the working heart of the East End",
+      "local_spot": "Almond Restaurant \u2014 year-round, honest, and the best room in the hamlet",
       "secret": "The Bridgehampton-Sag Harbor Turnpike at dusk. Farm stands, vineyards, and open sky in one straight line.",
       "practical_note": "The most central hamlet on the East End. Equidistant to Southampton and East Hampton. Underrated as a base."
     },
     {
       "name": "Southampton Village",
       "id": "southampton-village",
-      "cis": 9.0,
-      "anchor": "The Parrish Art Museum — the institutional anchor of the western corridor",
-      "local_spot": "Sant Ambroeus Southampton — the room where old money eats lunch",
+      "anchor": "The Parrish Art Museum \u2014 the institutional anchor of the western corridor",
+      "local_spot": "Sant Ambroeus Southampton \u2014 the room where old money eats lunch",
       "secret": "Jobs Lane off-season. The architecture, the hedgerows, and the social order all visible at once. No crowds.",
       "practical_note": "The most governed hamlet on the East End. Architecture review board is strict. That is why the values hold."
     },
     {
       "name": "Water Mill",
       "id": "water-mill",
-      "cis": 8.8,
-      "anchor": "Water Mill Museum — the original grist mill, still standing",
-      "local_spot": "Tate's Bake Shop — the local institution that became a national brand",
+      "anchor": "Water Mill Museum \u2014 the original grist mill, still standing",
+      "local_spot": "Tate's Bake Shop \u2014 the local institution that became a national brand",
       "secret": "The boardwalk across the marsh at sunrise. The most undervalued acreage on the East End sits right behind it.",
       "practical_note": "No village center, no foot traffic. You are buying land and light. The buyer who sees land before address wins here."
     },
     {
       "name": "Amagansett",
       "id": "amagansett",
-      "cis": 8.9,
-      "anchor": "The Stephen Talkhouse — the most legendary music venue on the East End",
-      "local_spot": "Estia's Little Kitchen — now in Sag Harbor. The best breakfast on the East End, worth the drive.",
+      "anchor": "The Stephen Talkhouse \u2014 the most legendary music venue on the East End",
+      "local_spot": "Estia's Little Kitchen \u2014 now in Sag Harbor. The best breakfast on the East End, worth the drive.",
       "secret": "Indian Wells Beach on a Tuesday in September. The hamlet that still feels like what the entire East End used to be.",
       "practical_note": "The last hamlet before Montauk. Off-season advantage is significant. Year-round community is tight and real."
     },
     {
       "name": "Sag Harbor",
       "id": "sag-harbor",
-      "cis": 8.4,
-      "anchor": "The American Hotel — the room that has hosted every important conversation in this village for 150 years",
-      "local_spot": "Sen — the local Japanese restaurant that the whole village treats as its dining room",
+      "anchor": "The American Hotel \u2014 the room that has hosted every important conversation in this village for 150 years",
+      "local_spot": "Sen \u2014 the local Japanese restaurant that the whole village treats as its dining room",
       "secret": "The windmill at the end of Main Street at golden hour. The whole village still runs on foot traffic and conversation.",
       "practical_note": "The most walkable hamlet on the East End. No car needed on weekends. The ferry to North Haven is a two-minute drive."
     },
     {
       "name": "East Hampton North",
       "id": "east-hampton-north",
-      "cis": 8.6,
-      "anchor": "The Springs Farmers Market — the quiet side of the township's community anchor",
-      "local_spot": "Bostwick's Chowder House — the year-round local institution on Three Mile Harbor",
+      "anchor": "The Springs Farmers Market \u2014 the quiet side of the township's community anchor",
+      "local_spot": "Bostwick's Chowder House \u2014 the year-round local institution on Three Mile Harbor",
       "secret": "Three Mile Harbor at low tide. Wetland light, open sky, and the most pastoral acreage in the township.",
       "practical_note": "The quiet side of East Hampton. Pastoral, unhurried, and tucked just far enough from the Village to hold value without the premium."
     },
     {
       "name": "Springs",
       "id": "springs",
-      "cis": 6.8,
-      "anchor": "Pollock-Krasner House — Jackson Pollock painted here because the light was honest and the rent was low",
-      "local_spot": "Bostwick's Chowder House — the year-round local institution on Three Mile Harbor",
+      "anchor": "Pollock-Krasner House \u2014 Jackson Pollock painted here because the light was honest and the rent was low",
+      "local_spot": "Bostwick's Chowder House \u2014 the year-round local institution on Three Mile Harbor",
       "secret": "Accabonac Harbor at dawn. The dock meets the marsh and the land remembers what it was.",
       "practical_note": "The most affordable entry point in the township. The buyer who understands trajectory buys Springs before the market does."
     },
     {
       "name": "Montauk",
       "id": "montauk",
-      "cis": 8.2,
-      "anchor": "Montauk Lighthouse — the end of the road and the beginning of the Atlantic",
-      "local_spot": "Gosman's Dock — the institution where the fishing boats still come in. Under new ownership as of 2024.",
+      "anchor": "Montauk Lighthouse \u2014 the end of the road and the beginning of the Atlantic",
+      "local_spot": "Gosman's Dock \u2014 the institution where the fishing boats still come in. Under new ownership as of 2024.",
       "secret": "Camp Hero State Park at the very tip. Radar towers, bluffs, and the most dramatic coastline on the East End. No crowds, ever.",
       "practical_note": "Raw, unhurried, and unapologetically its own. The East End's last wild place. Off-season advantage is the highest of any hamlet."
     },
     {
       "name": "Wainscott",
       "id": "wainscott",
-      "cis": 8.8,
-      "anchor": "115 Beach Lane — $59M off-market close, March 2026",
-      "local_spot": "Bridgehampton Inn Restaurant — the year-round anchor of the Wainscott corridor",
+      "anchor": "115 Beach Lane \u2014 $59M off-market close, March 2026",
+      "local_spot": "Bridgehampton Inn Restaurant \u2014 the year-round anchor of the Wainscott corridor",
       "secret": "The dune path to the ocean at the end of Beach Lane. Nothing between you and the horizon.",
       "practical_note": "The smallest hamlet by volume. Two percent of East End transactions. The buyer who finds it before the market does wins."
     }

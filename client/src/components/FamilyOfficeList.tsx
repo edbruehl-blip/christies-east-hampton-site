@@ -157,7 +157,7 @@ const PRINCIPALS: FamilyOfficePrincipal[] = [
 ];
 
 const TIER_COLORS: Record<number, { bg: string; border: string; label: string }> = {
-  1: { bg: "rgba(200,172,120,0.08)", border: "#C8AC78", label: "I" },
+  1: { bg: "rgba(200,172,120,0.08)", border: "#947231", label: "I" },
   2: { bg: "rgba(27,42,74,0.06)", border: "#1B2A4A", label: "II" },
   3: { bg: "rgba(27,42,74,0.04)", border: "rgba(27,42,74,0.3)", label: "III" },
   4: { bg: "rgba(27,42,74,0.03)", border: "rgba(27,42,74,0.2)", label: "IV" },
@@ -181,7 +181,7 @@ That principle has guided every transaction Christie's has conducted for 260 yea
 
 The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Your presence at ${principal.property.split("—")[0].trim()} places you at the center of the most concentrated wealth corridor in the northeastern United States.
 
-Christie's International Real Estate Group represents the institutional standard in this market. Our Christie's Intelligence Score evaluates every property on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. There is no gray area in institutional real estate.
+Christie's International Real Estate Group represents the institutional standard in this market. We evaluate every property on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and Christie's institutional adjacency. There is no gray area in institutional real estate.
 
 I would welcome the opportunity to introduce you to the Christie's standard — and to share what the data says about your position in this market.
 
@@ -235,7 +235,7 @@ export function FamilyOfficeList() {
     <div>
       {/* Header */}
       <div className="mb-6">
-        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Family Office Intelligence
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 4 }}>
@@ -292,7 +292,7 @@ export function FamilyOfficeList() {
                         </span>
                         <span
                           className="inline-block px-2 py-0.5 text-[9px] uppercase tracking-widest"
-                          style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'rgba(200,172,120,0.12)', color: '#C8AC78', letterSpacing: '0.14em' }}
+                          style={{ fontFamily: '"Barlow Condensed", sans-serif', background: 'rgba(200,172,120,0.12)', color: '#947231', letterSpacing: '0.14em' }}
                         >
                           {p.netWorth}
                         </span>
@@ -301,7 +301,7 @@ export function FamilyOfficeList() {
                         {p.property}
                       </div>
                     </div>
-                    <div className="shrink-0 text-xs" style={{ color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.1em' }}>
+                    <div className="shrink-0 text-xs" style={{ color: '#947231', fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.1em' }}>
                       {selectedId === p.id ? '▲' : '▼'}
                     </div>
                   </div>
@@ -310,7 +310,7 @@ export function FamilyOfficeList() {
                   {selectedId === p.id && (
                     <div className="mt-4 pt-4" style={{ borderTop: '1px solid rgba(200,172,120,0.2)' }}>
                       <div className="mb-3">
-                        <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                        <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                           Christie's Angle
                         </div>
                         <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
@@ -318,7 +318,7 @@ export function FamilyOfficeList() {
                         </div>
                       </div>
                       <div className="mb-4">
-                        <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                        <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                           Approach
                         </div>
                         <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
@@ -329,14 +329,14 @@ export function FamilyOfficeList() {
                         <button
                           onClick={(e) => { e.stopPropagation(); setLetterVisible(letterVisible === p.id ? null : p.id); }}
                           className="px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-                          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+                          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.16em' }}
                         >
                           {letterVisible === p.id ? 'Close Letter' : 'View Letter'}
                         </button>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleAddToPipe(p); }}
                           disabled={addingToPipe === p.id}
-                          className="px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A] disabled:opacity-50"
+                          className="px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#947231] hover:text-[#1B2A4A] disabled:opacity-50"
                           style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.16em' }}
                         >
                           {addingToPipe === p.id ? 'Adding…' : 'Add to Pipeline'}
@@ -351,7 +351,7 @@ export function FamilyOfficeList() {
                           onClick={e => e.stopPropagation()}
                         >
                           <div className="flex items-center justify-between mb-3">
-                            <div className="text-[10px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                            <div className="text-[10px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                               Ed Bruehl · James Christie Letter Template
                             </div>
                             <button
@@ -360,7 +360,7 @@ export function FamilyOfficeList() {
                                 toast.success("Letter copied to clipboard.");
                               }}
                               className="px-3 py-1 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-                              style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.14em' }}
+                              style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.14em' }}
                             >
                               Copy
                             </button>
@@ -384,7 +384,7 @@ export function FamilyOfficeList() {
 
       {/* Key Insights */}
       <div className="mt-6 p-4 rounded-sm" style={{ background: 'rgba(200,172,120,0.06)', border: '1px solid rgba(200,172,120,0.25)' }}>
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
           Strategic Intelligence
         </div>
         <div className="flex flex-col gap-2">
@@ -395,7 +395,7 @@ export function FamilyOfficeList() {
             "Sagaponack / Bridgehampton new construction — Tepper profile. Modern architecture, not historic renovation. Different pitch than Further Lane.",
           ].map((insight, i) => (
             <div key={i} className="flex gap-3">
-              <div className="shrink-0 mt-0.5" style={{ color: '#C8AC78', fontSize: '0.6rem' }}>◆</div>
+              <div className="shrink-0 mt-0.5" style={{ color: '#947231', fontSize: '0.6rem' }}>◆</div>
               <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
                 {insight}
               </div>

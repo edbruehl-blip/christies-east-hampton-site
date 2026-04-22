@@ -12,7 +12,7 @@
 @theme inline {
   /* --- Brand Color Tokens (LOCKED) --- */
   --color-navy:       oklch(0.24 0.07 255);   /* #1B2A4A */
-  --color-gold:       oklch(0.73 0.07 72);    /* #C8AC78 */
+  --color-gold:       oklch(0.73 0.07 72);    /* #947231 */
   --color-charcoal:   oklch(0.33 0.02 220);   /* #384249 — primary body text */
   --color-cream:      oklch(0.98 0.01 90);    /* #FAF8F4 — page/field background */
 

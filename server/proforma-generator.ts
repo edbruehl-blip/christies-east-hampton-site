@@ -134,7 +134,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1.5px solid #C8AC78;
+      border-bottom: 1.5px solid #947231;
       padding-bottom: 10px;
       margin-bottom: 22px;
     }
@@ -152,7 +152,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
 
     .confidential-banner {
       background: #1B2A4A;
-      color: #C8AC78;
+      color: #947231;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 7px;
       letter-spacing: 0.3em;
@@ -168,7 +168,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       font-size: 8px;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #C8AC78;
+      color: #947231;
       margin-bottom: 6px;
     }
 
@@ -205,7 +205,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 9px;
       letter-spacing: 0.12em;
-      color: #C8AC78;
+      color: #947231;
       width: 32px;
       flex-shrink: 0;
     }
@@ -243,7 +243,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       flex: 1;
       background: #fff;
       border: 1px solid rgba(200,172,120,0.3);
-      border-left: 3px solid #C8AC78;
+      border-left: 3px solid #947231;
       padding: 10px 12px;
     }
 
@@ -280,7 +280,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     }
 
     thead tr {
-      border-bottom: 1.5px solid #C8AC78;
+      border-bottom: 1.5px solid #947231;
       background: rgba(27,42,74,0.02);
     }
 
@@ -290,7 +290,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       font-size: 7.5px;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: #C8AC78;
+      color: #947231;
       font-weight: 600;
     }
 
@@ -307,7 +307,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     }
 
     tbody tr.total-row {
-      border-top: 1.5px solid #C8AC78;
+      border-top: 1.5px solid #947231;
       background: rgba(27,42,74,0.03);
       font-weight: 600;
     }
@@ -332,14 +332,14 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     .internal-banner {
       background: rgba(200,172,120,0.1);
       border: 1px solid rgba(200,172,120,0.4);
-      border-left: 3px solid #C8AC78;
+      border-left: 3px solid #947231;
       padding: 6px 10px;
       margin-bottom: 12px;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 7.5px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #C8AC78;
+      color: #947231;
     }
 
     /* Page footer */
@@ -382,7 +382,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       font-size: 7.5px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #C8AC78;
+      color: #947231;
       margin-bottom: 8px;
       border-bottom: 1px solid rgba(200,172,120,0.3);
       padding-bottom: 5px;
@@ -433,7 +433,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       font-size: 8px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: #C8AC78;
+      color: #947231;
       margin-bottom: 10px;
     }
 
@@ -455,7 +455,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     .def-card {
       background: #fff;
       border: 1px solid rgba(27,42,74,0.1);
-      border-top: 2px solid #C8AC78;
+      border-top: 2px solid #947231;
       padding: 10px 12px;
     }
 
@@ -513,7 +513,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
         <div class="arc-bar-year">${year}</div>
         <div class="arc-bar-track">
           <div class="arc-bar-fill">
-            <div style="width:${pct}%;background:${isMilestone ? '#C8AC78' : 'rgba(27,42,74,0.5)'};"></div>
+            <div style="width:${pct}%;background:${isMilestone ? '#947231' : 'rgba(27,42,74,0.5)'};"></div>
           </div>
         </div>
         <div class="arc-bar-label">${fmtDollar(vol)}</div>
@@ -537,10 +537,10 @@ export async function generateProFormaPDF(): Promise<Buffer> {
     const p = profitPool(vol, year, liveNetProfitByYear[year]);
     return `
       <tr>
-        <td style="color:#C8AC78;font-weight:600;letter-spacing:0.1em">${year}</td>
+        <td style="color:#947231;font-weight:600;letter-spacing:0.1em">${year}</td>
         <td>${fmtFull(vol)}</td>
-        <td style="color:#C8AC78;font-weight:600">${fmtFull(Math.round(vol * 0.02))}</td>
-        <td style="color:#C8AC78;font-weight:600">${p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
+        <td style="color:#947231;font-weight:600">${fmtFull(Math.round(vol * 0.02))}</td>
+        <td style="color:#947231;font-weight:600">${p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
         <td style="font-weight:600">${p.ed > 0 ? fmtFull(p.ed) : '$0'}</td>
         <td>${p.ilija > 0 ? fmtFull(p.ilija) : '$0'}</td>
 
@@ -666,9 +666,9 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       </tr>
       <tr class="total-row">
         <td colspan="3" style="color:#1B2A4A;font-weight:600">TOTAL (Baseline)</td>
-        <td style="color:#C8AC78;font-weight:600">${fmtDollar(outlookYears[0].vol)}</td>
+        <td style="color:#947231;font-weight:600">${fmtDollar(outlookYears[0].vol)}</td>
         <td style="color:#1B2A4A;font-weight:600">${fmtDollar(total.act2026 || 4_570_000)}</td>
-        <td style="color:#C8AC78;font-weight:600">${fmtDollar(total.proj2027 || 100_000_000)}</td>
+        <td style="color:#947231;font-weight:600">${fmtDollar(total.proj2027 || 100_000_000)}</td>
         <td style="color:rgba(56,66,73,0.3)">—</td>
       </tr>
       <tr class="anew-row">
@@ -753,7 +753,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total 2026 (MODEL)</span>
-          <span class="value" style="color:#C8AC78">${fmtFull(420_000 + pool2026.ed + 17_500)}*</span>
+          <span class="value" style="color:#947231">${fmtFull(420_000 + pool2026.ed + 17_500)}*</span>
         </div>
       </div>
     </div>
@@ -791,7 +791,7 @@ export async function generateProFormaPDF(): Promise<Buffer> {
       <div style="border-top:1px solid rgba(27,42,74,0.1);margin-top:6px;padding-top:6px">
         <div class="econ-line">
           <span class="label" style="font-weight:600;color:#1B2A4A">Total Net Profit</span>
-          <span class="value" style="color:#C8AC78">$50,000 Y1 / $150,000 Y2*</span>
+          <span class="value" style="color:#947231">$50,000 Y1 / $150,000 Y2*</span>
         </div>
       </div>
     </div>

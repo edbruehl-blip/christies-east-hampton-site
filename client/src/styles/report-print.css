@@ -8,7 +8,7 @@
  *
  * Design tokens:
  *   Navy:    #1B2A4A
- *   Gold:    #C8AC78
+ *   Gold:    #947231
  *   Charcoal:#384249
  *   Cream:   #FAF8F4
  */
@@ -43,10 +43,10 @@
   }
 
   /* Preserve gold accents inside Section1 */
-  #report-page-content > section:first-of-type [style*="color: #C8AC78"],
-  #report-page-content > section:first-of-type [style*="color:#C8AC78"],
+  #report-page-content > section:first-of-type [style*="color: #947231"],
+  #report-page-content > section:first-of-type [style*="color:#947231"],
   #report-page-content > section:first-of-type [style*="color: rgb(200, 172, 120)"] {
-    color: #C8AC78 !important;
+    color: #947231 !important;
   }
 
   /* ── Item 2 Fix B: Closing line spacing — prevent collision with gold footer bar ── */
@@ -77,7 +77,7 @@
     font-size: 7pt;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #C8AC78;
+    color: #947231;
     text-align: right;
     padding-bottom: 4pt;
     margin-bottom: 8pt;

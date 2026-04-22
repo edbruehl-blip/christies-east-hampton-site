@@ -8,7 +8,7 @@
  * LOCKED COPY — Do not change without Ed's explicit approval.
  * Art-secured lending. Never art finance. Exact language.
  *
- * Design: dark theme — navy overlay · gold #C8AC78 · cream text #FAF8F4
+ * Design: dark theme — navy overlay · gold #947231 · cream text #FAF8F4
  */
 
 import { ED_HEADSHOT_PRIMARY, LOGO_WHITE } from '@/lib/cdn-assets';
@@ -32,14 +32,14 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
           <div className="flex items-center gap-3 mb-8">
             <div style={{
               ...LABEL_FONT,
-              background: 'rgba(200,172,120,0.15)', color: '#C8AC78',
+              background: 'rgba(200,172,120,0.15)', color: '#947231',
               fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase',
               padding: '3px 8px',
               border: '1px solid rgba(200,172,120,0.3)',
             }}>
               {sectionLabel}
             </div>
-            <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
+            <div style={{ ...LABEL_FONT, color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
               Estate Advisory
             </div>
           </div>
@@ -85,17 +85,17 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
 
           {/* Right: Services + CTA */}
           <div className="flex flex-col gap-5">
-            <div style={{ ...LABEL_FONT, color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 4 }}>
+            <div style={{ ...LABEL_FONT, color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 4 }}>
               Private Territory Briefing
             </div>
             <div style={{ ...SANS, color: 'rgba(250,248,244,0.65)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 8 }}>
               A private, no-obligation briefing covering your target hamlet's
-              current inventory, CIS-scored opportunities, and Christie's
+              current inventory, institutional-grade opportunities, and Christie's
               institutional access to off-market transactions. Delivered in
               person at 26 Park Place or via secure video.
             </div>
             {[
-              'Hamlet-specific CIS analysis',
+              'Hamlet-specific market analysis',
               "Off-market access via Christie's network",
               'Estate liquidation advisory',
               'New construction acquisition strategy',
@@ -106,7 +106,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
                 className="flex items-start gap-2"
                 style={{ ...SANS, color: 'rgba(250,248,244,0.6)', fontSize: '0.8125rem', lineHeight: 1.5 }}
               >
-                <span style={{ color: '#C8AC78', marginTop: 2, flexShrink: 0 }}>—</span>
+                <span style={{ color: '#947231', marginTop: 2, flexShrink: 0 }}>—</span>
                 <span>{item}</span>
               </div>
             ))}
@@ -115,7 +115,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
                 href="tel:6467521233"
                 style={{
                   display: 'inline-block',
-                  background: '#C8AC78', color: '#1B2A4A',
+                  background: '#947231', color: '#1B2A4A',
                   ...LABEL_FONT, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
                   textDecoration: 'none', padding: '10px 20px',
                   fontWeight: 600,
@@ -169,7 +169,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
       background: 'rgba(13,27,42,0.75)',
     }}>
       {/* Gold accent bar at top */}
-      <div style={{ height: 3, background: 'linear-gradient(90deg, #C8AC78 0%, rgba(200,172,120,0.3) 100%)' }} />
+      <div style={{ height: 3, background: 'linear-gradient(90deg, #947231 0%, rgba(200,172,120,0.3) 100%)' }} />
       {inner}
     </div>
   );

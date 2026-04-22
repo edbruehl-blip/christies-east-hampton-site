@@ -75,7 +75,7 @@ function ProtectedFutureRoute() {
         alignItems: "center",
         justifyContent: "center",
         fontFamily: "var(--font-condensed, 'Barlow Condensed', sans-serif)",
-        color: "#C8AC78",
+        color: "#947231",
         fontSize: "0.75rem",
         letterSpacing: "0.2em",
         textTransform: "uppercase",

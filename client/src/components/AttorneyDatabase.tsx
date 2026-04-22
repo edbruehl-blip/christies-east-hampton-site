@@ -61,7 +61,7 @@ const ATTORNEYS: Attorney[] = [
 
 function tierStyle(tier: string): React.CSSProperties {
   if (tier === 'TIER 1')
-    return { background: '#1B2A4A', color: '#C8AC78' };
+    return { background: '#1B2A4A', color: '#947231' };
   if (tier === 'TIER 2')
     return { background: 'rgba(27,42,74,0.08)', color: '#7a8a8e' };
   return { background: 'rgba(200,172,120,0.1)', color: '#8a7040' };
@@ -72,7 +72,7 @@ export function AttorneyDatabase() {
     <div className="mb-8">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 11 }}>
             Attorney Database
           </div>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
@@ -109,7 +109,7 @@ export function AttorneyDatabase() {
 
             <div className="grid grid-cols-1 gap-y-2 mb-3">
               <div>
-                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>
+                <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>
                   Specialty
                 </div>
                 <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>

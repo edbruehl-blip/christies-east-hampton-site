@@ -14,7 +14,7 @@
     "established": "1766",
     "colors": {
       "navy": "#1B2A4A",
-      "gold": "#C8AC78",
+      "gold": "#947231",
       "cream": "#FAF8F4",
       "slate": "#384249",
       "warm_gray": "#D3D1C7"
@@ -181,7 +181,7 @@
       {
         "name": "Ultra-Trophy",
         "range": "9.0–10.0",
-        "color": "#C8AC78"
+        "color": "#947231"
       },
       {
         "name": "Trophy",
@@ -701,7 +701,7 @@
       {
         "id": "20",
         "title": "CIREG Brand Color Lock",
-        "summary": "Gold: #C8AC78 (oklch 0.73 0.07 72, PMS 466C). Charcoal: #384249 (oklch 0.33 0.02 220). Do not change without brand approval."
+        "summary": "Gold: #947231 (oklch 0.73 0.07 72, PMS 466C). Charcoal: #384249 (oklch 0.33 0.02 220). Do not change without brand approval."
       },
       {
         "id": "21",

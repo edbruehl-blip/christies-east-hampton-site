@@ -12,13 +12,13 @@
  * Voice ID: fjnwTZkKtQOJaYzGLa6n · Model: eleven_turbo_v2
  * Audio element is created once and reused — no re-fetch on play/pause.
  *
- * Gold background #C8AC78, charcoal text #384249, Barlow Condensed small-caps.
+ * Gold background #947231, charcoal text #384249, Barlow Condensed small-caps.
  * Minimum 44px tap target. no-print class hides bar from all PDF/print surfaces.
  */
 
 import { useRef, useState } from 'react';
 
-const GOLD = '#C8AC78';
+const GOLD = '#947231';
 const CHARCOAL = '#384249';
 const DIVIDER = 'rgba(56,66,73,0.35)';
 

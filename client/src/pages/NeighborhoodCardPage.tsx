@@ -12,7 +12,7 @@
  * ?pdf=1 → download bar hidden, clean rendering for Puppeteer.
  */
 import { useState, useEffect } from 'react';
-import CISBadge from '@/components/CISBadge';
+// CISBadge import removed per Ruling 2
 
 // ─── Doctrine 43 — PDF Light Mode Export Standard ─────────────────────────────
 function useIsPdfMode(): boolean {
@@ -26,7 +26,7 @@ function useIsPdfMode(): boolean {
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY    = '#0a1628';
-const GOLD    = '#C8AC78';
+const GOLD    = '#947231';
 const CREAM   = '#F9F5EF';
 const RED     = '#8B1C1C';
 const MUTED   = '#888';
@@ -273,7 +273,6 @@ export default function NeighborhoodCardPage() {
                   gap: 2,
                 }}
               >
-                <CISBadge score={h.cis} size="sm" />
                 <div style={{
                   fontSize: 5.5,
                   color: GOLD,
@@ -356,7 +355,7 @@ export default function NeighborhoodCardPage() {
                     paddingBottom: 5,
                   }}
                 >
-                  <CISBadge score={h.cis} size="sm" />
+                  {/* CIS badge removed per Ruling 2 */}
                   <div style={{ flex: 1 }}>
                     <div style={{
                       fontSize: 10,

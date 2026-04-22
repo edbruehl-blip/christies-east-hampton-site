@@ -19,7 +19,7 @@ import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY    = '#1B2A4A';
-const GOLD    = '#C8AC78';
+const GOLD    = '#947231';
 const CREAM   = '#FAF8F4';
 const MUTED   = 'rgba(27,42,74,0.6)';
 
@@ -211,12 +211,12 @@ export default function ChristiesLetterPage() {
           .lead-summary-box {
             background: #1B2A4A !important;
             background-color: #1B2A4A !important;
-            border-left: 3px solid #C8AC78 !important;
+            border-left: 3px solid #947231 !important;
             -webkit-print-color-adjust: exact !important;
             print-color-adjust: exact !important;
           }
           .lead-summary-box p { color: #FAF8F4 !important; font-style: italic !important; }
-          .lead-summary-box div { color: #C8AC78 !important; }
+          .lead-summary-box div { color: #947231 !important; }
         }
       `}</style>
     </div>

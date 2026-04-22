@@ -62,7 +62,7 @@ export default function NeighborhoodLetterPage() {
           maxWidth: 700,
           margin: '0 auto 20px',
           background: '#1c2638',
-          color: '#c8ac78',
+          color: '#947231',
           padding: '10px 16px',
           fontFamily: 'Georgia, serif',
           fontSize: 10,

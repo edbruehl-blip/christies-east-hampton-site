@@ -1,7 +1,7 @@
 /**
  * DashboardLayout — Christie's East Hampton
  *
- * Design System: Navy #1B2A4A · Gold #C8AC78 · Charcoal #384249 · Cream #FAF8F4
+ * Design System: Navy #1B2A4A · Gold #947231 · Charcoal #384249 · Cream #FAF8F4
  * Five-layer instrument panel header — matches production christiesrealestategroupeh.com
  *
  * Layer 1: Tab row — CIREG logo · 6 tabs · Ed headshot (PUBLIC route removed Sprint 11)
@@ -252,8 +252,8 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
                   cursor: "pointer",
                   border: "none",
                   background: "transparent",
-                  color: activeTab === tab.id ? "#C8AC78" : "rgba(250,248,244,0.65)",
-                  borderBottom: activeTab === tab.id ? "2px solid #C8AC78" : "2px solid transparent",
+                  color: activeTab === tab.id ? "#947231" : "rgba(250,248,244,0.65)",
+                  borderBottom: activeTab === tab.id ? "2px solid #947231" : "2px solid transparent",
                   transition: "color 0.15s, border-color 0.15s",
                 }}
                 aria-current={activeTab === tab.id ? "page" : undefined}
@@ -269,7 +269,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
             <img
               src={ED_HEADSHOT_PRIMARY}
               alt="Ed Bruehl — Managing Director"
-              style={{ width: 38, height: 38, borderRadius: "50%", objectFit: "cover", objectPosition: "center top", border: "2px solid #C8AC78", flexShrink: 0 }}
+              style={{ width: 38, height: 38, borderRadius: "50%", objectFit: "cover", objectPosition: "center top", border: "2px solid #947231", flexShrink: 0 }}
             />
             {/* Mobile hamburger */}
             <button
@@ -316,10 +316,10 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
                     textTransform: "uppercase",
                     padding: "6px 14px",
                     cursor: "pointer",
-                    border: `1px solid ${isActive ? '#C8AC78' : 'rgba(200,172,120,0.3)'}`,
+                    border: `1px solid ${isActive ? '#947231' : 'rgba(200,172,120,0.3)'}`,
                     borderRadius: 2,
                     background: isActive ? "rgba(200,172,120,0.15)" : "transparent",
-                    color: isActive ? "#C8AC78" : "rgba(250,248,244,0.65)",
+                    color: isActive ? "#947231" : "rgba(250,248,244,0.65)",
                     transition: "all 0.15s",
                   }}
                 >
@@ -351,7 +351,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
                 fontSize: "0.62rem",
                 fontWeight: 700,
                 letterSpacing: "0.2em",
-                color: "#C8AC78",
+                color: "#947231",
                 textTransform: "uppercase",
                 padding: "0 60px",
               }}
@@ -456,7 +456,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
                 rel="noopener noreferrer"
                 title={link.label}
                 style={{ color: "rgba(200,172,120,0.55)", display: "flex", alignItems: "center", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = "#C8AC78")}
+                onMouseEnter={e => (e.currentTarget.style.color = "#947231")}
                 onMouseLeave={e => (e.currentTarget.style.color = "rgba(200,172,120,0.55)")}
               >
                 {/* Render 14×14 icons for the slim bar */}
@@ -471,13 +471,13 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           {/* Office address + email */}
           <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, letterSpacing: "0.06em", color: "rgba(200,172,120,0.7)", whiteSpace: "nowrap" }}>
             26 Park Place, East Hampton&nbsp;&nbsp;·&nbsp;&nbsp;646-752-1233&nbsp;&nbsp;·&nbsp;&nbsp;
-            <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: '#C8AC78', textDecoration: 'none' }}>edbruehl@christiesrealestategroup.com</a>
+            <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: '#947231', textDecoration: 'none' }}>edbruehl@christiesrealestategroup.com</a>
           </span>
           {/* Weather — gold, compact */}
           {market.weather && (
             <>
               <span style={{ color: "rgba(200,172,120,0.25)", fontSize: 10 }}>|</span>
-              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#C8AC78", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
+              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#947231", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
             </>
           )}
           {/* Data current as of label removed — Sprint 33 directive */}
@@ -493,7 +493,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       {!isPdfMode && (
         <footer style={{ background: "#1B2A4A", padding: "12px 24px", marginTop: "auto" }}>
           <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
-            <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#C8AC78" }}>
+            <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#947231" }}>
               Art. Beauty. Provenance. · Since 1766.
             </span>
           </div>
@@ -515,7 +515,7 @@ function DataItem({ label, value, gold }: { label: string; value: string | null;
   return (
     <span style={{ fontFamily: "var(--font-condensed)", letterSpacing: "0.04em" }}>
       {label}:{" "}
-      <strong style={{ color: gold ? "#C8AC78" : "#fff" }}>{value}</strong>
+      <strong style={{ color: gold ? "#947231" : "#fff" }}>{value}</strong>
     </span>
   );
 }

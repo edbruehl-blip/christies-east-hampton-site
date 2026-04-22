@@ -7,7 +7,7 @@
  * These are approximate convex-hull polygons — not legal parcel boundaries.
  * Update with official GeoJSON when supplied by Ed.
  *
- * Design tokens: navy fill rgba(27,42,74,0.22) · gold stroke #C8AC78 · stroke weight 2
+ * Design tokens: navy fill rgba(27,42,74,0.22) · gold stroke #947231 · stroke weight 2
  */
 
 export interface HamletBoundary {

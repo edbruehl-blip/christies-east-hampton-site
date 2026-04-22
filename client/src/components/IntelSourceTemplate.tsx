@@ -34,9 +34,9 @@ const SOURCES: IntelSource[] = [
     name: "Hamlet Master Atlas",
     type: "Manual",
     cadence: "Quarterly",
-    feedsInto: "MAPS tab · CIS scores · PDF exports · Market Report",
+    feedsInto: "MAPS tab · Deal Engine · PDF exports · Market Report",
     status: "Live",
-    notes: "10 hamlets, CIS scores, price corridors, demographics. Single source of truth in hamlet-master.ts.",
+    notes: "10 hamlets, price corridors, demographics. Single source of truth in hamlet-master.ts.",
   },
   {
     id: "fred-mortgage",
@@ -44,7 +44,7 @@ const SOURCES: IntelSource[] = [
     name: "FRED Mortgage Rate (MORTGAGE30US)",
     type: "API",
     cadence: "Daily (24h cache)",
-    feedsInto: "Market ticker · Market Report · MAPS CIS Calculator",
+    feedsInto: "Market ticker · Market Report · MAPS Deal Engine",
     status: "Live",
     link: "https://fred.stlouisfed.org/series/MORTGAGE30US",
     notes: "Freddie Mac PMMS via FRED API. Fallback to last known value.",
@@ -216,7 +216,7 @@ const PILLAR_META: Record<Pillar, { label: string; description: string; color: s
   territory: {
     label: "Territory Intelligence",
     description: "Market data, hamlet atlas, listings, auction events",
-    color: "#C8AC78",
+    color: "#947231",
     bg: "rgba(200,172,120,0.06)",
   },
   relationship: {
@@ -240,7 +240,7 @@ const PILLAR_META: Record<Pillar, { label: string; description: string; color: s
 };
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
-  Live: { bg: "rgba(200,172,120,0.12)", color: "#C8AC78" },
+  Live: { bg: "rgba(200,172,120,0.12)", color: "#947231" },
   Scheduled: { bg: "rgba(27,42,74,0.08)", color: "#1B2A4A" },
   Manual: { bg: "rgba(56,66,73,0.08)", color: "#384249" },
   Pending: { bg: "rgba(122,138,142,0.1)", color: "#7a8a8e" },
@@ -251,7 +251,7 @@ const TYPE_STYLES: Record<string, { bg: string; color: string }> = {
   API: { bg: "rgba(0,100,200,0.08)", color: "#0064C8" },
   Scraper: { bg: "rgba(200,100,0,0.08)", color: "#C86400" },
   Manual: { bg: "rgba(122,138,142,0.08)", color: "#7a8a8e" },
-  Component: { bg: "rgba(200,172,120,0.1)", color: "#C8AC78" },
+  Component: { bg: "rgba(200,172,120,0.1)", color: "#947231" },
 };
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -270,7 +270,7 @@ export function IntelSourceTemplate() {
     <div>
       {/* Header */}
       <div className="mb-5">
-        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Intelligence Architecture
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 4 }}>
@@ -308,8 +308,8 @@ export function IntelSourceTemplate() {
           style={{
             fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.16em',
             background: activePillar === "all" ? '#1B2A4A' : 'transparent',
-            color: activePillar === "all" ? '#C8AC78' : '#384249',
-            borderColor: activePillar === "all" ? '#C8AC78' : '#D3D1C7',
+            color: activePillar === "all" ? '#947231' : '#384249',
+            borderColor: activePillar === "all" ? '#947231' : '#D3D1C7',
           }}
         >
           All ({SOURCES.length})
@@ -377,7 +377,7 @@ export function IntelSourceTemplate() {
                     {source.cadence} · Feeds: {source.feedsInto}
                   </div>
                 </div>
-                <div className="shrink-0 text-xs" style={{ color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif' }}>
+                <div className="shrink-0 text-xs" style={{ color: '#947231', fontFamily: '"Barlow Condensed", sans-serif' }}>
                   {isExpanded ? '▲' : '▼'}
                 </div>
               </div>
@@ -386,7 +386,7 @@ export function IntelSourceTemplate() {
                 <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(200,172,120,0.15)' }}>
                   {source.notes && (
                     <div className="mb-3">
-                      <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                      <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                         Notes
                       </div>
                       <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
@@ -401,7 +401,7 @@ export function IntelSourceTemplate() {
                       rel="noopener noreferrer"
                       onClick={e => e.stopPropagation()}
                       className="inline-block px-3 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
                     >
                       Open Source ↗
                     </a>
@@ -415,7 +415,7 @@ export function IntelSourceTemplate() {
 
       {/* Growth Model feed summary */}
       <div className="mt-5 p-4 rounded-sm" style={{ background: 'rgba(200,172,120,0.05)', border: '1px solid rgba(200,172,120,0.2)' }}>
-        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+        <div className="text-[10px] uppercase tracking-widest mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
           Growth Model Feed Map
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -441,7 +441,7 @@ export function IntelSourceTemplate() {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em', textDecoration: 'none' }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.16em', textDecoration: 'none' }}
           >
             Open Growth Model v2 Sheet ↗
           </a>

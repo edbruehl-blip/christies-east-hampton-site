@@ -97,12 +97,12 @@ const INITIATIVES: CharityInitiative[] = [
 ];
 
 const CAUSE_LABELS = {
-  highway27: { label: "Highway 27 Safety", color: "#C8AC78", icon: "⟶" },
+  highway27: { label: "Highway 27 Safety", color: "#947231", icon: "⟶" },
   housing: { label: "Affordable Housing", color: "#1B2A4A", icon: "⌂" },
 };
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
-  Active: { bg: "rgba(200,172,120,0.12)", color: "#C8AC78" },
+  Active: { bg: "rgba(200,172,120,0.12)", color: "#947231" },
   Monitoring: { bg: "rgba(27,42,74,0.08)", color: "#1B2A4A" },
   Opportunity: { bg: "rgba(34,139,34,0.08)", color: "#228B22" },
 };
@@ -126,7 +126,7 @@ export function LocalCharityTracker() {
     <div>
       {/* Header */}
       <div className="mb-5">
-        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Community Intelligence
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem', marginBottom: 4 }}>
@@ -171,8 +171,8 @@ export function LocalCharityTracker() {
               fontFamily: '"Barlow Condensed", sans-serif',
               letterSpacing: '0.16em',
               background: activeCause === tab.key ? '#1B2A4A' : 'transparent',
-              color: activeCause === tab.key ? '#C8AC78' : '#384249',
-              borderColor: activeCause === tab.key ? '#C8AC78' : '#D3D1C7',
+              color: activeCause === tab.key ? '#947231' : '#384249',
+              borderColor: activeCause === tab.key ? '#947231' : '#D3D1C7',
             }}
           >
             {tab.label}
@@ -221,7 +221,7 @@ export function LocalCharityTracker() {
                     {initiative.org}
                   </div>
                 </div>
-                <div className="shrink-0 text-xs" style={{ color: '#C8AC78', fontFamily: '"Barlow Condensed", sans-serif' }}>
+                <div className="shrink-0 text-xs" style={{ color: '#947231', fontFamily: '"Barlow Condensed", sans-serif' }}>
                   {isExpanded ? '▲' : '▼'}
                 </div>
               </div>
@@ -230,7 +230,7 @@ export function LocalCharityTracker() {
               {isExpanded && (
                 <div className="mt-3 pt-3" style={{ borderTop: '1px solid rgba(200,172,120,0.15)' }}>
                   <div className="mb-3">
-                    <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                    <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                       Initiative
                     </div>
                     <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
@@ -238,7 +238,7 @@ export function LocalCharityTracker() {
                     </div>
                   </div>
                   <div className="mb-3">
-                    <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+                    <div className="text-[10px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
                       Christie's Angle
                     </div>
                     <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>
@@ -253,7 +253,7 @@ export function LocalCharityTracker() {
                         rel="noopener noreferrer"
                         onClick={e => e.stopPropagation()}
                         className="px-3 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-                        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
+                        style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
                       >
                         Visit Website ↗
                       </a>
@@ -262,7 +262,7 @@ export function LocalCharityTracker() {
                       <a
                         href={`mailto:${initiative.contact}`}
                         onClick={e => e.stopPropagation()}
-                        className="px-3 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
+                        className="px-3 py-1.5 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#947231] hover:text-[#1B2A4A]"
                         style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em', textDecoration: 'none' }}
                       >
                         Contact ↗
@@ -278,7 +278,7 @@ export function LocalCharityTracker() {
 
       {/* Strategic note */}
       <div className="mt-5 p-4 rounded-sm" style={{ background: 'rgba(27,42,74,0.03)', border: '1px solid rgba(27,42,74,0.1)' }}>
-        <div className="text-[10px] uppercase tracking-widest mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78' }}>
+        <div className="text-[10px] uppercase tracking-widest mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231' }}>
           Christie's Community Position
         </div>
         <div className="text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A' }}>

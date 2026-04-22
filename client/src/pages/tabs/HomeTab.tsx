@@ -15,8 +15,8 @@
  *
  * Section E  ·  Home Footer — Ed Bruehl signature + CTA
  *
- * Design: navy #1B2A4A · gold #C8AC78 · cream #FAF8F4
- * Gold doctrine: ALL gold = #C8AC78 (no rgba variants for labels — use opacity on the element)
+ * Design: navy #1B2A4A · gold #947231 · cream #FAF8F4
+ * Gold doctrine: ALL gold = #947231 (no rgba variants for labels — use opacity on the element)
  */
 
 import { useLocation } from 'wouter';
@@ -64,7 +64,7 @@ function SectionA() {
             <div style={{ marginBottom: 28, textAlign: 'center' }}>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 'clamp(1.2rem, 2.5vw, 1.7rem)',
                 fontWeight: 700,
                 letterSpacing: '0.28em',
@@ -75,7 +75,7 @@ function SectionA() {
               </div>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#C8AC78',
+                color: '#947231',
                 fontSize: 14,
                 fontWeight: 500,
                 letterSpacing: '0.2em',
@@ -103,7 +103,7 @@ function SectionA() {
                 }}
               >
                 <div
-                  style={{ border: '1px solid #C8AC78', padding: 3, background: 'rgba(13,27,42,0.6)', cursor: 'pointer' }}
+                  style={{ border: '1px solid #947231', padding: 3, background: 'rgba(13,27,42,0.6)', cursor: 'pointer' }}
                   onClick={() => navigate('/report')}
                   title="Continue to Market Report"
                 >
@@ -118,7 +118,7 @@ function SectionA() {
                   fontFamily: '"Georgia", serif',
                   fontStyle: 'italic',
                   fontSize: 9,
-                  color: '#C8AC78',
+                  color: '#947231',
                   letterSpacing: '0.08em',
                   textAlign: 'center',
                   marginTop: 6,
@@ -132,7 +132,7 @@ function SectionA() {
                   style={{
                     fontFamily: '"Barlow Condensed", sans-serif',
                     fontSize: 8,
-                    color: '#C8AC78',
+                    color: '#947231',
                     letterSpacing: '0.15em',
                     textTransform: 'uppercase',
                     textAlign: 'center',
@@ -179,7 +179,7 @@ function AuctionImageMatrix() {
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 10,
           fontWeight: 600,
           letterSpacing: '0.22em',
@@ -223,7 +223,7 @@ function AuctionImageMatrix() {
                 fontSize: 8,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: '#C8AC78',
+                color: '#947231',
               }}>
                 {img.caption}
               </div>
@@ -242,7 +242,7 @@ function SectionChristiesStory() {
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 10,
           fontWeight: 600,
           letterSpacing: '0.22em',
@@ -335,7 +335,7 @@ function SectionVideoReel() {
               fontWeight: 600,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: '#C8AC78',
+              color: '#947231',
               opacity: 0.8,
             }}>{v.label}</div>
             <div style={{
@@ -377,7 +377,7 @@ function HomeFooter() {
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 12,
           fontWeight: 600,
           letterSpacing: '0.2em',
@@ -387,7 +387,7 @@ function HomeFooter() {
         </div>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#C8AC78',
+          color: '#947231',
           fontSize: 10,
           fontWeight: 500,
           letterSpacing: '0.22em',

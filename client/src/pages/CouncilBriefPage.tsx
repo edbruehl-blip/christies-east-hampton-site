@@ -122,7 +122,7 @@ export default function CouncilBriefPage() {
             fontSize: 10,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
-            color: '#C8AC78',
+            color: '#947231',
             marginBottom: 12,
           }}
         >
@@ -257,7 +257,7 @@ export default function CouncilBriefPage() {
           <tbody>
             {SURFACES_TABLE.map((row, i) => (
               <tr key={i} style={{ borderBottom: '1px solid rgba(200,172,120,0.1)' }}>
-                <td style={{ ...tdStyle, fontFamily: '"Courier New", monospace', fontSize: 12, color: '#C8AC78' }}>{row.route}</td>
+                <td style={{ ...tdStyle, fontFamily: '"Courier New", monospace', fontSize: 12, color: '#947231' }}>{row.route}</td>
                 <td style={tdStyle}>{row.desc}</td>
               </tr>
             ))}
@@ -413,7 +413,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
           fontSize: 11,
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
-          color: '#C8AC78',
+          color: '#947231',
           marginBottom: 18,
           fontWeight: 400,
         }}

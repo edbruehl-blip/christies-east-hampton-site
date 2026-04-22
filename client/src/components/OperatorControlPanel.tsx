@@ -33,7 +33,7 @@ const ED_PERSONAL_GROSS = [0.600, 0.720, 0.864, 1.037, 1.244, 1.493, 1.792, 2.15
 const ED_ANEW_M = [0.01750, 0.05250, 0.05906, 0.06645, 0.07475, 0.08410, 0.09461, 0.10643, 0.11974, 0.13471, 0.15154];
 
 const YEARS = [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036];
-const GOLD = '#c8ac78';
+const GOLD = '#947231';
 
 // Perp-locked canonical summary values (D40.5 · Apr 20 2026)
 const CANONICAL_11YR = 32.85;

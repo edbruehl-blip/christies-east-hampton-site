@@ -71,7 +71,7 @@ function PropertyReportModal({ address, onClose }: { address: string; onClose: (
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
           <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 4 }}>Property Report</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#947231', marginBottom: 4 }}>Property Report</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.05rem', fontWeight: 400, color: '#FAF8F4', lineHeight: 1.3 }}>{address}</div>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#7a8a8e', fontSize: '1.1rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
@@ -118,7 +118,7 @@ function sheetOpenUrl(id: string) {
 // ─── Status config ────────────────────────────────────────────────────────────
 
 const STATUS_CONFIG: Record<string, { bg: string; color: string; dot: string; border: string }> = {
-  'In Contract': { bg: 'rgba(200,172,120,0.18)', color: '#7a5c28', dot: '#C8AC78', border: '#C8AC78' },
+  'In Contract': { bg: 'rgba(200,172,120,0.18)', color: '#7a5c28', dot: '#947231', border: '#947231' },
   'Active':      { bg: 'rgba(34,139,34,0.1)',    color: '#1a6b1a', dot: '#228B22', border: '#228B22' },
   'Closed':      { bg: 'rgba(27,42,74,0.1)',      color: '#1B2A4A', dot: '#1B2A4A', border: '#1B2A4A' },
   'Watch':       { bg: 'rgba(224,123,57,0.12)',   color: '#9a5a20', dot: '#e07b39', border: '#e07b39' },
@@ -176,7 +176,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
   const categories = [
     { label: 'Active Listings',      vol: volByCategory(['ACTIVE', 'EXCLUSIVE']),             dot: '#228B22' },
     { label: 'Quiet Listings',       vol: volByCategory(['QUIET']),                           dot: '#7a8a8e' },
-    { label: 'Offers / Buy-Side',    vol: volByCategory(['OFFER', 'BUY-SIDE', 'BUY SIDE']),  dot: '#C8AC78' },
+    { label: 'Offers / Buy-Side',    vol: volByCategory(['OFFER', 'BUY-SIDE', 'BUY SIDE']),  dot: '#947231' },
     { label: 'Pending Listings',     vol: volByCategory(['PENDING']),                         dot: '#e07b39' },
     { label: 'In Contract / Closed', vol: volByCategory(['IN CONTRACT', 'CLOSED']),           dot: '#1B2A4A' },
     { label: 'Rentals',              vol: volByCategory(['RENTAL']),                          dot: '#384249' },
@@ -187,7 +187,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
       {/* Total Book headline */}
       <div className="flex items-baseline gap-3 mb-3">
         <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.6rem', lineHeight: 1 }}>{fmt(totalBook)}</span>
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Total Book</span>
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Total Book</span>
       </div>
       {/* Seven-category strip */}
       <div className="flex flex-wrap gap-2">
@@ -195,7 +195,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
           <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', minWidth: 110 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
             <div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem', lineHeight: 1 }}>{fmt(k.vol)}</div>
             </div>
           </div>
@@ -244,7 +244,7 @@ function InlineStatusEditor({
         value={newStatus}
         onChange={e => setNewStatus(e.target.value)}
         className="border px-2 py-1 text-xs"
-        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)' }}
+        style={{ borderColor: '#947231', fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)' }}
       >
         {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
       </select>
@@ -255,14 +255,14 @@ function InlineStatusEditor({
           value={closeDate}
           onChange={e => setCloseDate(e.target.value)}
           className="border px-2 py-1 text-xs"
-          style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', minWidth: 160 }}
+          style={{ borderColor: '#947231', fontFamily: '"Source Sans 3", sans-serif', minWidth: 160 }}
         />
       )}
       <button
         onClick={() => onSave(newStatus, newStatus === 'Closed' ? closeDate : undefined)}
         disabled={isSaving}
         className="px-3 py-1 text-[9px] uppercase tracking-widest"
-        style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#C8AC78', opacity: isSaving ? 0.6 : 1 }}
+        style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#947231', opacity: isSaving ? 0.6 : 1 }}
       >
         {isSaving ? 'Saving…' : '✓ Save'}
       </button>
@@ -317,7 +317,7 @@ function PipelineTable() {
   if (isLoading) {
     return (
       <div className="flex items-center gap-3 py-12 justify-center" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.8rem' }}>
-        <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#C8AC78', borderTopColor: 'transparent' }} />
+        <div className="w-5 h-5 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#947231', borderTopColor: 'transparent' }} />
         Loading Office Pipeline from Sheet…
       </div>
     );
@@ -378,7 +378,7 @@ function PipelineTable() {
         <button
           onClick={() => refetch()}
           className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.4)', color: '#C8AC78', letterSpacing: '0.14em' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.4)', color: '#947231', letterSpacing: '0.14em' }}
         >
           ↻ Refresh
         </button>
@@ -386,8 +386,8 @@ function PipelineTable() {
           href={sheetOpenUrl(OFFICE_PIPELINE_SHEET_ID)}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.14em', textDecoration: 'none' }}
+          className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#947231] hover:text-[#1B2A4A]"
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.14em', textDecoration: 'none' }}
         >
            Open Full Sheet ↗
         </a>
@@ -403,7 +403,7 @@ function PipelineTable() {
       </div>
       {/* Success notification */}
       {updateStatus.isSuccess && (
-        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(200,172,120,0.06)', color: 'rgba(250,248,244,0.7)', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>
+        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(200,172,120,0.06)', color: 'rgba(250,248,244,0.7)', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #947231' }}>
           ✓ Sheet updated — refreshing in a moment…
         </div>
       )}
@@ -419,7 +419,7 @@ function PipelineTable() {
                   key={col.key}
                   style={{
                     fontFamily: '"Barlow Condensed", sans-serif',
-                    color: '#C8AC78',
+                    color: '#947231',
                     fontSize: 9,
                     letterSpacing: '0.18em',
                     textTransform: 'uppercase',
@@ -434,7 +434,7 @@ function PipelineTable() {
                   {col.label}
                 </th>
               ))}
-              <th style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '10px 12px', textAlign: 'left', fontWeight: 600, whiteSpace: 'nowrap', minWidth: 90 }}>
+              <th style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '10px 12px', textAlign: 'left', fontWeight: 600, whiteSpace: 'nowrap', minWidth: 90 }}>
                 Actions
               </th>
             </tr>
@@ -561,7 +561,7 @@ function PipelineTable() {
                         {!isEditing && (
                           <button
                             onClick={() => setEditingAddress(row.address)}
-                            className="text-[8px] uppercase tracking-widest hover:text-[#C8AC78] transition-colors"
+                            className="text-[8px] uppercase tracking-widest hover:text-[#947231] transition-colors"
                             style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#bbb', letterSpacing: '0.12em', whiteSpace: 'nowrap', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
                           >
                             Edit Status
@@ -571,7 +571,7 @@ function PipelineTable() {
                           <button
                             onClick={() => setReportingAddress(row.address)}
                             className="text-[8px] uppercase tracking-widest hover:text-[#1B2A4A] transition-colors"
-                            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.12em', whiteSpace: 'nowrap', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
+                            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.12em', whiteSpace: 'nowrap', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left' }}
                           >
                             + Report
                           </button>
@@ -588,7 +588,7 @@ function PipelineTable() {
 
       {/* Footer */}
       <div className="flex items-center justify-between mt-3 px-1">
-        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+        <span style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, color: '#947231', letterSpacing: '0.12em', textTransform: 'uppercase' }}>
           LIVE · SERVER-PROXIED · SINGLE SOURCE OF TRUTH
         </span>
         <span style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.7rem', color: '#7a8a8e', fontStyle: 'italic' }}>
@@ -642,7 +642,7 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
       {!open ? (
         <button
           onClick={() => setOpen(true)}
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78', background: '#1B2A4A', border: '1px solid #C8AC78', borderRadius: 4, padding: '7px 18px', cursor: 'pointer' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#947231', background: '#1B2A4A', border: '1px solid #947231', borderRadius: 4, padding: '7px 18px', cursor: 'pointer' }}
         >
           + Add Deal
         </button>
@@ -759,8 +759,8 @@ function ImportFromProfileButton({ onSuccess }: { onSuccess: () => void }) {
           fontSize: 10,
           textTransform: 'uppercase',
           background: 'transparent',
-          borderColor: '#C8AC78',
-          color: '#C8AC78',
+          borderColor: '#947231',
+          color: '#947231',
           opacity: importMutation.isPending ? 0.7 : 1,
           cursor: importMutation.isPending ? 'not-allowed' : 'pointer',
         }}
@@ -795,8 +795,8 @@ export default function PipeTab() {
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
       {/* Header */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Daily Driver · Office Pipeline · Single Source of Truth
         </div>
         <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Pipeline</h2>
@@ -817,7 +817,7 @@ export default function PipeTab() {
           <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.12)', background: '#0D1520' }}>
             <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
             <div className="px-4 py-3 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.85)', borderBottom: '1px solid rgba(200,172,120,0.12)' }}>
-              <div className="uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 9, fontWeight: 600 }}>
+              <div className="uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 9, fontWeight: 600 }}>
                 Office Pipeline · Master Sheet · Live
               </div>
               <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9 }}>

@@ -13,7 +13,7 @@
  *   Page 4 — Defensible Numbers + Ed contact
  *
  * Data: trpc.future.ascensionArc · trpc.future.volumeData · trpc.pipe.getKpis
- * Brand: Cormorant Garamond + Barlow Condensed · Navy #1B2A4A · Gold #C8AC78 · Cream #FAF8F4
+ * Brand: Cormorant Garamond + Barlow Condensed · Navy #1B2A4A · Gold #947231 · Cream #FAF8F4
  *
  * Doctrine 20: Gold oklch(0.73 0.07 72) / Charcoal oklch(0.33 0.02 220)
  * Doctrine 14: No website URL in contact block
@@ -147,7 +147,7 @@ const HEADER_STYLE: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  borderBottom: '1.5px solid #C8AC78',
+  borderBottom: '1.5px solid #947231',
   paddingBottom: 10,
   marginBottom: 22,
 };
@@ -157,7 +157,7 @@ const SECTION_LABEL: React.CSSProperties = {
   fontSize: 8,
   letterSpacing: '0.3em',
   textTransform: 'uppercase',
-  color: '#C8AC78',
+  color: '#947231',
   marginBottom: 6,
 };
 
@@ -181,7 +181,7 @@ const PAGE_SUBTITLE: React.CSSProperties = {
 
 const CONFIDENTIAL_BANNER: React.CSSProperties = {
   background: '#1B2A4A',
-  color: '#C8AC78',
+  color: '#947231',
   fontFamily: "'Barlow Condensed', sans-serif",
   fontSize: 7,
   letterSpacing: '0.3em',
@@ -237,7 +237,7 @@ function PageHeader({ generatedAt }: { generatedAt: string }) {
 // ─── KPI Card ─────────────────────────────────────────────────────────────────
 function KpiCard({ label, value, sub }: { label: string; value: string; sub: string }) {
   return (
-    <div style={{ flex: 1, background: '#fff', border: '1px solid rgba(200,172,120,0.3)', borderLeft: '3px solid #C8AC78', padding: '10px 12px' }}>
+    <div style={{ flex: 1, background: '#fff', border: '1px solid rgba(200,172,120,0.3)', borderLeft: '3px solid #947231', padding: '10px 12px' }}>
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)', marginBottom: 4 }}>{label}</div>
       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 500, color: '#1B2A4A', lineHeight: 1 }}>{value}</div>
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7, color: 'rgba(56,66,73,0.4)', marginTop: 2 }}>{sub}</div>
@@ -296,7 +296,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
       {/* Chart frame — cream substrate in PDF mode (Doctrine 43) */}
       <div style={{ background: isPdfMode ? '#e8e0d0' : '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
         {/* Chart title inside frame */}
-        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: isPdfMode ? '#1B2A4A' : '#C8AC78', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
+        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: isPdfMode ? '#1B2A4A' : '#947231', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
           SALES VOLUME TRAJECTORY · 2025–2036 · ALL OFFICES
         </div>
 
@@ -346,7 +346,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                 const opacity = isBaseline ? 0.35 : 1;
                 const labelColor = isBaseline
                   ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)')
-                  : (isPdfMode ? '#1B2A4A' : '#C8AC78');
+                  : (isPdfMode ? '#1B2A4A' : '#947231');
 
                 return (
                   <div key={d.year} style={{ width: BAR_W, display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
@@ -363,7 +363,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                       <div style={{ height: whH, background: C_WH, flexShrink: 0 }} />
                     </div>
                     {/* Year label */}
-                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)') : (isPdfMode ? '#1B2A4A' : '#C8AC78'), marginTop: 3, letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)') : (isPdfMode ? '#1B2A4A' : '#947231'), marginTop: 3, letterSpacing: '0.08em' }}>
                       {d.year}
                     </div>
                   </div>
@@ -433,13 +433,13 @@ interface AgentRow {
 const P2_CARD: React.CSSProperties = {
   background: '#fff',
   border: '1px solid rgba(27,42,74,0.1)',
-  borderLeft: '3px solid #C8AC78',
+  borderLeft: '3px solid #947231',
   padding: '8px 10px',
   marginBottom: 6,
 };
 const P2_SANS = { fontFamily: "'Barlow Condensed', sans-serif" } as React.CSSProperties;
 const P2_SERIF = { fontFamily: "'Cormorant Garamond', serif" } as React.CSSProperties;
-const P2_GOLD = '#C8AC78';
+const P2_GOLD = '#947231';
 const P2_MUTED = 'rgba(56,66,73,0.5)';
 const P2_DIM = 'rgba(56,66,73,0.45)';
 const P2_CHARCOAL = 'rgba(27,42,74,0.12)';
@@ -628,7 +628,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
       <div style={PAGE_TITLE}>The Economics</div>
       <div style={PAGE_SUBTITLE}>Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
-      <div style={{ background: isPdfMode ? 'rgba(200,172,120,0.08)' : 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #C8AC78', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78' }}>
+      <div style={{ background: isPdfMode ? 'rgba(200,172,120,0.08)' : 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #947231', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231' }}>
         ★ GCI and Profit Pool · Governing Principle *
       </div>
 
@@ -642,9 +642,9 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
 
       <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, marginBottom: 14 }}>
         <thead>
-          <tr style={{ borderBottom: '1.5px solid #C8AC78', background: 'rgba(27,42,74,0.02)' }}>
+          <tr style={{ borderBottom: '1.5px solid #947231', background: 'rgba(27,42,74,0.02)' }}>
             {['Year', 'Office Volume', 'Gross GCI (2%)', 'Net Operating Profit', 'Ed (35%)', 'Ilija (65%)'].map(h => (
-              <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#C8AC78', fontWeight: 600 }}>{h}</th>
+              <th key={h} style={{ padding: '6px 8px', textAlign: 'left', fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#947231', fontWeight: 600 }}>{h}</th>
             ))}
           </tr>
         </thead>
@@ -654,10 +654,10 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
             const above = Math.max(0, vol - 40_000_000);
             return (
               <tr key={year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 1 ? 'rgba(27,42,74,0.015)' : 'transparent' }}>
-                <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, letterSpacing: '0.1em', fontSize: 9 }}>{year}</td>
+                <td style={{ padding: '5px 8px', color: '#947231', fontWeight: 600, letterSpacing: '0.1em', fontSize: 9 }}>{year}</td>
                 <td style={{ padding: '5px 8px', fontSize: 9 }}>{fmtFull(vol)}</td>
-                <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{fmtFull(Math.round(vol * 0.02))}</td>
-                <td style={{ padding: '5px 8px', color: '#C8AC78', fontWeight: 600, fontSize: 9 }}>{p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
+                <td style={{ padding: '5px 8px', color: '#947231', fontWeight: 600, fontSize: 9 }}>{fmtFull(Math.round(vol * 0.02))}</td>
+                <td style={{ padding: '5px 8px', color: '#947231', fontWeight: 600, fontSize: 9 }}>{p.pool > 0 ? fmtFull(p.pool) : '$0'}</td>
                 <td style={{ padding: '5px 8px', fontWeight: 600, fontSize: 9 }}>{p.ed > 0 ? fmtFull(p.ed) : '$0'}</td>
                 <td style={{ padding: '5px 8px', fontSize: 9 }}>{p.ilija > 0 ? fmtFull(p.ilija) : '$0'}</td>
               </tr>
@@ -670,7 +670,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
         {/* Ed's Three Income Streams */}
         <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
             ['Ed Net Personal Production (Eq. 1)', `${fmtFull(EQ1_CASCADE['2026'])}*`],
             ['Profit Pool Share — Ed 35% (Eq. 2)', `${fmtFull(pool2026.ed)}*`],
@@ -684,14 +684,14 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
           <div style={{ borderTop: '1px solid rgba(27,42,74,0.1)', marginTop: 6, paddingTop: 6 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ fontWeight: 600, color: '#1B2A4A' }}>Total 2026 (MODEL)</span>
-              <span style={{ color: '#C8AC78', fontWeight: 600 }}>{fmtFull(EQ1_CASCADE['2026'] + pool2026.ed + 17_500)}*</span>
+              <span style={{ color: '#947231', fontWeight: 600 }}>{fmtFull(EQ1_CASCADE['2026'] + pool2026.ed + 17_500)}*</span>
             </div>
           </div>
         </div>
 
         {/* AnewHomes Split */}
         <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes · Net Build Profit Split</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes · Net Build Profit Split</div>
           {[
             ['Ed Bruehl (35%)', '$17,500 Y1 / $52,500 Y2*'],
             ['Scott Smith (35%)', '$17,500 Y1 / $52,500 Y2*'],
@@ -709,7 +709,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
           <div style={{ borderTop: '1px solid rgba(27,42,74,0.1)', marginTop: 6, paddingTop: 6 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ fontWeight: 600, color: '#1B2A4A' }}>Total Net Profit</span>
-              <span style={{ color: '#C8AC78', fontWeight: 600 }}>$50,000 Y1 / $150,000 Y2*</span>
+              <span style={{ color: '#947231', fontWeight: 600 }}>$50,000 Y1 / $150,000 Y2*</span>
             </div>
           </div>
         </div>
@@ -760,7 +760,7 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
       {/* Defensible grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
         {defCards.map(({ value, label, note }) => (
-          <div key={label} style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', borderTop: '2px solid #C8AC78', padding: '10px 12px' }}>
+          <div key={label} style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', borderTop: '2px solid #947231', padding: '10px 12px' }}>
             <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 18, fontWeight: 500, color: '#1B2A4A', lineHeight: 1, marginBottom: 3 }}>{value}</div>
             <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)' }}>{label}</div>
             <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7, color: 'rgba(56,66,73,0.35)', marginTop: 2 }}>{note}</div>
@@ -927,7 +927,7 @@ export default function ProFormaPage() {
               }, 2000);
             });
           }}
-          style={{ background: '#1B2A4A', color: '#C8AC78', border: 'none', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
+          style={{ background: '#1B2A4A', color: '#947231', border: 'none', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
         >
           ↓ Print PDF
         </button>

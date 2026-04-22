@@ -6,7 +6,7 @@
  * Layer 4: Individual hamlet PDF download from each card
  * Layer 5: Calculator output printable from Maps tab
  *
- * Design: navy #1B2A4A · gold #C8AC78 · charcoal #384249 · cream #FAF8F4
+ * Design: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels)
  *
  * NOTE: IDEAS tab removed from public navigation. This is the canonical home
@@ -41,7 +41,8 @@ import {
   generateEastHamptonVillageReport,
 } from '@/lib/pdf-exports';
 import hamletHighlightsData from '@/data/hamlet-highlights.json';
-import { CISBadge } from '@/components/CISBadge';
+import { ANEWDealEngine } from '@/components/ANEWDealEngine';
+// CISBadge import removed per Ruling 2
 
 // ─── CDN URLs for GeoJSON ─────────────────────────────────────────────────────
 
@@ -62,7 +63,7 @@ function PaumanokPlate() {
     <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.25)', paddingBottom: 32 }}>
       {/* Section header */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '28px 24px 16px' }}>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
           Layer 1 · Paumanok Aerial Plate
         </div>
         <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', margin: 0 }}>
@@ -111,8 +112,8 @@ const MODES: { lens: AnewLens; title: string; subtitle: string; icon: string }[]
 
 function VerdictBadge({ verdict }: { verdict: ReturnType<typeof getVerdict> }) {
   const map: Record<string, { bg: string; text: string }> = {
-    'Institutional': { bg: '#1B2A4A', text: '#C8AC78' },
-    'Executable':    { bg: '#C8AC78', text: '#1B2A4A' },
+    'Institutional': { bg: '#1B2A4A', text: '#947231' },
+    'Executable':    { bg: '#947231', text: '#1B2A4A' },
     'Marginal':      { bg: '#e07b39', text: '#FAF8F4' },
     'Pass':          { bg: '#c0392b', text: '#FAF8F4' },
   };
@@ -127,10 +128,10 @@ function VerdictBadge({ verdict }: { verdict: ReturnType<typeof getVerdict> }) {
 function CurrencyInput({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>$</span>
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#947231]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
       </div>
     </div>
   );
@@ -139,8 +140,8 @@ function CurrencyInput({ label, value, onChange, placeholder }: { label: string;
 function TextInput({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
-      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
+      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#947231]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
     </div>
   );
 }
@@ -148,9 +149,9 @@ function TextInput({ label, value, onChange, placeholder }: { label: string; val
 function NumberInput({ label, value, onChange, placeholder, suffix }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; suffix?: string }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#947231]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
         {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>{suffix}</span>}
       </div>
     </div>
@@ -160,8 +161,8 @@ function NumberInput({ label, value, onChange, placeholder, suffix }: { label: s
 function HamletSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
-      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }}>
+      <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
+      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#947231]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }}>
         {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
     </div>
@@ -170,7 +171,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
 
 function RunButton({ onClick }: { onClick: () => void }) {
   return (
-    <button onClick={onClick} className="w-full py-3 text-sm uppercase tracking-widest transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A]" style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#FAF8F4', letterSpacing: '0.2em' }}>
+    <button onClick={onClick} className="w-full py-3 text-sm uppercase tracking-widest transition-colors hover:bg-[#947231] hover:text-[#1B2A4A]" style={{ fontFamily: '"Barlow Condensed", sans-serif', background: '#1B2A4A', color: '#FAF8F4', letterSpacing: '0.2em' }}>
       Request Your Private Property Intelligence Brief
     </button>
   );
@@ -199,42 +200,42 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
       </div>
       <div className="flex items-start justify-between mb-6">
         <div>
-          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 10 }}>{result.hamletName} · {LENS_LABELS[result.lens]}</div>
+          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 10 }}>{result.hamletName} · {LENS_LABELS[result.lens]}</div>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.25rem' }}>{result.address}</div>
         </div>
         <VerdictBadge verdict={result.verdict} />
       </div>
       <div className="flex items-center gap-6 mb-6">
-        <div className="w-20 h-20 rounded-full flex items-center justify-center border-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.08)' }}>
-          <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#C8AC78', fontWeight: 700, fontSize: '1.75rem' }}>{result.score}</span>
+        <div className="w-20 h-20 rounded-full flex items-center justify-center border-2" style={{ borderColor: '#947231', background: 'rgba(200,172,120,0.08)' }}>
+          <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#947231', fontWeight: 700, fontSize: '1.75rem' }}>{result.score}</span>
         </div>
         <div className="flex-1 grid grid-cols-2 gap-4">
           {[{ label: 'All-In Cost', value: result.allInDisplay }, { label: 'Exit Price', value: result.exitDisplay }, { label: 'Spread', value: result.spreadDisplay }, { label: 'Spread %', value: result.spreadPctDisplay }].map(item => (
             <div key={item.label}>
-              <div className="uppercase mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 11, fontWeight: 600 }}>{item.label}</div>
+              <div className="uppercase mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em', fontSize: 11, fontWeight: 600 }}>{item.label}</div>
               <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 700, fontSize: '1.0625rem' }}>{item.value}</div>
             </div>
           ))}
         </div>
       </div>
       {result.strategicClassification && (
-        <div className="mb-5 px-4 py-3 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.08)' }}>
-          <div className="uppercase text-[10px] mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}>Strategic Classification</div>
+        <div className="mb-5 px-4 py-3 border-l-2" style={{ borderColor: '#947231', background: 'rgba(200,172,120,0.08)' }}>
+          <div className="uppercase text-[10px] mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em' }}>Strategic Classification</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.9375rem' }}>{result.strategicClassification}</div>
         </div>
       )}
       {result.address.toLowerCase().includes('140 hands creek') && (
-        <div className="mb-4 px-4 py-2 border-l-2" style={{ borderColor: '#C8AC78', background: 'rgba(200,172,120,0.06)' }}>
-          <div className="uppercase text-[9px] mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>Christie's Active Listing · Stewardship Analysis</div>
+        <div className="mb-4 px-4 py-2 border-l-2" style={{ borderColor: '#947231', background: 'rgba(200,172,120,0.06)' }}>
+          <div className="uppercase text-[9px] mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em' }}>Christie's Active Listing · Stewardship Analysis</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.75)', fontSize: '0.8125rem', lineHeight: 1.5 }}>140 Hands Creek Road is a live Christie's East Hampton listing at $3,500,000. This analysis reflects current market stewardship intelligence for an active pipeline asset.</div>
         </div>
       )}
       <div className="mb-6 text-sm italic" style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', lineHeight: 1.5 }}>"{ result.mentorLine}"</div>
       <div>
-        <div className="uppercase text-[10px] mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>Export</div>
+        <div className="uppercase text-[10px] mb-3" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em' }}>Export</div>
         <div className="flex flex-wrap gap-2">
           {exportTypes.map(exp => (
-            <button key={exp.id} onClick={() => onExport(exp.id)} className="px-3 py-1.5 text-xs uppercase tracking-wider border transition-colors hover:bg-[#C8AC78] hover:text-[#1B2A4A] hover:border-[#C8AC78]" style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.4)', color: 'rgba(250,248,244,0.8)', letterSpacing: '0.12em' }}>
+            <button key={exp.id} onClick={() => onExport(exp.id)} className="px-3 py-1.5 text-xs uppercase tracking-wider border transition-colors hover:bg-[#947231] hover:text-[#1B2A4A] hover:border-[#947231]" style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.4)', color: 'rgba(250,248,244,0.8)', letterSpacing: '0.12em' }}>
               {exp.label}
             </button>
           ))}
@@ -243,7 +244,7 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
       {/* P1 — WhatsApp Conversion CTA */}
       <div className="mt-5 pt-5 border-t border-[rgba(200,172,120,0.15)]">
         <a
-          href={`https://wa.me/16467521233?text=${encodeURIComponent(`Hi Ed — I just ran a Christie's Intelligence Score for ${result.address} in ${result.hamletName}. The CIS score came back ${result.score}/10 (${result.verdict}). I'd like to request a Private Property Intelligence Brief.`)}`}
+          href={`https://wa.me/16467521233?text=${encodeURIComponent(`Hi Ed — I just ran an analysis for ${result.address} in ${result.hamletName} (${result.verdict}). I'd like to request a Private Property Intelligence Brief.`)}`}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full py-3 text-sm uppercase tracking-widest transition-colors hover:opacity-90"
@@ -369,111 +370,7 @@ function BuyRentForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
   );
 }
 
-function CISCalculatorLayer() {
-  const [activeLens, setActiveLens] = useState<AnewLens>('anew-build');
-  const [result, setResult] = useState<AnewOutput | null>(null);
-
-  const handleExport = async (type: string) => {
-    if (!result) return;
-    const toastId = toast.loading('Generating PDF…');
-    try {
-      switch (type) {
-        case 'anew-memo':       await generateAnewBuildMemo(result); break;
-        case 'cma':             await generateChristieCMA(result); break;
-        case 'deal-brief':      await generateDealBrief(result); break;
-        case 'investment-memo': await generateInvestmentMemo(result); break;
-        case 'market-report':   await generateMarketReport(result.hamletId); break;
-        case 'ehv-hamlet':      await generateEastHamptonVillageReport(); break;
-        default: break;
-      }
-      toast.success('PDF downloaded', { id: toastId });
-    } catch (err) {
-      console.error('PDF generation error:', err);
-      toast.error('PDF generation failed — check console', { id: toastId });
-    }
-  };
-
-  return (
-    <div style={{ background: 'rgba(13,27,42,0.6)', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
-      {/* Section header */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie's Intelligence Score</div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>CIS Calculator</h2>
-          <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>Select a lens, enter your numbers, and receive an institutional-grade Christie's Intelligence Score with strategic classification.</p>
-        </div>
-      </div>
-
-      <div className="px-6 py-8" style={{ background: 'rgba(13,27,42,0.4)' }}>
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>Select Lens</div>
-          <div className="flex flex-wrap gap-2 mb-8">
-            {MODES.map(mode => (
-              <button
-                key={mode.lens}
-                onClick={() => { setActiveLens(mode.lens); setResult(null); }}
-                className="px-4 py-2 text-xs uppercase tracking-wider border transition-all duration-200"
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  letterSpacing: '0.14em',
-                  background: activeLens === mode.lens ? '#1B2A4A' : 'transparent',
-                  color: activeLens === mode.lens ? '#C8AC78' : '#384249',
-                  borderColor: activeLens === mode.lens ? '#C8AC78' : 'rgba(27,42,74,0.2)',
-                  borderLeftWidth: activeLens === mode.lens ? 3 : 1,
-                }}
-              >
-                {mode.icon} {mode.title}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div>
-              <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>{LENS_LABELS[activeLens]}</div>
-              <MatrixCard variant="default" className="p-6">
-                {activeLens === 'anew-build'        && <AnewBuildForm onResult={setResult} />}
-                {activeLens === 'buy-hold'          && <BuyHoldForm onResult={setResult} />}
-                {activeLens === 'buy-renovate-hold' && <BuyRenovateHoldForm onResult={setResult} />}
-                {activeLens === 'buy-rent'          && <BuyRentForm onResult={setResult} />}
-              </MatrixCard>
-            </div>
-            <div>
-              <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>CIS Output</div>
-              {result ? (
-                <ResultsPanel result={result} onExport={handleExport} />
-              ) : (
-                <MatrixCard variant="default" className="p-8 min-h-[300px]" style={{ background: '#1B2A4A', border: '1px solid rgba(200,172,120,0.15)' }}>
-                  <div className="flex flex-col justify-between h-full" style={{ minHeight: 280 }}>
-                    {/* Header */}
-                    <div>
-                      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Christie’s Intelligence Score</div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem', lineHeight: 1.3 }}>Your score will appear here</div>
-                    </div>
-                    {/* Instruction */}
-                    <div className="my-6" style={{ borderTop: '1px solid rgba(200,172,120,0.12)', borderBottom: '1px solid rgba(200,172,120,0.12)', padding: '16px 0' }}>
-                      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.8125rem', lineHeight: 1.7 }}>
-                        Enter land value, construction cost, carry, and exit price on the left to calculate your Christie’s Intelligence Score.
-                      </div>
-                    </div>
-                    {/* Ghost score card */}
-                    <div className="grid grid-cols-2 gap-3">
-                      {['All-In Cost', 'Exit Price', 'Spread', 'Spread %'].map(label => (
-                        <div key={label} style={{ background: 'rgba(250,248,244,0.04)', padding: '10px 12px' }}>
-                          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 11, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 4, fontWeight: 600 }}>{label}</div>
-                          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: '0.9375rem', fontWeight: 500 }}>———</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </MatrixCard>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+// CISCalculatorLayer removed per Ruling 2 — replaced by ANEWDealEngineSection below
 
 // ─── Layer 3 + 4: Eleven Hamlet Matrix + PDF Download ────────────────────────────
 
@@ -508,25 +405,23 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
           <div style={{ width: '100%', height: '100%', background: '#1B2A4A' }} />
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 35%, rgba(13,21,32,0.88) 100%)' }} />
-        <div style={{ position: 'absolute', top: 8, left: 8 }}>
-          <CISBadge score={highlight.cis} size="sm" />
-        </div>
+        {/* CIS badge removed per Ruling 2 */}
         <div style={{ position: 'absolute', bottom: 10, left: 12, right: 12 }}>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.1rem', lineHeight: 1.2 }}>{highlight.name}</div>
         </div>
       </div>
       {/* Card body */}
       <div style={{ padding: '14px 14px 16px', display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
-        <div style={{ borderLeft: '2px solid #C8AC78', paddingLeft: 10 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Anchor</div>
+        <div style={{ borderLeft: '2px solid #947231', paddingLeft: 10 }}>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Anchor</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.78rem', lineHeight: 1.55 }}>{highlight.anchor}</div>
         </div>
         <div style={{ borderLeft: '2px solid rgba(200,172,120,0.4)', paddingLeft: 10 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Local Spot</div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Local Spot</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: '0.78rem', lineHeight: 1.55 }}>{highlight.local_spot}</div>
         </div>
         <div style={{ borderLeft: '2px solid rgba(200,172,120,0.2)', paddingLeft: 10 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Secret</div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Secret</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.78rem', lineHeight: 1.55, fontStyle: 'italic' }}>{highlight.secret}</div>
         </div>
         <div style={{ background: 'rgba(250,248,244,0.04)', padding: '8px 10px', borderTop: '1px solid rgba(200,172,120,0.12)', marginTop: 'auto' }}>
@@ -544,7 +439,7 @@ function HamletHighlightsModule() {
       {/* Section header */}
       <div className="px-6 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
+          <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>Hamlet Highlights</h2>
           <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>All eleven hamlets · Anchor · Local Spot · Secret · Practical Note</p>
         </div>
@@ -588,7 +483,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       className="cursor-pointer transition-all duration-200"
       style={{
         background: isExpanded ? 'rgba(27,42,74,0.9)' : 'rgba(13,27,42,0.65)',
-        border: `1px solid ${isExpanded ? '#C8AC78' : 'rgba(200,172,120,0.15)'}`,
+        border: `1px solid ${isExpanded ? '#947231' : 'rgba(200,172,120,0.15)'}`,
         borderTop: `3px solid ${TIER_COLORS[hamlet.tier]}`,
       }}
     >
@@ -600,13 +495,9 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.75) 100%)' }} />
-        {hamlet.liveCis && (
-          <div style={{ position: 'absolute', top: 8, left: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '3px 8px 2px', fontWeight: 600, boxShadow: '0 1px 4px rgba(200,172,120,0.35)' }}>
-            CIS {hamlet.liveCis.toFixed(1)}
-          </div>
-        )}
+        {/* CIS badge removed per Ruling 2 */}
         {hamletListings.length > 0 && (
-          <div style={{ position: 'absolute', top: 8, right: 8, background: '#C8AC78', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
+          <div style={{ position: 'absolute', top: 8, right: 8, background: '#947231', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
             {hamletListings.length} ACTIVE
           </div>
         )}
@@ -619,36 +510,25 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Median</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Median</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.medianPriceDisplay}</div>
           </div>
           <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Vol Share</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Vol Share</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.volumeShare}%</div>
           </div>
         </div>
 
         {/* Live listing preview — shows first listing address if available */}
         {hamletListings.length > 0 && (
-          <div style={{ marginBottom: 8, padding: '8px 10px', background: isExpanded ? 'rgba(200,172,120,0.1)' : 'rgba(27,42,74,0.04)', borderLeft: '2px solid #C8AC78' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 2 }}>Top Listing</div>
+          <div style={{ marginBottom: 8, padding: '8px 10px', background: isExpanded ? 'rgba(200,172,120,0.1)' : 'rgba(27,42,74,0.04)', borderLeft: '2px solid #947231' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 2 }}>Top Listing</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.72rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hamletListings[0].address}</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#947231', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
           </div>
         )}
         {/* CIS data quality caveat — renders only for hamlets with cisNote (e.g., Wainscott) */}
-        {hamlet.cisNote && (
-          <div style={{
-            marginBottom: 8,
-            padding: '5px 8px',
-            background: isExpanded ? 'rgba(200,172,120,0.06)' : 'rgba(27,42,74,0.04)',
-            border: '1px solid rgba(200,172,120,0.2)',
-            borderRadius: 3,
-          }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 8, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(200,172,120,0.6)', marginBottom: 2 }}>CIS Note</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.68rem', fontStyle: 'italic', color: isExpanded ? 'rgba(250,248,244,0.5)' : 'rgba(56,66,73,0.6)', lineHeight: 1.4 }}>{hamlet.cisNote}</div>
-          </div>
-        )}
+        {/* CIS note removed per Ruling 2 */}
         {/* PDF download button — Layer 4 */}
         <button
           onClick={handleDownload}
@@ -656,14 +536,14 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           className="w-full py-1.5 text-[10px] uppercase tracking-widest border transition-colors"
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
-            borderColor: '#C8AC78',
-            color: '#C8AC78',
+            borderColor: '#947231',
+            color: '#947231',
             background: 'transparent',
             letterSpacing: '0.16em',
             opacity: downloading ? 0.6 : 1,
           }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#C8AC78'; e.currentTarget.style.color = '#1B2A4A'; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isExpanded ? '#C8AC78' : '#1B2A4A'; }}
+          onMouseEnter={e => { e.currentTarget.style.background = '#947231'; e.currentTarget.style.color = '#1B2A4A'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isExpanded ? '#947231' : '#1B2A4A'; }}
         >
           {downloading ? 'Generating…' : '↓ Hamlet PDF'}
         </button>
@@ -717,34 +597,34 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 28 }}>
           {[
             { label: 'Median Price', value: hamlet.medianPriceDisplay },
-            { label: 'CIS', value: `${hamlet.anewScore.toFixed(1)} / 10` },
+            // CIS field removed per Ruling 2
             { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (
             <div key={stat.label} style={{ padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)' }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>{stat.label}</div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>{stat.label}</div>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem' }}>{stat.value}</div>
             </div>
           ))}
         </div>
 
         {hamlet.vibeText && (
-          <div style={{ marginBottom: 28, padding: '18px 20px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', borderLeft: '3px solid #C8AC78' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 8 }}>Character</div>
+          <div style={{ marginBottom: 28, padding: '18px 20px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', borderLeft: '3px solid #947231' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 8 }}>Character</div>
             <p style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>{hamlet.vibeText}</p>
           </div>
         )}
 
         <div style={{ marginBottom: 28 }}>
           <div style={{ padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', display: 'inline-block', minWidth: 260 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>Last Zillow Sale</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>Last Zillow Sale</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.88rem', fontWeight: 600 }}>{hamlet.lastSale}</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.82rem', marginTop: 2 }}>{hamlet.lastSalePrice} · {hamlet.lastSaleDate}</div>
           </div>
         </div>
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>Dining</div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>Dining</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
             {[
               { tier: 'Anchor', value: hamlet.restaurants.anchor },
@@ -752,7 +632,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
               { tier: 'Local', value: hamlet.restaurants.local },
             ].map(r => (
               <div key={r.tier} style={{ padding: '12px 14px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)' }}>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 4 }}>{r.tier}</div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 4 }}>{r.tier}</div>
                 <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? 'rgba(250,248,244,0.4)' : '#FAF8F4', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
                   {r.value === 'TBD' ? 'Coming Soon' : r.value}
                 </div>
@@ -766,15 +646,15 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
           const realListings = live.length > 0 ? live : hamlet.eeleListings.filter(l => !l.placeholder);
           return (
             <div style={{ marginBottom: 28 }}>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>Active Listings</div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>Active Listings</div>
               {realListings.length === 0 ? (
                 <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', fontStyle: 'italic', padding: '10px 0' }}>No active listings at this time.</div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
                   {realListings.map((listing, i) => (
-                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,172,120,0.15)')}>
+                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#947231')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,172,120,0.15)')}>
                       <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '0.95rem', marginBottom: 4 }}>{listing.address}</div>
-                      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{listing.price}</div>
+                      <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#947231', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{listing.price}</div>
                       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{listing.beds} BD · {listing.baths} BA · {listing.sqft} SF</div>
                     </a>
                   ))}
@@ -785,13 +665,13 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         })()}
 
         <div>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>News &amp; Coverage</div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>News &amp; Coverage</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <a href={hamlet.zillowUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#C8AC78'; }}>
+            <a href={hamlet.zillowUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.4)', color: '#947231', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#947231'; }}>
               Zillow Market
             </a>
             {hamlet.newsLinks.map(link => (
-              <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.3)', color: 'rgba(250,248,244,0.7)', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; e.currentTarget.style.borderColor = '#C8AC78'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(250,248,244,0.7)'; e.currentTarget.style.borderColor = 'rgba(200,172,120,0.3)'; }}>
+              <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.3)', color: 'rgba(250,248,244,0.7)', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; e.currentTarget.style.borderColor = '#947231'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(250,248,244,0.7)'; e.currentTarget.style.borderColor = 'rgba(200,172,120,0.3)'; }}>
                 {link.label}
               </a>
             ))}
@@ -824,14 +704,15 @@ export default function MapsTab() {
           <PaumanokPlate />
         </div>
       </div>
-      {/* ── Layer 2: CIS Calculator ──────────────────────────────────────────────────── */}
-      <CISCalculatorLayer />
+      {/* CIS Calculator removed per Ruling 2 — replaced by ANEW Deal Engine below */}
 
       {/* ── Hamlet Highlights: Local intelligence module (Apr 17 2026 dispatch) ─── */}
       <HamletHighlightsModule />
 
+      {/* ── ANEW Deal Engine — Ruling 1: below hamlet cards ─────────────────── */}
+      <ANEWDealEngine />
       {/* Layer 3: Hamlet Intelligence Matrix grid removed per Perp dispatch Apr 17 2026 */}
-      {/* Map + CIS Calculator + PDF download buttons in HamletDetailPanel are preserved */}
+      {/* Map + Deal Engine + PDF download buttons in HamletDetailPanel are preserved */}
 
       {/* ── Layer 4 + 5: Hamlet Detail Panel + Print Output ────────────────── */}
       {activeHamlet && (

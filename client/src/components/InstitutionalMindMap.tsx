@@ -316,7 +316,7 @@ const NODES: MapNode[] = [
     name: "AnewHomes",
     title: "New Construction Division · Three Active Deals",
     type: "CATEGORY", status: "ACTIVE",
-    note: "New construction division. Three active deals: 140 Hands Creek Road $3.3M land / $9.9M exit — Lily Fan anchor. 9 Daniels Hole proof of concept $2.47M CLOSED. 2 Old Hollow $2.1M CLOSED. Calculator link inside — tapping opens MAPS CIS calculator directly. Richard Bruehl holds 10% equity as Strategic Mentor.",
+    note: "New construction division. Three active deals: 140 Hands Creek Road $3.3M land / $9.9M exit — Lily Fan anchor. 9 Daniels Hole proof of concept $2.47M CLOSED. 2 Old Hollow $2.1M CLOSED. Deal Engine inside — tapping opens MAPS Deal Engine directly. Richard Bruehl holds 10% equity as Strategic Mentor.",
     x: 480, y: 1480, r: R,
     members: ["140 Hands Creek $3.3M→$9.9M", "9 Daniels Hole $2.47M CLOSED", "2 Old Hollow $2.1M CLOSED", "Richard Bruehl — 10% Equity"],
     rw: R, rh: R,
@@ -633,40 +633,40 @@ const CONNECTIONS: MapConnection[] = [
 // ─── Color Maps ───────────────────────────────────────────────────────────────
 
 const TYPE_COLORS: Record<NodeType, { fill: string; stroke: string; strokeWidth: number }> = {
-  HIERARCHY:                { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 2.5 },
+  HIERARCHY:                { fill: "#1b2a4a", stroke: "#947231", strokeWidth: 2.5 },
   RECRUIT:                  { fill: "#1A3D2A", stroke: "#2D5A3D", strokeWidth: 2.0 },
-  PARTNER:                  { fill: "#2A1F0A", stroke: "#c8ac78", strokeWidth: 2.0 },
+  PARTNER:                  { fill: "#2A1F0A", stroke: "#947231", strokeWidth: 2.0 },
   WHALE:                    { fill: "#2A1A3D", stroke: "#7B5DAA", strokeWidth: 2.0 },
   ATTORNEY:                 { fill: "#0d2a3d", stroke: "#2a7aad", strokeWidth: 2.0 },
   RELATIONSHIP_INTELLIGENCE:{ fill: "#2A1F2A", stroke: "#9B7EC8", strokeWidth: 2.0 },
   EXPORT_NODE:              { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", strokeWidth: 1.8 },
-  CATEGORY:                 { fill: "#1b2a4a", stroke: "#c8ac78", strokeWidth: 2.5 },
+  CATEGORY:                 { fill: "#1b2a4a", stroke: "#947231", strokeWidth: 2.5 },
 };
 
 const CATEGORY_COLORS: Record<string, { fill: string; stroke: string; headerColor: string }> = {
   // Left track
-  artemis:           { fill: "#0d2040", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
-  cerutti:           { fill: "#0d2040", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
-  auction_house:     { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
-  auction_referrals: { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.7)", headerColor: "#c8ac78" },
+  artemis:           { fill: "#0d2040", stroke: "#947231",               headerColor: "#e8d4a0" },
+  cerutti:           { fill: "#0d2040", stroke: "#947231",               headerColor: "#e8d4a0" },
+  auction_house:     { fill: "#1b2a4a", stroke: "#947231",               headerColor: "#e8d4a0" },
+  auction_referrals: { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.7)", headerColor: "#947231" },
   // Right track
-  cih_reffkin:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#c8ac78" },
-  cire_global:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#c8ac78" },
-  cireg_affiliate:   { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
+  cih_reffkin:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#947231" },
+  cire_global:       { fill: "#0d2040", stroke: "rgba(200,172,120,0.7)", headerColor: "#947231" },
+  cireg_affiliate:   { fill: "#1b2a4a", stroke: "#947231",               headerColor: "#e8d4a0" },
   intl_pipeline:     { fill: "#1A2A3A", stroke: "rgba(120,172,220,0.7)", headerColor: "rgba(180,220,255,0.9)" },
   // Left/right of Ed
-  pipe_node:         { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#c8ac78" },
+  pipe_node:         { fill: "#1b2a4a", stroke: "#947231",               headerColor: "#947231" },
   competitors_node:  { fill: "#2A1A1A", stroke: "rgba(200,100,100,0.5)", headerColor: "rgba(255,200,200,0.9)" },
   // Row 1 below Ed
-  flagship_team:     { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
-  eh_office:         { fill: "#1b2a4a", stroke: "#c8ac78",               headerColor: "#e8d4a0" },
+  flagship_team:     { fill: "#1b2a4a", stroke: "#947231",               headerColor: "#e8d4a0" },
+  eh_office:         { fill: "#1b2a4a", stroke: "#947231",               headerColor: "#e8d4a0" },
   family_node:       { fill: "#1b2a4a", stroke: "rgba(200,172,120,0.5)", headerColor: "rgba(230,215,185,0.9)" },
   // Row 2 below Ed
   whale_intel:       { fill: "#2A1A3D", stroke: "#7B5DAA",               headerColor: "#9B7EC8" },
   recruiting_node:   { fill: "#1A3D2A", stroke: "#2D5A3D",               headerColor: "#6FCF97" },
   attorneys_node:    { fill: "#0d2a3d", stroke: "#2a7aad",               headerColor: "#7BA4D4" },
   // Row 3 below Ed
-  anew_homes:        { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", headerColor: "#c8ac78" },
+  anew_homes:        { fill: "#1A2A1A", stroke: "rgba(200,172,120,0.6)", headerColor: "#947231" },
   media_node:        { fill: "#2A1A2A", stroke: "rgba(200,120,200,0.6)", headerColor: "rgba(235,185,235,0.9)" },
   rel_intel:         { fill: "#1A3D2A", stroke: "#2D5A3D",               headerColor: "#6FCF97" },
   podcast_node:      { fill: "#1A1A2A", stroke: "rgba(120,172,200,0.6)", headerColor: "rgba(180,225,255,0.9)" },
@@ -838,7 +838,7 @@ export function InstitutionalMindMap() {
           fontSize: "20px",
           letterSpacing: "4px",
           textTransform: "uppercase",
-          color: "#c8ac78",
+          color: "#947231",
           marginBottom: "4px",
         }}>
           Christie's Intelligence Web
@@ -864,8 +864,8 @@ export function InstitutionalMindMap() {
         borderBottom: "1px solid rgba(200,172,120,0.1)",
       }}>
         {[
-          { label: "Hierarchy",    color: "#c8ac78" },
-          { label: "Partner",      color: "#c8ac78" },
+          { label: "Hierarchy",    color: "#947231" },
+          { label: "Partner",      color: "#947231" },
           { label: "Whale Intel",  color: "#7B5DAA" },
           { label: "Attorneys",    color: "#2a7aad" },
           { label: "Rel. Intel",   color: "#6FCF97" },
@@ -886,8 +886,8 @@ export function InstitutionalMindMap() {
             onClick={() => setView(v)}
             style={{
               background: view === v ? "rgba(200,172,120,0.2)" : "rgba(200,172,120,0.08)",
-              border: `1px solid ${view === v ? "#c8ac78" : "rgba(200,172,120,0.2)"}`,
-              color: view === v ? "#c8ac78" : "rgba(250,248,244,0.5)",
+              border: `1px solid ${view === v ? "#947231" : "rgba(200,172,120,0.2)"}`,
+              color: view === v ? "#947231" : "rgba(250,248,244,0.5)",
               fontFamily: "Inter, sans-serif",
               fontSize: "11px",
               letterSpacing: "1.5px",
@@ -1070,7 +1070,7 @@ export function InstitutionalMindMap() {
                       y={node.y + 5}
                       textAnchor="middle"
                       dominantBaseline="middle"
-                      fill={isEd ? "#c8ac78" : "rgba(255,255,255,1.0)"}
+                      fill={isEd ? "#947231" : "rgba(255,255,255,1.0)"}
                       fontSize={isEd ? "18" : node.r < 20 ? "13" : "17"}
                       fontWeight={isEd ? "700" : "600"}
                       fontFamily="Inter, sans-serif"
@@ -1117,7 +1117,7 @@ export function InstitutionalMindMap() {
             {/* Modal header */}
             <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: "24px" }}>
               <div>
-                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#c8ac78", marginBottom: 6 }}>
+                <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 10, letterSpacing: "0.22em", textTransform: "uppercase", color: "#947231", marginBottom: 6 }}>
                   Christie's East Hampton · 26 Park Place
                 </div>
                 <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.5rem", fontWeight: 600, color: "#FAF8F4", letterSpacing: "0.04em" }}>
@@ -1153,7 +1153,7 @@ export function InstitutionalMindMap() {
                   <div style={{ minWidth: 6, height: 6, borderRadius: "50%", background: member.status === "ACTIVE" ? "#6FCF97" : "#D4A843", marginTop: 6, flexShrink: 0 }} />
                   <div style={{ flex: 1 }}>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 600, color: i === 0 ? "#c8ac78" : "#FAF8F4" }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.05rem", fontWeight: 600, color: i === 0 ? "#947231" : "#FAF8F4" }}>
                         {member.name}
                       </span>
                       <span style={{ fontSize: 10, letterSpacing: "0.15em", textTransform: "uppercase", color: "rgba(200,172,120,0.6)", fontFamily: "'Barlow Condensed', sans-serif" }}>
@@ -1194,7 +1194,7 @@ export function InstitutionalMindMap() {
             boxShadow: "0 8px 32px rgba(0,0,0,0.5)",
           }}
         >
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", fontWeight: 600, color: "#c8ac78", marginBottom: "2px" }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "18px", fontWeight: 600, color: "#947231", marginBottom: "2px" }}>
             {tooltip.node.name}
           </div>
           <div style={{ fontSize: "12px", color: "rgba(250,248,244,0.7)", marginBottom: "6px", lineHeight: 1.4 }}>

@@ -62,7 +62,7 @@ function WednesdayCircuitCountdown() {
       marginTop: 12,
     }}>
       <div style={{ textAlign: 'center', minWidth: 48 }}>
-        <div style={{ ...SERIF, color: '#C8AC78', fontSize: isToday ? '1.5rem' : '2rem', fontWeight: 600, lineHeight: 1 }}>
+        <div style={{ ...SERIF, color: '#947231', fontSize: isToday ? '1.5rem' : '2rem', fontWeight: 600, lineHeight: 1 }}>
           {isToday ? 'TODAY' : daysUntil}
         </div>
         {!isToday && (
@@ -73,7 +73,7 @@ function WednesdayCircuitCountdown() {
       </div>
       <div style={{ width: 1, height: 32, background: 'rgba(200,172,120,0.2)' }} />
       <div>
-        <div style={{ ...LABEL, color: '#C8AC78', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 3 }}>
+        <div style={{ ...LABEL, color: '#947231', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 3 }}>
           Wednesday Circuit
         </div>
         <div style={{ ...SANS, color: 'rgba(250,248,244,0.75)', fontSize: '0.8rem' }}>
@@ -125,7 +125,7 @@ function MindMapSection() {
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="flex items-center justify-between mb-4">
           <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
               Layer 1 · Institutional Mind Map
             </div>
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
@@ -140,7 +140,7 @@ function MindMapSection() {
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.5)', color: '#C8AC78', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.5)', color: '#947231', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
           >
             Open in Miro ↗
           </a>
@@ -157,11 +157,11 @@ function MindMapSection() {
         </div>
         <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
           Live read-only embed · Edits made in Miro reflect on next load.{' '}
-          <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
+          <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
           {' '}to edit, drag nodes, and add new ones.
           <span style={{ display: 'block', marginTop: 6, color: '#7a8a8e', fontSize: 9 }}>
             If the board does not load, open it directly at{' '}
-            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>miro.com/app/board/uXjVGj6Oc40</a>
+            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>miro.com/app/board/uXjVGj6Oc40</a>
             {' '}· Miro requires a free account to view in embed mode on some browsers.
           </span>
         </div>
@@ -340,7 +340,7 @@ function CalendarLayer() {
     <div className="px-6 py-8" style={{ background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
       {/* Layer label */}
-      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
         Layer 3 · Master Calendar
       </div>
 
@@ -354,7 +354,7 @@ function CalendarLayer() {
         {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
           <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
               Master Calendar · Christie's East Hampton
             </div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: 9, marginTop: 2 }}>
@@ -376,7 +376,7 @@ function CalendarLayer() {
           <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.22)', background: '#0D1520' }}>
             <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
             <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.6)', borderBottom: '1px solid rgba(200,172,120,0.1)', flexShrink: 0 }}>
-              <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>
+              <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em' }}>
                 Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
               </div>
               <a
@@ -398,7 +398,7 @@ function CalendarLayer() {
             <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(200,172,120,0.08)' }}>
               <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 10 }}>
                 If the calendar appears blank, your browser may be blocking third-party cookies. Use{' '}
-                <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
+                <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
               </span>
             </div>
           </div>
@@ -410,7 +410,7 @@ function CalendarLayer() {
             href={`https://docs.google.com/spreadsheets/d/${SHEET_IDS.officePipeline}/edit`}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
           >
             Open Sheet Matrix ↗
           </a>
@@ -532,7 +532,7 @@ function NineSheetMatrix() {
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
@@ -580,7 +580,7 @@ function NineSheetMatrix() {
                       fontSize: 8,
                       letterSpacing: '0.16em',
                       textTransform: 'uppercase',
-                      color: '#C8AC78',
+                      color: '#947231',
                       background: 'rgba(200,172,120,0.1)',
                       border: '1px solid rgba(200,172,120,0.3)',
                       borderRadius: 2,
@@ -603,7 +603,7 @@ function NineSheetMatrix() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="shrink-0 inline-block px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em', whiteSpace: 'nowrap' }}
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.16em', whiteSpace: 'nowrap' }}
               >
                 Open Sheet ↗
               </a>
@@ -727,7 +727,7 @@ function DocumentLibrary() {
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 5 · Document Library
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 24 }}>
@@ -753,7 +753,7 @@ function DocumentLibrary() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.16em' }}
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.16em' }}
                     >
                       {doc.url.endsWith('.html') ? 'Open Document' : 'Open PDF'}
                     </a>
@@ -774,7 +774,7 @@ function IntelligenceWebLayer() {
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 6 · Relationship Intelligence
         </div>
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
@@ -801,7 +801,7 @@ function CorkboardLayer() {
       <div style={{ maxWidth: 'var(--frame-max-w, 1200px)', margin: '0 auto', padding: '32px 24px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
           <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
               Corkboard · Day One
             </div>
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
@@ -820,7 +820,7 @@ function CorkboardLayer() {
               fontSize: 10,
               letterSpacing: '0.16em',
               textTransform: 'uppercase' as const,
-              color: '#C8AC78',
+              color: '#947231',
               border: '1px solid rgba(200,172,120,0.4)',
               borderRadius: 3,
               padding: '6px 14px',
@@ -900,7 +900,7 @@ function IntelStickyNav() {
             borderBottom: '2px solid transparent',
             transition: 'color 0.15s, border-color 0.15s',
           }}
-          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#C8AC78'; (e.target as HTMLButtonElement).style.borderBottomColor = '#C8AC78'; }}
+          onMouseEnter={e => { (e.target as HTMLButtonElement).style.color = '#947231'; (e.target as HTMLButtonElement).style.borderBottomColor = '#947231'; }}
           onMouseLeave={e => { (e.target as HTMLButtonElement).style.color = 'rgba(200,172,120,0.8)'; (e.target as HTMLButtonElement).style.borderBottomColor = 'transparent'; }}
         >
           {s.label}
@@ -917,10 +917,10 @@ export default function IntelTab() {
     <div className="min-h-screen" style={{ background: 'transparent' }}>
 
       {/* Header */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
+      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <div>
-            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
+            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
               Operating Control Room · Intelligence · Documents · SOPs
             </div>
             <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
@@ -980,7 +980,7 @@ export default function IntelTab() {
       </div> */}
 
       {/* Doctrine footer */}
-      <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
+      <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
         <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontStyle: 'italic', color: 'rgba(200,172,120,0.65)', fontSize: '0.72rem' }}>
           Art. Beauty. Provenance. · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
         </div>

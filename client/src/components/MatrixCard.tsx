@@ -1,7 +1,7 @@
 /**
  * MatrixCard — Single canonical card component for Christie's East Hampton
  *
- * Design System: Navy #1B2A4A · Gold #C8AC78 · Charcoal #384249 · Cream #FAF8F4
+ * Design System: Navy #1B2A4A · Gold #947231 · Charcoal #384249 · Cream #FAF8F4
  * Serif for headlines. Condensed sans for labels/values. No inline styles. No exceptions.
  *
  * Variants:

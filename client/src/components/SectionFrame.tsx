@@ -80,7 +80,7 @@ export function SectionFrame({
           <div>
             <div style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#C8AC78',
+              color: '#947231',
               fontSize: 10,
               fontWeight: 600,
               letterSpacing: '0.22em',
@@ -123,7 +123,7 @@ export function SectionFrame({
                 fontSize: 10,
                 letterSpacing: '0.16em',
                 textTransform: 'uppercase',
-                color: '#C8AC78',
+                color: '#947231',
                 border: '1px solid rgba(200,172,120,0.4)',
                 borderRadius: 3,
                 padding: '6px 14px',

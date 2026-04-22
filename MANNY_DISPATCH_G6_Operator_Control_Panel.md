@@ -36,7 +36,7 @@ Render between Ascension Arc and Assumptions Block:
 <AssumptionsBlock ... />
 ```
 
-No new dependencies. Uses React 19 useState + useMemo only. Styled with existing Tailwind 4 utilities. CIREG gold hardcoded to #c8ac78. Matches dark navy FUTURE tab palette.
+No new dependencies. Uses React 19 useState + useMemo only. Styled with existing Tailwind 4 utilities. CIREG gold hardcoded to #947231. Matches dark navy FUTURE tab palette.
 
 ## Access
 Inherits FUTURE tab auth gate. Open until May 26, behind gate after. No separate password logic.

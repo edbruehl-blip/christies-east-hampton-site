@@ -147,7 +147,7 @@ export async function sendTestEmail(to: string): Promise<{ success: boolean; mes
     htmlBody: `
       <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #FAF8F4;">
         <div style="text-align: center; margin-bottom: 32px;">
-          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 0.22em; color: #C8AC78; text-transform: uppercase; margin-bottom: 8px;">
+          <div style="font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 0.22em; color: #947231; text-transform: uppercase; margin-bottom: 8px;">
             Christie's International Real Estate Group
           </div>
           <div style="font-family: Georgia, serif; font-size: 22px; color: #1B2A4A; font-weight: 600;">
@@ -157,7 +157,7 @@ export async function sendTestEmail(to: string): Promise<{ success: boolean; mes
             ART. BEAUTY. PROVENANCE. SINCE 1766.
           </div>
         </div>
-        <div style="border-top: 1px solid #C8AC78; padding-top: 24px;">
+        <div style="border-top: 1px solid #947231; padding-top: 24px;">
           <p style="color: #1B2A4A; font-size: 15px; line-height: 1.7;">
             This is a test email confirming that Gmail SMTP is configured correctly for the Christie's East Hampton newsletter infrastructure.
           </p>
@@ -212,13 +212,13 @@ export function buildMarketReportNewsletter(params: {
 
         <!-- Header -->
         <div style="background: #1B2A4A; padding: 32px 40px; text-align: center;">
-          <div style="font-size: 10px; letter-spacing: 0.22em; color: #C8AC78; text-transform: uppercase; margin-bottom: 10px; font-family: Arial, sans-serif;">
+          <div style="font-size: 10px; letter-spacing: 0.22em; color: #947231; text-transform: uppercase; margin-bottom: 10px; font-family: Arial, sans-serif;">
             Christie's International Real Estate Group · East Hampton
           </div>
           <div style="font-size: 26px; color: #FAF8F4; font-weight: 600; letter-spacing: 0.02em;">
             Christie's East Hampton
           </div>
-          <div style="font-size: 11px; color: #C8AC78; margin-top: 6px; letter-spacing: 0.12em; font-family: Arial, sans-serif;">
+          <div style="font-size: 11px; color: #947231; margin-top: 6px; letter-spacing: 0.12em; font-family: Arial, sans-serif;">
             WEEKLY MARKET REPORT · ${weekOf.toUpperCase()}
           </div>
         </div>
@@ -229,15 +229,15 @@ export function buildMarketReportNewsletter(params: {
             <tr>
               <td style="text-align: center; padding: 0 8px;">
                 <div style="font-size: 10px; color: #7a8a8e; letter-spacing: 0.12em; font-family: Arial, sans-serif; text-transform: uppercase;">30Y Fixed</div>
-                <div style="font-size: 16px; color: #C8AC78; font-weight: 600;">${mortgageRate}</div>
+                <div style="font-size: 16px; color: #947231; font-weight: 600;">${mortgageRate}</div>
               </td>
               <td style="text-align: center; padding: 0 8px; border-left: 1px solid rgba(200,172,120,0.2);">
                 <div style="font-size: 10px; color: #7a8a8e; letter-spacing: 0.12em; font-family: Arial, sans-serif; text-transform: uppercase;">S&amp;P 500</div>
-                <div style="font-size: 16px; color: #C8AC78; font-weight: 600;">${sp500}</div>
+                <div style="font-size: 16px; color: #947231; font-weight: 600;">${sp500}</div>
               </td>
               <td style="text-align: center; padding: 0 8px; border-left: 1px solid rgba(200,172,120,0.2);">
                 <div style="font-size: 10px; color: #7a8a8e; letter-spacing: 0.12em; font-family: Arial, sans-serif; text-transform: uppercase;">Hamptons Median</div>
-                <div style="font-size: 16px; color: #C8AC78; font-weight: 600;">${hamptonsMedian}</div>
+                <div style="font-size: 16px; color: #947231; font-weight: 600;">${hamptonsMedian}</div>
               </td>
             </tr>
           </table>
@@ -245,7 +245,7 @@ export function buildMarketReportNewsletter(params: {
 
         <!-- Body -->
         <div style="padding: 40px;">
-          <div style="font-size: 11px; letter-spacing: 0.18em; color: #C8AC78; text-transform: uppercase; margin-bottom: 16px; font-family: Arial, sans-serif;">
+          <div style="font-size: 11px; letter-spacing: 0.18em; color: #947231; text-transform: uppercase; margin-bottom: 16px; font-family: Arial, sans-serif;">
             Market Intelligence
           </div>
           <ul style="padding-left: 20px; margin: 0;">
@@ -253,14 +253,14 @@ export function buildMarketReportNewsletter(params: {
           </ul>
 
           <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #D3D1C7;">
-            <div style="font-size: 11px; letter-spacing: 0.18em; color: #C8AC78; text-transform: uppercase; margin-bottom: 12px; font-family: Arial, sans-serif;">
+            <div style="font-size: 11px; letter-spacing: 0.18em; color: #947231; text-transform: uppercase; margin-bottom: 12px; font-family: Arial, sans-serif;">
               Christie's East Hampton
             </div>
             <p style="color: #1B2A4A; font-size: 14px; line-height: 1.7; margin: 0;">
               The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Christie's East Hampton carries the standard that James Christie established in 1766: the family's interest comes before the sale.
             </p>
             <div style="margin-top: 20px;">
-              <a href="https://www.christiesrealestategroupeh.com" style="display: inline-block; padding: 12px 24px; background: #1B2A4A; color: #C8AC78; text-decoration: none; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-family: Arial, sans-serif;">
+              <a href="https://www.christiesrealestategroupeh.com" style="display: inline-block; padding: 12px 24px; background: #1B2A4A; color: #947231; text-decoration: none; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; font-family: Arial, sans-serif;">
                 View Full Market Report →
               </a>
             </div>

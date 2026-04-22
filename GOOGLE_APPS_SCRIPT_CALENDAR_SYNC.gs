@@ -37,7 +37,7 @@
  *   G = Source (CHRISTIES_SCRAPE | manual)
  *
  * SALE TYPE COLOR CODING:
- *   Live Auction   → Gold   (#C8AC78 background, dark text)
+ *   Live Auction   → Gold   (#947231 background, dark text)
  *   Online Auction → Grey   (#9E9E9E background, white text)
  *   (other types use default calendar color)
  */
@@ -436,7 +436,7 @@ function setupEventCalendarHeaders() {
 /**
  * One-time utility: applies background color to all rows in the Event Calendar
  * that have a Sale Type in column E.
- *   Live Auction   → Gold background (#C8AC78)
+ *   Live Auction   → Gold background (#947231)
  *   Online Auction → Light grey background (#E0E0E0)
  *
  * Run once after scrapeChristiesAuctions() to visually distinguish sale types.

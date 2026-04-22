@@ -69,7 +69,7 @@ function filterByTab(entities: IntelEntity[], tab: TabKey): IntelEntity[] {
 function statusStyle(status: string): React.CSSProperties {
   const s = status.toUpperCase();
   if (s.includes('ACTIVE') || s.includes('WARM'))
-    return { background: '#1B2A4A', color: '#C8AC78' };
+    return { background: '#1B2A4A', color: '#947231' };
   if (s.includes('COLD'))
     return { background: 'rgba(27,42,74,0.06)', color: '#7a8a8e' };
   if (s.includes('TRACKING'))
@@ -130,7 +130,7 @@ function EntityCard({ entity }: { entity: IntelEntity }) {
       <div className="grid grid-cols-2 gap-x-8 gap-y-2">
         {entity.territory && (
           <div>
-            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>
+            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>
               Territory
             </div>
             <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
@@ -140,7 +140,7 @@ function EntityCard({ entity }: { entity: IntelEntity }) {
         )}
         {connections && (
           <div>
-            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>
+            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>
               Connection Type
             </div>
             <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
@@ -150,7 +150,7 @@ function EntityCard({ entity }: { entity: IntelEntity }) {
         )}
         {entity.archetypeMatch && (
           <div className="col-span-2">
-            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>
+            <div className="text-[9px] uppercase tracking-widest mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>
               Archetype Match
             </div>
             <div className="text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
@@ -243,13 +243,13 @@ function TableRow({ entity, index }: { entity: IntelEntity; index: number }) {
             <div className="grid grid-cols-2 gap-x-12 gap-y-3 text-xs">
               {entity.territory && (
                 <div>
-                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Territory</div>
+                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>Territory</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{entity.territory}</div>
                 </div>
               )}
               {[entity.connection1, entity.connection2, entity.connection3].filter(Boolean).length > 0 && (
                 <div>
-                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Connections</div>
+                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>Connections</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
                     {[entity.connection1, entity.connection2, entity.connection3].filter(Boolean).join(' · ')}
                   </div>
@@ -257,19 +257,19 @@ function TableRow({ entity, index }: { entity: IntelEntity; index: number }) {
               )}
               {entity.archetypeMatch && (
                 <div>
-                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Archetype Match</div>
+                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>Archetype Match</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{entity.archetypeMatch}</div>
                 </div>
               )}
               {entity.cadence && (
                 <div>
-                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Cadence</div>
+                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>Cadence</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>{entity.cadence}</div>
                 </div>
               )}
               {entity.notes && (
                 <div className="col-span-2">
-                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em' }}>Notes</div>
+                  <div className="text-[9px] uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em' }}>Notes</div>
                   <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', lineHeight: 1.6 }}>{entity.notes}</div>
                 </div>
               )}
@@ -367,7 +367,7 @@ function AllEntitiesTable({ entities }: { entities: IntelEntity[] }) {
           <button
             onClick={() => { setTypeFilter(''); setTierFilter(''); setAudienceFilter(''); setTouchFilter(''); }}
             className="text-[9px] uppercase tracking-widest px-3 py-1"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.14em', color: '#C8AC78', border: '1px solid rgba(200,172,120,0.3)', background: 'transparent', cursor: 'pointer' }}
+            style={{ fontFamily: '"Barlow Condensed", sans-serif', letterSpacing: '0.14em', color: '#947231', border: '1px solid rgba(200,172,120,0.3)', background: 'transparent', cursor: 'pointer' }}
           >
             Clear
           </button>
@@ -385,7 +385,7 @@ function AllEntitiesTable({ entities }: { entities: IntelEntity[] }) {
             <tr style={{ borderBottom: '2px solid rgba(200,172,120,0.3)' }}>
               {['#', 'Name', 'Type', 'Tier', 'Status', 'Audience', 'Last Touch', ''].map(h => (
                 <th key={h} className="py-2 px-3 text-left text-[9px] uppercase tracking-widest"
-                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontWeight: 500 }}>
+                  style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontWeight: 500 }}>
                   {h}
                 </th>
               ))}
@@ -425,7 +425,7 @@ export function IntelligenceWebTabs() {
       {/* Section header */}
       <div className="flex items-center justify-between mb-4">
         <div>
-          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>
+          <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 11 }}>
             Layer 5 · Relationship Intelligence
           </div>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
@@ -455,7 +455,7 @@ export function IntelligenceWebTabs() {
               fontSize: 11,
               letterSpacing: '0.16em',
               textTransform: 'uppercase',
-              borderBottom: activeTab === tab.key ? '2px solid #C8AC78' : '2px solid transparent',
+              borderBottom: activeTab === tab.key ? '2px solid #947231' : '2px solid transparent',
               color: activeTab === tab.key ? '#1B2A4A' : '#7a8a8e',
               background: 'transparent',
               cursor: 'pointer',
@@ -463,7 +463,7 @@ export function IntelligenceWebTabs() {
             }}
           >
             <div>{tab.label}</div>
-            <div style={{ fontSize: 9, color: activeTab === tab.key ? '#C8AC78' : 'rgba(122,138,142,0.6)', letterSpacing: '0.12em', marginTop: 1 }}>
+            <div style={{ fontSize: 9, color: activeTab === tab.key ? '#947231' : 'rgba(122,138,142,0.6)', letterSpacing: '0.12em', marginTop: 1 }}>
               {tab.sublabel}
             </div>
           </button>
@@ -473,7 +473,7 @@ export function IntelligenceWebTabs() {
       {/* Loading */}
       {isLoading && (
         <div className="flex items-center gap-3 py-8" style={{ color: '#7a8a8e' }}>
-          <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#C8AC78', borderTopColor: 'transparent' }} />
+          <div className="w-4 h-4 border-2 border-t-transparent rounded-full animate-spin" style={{ borderColor: '#947231', borderTopColor: 'transparent' }} />
           <span style={{ fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.8rem' }}>Loading Intelligence Web…</span>
         </div>
       )}
@@ -483,7 +483,7 @@ export function IntelligenceWebTabs() {
         <div className="py-6 px-4 border-l-2" style={{ borderColor: 'rgba(200,172,120,0.4)', background: 'rgba(200,172,120,0.04)' }}>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.8rem' }}>
             Intelligence Web sheet not yet shared with service account. Share{' '}
-            <a href={sheetUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>
+            <a href={sheetUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>
               this sheet
             </a>{' '}
             with <strong>christies-eh-sheets@christies-hamptons.iam.gserviceaccount.com</strong> (Viewer access) to activate live data.

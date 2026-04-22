@@ -28,7 +28,7 @@ import { MASTER_HAMLET_DATA, TIER_ORDER, TIER_COLORS, type HamletData, type Haml
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const NAVY = '#1B2A4A';
-const GOLD = '#C8AC78';
+const GOLD = '#947231';
 const CREAM = '#FAF8F4';
 const CHARCOAL = '#384249';
 
@@ -43,7 +43,7 @@ const FOUNDING_PARAGRAPHS = [
   "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
   "The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.",
   "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-  "The Christie's Intelligence Score is not a sales tool. It is a discipline. Every property is evaluated on four lenses: Acquisition cost, New construction value, Exit pricing, and Wealth transfer potential. A property either passes or it does not. There is no gray area in institutional real estate.",
+  "Christie’s East Hampton operates with one standard: the family’s interest comes before the sale. Every acquisition is evaluated on four lenses: price trajectory, land scarcity, school district quality, and transaction velocity. A property either passes or it does not. There is no gray area in institutional real estate.",
   "The eleven hamlets of the East End represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Springs. East Hampton North. Wainscott. Montauk. Each one has a story. Each one has a price. Each one has a buyer.",
   "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the East End.",
   "Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.",
@@ -255,7 +255,7 @@ function FoundingLetterSection() {
 
 // ─── Hamlet Tile (public-safe version) ───────────────────────────────────────
 function PublicHamletTile({ hamlet }: { hamlet: HamletData }) {
-  const badge = TIER_BADGE_COLORS[hamlet.tier];
+  // badge variable removed (CIS badge removed per Ruling 2)
   const maxVolume = Math.max(...MASTER_HAMLET_DATA.map(h => h.volumeShare));
 
   return (
@@ -268,12 +268,7 @@ function PublicHamletTile({ hamlet }: { hamlet: HamletData }) {
         <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2 }}>
           {hamlet.name}
         </h3>
-        <span
-          className="shrink-0 px-2 py-0.5 text-[10px] uppercase tracking-wider"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', background: badge.bg, color: badge.text, letterSpacing: '0.12em' }}
-        >
-          CIS {hamlet.anewScore.toFixed(1)}
-        </span>
+        {/* CIS badge removed per Ruling 2 */}
       </div>
 
       {/* Median price */}
@@ -286,21 +281,7 @@ function PublicHamletTile({ hamlet }: { hamlet: HamletData }) {
         </div>
       </div>
 
-      {/* CIS bar */}
-      <div className="flex items-center gap-3">
-        <div>
-          <div className="text-[10px] uppercase tracking-wider mb-0.5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, letterSpacing: '0.14em' }}>
-            CIS
-          </div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: CHARCOAL, fontWeight: 600, fontSize: '1.125rem' }}>
-            {hamlet.anewScore.toFixed(1)}
-            <span style={{ fontSize: '0.75rem', color: '#7a8a8e', marginLeft: 2 }}>/10</span>
-          </div>
-        </div>
-        <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(27,42,74,0.1)' }}>
-          <div className="h-full rounded-full" style={{ width: `${hamlet.anewScore * 10}%`, background: GOLD }} />
-        </div>
-      </div>
+      {/* CIS bar removed per Ruling 2 */}
 
       {/* Share of Hamptons Dollar Volume */}
       <div>
