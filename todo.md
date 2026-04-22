@@ -2579,3 +2579,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] FIX P3: Cream Page 2 (v14_3b) — all 7 partner cards + legend + Model Assumption Levers + 5 footnotes + footer
 - [ ] FIX P4: Cream Client Resource block (v17) + global print dead zone CSS fix (dashboard-layout-wrapper min-height:auto)
 - [ ] Print PDF via Puppeteer, verify 2 pages, attach to Trello JiaVQXzY
+
+## Apr 22 · Canonical Cream Print Rewrite (Dispatch 01 + 03)
+- [x] Drop in FutureTabPrintCream.tsx (Claude reference — 5 wireframes ported)
+- [x] Wire FutureTab.tsx: isPdfMode guard at top → render FutureTabPrintCream, fix PrintFutureButton to navigate to ?pdf=1
+- [x] Strip future-print.css to @page rules + screen-chrome hiding only (delete dark-navy block)
+- [x] Verify 12-item acceptance test against rendered PDF
+- [ ] Post staging ack to Trello with PDF attached
+- [ ] Corkboard-to-INTEL reversal: embed Eds_Corkboard_v3.pdf at top of INTEL tab (separate commit)
+- [ ] Retire Morning Home nav entry

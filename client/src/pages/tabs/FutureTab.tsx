@@ -11,6 +11,7 @@ import { useLocation } from 'wouter';
 import { LOGO_WHITE, LOGO_BLACK } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
+import FutureTabPrintCream from './FutureTabPrintCream';
 import {
   Chart,
   BarController,
@@ -644,35 +645,28 @@ function useIsPdfMode(): boolean {
 
 // ─── Print Future Button ──────────────────────────────────────────────────────
 function PrintFutureButton() {
-  const [loading, setLoading] = React.useState(false);
-  const handleDownload = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/future');
-      if (!res.ok) throw new Error('PDF generation failed');
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Christies_EH_Partnership_Projections.pdf';
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (e) {
-      console.error('[PDF]', e);
-      window.print();
-    } finally {
-      setLoading(false);
+  const handlePrint = () => {
+    const w = window.open('/future?pdf=1', '_blank');
+    if (!w) {
+      alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
+      return;
     }
+    // Auto-print when the new window is ready; user can still cancel.
+    w.addEventListener('load', () => {
+      setTimeout(() => {
+        w.focus();
+        w.print();
+      }, 1500); // let fonts + chart paint
+    });
   };
   return (
     <button
-      onClick={handleDownload}
-      disabled={loading}
+      onClick={handlePrint}
       className="no-print future-intro-button"
       data-print-hide="true"
-      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: loading ? 'rgba(200,172,120,0.5)' : GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase', cursor: loading ? 'wait' : 'pointer' }}
+      style={{ ...SANS, background: 'transparent', border: `0.5px solid ${GOLD}`, color: GOLD, padding: '5px 14px', fontSize: 7, letterSpacing: '1px', textTransform: 'uppercase' as const, cursor: 'pointer' }}
     >
-      {loading ? 'Generating\u2026' : '\u2193 Download \u00b7 PDF'}
+      ↓ Print · PDF
     </button>
   );
 }
@@ -680,6 +674,12 @@ function PrintFutureButton() {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function FutureTab() {
   const isPdfMode = useIsPdfMode();
+
+  // Print is a separate component tree, not a CSS override.
+  // When ?pdf=1 is present, render the cream mirror; never the dashboard.
+  if (isPdfMode) {
+    return <FutureTabPrintCream />;
+  }
 
   const BG = isPdfMode ? '#faf7f1' : NAVY;
   const TEXT_PRIMARY = isPdfMode ? '#111' : '#ebe6db';
