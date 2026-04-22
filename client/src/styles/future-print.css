@@ -469,7 +469,8 @@
 
 /* ── Screen: hide the print footer ──────────────────────────────────────── */
 @media screen {
-  .future-print-footer {
+  .future-print-footer,
+  .future-page-label {
     display: none !important;
   }
 }

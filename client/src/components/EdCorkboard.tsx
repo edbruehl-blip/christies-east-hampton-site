@@ -101,7 +101,7 @@ export function EdCorkboard() {
           EAST HAMPTON · 26 PARK PLACE
         </div>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: 26, fontWeight: 400, letterSpacing: '0.35em', color: C.deepRed, fontFamily: 'Georgia, serif', margin: 0 }}>ED'S CORKBOARD</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.deepRed, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD &middot; v3</h1>
           <div style={{ fontSize: 10, color: C.goldDark, letterSpacing: '0.3em', marginTop: 4, fontStyle: 'italic' }}>
             Nouns, not numbers · One page · Internal only
           </div>

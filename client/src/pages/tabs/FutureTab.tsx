@@ -132,6 +132,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        clip: false as any,
         plugins: {
           legend: { display: false },
           tooltip: {
@@ -150,7 +151,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
           y: {
             stacked: true,
             beginAtZero: true,
-            max: 3500,
+            max: 3600,
             ticks: {
               color: textColor,
               font: { size: 12, family: '"Cormorant Garamond", serif', weight: 'bold' },
@@ -291,7 +292,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
     <div style={{ border: `${isPdfMode ? '2px' : '1px'} solid ${borderC}`, background: bgCard, marginBottom: 16 }}>
       <div style={{ background: bgHeader, padding: '9px 12px 8px', borderBottom: `1px solid ${hdrBorderB}` }}>
         <div style={{ ...SERIF, letterSpacing: 5, fontSize: 15, textTransform: 'uppercase', fontWeight: 500, textAlign: 'center', color: titleColor }}>
-          Assumptions &amp; Calc
+          MODEL ASSUMPTION LEVERS
         </div>
         <div style={{ ...SERIF, fontSize: 9, color: subtitleColor, fontStyle: 'italic', textAlign: 'center', marginTop: 3, letterSpacing: 1 }}>
           Three live levers &middot; Output summary
@@ -726,7 +727,7 @@ export default function FutureTab() {
   return (
     <div className="future-main-wrapper" style={{ background: BG, overflowX: 'hidden' }}>
       {/* Top header removed per Apr 22 directive — redundant with chart title */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 32px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Print-only header ──────────────────────────────────────────────── */}
         <div className="future-print-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 8, marginBottom: 12 }}>
@@ -810,7 +811,7 @@ export default function FutureTab() {
               const stColor   = isPdfMode ? '#1a3a5c' : '#ebe6db';
               const dtColor   = isPdfMode ? '#5a5041' : '#947231';
               const secHdr    = isPdfMode ? '#947231' : '#947231';
-              const bodyColor = isPdfMode ? '#2a2a2a' : '#d8d6c8';
+              const bodyColor = isPdfMode ? '#2a2a2a' : '#ebe6db';
               return (
                 <div key={c.lbl} style={{
                   background: cardBg,
@@ -845,8 +846,8 @@ export default function FutureTab() {
             })}
           </div>
 
-          {/* Page 2 of 3 pagination */}
-          <div style={{ textAlign: 'center', marginTop: 10, fontFamily: '"Cormorant Garamond", serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
+          {/* Page 2 of 3 pagination — print-only */}
+          <div className="future-page-label" style={{ textAlign: 'center', marginTop: 10, fontFamily: '"Cormorant Garamond", serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
             Page 2 of 3
           </div>
         </div>
@@ -974,8 +975,8 @@ export default function FutureTab() {
         {/* Brand footer */}
         <BrandFooter isPdfMode={isPdfMode} />
 
-        {/* Page 3 of 3 pagination */}
-        <div style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
+        {/* Page 3 of 3 pagination — print-only */}
+        <div className="future-page-label" style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
             Page 3 of 3
         </div>
 

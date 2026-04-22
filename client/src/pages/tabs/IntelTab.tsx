@@ -726,10 +726,14 @@ const DOCUMENT_LIBRARY: DocItem[] = [
 ];
 
 // Task 8 · Orphan Asset Links for INTEL tab Canon Documents
+// FIX 6 · Apr 22 · Three canonical reference Drive docs added
 const INTEL_DASHBOARD_LINKS = [
-  { label: 'Council Brief', href: '/council-brief', description: 'Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.' },
-  { label: 'Architecture of Wealth', href: '/architecture-of-wealth', description: 'Institutional wealth architecture — the Christie’s Standard applied to UHNW families on the East End.' },
-  { label: 'Letter to Angel', href: '/letters/angel', description: 'Onboarding letter to Angel — the Day One brief, institutional context, and operational mandate.' },
+  { label: 'Council Brief', href: '/council-brief', description: 'Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.', external: false },
+  { label: 'Architecture of Wealth', href: '/architecture-of-wealth', description: 'Institutional wealth architecture — the Christie’s Standard applied to UHNW families on the East End.', external: false },
+  { label: 'Letter to Angel', href: '/letters/angel', description: 'Onboarding letter to Angel — the Day One brief, institutional context, and operational mandate.', external: false },
+  { label: 'CPS1 + CIRE Node · Canonical Reference', href: 'https://docs.google.com/document/d/13iw0I835xr5Kc8A59jlsWMy-YDAPOkHrKeSN3RBTMs0/edit', description: 'Locked growth curve: 2026 $100K · 2027 $250K · 2028 $500K · 2029 $750K · 2030 $1.0M · 2031–2036 2% YoY · 2036 $1.13M. Visibility line only. Supersedes all prior $1.5M cap language. Ratified April 22, 2026.', external: true },
+  { label: 'AnewHomes Co. · Canonical Reference', href: 'https://docs.google.com/document/d/1zAtjB7ikC01A9d9rNdNBvOSbLCQZuoyXTqB0EF-nYUA/edit', description: 'Definition, origin ruling, equity cap table (Ed 35 · Scott 35 · Richard 10 · Jarvis 5 · Angel 5 · Zoila 5 · Pool 5), revenue source, 6-of-7 partner card render spec, ratified footnote language. Ratified April 22, 2026.', external: true },
+  { label: 'Christie’s Flagship Corkboard · Canonical Content', href: 'https://docs.google.com/document/d/1yFAoW_RiTbHyVwm4dTtUe76LP05b_-7VUO4SDuLOV4U/edit', description: 'Six-quadrant operational layout source-of-truth. Q1 PULSE · Q2 PIPELINE · Q3 NETWORK · Q4 CALENDAR · Q5 FOCUS · Q6 COMPASS. Data fields for all quadrants. Ratified April 22, 2026.', external: true },
 ];
 
 function DocumentLibrary() {
@@ -745,7 +749,7 @@ function DocumentLibrary() {
           Canon Documents
         </div>
 
-        {/* Dashboard routes — Task 8 orphan surfacing */}
+        {/* Dashboard routes — Task 8 orphan surfacing + FIX 6 Drive docs */}
         <div className="flex flex-col gap-3 mb-6" style={{ maxWidth: 860 }}>
           {INTEL_DASHBOARD_LINKS.map(link => (
             <MatrixCard key={link.href} variant="default" className="p-5">
@@ -759,13 +763,25 @@ function DocumentLibrary() {
                   </div>
                 </div>
                 <div className="shrink-0">
-                  <button
-                    onClick={() => navigate(link.href)}
-                    className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-                    style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.16em', background: 'transparent', cursor: 'pointer' }}
-                  >
-                    Open
-                  </button>
+                  {link.external ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.16em' }}
+                    >
+                      Open Drive
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => navigate(link.href)}
+                      className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.16em', background: 'transparent', cursor: 'pointer' }}
+                    >
+                      Open
+                    </button>
+                  )}
                 </div>
               </div>
             </MatrixCard>

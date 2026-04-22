@@ -2555,3 +2555,19 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 
 - [x] Add § marker to AnewHomes lines on 6 partner cards (Ed, Angel, Jarvis, Zoila, Scott, Richard)
 - [x] Add § footnote text to pro forma Page 3 footnote block (after CPS1 ‡ footnote)
+
+## Apr 22 · Five Regression Fixes (12:45 PM Dispatch)
+
+- [ ] FIX 1: Remove gray dead zone from pro forma PDF Page 2 (print-mode page-break discipline)
+- [ ] FIX 2A: FUTURE tab — lift 100-day block body text to cream/ivory
+- [ ] FIX 2B: FUTURE tab — hide PAGE 2 OF 3 label on screen (print-only)
+- [ ] FIX 2C: FUTURE tab — force arc chart dollar labels above bars (never inside)
+- [ ] FIX 3: Rename corkboard title to "Christie's Flagship Corkboard" across all surfaces
+- [ ] FIX 4: Rename Assumptions header to "MODEL ASSUMPTION LEVERS"
+- [ ] FIX 5: Wire corkboard v3 full native layout (six quadrants + KPI tiles + Ten Commandments + Council Cortex + Contact block)
+- [ ] Print-mode discipline: verify zero dead zones on all PDF-target routes before staging ack
+
+## Apr 22 · FIX 6 — Canonical Reference Docs on INTEL Tab
+- [x] Add "CPS1 + CIRE Node Canonical Reference" Drive link to INTEL Canon Documents
+- [x] Add "AnewHomes Co. Canonical Reference" Drive link to INTEL Canon Documents
+- [x] Add "Christie's Flagship Corkboard Canonical Content" Drive link to INTEL Canon Documents
