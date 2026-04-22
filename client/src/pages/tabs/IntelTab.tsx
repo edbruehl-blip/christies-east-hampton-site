@@ -450,7 +450,7 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'market-matrix',
     name: 'Market Matrix',
-    description: 'Eleven-hamlet market data matrix — CIS scores, 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
+    description: 'Eleven-hamlet market data matrix — 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
     sheetId: SHEET_IDS.marketMatrix,
     badge: 'MARKET Tab',
   },

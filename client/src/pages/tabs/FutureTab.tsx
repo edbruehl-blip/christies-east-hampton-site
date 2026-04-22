@@ -677,22 +677,7 @@ export default function FutureTab() {
 
   return (
     <div className="future-main-wrapper" style={{ background: BG, overflowX: 'hidden' }}>
-      {/* Section frame collar — matches HOME tab video treatment (screen only) */}
-      {!isPdfMode && (
-        <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.25)', padding: '28px 24px 20px', borderBottom: '2px solid rgba(200,172,120,0.35)' }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-              Growth Model · Ascension Arc · 2026–2036
-            </div>
-            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', margin: 0 }}>
-              Future Projections
-            </h2>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 5 }}>
-              Christie’s East Hampton · Ten-year volume trajectory · Partner economics · 100-Day milestones
-            </p>
-          </div>
-        </div>
-      )}
+      {/* Top header removed per Apr 22 directive — redundant with chart title */}
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 32px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Print-only header ──────────────────────────────────────────────── */}

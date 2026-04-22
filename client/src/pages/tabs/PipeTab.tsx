@@ -450,12 +450,12 @@ function PipelineTable() {
               filtered.map((row, idx) => {
                 if (row.isSectionHeader) {
                   return (
-                    <tr key={`section-${idx}`} style={{ background: '#F0EDE7' }}>
+                    <tr key={`section-${idx}`} style={{ background: '#1B2A4A' }}>
                       <td
                         colSpan={COLUMNS.length + 1}
                         style={{
                           fontFamily: '"Barlow Condensed", sans-serif',
-                          color: '#1B2A4A',
+                          color: '#947231',
                           fontSize: 10,
                           letterSpacing: '0.22em',
                           textTransform: 'uppercase',
