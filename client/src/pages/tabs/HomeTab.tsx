@@ -20,7 +20,6 @@
  */
 
 import { useLocation } from 'wouter';
-import { EmbedFrame } from '@/components/EmbedFrame';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 // AuctionHouseServices import removed B2 Apr 18 2026 — component moved to /report
 // WilliamAudioPlayer removed C5 Apr 18 2026 — audio permanently retired
@@ -222,26 +221,7 @@ function SectionB() {
         </div>
       </div>
 
-      {/* ── Christie's Video ── */}
-      <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto' }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-            Christie's  ·  Auction Intelligence
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 24 }}>
-            Bringing James Christie's Legacy to the Hamptons
-          </h2>
-          <EmbedFrame aspectRatio="56.25%" style={{ maxWidth: 760 }}>
-            <iframe
-              src="https://www.youtube.com/embed/DEVo7NabIy8"
-              title="Bringing James Christie's Legacy to the Hamptons"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-            />
-          </EmbedFrame>
-        </div>
-      </div>
+      {/* ── Christie's Video — YouTube embed removed Apr 21 2026; video moved to SectionVideoReel as V0 ── */}
 
       {/* Gallery section removed B2 Apr 18 2026 — assets moved to /report */}
 
@@ -314,12 +294,18 @@ function BikeCardSection() {
   );
 }
 
-// ─── Section V  ·  Video Reel  ·  V1/V2/V3  ·  Full-bleed self-hosted ─────────────
+// ─── Section V  ·  Video Reel  ·  V0/V1/V2/V3  ·  Full-bleed self-hosted ─────────────
+// V0 = Ed Bruehl — James Christie Rabbit Hole (Apr 21 2026) — FIRST
 // V1 = Life Less Ordinary brand reel (Apr 3 2026)
-// V2 = Christie's 250th Heritage (Jan 22 2026)
-// V3 = Tash Perrin (Nov 3 2025)
-// V4 = Ed Screen Recording (Apr 19 2026) — internal only, not rendered here
+// V2 = Christie's 250th Heritage (Jan 22 2026) — SHORTER
+// V3 = Tash Perrin (Nov 3 2025) — LONGEST LAST
 const VIDEO_REEL = [
+  {
+    key: 'v0',
+    src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
+    title: 'The James Christie Rabbit Hole',
+    label: "Ed Bruehl  ·  Christie's East Hampton",
+  },
   {
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',

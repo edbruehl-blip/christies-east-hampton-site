@@ -2418,3 +2418,7 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] HOME: swap YouTube embed to Ed's correct video URL (URL pending from Ed — placeholder in code)
 - [ ] DEFERRED Sprint 17: Market tab overhaul — WIP indicator, data currency audit, CIS-badge-worthy report
 - [ ] DEFERRED Sprint 17: CIS Calculator refinement — Perplexity lens walkthrough first
+
+## HOME Video Swap · April 21 2026
+- [x] Upload JamesChristie-RabbitHole.mov to CDN — /manus-storage/JamesChristie-RabbitHole_79659439.mov
+- [x] Replace YouTube embed in HomeTab.tsx with native video player — Ed's video added as V0 (first), V1/V2/V3 follow in order; YouTube iframe removed; EmbedFrame import cleaned up
