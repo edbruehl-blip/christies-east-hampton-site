@@ -32,9 +32,8 @@ const FOUNDING_PARAGRAPHS = [
   "I am grateful to be chosen as Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. From here, three worlds converge. Christie's London heritage. Our Rockefeller Center NYC auction house. And the Hamptons, one of the most significant luxury markets on earth. Across 1,000 offices in 52 countries, the rule is simple. Service first. Your interests first. Always.",
   "What the Standard brings begins where most real estate conversations end. Art appraisals. Art-secured lending. Estate continuity across generations. Specialists in fine art, jewelry, watches, wine, and automobiles join your team. When you sell, your property reaches collectors. When you buy, our global network brings new product home. But mostly, the work is stewardship.",
   "Christie's auction house events are more accessible than most people realize. NYC auctions, private sales, and collector evenings come right to your inbox when you join our list. And right here in East Hampton, we host our own. Each week we record the Hamptons Real Estate Podcast, featuring the people shaping this community. Each month we gather to spotlight local artists and mentors whose work deserves a larger stage.",
-  "I am honored to carry the Christie's Standard forward here, with energy and care — intelligent, compassionate, patient counsel for the families of the East End who prefer to be understood before they're advised.",
-  "The flagship is awakening.",
-  "We look forward to seeing you soon. Swing by 26 Park Place — next to John Papas — for coffee or a Yerba Madre. Bring a friend, a mentor, or someone you'd like us to meet, or put on the podcast.",
+  "I am honored to carry the Christie's Standard forward here, with energy and care — intelligent, compassionate, patient counsel for the families of the East End who prefer to be understood before they're advised. The flagship is awakening.",
+  "We look forward to seeing you soon. Stop by 26 Park Place — next to John Papas — for coffee or a conversation. The door is always open.",
 ];
 
 // ─── Section A  ·  Hero letter with floating portrait ──────────────────────────
@@ -66,7 +65,7 @@ function SectionA() {
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
                 color: '#C8AC78',
-                fontSize: 'clamp(1rem, 2vw, 1.35rem)',
+                fontSize: 'clamp(1.2rem, 2.5vw, 1.7rem)',
                 fontWeight: 700,
                 letterSpacing: '0.28em',
                 textTransform: 'uppercase',
@@ -83,7 +82,7 @@ function SectionA() {
                 textTransform: 'uppercase',
                 opacity: 0.65,
               }}>
-                East Hampton · New York · Since 1766
+                East Hampton · New York · 11937
               </div>
             </div>
 
@@ -149,28 +148,17 @@ function SectionA() {
               </div>
 
               {/* Letter paragraphs — flow around the float */}
-              {FOUNDING_PARAGRAPHS.map((para, i) => {
-                // "The flagship is awakening." is second-to-last — render as bold gold standalone
-                const isAwakening = i === FOUNDING_PARAGRAPHS.length - 2;
-                const isLastPara  = i === FOUNDING_PARAGRAPHS.length - 1;
-                return (
-                  <p key={i} style={{
-                    fontFamily: isAwakening ? '"Cormorant Garamond", serif' : '"Source Sans 3", sans-serif',
-                    color: isAwakening ? '#C8AC78' : 'rgba(250,248,244,0.85)',
-                    fontSize: isAwakening ? 'clamp(1.1rem, 1.8vw, 1.35rem)' : '0.963rem',
-                    fontWeight: isAwakening ? 400 : 'normal',
-                    fontStyle: isAwakening ? 'italic' : 'normal',
-                    lineHeight: isAwakening ? 1.3 : 1.78,
-                    marginBottom: isLastPara ? 0 : isAwakening ? 20 : 14,
-                    marginTop: isAwakening ? 24 : 0,
-                    letterSpacing: isAwakening ? '0.02em' : 'normal',
-                    borderLeft: 'none',
-                    paddingLeft: 0,
-                  }}>
-                    {para}
-                  </p>
-                );
-              })}
+              {FOUNDING_PARAGRAPHS.map((para, i) => (
+                <p key={i} style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: 'rgba(250,248,244,0.85)',
+                  fontSize: '0.963rem',
+                  lineHeight: 1.78,
+                  marginBottom: i === FOUNDING_PARAGRAPHS.length - 1 ? 0 : 14,
+                }}>
+                  {para}
+                </p>
+              ))}
 
               {/* Clear float */}
               <div style={{ clear: 'both' }} />
