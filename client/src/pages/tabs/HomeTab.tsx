@@ -1,36 +1,28 @@
-/**
- * HOME TAB — Three sections only.
+/*
+ * HOME TAB — Comprehensive redesign Apr 22 2026
  *
  * Section A  ·  Full-bleed hero — auction room background.
- *             Left column: portrait thumbnail (top) + identity card (below).
- *             Right column: founding letter — FIRST TEXT ABOVE THE FOLD.
- *             Portrait click → navigates to /report.
+ *             Portrait floats LEFT with text wrapping around it (CSS float).
+ *             Header: "CEHF" large Cormorant + gold sub-label.
+ *             Font size: +10% across all body text.
  *
- * Section B  ·  Christie's channel  ·  story  ·  video  ·  gallery — calm, private-wealth.
+ * Section B  ·  Auction Image Matrix — 9-image 3×3 grid (first thing after letter)
  *
- * Section C  ·  Footer — one line only. "Art. Beauty. Provenance.  ·  Since 1766."
+ * Section C  ·  Christie's Story — "The Authority on Art, Beauty, and Provenance"
  *
- * HOME = the door.  /report = the room.
+ * Section D  ·  Video Reel — Tash Perrin · Christie's 250th · Life Less Ordinary · Rabbit Hole
+ *             (V1 and V2 swapped per Apr 22 dispatch)
  *
- * Design: navy #1B2A4A  ·  gold #C8AC78  ·  charcoal #384249  ·  cream #FAF8F4
- * Typography: Cormorant Garamond (titles)  ·  Source Sans 3 (body)  ·  Barlow Condensed (labels)
+ * Section E  ·  Home Footer — Ed Bruehl signature + CTA
  *
- * William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling.
- * All TTS/ElevenLabs code paths removed. INTRO button keeps printable letter behavior.
+ * Design: navy #1B2A4A · gold #C8AC78 · cream #FAF8F4
+ * Gold doctrine: ALL gold = #C8AC78 (no rgba variants for labels — use opacity on the element)
  */
 
 import { useLocation } from 'wouter';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
-// AuctionHouseServices import removed B2 Apr 18 2026 — component moved to /report
-// WilliamAudioPlayer removed C5 Apr 18 2026 — audio permanently retired
-// EstateAdvisoryCard removed — no longer used in HomeTab after B2/C5 cleanup
-// pdf-exports jsPDF functions removed in SD-8 — all PDF exports now use Puppeteer /api/pdf
 
-// Neighborhood Letter v15 — council-locked April 21 2026 (Addendum 5 dispatch)
-// James Christie portrait restored Apr 21 2026 — Addendum dispatch (portrait left, letter right)
-// CTA hover state upgraded Apr 21 2026 — gold fill on hover, navy text
-// Em-dashes in P2, P9, P10 are intentional — do not strip.
-// "Standard" capitalization is intentional voice architecture — P5 lowercase → P7/P9 capital.
+// Neighborhood Letter v15 — council-locked April 21 2026
 const FOUNDING_PARAGRAPHS = [
   "Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, the water, and the pace. We stayed because this place became home.",
   "For twenty years, I've been helping families buy and sell — but mostly steward — property here. The lesson, over and over, is simple. The families who love this place most are the ones who protect it first. Real estate on the East End is not inventory. For our families, it is legacy. The asset your grandchildren will thank you for.",
@@ -45,217 +37,264 @@ const FOUNDING_PARAGRAPHS = [
   "The flagship is awakening.",
 ];
 
-// ─── Section A  ·  Hero ─────────────────────────────────────────────────────────
-// William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling
+// ─── Section A  ·  Hero letter with floating portrait ──────────────────────────
 function SectionA() {
-  // navigate moved to HomeFooter — portrait click uses anchor href
+  const [, navigate] = useLocation();
 
   const auctionRoomSrc = GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src
     ?? GALLERY_IMAGES[0]?.src
     ?? '';
 
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
+    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.25)' }}>
       <div className="relative">
+        {/* Background image */}
         <img
           src={auctionRoomSrc}
           alt="The Grand Saleroom, Christie's"
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ display: 'block' }}
         />
-        <div className="absolute inset-0" style={{
-          background: 'rgba(27,42,74,0.90)'
-        }} />
+        <div className="absolute inset-0" style={{ background: 'rgba(13,27,42,0.91)' }} />
 
-        {/* Centered wrapper — max 920px, horizontally centered */}
-        <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '40px 16px 48px' }}>
-        <div
-          style={{
-            width: '100%',
-            maxWidth: 920,
-          }}
-        >
-          {/* ── TWO-COLUMN: portrait left · letter right ── */}
-          <div style={{ display: 'flex', gap: 32, alignItems: 'flex-start' }}>
+        {/* Content wrapper — centered, max 900px */}
+        <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '48px 24px 56px' }}>
+          <div style={{ width: '100%', maxWidth: 900 }}>
 
-            {/* ── LEFT: James Christie portrait — provenance marker ── */}
-            <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 4 }}>
-              <div style={{ border: '1px solid #947231', padding: 3, background: 'rgba(27,42,74,0.6)' }}>
-                <img
-                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-                  alt="James Christie, founder of Christie's, London 1766"
-                  style={{ display: 'block', width: 128, height: 128, objectFit: 'cover', objectPosition: 'top center' }}
-                />
-              </div>
-              <div style={{
-                fontFamily: '"Georgia", serif',
-                fontStyle: 'italic',
-                fontSize: 9,
-                color: '#947231',
-                letterSpacing: '1px',
-                textAlign: 'center',
-                marginTop: 6,
-                lineHeight: 1.5,
-              }}>
-                James Christie · London · 1766
-              </div>
-            </div>
-
-            {/* ── RIGHT: letter ── */}
-          <div className="home-letter-col" style={{ flex: 1, minWidth: 0, padding: '4px 0 32px 0' }}>
-            {/* Option 1 header — single line, personal, full stop */}
-            <div style={{ marginBottom: 22 }}>
+            {/* ── HEADER: CEHF ── */}
+            <div style={{ marginBottom: 28, textAlign: 'center' }}>
               <div style={{
                 fontFamily: '"Cormorant Garamond", serif',
                 color: '#FAF8F4',
                 fontWeight: 400,
-                fontSize: 'clamp(1.1rem, 2vw, 1.45rem)',
-                lineHeight: 1.2,
-                marginBottom: 4,
+                fontSize: 'clamp(2rem, 4vw, 3rem)',
+                lineHeight: 1.1,
+                letterSpacing: '0.04em',
+                marginBottom: 8,
               }}>
-                A Letter from the Christie's East Hampton Flagship
+                CEHF
               </div>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: 'rgba(200,172,120,0.75)',
-                fontSize: 10,
-                letterSpacing: '0.2em',
+                color: '#C8AC78',
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: '0.25em',
                 textTransform: 'uppercase',
               }}>
-                East Hampton · New York
+                Christie's East Hampton Flagship
+              </div>
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: '#C8AC78',
+                fontSize: 11,
+                fontWeight: 500,
+                letterSpacing: '0.2em',
+                textTransform: 'uppercase',
+                opacity: 0.7,
+                marginTop: 4,
+              }}>
+                East Hampton · New York · Since 1766
               </div>
             </div>
 
-            <div style={{ maxWidth: 620 }}>
+            {/* ── LETTER BODY with floating portrait ── */}
+            <div style={{ maxWidth: 860, margin: '0 auto' }}>
+
+              {/* Portrait floats left — text wraps around it */}
+              <div
+                style={{
+                  float: 'left',
+                  marginRight: 28,
+                  marginBottom: 16,
+                  marginTop: 4,
+                  flexShrink: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <div
+                  style={{ border: '1px solid #C8AC78', padding: 3, background: 'rgba(13,27,42,0.6)', cursor: 'pointer' }}
+                  onClick={() => navigate('/report')}
+                  title="Continue to Market Report"
+                >
+                  <img
+                    src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                    alt="James Christie, founder of Christie's, London 1766"
+                    style={{ display: 'block', width: 140, height: 140, objectFit: 'cover', objectPosition: 'top center' }}
+                  />
+                </div>
+                {/* Caption line 1 */}
+                <div style={{
+                  fontFamily: '"Georgia", serif',
+                  fontStyle: 'italic',
+                  fontSize: 9,
+                  color: '#C8AC78',
+                  letterSpacing: '0.08em',
+                  textAlign: 'center',
+                  marginTop: 6,
+                  lineHeight: 1.5,
+                  maxWidth: 146,
+                }}>
+                  James Christie · London · 1766
+                </div>
+                {/* Caption line 2 — click to market report */}
+                <div
+                  style={{
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 8,
+                    color: '#C8AC78',
+                    letterSpacing: '0.15em',
+                    textTransform: 'uppercase',
+                    textAlign: 'center',
+                    marginTop: 4,
+                    opacity: 0.65,
+                    cursor: 'pointer',
+                    maxWidth: 146,
+                  }}
+                  onClick={() => navigate('/report')}
+                >
+                  Click → Market Report
+                </div>
+              </div>
+
+              {/* Letter paragraphs — flow around the float */}
               {FOUNDING_PARAGRAPHS.map((para, i) => (
                 <p key={i} style={{
                   fontFamily: '"Source Sans 3", sans-serif',
-                  color: i === 11 ? '#C8AC78' : 'rgba(250,248,244,0.82)',
-                  fontSize: '0.875rem',
-                  lineHeight: 1.72,
-                  marginBottom: i === 11 ? 0 : 13,
-                  fontStyle: i === 11 ? 'italic' : 'normal',
-                  borderLeft: i === 11 ? '2px solid rgba(200,172,120,0.4)' : 'none',
-                  paddingLeft: i === 11 ? 10 : 0,
+                  color: i === FOUNDING_PARAGRAPHS.length - 1 ? '#C8AC78' : 'rgba(250,248,244,0.85)',
+                  fontSize: '0.963rem',   // 0.875rem × 1.10 ≈ 0.963rem
+                  lineHeight: 1.78,
+                  marginBottom: i === FOUNDING_PARAGRAPHS.length - 1 ? 0 : 14,
+                  fontStyle: i === FOUNDING_PARAGRAPHS.length - 1 ? 'italic' : 'normal',
+                  borderLeft: i === FOUNDING_PARAGRAPHS.length - 1 ? '2px solid rgba(200,172,120,0.45)' : 'none',
+                  paddingLeft: i === FOUNDING_PARAGRAPHS.length - 1 ? 11 : 0,
                 }}>
                   {para}
                 </p>
               ))}
+
+              {/* Clear float */}
+              <div style={{ clear: 'both' }} />
             </div>
 
-            {/* Signature and CTA moved to HomeFooter section below */}
           </div>
-          {/* /home-letter-col */}
-          </div>
-          {/* /two-col wrapper */}
         </div>
-        {/* /centered-wrapper */}
-        </div>
-        {/* /relative minHeight */}
       </div>
     </section>
   );
 }
-// ─── Section BB  ·  Christie's Channel  ·  Story  ·  Video  ·  Gallery ─────────────────
-// Calm, private-wealth. No grid. No tiles. No KPIs.
-function SectionB() {
-  return (
-    <div style={{ background: '#1B2A4A' }}>
 
-      {/* ── Christie's Story ── */}
-      <div style={{ borderBottom: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
-        <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase' }}>
-            Christie's  ·  Est. 1766
-          </div>
-          <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, maxWidth: 560 }}>
-            The Authority on Art, Beauty, and Provenance
-          </h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.72)', fontSize: '0.9rem', lineHeight: 1.75, margin: 0, maxWidth: 620 }}>
-            Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, unparalleled service, and expertise reaching across cultures and centuries.
-          </p>
+// ─── Section B  ·  Auction Image Matrix ──────────────────────────────────────
+// 9-image 3×3 grid — first thing after "The flagship is awakening."
+function AuctionImageMatrix() {
+  return (
+    <div style={{ background: '#0D1B2A', borderTop: '1px solid rgba(200,172,120,0.12)', padding: '48px 24px 40px' }}>
+      <div style={{ maxWidth: 960, margin: '0 auto' }}>
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#C8AC78',
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          marginBottom: 20,
+          textAlign: 'center',
+          opacity: 0.7,
+        }}>
+          Christie's · Art · Luxury · Fine Wine · Since 1766
+        </div>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 6,
+        }}>
+          {GALLERY_IMAGES.map((img) => (
+            <div key={img.id} style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4/3' }}>
+              <img
+                src={img.src}
+                alt={img.caption}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  filter: 'brightness(0.85) saturate(0.88)',
+                  transition: 'filter 0.25s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(1) saturate(1)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(0.85) saturate(0.88)'; }}
+              />
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '20px 10px 8px',
+                background: 'linear-gradient(transparent, rgba(13,27,42,0.85))',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 8,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: '#C8AC78',
+              }}>
+                {img.caption}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-
-      {/* ── Christie's Video — YouTube embed removed Apr 21 2026; video moved to SectionVideoReel as V0 ── */}
-
-      {/* Gallery section removed B2 Apr 18 2026 — assets moved to /report */}
-
     </div>
   );
 }
 
-// SectionWilliam removed — dead code, audio player retired C5 Apr 18 2026
-// ─── HomeTab ─────────────────────────────────────────────────────────────────────────────
-// SectionC (duplicate footer) removed — DashboardLayout renders the single
-// "Art. Beauty. Provenance.  ·  Since 1766." doctrine line. One footer, defined once.
-
-// ─── Bike Card section (A1) ──────────────────────────────────────────────────
-function BikeCardSection() {
+// ─── Section C  ·  Christie's Story ──────────────────────────────────────────
+function SectionChristiesStory() {
   return (
-    <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 40px' }}>
-      <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 8 }}>
-          Christie's East Hampton  ·  Neighborhood Intelligence
+    <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 24px' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#C8AC78',
+          fontSize: 10,
+          fontWeight: 600,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          opacity: 0.75,
+        }}>
+          Christie's · Est. 1766
         </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.3rem, 2.5vw, 1.75rem)', lineHeight: 1.25, marginBottom: 12, maxWidth: 560 }}>
-          The Neighborhood Card
+        <h2 style={{
+          fontFamily: '"Cormorant Garamond", serif',
+          color: '#FAF8F4',
+          fontWeight: 400,
+          fontSize: 'clamp(1.4rem, 2.5vw, 1.9rem)',
+          lineHeight: 1.25,
+          maxWidth: 560,
+          margin: 0,
+        }}>
+          The Authority on Art, Beauty, and Provenance
         </h2>
-        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.65)', fontSize: '0.875rem', lineHeight: 1.7, marginBottom: 20, maxWidth: 560 }}>
-          Eleven hamlets. One standard. CIS-ranked intelligence for every neighborhood on the East End — formatted for print, leave-behind, and client conversation.
+        <p style={{
+          fontFamily: '"Source Sans 3", sans-serif',
+          color: 'rgba(250,248,244,0.72)',
+          fontSize: '0.963rem',
+          lineHeight: 1.78,
+          margin: 0,
+          maxWidth: 640,
+        }}>
+          Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, unparalleled service, and expertise reaching across cultures and centuries.
         </p>
-        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-          <a
-            href="/cards/bike"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '9px 20px',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: '#FAF8F4',
-              background: 'rgba(200,172,120,0.08)',
-              border: '1px solid rgba(200,172,120,0.5)',
-              cursor: 'pointer', textDecoration: 'none',
-            }}
-          >
-            ↗ View Neighborhood Card
-          </a>
-          <button
-            onClick={() => {
-              const a = document.createElement('a');
-              a.href = '/api/pdf?url=/cards/bike';
-              a.download = 'Christies_EH_Neighborhood_Card_' + new Date().toISOString().slice(0,10) + '.pdf';
-              document.body.appendChild(a);
-              a.click();
-              document.body.removeChild(a);
-            }}
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '9px 20px',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-              color: '#C8AC78',
-              background: 'transparent',
-              border: '1px solid rgba(200,172,120,0.35)',
-              cursor: 'pointer',
-            }}
-          >
-            ↓ Download PDF
-          </button>
-        </div>
       </div>
     </div>
   );
 }
 
-// ─── Section V  ·  Video Reel  ·  V0/V1/V2/V3  ·  Full-bleed self-hosted ─────────────
-// ORDER (Apr 21 2026 reorder): V3 first (longest) → V1 → V2 → V0 (Rabbit Hole) second-to-last
-// V3 = Tash Perrin (Nov 3 2025) — FIRST
-// V1 = Life Less Ordinary brand reel (Apr 3 2026) — SECOND
-// V2 = Christie's 250th Heritage (Jan 22 2026) — THIRD
-// V0 = Ed Bruehl — James Christie Rabbit Hole (Apr 21 2026) — SECOND-TO-LAST
+// ─── Section D  ·  Video Reel ─────────────────────────────────────────────────
+// ORDER (Apr 22 2026): V3 Tash Perrin · V2 Christie's 250th · V1 Life Less Ordinary · V0 Rabbit Hole
+// V1 and V2 swapped per Apr 22 dispatch
 const VIDEO_REEL = [
   {
     key: 'v3',
@@ -264,22 +303,22 @@ const VIDEO_REEL = [
     label: "Christie's International Real Estate Group",
   },
   {
-    key: 'v1',
-    src: '/manus-storage/v1_april3_2026_7d954a08.mov',
-    title: 'Life Less Ordinary',
-    label: "Christie's East Hampton - Brand Reel",
-  },
-  {
     key: 'v2',
     src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
     title: "Christie's 250th Heritage",
-    label: "Christie's - Est. 1766 - 250 Years",
+    label: "Christie's — Est. 1766 — 250 Years",
+  },
+  {
+    key: 'v1',
+    src: '/manus-storage/v1_april3_2026_7d954a08.mov',
+    title: 'Life Less Ordinary',
+    label: "Christie's East Hampton — Brand Reel",
   },
   {
     key: 'v0',
     src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
     title: 'The James Christie Rabbit Hole',
-    label: "Ed Bruehl  ·  Christie's East Hampton",
+    label: "Ed Bruehl · Christie's East Hampton",
   },
 ];
 
@@ -295,7 +334,6 @@ function SectionVideoReel() {
             position: 'relative',
           }}
         >
-          {/* Label overlay */}
           <div style={{
             position: 'absolute',
             top: 20,
@@ -308,10 +346,12 @@ function SectionVideoReel() {
           }}>
             <div style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 9,
+              fontSize: 10,
+              fontWeight: 600,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              color: 'rgba(200,172,120,0.75)',
+              color: '#C8AC78',
+              opacity: 0.8,
             }}>{v.label}</div>
             <div style={{
               fontFamily: '"Cormorant Garamond", serif',
@@ -340,103 +380,59 @@ function SectionVideoReel() {
   );
 }
 
-// ─── Auction Image Matrix ─────────────────────────────────────────────────────
-// 9-image 3×3 grid — Christie's brand authority signal above footer
-// Assets from GALLERY_IMAGES in cdn-assets.ts
-function AuctionImageMatrix() {
-  return (
-    <div style={{ background: '#0D1B2A', borderTop: '1px solid rgba(200,172,120,0.12)', padding: '48px 40px 40px' }}>
-      <div style={{ maxWidth: 960, margin: '0 auto' }}>
-        {/* Label */}
-        <div style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          color: 'rgba(200,172,120,0.6)',
-          fontSize: 9,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          marginBottom: 20,
-          textAlign: 'center',
-        }}>
-          Christie's  ·  Art  ·  Luxury  ·  Fine Wine  ·  Since 1766
-        </div>
-        {/* 3×3 grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: 6,
-        }}>
-          {GALLERY_IMAGES.map((img) => (
-            <div key={img.id} style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4/3' }}>
-              <img
-                src={img.src}
-                alt={img.caption}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  objectPosition: 'center',
-                  filter: 'brightness(0.88) saturate(0.9)',
-                  transition: 'filter 0.25s',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(1) saturate(1)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(0.88) saturate(0.9)'; }}
-              />
-              {/* Caption overlay on hover */}
-              <div style={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                padding: '18px 10px 8px',
-                background: 'linear-gradient(transparent, rgba(13,27,42,0.82))',
-                fontFamily: '"Barlow Condensed", sans-serif',
-                fontSize: 8,
-                letterSpacing: '0.15em',
-                textTransform: 'uppercase',
-                color: 'rgba(200,172,120,0.8)',
-              }}>
-                {img.caption}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── Home Footer ─────────────────────────────────────────────────────────────
-// Signature block + CTA — moved from SectionA letter column
+// ─── Section E  ·  Home Footer ────────────────────────────────────────────────
+// Signature block + CTA at the very bottom
 function HomeFooter() {
   const [, navigate] = useLocation();
   return (
     <div style={{
       background: '#0D1B2A',
       borderTop: '1px solid rgba(200,172,120,0.18)',
-      padding: '48px 40px 56px',
+      padding: '48px 24px 56px',
     }}>
-      <div style={{ maxWidth: 920, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-        {/* Signature */}
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: 2 }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
+        <div style={{
+          fontFamily: '"Cormorant Garamond", serif',
+          color: '#FAF8F4',
+          fontSize: '1.2rem',
+          fontStyle: 'italic',
+          marginBottom: 4,
+        }}>
           Ed Bruehl
         </div>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#C8AC78',
+          fontSize: 12,
+          fontWeight: 600,
+          letterSpacing: '0.2em',
+          textTransform: 'uppercase',
+          marginBottom: 6,
+        }}>
           Christie's East Hampton Flagship
         </div>
-        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.38)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 24 }}>
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#C8AC78',
+          fontSize: 10,
+          fontWeight: 500,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          opacity: 0.55,
+          marginBottom: 24,
+        }}>
           Art. Beauty. Provenance. Since 1766.
         </div>
-        {/* CTA */}
         <button
           onClick={() => navigate('/report')}
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: 10,
-            padding: '11px 24px',
+            padding: '12px 26px',
             fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 11,
+            fontSize: 12,
+            fontWeight: 600,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
             color: '#C8AC78',
@@ -447,7 +443,7 @@ function HomeFooter() {
           }}
           onMouseEnter={e => {
             (e.currentTarget as HTMLButtonElement).style.background = '#C8AC78';
-            (e.currentTarget as HTMLButtonElement).style.color = '#1B2A4A';
+            (e.currentTarget as HTMLButtonElement).style.color = '#0D1B2A';
           }}
           onMouseLeave={e => {
             (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
@@ -462,15 +458,14 @@ function HomeFooter() {
 }
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
+// ORDER: Letter → Image Matrix → Christie's Story → Video Reel → Footer
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
-      <SectionB />
-      <SectionVideoReel />
-      {/* BikeCardSection hidden V6 Apr 18 2026 — Ponder delivers Neighborhood Card PDF mockup Sunday Apr 19; unhide when asset is ready */}
-      {/* <BikeCardSection /> */}
       <AuctionImageMatrix />
+      <SectionChristiesStory />
+      <SectionVideoReel />
       <HomeFooter />
     </div>
   );

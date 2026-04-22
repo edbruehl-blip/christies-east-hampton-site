@@ -232,7 +232,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
               className="hidden sm:block"
               style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(250,248,244,0.75)" }}
             >
-              East Hampton
+              East Hampton Flagship
             </span>
           </div>
 
