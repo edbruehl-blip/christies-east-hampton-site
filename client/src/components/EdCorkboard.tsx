@@ -1,8 +1,11 @@
 /**
- * Ed's Corkboard v2 — Native React component
- * Rebuilt from eds_corkboard_v2_591571f9.html — Apr 22 2026
- * No iframe / CDN dependency. Always renders.
+ * Ed's Corkboard v3 — Canonical Six-Quadrant Operational Layout
+ * Per Ed's ruling February 2026. Rebuilt April 22 2026.
+ * Six quadrants: THE PULSE · THE PIPELINE · THE NETWORK ·
+ *                THE CALENDAR · THE FOCUS · THE COMPASS
+ * Text fixes applied: "Angel Day One · April 25" · "Ilija Pavlovic" · "Key Relationships"
  */
+import React from 'react';
 
 const C = {
   gold: '#c8ac78',
@@ -13,43 +16,66 @@ const C = {
   deepRed: '#8b2635',
   stone: '#e8dcc0',
   line: '#b9a87f',
+  navy: '#1B2A4A',
 };
 
 const s = {
   panel: {
     background: C.paper,
     border: `1px solid ${C.line}`,
-    padding: 11,
+    padding: '12px 14px',
+    height: '100%',
+    boxSizing: 'border-box' as const,
   } as React.CSSProperties,
   panelH3: {
-    fontSize: 11,
-    letterSpacing: '0.22em',
+    fontSize: 10,
+    letterSpacing: '0.28em',
     color: C.deepRed,
     borderBottom: `1px solid ${C.gold}`,
     paddingBottom: 5,
-    marginBottom: 8,
+    marginBottom: 9,
     fontWeight: 700,
     textTransform: 'uppercase' as const,
     fontFamily: 'Georgia, serif',
+    margin: '0 0 9px 0',
+  } as React.CSSProperties,
+  item: {
+    padding: '3px 0',
+    fontSize: 9.5,
+    color: C.charcoal,
+    fontFamily: 'Georgia, serif',
+    lineHeight: 1.45,
+    display: 'flex',
+    gap: 6,
+    alignItems: 'flex-start',
+  } as React.CSSProperties,
+  bullet: {
+    color: C.gold,
+    fontSize: 7,
+    marginTop: 3,
+    flexShrink: 0,
   } as React.CSSProperties,
   subLabel: {
-    fontSize: 8.5,
-    letterSpacing: '0.2em',
+    fontSize: 8,
+    letterSpacing: '0.22em',
     color: C.goldDark,
     margin: '8px 0 4px 0',
     textTransform: 'uppercase' as const,
     fontWeight: 700,
     borderTop: `1px dotted ${C.gold}`,
-    paddingTop: 6,
+    paddingTop: 5,
     fontFamily: 'Georgia, serif',
   } as React.CSSProperties,
 };
 
-function Row({ name, desc }: { name: string; desc: string }) {
+function Bullet({ text, sub }: { text: string; sub?: string }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '72px 1fr', gap: 8, padding: '2.5px 0', fontSize: 10, alignItems: 'baseline', fontFamily: 'Georgia, serif' }}>
-      <span style={{ color: C.deepRed, fontWeight: 700, letterSpacing: '0.05em' }}>{name}</span>
-      <span style={{ color: C.charcoal, fontSize: 9.5 }}>{desc}</span>
+    <div style={s.item}>
+      <span style={s.bullet}>◆</span>
+      <span>
+        <span style={{ color: C.charcoal }}>{text}</span>
+        {sub && <span style={{ color: C.goldDark, fontSize: 8.5, display: 'block' }}>{sub}</span>}
+      </span>
     </div>
   );
 }
@@ -75,15 +101,15 @@ export function EdCorkboard() {
           EAST HAMPTON · 26 PARK PLACE
         </div>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: 26, fontWeight: 400, letterSpacing: '0.35em', color: C.deepRed, fontFamily: 'Georgia, serif' }}>ED'S CORKBOARD</h1>
+          <h1 style={{ fontSize: 26, fontWeight: 400, letterSpacing: '0.35em', color: C.deepRed, fontFamily: 'Georgia, serif', margin: 0 }}>ED'S CORKBOARD</h1>
           <div style={{ fontSize: 10, color: C.goldDark, letterSpacing: '0.3em', marginTop: 4, fontStyle: 'italic' }}>
             Nouns, not numbers · One page · Internal only
           </div>
         </div>
         <div style={{ fontSize: 9, letterSpacing: '0.15em', color: C.charcoal, textAlign: 'right', lineHeight: 1.6 }}>
-          <strong style={{ color: C.deepRed }}>v2</strong> · April 19, 2026<br />
-          Council edits applied<br />
-          T-10 days to public launch
+          <strong style={{ color: C.deepRed }}>v3</strong> · April 22, 2026<br />
+          Six-quadrant operational layout<br />
+          T-7 days to public launch
         </div>
       </header>
 
@@ -97,7 +123,7 @@ export function EdCorkboard() {
         letterSpacing: '0.1em',
         borderTop: `1px solid ${C.gold}`,
         borderBottom: `1px solid ${C.gold}`,
-        marginBottom: 10,
+        marginBottom: 12,
         flexWrap: 'wrap',
         gap: 8,
       }}>
@@ -107,121 +133,101 @@ export function EdCorkboard() {
         <span><strong style={{ color: C.deepRed, fontStyle: 'italic' }}>The Hagler Standard</strong> · Train in the dark</span>
       </section>
 
-      {/* MAIN: WHO DOES WHAT | TEN COMMANDMENTS */}
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 14, marginBottom: 10 }}>
+      {/* SIX QUADRANTS — 3×2 grid */}
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 12 }}>
 
-        {/* WHO DOES WHAT */}
-        <div style={s.panel}>
-          <h3 style={s.panelH3}>Who Does What</h3>
-          <div style={{ ...s.subLabel, borderTop: 'none', paddingTop: 0, marginTop: 0 }}>The Team</div>
-          <Row name="Ed" desc="Operator. Ruling. Deals. Rainmaker." />
-          <Row name="Jarvis" desc="COO. Agendas. Minutes. Referrals. Maidstone." />
-          <Row name="Angel" desc="Execution. Operations. Apr 25." />
-          <Row name="Zoila" desc="Office Director. Producing broker. May 4." />
-          <Row name="Scott" desc="AnewHomes build partner. Jun 1." />
-          <Row name="Richard" desc="Counsel. AnewHomes co-founder. Banker model." />
-          <div style={s.subLabel}>The Council (Cortex)</div>
-          <Row name="Claude" desc="Architect. Wireframes. Scribe. Brain on paper." />
-          <Row name="Perplexity" desc="Intelligence. Data. Managing editor." />
-          <Row name="Manny" desc="Builder. Server-side truth. Code." />
-          <Row name="ChatGPT" desc="Pressure-test. Strategy." />
-          <Row name="Grok" desc="Challenge. Stress-test." />
-          <Row name="Gemini" desc="Local intelligence. Granular." />
+        {/* Q1 — THE PULSE */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
+          <h3 style={s.panelH3}>① The Pulse <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Daily</span></h3>
+          <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
+          <Bullet text="Top 3 for Ed" sub="Highest-leverage actions today" />
+          <Bullet text="Top 3 for Angel" sub="Angel Day One · April 25" />
+          <Bullet text="Waiting On" sub="Counterparties · attorneys · banks" />
+          <Bullet text="Touch Minimums" sub="3 seller touches · 2 buyer touches · 1 recruit" />
         </div>
 
-        {/* TEN COMMANDMENTS */}
-        <div style={{
-          background: C.paper,
-          border: `2px solid ${C.deepRed}`,
-          padding: '12px 14px',
-          position: 'relative',
-        }}>
-          <div style={{
-            position: 'absolute', top: 4, left: 4, right: 4, bottom: 4,
-            border: `1px solid ${C.gold}`,
-            pointerEvents: 'none',
-          }} />
-          <h3 style={{
-            textAlign: 'center',
-            borderBottom: `1px solid ${C.gold}`,
-            paddingBottom: 6,
-            marginBottom: 9,
-            fontSize: 13,
-            letterSpacing: '0.3em',
-            color: C.deepRed,
-            position: 'relative',
-            zIndex: 1,
-            fontFamily: 'Georgia, serif',
-            fontWeight: 400,
-          }}>The Ten Commandments</h3>
-          <ol style={{ listStyle: 'none', padding: 0, position: 'relative', zIndex: 1 }}>
-            {[
-              'The live URL is the source of truth.',
-              'Tell the truth. Know the territory. Sit on the same side as the family.',
-              'Every number has a named source. No invented figures.',
-              'Ed thirty-five. Ilija sixty-five. Two parties at the pool.',
-              'Seventy-five million to three billion. Three offices. One trajectory.',
-              'The platform is the pitch. No decks.',
-              'Nothing to Manny without a Claude wireframe.',
-              'The operator is the gate. Ed signs off or it does not ship.',
-              'No competitor names on any public surface.',
-              'AnewHomes locked at seven. Ed, Scott, Richard, Jarvis, Angel, Zoila, Pool.',
-            ].map((cmd, i) => (
-              <li key={i} style={{
-                padding: '4px 2px',
-                fontSize: 11,
-                borderBottom: i < 9 ? `1px dotted ${C.stone}` : 'none',
-                display: 'grid',
-                gridTemplateColumns: '30px 1fr',
-                gap: 6,
-                alignItems: 'baseline',
-                fontFamily: 'Georgia, serif',
-              }}>
-                <span style={{ color: C.goldDark, fontWeight: 700, fontSize: 10.5, textAlign: 'right' }}>
-                  {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i]}.
-                </span>
-                <span>{cmd}</span>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* LADDERS: CIREG | CPS-1 | CIRE */}
-      <section style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 10, alignItems: 'stretch', marginBottom: 10 }}>
-        <div style={{ background: C.paper, border: `1px solid ${C.gold}`, padding: '10px 12px', borderLeft: `4px solid ${C.gold}` }}>
-          <div style={{ fontSize: 13, letterSpacing: '0.25em', color: C.deepRed, fontWeight: 700, marginBottom: 3, fontFamily: 'Georgia, serif' }}>CIREG</div>
-          <div style={{ fontSize: 9, color: C.goldDark, fontStyle: 'italic', marginBottom: 6, letterSpacing: '0.08em' }}>Regional Demonstration</div>
-          <div style={{ fontSize: 10, color: C.charcoal, lineHeight: 1.45 }}>East Hampton flagship. $75M in 2026. $3B by 2036 across three offices. Where rigor is proved.</div>
+        {/* Q2 — THE PIPELINE */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.gold}` }}>
+          <h3 style={s.panelH3}>② The Pipeline <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Weekly</span></h3>
+          <Bullet text="Active Listings" sub="Price · DOM · next action" />
+          <Bullet text="Buy Side" sub="Active buyers · search criteria · urgency" />
+          <Bullet text="Auction House Intros" sub="Christie's referrals in motion" />
+          <Bullet text="ANEW Projects" sub="AnewHomes pipeline · Scott + Richard" />
         </div>
 
+        {/* Q3 — THE NETWORK */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.navy}` }}>
+          <h3 style={s.panelH3}>③ The Network <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
+          <Bullet text="Key Relationships" sub="Lily · Ilija Pavlovic · Rick Moeser · Melissa True" />
+          <Bullet text="NYC Contacts" sub="Finance · law · art world" />
+          <Bullet text="Attorneys" sub="Deal counsel · estate counsel · referral partners" />
+          <Bullet text="Recruit Targets" sub="Next agent · timeline · approach" />
+        </div>
+
+        {/* Q4 — THE CALENDAR */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.gold}` }}>
+          <h3 style={s.panelH3}>④ The Calendar <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
+          <Bullet text="Headline Events" sub="Christie's auction dates · Hamptons circuit" />
+          <Bullet text="Private Collector Series" sub="Monthly UHNW touchpoint events" />
+          <Bullet text="Wednesday Caravan" sub="Recurring · brokers + culture + rhythm" />
+          <div style={s.subLabel}>Team Dates</div>
+          {[
+            ['Angel Day One', 'April 25'],
+            ['Public Launch', 'April 29'],
+            ['Zoila starts', 'May 4'],
+            ['Scott starts', 'June 1'],
+          ].map(([who, when]) => (
+            <div key={who} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 6, padding: '2px 0', fontSize: 9, borderBottom: `1px dotted ${C.stone}`, fontFamily: 'Georgia, serif' }}>
+              <span style={{ color: C.charcoal }}>{who}</span>
+              <span style={{ color: C.deepRed, fontWeight: 700 }}>{when}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Q5 — THE FOCUS */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
+          <h3 style={s.panelH3}>⑤ The Focus <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Current</span></h3>
+          <Bullet text="Active Hamlet" sub="East Hampton Village · Bridgehampton corridor" />
+          <Bullet text="Deal Priority #1" sub="25 Horseshoe Road · in contract" />
+          <Bullet text="Deal Priority #2" sub="2 Old Hollow Road · closed April 2" />
+          <Bullet text="Intelligence Signal" sub="Inventory tightening · buyer urgency rising" />
+          <Bullet text="Institutional Lens" sub="UHNW buyer pipeline · CPS-1 node active" />
+        </div>
+
+        {/* Q6 — THE COMPASS */}
         <div style={{
           background: C.deepRed,
           color: C.cream,
           padding: '12px 14px',
-          textAlign: 'center',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          minWidth: 180,
-          position: 'relative',
+          justifyContent: 'space-between',
+          boxSizing: 'border-box',
         }}>
-          <div style={{ fontSize: 16, letterSpacing: '0.25em', fontWeight: 700, color: C.gold, marginBottom: 4, fontFamily: 'Georgia, serif' }}>CPS-1</div>
+          <div>
+            <h3 style={{ ...s.panelH3, color: C.gold, borderBottomColor: 'rgba(200,172,120,0.4)', marginBottom: 10 }}>
+              ⑥ The Compass
+            </h3>
+            <div style={{ fontSize: 11, color: C.stone, lineHeight: 1.6, fontStyle: 'italic', marginBottom: 10 }}>
+              "Seventy-five million to three billion. Three offices. One trajectory."
+            </div>
+            <div style={{ fontSize: 9.5, color: C.stone, lineHeight: 1.55 }}>
+              <strong style={{ color: C.gold }}>Doctrine:</strong> The live URL is the source of truth. Ed thirty-five. Ilija sixty-five. Two parties at the pool. The platform is the pitch. No decks.
+            </div>
+          </div>
           <div style={{
-            fontSize: 10, letterSpacing: '0.15em', fontStyle: 'italic',
-            borderTop: `1px solid ${C.gold}`, borderBottom: `1px solid ${C.gold}`,
-            padding: '5px 0', margin: '5px 0', color: C.cream,
-          }}>Ed is the node</div>
-          <div style={{ fontSize: 9, lineHeight: 1.35, marginTop: 4, color: C.stone, fontStyle: 'italic' }}>
-            "The juice that greases the gear." UHNW buyers meet new product in any market Christie's operates.
+            borderTop: `1px solid rgba(200,172,120,0.4)`,
+            paddingTop: 10,
+            marginTop: 10,
+            textAlign: 'center',
+          }}>
+            <div style={{ fontSize: 9, letterSpacing: '0.22em', color: C.gold, textTransform: 'uppercase', marginBottom: 4 }}>Daily Mentor Anchor</div>
+            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.cream, fontStyle: 'italic', fontFamily: 'Georgia, serif' }}>
+              Soli Deo Gloria.
+            </div>
           </div>
         </div>
 
-        <div style={{ background: C.paper, border: `1px solid ${C.gold}`, padding: '10px 12px', borderLeft: `4px solid ${C.gold}` }}>
-          <div style={{ fontSize: 13, letterSpacing: '0.25em', color: C.deepRed, fontWeight: 700, marginBottom: 3, fontFamily: 'Georgia, serif' }}>CIRE</div>
-          <div style={{ fontSize: 9, color: C.goldDark, fontStyle: 'italic', marginBottom: 6, letterSpacing: '0.08em' }}>Global Destination</div>
-          <div style={{ fontSize: 10, color: C.charcoal, lineHeight: 1.45 }}>Christie's International Real Estate. London, Paris, Amsterdam, Caribbean. Where reunification with the auction house becomes undeniable.</div>
-        </div>
       </section>
 
       {/* NUMBERS BAND */}
@@ -239,91 +245,70 @@ export function EdCorkboard() {
         ))}
       </section>
 
-      {/* BOTTOM: SITE MAP | CALENDAR | WHALES + CONTACT */}
-      <section style={{ display: 'grid', gridTemplateColumns: '1.1fr 1fr 0.9fr', gap: 12 }}>
-
-        {/* SITE MAP */}
+      {/* FOOTER: Ten Commandments condensed + Contact */}
+      <section style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 12 }}>
         <div style={s.panel}>
-          <h3 style={s.panelH3}>The Site · christiesrealestategroupeh.com</h3>
-          <div style={{ ...s.subLabel, borderTop: 'none', paddingTop: 0, marginTop: 0 }}>Five Tabs + HOME (via logo)</div>
-          {[
-            ['HOME', 'Flagship letter · live ticker · PDF + AUDIO'],
-            ['MARKET', '11 hamlets · ANEW scores · live data'],
-            ['MAPS', 'Territory · deal engine · 5 lenses'],
-            ['PIPE', 'Live deal engine · Office Pipeline sheet'],
-            ['FUTURE', 'Ascension arc · pro forma · partner cards'],
-            ['INTEL', 'Miro · Trello · Calendar · Corkboard · 13 sheets'],
-          ].map(([tab, desc]) => (
-            <div key={tab} style={{ display: 'grid', gridTemplateColumns: '58px 1fr', gap: 6, padding: '2px 0', fontSize: 9.5, alignItems: 'baseline', fontFamily: 'Georgia, serif' }}>
-              <span style={{ color: C.deepRed, fontWeight: 700, letterSpacing: '0.05em' }}>{tab}</span>
-              <span>{desc}</span>
-            </div>
-          ))}
-          <div style={s.subLabel}>Seven Routes</div>
-          <div style={{ fontSize: 9, color: C.charcoal, lineHeight: 1.5, marginTop: 2, fontFamily: 'Georgia, serif' }}>
-            <strong style={{ color: C.deepRed }}>/report</strong> · <strong style={{ color: C.deepRed }}>/letters/flagship</strong> · <strong style={{ color: C.deepRed }}>/letters/christies</strong> · <strong style={{ color: C.deepRed }}>/letters/angel</strong> · <strong style={{ color: C.deepRed }}>/architecture-of-wealth</strong> · <strong style={{ color: C.deepRed }}>/cards/uhnw-path</strong> · <strong style={{ color: C.deepRed }}>/pro-forma</strong>
-          </div>
+          <h3 style={s.panelH3}>The Ten Commandments</h3>
+          <ol style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            {[
+              'The live URL is the source of truth.',
+              'Tell the truth. Know the territory. Sit on the same side as the family.',
+              'Every number has a named source. No invented figures.',
+              'Ed thirty-five. Ilija sixty-five. Two parties at the pool.',
+              'Seventy-five million to three billion. Three offices. One trajectory.',
+              'The platform is the pitch. No decks.',
+              'Nothing to Manny without a Claude wireframe.',
+              'The operator is the gate. Ed signs off or it does not ship.',
+              'No competitor names on any public surface.',
+              'AnewHomes locked at seven. Ed, Scott, Richard, Jarvis, Angel, Zoila, Pool.',
+            ].map((cmd, i) => (
+              <li key={i} style={{
+                padding: '3px 2px',
+                fontSize: 9.5,
+                borderBottom: i < 9 ? `1px dotted ${C.stone}` : 'none',
+                display: 'grid',
+                gridTemplateColumns: '26px 1fr',
+                gap: 5,
+                alignItems: 'baseline',
+                fontFamily: 'Georgia, serif',
+              }}>
+                <span style={{ color: C.goldDark, fontWeight: 700, fontSize: 9, textAlign: 'right' }}>
+                  {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i]}.
+                </span>
+                <span style={{ color: C.charcoal }}>{cmd}</span>
+              </li>
+            ))}
+          </ol>
         </div>
 
-        {/* CALENDAR + DATES */}
-        <div style={s.panel}>
-          <h3 style={s.panelH3}>The Calendar</h3>
-          {[
-            { day: 'MONDAY · Operator Room', time: '70 minutes · Ed, Jarvis, Angel', desc: 'Deals, money, decisions. The money room.' },
-            { day: 'WEDNESDAY · Institution Room', time: '95 minutes · + Zoila + brokers', desc: 'Culture, caravan, rhythm. The institution room.' },
-          ].map(({ day, time, desc }) => (
-            <div key={day} style={{ borderLeft: `3px solid ${C.gold}`, padding: '3px 0 3px 10px', marginBottom: 6, fontFamily: 'Georgia, serif' }}>
-              <div style={{ fontWeight: 700, color: C.deepRed, fontSize: 10.5, letterSpacing: '0.1em' }}>{day}</div>
-              <div style={{ fontSize: 9, color: C.goldDark, fontStyle: 'italic' }}>{time}</div>
-              <div style={{ fontSize: 9.5, color: C.charcoal, marginTop: 1 }}>{desc}</div>
-            </div>
-          ))}
-          <div style={s.subLabel}>Team Dates</div>
-          {[
-            ['Angel Day One', 'April 25'],
-            ['Public launch', 'April 29'],
-            ['Zoila starts', 'May 4'],
-            ['Scott starts', 'June 1'],
-            ['Zoila vesting cliff', 'Nov 4'],
-          ].map(([who, when]) => (
-            <div key={who} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, padding: '2.5px 0', fontSize: 9.5, alignItems: 'baseline', borderBottom: `1px dotted ${C.stone}`, fontFamily: 'Georgia, serif' }}>
-              <span style={{ color: C.charcoal }}>{who}</span>
-              <span style={{ color: C.deepRed, fontWeight: 700, letterSpacing: '0.05em' }}>{when}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* WHALES + CONTACT */}
-        <div style={{ display: 'grid', gridTemplateRows: 'auto auto 1fr', gap: 8 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={s.panel}>
-            <h3 style={s.panelH3}>Key Relationships</h3>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {[['Lily', ''], ['Ilija', ''], ['Rick', 'Moeser'], ['Melissa', 'True']].map(([name, last]) => (
-                <li key={name} style={{ padding: '2px 0', fontSize: 10, color: C.charcoal, display: 'flex', gap: 6, alignItems: 'center', fontFamily: 'Georgia, serif' }}>
-                  <span style={{ color: C.gold, fontSize: 7 }}>◆</span>
-                  <strong style={{ color: C.deepRed }}>{name}</strong>{last ? <span>&nbsp;{last}</span> : null}
-                </li>
-              ))}
-            </ul>
+            <h3 style={{ ...s.panelH3, fontSize: 10 }}>The Council (Cortex)</h3>
+            {[
+              ['Claude', 'Architect. Wireframes. Scribe.'],
+              ['Perplexity', 'Intelligence. Data. Editor.'],
+              ['Manny', 'Builder. Server-side truth.'],
+              ['ChatGPT', 'Pressure-test. Strategy.'],
+              ['Grok', 'Challenge. Stress-test.'],
+            ].map(([name, role]) => (
+              <div key={name} style={{ display: 'grid', gridTemplateColumns: '72px 1fr', gap: 6, padding: '2px 0', fontSize: 9, fontFamily: 'Georgia, serif' }}>
+                <span style={{ color: C.deepRed, fontWeight: 700 }}>{name}</span>
+                <span style={{ color: C.charcoal }}>{role}</span>
+              </div>
+            ))}
           </div>
-
           <div style={s.panel}>
             <h3 style={{ ...s.panelH3, fontSize: 10 }}>Contact</h3>
             <div style={{ fontSize: 9.5, lineHeight: 1.6, color: C.charcoal, fontFamily: 'Georgia, serif' }}>
               <strong style={{ color: C.deepRed }}>Ed Bruehl</strong> · Managing Director<br />
               26 Park Place, East Hampton, NY 11937<br />
               <strong style={{ color: C.deepRed }}>646-752-1233</strong><br />
-              edbruehl@christiesrealestategroup.com<br />
-              <span style={{ fontSize: 8.5, color: C.goldDark, letterSpacing: '0.1em', fontStyle: 'italic' }}>linktr.ee/edbruehlrealestate</span>
+              edbruehl@christiesrealestategroup.com
             </div>
           </div>
-
-          <div style={{ textAlign: 'center', fontStyle: 'italic', color: C.deepRed, letterSpacing: '0.2em', fontSize: 11, paddingTop: 6, borderTop: `1px solid ${C.gold}`, fontFamily: 'Georgia, serif' }}>
-            Soli Deo Gloria.
-          </div>
         </div>
-
       </section>
+
     </div>
   );
 }

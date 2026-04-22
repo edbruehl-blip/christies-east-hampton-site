@@ -2510,3 +2510,43 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] CPS-7 -> CPS-1 on /pro-forma Page 1 footnote + all other CPS-7 references
 - [ ] James Christie caption: unified across HOME + all /letters/* routes
 - [ ] Browser-render grep: zero CIS matches across all public routes
+
+## Apr 22 Council Brief · ~11:30 AM EDT
+
+- [ ] HOME: Fix video 2 title to "250 Years of History", video 3 to "A Life Less Ordinary"
+- [ ] TASK 1 P0: INTEL tab contrast — lift body text/card titles to ivory on Canonical Data Sources + Canon Documents blocks
+- [ ] TASK 2 P0: /future CPS1 patch — all 7 partner cards to canonical curve (00K→.13M), unified footnote
+- [ ] TASK 3 P0: MAPS tab reorder — Map → Deal Engine → Hamlet Highlights
+- [ ] TASK 4 P1: /report PDF — kill TikTok iframe in print, tighten dead zones pages 1/3/4/7/8
+- [ ] TASK 5 P1: /pro-forma?pdf=1 print verification — all 7 cards, CPS1 .13M, doctrine footer, zero dead zones
+
+## Apr 22 Council Dispatch — Tasks 6-8
+
+### Task 6 · Corkboard Content Refresh
+- [x] Replace Miro embed with canonical six-quadrant operational layout (Feb 2026 ruling)
+- [x] Quadrant 1: THE PULSE — Numbers Box · Top 3 Ed/Angel · Waiting On · Touch Minimums
+- [x] Quadrant 2: THE PIPELINE — Active Listings · Buy Side · Auction House Intros · ANEW Projects
+- [x] Quadrant 3: THE NETWORK — Key Relationships · NYC Contacts · Attorneys · Recruit Targets
+- [x] Quadrant 4: THE CALENDAR — Headline Events · Private Collector Series · Wednesday Caravan
+- [x] Quadrant 5: THE FOCUS — Current hamlet intelligence + active deal priorities
+- [x] Quadrant 6: THE COMPASS — Doctrine line · Soli Deo Gloria · daily mentor anchor
+- [x] Text fix: "Angel Day One · April 25" (not "starts")
+- [x] Text fix: "Ilija Pavlovic" (one i, one c)
+- [x] Text fix: "Key Relationships" (not "Whales")
+
+### Task 7 · Morning Report Surface
+- [x] Add "Today's Brief" block to HOME tab
+- [x] Renders today's AM Bruehl Brief (Hamptons 200w · Markets 200w · Art 200w)
+- [x] Updates daily at 5:55 AM when William fires
+- [x] Click-to-listen via William voice
+- [x] Click-to-print PDF export
+
+### Task 8 · Orphan Asset Surfacing
+- [x] /letters/flagship → HOME footer
+- [x] /letters/christies → HOME footer
+- [x] /letters/angel → INTEL tab Canon Documents
+- [x] /letters/welcome → HOME footer
+- [x] /council-brief → INTEL tab
+- [x] /architecture-of-wealth → INTEL tab
+- [x] /cards/uhnw-path → FUTURE tab
+- [x] /cards/bike → MAPS tab

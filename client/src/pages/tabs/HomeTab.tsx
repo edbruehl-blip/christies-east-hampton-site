@@ -21,6 +21,7 @@
 
 import { useLocation } from 'wouter';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
+import { trpc } from '@/lib/trpc';
 
 // Neighborhood Letter v15 — council-locked April 21 2026
 const FOUNDING_PARAGRAPHS = [
@@ -35,6 +36,137 @@ const FOUNDING_PARAGRAPHS = [
   "I am honored to carry the Christie's Standard forward here, with energy and care — intelligent, compassionate, patient counsel for the families of the East End who prefer to be understood before they're advised. The flagship is awakening.",
   "We look forward to seeing you soon. Stop by 26 Park Place — next to John Papas — for coffee or a conversation. The door is always open.",
 ];
+
+// ─── Today's Brief Block (Task 7 · Apr 22 2026) ────────────────────────────────
+function TodaysBrief() {
+  const { data: brief, isLoading } = trpc.brief.getToday.useQuery();
+
+  const formatDate = (dateStr: string) => {
+    try {
+      const [y, m, d] = dateStr.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', {
+        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+      });
+    } catch { return dateStr; }
+  };
+
+  const handlePrint = () => {
+    if (!brief) return;
+    const html = `<!DOCTYPE html><html><head><title>Today's Brief · ${brief.briefDate}</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#1B2A4A;line-height:1.7}h1{font-size:1.4rem;letter-spacing:.1em;border-bottom:2px solid #947231;padding-bottom:8px;margin-bottom:24px}h2{font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:#947231;margin:20px 0 8px}p{margin:0 0 12px;font-size:.95rem}@media print{body{margin:20px}}</style></head><body><h1>Today's Brief · ${formatDate(brief.briefDate)}</h1><h2>The Hamptons</h2><p>${brief.hamptons}</p><h2>Markets</h2><p>${brief.markets}</p><h2>Art</h2><p>${brief.art}</p></body></html>`;
+    const w = window.open('', '_blank');
+    if (w) { w.document.write(html); w.document.close(); w.print(); }
+  };
+
+  return (
+    <div style={{
+      background: '#0D1B2A',
+      borderTop: '1px solid rgba(148,114,49,0.25)',
+      borderBottom: '1px solid rgba(148,114,49,0.25)',
+      padding: '48px 24px',
+    }}>
+      <div style={{ maxWidth: 900, margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
+          <div>
+            <div style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 10,
+              fontWeight: 600,
+              letterSpacing: '0.28em',
+              textTransform: 'uppercase',
+              color: '#947231',
+              marginBottom: 6,
+            }}>The Bruehl Brief</div>
+            <h2 style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              color: '#FAF8F4',
+              fontWeight: 400,
+              fontSize: 'clamp(1.2rem, 2.2vw, 1.6rem)',
+              margin: 0,
+              lineHeight: 1.2,
+            }}>
+              Today's Brief
+              {brief && (
+                <span style={{ fontSize: '0.65em', color: '#947231', marginLeft: 12, fontStyle: 'italic' }}>
+                  {formatDate(brief.briefDate)}
+                </span>
+              )}
+            </h2>
+          </div>
+          {brief && (
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button
+                onClick={handlePrint}
+                style={{
+                  background: 'transparent',
+                  border: '1px solid rgba(148,114,49,0.5)',
+                  color: '#947231',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 10,
+                  fontWeight: 600,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  padding: '7px 16px',
+                  cursor: 'pointer',
+                }}
+              >
+                Print PDF
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Content */}
+        {isLoading ? (
+          <div style={{ color: 'rgba(250,248,244,0.4)', fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontStyle: 'italic' }}>
+            Loading today's brief…
+          </div>
+        ) : !brief ? (
+          <div style={{
+            border: '1px solid rgba(148,114,49,0.2)',
+            padding: '24px 28px',
+            color: 'rgba(250,248,244,0.5)',
+            fontFamily: 'Georgia, serif',
+            fontSize: '0.9rem',
+            fontStyle: 'italic',
+          }}>
+            Today's brief has not been generated yet. William fires at 5:55 AM.
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+            {[
+              { label: 'The Hamptons', body: brief.hamptons },
+              { label: 'Markets', body: brief.markets },
+              { label: 'Art', body: brief.art },
+            ].map(({ label, body }) => (
+              <div key={label} style={{
+                borderLeft: '3px solid #947231',
+                paddingLeft: 16,
+              }}>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 9,
+                  fontWeight: 600,
+                  letterSpacing: '0.22em',
+                  textTransform: 'uppercase',
+                  color: '#947231',
+                  marginBottom: 8,
+                }}>{label}</div>
+                <p style={{
+                  fontFamily: '"Source Sans 3", sans-serif',
+                  color: 'rgba(250,248,244,0.82)',
+                  fontSize: '0.88rem',
+                  lineHeight: 1.72,
+                  margin: 0,
+                }}>{body}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 // ─── Section A  ·  Hero letter with floating portrait ──────────────────────────
 function SectionA() {
@@ -278,19 +410,19 @@ function SectionChristiesStory() {
 }
 
 // ─── Section D  ·  Video Reel ─────────────────────────────────────────────────
-// ORDER (Apr 22 2026 Session 2 — titles corrected per Ed's dispatch):
-// 1. 250 Years · 2. Life Less Ordinary · 3. Christie's Estate Services · 4. Rabbit Hole
+// ORDER (Apr 22 2026 Session 3 — titles corrected per Ed's dispatch):
+// 1. 250 Years of History · 2. A Life Less Ordinary · 3. Christie's Estate Services · 4. Rabbit Hole
 const VIDEO_REEL = [
   {
     key: 'v3',
     src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
-    title: '250 Years',
+    title: '250 Years of History',
     label: "Christie's International Real Estate Group",
   },
   {
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',
-    title: 'Life Less Ordinary',
+    title: 'A Life Less Ordinary',
     label: "Christie's East Hampton — Life Less Ordinary",
   },
   {
@@ -365,36 +497,83 @@ function SectionVideoReel() {
   );
 }
 
-// ─── Section E  ·  Home Footer ────────────────────────────────────────────────
-// Institutional footer — no name, no CTA button
+// ─── Section E  ·  Home Footer (Task 8 · Orphan Links · Apr 22 2026) ─────────
 function HomeFooter() {
+  const [, navigate] = useLocation();
+
+  const FOOTER_LINKS = [
+    { label: 'Letter from the Flagship', href: '/letters/flagship' },
+    { label: 'A Letter from Christie’s', href: '/letters/christies' },
+    { label: 'Letter to Angel', href: '/letters/angel' },
+    { label: 'Neighborhood Welcome Letter', href: '/letters/welcome' },
+  ];
+
   return (
     <div style={{
       background: '#0D1B2A',
       borderTop: '1px solid rgba(200,172,120,0.18)',
       padding: '48px 24px 56px',
     }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
-        <div style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#947231',
-          fontSize: 12,
-          fontWeight: 600,
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-        }}>
-          Christie's East Hampton Flagship
+      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
+        {/* Brand line */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            color: '#947231',
+            fontSize: 12,
+            fontWeight: 600,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+          }}>
+            Christie’s East Hampton Flagship
+          </div>
+          <div style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            color: '#947231',
+            fontSize: 10,
+            fontWeight: 500,
+            letterSpacing: '0.22em',
+            textTransform: 'uppercase',
+            opacity: 0.55,
+          }}>
+            Art. Beauty. Provenance. Since 1766.
+          </div>
         </div>
-        <div style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          color: '#947231',
-          fontSize: 10,
-          fontWeight: 500,
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          opacity: 0.55,
-        }}>
-          Art. Beauty. Provenance. Since 1766.
+
+        {/* Letter links */}
+        <div>
+          <div style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 8,
+            fontWeight: 600,
+            letterSpacing: '0.28em',
+            textTransform: 'uppercase',
+            color: 'rgba(148,114,49,0.55)',
+            marginBottom: 10,
+          }}>Institutional Letters</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' }}>
+            {FOOTER_LINKS.map(({ label, href }) => (
+              <a
+                key={href}
+                href={href}
+                onClick={(e) => { e.preventDefault(); navigate(href); }}
+                style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11,
+                  fontWeight: 500,
+                  letterSpacing: '0.12em',
+                  color: 'rgba(250,248,244,0.55)',
+                  textDecoration: 'none',
+                  textTransform: 'uppercase',
+                  transition: 'color 0.15s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#947231')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,248,244,0.55)')}
+              >
+                {label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -402,12 +581,13 @@ function HomeFooter() {
 }
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
-// ORDER: Letter → Image Matrix → Video Reel → Authority Block → Footer
+// ORDER: Letter → Image Matrix → Today's Brief → Video Reel → Authority Block → Footer
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
       <AuctionImageMatrix />
+      <TodaysBrief />
       <SectionVideoReel />
       <SectionChristiesStory />
       <HomeFooter />

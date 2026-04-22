@@ -7,6 +7,7 @@
  */
 
 import React, { useMemo, useRef, useEffect } from 'react';
+import { useLocation } from 'wouter';
 import { LOGO_WHITE, LOGO_BLACK } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
@@ -46,7 +47,8 @@ const EH_TOTAL   = [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784
 const SH_M       = [0, 0, 0, 42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6, 987.8];
 const WH_M       = [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9];
 const ANEW_M     = [0, 15, 30, 45, 55, 65, 75, 80, 85, 90, 95, 100];
-const CPS1_M     = [0, 20, 50, 70, 85, 95, 100, 102, 104, 106, 108, 110];
+// Canonical CPS1 curve per Ed's ruling: $100K(2026)→$250K(2027)→$500K(2028)→$750K(2029)→$1.0M(2030)→2% steady-state→$1.13M(2036)
+const CPS1_M     = [0, 100, 250, 500, 750, 1000, 1020, 1040.4, 1061.2, 1082.4, 1104.1, 1126.2];
 // EH core = EH total minus (AnewHomes + CPS1), clamped to 0
 const EH_CORE    = EH_TOTAL.map((v, i) => Math.max(0, v - ANEW_M[i] - CPS1_M[i]));
 const COMBINED   = ARC_YEARS.map((_, i) => EH_TOTAL[i] + SH_M[i] + WH_M[i]);
@@ -365,7 +367,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. $100K 2026 ramping to $1.5M cap by 2029&ndash;2030. Visibility only &mdash; not additive to totals.</div>
+          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only &mdash; not additive to totals. Full doctrine: Christie&rsquo;s East Hampton Canonical Reference Library.</div>
         </div>
       </div>
       {/* Two additional footnotes: ** and ° */}
@@ -494,7 +496,53 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
   );
 }
 
-// ─── Brand Footer ─────────────────────────────────────────────────────────────
+// --- Task 8 : UHNW Card Link (orphan surfacing) ---
+function UHNWCardLink() {
+  const [, navigate] = useLocation();
+  return (
+    <div style={{
+      marginTop: 24,
+      padding: '16px 20px',
+      border: '1px solid rgba(148,114,49,0.35)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 16,
+    }}>
+      <div>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#947231', marginBottom: 4 }}>
+          Client Resource
+        </div>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#ebe6db', fontWeight: 400, fontSize: '0.95rem' }}>
+          UHNW Wealth Path Card
+        </div>
+        <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(235,230,219,0.7)', fontSize: '0.78rem', marginTop: 3 }}>
+          The Christie’s Standard applied to UHNW family wealth stewardship.
+        </div>
+      </div>
+      <button
+        onClick={() => navigate('/cards/uhnw-path')}
+        style={{
+          background: 'transparent',
+          border: '1px solid rgba(148,114,49,0.5)',
+          color: '#947231',
+          fontFamily: '"Barlow Condensed", sans-serif',
+          fontSize: 9,
+          fontWeight: 600,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          padding: '7px 16px',
+          cursor: 'pointer',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        Open Card
+      </button>
+    </div>
+  );
+}
+
+// ─── Brand Footer ─────────────────────────────────────────────────────
 function BrandFooter({ isPdfMode, pageNum }: { isPdfMode: boolean; pageNum?: string }) {
   const borderColor = isPdfMode ? '#947231' : 'rgba(148,114,49,0.4)';
   const textColor   = isPdfMode ? '#111' : '#ebe6db';
@@ -631,12 +679,12 @@ export default function FutureTab() {
     { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
     { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
     { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: C_CPS1 },
-    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: ITALIC_GRAY },
+    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: ITALIC_GRAY },
   ];
 
   const ilijaStreams: StreamRow[] = [
     { label: <>CIREG Profit Share 65%**</>,                   v26: ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K', v27: ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K', v28: ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K', v36: ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M', color: C_SH },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const angelStreams: StreamRow[] = [
@@ -645,7 +693,7 @@ export default function FutureTab() {
     { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
     { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const jarvisStreams: StreamRow[] = [
@@ -653,7 +701,7 @@ export default function FutureTab() {
     { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
     { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const zoilaStreams: StreamRow[] = [
@@ -662,7 +710,7 @@ export default function FutureTab() {
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: C_ANEW },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
     { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: C_CPS1 },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.69M', color: '#9a9a9a' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const scottStreams: StreamRow[] = [
@@ -930,6 +978,11 @@ export default function FutureTab() {
         <div style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
             Page 3 of 3
         </div>
+
+        {/* Task 8 · Orphan asset link — UHNW Wealth Path Card */}
+        {!isPdfMode && (
+          <UHNWCardLink />
+        )}
 
       </div>
       {/* Print footer */}

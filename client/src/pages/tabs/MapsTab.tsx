@@ -14,6 +14,7 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'wouter';
 import * as d3 from 'd3';
 import { MapView } from '@/components/Map';
 import { toast } from 'sonner';
@@ -658,6 +659,58 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
+// --- Task 8 : Neighborhood Card Link (orphan surfacing) ---
+function NeighborhoodCardLink() {
+  const [, navigate] = useLocation();
+  return (
+    <div style={{
+      maxWidth: 'var(--frame-max-w)',
+      margin: '0 auto',
+      padding: '0 24px 32px',
+    }}>
+      <div style={{
+        padding: '16px 20px',
+        border: '1px solid rgba(148,114,49,0.35)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 16,
+        background: 'rgba(27,42,74,0.4)',
+      }}>
+        <div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, fontWeight: 600, letterSpacing: '0.22em', textTransform: 'uppercase', color: '#947231', marginBottom: 4 }}>
+            Client Resource
+          </div>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#ebe6db', fontWeight: 400, fontSize: '0.95rem' }}>
+            Neighborhood Card
+          </div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(235,230,219,0.7)', fontSize: '0.78rem', marginTop: 3 }}>
+            East Hampton hamlet guide — bike routes, landmarks, and local intelligence.
+          </div>
+        </div>
+        <button
+          onClick={() => navigate('/cards/bike')}
+          style={{
+            background: 'transparent',
+            border: '1px solid rgba(148,114,49,0.5)',
+            color: '#947231',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 9,
+            fontWeight: 600,
+            letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            padding: '7px 16px',
+            cursor: 'pointer',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          Open Card
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function MapsTab() {
   const [activeHamlet, setActiveHamlet] = useState<HamletData | null>(null);
   const [liveListings, setLiveListings] = useState<Record<string, LiveListing[]>>({});
@@ -680,13 +733,16 @@ export default function MapsTab() {
       </div>
       {/* CIS Calculator removed per Ruling 2 — replaced by ANEW Deal Engine below */}
 
+      {/* ── ANEW Deal Engine — reordered Apr 22 2026: Map → Deal Engine → Hamlet Highlights ─── */}
+      <ANEWDealEngine />
+
       {/* ── Hamlet Highlights: Local intelligence module (Apr 17 2026 dispatch) ─── */}
       <HamletHighlightsModule />
-
-      {/* ── ANEW Deal Engine — Ruling 1: below hamlet cards ─────────────────── */}
-      <ANEWDealEngine />
       {/* Layer 3: Hamlet Intelligence Matrix grid removed per Perp dispatch Apr 17 2026 */}
       {/* Map + Deal Engine + PDF download buttons in HamletDetailPanel are preserved */}
+
+      {/* Task 8 · Orphan asset link — Neighborhood Card */}
+      <NeighborhoodCardLink />
 
       {/* ── Layer 4 + 5: Hamlet Detail Panel + Print Output ────────────────── */}
       {activeHamlet && (

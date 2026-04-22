@@ -1805,7 +1805,7 @@ const YOUTUBE_VIDEOS = [
 function YouTubeMatrix() {
   const [playing, setPlaying] = useState<string | null>(null);
   return (
-    <section style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section className="no-print" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div
           style={{
@@ -1960,7 +1960,7 @@ function Section7() {
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <p style={{
           fontFamily: '"Source Sans 3", sans-serif',
-          color: 'rgba(250,248,244,0.55)',
+          color: 'rgba(250,248,244,0.85)',
           fontSize: '0.8125rem',
           marginBottom: 24,
           maxWidth: 680,

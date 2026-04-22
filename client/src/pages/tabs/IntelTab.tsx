@@ -18,6 +18,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
+import { useLocation } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
@@ -132,7 +133,7 @@ function MindMapSection() {
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
               Christie's Flagship Mind Map
             </h3>
-            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
+            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
               Live Miro board · Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
             </p>
           </div>
@@ -199,7 +200,7 @@ function TrelloLayer() {
   const GOLD    = '#c9a84c';
   const GOLD_DIM = 'rgba(201,168,76,0.35)';
   const CREAM   = '#faf8f4';
-  const MUTED   = 'rgba(250,248,244,0.55)';
+  const MUTED   = 'rgba(250,248,244,0.85)';
 
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
@@ -358,7 +359,7 @@ function CalendarLayer() {
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
               Master Calendar · Christie's East Hampton
             </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: 9, marginTop: 2 }}>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.8)', fontSize: 9, marginTop: 2 }}>
               Podcast · Event · Internal · Social · Wednesday Circuit
             </div>
           </div>
@@ -397,7 +398,7 @@ function CalendarLayer() {
               style={{ display: 'block', border: 'none' }}
             />
             <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(200,172,120,0.08)' }}>
-              <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 10 }}>
+              <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: 10 }}>
                 If the calendar appears blank, your browser may be blocking third-party cookies. Use{' '}
                 <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
               </span>
@@ -539,7 +540,7 @@ function NineSheetMatrix() {
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
           Canonical Data Sources
         </div>
-        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
           Thirteen Google Sheets powering the Christie's East Hampton platform — nine canonical data sources plus four active operational tabs from the Hamptons Outreach Intelligence sheet. Each opens directly in Google Sheets.
         </div>
 
@@ -591,7 +592,7 @@ function NineSheetMatrix() {
                     </span>
                   )}
                 </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.78rem', lineHeight: 1.45 }}>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)', fontSize: '0.78rem', lineHeight: 1.45 }}>
                   {sheet.description}
                 </div>
               </div>
@@ -724,7 +725,16 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   },
 ];
 
+// Task 8 · Orphan Asset Links for INTEL tab Canon Documents
+const INTEL_DASHBOARD_LINKS = [
+  { label: 'Council Brief', href: '/council-brief', description: 'Full council brief — five-layer header directive, PDF engine, MAPS hamlet spec, PIPE scaffold, and 300-day arc.' },
+  { label: 'Architecture of Wealth', href: '/architecture-of-wealth', description: 'Institutional wealth architecture — the Christie’s Standard applied to UHNW families on the East End.' },
+  { label: 'Letter to Angel', href: '/letters/angel', description: 'Onboarding letter to Angel — the Day One brief, institutional context, and operational mandate.' },
+];
+
 function DocumentLibrary() {
+  const [, navigate] = useLocation();
+
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
@@ -735,6 +745,33 @@ function DocumentLibrary() {
           Canon Documents
         </div>
 
+        {/* Dashboard routes — Task 8 orphan surfacing */}
+        <div className="flex flex-col gap-3 mb-6" style={{ maxWidth: 860 }}>
+          {INTEL_DASHBOARD_LINKS.map(link => (
+            <MatrixCard key={link.href} variant="default" className="p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem', lineHeight: 1.35 }}>
+                    {link.label}
+                  </div>
+                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
+                    {link.description}
+                  </div>
+                </div>
+                <div className="shrink-0">
+                  <button
+                    onClick={() => navigate(link.href)}
+                    className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
+                    style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#947231', letterSpacing: '0.16em', background: 'transparent', cursor: 'pointer' }}
+                  >
+                    Open
+                  </button>
+                </div>
+              </div>
+            </MatrixCard>
+          ))}
+        </div>
+
         <div className="flex flex-col gap-3" style={{ maxWidth: 860 }}>
           {DOCUMENT_LIBRARY.map(doc => (
             <MatrixCard key={doc.id} variant={doc.pinned ? 'active' : 'default'} className="p-5">
@@ -743,7 +780,7 @@ function DocumentLibrary() {
                   <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem', lineHeight: 1.35 }}>
                     {doc.label}
                   </div>
-                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
+                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
                     {doc.description}
                   </div>
                 </div>
@@ -781,7 +818,7 @@ function IntelligenceWebLayer() {
         <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
           Intelligence Web
         </div>
-        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
           48 entities · Jarvis Top Agents · Whale Intelligence · Auction Referrals.
         </div>
         <IntelligenceWebTabs />
