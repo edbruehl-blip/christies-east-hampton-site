@@ -48,7 +48,7 @@ const FOUNDING_PARAGRAPHS = [
 // ─── Section A  ·  Hero ─────────────────────────────────────────────────────────
 // William audio RETIRED permanently Apr 18 2026 — C5 dispatch ruling
 function SectionA() {
-  const [, navigate] = useLocation();
+  // navigate moved to HomeFooter — portrait click uses anchor href
 
   const auctionRoomSrc = GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src
     ?? GALLERY_IMAGES[0]?.src
@@ -143,51 +143,7 @@ function SectionA() {
               ))}
             </div>
 
-            {/* ── Signature ── */}
-            <div style={{ marginTop: 28, paddingTop: 16, borderTop: '1px solid rgba(200,172,120,0.18)' }}>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1rem', fontStyle: 'italic', marginBottom: 4 }}>
-                Ed Bruehl
-              </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 14 }}>
-                Managing Director  ·  Christie's East Hampton
-              </div>
-              {/* Provenance close — lives at the end, after the work is done */}
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.45)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 20 }}>
-                Art. Beauty. Provenance. Since 1766.
-              </div>
-            </div>
-
-            {/* ── CONTINUE TO MARKET REPORT button ── */}
-            <div style={{ marginBottom: 32 }}>
-              <button
-                onClick={() => navigate('/report')}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '11px 24px',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11,
-                  letterSpacing: '0.2em',
-                  textTransform: 'uppercase',
-                  color: '#C8AC78',
-                  background: 'transparent',
-                  border: '1px solid rgba(200,172,120,0.5)',
-                  cursor: 'pointer',
-                  transition: 'background 0.18s, color 0.18s',
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = '#C8AC78';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#1B2A4A';
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-                  (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78';
-                }}
-              >
-                CONTINUE TO MARKET REPORT →
-              </button>
-            </div>
+            {/* Signature and CTA moved to HomeFooter section below */}
           </div>
           {/* /home-letter-col */}
           </div>
@@ -384,6 +340,127 @@ function SectionVideoReel() {
   );
 }
 
+// ─── Auction Image Matrix ─────────────────────────────────────────────────────
+// 9-image 3×3 grid — Christie's brand authority signal above footer
+// Assets from GALLERY_IMAGES in cdn-assets.ts
+function AuctionImageMatrix() {
+  return (
+    <div style={{ background: '#0D1B2A', borderTop: '1px solid rgba(200,172,120,0.12)', padding: '48px 40px 40px' }}>
+      <div style={{ maxWidth: 960, margin: '0 auto' }}>
+        {/* Label */}
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: 'rgba(200,172,120,0.6)',
+          fontSize: 9,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          marginBottom: 20,
+          textAlign: 'center',
+        }}>
+          Christie's  ·  Art  ·  Luxury  ·  Fine Wine  ·  Since 1766
+        </div>
+        {/* 3×3 grid */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 6,
+        }}>
+          {GALLERY_IMAGES.map((img) => (
+            <div key={img.id} style={{ position: 'relative', overflow: 'hidden', aspectRatio: '4/3' }}>
+              <img
+                src={img.src}
+                alt={img.caption}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: 'center',
+                  filter: 'brightness(0.88) saturate(0.9)',
+                  transition: 'filter 0.25s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(1) saturate(1)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.filter = 'brightness(0.88) saturate(0.9)'; }}
+              />
+              {/* Caption overlay on hover */}
+              <div style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                padding: '18px 10px 8px',
+                background: 'linear-gradient(transparent, rgba(13,27,42,0.82))',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 8,
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                color: 'rgba(200,172,120,0.8)',
+              }}>
+                {img.caption}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Home Footer ─────────────────────────────────────────────────────────────
+// Signature block + CTA — moved from SectionA letter column
+function HomeFooter() {
+  const [, navigate] = useLocation();
+  return (
+    <div style={{
+      background: '#0D1B2A',
+      borderTop: '1px solid rgba(200,172,120,0.18)',
+      padding: '48px 40px 56px',
+    }}>
+      <div style={{ maxWidth: 920, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
+        {/* Signature */}
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.1rem', fontStyle: 'italic', marginBottom: 2 }}>
+          Ed Bruehl
+        </div>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.65)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
+          Christie's East Hampton Flagship
+        </div>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.38)', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 24 }}>
+          Art. Beauty. Provenance. Since 1766.
+        </div>
+        {/* CTA */}
+        <button
+          onClick={() => navigate('/report')}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '11px 24px',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 11,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase',
+            color: '#C8AC78',
+            background: 'transparent',
+            border: '1px solid rgba(200,172,120,0.5)',
+            cursor: 'pointer',
+            transition: 'background 0.18s, color 0.18s',
+          }}
+          onMouseEnter={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = '#C8AC78';
+            (e.currentTarget as HTMLButtonElement).style.color = '#1B2A4A';
+          }}
+          onMouseLeave={e => {
+            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+            (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78';
+          }}
+        >
+          CONTINUE TO MARKET REPORT →
+        </button>
+      </div>
+    </div>
+  );
+}
+
 // ─── HomeTab default export ───────────────────────────────────────────────────
 export default function HomeTab() {
   return (
@@ -393,6 +470,8 @@ export default function HomeTab() {
       <SectionVideoReel />
       {/* BikeCardSection hidden V6 Apr 18 2026 — Ponder delivers Neighborhood Card PDF mockup Sunday Apr 19; unhide when asset is ready */}
       {/* <BikeCardSection /> */}
+      <AuctionImageMatrix />
+      <HomeFooter />
     </div>
   );
 }
