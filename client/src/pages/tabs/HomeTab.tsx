@@ -113,7 +113,7 @@ function SectionA() {
                 lineHeight: 1.2,
                 marginBottom: 4,
               }}>
-                A Letter from Ed Bruehl
+                A Letter from the Christie's East Hampton Flagship
               </div>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
@@ -122,7 +122,7 @@ function SectionA() {
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
               }}>
-                Managing Director · East Hampton Flagship
+                East Hampton · New York
               </div>
             </div>
 
