@@ -2550,3 +2550,8 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] /architecture-of-wealth → INTEL tab
 - [x] /cards/uhnw-path → FUTURE tab
 - [x] /cards/bike → MAPS tab
+
+## Apr 22 · AnewHomes § Canonical Truth Pass
+
+- [x] Add § marker to AnewHomes lines on 6 partner cards (Ed, Angel, Jarvis, Zoila, Scott, Richard)
+- [x] Add § footnote text to pro forma Page 3 footnote block (after CPS1 ‡ footnote)

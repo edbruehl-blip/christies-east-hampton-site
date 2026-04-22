@@ -510,7 +510,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             streams={[
               { label: "Ed's Team GCI (ref. only)",    vals: ['$600K','$720K','$864K','$3.60M'] },
               { label: 'Personal GCI',                 vals: ['$420K','$504K','$605K','$2.60M'] },
-              { label: 'AnewHomes 35% *',              vals: ['$17.5K','$52.5K','$59K','$151K'] },
+              { label: 'AnewHomes 35% * §',            vals: ['$17.5K','$52.5K','$59K','$151K'] },
               { label: 'CIREG Profit Share 29.75%',    vals: ['$52K','$128K','$287K','$3.39M'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
             ]}
@@ -536,7 +536,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             streams={[
               { label: 'Personal GCI',                 vals: ['$17.5K','$84K','$100.8K','$433K+'] },
               { label: 'Nest Salary °',                vals: ['$70K','$17.5K°','—','—'] },
-              { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
+              { label: 'AnewHomes 5% §',               vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
               { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
@@ -548,7 +548,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             subtitle="Agent – COO"
             streams={[
               { label: 'Personal GCI',                 vals: ['$140K','$168K','$201.6K','$868K+'] },
-              { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
+              { label: 'AnewHomes 5% §',               vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
               { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
@@ -566,7 +566,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             streams={[
               { label: 'Personal GCI',                 vals: ['$17.5K','$105K','$126K','$542K+'] },
               { label: 'Nest Salary ° †',              vals: ['$46.7K°','$17.5K°','—','—'] },
-              { label: 'AnewHomes 5% †',               vals: ['$0','$7.5K','$8.4K','$21.6K'] },
+              { label: 'AnewHomes 5% † §',             vals: ['$0','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override †",    vals: ['$30K','$9K','—','—'] },
               { label: 'CIREG Profit Share 1.75% †',  vals: ['$0','$8K','$17K','$200K'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
@@ -578,7 +578,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             subtitle="Agent – AnewHomes Co. Partner"
             streams={[
               { label: 'Personal GCI',                 vals: ['$35K','$84K','$100.8K','$324K+'] },
-              { label: 'AnewHomes 35%',                vals: ['$17.5K','$52.5K','$59K','$151K'] },
+              { label: 'AnewHomes 35% §',              vals: ['$17.5K','$52.5K','$59K','$151K'] },
             ]}
             total={['$52.5K','$136.5K','$159.8K','$475K+']}
           />
@@ -586,7 +586,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             name="Richard Bruehl"
             subtitle="Strategic Advisor – AnewHomes Co. Partner"
             streams={[
-              { label: 'AnewHomes 10%',                vals: ['$5K','$15K','$16.9K','$43.3K'] },
+              { label: 'AnewHomes 10% §',              vals: ['$5K','$15K','$16.9K','$43.3K'] },
             ]}
             total={['$5K','$15K','$16.9K','$43.3K']}
           />
@@ -601,7 +601,8 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
           AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
           ** Ilija CIREG 65% is his full take; 5% Christie’s royalty is Ilija’s cost, not surfaced on cards<br />
           † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.<br />
-          ‡ CPS1 + CIRE Node: Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie’s market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie’s East Hampton Canonical Reference Library.<br />
+          ‡ CPS1 + CIRE Node: Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
+          § AnewHomes Co.: Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 (proof-of-concept) · $150K 2027 (Scott fully onboarded) · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
           ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
         </div>
         <div style={{ ...P2_SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap', marginLeft: 12 }}>
