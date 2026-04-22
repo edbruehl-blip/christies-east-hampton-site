@@ -2443,3 +2443,16 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] DEFERRED: /pro-forma partner cards migrate from bundle-baked to live OUTPUTS binding
 - [ ] DEFERRED: Ed card hierarchy spacing + Assumptions panel tone refinement
 - [ ] DEFERRED: Ed card third consolidated "not included in total" line
+
+## Apr 22 Dark Theme Pass
+
+- [x] Global dark theme: hero background image anchored to all pages via DashboardLayout
+- [x] HOME subtitle font increased (larger, more prominent)
+- [x] All tab outer wrappers set to transparent (hero shows through)
+- [x] MarketTab: outer wrapper, sections, rate cards, hamlet tiles, section header — all dark
+- [x] PipeTab: outer wrapper, KPI chips, filter inputs, table rows, Add Deal form, modal — all dark
+- [x] IntelTab: outer wrapper, cards, calendar, document library — all dark
+- [x] MapsTab: hamlet cards (always dark, not conditional), detail panel links — all dark
+- [x] EstateAdvisoryCard: rewritten for dark theme (cream text on dark background)
+- [x] matrix-card CSS class: background changed from white to dark semi-transparent
+- [x] Corkboard iframe height expanded from 680px to 1200px (wide open above Miro board)

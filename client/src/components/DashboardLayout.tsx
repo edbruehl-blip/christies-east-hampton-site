@@ -202,7 +202,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     : null;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--color-cream)]">
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
 
       {/* ══════════════════════════════════════════════════════════════════
           LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot

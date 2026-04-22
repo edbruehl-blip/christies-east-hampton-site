@@ -42,11 +42,11 @@ function PropertyReportModal({ address, onClose }: { address: string; onClose: (
   const inputStyle: React.CSSProperties = {
     fontFamily: '"Source Sans 3", sans-serif',
     fontSize: '0.82rem',
-    color: '#384249',
-    border: '1px solid rgba(27,42,74,0.2)',
+    color: '#FAF8F4',
+    border: '1px solid rgba(200,172,120,0.2)',
     padding: '7px 10px',
     width: '100%',
-    background: '#FAF8F4',
+    background: 'rgba(13,27,42,0.7)',
     outline: 'none',
   };
 
@@ -60,19 +60,19 @@ function PropertyReportModal({ address, onClose }: { address: string; onClose: (
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div style={{
-        background: '#FAF8F4',
-        border: '0.5px solid rgba(200,172,120,0.5)',
+        background: 'rgba(13,27,42,0.95)',
+        border: '1px solid rgba(200,172,120,0.4)',
         padding: '28px 32px',
         minWidth: 360,
         maxWidth: 440,
         width: '90vw',
-        boxShadow: '0 8px 32px rgba(27,42,74,0.18)',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
       }}>
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20 }}>
           <div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#C8AC78', marginBottom: 4 }}>Property Report</div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.05rem', fontWeight: 600, color: '#1B2A4A', lineHeight: 1.3 }}>{address}</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.05rem', fontWeight: 400, color: '#FAF8F4', lineHeight: 1.3 }}>{address}</div>
           </div>
           <button onClick={onClose} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#7a8a8e', fontSize: '1.1rem', lineHeight: 1, padding: '2px 4px' }}>✕</button>
         </div>
@@ -186,17 +186,17 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
     <div className="mb-6">
       {/* Total Book headline */}
       <div className="flex items-baseline gap-3 mb-3">
-        <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1.6rem', lineHeight: 1 }}>{fmt(totalBook)}</span>
+        <span style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.6rem', lineHeight: 1 }}>{fmt(totalBook)}</span>
         <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Total Book</span>
       </div>
       {/* Seven-category strip */}
       <div className="flex flex-wrap gap-2">
         {categories.map(k => (
-          <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', minWidth: 110 }}>
+          <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', minWidth: 110 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
             <div>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 700, fontSize: '1rem', lineHeight: 1 }}>{fmt(k.vol)}</div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem', lineHeight: 1 }}>{fmt(k.vol)}</div>
             </div>
           </div>
         ))}
@@ -244,7 +244,7 @@ function InlineStatusEditor({
         value={newStatus}
         onChange={e => setNewStatus(e.target.value)}
         className="border px-2 py-1 text-xs"
-        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', background: '#FAF8F4' }}
+        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)' }}
       >
         {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
       </select>
@@ -364,13 +364,13 @@ function PipelineTable() {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className="border px-3 py-2 text-sm flex-1"
-          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', minWidth: 200, maxWidth: 320 }}
+          style={{ borderColor: 'rgba(200,172,120,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', minWidth: 200, maxWidth: 320 }}
         />
         <select
           value={filterStatus}
           onChange={e => setFilterStatus(e.target.value)}
           className="border px-3 py-2 text-sm"
-          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4' }}
+          style={{ borderColor: 'rgba(200,172,120,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)' }}
         >
           <option value="all">All Statuses</option>
           {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
@@ -378,7 +378,7 @@ function PipelineTable() {
         <button
           onClick={() => refetch()}
           className="px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
-          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#1B2A4A', color: '#1B2A4A', letterSpacing: '0.14em' }}
+          style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.4)', color: '#C8AC78', letterSpacing: '0.14em' }}
         >
           ↻ Refresh
         </button>
@@ -403,7 +403,7 @@ function PipelineTable() {
       </div>
       {/* Success notification */}
       {updateStatus.isSuccess && (
-        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(27,42,74,0.06)', color: '#1B2A4A', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>
+        <div className="mb-4 px-4 py-2 text-xs" style={{ background: 'rgba(200,172,120,0.06)', color: 'rgba(250,248,244,0.7)', fontFamily: '"Source Sans 3", sans-serif', borderLeft: '2px solid #C8AC78' }}>
           ✓ Sheet updated — refreshing in a moment…
         </div>
       )}
@@ -478,12 +478,12 @@ function PipelineTable() {
                   <tr
                     key={`${row.address}-${row.rowNumber}`}
                     style={{
-                      background: isEditing ? 'rgba(200,172,120,0.06)' : isEvenRow ? '#FAF8F4' : '#F5F3EF',
-                      borderBottom: '1px solid rgba(27,42,74,0.06)',
+                      background: isEditing ? 'rgba(200,172,120,0.08)' : isEvenRow ? 'rgba(13,27,42,0.55)' : 'rgba(13,27,42,0.4)',
+                      borderBottom: '1px solid rgba(200,172,120,0.08)',
                       transition: 'background 0.1s',
                     }}
                     onMouseEnter={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = 'rgba(200,172,120,0.04)'; }}
-                    onMouseLeave={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = isEvenRow ? '#FAF8F4' : '#F5F3EF'; }}
+                    onMouseLeave={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = isEvenRow ? 'rgba(13,27,42,0.55)' : 'rgba(13,27,42,0.4)'; }}
                   >
                     {COLUMNS.map(col => {
                       const val = row[col.key as DealKey] ?? '';
@@ -515,7 +515,7 @@ function PipelineTable() {
                       if (col.key === 'address') {
                         return (
                           <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
-                            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.92rem', lineHeight: 1.3 }}>{val}</div>
+                            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '0.92rem', lineHeight: 1.3 }}>{val}</div>
                           </td>
                         );
                       }
@@ -524,7 +524,7 @@ function PipelineTable() {
                       if (col.key === 'price') {
                         return (
                           <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
-                            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.04em' }}>{val || '—'}</span>
+                            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#FAF8F4', fontWeight: 700, fontSize: '0.9rem', letterSpacing: '0.04em' }}>{val || '—'}</span>
                           </td>
                         );
                       }
@@ -548,7 +548,7 @@ function PipelineTable() {
                       // Default text cell
                       return (
                         <td key={col.key} style={{ padding: '10px 12px', verticalAlign: 'middle', borderRight: '1px solid rgba(27,42,74,0.05)' }}>
-                          <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: val ? '#384249' : '#ccc', fontSize: '0.8rem' }}>
+                          <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: val ? 'rgba(250,248,244,0.75)' : 'rgba(250,248,244,0.3)', fontSize: '0.8rem' }}>
                             {val || '—'}
                           </span>
                         </td>
@@ -634,7 +634,7 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
   });
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
-  const inputStyle = { fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#1B2A4A', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.15)', borderRadius: 4, padding: '6px 10px', width: '100%', outline: 'none' };
+  const inputStyle = { fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.2)', borderRadius: 4, padding: '6px 10px', width: '100%', outline: 'none' };
   const labelStyle = { fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: '#7a8a8e', display: 'block', marginBottom: 3 };
 
   return (
@@ -647,9 +647,9 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
           + Add Deal
         </button>
       ) : (
-        <div style={{ background: '#FAF8F4', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 6, padding: '20px 24px', boxShadow: '0 2px 12px rgba(27,42,74,0.07)' }}>
+        <div style={{ background: 'rgba(13,27,42,0.85)', border: '1px solid rgba(200,172,120,0.3)', borderRadius: 6, padding: '20px 24px', boxShadow: '0 2px 12px rgba(0,0,0,0.3)' }}>
           <div className="flex items-center justify-between mb-4">
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.05rem' }}>Add New Deal</div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.05rem' }}>Add New Deal</div>
             <button onClick={() => setOpen(false)} style={{ color: '#7a8a8e', background: 'none', border: 'none', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
           </div>
           <div className="grid grid-cols-2 gap-4" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
@@ -772,7 +772,7 @@ function ImportFromProfileButton({ onSuccess }: { onSuccess: () => void }) {
         )}
       </button>
       {result && (
-        <div className="mt-2 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249' }}>
+        <div className="mt-2 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
           {result.imported > 0 ? (
             <span style={{ color: '#1a6b1a' }}>✓ {result.imported} new row{result.imported > 1 ? 's' : ''} added: {result.listings.join(', ')}</span>
           ) : (
@@ -793,7 +793,7 @@ export default function PipeTab() {
   }, [utils]);
 
   return (
-    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
+    <div className="min-h-screen" style={{ background: 'transparent' }}>
       {/* Header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
@@ -806,7 +806,7 @@ export default function PipeTab() {
       </div>
 
       {/* Full pipeline table */}
-      <div className="px-6 py-8">
+      <div className="px-6 py-8" style={{ background: 'rgba(13,27,42,0.5)' }}>
         <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
           {/* Action buttons row */}
           <div className="flex items-center gap-3 mb-4">

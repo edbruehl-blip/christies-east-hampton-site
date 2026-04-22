@@ -233,7 +233,7 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
           Dominant corridor
         </span>
         <div
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.125rem', marginTop: 2 }}
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.125rem', marginTop: 2 }}
         >
           {dominant?.name} &middot; {dominant?.liveVolumeShare}% of volume
         </div>
@@ -330,7 +330,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
         {/* Tier badge + hamlet name */}
         <div className="flex items-start justify-between gap-2">
           <h3
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.125rem', lineHeight: 1.2 }}
+            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.125rem', lineHeight: 1.2 }}
           >
             {hamlet.name}
           </h3>
@@ -346,7 +346,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             Median Price
           </div>
           <div
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.375rem' }}
+            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.375rem' }}
           >
             {hamlet.liveMedian}
           </div>
@@ -357,12 +357,12 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           <div>
             <div
               className="text-[10px] uppercase tracking-wider mb-0.5"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#1B2A4A', letterSpacing: '0.14em' }}
+              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em' }}
             >
               CIS
             </div>
             <div
-              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontWeight: 600, fontSize: '1.125rem' }}
+              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.125rem' }}
             >
               {hamlet.liveCis.toFixed(1)}
               <span style={{ fontSize: '0.75rem', color: '#7a8a8e', marginLeft: 2 }}>/10</span>
@@ -386,7 +386,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
               Share of Hamptons Dollar Volume
             </span>
             <span
-              style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.8125rem' }}
+              style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.8125rem' }}
             >
               {hamlet.liveVolumeShare}%
             </span>
@@ -405,7 +405,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
             className="text-xs pt-1 border-t"
             style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', borderColor: 'rgba(27,42,74,0.08)' }}
           >
-            Last sale: <span style={{ color: '#384249' }}>{hamlet.lastSale} &middot; {hamlet.lastSalePrice}</span>
+            Last sale: <span style={{ color: 'rgba(250,248,244,0.7)' }}>{hamlet.lastSale} &middot; {hamlet.lastSalePrice}</span>
           </div>
         )}
 
@@ -468,7 +468,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       {/* Mortgage corridor */}
       <div
         className="p-5 border"
-        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+        style={{ borderColor: 'rgba(200,172,120,0.2)', background: 'rgba(13,27,42,0.7)' }}
       >
         <div
           className="uppercase mb-2"
@@ -477,7 +477,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           30Y Mortgage Corridor
         </div>
         <div
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}
         >
           {liveMortgageRate}
         </div>
@@ -492,7 +492,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       {/* Hamptons Median */}
       <div
         className="p-5 border"
-        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+        style={{ borderColor: 'rgba(200,172,120,0.2)', background: 'rgba(13,27,42,0.7)' }}
       >
         <div
           className="uppercase mb-2"
@@ -501,7 +501,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           Hamptons Median
         </div>
         <div
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}
         >
           $2.34M
         </div>
@@ -516,7 +516,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
       {/* 10-Year Treasury */}
       <div
         className="p-5 border"
-        style={{ borderColor: 'rgba(27,42,74,0.15)', background: '#fff' }}
+        style={{ borderColor: 'rgba(200,172,120,0.2)', background: 'rgba(13,27,42,0.7)' }}
       >
         <div
           className="uppercase mb-2"
@@ -525,7 +525,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           10-Year Treasury
         </div>
         <div
-          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.75rem' }}
+          style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}
         >
           {treasuryRate}
         </div>
@@ -596,7 +596,7 @@ export default function MarketTab() {
   }));
 
   return (
-    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
+    <div className="min-h-screen" style={{ background: 'transparent' }}>
 
       {/* WIP Banner */}
       <div style={{
@@ -627,7 +627,7 @@ export default function MarketTab() {
       </div>
 
       {/* ── Market Signal Hero Row: Donut + Rate Environment (two-column) ──────────────────── */}
-      <section className="px-6 py-10" style={{ background: '#FAF8F4' }}>
+      <section className="px-6 py-10" style={{ background: 'rgba(13,27,42,0.5)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
           <div
@@ -638,7 +638,7 @@ export default function MarketTab() {
           </div>
           <h2
             className="mb-8"
-            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
+            style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
             Eleven-Hamlet Volume Distribution &middot; East End Territory
           </h2>
@@ -673,7 +673,7 @@ export default function MarketTab() {
       </section>
 
       {/* ── Hamlet Tiles by Tier ──────────────────────────────────────────────────── */}
-      <section className="px-6 pb-14" style={{ background: '#FAF8F4' }}>
+      <section className="px-6 pb-14" style={{ background: 'rgba(13,27,42,0.5)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
 
           <div className="flex items-center justify-between mb-6">
@@ -719,7 +719,7 @@ export default function MarketTab() {
       {/* Rate Environment moved to hero row above hamlet tiles — April 16 2026 */}
 
       {/* P1 — Request Territory Briefing CTA */}
-      <section className="px-6 pb-14 pt-2" style={{ background: '#FAF8F4' }}>
+      <section className="px-6 pb-14 pt-2" style={{ background: 'rgba(13,27,42,0.5)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div
             style={{

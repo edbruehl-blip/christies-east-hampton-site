@@ -76,11 +76,11 @@ function SectionA() {
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
                 color: '#C8AC78',
-                fontSize: 11,
+                fontSize: 14,
                 fontWeight: 500,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                opacity: 0.65,
+                opacity: 0.75,
               }}>
                 East Hampton · New York · 11937
               </div>

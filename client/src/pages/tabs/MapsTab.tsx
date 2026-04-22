@@ -130,7 +130,7 @@ function CurrencyInput({ label, value, onChange, placeholder }: { label: string;
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>$</span>
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ function TextInput({ label, value, onChange, placeholder }: { label: string; val
   return (
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
-      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }} />
+      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }} />
     </div>
   );
 }
@@ -150,7 +150,7 @@ function NumberInput({ label, value, onChange, placeholder, suffix }: { label: s
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
         {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>{suffix}</span>}
       </div>
     </div>
@@ -161,7 +161,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
   return (
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
-      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }}>
+      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }}>
         {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
     </div>
@@ -394,7 +394,7 @@ function CISCalculatorLayer() {
   };
 
   return (
-    <div style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.12)' }}>
+    <div style={{ background: 'rgba(13,27,42,0.6)', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
       {/* Section header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
@@ -404,7 +404,7 @@ function CISCalculatorLayer() {
         </div>
       </div>
 
-      <div className="px-6 py-8">
+      <div className="px-6 py-8" style={{ background: 'rgba(13,27,42,0.4)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div className="uppercase mb-5" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 11 }}>Select Lens</div>
           <div className="flex flex-wrap gap-2 mb-8">
@@ -587,8 +587,8 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       onClick={onExpand}
       className="cursor-pointer transition-all duration-200"
       style={{
-        background: isExpanded ? '#1B2A4A' : '#FAF8F4',
-        border: `1px solid ${isExpanded ? '#C8AC78' : 'rgba(27,42,74,0.12)'}`,
+        background: isExpanded ? 'rgba(27,42,74,0.9)' : 'rgba(13,27,42,0.65)',
+        border: `1px solid ${isExpanded ? '#C8AC78' : 'rgba(200,172,120,0.15)'}`,
         borderTop: `3px solid ${TIER_COLORS[hamlet.tier]}`,
       }}
     >
@@ -614,17 +614,17 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
 
       {/* Card body */}
       <div style={{ padding: '14px 16px 12px' }}>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: isExpanded ? '#FAF8F4' : '#1B2A4A', fontWeight: 600, fontSize: '1.05rem', marginBottom: 6 }}>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.05rem', marginBottom: 6 }}>
           {hamlet.name}
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
           <div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Median</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: isExpanded ? '#FAF8F4' : '#384249', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.medianPriceDisplay}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.medianPriceDisplay}</div>
           </div>
           <div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 2 }}>Vol Share</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: isExpanded ? '#FAF8F4' : '#384249', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.volumeShare}%</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontWeight: 600, fontSize: '0.9rem' }}>{hamlet.volumeShare}%</div>
           </div>
         </div>
 
@@ -632,7 +632,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
         {hamletListings.length > 0 && (
           <div style={{ marginBottom: 8, padding: '8px 10px', background: isExpanded ? 'rgba(200,172,120,0.1)' : 'rgba(27,42,74,0.04)', borderLeft: '2px solid #C8AC78' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 2 }}>Top Listing</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: isExpanded ? '#FAF8F4' : '#1B2A4A', fontSize: '0.72rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hamletListings[0].address}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.72rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{hamletListings[0].address}</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
           </div>
         )}
@@ -657,7 +657,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
             borderColor: '#C8AC78',
-            color: isExpanded ? '#C8AC78' : '#1B2A4A',
+            color: '#C8AC78',
             background: 'transparent',
             letterSpacing: '0.16em',
             opacity: downloading ? 0.6 : 1,
@@ -696,7 +696,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
   const tierColor = TIER_COLORS[hamlet.tier];
 
   return (
-    <div ref={panelRef} style={{ background: '#FAF8F4', borderTop: `3px solid ${tierColor}` }}>
+    <div ref={panelRef} style={{ background: 'rgba(13,27,42,0.92)', borderTop: `3px solid ${tierColor}` }}>
       <div style={{ position: 'relative', height: 280, overflow: 'hidden' }}>
         <img src={hamlet.imageUrl || hamlet.photo} alt={hamlet.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(27,42,74,0.1) 0%, rgba(27,42,74,0.72) 100%)' }} />
@@ -721,25 +721,25 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
             { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (
-            <div key={stat.label} style={{ padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)' }}>
+            <div key={stat.label} style={{ padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)' }}>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>{stat.label}</div>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>{stat.value}</div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem' }}>{stat.value}</div>
             </div>
           ))}
         </div>
 
         {hamlet.vibeText && (
-          <div style={{ marginBottom: 28, padding: '18px 20px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', borderLeft: '3px solid #C8AC78' }}>
+          <div style={{ marginBottom: 28, padding: '18px 20px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', borderLeft: '3px solid #C8AC78' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 8 }}>Character</div>
-            <p style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>{hamlet.vibeText}</p>
+            <p style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>{hamlet.vibeText}</p>
           </div>
         )}
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', display: 'inline-block', minWidth: 260 }}>
+          <div style={{ padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', display: 'inline-block', minWidth: 260 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>Last Zillow Sale</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontSize: '0.88rem', fontWeight: 600 }}>{hamlet.lastSale}</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.82rem', marginTop: 2 }}>{hamlet.lastSalePrice} · {hamlet.lastSaleDate}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.88rem', fontWeight: 600 }}>{hamlet.lastSale}</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.82rem', marginTop: 2 }}>{hamlet.lastSalePrice} · {hamlet.lastSaleDate}</div>
           </div>
         </div>
 
@@ -751,9 +751,9 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
               { tier: 'Mid', value: hamlet.restaurants.mid },
               { tier: 'Local', value: hamlet.restaurants.local },
             ].map(r => (
-              <div key={r.tier} style={{ padding: '12px 14px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)' }}>
+              <div key={r.tier} style={{ padding: '12px 14px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)' }}>
                 <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 4 }}>{r.tier}</div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? '#ccc' : '#1B2A4A', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? 'rgba(250,248,244,0.4)' : '#FAF8F4', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
                   {r.value === 'TBD' ? 'Coming Soon' : r.value}
                 </div>
               </div>
@@ -772,8 +772,8 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
                   {realListings.map((listing, i) => (
-                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(27,42,74,0.1)')}>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem', marginBottom: 4 }}>{listing.address}</div>
+                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: 'rgba(13,27,42,0.7)', border: '1px solid rgba(200,172,120,0.15)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(200,172,120,0.15)')}>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '0.95rem', marginBottom: 4 }}>{listing.address}</div>
                       <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{listing.price}</div>
                       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{listing.beds} BD · {listing.baths} BA · {listing.sqft} SF</div>
                     </a>
@@ -787,11 +787,11 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         <div>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>News &amp; Coverage</div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            <a href={hamlet.zillowUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid #1B2A4A', color: '#1B2A4A', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = '#1B2A4A'; e.currentTarget.style.color = '#FAF8F4'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#1B2A4A'; }}>
+            <a href={hamlet.zillowUrl} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.4)', color: '#C8AC78', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#C8AC78'; }}>
               Zillow Market
             </a>
             {hamlet.newsLinks.map(link => (
-              <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(27,42,74,0.3)', color: '#384249', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = '#1B2A4A'; e.currentTarget.style.color = '#FAF8F4'; e.currentTarget.style.borderColor = '#1B2A4A'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#384249'; e.currentTarget.style.borderColor = 'rgba(27,42,74,0.3)'; }}>
+              <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', padding: '6px 14px', border: '1px solid rgba(200,172,120,0.3)', color: 'rgba(250,248,244,0.7)', textDecoration: 'none', transition: 'all 0.15s' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(200,172,120,0.1)'; e.currentTarget.style.color = '#FAF8F4'; e.currentTarget.style.borderColor = '#C8AC78'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(250,248,244,0.7)'; e.currentTarget.style.borderColor = 'rgba(200,172,120,0.3)'; }}>
                 {link.label}
               </a>
             ))}
@@ -816,10 +816,10 @@ export default function MapsTab() {
   }, []);
 
   return (
-    <div style={{ background: '#FAF8F4', minHeight: '100vh' }}>
+    <div style={{ background: 'transparent', minHeight: '100vh' }}>
 
       {/* ── Layer 1: Paumanok Aerial Plate (static, no zoom) ─────────────────── */}
-      <div className="px-6" style={{ background: '#FAF8F4' }}>
+      <div className="px-6" style={{ background: 'transparent' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <PaumanokPlate />
         </div>

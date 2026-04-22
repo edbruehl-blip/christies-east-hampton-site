@@ -346,10 +346,10 @@ function CalendarLayer() {
 
       {/* Christie's card module */}
       <div style={{
-        border: '1px solid #1B2A4A',
+        border: '1px solid rgba(200,172,120,0.2)',
         borderRadius: 2,
         overflow: 'hidden',
-        background: '#FAF8F4',
+        background: 'rgba(13,27,42,0.75)',
       }}>
         {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
@@ -405,7 +405,7 @@ function CalendarLayer() {
         </div>
 
         {/* Open Sheet Matrix — reference link below calendar */}
-        <div className="px-5 py-3 flex items-center justify-end" style={{ background: 'rgba(27,42,74,0.02)', borderTop: '1px solid rgba(27,42,74,0.08)' }}>
+        <div className="px-5 py-3 flex items-center justify-end" style={{ background: 'rgba(13,27,42,0.4)', borderTop: '1px solid rgba(200,172,120,0.1)' }}>
           <a
             href={`https://docs.google.com/spreadsheets/d/${SHEET_IDS.officePipeline}/edit`}
             target="_blank"
@@ -535,10 +535,10 @@ function NineSheetMatrix() {
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
         </div>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
           Canonical Data Sources
         </div>
-        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
           Thirteen Google Sheets powering the Christie's East Hampton platform — nine canonical data sources plus four active operational tabs from the Hamptons Outreach Intelligence sheet. Each opens directly in Google Sheets.
         </div>
 
@@ -547,9 +547,9 @@ function NineSheetMatrix() {
             <div
               key={sheet.id}
               style={{
-                border: '1px solid rgba(27,42,74,0.12)',
+                border: '1px solid rgba(200,172,120,0.15)',
                 borderLeft: '3px solid rgba(200,172,120,0.5)',
-                background: '#FAF8F4',
+                background: 'rgba(13,27,42,0.7)',
                 padding: '16px 20px',
                 display: 'flex',
                 alignItems: 'center',
@@ -571,7 +571,7 @@ function NineSheetMatrix() {
               {/* Sheet info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3 mb-1">
-                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.98rem' }}>
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '0.98rem' }}>
                     {sheet.name}
                   </div>
                   {sheet.badge && (
@@ -590,7 +590,7 @@ function NineSheetMatrix() {
                     </span>
                   )}
                 </div>
-                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.78rem', lineHeight: 1.45 }}>
+                <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.78rem', lineHeight: 1.45 }}>
                   {sheet.description}
                 </div>
               </div>
@@ -730,7 +730,7 @@ function DocumentLibrary() {
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 5 · Document Library
         </div>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 24 }}>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 24 }}>
           Canon Documents
         </div>
 
@@ -739,10 +739,10 @@ function DocumentLibrary() {
             <MatrixCard key={doc.id} variant={doc.pinned ? 'active' : 'default'} className="p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1rem', lineHeight: 1.35 }}>
+                  <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem', lineHeight: 1.35 }}>
                     {doc.label}
                   </div>
-                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+                  <div className="mt-1.5 text-xs leading-relaxed" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
                     {doc.description}
                   </div>
                 </div>
@@ -753,7 +753,7 @@ function DocumentLibrary() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 text-[10px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4] hover:border-[#1B2A4A]"
-                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#1B2A4A', letterSpacing: '0.16em' }}
+                      style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#C8AC78', color: '#C8AC78', letterSpacing: '0.16em' }}
                     >
                       {doc.url.endsWith('.html') ? 'Open Document' : 'Open PDF'}
                     </a>
@@ -777,10 +777,10 @@ function IntelligenceWebLayer() {
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 6 · Relationship Intelligence
         </div>
-        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem', marginBottom: 6 }}>
+        <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.2rem', marginBottom: 6 }}>
           Intelligence Web
         </div>
-        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e' }}>
+        <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)' }}>
           48 entities · Jarvis Top Agents · Whale Intelligence · Auction Referrals.
         </div>
         <IntelligenceWebTabs />
@@ -832,14 +832,14 @@ function CorkboardLayer() {
           </a>
         </div>
       </div>
-      {/* Full-width iframe embed */}
+      {/* Full-width iframe embed — wide open per Apr 22 directive */}
       <div style={{ width: '100%', background: '#0D1520', border: '1px solid rgba(200,172,120,0.2)' }}>
         <iframe
           src={CORKBOARD_URL}
           title="Ed's Corkboard v2 · Day One"
           style={{
             width: '100%',
-            height: 680,
+            height: 1200,
             border: 'none',
             display: 'block',
           }}
@@ -914,7 +914,7 @@ function IntelStickyNav() {
 
 export default function IntelTab() {
   return (
-    <div className="min-h-screen" style={{ background: '#FAF8F4' }}>
+    <div className="min-h-screen" style={{ background: 'transparent' }}>
 
       {/* Header */}
       <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#C8AC78' }}>
