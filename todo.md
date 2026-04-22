@@ -2496,3 +2496,17 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Hamlet card borders: all 11 tiles now variant=active — consistent gold left border
 - [x] Trello board grid: auto-fill minmax(160px,1fr) — wraps on mobile, no cutoff
 - [x] Tests: 54/54 passing
+
+## Wednesday PM Commit + Immediate Fixes (Apr 22 2026)
+- [ ] HOME video reel: fix titles only (order correct) — 1.250 Years 2.Life Less Ordinary 3.Christie Estate Services 4.Rabbit Hole
+- [ ] IntelTab corkboard: center horizontally (currently left-justified)
+- [ ] Pro-forma Page 3: fix massive empty gray rectangle below partner cards (hard blocker)
+- [ ] Pro-forma CPS-1 cap: clarify/fix .5M cap footnote — per-year-per-node vs cumulative; confirm 2036 value
+- [ ] CIS Sheet 03 caption leak + all 13 sheet captions swept
+- [ ] NeighborhoodCardPage.tsx: remove CIS map overlay badges (rendered content)
+- [ ] PIPE SOLD LISTINGS 2026 header row: navy background
+- [ ] PIPE tbody: dark rows (alternating 5% lighter, cream text)
+- [ ] MARKET cream bleed: confirm status, ship if not in 8368bb22
+- [ ] CPS-7 -> CPS-1 on /pro-forma Page 1 footnote + all other CPS-7 references
+- [ ] James Christie caption: unified across HOME + all /letters/* routes
+- [ ] Browser-render grep: zero CIS matches across all public routes

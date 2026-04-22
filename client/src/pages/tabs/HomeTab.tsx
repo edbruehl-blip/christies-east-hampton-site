@@ -113,13 +113,13 @@ function SectionA() {
                     style={{ display: 'block', width: 140, height: 140, objectFit: 'cover', objectPosition: 'top center' }}
                   />
                 </div>
-                {/* Caption line 1 */}
+                {/* Caption line 1 — unified with letter routes: Barlow Condensed · 8px · gold · 0.16em · uppercase */}
                 <div style={{
-                  fontFamily: '"Georgia", serif',
-                  fontStyle: 'italic',
-                  fontSize: 9,
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 8,
                   color: '#947231',
-                  letterSpacing: '0.08em',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
                   textAlign: 'center',
                   marginTop: 6,
                   lineHeight: 1.5,
@@ -278,26 +278,26 @@ function SectionChristiesStory() {
 }
 
 // ─── Section D  ·  Video Reel ─────────────────────────────────────────────────
-// ORDER (Apr 22 2026): V3 Tash Perrin · V2 Christie's 250th · V1 Life Less Ordinary · V0 Rabbit Hole
-// V1 and V2 swapped per Apr 22 dispatch
+// ORDER (Apr 22 2026 Session 2 — titles corrected per Ed's dispatch):
+// 1. 250 Years · 2. Life Less Ordinary · 3. Christie's Estate Services · 4. Rabbit Hole
 const VIDEO_REEL = [
   {
     key: 'v3',
     src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
-    title: 'Tash Perrin',
+    title: '250 Years',
     label: "Christie's International Real Estate Group",
-  },
-  {
-    key: 'v2',
-    src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
-    title: "Christie's Estate Services",
-    label: "Christie's — Estate & Collection Services",
   },
   {
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',
     title: 'Life Less Ordinary',
     label: "Christie's East Hampton — Life Less Ordinary",
+  },
+  {
+    key: 'v2',
+    src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
+    title: "Christie's Estate Services",
+    label: "Christie's — Estate & Collection Services",
   },
   {
     key: 'v0',

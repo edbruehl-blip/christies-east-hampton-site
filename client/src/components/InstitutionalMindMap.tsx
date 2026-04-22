@@ -841,7 +841,7 @@ export function InstitutionalMindMap() {
           color: "#947231",
           marginBottom: "4px",
         }}>
-          Christie's Intelligence Web
+          Christie's East Hampton · Institutional Network
         </h2>
         <p style={{
           fontSize: "10px",

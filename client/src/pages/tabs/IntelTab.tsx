@@ -803,8 +803,11 @@ function CorkboardLayer() {
     const inner = innerRef.current;
     if (!wrap || !inner) return;
     const applyScale = () => {
-      const scale = Math.min(1, wrap.offsetWidth / inner.scrollWidth);
-      inner.style.transform = `scale(${scale})`;
+      const naturalW = inner.scrollWidth;
+      const scale = Math.min(1, wrap.offsetWidth / naturalW);
+      // Center: offset left by half the unused space after scaling
+      const leftOffset = Math.max(0, (wrap.offsetWidth - naturalW * scale) / 2);
+      inner.style.transform = `translateX(${leftOffset}px) scale(${scale})`;
       inner.style.transformOrigin = 'top left';
       wrap.style.height = `${inner.scrollHeight * scale}px`;
     };

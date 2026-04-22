@@ -483,8 +483,13 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
   agents: AgentRow[];
   total: { proj2026: number; act2026: number; proj2027: number };
 }) {
+  // Page 2 is content-dense (7 partner cards + footnote) — override minHeight to 'auto'
+  // so the page shrinks to content and the footer flows directly below the footnote.
+  // This eliminates the empty gray rectangle below the partner cards.
+  const page2Style: React.CSSProperties = { ...PAGE_STYLE, minHeight: 'auto', paddingBottom: '0.5in' };
+  const page2Footer: React.CSSProperties = { ...PAGE_FOOTER, position: 'relative', bottom: 'auto', left: 'auto', right: 'auto', marginTop: 12 };
   return (
-    <div style={PAGE_STYLE}>
+    <div style={page2Style}>
       <PageHeader generatedAt={generatedAt} />
 
       {/* Three-tier header */}
@@ -506,7 +511,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
               { label: 'Personal GCI',                 vals: ['$420K','$504K','$605K','$2.60M'] },
               { label: 'AnewHomes 35% *',              vals: ['$17.5K','$52.5K','$59K','$151K'] },
               { label: 'CIREG Profit Share 29.75%',    vals: ['$52K','$128K','$287K','$3.39M'] },
-              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.5M'] },
             ]}
             total={['$489.5K','$684.5K','$951K','$6.14M']}
           />
@@ -515,7 +520,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             subtitle="Franchise Principal · CIREG Tri-State"
             streams={[
               { label: 'CIREG Profit Share 65% **',    vals: ['$114K','$279K','$627K','$7.4M'] },
-              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.5M'] },
             ]}
             total={['$114K','$279K','$627K','$7.4M']}
           />
@@ -533,7 +538,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
               { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
               { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
-              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.5M'] },
             ]}
             total={['$123K','$152.5K','$168.2K','$840.6K+']}
           />
@@ -545,7 +550,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
               { label: 'AnewHomes 5%',                 vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
               { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
-              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.5M'] },
             ]}
             total={['$175.5K','$219.5K','$270K','$1.28M']}
           />
@@ -563,7 +568,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
               { label: 'AnewHomes 5% †',               vals: ['$0','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override †",    vals: ['$30K','$9K','—','—'] },
               { label: 'CIREG Profit Share 1.75% †',  vals: ['$0','$8K','$17K','$200K'] },
-              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.69M'] },
+              { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.5M'] },
             ]}
             total={['$94.2K','$147K','$151.4K','$763.6K+']}
           />
@@ -595,7 +600,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
           AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
           ** Ilija CIREG 65% is his full take; 5% Christie’s royalty is Ilija’s cost, not surfaced on cards<br />
           † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.<br />
-          ‡ CPS1 + CIRE Node — visibility reference only · not additive to any total<br />
+          ‡ CPS1 + CIRE Node — visibility reference only · not additive to any total · $1.5M per-year-per-node cap applies 2029 forward<br />
           ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
         </div>
         <div style={{ ...P2_SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap', marginLeft: 12 }}>
@@ -603,7 +608,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         </div>
       </div>
 
-      <div style={PAGE_FOOTER}>
+      <div style={page2Footer}>
         <span style={FOOTER_SPAN}>Christie's East Hampton · Pro Forma · {generatedAt}</span>
         <span style={FOOTER_SPAN}>Page 2 of 4</span>
       </div>
