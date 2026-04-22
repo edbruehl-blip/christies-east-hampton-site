@@ -33,8 +33,8 @@ const FOUNDING_PARAGRAPHS = [
   "What the Standard brings begins where most real estate conversations end. Art appraisals. Art-secured lending. Estate continuity across generations. Specialists in fine art, jewelry, watches, wine, and automobiles join your team. When you sell, your property reaches collectors. When you buy, our global network brings new product home. But mostly, the work is stewardship.",
   "Christie's auction house events are more accessible than most people realize. NYC auctions, private sales, and collector evenings come right to your inbox when you join our list. And right here in East Hampton, we host our own. Each week we record the Hamptons Real Estate Podcast, featuring the people shaping this community. Each month we gather to spotlight local artists and mentors whose work deserves a larger stage.",
   "I am honored to carry the Christie's Standard forward here, with energy and care — intelligent, compassionate, patient counsel for the families of the East End who prefer to be understood before they're advised.",
-  "We look forward to seeing you soon. Swing by 26 Park Place — next to John Papas — for coffee or a Yerba Madre. Bring a friend, a mentor, or someone you'd like us to meet, or put on the podcast.",
   "The flagship is awakening.",
+  "We look forward to seeing you soon. Swing by 26 Park Place — next to John Papas — for coffee or a Yerba Madre. Bring a friend, a mentor, or someone you'd like us to meet, or put on the podcast.",
 ];
 
 // ─── Section A  ·  Hero letter with floating portrait ──────────────────────────
@@ -61,26 +61,16 @@ function SectionA() {
         <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '48px 24px 56px' }}>
           <div style={{ width: '100%', maxWidth: 900 }}>
 
-            {/* ── HEADER: CEHF ── */}
+            {/* ── HEADER ── */}
             <div style={{ marginBottom: 28, textAlign: 'center' }}>
-              <div style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                color: '#FAF8F4',
-                fontWeight: 400,
-                fontSize: 'clamp(2rem, 4vw, 3rem)',
-                lineHeight: 1.1,
-                letterSpacing: '0.04em',
-                marginBottom: 8,
-              }}>
-                CEHF
-              </div>
               <div style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
                 color: '#C8AC78',
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: '0.25em',
+                fontSize: 'clamp(1rem, 2vw, 1.35rem)',
+                fontWeight: 700,
+                letterSpacing: '0.28em',
                 textTransform: 'uppercase',
+                marginBottom: 6,
               }}>
                 Christie's East Hampton Flagship
               </div>
@@ -91,8 +81,7 @@ function SectionA() {
                 fontWeight: 500,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
-                opacity: 0.7,
-                marginTop: 4,
+                opacity: 0.65,
               }}>
                 East Hampton · New York · Since 1766
               </div>
@@ -160,20 +149,28 @@ function SectionA() {
               </div>
 
               {/* Letter paragraphs — flow around the float */}
-              {FOUNDING_PARAGRAPHS.map((para, i) => (
-                <p key={i} style={{
-                  fontFamily: '"Source Sans 3", sans-serif',
-                  color: i === FOUNDING_PARAGRAPHS.length - 1 ? '#C8AC78' : 'rgba(250,248,244,0.85)',
-                  fontSize: '0.963rem',   // 0.875rem × 1.10 ≈ 0.963rem
-                  lineHeight: 1.78,
-                  marginBottom: i === FOUNDING_PARAGRAPHS.length - 1 ? 0 : 14,
-                  fontStyle: i === FOUNDING_PARAGRAPHS.length - 1 ? 'italic' : 'normal',
-                  borderLeft: i === FOUNDING_PARAGRAPHS.length - 1 ? '2px solid rgba(200,172,120,0.45)' : 'none',
-                  paddingLeft: i === FOUNDING_PARAGRAPHS.length - 1 ? 11 : 0,
-                }}>
-                  {para}
-                </p>
-              ))}
+              {FOUNDING_PARAGRAPHS.map((para, i) => {
+                // "The flagship is awakening." is second-to-last — render as bold gold standalone
+                const isAwakening = i === FOUNDING_PARAGRAPHS.length - 2;
+                const isLastPara  = i === FOUNDING_PARAGRAPHS.length - 1;
+                return (
+                  <p key={i} style={{
+                    fontFamily: isAwakening ? '"Cormorant Garamond", serif' : '"Source Sans 3", sans-serif',
+                    color: isAwakening ? '#C8AC78' : 'rgba(250,248,244,0.85)',
+                    fontSize: isAwakening ? 'clamp(1.1rem, 1.8vw, 1.35rem)' : '0.963rem',
+                    fontWeight: isAwakening ? 400 : 'normal',
+                    fontStyle: isAwakening ? 'italic' : 'normal',
+                    lineHeight: isAwakening ? 1.3 : 1.78,
+                    marginBottom: isLastPara ? 0 : isAwakening ? 20 : 14,
+                    marginTop: isAwakening ? 24 : 0,
+                    letterSpacing: isAwakening ? '0.02em' : 'normal',
+                    borderLeft: 'none',
+                    paddingLeft: 0,
+                  }}>
+                    {para}
+                  </p>
+                );
+              })}
 
               {/* Clear float */}
               <div style={{ clear: 'both' }} />
