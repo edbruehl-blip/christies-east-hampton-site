@@ -57,7 +57,7 @@ function SectionA() {
         <div className="absolute inset-0" style={{ background: 'rgba(13,27,42,0.91)' }} />
 
         {/* Content wrapper — centered, max 900px */}
-        <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '48px 24px 56px' }}>
+        <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '28px 24px 56px' }}>
           <div style={{ width: '100%', maxWidth: 900 }}>
 
             {/* ── HEADER ── */}
@@ -290,14 +290,14 @@ const VIDEO_REEL = [
   {
     key: 'v2',
     src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
-    title: "Christie's 250th Heritage",
-    label: "Christie's — Est. 1766 — 250 Years",
+    title: "Christie's Estate Services",
+    label: "Christie's — Estate & Collection Services",
   },
   {
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',
     title: 'Life Less Ordinary',
-    label: "Christie's East Hampton — Brand Reel",
+    label: "Christie's East Hampton — Life Less Ordinary",
   },
   {
     key: 'v0',
@@ -366,9 +366,8 @@ function SectionVideoReel() {
 }
 
 // ─── Section E  ·  Home Footer ────────────────────────────────────────────────
-// Signature block + CTA at the very bottom
+// Institutional footer — no name, no CTA button
 function HomeFooter() {
-  const [, navigate] = useLocation();
   return (
     <div style={{
       background: '#0D1B2A',
@@ -377,22 +376,12 @@ function HomeFooter() {
     }}>
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 6 }}>
         <div style={{
-          fontFamily: '"Cormorant Garamond", serif',
-          color: '#FAF8F4',
-          fontSize: '1.2rem',
-          fontStyle: 'italic',
-          marginBottom: 4,
-        }}>
-          Ed Bruehl
-        </div>
-        <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
           color: '#C8AC78',
           fontSize: 12,
           fontWeight: 600,
           letterSpacing: '0.2em',
           textTransform: 'uppercase',
-          marginBottom: 6,
         }}>
           Christie's East Hampton Flagship
         </div>
@@ -404,53 +393,23 @@ function HomeFooter() {
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
           opacity: 0.55,
-          marginBottom: 24,
         }}>
           Art. Beauty. Provenance. Since 1766.
         </div>
-        <button
-          onClick={() => navigate('/report')}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 10,
-            padding: '12px 26px',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 12,
-            fontWeight: 600,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: '#C8AC78',
-            background: 'transparent',
-            border: '1px solid rgba(200,172,120,0.5)',
-            cursor: 'pointer',
-            transition: 'background 0.18s, color 0.18s',
-          }}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLButtonElement).style.background = '#C8AC78';
-            (e.currentTarget as HTMLButtonElement).style.color = '#0D1B2A';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
-            (e.currentTarget as HTMLButtonElement).style.color = '#C8AC78';
-          }}
-        >
-          CONTINUE TO MARKET REPORT →
-        </button>
       </div>
     </div>
   );
 }
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
-// ORDER: Letter → Image Matrix → Christie's Story → Video Reel → Footer
+// ORDER: Letter → Image Matrix → Video Reel → Authority Block → Footer
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
       <AuctionImageMatrix />
-      <SectionChristiesStory />
       <SectionVideoReel />
+      <SectionChristiesStory />
       <HomeFooter />
     </div>
   );
