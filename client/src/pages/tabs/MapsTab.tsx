@@ -64,14 +64,11 @@ function PaumanokPlate() {
       {/* Section header */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '28px 24px 16px' }}>
         <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-          Layer 1 · Paumanok Aerial Plate
+          Paumanok Aerial Plate
         </div>
         <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', margin: 0 }}>
-          South Fork · Satellite View
+          Hamptons · Satellite View
         </h3>
-        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 5 }}>
-          Clean aerial · East Hampton to Montauk · No markers · Pure geography
-        </p>
       </div>
       {/* Framed map */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '0 24px' }}>

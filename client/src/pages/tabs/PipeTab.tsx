@@ -794,16 +794,6 @@ export default function PipeTab() {
 
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
-      {/* Header */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
-        <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-          Daily Driver · Office Pipeline · Single Source of Truth
-        </div>
-        <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Pipeline</h2>
-        <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-          All rows read live from the Office Pipeline Sheet via service account. Edit status inline — writes directly back to the Sheet.
-        </p>
-      </div>
 
       {/* Full pipeline table */}
       <div className="px-6 py-8" style={{ background: 'rgba(13,27,42,0.5)' }}>

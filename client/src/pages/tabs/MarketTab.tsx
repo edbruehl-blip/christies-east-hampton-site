@@ -576,33 +576,6 @@ export default function MarketTab() {
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
 
-      {/* WIP Banner */}
-      <div style={{
-        background: 'rgba(27,42,74,0.06)',
-        borderBottom: '1px solid rgba(200,172,120,0.25)',
-        padding: '8px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-      }}>
-        <span style={{
-          fontFamily: '"Barlow Condensed", sans-serif',
-          fontSize: 10,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          color: '#947231',
-        }}>
-          Data as of Q4 2025
-        </span>
-        <span style={{ color: 'rgba(148,114,49,0.4)', fontSize: 10 }}>·</span>
-        <span style={{
-          fontFamily: '"Source Sans 3", sans-serif',
-          fontSize: 11,
-          color: 'rgba(27,42,74,0.6)',
-        }}>
-          Full market data refresh in progress
-        </span>
-      </div>
 
       {/* ── Market Signal Hero Row: Donut + Rate Environment (two-column) ──────────────────── */}
       <section className="px-6 py-10" style={{ background: 'rgba(13,27,42,0.5)' }}>
@@ -618,7 +591,7 @@ export default function MarketTab() {
             className="mb-8"
             style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
-            Eleven-Hamlet Volume Distribution &middot; East End Territory
+            Eleven-Hamlet Volume Distribution &middot; Hamptons Territory
           </h2>
 
           {/* Two-column hero: donut left, rate environment right — stacks on mobile */}

@@ -21,6 +21,7 @@ import React, { useState, useMemo } from 'react';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
+import { EdCorkboard } from '@/components/EdCorkboard';
 // BruehlBriefBulletin removed — replaced by Market Report component (D51 · Apr 19 2026)
 
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
@@ -794,58 +795,40 @@ function IntelligenceWebLayer() {
 // Source: eds_corkboard_v2.html — uploaded to CDN Apr 20 2026.
 
 function CorkboardLayer() {
-  const CORKBOARD_URL = '/manus-storage/eds_corkboard_v2_591571f9.html';
   return (
-    <div style={{ background: '#1B2A4A', padding: '0 0 32px 0' }}>
-      {/* Layer label */}
-      <div style={{ maxWidth: 'var(--frame-max-w, 1200px)', margin: '0 auto', padding: '32px 24px 16px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-          <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-              Corkboard · Day One
-            </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
-              Ed's Corkboard v2
-            </h3>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.78rem', marginTop: 4 }}>
-              Day One orientation · Key Relationships · First-name-only Ilija
-            </p>
+    <div style={{ background: '#f8f4ed', padding: '0 0 32px 0' }}>
+      {/* Label bar */}
+      <div style={{ background: '#1B2A4A', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 2 }}>
+            Corkboard · Day One
           </div>
-          <a
-            href={CORKBOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              letterSpacing: '0.16em',
-              textTransform: 'uppercase' as const,
-              color: '#947231',
-              border: '1px solid rgba(200,172,120,0.4)',
-              borderRadius: 3,
-              padding: '6px 14px',
-              textDecoration: 'none',
-              whiteSpace: 'nowrap' as const,
-            }}
-          >
-            Open / Print ↗
-          </a>
+          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem' }}>
+            Ed's Corkboard v2 · Nouns, not numbers
+          </div>
         </div>
-      </div>
-      {/* Full-width iframe embed — wide open per Apr 22 directive */}
-      <div style={{ width: '100%', background: '#0D1520', border: '1px solid rgba(200,172,120,0.2)' }}>
-        <iframe
-          src={CORKBOARD_URL}
-          title="Ed's Corkboard v2 · Day One"
+        <a
+          href="/manus-storage/eds_corkboard_v2_591571f9.html"
+          target="_blank"
+          rel="noopener noreferrer"
           style={{
-            width: '100%',
-            height: 1200,
-            border: 'none',
-            display: 'block',
+            fontFamily: '"Barlow Condensed", sans-serif',
+            fontSize: 10,
+            letterSpacing: '0.16em',
+            textTransform: 'uppercase' as const,
+            color: '#947231',
+            border: '1px solid rgba(200,172,120,0.4)',
+            borderRadius: 3,
+            padding: '6px 14px',
+            textDecoration: 'none',
+            whiteSpace: 'nowrap' as const,
           }}
-          sandbox="allow-same-origin allow-scripts"
-        />
+        >
+          Print / Full Page ↗
+        </a>
       </div>
+      {/* Native corkboard — always renders, no CDN dependency */}
+      <EdCorkboard />
     </div>
   );
 }
@@ -915,22 +898,6 @@ function IntelStickyNav() {
 export default function IntelTab() {
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
-
-      {/* Header */}
-      <div className="px-6 py-8 border-b" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
-          <div>
-            <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-              Operating Control Room · Intelligence · Documents · SOPs
-            </div>
-            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.75rem' }}>Intel</h2>
-            <p className="mt-2 text-sm" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)' }}>
-              Mind Map · Calendar · Thirteen-Sheet Matrix · Canon Documents · Intelligence Web.
-            </p>
-          </div>
-          <WednesdayCircuitCountdown />
-        </div>
-      </div>
 
       {/* Sticky section navigator */}
       <IntelStickyNav />
