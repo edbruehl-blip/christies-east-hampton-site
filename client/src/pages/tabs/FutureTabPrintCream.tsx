@@ -58,8 +58,9 @@ const INK_ACCENT  = '#5a5041';
 const COLOR_EH_FLAGSHIP = '#9e1b32'; // burgundy
 const COLOR_SH_FLAGSHIP = '#1a3a5c'; // navy
 const COLOR_WH_FLAGSHIP = '#947231'; // gold
-const COLOR_ANEWHOMES   = '#c8946b'; // tan
-const COLOR_CPS1        = '#6b2838'; // dark burgundy
+// '#c8946b' and '#6b2838' deleted — Ed ruling April 22 2026.
+// AnewHomes and CPS1 are revenue streams, not office volumes.
+// They live on partner cards (§ and ‡ markers) and in footnotes.
 
 const SERIF = 'Georgia, serif';
 
@@ -146,12 +147,13 @@ function ArcChartCream() {
       // When Perp wires live OUTPUTS sheet values, replace the hardcoded arrays
       // with arcData.ehTotal, arcData.shHampton, arcData.whHampton, etc.
       const years = ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
+      // Canonical three-office volume series. Verified against CHART_DATA tab of OUTPUTS sheet
+      // (Perplexity audit, April 22 2026 · 36/36 zero drift).
+      // AnewHomes and CPS1 are revenue streams, not office volumes — they live on partner cards
+      // (§ and ‡ markers) and in footnotes. Ed ruling April 22 2026.
       const ehTotal = [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
       const shHampton = [0, 0, 0, 42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6, 987.8];
       const whHampton = [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9];
-      const anewHomes = [0, 15, 30, 45, 55, 65, 75, 80, 85, 90, 95, 100];
-      const cps1 = [0, 20, 50, 70, 85, 95, 100, 102, 104, 106, 108, 110];
-      const ehCore = ehTotal.map((v, i) => Math.max(0, v - anewHomes[i] - cps1[i]));
       const totalByYear = years.map((_, i) => ehTotal[i] + shHampton[i] + whHampton[i]);
 
       const fmt = (v: number) => v >= 1000 ? `$${(v / 1000).toFixed(2)}B` : `$${Math.round(v)}M`;
@@ -176,9 +178,7 @@ function ArcChartCream() {
         data: {
           labels: years,
           datasets: [
-            { data: ehCore,     backgroundColor: COLOR_EH_FLAGSHIP, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-            { data: anewHomes,  backgroundColor: COLOR_ANEWHOMES,   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-            { data: cps1,       backgroundColor: COLOR_CPS1,        borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+            { data: ehTotal,    backgroundColor: COLOR_EH_FLAGSHIP, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
             { data: shHampton,  backgroundColor: COLOR_SH_FLAGSHIP, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
             { data: whHampton,  backgroundColor: COLOR_WH_FLAGSHIP, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
           ],
@@ -272,10 +272,7 @@ function ChartLegend() {
         <span style={item}><Swatch color={COLOR_SH_FLAGSHIP} /> Southampton Flagship · 2028</span>
         <span style={item}><Swatch color={COLOR_WH_FLAGSHIP} /> Westhampton Flagship · 2030</span>
       </div>
-      <div style={{ ...row, marginTop: 8 }}>
-        <span style={item}><Swatch color={COLOR_ANEWHOMES} /> AnewHomes Co.</span>
-        <span style={item}><Swatch color={COLOR_CPS1} /> CPS1 + CIRE Node</span>
-      </div>
+      {/* Second legend row (AnewHomes + CPS1) deleted — Ed ruling April 22 2026. Three-office only. */}
     </div>
   );
 }
@@ -444,9 +441,9 @@ const PARTNER_CARDS: PartnerCard[] = [
     rows: [
       { label: "Ed's Team GCI (reference)",    values: ['$600K',   '$720K',  '$864K',  '$3.60M'],  borderColor: COLOR_EH_FLAGSHIP },
       { label: 'Personal GCI',                  values: ['$420K',   '$504K',  '$605K',  '$2.60M'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 35% * §',             values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: COLOR_ANEWHOMES },
-      { label: 'CIREG Profit Share 29.75% *',   values: ['$52K',    '$128K',  '$287K',  '$3.39M'],  borderColor: COLOR_CPS1 },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: COLOR_CPS1 },
+      { label: 'AnewHomes 35% * §',             values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: '#c8946b' },
+      { label: 'CIREG Profit Share 29.75% *',   values: ['$52K',    '$128K',  '$287K',  '$3.39M'],  borderColor: '#6b2838' },
+      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
     ],
     total: { label: 'All Streams Total', values: ['$489.5K', '$684.5K', '$951K', '$6.14M'] },
     footnotes: [
@@ -458,8 +455,8 @@ const PARTNER_CARDS: PartnerCard[] = [
     name: 'Ilija Pavlovic',
     title: 'Franchise Principal · CIREG Tri-State',
     rows: [
-      { label: 'CIREG Profit Share 65% **',     values: ['$114K',   '$279K',  '$627K',  '$7.4M'],   borderColor: COLOR_CPS1 },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: COLOR_CPS1 },
+      { label: 'CIREG Profit Share 65% **',     values: ['$114K',   '$279K',  '$627K',  '$7.4M'],   borderColor: '#6b2838' },
+      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
     ],
     total: { label: 'All Streams Total', values: ['$114K', '$279K', '$627K', '$7.4M'] },
     footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
@@ -471,11 +468,11 @@ const PARTNER_CARDS: PartnerCard[] = [
     nestNote: 'Nest salary $70K/yr · through Q1 2027',
     rows: [
       { label: 'Personal GCI',                  values: ['$17.5K',  '$84K',   '$100.8K','$433K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'Nest Salary °',                 values: ['$70K',    '$17.5K', '—',      '—'],       borderColor: COLOR_ANEWHOMES },
-      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: COLOR_ANEWHOMES },
+      { label: 'Nest Salary °',                 values: ['$70K',    '$17.5K', '—',      '—'],       borderColor: '#c8946b' },
+      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
       { label: "Ed's Team GCI Override 5%",     values: ['$30K',    '$36K',   '$43K',   '$186K'],   borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: COLOR_CPS1 },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: COLOR_CPS1 },
+      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
+      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
     ],
     total: { label: 'All Streams Total', values: ['$123K', '$152.5K', '$168.2K', '$840.6K+'] },
     footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
@@ -485,10 +482,10 @@ const PARTNER_CARDS: PartnerCard[] = [
     title: 'Agent – COO',
     rows: [
       { label: 'Personal GCI',                  values: ['$140K',   '$168K',  '$201.6K','$868K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: COLOR_ANEWHOMES },
+      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
       { label: "Ed's Team GCI Override 5%",     values: ['$30K',    '$36K',   '$43K',   '$186K'],   borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: COLOR_CPS1 },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: COLOR_CPS1 },
+      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
+      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
     ],
     total: { label: 'All Streams Total', values: ['$175.5K', '$219.5K', '$270K', '$1.28M'] },
     footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
@@ -500,11 +497,11 @@ const PARTNER_CARDS: PartnerCard[] = [
     nestNote: 'Nest salary $70K/yr · Start May 4 2026',
     rows: [
       { label: 'Personal GCI',                  values: ['$17.5K',  '$105K',  '$126K',  '$542K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'Nest Salary °',                 values: ['$46.7K',  '$17.5K', '—',      '—'],       borderColor: COLOR_ANEWHOMES },
-      { label: 'AnewHomes 5% † §',              values: ['$0',      '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: COLOR_ANEWHOMES },
+      { label: 'Nest Salary °',                 values: ['$46.7K',  '$17.5K', '—',      '—'],       borderColor: '#c8946b' },
+      { label: 'AnewHomes 5% † §',              values: ['$0',      '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
       { label: "Ed's Team GCI Override †",      values: ['$30K',    '$9K',    '—',      '—'],       borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75% †',    values: ['$0',      '$8K',    '$17K',   '$200K'],   borderColor: COLOR_CPS1 },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: COLOR_CPS1 },
+      { label: 'CIREG Profit Share 1.75% †',    values: ['$0',      '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
+      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
     ],
     total: { label: 'All Streams Total', values: ['$94.2K', '$147K', '$151.4K', '$763.6K+'] },
     footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
@@ -514,7 +511,7 @@ const PARTNER_CARDS: PartnerCard[] = [
     title: 'Agent – AnewHomes Co. Partner',
     rows: [
       { label: 'Personal GCI',                  values: ['$35K',    '$84K',   '$100.8K','$324K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 35% §',               values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: COLOR_ANEWHOMES },
+      { label: 'AnewHomes 35% §',               values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: '#c8946b' },
     ],
     total: { label: 'All Streams Total', values: ['$52.5K', '$136.5K', '$159.8K', '$475K+'] },
     footnotes: [],
@@ -523,7 +520,7 @@ const PARTNER_CARDS: PartnerCard[] = [
     name: 'Richard Bruehl',
     title: 'Strategic Advisor – AnewHomes Co. Partner',
     rows: [
-      { label: 'AnewHomes 10% §',               values: ['$5K',     '$15K',   '$16.9K', '$43.3K'],  borderColor: COLOR_ANEWHOMES },
+      { label: 'AnewHomes 10% §',               values: ['$5K',     '$15K',   '$16.9K', '$43.3K'],  borderColor: '#c8946b' },
     ],
     total: { label: 'All Streams Total', values: ['$5K', '$15K', '$16.9K', '$43.3K'] },
     footnotes: [],

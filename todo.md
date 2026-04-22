@@ -2588,3 +2588,13 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Post staging ack to Trello with PDF attached
 - [ ] Corkboard-to-INTEL reversal: embed Eds_Corkboard_v3.pdf at top of INTEL tab (separate commit)
 - [ ] Retire Morning Home nav entry
+
+## Dispatch 06 · Arc Chart Canonical Rebuild · Apr 22 late evening
+- [ ] FutureTabPrintCream.tsx: delete anewHomes + cps1 arrays, delete ehCore subtraction, render ehTotal directly
+- [ ] FutureTabPrintCream.tsx: strip AnewHomes + CPS1 from Chart.js datasets (3 datasets only)
+- [ ] FutureTabPrintCream.tsx: delete second legend row, reduce to 1 row / 3 swatches
+- [ ] FutureTabPrintCream.tsx: delete COLOR_ANEWHOMES and COLOR_CPS1 constants
+- [ ] FutureTab.tsx: audit live dashboard arc chart for D59 Live-Print Unity — same three-office rule
+- [ ] ProFormaPage.tsx: audit for arc chart — apply same three-office rule if present
+- [ ] 13-item acceptance test pass
+- [ ] Checkpoint + Trello post to card 69OEdJ1i

@@ -36,8 +36,6 @@ const MUTED       = '#a0a8b0';
 const C_EH   = '#9e1b32';  // Christie's red — East Hampton Flagship
 const C_SH   = '#1a3a5c';  // Deep ink navy — Southampton Flagship · 2028
 const C_WH   = '#947231';  // Burnished gold — Westhampton Flagship · 2030 (NOT Hermès orange)
-const C_ANEW = '#c8946b';  // Warm tan — AnewHomes Co.
-const C_CPS1 = '#6b2838';  // Deep burgundy — CPS1 · CIRE · CIREG Node
 
 const SANS:  React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
 const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
@@ -47,11 +45,7 @@ const ARC_YEARS  = ['2025','2026','2027','2028','2029','2030','2031','2032','203
 const EH_TOTAL   = [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
 const SH_M       = [0, 0, 0, 42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6, 987.8];
 const WH_M       = [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9];
-const ANEW_M     = [0, 15, 30, 45, 55, 65, 75, 80, 85, 90, 95, 100];
-// Canonical CPS1 curve per Ed's ruling: $100K(2026)→$250K(2027)→$500K(2028)→$750K(2029)→$1.0M(2030)→2% steady-state→$1.13M(2036)
-const CPS1_M     = [0, 100, 250, 500, 750, 1000, 1020, 1040.4, 1061.2, 1082.4, 1104.1, 1126.2];
-// EH core = EH total minus (AnewHomes + CPS1), clamped to 0
-const EH_CORE    = EH_TOTAL.map((v, i) => Math.max(0, v - ANEW_M[i] - CPS1_M[i]));
+// Three-office volumes only — AnewHomes and CPS1 are revenue streams on partner cards (Ed ruling Apr 22 2026)
 const COMBINED   = ARC_YEARS.map((_, i) => EH_TOTAL[i] + SH_M[i] + WH_M[i]);
 
 function fmtCombined(v: number): string {
@@ -123,9 +117,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
       data: {
         labels: ARC_YEARS,
         datasets: [
-          { data: EH_CORE, backgroundColor: EH_CORE.map((_, i) => i === 0 ? C_EH + '99' : C_EH),   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: ANEW_M,  backgroundColor: ANEW_M.map((_, i) => i === 0 ? C_ANEW + '99' : C_ANEW), borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: CPS1_M,  backgroundColor: CPS1_M.map((_, i) => i === 0 ? C_CPS1 + '99' : C_CPS1), borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: EH_TOTAL, backgroundColor: EH_TOTAL.map((_, i) => i === 0 ? C_EH + '99' : C_EH),  borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
           { data: SH_M,    backgroundColor: SH_M.map((_, i) => i === 0 ? C_SH + '99' : C_SH),       borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
           { data: WH_M,    backgroundColor: WH_M.map((_, i) => i === 0 ? C_WH + '99' : C_WH),       borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
         ],
@@ -141,7 +133,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
               label: (ctx) => {
                 const v = ctx.raw as number;
                 if (!v) return '';
-                const labels = ['EH Core','AnewHomes','CPS1','Southampton','Westhampton'];
+                const labels = ['East Hampton','Southampton','Westhampton'];
                 const lbl = labels[ctx.datasetIndex] ?? '';
                 return `${lbl}: ${v >= 1000 ? '$' + (v/1000).toFixed(2) + 'B' : '$' + v.toFixed(1) + 'M'}`;
               },
@@ -190,10 +182,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
     { color: C_SH,   label: 'Southampton Flagship · 2028' },
     { color: C_WH,   label: 'Westhampton Flagship · 2030' },
   ];
-  const legendRow2 = [
-    { color: C_ANEW, label: 'AnewHomes Co.' },
-    { color: C_CPS1, label: 'CPS1 + CIRE Node' },
-  ];
+  // legendRow2 (AnewHomes + CPS1) deleted — Ed ruling April 22 2026. Three-office only.
   const lgTextColor = isPdfMode ? '#3a3a3a' : '#ddd';
 
   // ── Outer wrapper: dark (navy) on screen, museum mat (#2c2c2a) + cream card in PDF
@@ -223,15 +212,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
                 </span>
               ))}
             </div>
-            {/* Legend row 2 */}
-            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 6, flexWrap: 'wrap', ...SERIF, fontSize: 9.5, color: '#3a3a3a' }}>
-              {legendRow2.map(({ color, label }) => (
-                <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-                  <span style={{ width: 13, height: 13, background: color, border: '1px solid #000', flexShrink: 0 }} />
-                  {label}
-                </span>
-              ))}
-            </div>
+            {/* legendRow2 deleted — Ed ruling April 22 2026. Three-office only. */}
             {/* Brand footer with Page 1 of 2 marker */}
             <div style={{ marginTop: 12, textAlign: 'center', paddingTop: 8, borderTop: '1px solid #947231', position: 'relative' }}>
               <div style={{ ...SERIF, fontSize: 11, color: '#111', letterSpacing: 5 }}>CHRISTIE&rsquo;S INTERNATIONAL REAL ESTATE</div>
@@ -272,15 +253,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
           </span>
         ))}
       </div>
-      {/* Legend row 2 */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 28, marginTop: 12, flexWrap: 'wrap', ...SERIF, fontSize: 11, color: lgTextColor }}>
-        {legendRow2.map(({ color, label }) => (
-          <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <span style={{ width: 16, height: 5, background: color, border: '0.5px solid rgba(0,0,0,0.2)', flexShrink: 0 }} />
-            {label}
-          </span>
-        ))}
-      </div>
+      {/* legendRow2 deleted — Ed ruling April 22 2026. Three-office only. */}
 
       {/* Brand footer */}
       <div style={{ marginTop: 36, textAlign: 'center' }}>
@@ -527,8 +500,8 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
     { color: C_WH,   label: 'Westhampton Flagship · 2030' },
   ];
   const row2 = [
-    { color: C_ANEW, label: 'AnewHomes Co.' },
-    { color: C_CPS1, label: 'CPS1 + CIRE Node' },
+    { color: '#c8946b', label: 'AnewHomes Co.' },
+    { color: '#6b2838', label: 'CPS1 + CIRE Node' },
   ];
   return (
     <div style={{ padding: '6px 0', marginBottom: 6, borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
@@ -754,8 +727,8 @@ export default function FutureTab() {
   const edStreams: StreamRow[] = [
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.60M', color: ITALIC_GRAY },
     { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
-    { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
-    { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: C_CPS1 },
+    { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
+    { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: ITALIC_GRAY },
   ];
 
@@ -767,36 +740,36 @@ export default function FutureTab() {
   const angelStreams: StreamRow[] = [
     { label: 'Personal GCI',             v26: '$17.5K', v27: '$84K',   v28: '$100.8K',v36: '$433K+', color: C_EH },
     { label: 'Nest Salary',              v26: '$70K',   v27: '$17.5K°', v28: '—',  v36: '—',   color: C_EH },
-    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
+    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
+    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const jarvisStreams: StreamRow[] = [
     { label: 'Personal GCI',             v26: '$140K',  v27: '$168K',  v28: '$201.6K',v36: '$868K+', color: C_EH },
-    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: C_ANEW },
+    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: C_CPS1 },
+    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const zoilaStreams: StreamRow[] = [
     { label: 'Personal GCI',                   v26: '$17.5K',v27: '$105K', v28: '$126K', v36: '$542K+', color: C_EH },
     { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },
-    { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: C_ANEW },
+    { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
-    { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: C_CPS1 },
+    { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
   ];
 
   const scottStreams: StreamRow[] = [
     { label: 'Personal GCI',             v26: '$35K',   v27: '$84K',   v28: '$100.8K',v36: '$324K+', color: C_EH },
-    { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: C_ANEW },
+    { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
   ];
 
   const richardStreams: StreamRow[] = [
-    { label: 'AnewHomes 10%',            v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: C_ANEW },
+    { label: 'AnewHomes 10%',            v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: '#c8946b' },
   ];
 
 

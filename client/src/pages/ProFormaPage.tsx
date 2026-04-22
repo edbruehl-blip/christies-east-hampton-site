@@ -72,14 +72,12 @@ const EQ1_CASCADE: Record<string, number> = {
 
 // PF9 v5 council-locked five-band data — April 20 2026
 // EH total · SH · WH from Growth Model v2 VOLUME tab (Perplexity verified)
-// AnewHomes % of EH total · CPS1 % of EH total (visibility bands, not additive)
+// Three-office volumes only — AnewHomes and CPS1 removed from arc chart (Ed ruling Apr 22 2026)
 interface FiveBandYear {
   year: string;
   eh: number;   // EH total (millions)
   sh: number;   // Southampton (millions)
   wh: number;   // Westhampton (millions)
-  anewPct: number; // AnewHomes % of EH total
-  cps1Pct: number; // CPS1 % of EH total
   combined: number; // total all offices (millions)
   display: string;
 }
@@ -87,9 +85,7 @@ const FIVE_BAND_YEARS: FiveBandYear[] = (() => {
   const EH_TOTAL = [75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
   const SH_M     = [0,     0,  42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6,  987.8];
   const WH_M     = [0,     0,     0,     0,  56.7, 230.5, 352.3, 452.4, 592.9, 737.8,  878.9];
-  const ANEW_PCT = [15,   30,   45,   55,   65,   75,   80,   85,   90,   95,  100];
-  // Canonical CPS1 curve per Ed's ruling: $100K→$250K→$500K→$750K→$1.0M→2% steady-state→$1.13M(2036)
-  const CPS1_PCT = [100, 250, 500, 750, 1000, 1020, 1040.4, 1061.2, 1082.4, 1104.1, 1126.2];
+  // ANEW_PCT and CPS1_PCT deleted — Ed ruling April 22 2026
   const YEARS    = ['2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
   return YEARS.map((yr, i) => {
     const eh = EH_TOTAL[i];
@@ -101,7 +97,7 @@ const FIVE_BAND_YEARS: FiveBandYear[] = (() => {
     else if (combined >= 1000) { display = `$${(combined / 1000).toFixed(2).replace(/\.?0+$/, '')}B`; }
     else if (combined >= 100) { display = `$${Math.round(combined)}M`; }
     else { display = `$${combined.toFixed(1)}M`; }
-    return { year: yr, eh, sh, wh, anewPct: ANEW_PCT[i], cps1Pct: CPS1_PCT[i], combined, display };
+    return { year: yr, eh, sh, wh, combined, display };
   });
 })();
 // Legacy alias for Page 3 profit pool table
@@ -257,15 +253,14 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
   // Five-band stacked vertical bar chart — v14 FINAL · April 21 2026
   // Colors: council-locked — EH #9e1b32 · AnewHomes #c8946b · CPS1 #6b2838 · SH #1a3a5c · WH #947231 (burnished gold)
   const C_EH   = '#9e1b32';
-  const C_ANEW = '#c8946b';
-  const C_CPS1 = '#6b2838';
+  // C_ANEW and C_CPS1 deleted — Ed ruling April 22 2026
   const C_SH   = '#1a3a5c';
   const C_WH   = '#947231';
   const MAX_M  = 3500; // Y-axis max in millions — headroom above $3.1B
 
   // All 12 years including 2025 baseline
-  const ALL_YEARS: Array<{ year: string; eh: number; sh: number; wh: number; anewPct: number; cps1Pct: number; combined: number; display: string; isBaseline?: boolean }> = [
-    { year: '2025', eh: 20, sh: 0, wh: 0, anewPct: 0, cps1Pct: 0, combined: 20, display: '$20M', isBaseline: true },
+  const ALL_YEARS: Array<{ year: string; eh: number; sh: number; wh: number; combined: number; display: string; isBaseline?: boolean }> = [
+    { year: '2025', eh: 20, sh: 0, wh: 0, combined: 20, display: '$20M', isBaseline: true },
     ...FIVE_BAND_YEARS,
   ];
 
@@ -331,14 +326,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                 const totalH = ((d.combined) / MAX_M) * (CHART_H - 20);
                 const ehH = (d.eh / MAX_M) * (CHART_H - 20);
 
-                // Sub-band heights within EH total
-                const anewRaw = d.eh * (d.anewPct / 100);
-                const cps1Raw = d.eh * (d.cps1Pct / 100);
-                const totalBands = anewRaw + cps1Raw;
-                const scale = totalBands > d.eh ? d.eh / totalBands : 1;
-                const anewH = (anewRaw * scale / MAX_M) * (CHART_H - 20);
-                const cps1H = (cps1Raw * scale / MAX_M) * (CHART_H - 20);
-                const ehCoreH = Math.max(0, ehH - anewH - cps1H);
+                // Three-office only — no sub-band calculations
 
                 const shH = (d.sh / MAX_M) * (CHART_H - 20);
                 const whH = (d.wh / MAX_M) * (CHART_H - 20);
@@ -355,11 +343,9 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
                     <div style={{ fontFamily: "'Georgia', serif", fontSize: 6, color: labelColor, marginBottom: 2, whiteSpace: 'nowrap', letterSpacing: '0.02em' }}>
                       {d.display}
                     </div>
-                    {/* Stacked bar — bottom to top: EH core, AnewHomes, CPS1, SH, WH */}
+                    {/* Stacked bar — bottom to top: EH, SH, WH (three-office only) */}
                     <div style={{ width: '100%', height: totalH, display: 'flex', flexDirection: 'column-reverse', opacity }}>
-                      <div style={{ height: ehCoreH, background: C_EH, flexShrink: 0 }} />
-                      <div style={{ height: anewH, background: C_ANEW, flexShrink: 0 }} />
-                      <div style={{ height: cps1H, background: C_CPS1, flexShrink: 0 }} />
+                      <div style={{ height: ehH, background: C_EH, flexShrink: 0 }} />
                       <div style={{ height: shH, background: C_SH, flexShrink: 0 }} />
                       <div style={{ height: whH, background: C_WH, flexShrink: 0 }} />
                     </div>
@@ -374,7 +360,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
           </div>
         </div>
 
-        {/* Legend — two rows (v14 FINAL) */}
+        {/* Legend — one row, three offices (v15 · Ed ruling Apr 22 2026) */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 18px', marginTop: 10, justifyContent: 'center' }}>
           {[
             [C_EH,   'East Hampton Flagship'],
@@ -387,17 +373,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
             </span>
           ))}
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 18px', marginTop: 6, justifyContent: 'center' }}>
-          {[
-            [C_ANEW, 'AnewHomes Co.'],
-            [C_CPS1, 'CPS1 + CIRE Node'],
-          ].map(([bg, label]) => (
-            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: isPdfMode ? 'rgba(27,42,74,0.75)' : 'rgba(200,172,120,0.85)' }}>
-              <span style={{ width: 14, height: 5, background: bg, display: 'inline-block', flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
-              {label}
-            </span>
-          ))}
-        </div>
+        {/* AnewHomes + CPS1 legend row deleted — Ed ruling April 22 2026 */}
 
         {/* Footer inside frame */}
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: isPdfMode ? 'rgba(27,42,74,0.25)' : 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
