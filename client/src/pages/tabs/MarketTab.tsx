@@ -668,58 +668,7 @@ export default function MarketTab() {
       </section>
 
       {/* Rate Environment moved to hero row above hamlet tiles — April 16 2026 */}
-
-      {/* P1 — Request Territory Briefing CTA */}
-      <section className="px-6 pb-14 pt-2" style={{ background: 'rgba(13,27,42,0.5)' }}>
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
-          <div
-            style={{
-              background: '#1B2A4A',
-              border: '1px solid rgba(200,172,120,0.2)',
-              padding: '32px 36px',
-              display: 'flex',
-              flexDirection: 'column' as const,
-              alignItems: 'center',
-              textAlign: 'center' as const,
-              gap: 16,
-            }}
-          >
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase' as const }}>
-              Private Advisory
-            </div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', lineHeight: 1.3 }}>
-              Request a Private Territory Briefing
-            </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.875rem', maxWidth: 480, lineHeight: 1.6 }}>
-              Receive a bespoke intelligence brief on any hamlet, property, or market segment &mdash; prepared by Ed Bruehl, Managing Director, Christie&apos;s East Hampton.
-            </div>
-            <a
-              href={`https://wa.me/16467521233?text=${encodeURIComponent("Hi Ed \u2014 I'd like to request a Private Territory Briefing for the East Hampton market. Please let me know what information you need.")}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 8,
-                fontFamily: '"Barlow Condensed", sans-serif',
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase' as const,
-                color: '#947231',
-                background: 'transparent',
-                border: '1px solid rgba(200,172,120,0.5)',
-                padding: '12px 28px',
-                textDecoration: 'none',
-                marginTop: 4,
-                transition: 'border-color 0.2s, color 0.2s',
-              }}
-            >
-              Request Territory Briefing &middot; 646-752-1233
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* P1 — Request Territory Briefing CTA removed per Apr 22 directive */}
 
 
     </div>

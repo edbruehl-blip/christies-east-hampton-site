@@ -421,8 +421,7 @@ export default function PublicPage() {
         {/* 3. Hamlet market cards */}
         <HamletMarketSection />
 
-        {/* 4. Request Territory Briefing CTA */}
-        <TerritoryBriefingCTA />
+        {/* 4. Request Territory Briefing CTA removed per Apr 22 directive */}
       </main>
 
       <PublicFooter />

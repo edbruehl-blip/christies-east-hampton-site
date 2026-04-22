@@ -796,37 +796,7 @@ function IntelligenceWebLayer() {
 
 function CorkboardLayer() {
   return (
-    <div style={{ background: '#f8f4ed', padding: '0 0 32px 0' }}>
-      {/* Label bar */}
-      <div style={{ background: '#1B2A4A', padding: '12px 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-        <div>
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 2 }}>
-            Corkboard · Day One
-          </div>
-          <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1rem' }}>
-            Ed's Corkboard v2 · Nouns, not numbers
-          </div>
-        </div>
-        <a
-          href="/manus-storage/eds_corkboard_v2_591571f9.html"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 10,
-            letterSpacing: '0.16em',
-            textTransform: 'uppercase' as const,
-            color: '#947231',
-            border: '1px solid rgba(200,172,120,0.4)',
-            borderRadius: 3,
-            padding: '6px 14px',
-            textDecoration: 'none',
-            whiteSpace: 'nowrap' as const,
-          }}
-        >
-          Print / Full Page ↗
-        </a>
-      </div>
+    <div style={{ background: '#f8f4ed', overflowX: 'auto', WebkitOverflowScrolling: 'touch' as any }}>
       {/* Native corkboard — always renders, no CDN dependency */}
       <EdCorkboard />
     </div>
