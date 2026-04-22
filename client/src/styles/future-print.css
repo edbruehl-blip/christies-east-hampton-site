@@ -46,11 +46,19 @@
   body,
   #root {
     background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
     color: #28251d !important;
     margin: 0 !important;
     padding: 0 !important;
     min-height: 0 !important;
     height: auto !important;
+  }
+  body::before,
+  body::after {
+    display: none !important;
+    background: none !important;
+    content: none !important;
   }
 
   /* ── DashboardLayout wrapper ──────────────────────────────────────────── */
@@ -239,6 +247,11 @@
     border-color: #d4d1ca !important;
   }
 
+  /* ── Partnership Projections page 2 wrapper — always starts on a new page ──── */
+  .future-page-2-wrapper {
+    page-break-before: always !important;
+    break-before: page !important;
+  }
   /* ── Headcount Scaling table ──────────────────────────────────────────── */
   .headcount-landscape-page {
     page-break-before: auto !important;
@@ -419,7 +432,14 @@
     min-height: 0 !important;
   }
   .min-h-screen {
-    min-height: unset !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  main.flex-1 {
+    flex-grow: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    background: transparent !important;
   }
 
   /* ── Links — suppress URL display ────────────────────────────────────── */

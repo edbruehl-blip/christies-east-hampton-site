@@ -202,7 +202,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     : null;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent', ...(isPdfMode ? { minHeight: 0, height: 'auto' } : {}) }}>
 
       {/* ══════════════════════════════════════════════════════════════════
           LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot
@@ -485,7 +485,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       </div>}
 
       {/* ── Main Content Area ── */}
-      <main className="flex-1" style={{ overflowX: 'hidden', width: '100%' }}>
+      <main className="flex-1" style={{ overflowX: 'hidden', width: '100%', ...(isPdfMode ? { flexGrow: 0, minHeight: 0, height: 'auto' } : {}) }}>
         {children}
       </main>
 

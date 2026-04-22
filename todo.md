@@ -2571,3 +2571,11 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Add "CPS1 + CIRE Node Canonical Reference" Drive link to INTEL Canon Documents
 - [x] Add "AnewHomes Co. Canonical Reference" Drive link to INTEL Canon Documents
 - [x] Add "Christie's Flagship Corkboard Canonical Content" Drive link to INTEL Canon Documents
+
+## Apr 22 · Four Cream Print Fixes · /future?pdf=1
+
+- [ ] FIX P1: Cream arc chart (v7_2 DNA) — #faf7f1 substrate, #2c2c2a mat, 2px black border, label #3a3a3a, max:3500 + clip:false, Page 1 of 2 marker
+- [ ] FIX P2: Cream 100-day blocks (v15 cream half) — pg-c/card-c/ch-c/cb-c/sh-c/bd-c classes, 5px accent bars, #efe6d1 sub-headers, body #2a2a2a
+- [ ] FIX P3: Cream Page 2 (v14_3b) — all 7 partner cards + legend + Model Assumption Levers + 5 footnotes + footer
+- [ ] FIX P4: Cream Client Resource block (v17) + global print dead zone CSS fix (dashboard-layout-wrapper min-height:auto)
+- [ ] Print PDF via Puppeteer, verify 2 pages, attach to Trello JiaVQXzY

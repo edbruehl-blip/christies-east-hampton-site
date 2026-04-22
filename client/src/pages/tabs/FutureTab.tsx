@@ -151,7 +151,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
           y: {
             stacked: true,
             beginAtZero: true,
-            max: 3600,
+            max: 3500,
             ticks: {
               color: textColor,
               font: { size: 12, family: '"Cormorant Garamond", serif', weight: 'bold' },
@@ -195,14 +195,64 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
   ];
   const lgTextColor = isPdfMode ? '#3a3a3a' : '#ddd';
 
+  // ── Outer wrapper: dark (navy) on screen, museum mat (#2c2c2a) + cream card in PDF
+  if (isPdfMode) {
+    return (
+      <div style={{ padding: '0.5rem 0' }}>
+        <div style={{ background: '#2c2c2a', padding: 8, borderRadius: 10 }}>
+          <div style={{ background: '#faf7f1', border: '2px solid #000', padding: '10px 14px 12px' }}>
+            {/* Christie's logo placeholder */}
+            <div style={{ textAlign: 'center', marginBottom: '0.25rem' }}>
+              <div style={{ display: 'inline-block', border: '0.5px dashed rgba(148,114,49,0.4)', padding: '4px 14px', marginBottom: 3 }}>
+                <div style={{ fontSize: 8, letterSpacing: 2, color: '#6a6a6a', fontFamily: 'sans-serif' }}>[ CHRISTIE'S LOGO · BLACK PNG · 180px ]</div>
+              </div>
+              <div style={{ ...SERIF, fontSize: 17, letterSpacing: 5, color: '#111', textTransform: 'uppercase', fontWeight: 400 }}>Christie&rsquo;s East Hampton Flagship</div>
+              <div style={{ ...SERIF, fontSize: 11, letterSpacing: 2, color: '#5a5a5a', fontStyle: 'italic', marginTop: 2 }}>Ascension Arc &middot; 2026 through 2036 and beyond</div>
+            </div>
+            {/* Canvas */}
+            <div style={{ position: 'relative', width: '100%', height: 310, marginTop: 4 }}>
+              <canvas ref={canvasRef} role="img" aria-label="Five-band Ascension Arc chart 2025–2036" />
+            </div>
+            {/* Legend row 1 — 13×13 squares with 1px black border per v7_2 */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 10, flexWrap: 'wrap', ...SERIF, fontSize: 9.5, color: '#3a3a3a' }}>
+              {legendRow1.map(({ color, label }) => (
+                <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <span style={{ width: 13, height: 13, background: color, border: '1px solid #000', flexShrink: 0 }} />
+                  {label}
+                </span>
+              ))}
+            </div>
+            {/* Legend row 2 */}
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 20, marginTop: 6, flexWrap: 'wrap', ...SERIF, fontSize: 9.5, color: '#3a3a3a' }}>
+              {legendRow2.map(({ color, label }) => (
+                <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <span style={{ width: 13, height: 13, background: color, border: '1px solid #000', flexShrink: 0 }} />
+                  {label}
+                </span>
+              ))}
+            </div>
+            {/* Brand footer with Page 1 of 2 marker */}
+            <div style={{ marginTop: 12, textAlign: 'center', paddingTop: 8, borderTop: '1px solid #947231', position: 'relative' }}>
+              <div style={{ ...SERIF, fontSize: 11, color: '#111', letterSpacing: 5 }}>CHRISTIE&rsquo;S INTERNATIONAL REAL ESTATE</div>
+              <div style={{ ...SERIF, fontSize: 8.5, color: '#5a5a5a', letterSpacing: 3, marginTop: 3, fontStyle: 'italic' }}>Art &middot; Beauty &middot; Provenance</div>
+              <div style={{ ...SERIF, fontSize: 10, color: '#947231', letterSpacing: 7, marginTop: 3, fontWeight: 600 }}>SINCE 1766</div>
+              <div style={{ position: 'absolute', right: 0, bottom: 0, ...SERIF, fontSize: 7.5, letterSpacing: 1.5, color: '#5a5a5a' }}>Page 1 of 2</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Dark (navy) live screen render ──
   return (
     <div style={{ background: bgColor, borderRadius: 4, padding: '14px 18px', marginBottom: 16 }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 4 }}>
-        <div style={{ ...SERIF, fontSize: 20, letterSpacing: 5, color: isPdfMode ? '#111' : '#ebe6db', textTransform: 'uppercase', fontWeight: 400 }}>
+        <div style={{ ...SERIF, fontSize: 20, letterSpacing: 5, color: '#ebe6db', textTransform: 'uppercase', fontWeight: 400 }}>
           Christie&rsquo;s East Hampton Flagship
         </div>
-        <div style={{ ...SERIF, fontSize: 13, letterSpacing: 2, color: isPdfMode ? '#5a5a5a' : '#ebe6db', fontStyle: 'italic', marginTop: 3, opacity: 0.75 }}>
+        <div style={{ ...SERIF, fontSize: 13, letterSpacing: 2, color: '#ebe6db', fontStyle: 'italic', marginTop: 3, opacity: 0.75 }}>
           Ascension Arc &middot; 2026 through 2036 and beyond
         </div>
       </div>
@@ -212,7 +262,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
         <canvas ref={canvasRef} role="img" aria-label="Five-band Ascension Arc chart 2025–2036" />
       </div>
 
-      {/* Legend row 1 */}
+      {/* Legend row 1 — rectangles on dark */}
       <div style={{ display: 'flex', justifyContent: 'center', gap: 28, marginTop: 20, flexWrap: 'wrap', ...SERIF, fontSize: 11, color: lgTextColor }}>
         {legendRow1.map(({ color, label }) => (
           <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -233,10 +283,10 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
 
       {/* Brand footer */}
       <div style={{ marginTop: 36, textAlign: 'center' }}>
-        <div style={{ ...SERIF, fontSize: 14, color: isPdfMode ? '#111' : '#ebe6db', letterSpacing: 6, opacity: 0.9 }}>
+        <div style={{ ...SERIF, fontSize: 14, color: '#ebe6db', letterSpacing: 6, opacity: 0.9 }}>
           CHRISTIE&rsquo;S INTERNATIONAL REAL ESTATE
         </div>
-        <div style={{ ...SERIF, fontSize: 12, color: isPdfMode ? '#5a5a5a' : '#ebe6db', letterSpacing: 4, marginTop: 10, fontStyle: 'italic', opacity: 0.7 }}>
+        <div style={{ ...SERIF, fontSize: 12, color: '#ebe6db', letterSpacing: 4, marginTop: 10, fontStyle: 'italic', opacity: 0.7 }}>
           Art &middot; Beauty &middot; Provenance
         </div>
         <div style={{ ...SERIF, fontSize: 14, color: C_WH, letterSpacing: 8, marginTop: 14, fontWeight: 600 }}>
@@ -289,20 +339,20 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
   };
 
   return (
-    <div style={{ border: `${isPdfMode ? '2px' : '1px'} solid ${borderC}`, background: bgCard, marginBottom: 16 }}>
-      <div style={{ background: bgHeader, padding: '9px 12px 8px', borderBottom: `1px solid ${hdrBorderB}` }}>
-        <div style={{ ...SERIF, letterSpacing: 5, fontSize: 15, textTransform: 'uppercase', fontWeight: 500, textAlign: 'center', color: titleColor }}>
+    <div style={{ border: `${isPdfMode ? '2px' : '1px'} solid ${borderC}`, background: bgCard, marginBottom: 8 }}>
+      <div style={{ background: bgHeader, padding: '6px 10px 5px', borderBottom: `1px solid ${hdrBorderB}` }}>
+        <div style={{ ...SERIF, letterSpacing: 5, fontSize: 13, textTransform: 'uppercase', fontWeight: 500, textAlign: 'center', color: titleColor }}>
           MODEL ASSUMPTION LEVERS
         </div>
-        <div style={{ ...SERIF, fontSize: 9, color: subtitleColor, fontStyle: 'italic', textAlign: 'center', marginTop: 3, letterSpacing: 1 }}>
+        <div style={{ ...SERIF, fontSize: 8, color: subtitleColor, fontStyle: 'italic', textAlign: 'center', marginTop: 2, letterSpacing: 1 }}>
           Three live levers &middot; Output summary
         </div>
       </div>
 
       {/* Three levers */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 14, padding: '14px 14px 10px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 6, padding: '6px 8px 4px' }}>
         {/* Lever 1: Top Producers / Office */}
-        <div style={{ padding: '6px 10px 8px', display: 'flex', flexDirection: 'column', gap: 5, borderBottom: `1px solid ${inputBorderB}` }}>
+        <div style={{ padding: '4px 8px 5px', display: 'flex', flexDirection: 'column', gap: 4, borderBottom: `1px solid ${inputBorderB}` }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
             <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1, color: labelColor, textTransform: 'uppercase', lineHeight: 1.25 }}>Top Producers / Office</div>
             <div style={{ ...SERIF, fontSize: 14, color: valueColor, fontWeight: 500, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{ppl} PPL</div>
@@ -315,7 +365,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
           )}
         </div>
         {/* Lever 2: Projected GCI Commission */}
-        <div style={{ padding: '6px 10px 8px', display: 'flex', flexDirection: 'column', gap: 5, borderBottom: `1px solid ${inputBorderB}` }}>
+        <div style={{ padding: '4px 8px 5px', display: 'flex', flexDirection: 'column', gap: 4, borderBottom: `1px solid ${inputBorderB}` }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
             <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1, color: labelColor, textTransform: 'uppercase', lineHeight: 1.25 }}>Projected GCI Commission</div>
             <div style={{ ...SERIF, fontSize: 14, color: valueColor, fontWeight: 500, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{comm.toFixed(2)}%</div>
@@ -328,7 +378,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
           )}
         </div>
         {/* Lever 3: Pros Starting Production */}
-        <div style={{ padding: '6px 10px 8px', display: 'flex', flexDirection: 'column', gap: 5, borderBottom: `1px solid ${inputBorderB}` }}>
+        <div style={{ padding: '4px 8px 5px', display: 'flex', flexDirection: 'column', gap: 4, borderBottom: `1px solid ${inputBorderB}` }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6 }}>
             <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1, color: labelColor, textTransform: 'uppercase', lineHeight: 1.25 }}>Pros Starting Production</div>
             <div style={{ ...SERIF, fontSize: 14, color: valueColor, fontWeight: 500, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>${start}K</div>
@@ -343,7 +393,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
       </div>
 
       {/* Three output cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 6, padding: '6px 10px 10px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
         {[
           { label: 'Flagship 3-Yr Cumulative', val: fmtOut(413 * factor) },
           { label: '2029 Flagship Cumulative',  val: fmtOut(708 * factor) },
@@ -357,29 +407,33 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
       </div>
 
       {/* Three footnote columns */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 12, padding: 11, borderTop: `1px solid ${notesBorder}` }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: 7, borderTop: `1px solid ${notesBorder}` }}>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>* Governing Principle</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>* Governing Principle</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped.</div>
         </div>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&dagger; Zoila Vesting</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.</div>
         </div>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only &mdash; not additive to totals. Full doctrine: Christie&rsquo;s East Hampton Canonical Reference Library.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie&rsquo;s market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only &mdash; not additive to totals. Full doctrine: Christie&rsquo;s East Hampton Canonical Reference Library.</div>
         </div>
       </div>
-      {/* Two additional footnotes: ** and ° */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 12, padding: '0 11px 11px' }}>
+      {/* Three additional footnotes: ** · ° · § (v16 spec: 3-column row 2) */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: '0 7px 7px' }}>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>** Ilija Franchise Principal</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>CIREG Profit Share 65% captures full partnership take. 5% Christie’s master royalty is Ilija’s cost on his side of the partnership. Not surfaced on any partner card.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>** Ilija Franchise Principal</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>CIREG Profit Share 65% captures full partnership take. 5% Christie’s master royalty is Ilija’s cost on his side of the partnership. Not surfaced on any partner card.</div>
         </div>
         <div>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 3 }}>&deg; Nest Salary</div>
-          <div style={{ ...SANS, fontSize: 8, color: notesText, lineHeight: 1.4 }}>Pro-rated through Q1 2027 producer transition. Angel: $70K/yr full 2026, $17.5K Q1 2027 only. Zoila: $46.7K pro-rated from May 4 2026, $17.5K Q1 2027 only.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&deg; Nest Salary</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Pro-rated through Q1 2027 producer transition. Angel: $70K/yr full 2026, $17.5K Q1 2027 only. Zoila: $46.7K pro-rated from May 4 2026, $17.5K Q1 2027 only.</div>
+        </div>
+        <div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&sect; AnewHomes Co.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie’s East Hampton Canonical Reference Library.</div>
         </div>
       </div>
     </div>
@@ -425,13 +479,13 @@ function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, clarifi
   const yrs = shortYears ? ['26','27','28','2036'] : ['2026','2027','2028','2036'];
 
   return (
-    <div style={{ border: borderC, background: bgCard, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', marginBottom: 7 }}>
-      <div style={{ background: bgHeader, padding: '5px 8px 4px', borderBottom: `1px solid ${hdrBorderB}` }}>
-        <div style={{ ...SANS, letterSpacing: 1.8, fontSize: 10.5, textTransform: 'uppercase', fontWeight: 500, lineHeight: 1.15, color: nameColor }}>{name}</div>
-        <div style={{ ...SERIF, fontSize: 8.5, color: subColor, fontStyle: 'italic', marginTop: 1, lineHeight: 1.25 }}>{subtitle}</div>
-        {nestNote && <div style={{ ...SERIF, fontSize: 7.5, color: nestColor, fontStyle: 'italic', marginTop: 2, lineHeight: 1.25, opacity: 0.85 }}>{nestNote}</div>}
+    <div style={{ border: borderC, background: bgCard, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden', marginBottom: 4 }}>
+      <div style={{ background: bgHeader, padding: '4px 7px 3px', borderBottom: `1px solid ${hdrBorderB}` }}>
+        <div style={{ ...SANS, letterSpacing: 1.8, fontSize: 9.5, textTransform: 'uppercase', fontWeight: 500, lineHeight: 1.15, color: nameColor }}>{name}</div>
+        <div style={{ ...SERIF, fontSize: 8, color: subColor, fontStyle: 'italic', marginTop: 1, lineHeight: 1.2 }}>{subtitle}</div>
+        {nestNote && <div style={{ ...SERIF, fontSize: 7, color: nestColor, fontStyle: 'italic', marginTop: 1, lineHeight: 1.2, opacity: 0.85 }}>{nestNote}</div>}
       </div>
-      <div style={{ padding: '6px 7px 7px' }}>
+      <div style={{ padding: '4px 6px 5px' }}>
         {/* Column headers */}
         <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '1.5px 0 1.5px 4px', lineHeight: 1.2, marginBottom: 2 }}>
           <div style={{ flex: 1, minWidth: 0, ...SANS, fontSize: 6.5, letterSpacing: 0.5, textTransform: 'uppercase', color: hdrColor, fontWeight: 500, whiteSpace: 'nowrap' }}>Stream</div>
@@ -440,14 +494,14 @@ function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, clarifi
         {/* Stream rows */}
         {streams.map((row, idx) => (
           <div key={idx} style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '1.5px 0 1.5px 4px', lineHeight: 1.2, borderLeft: `2px solid ${row.color}`, marginTop: 0.5 }}>
-            <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all', overflowWrap: 'normal', hyphens: 'none', ...SANS, fontSize: 9, color: lblColor }}>{row.label}</div>
+            <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all', overflowWrap: 'normal', hyphens: 'none', ...SANS, fontSize: 8, color: lblColor }}>{row.label}</div>
             {[row.v26, row.v27, row.v28, row.v36].map((v, i) => (
-              <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, fontSize: 9, color: valColor, fontStyle: 'italic' }}>{v}</div>
+              <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, fontSize: 8, color: valColor, fontStyle: 'italic' }}>{v}</div>
             ))}
           </div>
         ))}
         {/* Total row */}
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '4px 0 1px 4px', marginTop: 3, borderTop: `1px solid ${totBorder}`, ...SANS, fontSize: 9.5, fontWeight: 500, color: totTextColor }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '3px 0 1px 4px', marginTop: 2, borderTop: `1px solid ${totBorder}`, ...SANS, fontSize: 8.5, fontWeight: 500, color: totTextColor }}>
           <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all' }}>{totLabel}</div>
           {tot.map((v, i) => (
             <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, color: totValColor, fontStyle: 'normal', fontWeight: 500 }}>{v}</div>
@@ -476,8 +530,8 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
     { color: C_CPS1, label: 'CPS1 + CIRE Node' },
   ];
   return (
-    <div style={{ padding: '13px 0', marginBottom: 13, borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 22, flexWrap: 'wrap', ...SERIF, fontSize: 10, color: textColor, letterSpacing: 0.3 }}>
+    <div style={{ padding: '6px 0', marginBottom: 6, borderTop: `1px solid ${borderColor}`, borderBottom: `1px solid ${borderColor}` }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap', ...SERIF, fontSize: 9, color: textColor, letterSpacing: 0.3 }}>
         {row1.map(({ color, label }) => (
           <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 16, height: 5, background: color, flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
@@ -485,7 +539,7 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
           </span>
         ))}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 22, flexWrap: 'wrap', marginTop: 8, ...SERIF, fontSize: 10, color: textColor, letterSpacing: 0.3 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 16, flexWrap: 'wrap', marginTop: 4, ...SERIF, fontSize: 9, color: textColor, letterSpacing: 0.3 }}>
         {row2.map(({ color, label }) => (
           <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <span style={{ width: 16, height: 5, background: color, flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
@@ -498,8 +552,30 @@ function LegendBlock({ isPdfMode }: { isPdfMode: boolean }) {
 }
 
 // --- Task 8 : UHNW Card Link (orphan surfacing) ---
-function UHNWCardLink() {
+// v17 cream spec: static reference in PDF mode, clickable in dark mode
+function UHNWCardLink({ isPdfMode = false }: { isPdfMode?: boolean }) {
   const [, navigate] = useLocation();
+  if (isPdfMode) {
+    // Cream print version per v17 spec: static canonical reference, no button
+    return (
+      <div style={{ background: '#faf7f1', padding: '4px 0 0', height: 'fit-content', minHeight: 'auto', marginTop: 0 }}>
+        <div style={{ border: '2px solid #000', background: '#faf7f1', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 20, padding: 0, overflow: 'hidden' }}>
+          <div style={{ background: '#efe6d1', padding: '12px 16px', borderRight: '1px solid #947231', flex: 1, minWidth: 0 }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 7.5, letterSpacing: 1.8, textTransform: 'uppercase', color: '#947231', fontWeight: 500, marginBottom: 4 }}>Client Resource</div>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 12, letterSpacing: 2.5, textTransform: 'uppercase', color: '#1a3a5c', fontWeight: 500, lineHeight: 1.2 }}>UHNW Wealth Path Card</div>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 9, color: '#5a5041', fontStyle: 'italic', marginTop: 4, lineHeight: 1.3, letterSpacing: 0.3 }}>The Christie’s Standard applied to UHNW family wealth stewardship.</div>
+          </div>
+          <div style={{ padding: '12px 18px 12px 14px', display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 3, flexShrink: 0 }}>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 7, letterSpacing: 1.4, textTransform: 'uppercase', color: '#947231', fontWeight: 500 }}>Open Card</div>
+            <div style={{ fontFamily: 'Georgia, serif', fontSize: 9, color: '#1a3a5c', letterSpacing: 0.3, fontWeight: 500 }}>
+              <span style={{ color: '#947231' }}>→ </span>christiesrealestategroupeh.com/cards/uhnw-path
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  // Dark live version
   return (
     <div style={{
       marginTop: 24,
@@ -549,10 +625,10 @@ function BrandFooter({ isPdfMode, pageNum }: { isPdfMode: boolean; pageNum?: str
   const textColor   = isPdfMode ? '#111' : '#ebe6db';
   const mutedColor  = isPdfMode ? '#5a5a5a' : '#9a9a8a';
   return (
-    <div style={{ textAlign: 'center', paddingTop: 14, borderTop: `1px solid ${borderColor}`, position: 'relative', marginTop: 16 }}>
-      <div style={{ ...SERIF, fontSize: 12, letterSpacing: 5, color: textColor }}>{`CHRISTIE'S INTERNATIONAL REAL ESTATE`}</div>
-      <div style={{ ...SERIF, fontSize: 9.5, letterSpacing: 2.5, fontStyle: 'italic', color: mutedColor, marginTop: 4 }}>Art &middot; Beauty &middot; Provenance</div>
-      <div style={{ ...SERIF, fontSize: 11, letterSpacing: 7, color: C_WH, marginTop: 6, fontWeight: 600 }}>SINCE 1766</div>
+    <div style={{ textAlign: 'center', paddingTop: 7, borderTop: `1px solid ${borderColor}`, position: 'relative', marginTop: 8 }}>
+      <div style={{ ...SERIF, fontSize: 11, letterSpacing: 5, color: textColor }}>{`CHRISTIE'S INTERNATIONAL REAL ESTATE`}</div>
+      <div style={{ ...SERIF, fontSize: 8.5, letterSpacing: 2.5, fontStyle: 'italic', color: mutedColor, marginTop: 2 }}>Art &middot; Beauty &middot; Provenance</div>
+      <div style={{ ...SERIF, fontSize: 10, letterSpacing: 7, color: C_WH, marginTop: 3, fontWeight: 600 }}>SINCE 1766</div>
       {pageNum && <div style={{ position: 'absolute', right: 0, bottom: 0, ...SERIF, fontSize: 7.5, letterSpacing: 1.5, color: mutedColor }}>{pageNum}</div>}
     </div>
   );
@@ -727,7 +803,7 @@ export default function FutureTab() {
   return (
     <div className="future-main-wrapper" style={{ background: BG, overflowX: 'hidden' }}>
       {/* Top header removed per Apr 22 directive — redundant with chart title */}
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isPdfMode ? '12px 18px 10px' : '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Print-only header ──────────────────────────────────────────────── */}
         <div className="future-print-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 8, marginBottom: 12 }}>
@@ -754,8 +830,8 @@ export default function FutureTab() {
         <AscensionArcChart isPdfMode={isPdfMode} />
 
         {/* ── 100-Day Blocks · v15 FINAL (April 21 2026) ──────────────────────── */}
-        {/* PAGE 2 of 3 in PDF output                                             */}
-        <div style={{ marginBottom: 16 }}>
+        {/* PAGE 1 (continued) — 100-day blocks follow arc chart on same page      */}
+        <div style={{ marginBottom: isPdfMode ? 8 : 16, ...(isPdfMode ? { background: '#faf7f1', border: '2px solid #000', padding: '12px 12px 10px' } : {}) }}>
           {/* Section header */}
           <div style={{
             textAlign: 'center',
@@ -827,18 +903,18 @@ export default function FutureTab() {
                     <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, color: dtColor, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: isPdfMode ? 1 : 0.85 }}>{c.dt}</div>
                   </div>
                   {/* Card body */}
-                  <div style={{ padding: '9px 10px 10px' }}>
-                    <div style={{ marginBottom: 8 }}>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Shareholder</div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.sh}</div>
+                  <div style={{ padding: '6px 8px 7px' }}>
+                    <div style={{ marginBottom: 5 }}>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 6.5, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 1, textTransform: 'uppercase' as const }}>Shareholder</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, lineHeight: 1.38, color: bodyColor }}>{c.sh}</div>
                     </div>
-                    <div style={{ marginBottom: 8 }}>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Client</div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.cl}</div>
+                    <div style={{ marginBottom: 5 }}>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 6.5, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 1, textTransform: 'uppercase' as const }}>Client</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, lineHeight: 1.38, color: bodyColor }}>{c.cl}</div>
                     </div>
                     <div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Team</div>
-                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.tm}</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 6.5, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 1, textTransform: 'uppercase' as const }}>Team</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, lineHeight: 1.38, color: bodyColor }}>{c.tm}</div>
                     </div>
                   </div>
                 </div>
@@ -846,31 +922,33 @@ export default function FutureTab() {
             })}
           </div>
 
-          {/* Page 2 of 3 pagination — print-only */}
+          {/* Page 1 of 2 pagination — print-only (arc + 100-day blocks = page 1) */}
           <div className="future-page-label" style={{ textAlign: 'center', marginTop: 10, fontFamily: '"Cormorant Garamond", serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
-            Page 2 of 3
+            Page 1 of 2
           </div>
         </div>
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* PAGE 2 · Partnership Projections                                  */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-
+        {/* Cream outer wrapper for PDF mode (v14_3b spec: #faf7f1 bg + 2px black border) */}
+        {/* page-break-before: always forces Partnership Projections to start on page 2 */}
+        <div className="future-page-2-wrapper" style={isPdfMode ? { background: '#faf7f1', border: '2px solid #000', padding: '8px 8px 4px', position: 'relative', pageBreakBefore: 'always', breakBefore: 'page' } : {}}>
         {/* Page 2 header */}
-        <div style={{ textAlign: 'center', marginBottom: 12 }}>
-          <div style={{ ...SANS, fontSize: 8.5, letterSpacing: 3, textTransform: 'uppercase', color: isPdfMode ? '#111' : '#ebe6db', paddingBottom: 4, opacity: 0.9 }}>
+        <div style={{ textAlign: 'center', marginBottom: 4 }}>
+          <div style={{ ...SANS, fontSize: 8, letterSpacing: 3, textTransform: 'uppercase', color: isPdfMode ? '#111' : '#ebe6db', paddingBottom: 2, opacity: 0.9 }}>
             Christie&apos;s &middot; International Real Estate Group &middot; East Hampton &middot; Est. 1766
           </div>
-          <div style={{ ...SERIF, textAlign: 'center', fontSize: 14, letterSpacing: 4, textTransform: 'uppercase', color: isPdfMode ? '#1a3a5c' : '#ebe6db', fontWeight: 500, padding: '2px 0 10px', borderBottom: `1px solid ${isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)'}` }}>
+          <div style={{ ...SERIF, textAlign: 'center', fontSize: 13, letterSpacing: 4, textTransform: 'uppercase', color: isPdfMode ? '#1a3a5c' : '#ebe6db', fontWeight: 500, padding: '2px 0 6px', borderBottom: `1px solid ${isPdfMode ? '#947231' : 'rgba(148,114,49,0.5)'}` }}>
             Partnership Projections &middot; 2026 &ndash; 2036
           </div>
         </div>
 
         {/* Partner cards grid */}
-        <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr)', gap: 7, marginBottom: 11, boxSizing: 'border-box' }}>
+        <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr)', gap: 5, marginBottom: 8, boxSizing: 'border-box' }}>
 
           {/* Column 1: Edward Bruehl + Ilija Pavlovic */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name="Edward Bruehl"
               subtitle="Broker – Managing Director"
@@ -902,7 +980,7 @@ export default function FutureTab() {
           </div>
 
           {/* Column 2: Angel Theodore + Jarvis Slade */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name="Angel Theodore"
               subtitle="Agent – Marketing Coordinator"
@@ -931,7 +1009,7 @@ export default function FutureTab() {
           </div>
 
           {/* Column 3: Zoila + Scott + Richard */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
             <PartnerCard
               name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
               subtitle="Broker/Agent – Office Director"
@@ -966,24 +1044,19 @@ export default function FutureTab() {
           </div>
         </div>
 
-        {/* Legend block */}
+          {/* Legend block */}
         <LegendBlock isPdfMode={isPdfMode} />
-
         {/* Assumptions & Calc */}
         <AssumptionsCalc isPdfMode={isPdfMode} />
-
         {/* Brand footer */}
         <BrandFooter isPdfMode={isPdfMode} />
-
-        {/* Page 3 of 3 pagination — print-only */}
-        <div className="future-page-label" style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 10, opacity: 0.55 }}>
-            Page 3 of 3
+        {/* Client Resource block (v17 spec: cream static in PDF, dark clickable on screen) */}
+        <UHNWCardLink isPdfMode={isPdfMode} />
+        {/* Page 2 of 2 pagination - inside cream wrapper */}
+        <div className="future-page-label" style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 4, opacity: 0.55 }}>
+            Page 2 of 2
         </div>
-
-        {/* Task 8 · Orphan asset link — UHNW Wealth Path Card */}
-        {!isPdfMode && (
-          <UHNWCardLink />
-        )}
+        </div>{/* end cream Page 2 wrapper */}
 
       </div>
       {/* Print footer */}
