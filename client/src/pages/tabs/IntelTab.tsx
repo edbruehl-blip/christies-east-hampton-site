@@ -251,7 +251,7 @@ function TrelloLayer() {
           {/* 11 lane tiles in 3-column grid */}
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
             gap: 10,
             marginBottom: 16,
           }}>
@@ -795,10 +795,33 @@ function IntelligenceWebLayer() {
 // Source: eds_corkboard_v2.html — uploaded to CDN Apr 20 2026.
 
 function CorkboardLayer() {
+  const wrapRef = React.useRef<HTMLDivElement>(null);
+  const innerRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const wrap = wrapRef.current;
+    const inner = innerRef.current;
+    if (!wrap || !inner) return;
+    const applyScale = () => {
+      const scale = Math.min(1, wrap.offsetWidth / inner.scrollWidth);
+      inner.style.transform = `scale(${scale})`;
+      inner.style.transformOrigin = 'top left';
+      wrap.style.height = `${inner.scrollHeight * scale}px`;
+    };
+    applyScale();
+    const ro = new ResizeObserver(applyScale);
+    ro.observe(wrap);
+    return () => ro.disconnect();
+  }, []);
+
   return (
-    <div style={{ background: '#f8f4ed', overflowX: 'auto', WebkitOverflowScrolling: 'touch' as any }}>
-      {/* Native corkboard — always renders, no CDN dependency */}
-      <EdCorkboard />
+    <div
+      ref={wrapRef}
+      style={{ background: '#f8f4ed', width: '100%', overflow: 'hidden' }}
+    >
+      <div ref={innerRef} style={{ display: 'inline-block' }}>
+        <EdCorkboard />
+      </div>
     </div>
   );
 }

@@ -2484,3 +2484,15 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Acceptance Test 1 -- 17 Lenape 12/12 pass
 - [ ] Acceptance Test 2 -- 140 Hands Creek zero drift
 - [ ] Acceptance Test 3 -- Griff Sonoma (Kinley + Vellutini)
+
+## Apr 22 Session 2 — Corkboard + Hamlet Borders + Trello Overflow
+- [x] CorkboardLayer: replaced overflowX:auto wrapper with ResizeObserver-based CSS transform scale-to-fit — corkboard now scales down on mobile viewport
+- [x] Hamlet card borders: all 11 hamlet tiles now use MatrixCard variant="active" — consistent gold left border on every card (was: only Ultra-Trophy had gold border)
+- [x] Trello board grid: changed from repeat(3,1fr) to repeat(auto-fill,minmax(160px,1fr)) — cards wrap properly on mobile, no right-side cutoff
+- [x] Tests: 54/54 passing
+
+## Apr 22 Session 2 — Corkboard + Hamlet Borders + Trello Overflow
+- [x] CorkboardLayer: ResizeObserver-based CSS transform scale-to-fit — scales down on mobile
+- [x] Hamlet card borders: all 11 tiles now variant=active — consistent gold left border
+- [x] Trello board grid: auto-fill minmax(160px,1fr) — wraps on mobile, no cutoff
+- [x] Tests: 54/54 passing

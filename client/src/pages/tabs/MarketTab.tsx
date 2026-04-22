@@ -307,7 +307,7 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
 
   return (
     <MatrixCard
-      variant={hamlet.tier === 'Ultra-Trophy' ? 'active' : 'default'}
+      variant="active"
       className="flex flex-col cursor-pointer group hover:shadow-md transition-shadow overflow-hidden !p-0"
     >
       {heroSrc && (
