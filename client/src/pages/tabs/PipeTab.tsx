@@ -46,7 +46,7 @@ function PropertyReportModal({ address, onClose }: { address: string; onClose: (
     border: '1px solid rgba(27,42,74,0.2)',
     padding: '7px 10px',
     width: '100%',
-    background: '#fff',
+    background: '#FAF8F4',
     outline: 'none',
   };
 
@@ -192,7 +192,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
       {/* Seven-category strip */}
       <div className="flex flex-wrap gap-2">
         {categories.map(k => (
-          <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', minWidth: 110 }}>
+          <div key={k.label} className="flex items-center gap-2 px-3 py-2" style={{ background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', minWidth: 110 }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', background: k.dot, display: 'inline-block', flexShrink: 0 }} />
             <div>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', fontSize: 7, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 1 }}>{k.label}</div>
@@ -244,7 +244,7 @@ function InlineStatusEditor({
         value={newStatus}
         onChange={e => setNewStatus(e.target.value)}
         className="border px-2 py-1 text-xs"
-        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', background: '#fff' }}
+        style={{ borderColor: '#C8AC78', fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', background: '#FAF8F4' }}
       >
         {STATUS_OPTIONS.map(s => <option key={s}>{s}</option>)}
       </select>
@@ -364,13 +364,13 @@ function PipelineTable() {
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           className="border px-3 py-2 text-sm flex-1"
-          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', minWidth: 200, maxWidth: 320 }}
+          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', minWidth: 200, maxWidth: 320 }}
         />
         <select
           value={filterStatus}
           onChange={e => setFilterStatus(e.target.value)}
           className="border px-3 py-2 text-sm"
-          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff' }}
+          style={{ borderColor: 'rgba(27,42,74,0.2)', fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4' }}
         >
           <option value="all">All Statuses</option>
           {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
@@ -478,12 +478,12 @@ function PipelineTable() {
                   <tr
                     key={`${row.address}-${row.rowNumber}`}
                     style={{
-                      background: isEditing ? 'rgba(200,172,120,0.06)' : isEvenRow ? '#fff' : '#FAFAF8',
+                      background: isEditing ? 'rgba(200,172,120,0.06)' : isEvenRow ? '#FAF8F4' : '#F5F3EF',
                       borderBottom: '1px solid rgba(27,42,74,0.06)',
                       transition: 'background 0.1s',
                     }}
                     onMouseEnter={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = 'rgba(200,172,120,0.04)'; }}
-                    onMouseLeave={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = isEvenRow ? '#fff' : '#FAFAF8'; }}
+                    onMouseLeave={e => { if (!isEditing) (e.currentTarget as HTMLElement).style.background = isEvenRow ? '#FAF8F4' : '#F5F3EF'; }}
                   >
                     {COLUMNS.map(col => {
                       const val = row[col.key as DealKey] ?? '';
@@ -634,7 +634,7 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
   });
 
   const set = (k: string, v: string) => setForm(f => ({ ...f, [k]: v }));
-  const inputStyle = { fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#1B2A4A', background: '#fff', border: '1px solid #D3D1C7', borderRadius: 4, padding: '6px 10px', width: '100%', outline: 'none' };
+  const inputStyle = { fontFamily: '"Source Sans 3", sans-serif', fontSize: '0.82rem', color: '#1B2A4A', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.15)', borderRadius: 4, padding: '6px 10px', width: '100%', outline: 'none' };
   const labelStyle = { fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' as const, color: '#7a8a8e', display: 'block', marginBottom: 3 };
 
   return (
@@ -647,7 +647,7 @@ function AddDealForm({ onSuccess }: { onSuccess: () => void }) {
           + Add Deal
         </button>
       ) : (
-        <div style={{ background: '#fff', border: '1px solid #D3D1C7', borderRadius: 6, padding: '20px 24px', boxShadow: '0 2px 12px rgba(27,42,74,0.07)' }}>
+        <div style={{ background: '#FAF8F4', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 6, padding: '20px 24px', boxShadow: '0 2px 12px rgba(27,42,74,0.07)' }}>
           <div className="flex items-center justify-between mb-4">
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.05rem' }}>Add New Deal</div>
             <button onClick={() => setOpen(false)} style={{ color: '#7a8a8e', background: 'none', border: 'none', fontSize: '1.1rem', cursor: 'pointer', lineHeight: 1 }}>✕</button>
@@ -808,22 +808,24 @@ export default function PipeTab() {
       {/* Full pipeline table */}
       <div className="px-6 py-8">
         <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div className="flex items-center justify-between mb-5">
-          <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10 }}>
-              Office Pipeline · Master Sheet · Live
-            </div>
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.1rem' }}>
-              Active Deals
-            </div>
+          {/* Action buttons row */}
+          <div className="flex items-center gap-3 mb-4">
+            <AddDealForm onSuccess={handleDealAdded} />
+            <ImportFromProfileButton onSuccess={handleDealAdded} />
           </div>
-        </div>
-        {/* Action buttons row */}
-        <div className="flex items-center gap-3 mb-2">
-          <AddDealForm onSuccess={handleDealAdded} />
-          <ImportFromProfileButton onSuccess={handleDealAdded} />
-        </div>
-        <PipelineTable />
+          {/* Framed pipeline table */}
+          <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.12)', background: '#0D1520' }}>
+            <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
+            <div className="px-4 py-3 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.85)', borderBottom: '1px solid rgba(200,172,120,0.12)' }}>
+              <div className="uppercase" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 9, fontWeight: 600 }}>
+                Office Pipeline · Master Sheet · Live
+              </div>
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9 }}>
+                Edits write directly to Google Sheets
+              </div>
+            </div>
+            <PipelineTable />
+          </div>
         </div>{/* /frame-max-w */}
       </div>
     </div>

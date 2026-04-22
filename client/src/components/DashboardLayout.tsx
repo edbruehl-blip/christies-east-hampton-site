@@ -285,33 +285,48 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           </div>
         </div>
 
-        {/* Mobile Nav Drawer */}
+        {/* Mobile Nav — horizontal scrollable pill strip */}
         {mobileNavOpen && (
-          <div style={{ background: "#1B2A4A", borderTop: "1px solid rgba(200,172,120,0.2)", padding: "8px 16px 16px" }}>
-            {TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => { onTabChange(tab.id); setMobileNavOpen(false); }}
-                style={{
-                  display: "block",
-                  width: "100%",
-                  textAlign: "left",
-                  fontFamily: "var(--font-condensed)",
-                  fontSize: "0.75rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  padding: "12px 0",
-                  cursor: "pointer",
-                  border: "none",
-                  borderBottom: "1px solid rgba(200,172,120,0.1)",
-                  background: "transparent",
-                  color: activeTab === tab.id ? "#C8AC78" : "rgba(250,248,244,0.7)",
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
+          <div
+            style={{
+              background: "#0D1B2A",
+              borderTop: "1px solid rgba(200,172,120,0.2)",
+              borderBottom: "1px solid rgba(200,172,120,0.15)",
+              overflowX: "auto",
+              WebkitOverflowScrolling: "touch",
+              scrollbarWidth: "none",
+              padding: "8px 12px",
+              display: "flex",
+              gap: 8,
+              whiteSpace: "nowrap",
+            }}
+          >
+            {TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => { onTabChange(tab.id); setMobileNavOpen(false); }}
+                  style={{
+                    flexShrink: 0,
+                    fontFamily: "var(--font-condensed)",
+                    fontSize: "0.68rem",
+                    fontWeight: 700,
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    padding: "6px 14px",
+                    cursor: "pointer",
+                    border: `1px solid ${isActive ? '#C8AC78' : 'rgba(200,172,120,0.3)'}`,
+                    borderRadius: 2,
+                    background: isActive ? "rgba(200,172,120,0.15)" : "transparent",
+                    color: isActive ? "#C8AC78" : "rgba(250,248,244,0.65)",
+                    transition: "all 0.15s",
+                  }}
+                >
+                  {tab.label}
+                </button>
+              );
+            })}
           </div>
         )}
 

@@ -59,23 +59,40 @@ function PaumanokPlate() {
   const mapRef = useRef<google.maps.Map | null>(null);
 
   return (
-    <div className="relative w-full" style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', borderBottom: '2px solid #C8AC78' }}>
-      <MapView
-        className="w-full h-[420px]"
-        initialCenter={{ lat: 40.93, lng: -72.35 }}
-        initialZoom={10}
-        onMapReady={(map) => {
-          mapRef.current = map;
-          // Clean satellite — no labels, no markers, no controls
-          map.setMapTypeId('satellite');
-          map.setTilt(0);
-          map.setOptions({
-            disableDefaultUI: true,
-            gestureHandling: 'cooperative',
-            keyboardShortcuts: false,
-          });
-        }}
-      />
+    <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.25)', paddingBottom: 32 }}>
+      {/* Section header */}
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '28px 24px 16px' }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+          Layer 1 · Paumanok Aerial Plate
+        </div>
+        <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', margin: 0 }}>
+          South Fork · Satellite View
+        </h3>
+        <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 5 }}>
+          Clean aerial · East Hampton to Montauk · No markers · Pure geography
+        </p>
+      </div>
+      {/* Framed map */}
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '0 24px' }}>
+        <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.22)', background: '#0D1520' }}>
+          <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
+          <MapView
+            className="w-full h-[420px]"
+            initialCenter={{ lat: 40.93, lng: -72.35 }}
+            initialZoom={10}
+            onMapReady={(map) => {
+              mapRef.current = map;
+              map.setMapTypeId('satellite');
+              map.setTilt(0);
+              map.setOptions({
+                disableDefaultUI: true,
+                gestureHandling: 'cooperative',
+                keyboardShortcuts: false,
+              });
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
@@ -113,7 +130,7 @@ function CurrencyInput({ label, value, onChange, placeholder }: { label: string;
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>$</span>
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full pl-7 pr-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }} />
       </div>
     </div>
   );
@@ -123,7 +140,7 @@ function TextInput({ label, value, onChange, placeholder }: { label: string; val
   return (
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
-      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }} />
+      <input type="text" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? ''} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }} />
     </div>
   );
 }
@@ -133,7 +150,7 @@ function NumberInput({ label, value, onChange, placeholder, suffix }: { label: s
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>{label}</label>
       <div className="relative">
-        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
+        <input type="number" value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder ?? '0'} className="w-full px-3 py-2.5 border text-sm outline-none transition-colors focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)', paddingRight: suffix ? '2.5rem' : '0.75rem' }} />
         {suffix && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: '#7a8a8e', fontFamily: '"Source Sans 3", sans-serif' }}>{suffix}</span>}
       </div>
     </div>
@@ -144,7 +161,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
   return (
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
-      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#fff', borderColor: 'rgba(27,42,74,0.18)' }}>
+      <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#C8AC78]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', background: '#FAF8F4', borderColor: 'rgba(27,42,74,0.18)' }}>
         {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
     </div>
@@ -570,7 +587,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       onClick={onExpand}
       className="cursor-pointer transition-all duration-200"
       style={{
-        background: isExpanded ? '#1B2A4A' : '#fff',
+        background: isExpanded ? '#1B2A4A' : '#FAF8F4',
         border: `1px solid ${isExpanded ? '#C8AC78' : 'rgba(27,42,74,0.12)'}`,
         borderTop: `3px solid ${TIER_COLORS[hamlet.tier]}`,
       }}
@@ -704,7 +721,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
             { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (
-            <div key={stat.label} style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>
+            <div key={stat.label} style={{ padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)' }}>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>{stat.label}</div>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '1.2rem' }}>{stat.value}</div>
             </div>
@@ -712,14 +729,14 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         </div>
 
         {hamlet.vibeText && (
-          <div style={{ marginBottom: 28, padding: '18px 20px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', borderLeft: '3px solid #C8AC78' }}>
+          <div style={{ marginBottom: 28, padding: '18px 20px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', borderLeft: '3px solid #C8AC78' }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 8 }}>Character</div>
             <p style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontSize: '1.05rem', lineHeight: 1.65, margin: 0 }}>{hamlet.vibeText}</p>
           </div>
         )}
 
         <div style={{ marginBottom: 28 }}>
-          <div style={{ padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', display: 'inline-block', minWidth: 260 }}>
+          <div style={{ padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', display: 'inline-block', minWidth: 260 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9.5, textTransform: 'uppercase', marginBottom: 5 }}>Last Zillow Sale</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#1B2A4A', fontSize: '0.88rem', fontWeight: 600 }}>{hamlet.lastSale}</div>
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#384249', fontSize: '0.82rem', marginTop: 2 }}>{hamlet.lastSalePrice} · {hamlet.lastSaleDate}</div>
@@ -734,7 +751,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
               { tier: 'Mid', value: hamlet.restaurants.mid },
               { tier: 'Local', value: hamlet.restaurants.local },
             ].map(r => (
-              <div key={r.tier} style={{ padding: '12px 14px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)' }}>
+              <div key={r.tier} style={{ padding: '12px 14px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)' }}>
                 <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.14em', fontSize: 9, textTransform: 'uppercase', marginBottom: 4 }}>{r.tier}</div>
                 <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: r.value === 'TBD' ? '#ccc' : '#1B2A4A', fontSize: '0.85rem', fontWeight: 600, fontStyle: r.value === 'TBD' ? 'italic' : 'normal' }}>
                   {r.value === 'TBD' ? 'Coming Soon' : r.value}
@@ -755,7 +772,7 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 10 }}>
                   {realListings.map((listing, i) => (
-                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: '#fff', border: '1px solid rgba(27,42,74,0.1)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(27,42,74,0.1)')}>
+                    <a key={i} href={listing.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', padding: '14px 16px', background: '#FAF8F4', border: '1px solid rgba(27,42,74,0.1)', textDecoration: 'none', transition: 'border-color 0.15s' }} onMouseEnter={e => (e.currentTarget.style.borderColor = '#C8AC78')} onMouseLeave={e => (e.currentTarget.style.borderColor = 'rgba(27,42,74,0.1)')}>
                       <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#1B2A4A', fontWeight: 600, fontSize: '0.95rem', marginBottom: 4 }}>{listing.address}</div>
                       <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#C8AC78', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{listing.price}</div>
                       <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#7a8a8e', fontSize: '0.72rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{listing.beds} BD · {listing.baths} BA · {listing.sqft} SF</div>

@@ -37,8 +37,8 @@ const C_WH   = '#947231';  // Burnished gold — Westhampton Flagship · 2030 (N
 const C_ANEW = '#c8946b';  // Warm tan — AnewHomes Co.
 const C_CPS1 = '#6b2838';  // Deep burgundy — CPS1 · CIRE · CIREG Node
 
-const SANS:  React.CSSProperties = { fontFamily: 'sans-serif' };
-const SERIF: React.CSSProperties = { fontFamily: 'Georgia, serif' };
+const SANS:  React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
+const SERIF: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
 
 // ─── Canonical arc data (Growth Model V2 OUTPUTS tab) ─────────────────────────
 const ARC_YEARS  = ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
@@ -83,7 +83,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
         const { ctx, scales: { x, y } } = chart as any;
         ctx.save();
         ctx.fillStyle = labelColor;
-        ctx.font = 'bold 11px Georgia, serif';
+        ctx.font = 'bold 11px "Cormorant Garamond", serif';
         ctx.textAlign = 'center';
         COMBINED.forEach((t, i) => {
           ctx.fillText(COMBINED_LABELS[i], x.getPixelForValue(i), y.getPixelForValue(t) - 8);
@@ -104,7 +104,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
           { idx: 5, text: 'WH opens 2030' },
         ];
         ctx.save();
-        ctx.font = 'italic 8.5px Georgia, serif';
+        ctx.font = 'italic 8.5px "Cormorant Garamond", serif';
         ctx.fillStyle = isPdfMode ? '#5a5041' : '#c8ac78';
         ctx.textAlign = 'center';
         const yPos = chartArea.bottom + 34; // below the X-axis tick labels
@@ -151,7 +151,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
             max: 3500,
             ticks: {
               color: textColor,
-              font: { size: 12, family: 'Georgia, serif', weight: 'bold' },
+              font: { size: 12, family: '"Cormorant Garamond", serif', weight: 'bold' },
               padding: -38,
               mirror: true,
               z: 10,
@@ -167,7 +167,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
             stacked: true,
             ticks: {
               color: textColor,
-              font: { size: 13, family: 'Georgia, serif', weight: 'bold' },
+              font: { size: 13, family: '"Cormorant Garamond", serif', weight: 'bold' },
               padding: 8,
             },
             grid: { display: false },
@@ -676,8 +676,24 @@ export default function FutureTab() {
 
 
   return (
-    <div className="future-main-wrapper" style={{ background: BG, padding: '18px 22px 32px', fontFamily: 'Georgia, serif', color: TEXT_PRIMARY, overflowX: 'hidden' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <div className="future-main-wrapper" style={{ background: BG, overflowX: 'hidden' }}>
+      {/* Section frame collar — matches HOME tab video treatment (screen only) */}
+      {!isPdfMode && (
+        <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.25)', padding: '28px 24px 20px', borderBottom: '2px solid rgba(200,172,120,0.35)' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
+              Growth Model · Ascension Arc · 2026–2036
+            </div>
+            <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.1rem, 2vw, 1.5rem)', margin: 0 }}>
+              Future Projections
+            </h2>
+            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 5 }}>
+              Christie’s East Hampton · Ten-year volume trajectory · Partner economics · 100-Day milestones
+            </p>
+          </div>
+        </div>
+      )}
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 32px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Print-only header ──────────────────────────────────────────────── */}
         <div className="future-print-header" style={{ display: 'none', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(200,172,120,0.4)', paddingBottom: 8, marginBottom: 12 }}>
@@ -716,7 +732,7 @@ export default function FutureTab() {
             paddingBottom: 9,
             borderBottom: isPdfMode ? '1px solid #947231' : '1px solid rgba(148,114,49,0.4)',
             marginBottom: 12,
-            fontFamily: 'Georgia, serif',
+            fontFamily: '"Cormorant Garamond", serif',
           }}>
             Christie&apos;s &middot; International Real Estate Group &middot; East Hampton &middot; Est. 1766
           </div>
@@ -772,23 +788,23 @@ export default function FutureTab() {
                   {/* Card header */}
                   <div style={{ background: hdrBg, padding: '8px 10px', borderBottom: `1px solid ${hdrBorderB}` }}>
                     {/* Option A stacked equal — both labels 22px serif, equal weight */}
-                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 13, letterSpacing: 1.8, color: lblColor, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const, lineHeight: 1.15 }}>{c.lbl}</div>
-                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 13, letterSpacing: 1.5, color: stColor, fontWeight: 400, textTransform: 'uppercase' as const, fontStyle: 'italic', lineHeight: 1.15 }}>{c.st}</div>
-                    <div style={{ fontFamily: 'Georgia,serif', fontSize: 7.5, color: dtColor, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: isPdfMode ? 1 : 0.85 }}>{c.dt}</div>
+                    <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 1.8, color: lblColor, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const, lineHeight: 1.15 }}>{c.lbl}</div>
+                    <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 1.5, color: stColor, fontWeight: 400, textTransform: 'uppercase' as const, fontStyle: 'italic', lineHeight: 1.15 }}>{c.st}</div>
+                    <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, color: dtColor, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: isPdfMode ? 1 : 0.85 }}>{c.dt}</div>
                   </div>
                   {/* Card body */}
                   <div style={{ padding: '9px 10px 10px' }}>
                     <div style={{ marginBottom: 8 }}>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Shareholder</div>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.sh}</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Shareholder</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.sh}</div>
                     </div>
                     <div style={{ marginBottom: 8 }}>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Client</div>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.cl}</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Client</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.cl}</div>
                     </div>
                     <div>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Team</div>
-                      <div style={{ fontFamily: 'Georgia,serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.tm}</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7, letterSpacing: 1.4, color: secHdr, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const }}>Team</div>
+                      <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 8.5, lineHeight: 1.48, color: bodyColor }}>{c.tm}</div>
                     </div>
                   </div>
                 </div>
@@ -797,7 +813,7 @@ export default function FutureTab() {
           </div>
 
           {/* Page 2 of 3 pagination */}
-          <div style={{ textAlign: 'center', marginTop: 10, fontFamily: 'Georgia,serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
+          <div style={{ textAlign: 'center', marginTop: 10, fontFamily: '"Cormorant Garamond", serif', fontSize: 8, letterSpacing: 2, color: isPdfMode ? '#947231' : 'rgba(148,114,49,0.6)', textTransform: 'uppercase' as const }}>
             Page 2 of 3
           </div>
         </div>
@@ -931,7 +947,6 @@ export default function FutureTab() {
         </div>
 
       </div>
-
       {/* Print footer */}
       <div className="future-print-footer">
         <span className="footer-left">Ed Bruehl &nbsp;&middot;&nbsp; Managing Director</span>

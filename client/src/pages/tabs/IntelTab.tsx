@@ -349,7 +349,7 @@ function CalendarLayer() {
         border: '1px solid #1B2A4A',
         borderRadius: 2,
         overflow: 'hidden',
-        background: '#fff',
+        background: '#FAF8F4',
       }}>
         {/* Card header */}
         <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
@@ -371,34 +371,36 @@ function CalendarLayer() {
           </a>
         </div>
 
-        {/* Wednesday Circuit Google Calendar embed (full-width) */}
-        <div style={{ borderTop: '1px solid rgba(27,42,74,0.12)', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.04)', borderBottom: '1px solid rgba(27,42,74,0.08)', flexShrink: 0 }}>
-            <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>
-              Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
+        {/* Wednesday Circuit Google Calendar embed — framed */}
+        <div style={{ borderTop: '1px solid rgba(200,172,120,0.15)' }}>
+          <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.22)', background: '#0D1520' }}>
+            <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
+            <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.6)', borderBottom: '1px solid rgba(200,172,120,0.1)', flexShrink: 0 }}>
+              <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#C8AC78', letterSpacing: '0.18em' }}>
+                Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
+              </div>
+              <a
+                href={`https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
+              >
+                Open Calendar ↗
+              </a>
             </div>
-            <a
-              href={`https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
-            >
-              Open Calendar ↗
-            </a>
-          </div>
-          <iframe
-            src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0"
-            title="Wednesday Circuit Calendar"
-            width="100%"
-            height="520"
-            style={{ display: 'block', border: 'none' }}
-          />
-          {/* Cookie hint — Google Calendar requires third-party cookies */}
-          <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.15)', borderTop: '1px solid rgba(200,172,120,0.1)' }}>
-            <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
-              If the calendar appears blank, your browser may be blocking third-party cookies. Use 
-              <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
-            </span>
+            <iframe
+              src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0"
+              title="Wednesday Circuit Calendar"
+              width="100%"
+              height="520"
+              style={{ display: 'block', border: 'none' }}
+            />
+            <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(200,172,120,0.08)' }}>
+              <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 10 }}>
+                If the calendar appears blank, your browser may be blocking third-party cookies. Use{' '}
+                <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#C8AC78', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
+              </span>
+            </div>
           </div>
         </div>
 
@@ -547,7 +549,7 @@ function NineSheetMatrix() {
               style={{
                 border: '1px solid rgba(27,42,74,0.12)',
                 borderLeft: '3px solid rgba(200,172,120,0.5)',
-                background: '#fff',
+                background: '#FAF8F4',
                 padding: '16px 20px',
                 display: 'flex',
                 alignItems: 'center',
@@ -851,14 +853,13 @@ function CorkboardLayer() {
 // ─── Sticky Section Navigator ─────────────────────────────────────────────────
 
 const INTEL_SECTIONS = [
+  { id: 'intel-layer-corkboard', label: 'Corkboard · Day One' },
   { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
   { id: 'intel-layer-2', label: 'Layer 2 · Trello Board' },
   { id: 'intel-layer-3', label: 'Layer 3 · Calendar' },
-  { id: 'intel-layer-corkboard', label: 'Corkboard · Day One' },
   { id: 'intel-layer-4', label: 'Layer 4 · Thirteen Sheets' },
   { id: 'intel-layer-5', label: 'Layer 5 · Documents' },
   { id: 'intel-layer-6', label: 'Layer 6 · Intel Web' },
-  { id: 'intel-layer-9', label: 'Section 9 · Bulletin Board' },
 ];
 
 function IntelStickyNav() {
@@ -934,7 +935,13 @@ export default function IntelTab() {
       {/* Sticky section navigator */}
       <IntelStickyNav />
 
-      {/* Layer 1 — Institutional Mind Map (Mindmap.so live editable room) */}
+      {/* CORK1 — Ed's Corkboard v2 · FIRST per Apr 22 dispatch */}
+      <div id="intel-layer-corkboard" />
+      <CorkboardLayer />
+
+      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
+
+      {/* Layer 1 — Institutional Mind Map */}
       <div id="intel-layer-1" />
       <MindMapSection />
 
@@ -943,12 +950,6 @@ export default function IntelTab() {
       {/* Layer 2 — Trello Board (Live Structural Reference) */}
       <div id="intel-layer-2" />
       <TrelloLayer />
-
-      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
-
-      {/* CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) — ABOVE CALENDAR per Dispatch Addendum 3 */}
-      <div id="intel-layer-corkboard" />
-      <CorkboardLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
