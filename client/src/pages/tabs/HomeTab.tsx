@@ -303,7 +303,7 @@ const VIDEO_REEL = [
     key: 'v0',
     src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
     title: 'The James Christie Rabbit Hole',
-    label: "Ed Bruehl · Christie's East Hampton",
+    label: "Christie's East Hampton · The Standard",
   },
 ];
 
