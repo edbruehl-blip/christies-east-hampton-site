@@ -1,23 +1,42 @@
-/* FUTURE TAB - Print Stylesheet */
-/* April 22 2026 rewrite: print is a separate component tree (FutureTabPrintCream). */
-/* This file is now @page rules + screen-chrome hiding only. */
+/**
+ * FUTURE TAB — Print Stylesheet
+ * April 22 2026 rewrite: print is a separate component tree (FutureTabPrintCream).
+ * This file is now @page rules + screen-chrome hiding only.
+ * No color rules. No background rules. No text-color rules. The component owns its palette.
+ */
 
 @media print {
   @page {
     size: auto;
     margin: 0.5in;
+    @top-left { content: none; }
+    @top-center { content: none; }
+    @top-right { content: none; }
+    @bottom-left { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
   }
 
-  header, nav, .no-print, .tab-bar, .ticker-strip, .social-strip {
+  /* Screen chrome hides. Everything else is owned by the print component. */
+  header, nav, [data-tab-bar], [data-ticker], [data-social-bar], [data-no-print],
+  .no-print, .tab-bar, .ticker-strip, .social-strip, .market-data-strip,
+  [class*="sticky"], [class*="fixed"], [class*="nav-"], [class*="NavBar"],
+  [class*="ticker"], [class*="market-data"], [class*="social-strip"],
+  [class*="tab-bar"], [class*="TopBar"], [class*="SiteHeader"],
+  [style*="position: sticky"], [style*="position: fixed"],
+  [style*="position:sticky"], [style*="position:fixed"],
+  a[href*="oauth"], a[href*="login"] {
     display: none !important;
   }
 
+  /* Force color printing so the component's inline cream/parchment/gold render exactly. */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 
+  /* Page break between sections of the print component */
   .pfc-page-1 { page-break-after: always; break-after: page; }
   .pfc-page-2 { page-break-before: always; break-before: page; }
 }

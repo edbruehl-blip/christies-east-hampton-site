@@ -407,7 +407,7 @@ function Page2() {
       <PartnerCardGrid />
       <ChartLegend />
       <ModelAssumptionLevers />
-      <FiveFootnotes />
+      <CanonicalFootnotes />
       <BrandSignature />
       <UHNWCardLink />
       <PageNumber>Page 2 of 2</PageNumber>
@@ -669,10 +669,10 @@ function Output({ label, value }: { label: string; value: string }) {
 }
 
 // ───────────────────────────────────────────────────────────────────────────────
-// Five canonical footnotes — verbatim copy from v14_3b
+// Canonical footnotes — verbatim copy from v14_3b
 // ───────────────────────────────────────────────────────────────────────────────
 
-function FiveFootnotes() {
+function CanonicalFootnotes() {
   const cellStyle: React.CSSProperties = { padding: 0 };
   const headingStyle: React.CSSProperties = { fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: NAVY, fontWeight: 500, marginBottom: 3 };
   const bodyStyle: React.CSSProperties = { fontSize: 8, color: INK_SOFT, lineHeight: 1.4 };
