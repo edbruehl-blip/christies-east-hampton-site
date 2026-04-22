@@ -115,7 +115,7 @@ export default function ChristiesLetterPage() {
               <div style={{ padding: 4, border: `2px solid ${GOLD}`, boxShadow: `0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.6)`, background: 'rgba(27,42,74,0.4)', display: 'inline-block' }}>
                 <img src={JAMES_CHRISTIE_PORTRAIT_PRIMARY} alt="James Christie — Founder, Christie's, Est. 1766" style={{ width: 90, height: 115, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
               </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>James Christie<br/>Est. 1766</div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>James Christie · London · 1766</div>
             </div>
             <div>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 10 }}>Christie's East Hampton · Institutional Letter</div>
@@ -150,7 +150,7 @@ export default function ChristiesLetterPage() {
                 <div style={{ padding: 3, border: `2px solid ${GOLD}`, boxShadow: `0 0 0 1px rgba(200,172,120,0.25), 0 6px 20px rgba(27,42,74,0.15)`, background: CREAM }}>
                   <img src={JAMES_CHRISTIE_PORTRAIT_PRIMARY} alt="James Christie — Founder, Christie's, Est. 1766" style={{ width: 80, height: 102, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
                 </div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 5, textAlign: 'center' }}>James Christie<br/>Est. 1766</div>
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 5, textAlign: 'center' }}>James Christie · London · 1766</div>
               </div>
             )}
 

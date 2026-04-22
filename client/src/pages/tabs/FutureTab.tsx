@@ -99,6 +99,7 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
       afterDraw(chart: Chart) {
         const { ctx, scales: { x }, chartArea } = chart as any;
         const openings = [
+          { idx: 0, text: 'BASELINE · 2025' },
           { idx: 3, text: 'SH opens 2028' },
           { idx: 5, text: 'WH opens 2030' },
         ];
@@ -119,11 +120,11 @@ function AscensionArcChart({ isPdfMode }: ArcChartProps) {
       data: {
         labels: ARC_YEARS,
         datasets: [
-          { data: EH_CORE, backgroundColor: C_EH,   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: ANEW_M,  backgroundColor: C_ANEW, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: CPS1_M,  backgroundColor: C_CPS1, borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: SH_M,    backgroundColor: C_SH,   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
-          { data: WH_M,    backgroundColor: C_WH,   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: EH_CORE, backgroundColor: EH_CORE.map((_, i) => i === 0 ? C_EH + '99' : C_EH),   borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: ANEW_M,  backgroundColor: ANEW_M.map((_, i) => i === 0 ? C_ANEW + '99' : C_ANEW), borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: CPS1_M,  backgroundColor: CPS1_M.map((_, i) => i === 0 ? C_CPS1 + '99' : C_CPS1), borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: SH_M,    backgroundColor: SH_M.map((_, i) => i === 0 ? C_SH + '99' : C_SH),       borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
+          { data: WH_M,    backgroundColor: WH_M.map((_, i) => i === 0 ? C_WH + '99' : C_WH),       borderColor: '#000', borderWidth: 2, stack: 'o', barPercentage: 0.85, categoryPercentage: 0.92 },
         ],
       },
       options: {

@@ -193,7 +193,7 @@ function FoundingLetterSection() {
                 />
               </div>
               <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', lineHeight: 1.6 }}>
-                James Christie<br/>Est. 1766<br/><span style={{ opacity: 0.6 }}>Tap → Market Report</span>
+                James Christie · London · 1766<br/><span style={{ opacity: 0.6 }}>Tap → Market Report</span>
               </div>
             </div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 10 }}>

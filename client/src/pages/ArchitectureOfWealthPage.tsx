@@ -133,7 +133,7 @@ export default function ArchitectureOfWealthPage() {
               color: GOLD, fontSize: 8, letterSpacing: '0.16em',
               textTransform: 'uppercase', marginTop: 6, textAlign: 'center',
             }}>
-              James Christie<br/>Est. 1766
+              James Christie · London · 1766
             </div>
           </div>
           <div>

@@ -2422,3 +2422,24 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 ## HOME Video Swap · April 21 2026
 - [x] Upload JamesChristie-RabbitHole.mov to CDN — /manus-storage/JamesChristie-RabbitHole_79659439.mov
 - [x] Replace YouTube embed in HomeTab.tsx with native video player — Ed's video added as V0 (first), V1/V2/V3 follow in order; YouTube iframe removed; EmbedFrame import cleaned up
+
+## One Fell Swoop Dispatch · April 21 2026
+### ACTION ITEMS
+- [ ] Item 1: Fix CPS-7 → CPS-1 on /pro-forma Page 1 footnote + all other CPS-7 references in codebase
+- [ ] Item 2: Unify James Christie caption to "James Christie · London · 1766" across HOME and /letters/* (same font, size, color, position)
+- [ ] Item 3: Richard role label — confirm "Strategic Advisor – AnewHomes Co. Partner" is live; fix any remaining "Strategic Mentor" in docs/memos
+- [ ] Item 4a: Seed CIS Calculator Buy-Renovate-Hold lens with reasonable defaults (renovation context)
+- [ ] Item 4b: Seed CIS Calculator Buy-Rent lens with reasonable defaults (rental income context)
+- [ ] Item 11: Warm Sheets cache on server startup — add pre-warm call in server/_core/index.ts
+- [ ] Item 12: Add Market tab WIP banner "Data as of Q4 2025 · Full refresh in progress" (small, italic, gold)
+### VERIFY ITEMS (confirm only, no code if already shipped)
+- [ ] Item 5: HOME YouTube → Ed's video confirmed
+- [ ] Item 6: Arc 2025 baseline bar — BASELINE label or 60% opacity rendered
+- [ ] Item 7: Intel Corkboard above Calendar, default open
+- [ ] Item 8: Intel tab all 4 surfaces dark navy
+- [ ] Item 9: Maps 11-hamlet grid below map
+- [ ] Item 10: William audio still live on HOME tab
+### DEFERRED · SPRINT 17
+- [ ] DEFERRED: /pro-forma partner cards migrate from bundle-baked to live OUTPUTS binding
+- [ ] DEFERRED: Ed card hierarchy spacing + Assumptions panel tone refinement
+- [ ] DEFERRED: Ed card third consolidated "not included in total" line

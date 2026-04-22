@@ -97,7 +97,7 @@ function SectionA() {
                 marginTop: 6,
                 lineHeight: 1.5,
               }}>
-                James Christie<br />London · 1766
+                James Christie · London · 1766
               </div>
             </div>
 
@@ -295,16 +295,17 @@ function BikeCardSection() {
 }
 
 // ─── Section V  ·  Video Reel  ·  V0/V1/V2/V3  ·  Full-bleed self-hosted ─────────────
-// V0 = Ed Bruehl — James Christie Rabbit Hole (Apr 21 2026) — FIRST
-// V1 = Life Less Ordinary brand reel (Apr 3 2026)
-// V2 = Christie's 250th Heritage (Jan 22 2026) — SHORTER
-// V3 = Tash Perrin (Nov 3 2025) — LONGEST LAST
+// ORDER (Apr 21 2026 reorder): V3 first (longest) → V1 → V2 → V0 (Rabbit Hole) second-to-last
+// V3 = Tash Perrin (Nov 3 2025) — FIRST
+// V1 = Life Less Ordinary brand reel (Apr 3 2026) — SECOND
+// V2 = Christie's 250th Heritage (Jan 22 2026) — THIRD
+// V0 = Ed Bruehl — James Christie Rabbit Hole (Apr 21 2026) — SECOND-TO-LAST
 const VIDEO_REEL = [
   {
-    key: 'v0',
-    src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
-    title: 'The James Christie Rabbit Hole',
-    label: "Ed Bruehl  ·  Christie's East Hampton",
+    key: 'v3',
+    src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
+    title: 'Tash Perrin',
+    label: "Christie's International Real Estate Group",
   },
   {
     key: 'v1',
@@ -319,10 +320,10 @@ const VIDEO_REEL = [
     label: "Christie's - Est. 1766 - 250 Years",
   },
   {
-    key: 'v3',
-    src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
-    title: 'Tash Perrin',
-    label: "Christie's International Real Estate Group",
+    key: 'v0',
+    src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
+    title: 'The James Christie Rabbit Hole',
+    label: "Ed Bruehl  ·  Christie's East Hampton",
   },
 ];
 

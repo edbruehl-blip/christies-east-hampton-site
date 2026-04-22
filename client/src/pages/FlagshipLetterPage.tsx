@@ -184,7 +184,7 @@ export default function FlagshipLetterPage() {
                 color: GOLD, fontSize: 8, letterSpacing: '0.16em',
                 textTransform: 'uppercase', marginTop: 6, textAlign: 'center',
               }}>
-                James Christie<br/>Est. 1766
+                James Christie · London · 1766
               </div>
             </div>
 
@@ -277,7 +277,7 @@ export default function FlagshipLetterPage() {
                   color: GOLD, fontSize: 8, letterSpacing: '0.14em',
                   textTransform: 'uppercase', marginTop: 5, textAlign: 'center',
                 }}>
-                  James Christie<br/>Est. 1766
+                  James Christie · London · 1766
                 </div>
               </div>
             )}
