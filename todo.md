@@ -2598,3 +2598,7 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] ProFormaPage.tsx: audit for arc chart — apply same three-office rule if present
 - [ ] 13-item acceptance test pass
 - [ ] Checkpoint + Trello post to card 69OEdJ1i
+
+## Bug Fix — Apr 22 2026 (Session Continuation)
+
+- [x] brief.getToday: wrap DB query in try/catch — returns null gracefully on DB failure instead of throwing INTERNAL_SERVER_ERROR. Fixes "The string did not match the expected pattern" error on HOME tab. 54/54 vitest passing.

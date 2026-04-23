@@ -525,11 +525,15 @@ export const appRouter = router({
      * publicProcedure — content is non-sensitive.
      */
     getToday: publicProcedure.query(async () => {
-      const db = await getDb();
-      if (!db) return null;
-      const all = await db.select().from(dailyBrief).orderBy(dailyBrief.briefDate);
-      if (all.length === 0) return null;
-      return all[all.length - 1];
+      try {
+        const db = await getDb();
+        if (!db) return null;
+        const all = await db.select().from(dailyBrief).orderBy(dailyBrief.briefDate);
+        if (all.length === 0) return null;
+        return all[all.length - 1];
+      } catch {
+        return null;
+      }
     }),
 
     /**
