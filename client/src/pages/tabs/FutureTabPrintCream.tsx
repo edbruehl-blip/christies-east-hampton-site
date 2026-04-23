@@ -1,47 +1,49 @@
 /**
- * FutureTabPrintCream.tsx — REFERENCE IMPLEMENTATION
+ * FutureTabPrintCream.tsx — PRODUCTION-WIRED · APRIL 22 2026 LATE EVENING
  * Christie's East Hampton Flagship · /future?pdf=1 · Cream print mirror
- * Author: Claude (Architect) · April 22 2026
  *
- * This component renders ONLY when ?pdf=1 is active. It is the print mirror
- * of the FUTURE tab in cream substrate, composed from five council-approved
- * wireframes:
- *   Page 1: FINAL_v7_2_arc_pdf.html + FINAL_v15 cream half
- *   Page 2: FINAL_v14_3b_page2_cream.html + FINAL_v16_levers_cream.html + FINAL_v17_client_resource_cream.html
+ * SUPERSEDES: All prior versions including c168f593 hardcoded snapshot.
  *
- * No screen chrome. No nav. No tabs. No INTRO/WILLIAM buttons. No ticker.
- * Two pages, <section> per page, CSS page-break-after forces Letter pagination.
+ * CANONICAL DATA FLOW · D59 LIVE-PRINT UNITY:
+ *   This component reads from the SAME tRPC endpoints the screen dashboard uses.
+ *   Every partner card cell traces to a canonical source:
+ *     - Office volume + Net Profit + Ed/Ilija pool: trpc.future.ascensionArc (OUTPUTS tab)
+ *     - Named producer Personal GCI 2026/27/28: trpc.future.partnerCards (ROSTER tab)
+ *     - Personal GCI 2031 (for Scott trajectory): trpc.future.growthModel (ROSTER tab)
+ *     - 2036 Personal GCI for Ed: ascensionArc.years[10].edGci (VOLUME tab)
+ *     - AnewHomes company total per year: derived from canonical doctrine
+ *         ($50K 2026 · $150K 2027 · 12.5% CAGR 2028-2036) — § AnewHomes footnote
+ *     - CPS1 + CIRE Node trajectory: derived from canonical doctrine
+ *         ($100K 2026 → $1M 2030 → 2% steady-state) — ‡ CPS1 footnote
+ *     - Vesting timing: † Zoila footnote doctrine (cliff Nov 4 2026, activates 2027)
+ *     - Nest Salary: ° Nest Salary footnote doctrine (Angel + Zoila pro-rated)
+ *     - Override percentages: * Governing footnote doctrine
  *
- * PALETTE (canonical, locked):
- *   Cream substrate:   #faf7f1
- *   Parchment wash:    #efe6d1   (card-header fill only)
- *   Museum mat:        #2c2c2a   (frame around arc chart only)
- *   Navy titles:       #1a3a5c
- *   Gold accents:      #947231
- *   Body text on cream: #111
- *   Body text on parchment: #2a2a2a
+ * ED RULING APRIL 22 2026 (LATE EVENING):
+ *   - All chart-canonical fixes from Perp pro forma audit applied
+ *   - Personal GCI = 70% × Team GCI (formula, not snapshot)
+ *   - Override 5% = 5% × Team GCI (formula, not snapshot)
+ *   - Scott Smith 2036 = 20% YoY compound from ROSTER 2031 per * Governing
+ *     "20% year-over-year, uncapped". If ROSTER 2031 unavailable, fallback to
+ *     v14_3b approved value $324K with doctrine trace pending June 1 review.
  *
- * DATA:
- *   Arc chart: trpc.future.ascensionArc.useQuery (five-layer stack preserved)
- *   Partner cards: hardcoded to match FINAL_v14_3b_page2_cream.html.
- *     These values are already verified against production at checkpoint ae4ee6b5.
- *     Perp will port to live OUTPUTS wires in a follow-up ticket.
+ * FALLBACK DISCIPLINE:
+ *   If any tRPC wire fails, the component renders canonical fallback values
+ *   (the v14_3b wireframe values). Print never renders empty cells, undefined,
+ *   or null. Either live data or canonical fallback. Always traceable.
+ *
+ * WHEN ED CHANGES A SHEET CELL:
+ *   On next page load (5-min stale time on cache), both screen and print show
+ *   the new value. Same source, same render, two color modes.
  */
 
 import React, { useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
-import {
-  Chart,
-  BarController,
-  BarElement,
-  CategoryScale,
-  LinearScale,
-  Tooltip,
-  Legend,
-} from 'chart.js';
+import Chart from 'chart.js/auto';
 
-// Register Chart.js components (idempotent — safe to call multiple times)
-Chart.register(BarController, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL PALETTE · APPROVED ED RULING APRIL 22 2026
+// ═══════════════════════════════════════════════════════════════════════════════
 
 const CREAM       = '#faf7f1';
 const PARCHMENT   = '#efe6d1';
@@ -54,41 +56,412 @@ const INK_FAINT   = '#3a3a3a';
 const INK_SUBTLE  = '#5a5a5a';
 const INK_ACCENT  = '#5a5041';
 
-// Chart bar colors — unchanged from screen, kept for chart recognizability in print
+// Three-office bar colors — Ed-approved chart colors, do not change
 const COLOR_EH_FLAGSHIP = '#9e1b32'; // burgundy
 const COLOR_SH_FLAGSHIP = '#1a3a5c'; // navy
 const COLOR_WH_FLAGSHIP = '#947231'; // gold
-// '#c8946b' and '#6b2838' deleted — Ed ruling April 22 2026.
-// AnewHomes and CPS1 are revenue streams, not office volumes.
-// They live on partner cards (§ and ‡ markers) and in footnotes.
+
+// Partner card row accent borders (inline hex, not separate constants)
+const ACCENT_PERSONAL = '#9e1b32'; // burgundy — Personal GCI rows
+const ACCENT_ANEW     = '#c8946b'; // tan — AnewHomes rows
+const ACCENT_OVERRIDE = '#9a9a9a'; // gray — Ed's Team GCI Override rows
+const ACCENT_PROFIT   = '#6b2838'; // dark burgundy — Profit Share + CPS1 rows
 
 const SERIF = 'Georgia, serif';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL DOCTRINE CONSTANTS · TRACE TO FOOTNOTES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// § AnewHomes Co. doctrine — $50K 2026, $150K 2027, 12.5% CAGR thereafter
+function computeAnewHomesPool(year: number): number {
+  if (year <= 2025) return 0;
+  if (year === 2026) return 50_000;
+  if (year === 2027) return 150_000;
+  // 12.5% CAGR from $150K (2027) for years 2028+
+  return Math.round(150_000 * Math.pow(1.125, year - 2027));
+}
+
+// ‡ CPS1 + CIRE Node doctrine — ramps $100K → $1M by 2030, then 2% steady-state
+function computeCps1(year: number): number {
+  if (year <= 2025) return 0;
+  if (year === 2026) return 100_000;
+  if (year === 2027) return 250_000;
+  if (year === 2028) return 500_000;
+  if (year === 2029) return 750_000;
+  if (year === 2030) return 1_000_000;
+  // 2% YoY from $1M (2030) for years 2031+
+  return Math.round(1_000_000 * Math.pow(1.02, year - 2030));
+}
+
+// AnewHomes participant percentages — sum to 100% across the 6 named participants + Pool reserve
+const ANEW_PCT = {
+  ed:      0.35,  // Ed Bruehl — Architect
+  scott:   0.35,  // Scott Smith — Build Partner
+  richard: 0.10,  // Richard Bruehl — Strategic Advisor
+  angel:   0.05,
+  jarvis:  0.05,
+  zoila:   0.05,
+  pool:    0.05,  // Reserved (not on cards)
+};
+
+// CIREG Profit Share percentages — * Governing doctrine, sum to 100%
+const PROFIT_SHARE_PCT = {
+  ed:     0.2975, // 29.75%
+  ilija:  0.65,   // 65%
+  angel:  0.0175, // 1.75%
+  jarvis: 0.0175, // 1.75%
+  zoila:  0.0175, // 1.75%
+};
+
+// Override percentage — Ed's Team GCI × 5%
+const OVERRIDE_PCT = 0.05;
+
+// Personal GCI = Team GCI × 70% (* Governing — agent split)
+const AGENT_SPLIT = 0.70;
+
+// Nest Salary doctrine — ° footnote
+// Angel: $70K full 2026, $17.5K Q1 2027 only, then $0
+// Zoila: $46.7K pro-rated from May 4 2026 (8 months × $5,833/mo), $17.5K Q1 2027 only
+const NEST_ANGEL  = { 2026: 70_000,  2027: 17_500, 2028: 0, 2036: 0 };
+const NEST_ZOILA  = { 2026: 46_700,  2027: 17_500, 2028: 0, 2036: 0 };
+
+// Zoila vesting cliff — † footnote
+// AnewHomes 5% and Profit Share 1.75% activate 2027 forward (cliff Nov 4 2026)
+// Override applies 2026 + Q1 2027 only ($30K + $9K)
+const ZOILA_VESTED = (year: number) => year >= 2027;
+const ZOILA_OVERRIDE = { 2026: 30_000, 2027: 9_000, 2028: 0, 2036: 0 };
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FORMATTING HELPERS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function fmtK(n: number): string {
+  if (n === 0) return '—';
+  if (n < 1_000) return `$${n}`;
+  if (n < 1_000_000) {
+    const k = n / 1_000;
+    return Number.isInteger(k) ? `$${k}K` : `$${k.toFixed(1)}K`;
+  }
+  const m = n / 1_000_000;
+  return Number.isInteger(m) ? `$${m}M` : `$${m.toFixed(2)}M`;
+}
+
+// Format with "+" suffix for forward-projected approximations (Scott, Angel, Jarvis, Zoila 2036)
+function fmtKApprox(n: number): string {
+  if (n === 0) return '—';
+  return fmtK(n) + '+';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL FALLBACK · v14_3b WIREFRAME (used only if all wires fail)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const FALLBACK_OUTPUTS = {
+  // Ed's Team GCI per year — OUTPUTS canonical step-function
+  edTeamGci: { 2026: 600_000, 2027: 720_000, 2028: 864_000, 2036: 3_600_000 },
+  // Net Operating Profit pool per year — OUTPUTS column G
+  netProfit: { 2026: 175_000, 2027: 429_534, 2028: 964_694, 2036: 11_400_000 },
+  // Ed Personal GCI per year (already 70% of Team)
+  edPersonalGci: { 2026: 420_000, 2027: 504_000, 2028: 605_000, 2036: 2_520_000 },
+  // Named producer Personal GCI from ROSTER
+  angelGci:   { 2026:  17_500, 2027:  84_000, 2028: 100_800, 2031: 174_000 },
+  jarvisGci:  { 2026: 140_000, 2027: 168_000, 2028: 201_600, 2031: 348_000 },
+  zoilaGci:   { 2026:  17_500, 2027: 105_000, 2028: 126_000, 2031: 217_000 },
+  scottGci:   { 2026:  35_000, 2027:  84_000, 2028: 100_800, 2031: 130_000 },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PARTNER CARD DERIVATION · LIVE WIRE → CANONICAL VALUES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+interface DerivedAgentValues {
+  personal: { y26: number; y27: number; y28: number; y36: number };
+  // Additional fields per card type built up by deriveCards
+}
+
+interface CardData {
+  name: string;
+  title: string;
+  nestNote?: string;
+  rows: { label: string; values: [string, string, string, string]; accent: string }[];
+  total: { values: [string, string, string, string] };
+  footnotes: string[];
+}
+
+function deriveCards(opts: {
+  edTeamGci: { y26: number; y27: number; y28: number; y36: number };
+  netProfit: { y26: number; y27: number; y28: number; y36: number };
+  edPersonalGci: { y26: number; y27: number; y28: number; y36: number };
+  angelGci: { y26: number; y27: number; y28: number; y36: number };
+  jarvisGci: { y26: number; y27: number; y28: number; y36: number };
+  zoilaGci: { y26: number; y27: number; y28: number; y36: number };
+  scottGci: { y26: number; y27: number; y28: number; y36: number };
+}): CardData[] {
+  const Y = [2026, 2027, 2028, 2036] as const;
+
+  // AnewHomes pool per year — doctrine
+  const anewPool = { y26: computeAnewHomesPool(2026), y27: computeAnewHomesPool(2027), y28: computeAnewHomesPool(2028), y36: computeAnewHomesPool(2036) };
+
+  // CPS1 trajectory per year — doctrine
+  const cps1 = { y26: computeCps1(2026), y27: computeCps1(2027), y28: computeCps1(2028), y36: computeCps1(2036) };
+
+  // ── CARD 1: EDWARD BRUEHL ────────────────────────────────────────────────────
+  const ed_personal = opts.edPersonalGci;
+  const ed_team     = opts.edTeamGci;
+  const ed_anew     = { y26: anewPool.y26 * ANEW_PCT.ed, y27: anewPool.y27 * ANEW_PCT.ed, y28: anewPool.y28 * ANEW_PCT.ed, y36: anewPool.y36 * ANEW_PCT.ed };
+  const ed_profit   = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.ed, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.ed, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.ed, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.ed };
+  const ed_cps1     = cps1;
+  const ed_total    = {
+    y26: ed_personal.y26 + ed_anew.y26 + ed_profit.y26,
+    y27: ed_personal.y27 + ed_anew.y27 + ed_profit.y27,
+    y28: ed_personal.y28 + ed_anew.y28 + ed_profit.y28,
+    y36: ed_personal.y36 + ed_anew.y36 + ed_profit.y36,
+  };
+
+  const card1: CardData = {
+    name: 'Edward Bruehl',
+    title: 'Broker – Managing Director',
+    rows: [
+      { label: "Ed's Team GCI (reference)",  values: [fmtK(ed_team.y26), fmtK(ed_team.y27), fmtK(ed_team.y28), fmtK(ed_team.y36)], accent: ACCENT_PERSONAL },
+      { label: 'Personal GCI',                values: [fmtK(ed_personal.y26), fmtK(ed_personal.y27), fmtK(ed_personal.y28), fmtK(ed_personal.y36)], accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 35% * §',           values: [fmtK(ed_anew.y26), fmtK(ed_anew.y27), fmtK(ed_anew.y28), fmtK(ed_anew.y36)], accent: ACCENT_ANEW },
+      { label: 'CIREG Profit Share 29.75% *', values: [fmtK(ed_profit.y26), fmtK(ed_profit.y27), fmtK(ed_profit.y28), fmtK(ed_profit.y36)], accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',          values: [fmtK(ed_cps1.y26), fmtK(ed_cps1.y27), fmtK(ed_cps1.y28), fmtK(ed_cps1.y36)], accent: ACCENT_PROFIT },
+    ],
+    total: { values: [fmtK(ed_total.y26), fmtK(ed_total.y27), fmtK(ed_total.y28), fmtK(ed_total.y36)] },
+    footnotes: [
+      "Ed's Team GCI reference only — not included in total",
+      'CPS1 + CIRE Node visibility only — not included in total',
+    ],
+  };
+
+  // ── CARD 2: ILIJA PAVLOVIC ───────────────────────────────────────────────────
+  const ilija_profit = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.ilija, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.ilija, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.ilija, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.ilija };
+  const ilija_total  = ilija_profit;
+
+  const card2: CardData = {
+    name: 'Ilija Pavlovic',
+    title: 'Franchise Principal · CIREG Tri-State',
+    rows: [
+      { label: 'CIREG Profit Share 65% **', values: [fmtK(ilija_profit.y26), fmtK(ilija_profit.y27), fmtK(ilija_profit.y28), fmtK(ilija_profit.y36)], accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',         values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+    ],
+    total: { values: [fmtK(ilija_total.y26), fmtK(ilija_total.y27), fmtK(ilija_total.y28), fmtK(ilija_total.y36)] },
+    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+  };
+
+  // ── CARD 3: ANGEL THEODORE ───────────────────────────────────────────────────
+  const angel_personal = opts.angelGci;
+  const angel_nest     = NEST_ANGEL;
+  const angel_anew     = { y26: anewPool.y26 * ANEW_PCT.angel, y27: anewPool.y27 * ANEW_PCT.angel, y28: anewPool.y28 * ANEW_PCT.angel, y36: anewPool.y36 * ANEW_PCT.angel };
+  const angel_override = { y26: ed_team.y26 * OVERRIDE_PCT, y27: ed_team.y27 * OVERRIDE_PCT, y28: ed_team.y28 * OVERRIDE_PCT, y36: ed_team.y36 * OVERRIDE_PCT };
+  const angel_profit   = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.angel, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.angel, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.angel, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.angel };
+  const angel_total    = {
+    y26: angel_personal.y26 + angel_nest[2026] + angel_anew.y26 + angel_override.y26 + angel_profit.y26,
+    y27: angel_personal.y27 + angel_nest[2027] + angel_anew.y27 + angel_override.y27 + angel_profit.y27,
+    y28: angel_personal.y28 + angel_nest[2028] + angel_anew.y28 + angel_override.y28 + angel_profit.y28,
+    y36: angel_personal.y36 + angel_nest[2036] + angel_anew.y36 + angel_override.y36 + angel_profit.y36,
+  };
+
+  const card3: CardData = {
+    name: 'Angel Theodore',
+    title: 'Agent – Marketing Coordinator',
+    nestNote: 'Nest salary $70K/yr · through Q1 2027',
+    rows: [
+      { label: 'Personal GCI',                 values: [fmtK(angel_personal.y26), fmtK(angel_personal.y27), fmtK(angel_personal.y28), fmtKApprox(angel_personal.y36)], accent: ACCENT_PERSONAL },
+      { label: 'Nest Salary °',                values: [fmtK(angel_nest[2026]), fmtK(angel_nest[2027]), fmtK(angel_nest[2028]), fmtK(angel_nest[2036])], accent: ACCENT_ANEW },
+      { label: 'AnewHomes 5% §',               values: [fmtK(angel_anew.y26), fmtK(angel_anew.y27), fmtK(angel_anew.y28), fmtK(angel_anew.y36)], accent: ACCENT_ANEW },
+      { label: "Ed's Team GCI Override 5%",    values: [fmtK(angel_override.y26), fmtK(angel_override.y27), fmtK(angel_override.y28), fmtK(angel_override.y36)], accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75%',     values: [fmtK(angel_profit.y26), fmtK(angel_profit.y27), fmtK(angel_profit.y28), fmtK(angel_profit.y36)], accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+    ],
+    total: { values: [fmtK(angel_total.y26), fmtK(angel_total.y27), fmtK(angel_total.y28), fmtKApprox(angel_total.y36)] },
+    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+  };
+
+  // ── CARD 4: JARVIS SLADE ─────────────────────────────────────────────────────
+  const jarvis_personal = opts.jarvisGci;
+  const jarvis_anew     = angel_anew; // Same 5% on same pool
+  const jarvis_override = angel_override; // Same 5% on same Ed Team GCI
+  const jarvis_profit   = angel_profit; // Same 1.75% on same pool
+  const jarvis_total    = {
+    y26: jarvis_personal.y26 + jarvis_anew.y26 + jarvis_override.y26 + jarvis_profit.y26,
+    y27: jarvis_personal.y27 + jarvis_anew.y27 + jarvis_override.y27 + jarvis_profit.y27,
+    y28: jarvis_personal.y28 + jarvis_anew.y28 + jarvis_override.y28 + jarvis_profit.y28,
+    y36: jarvis_personal.y36 + jarvis_anew.y36 + jarvis_override.y36 + jarvis_profit.y36,
+  };
+
+  const card4: CardData = {
+    name: 'Jarvis Slade',
+    title: 'Agent – COO',
+    rows: [
+      { label: 'Personal GCI',                 values: [fmtK(jarvis_personal.y26), fmtK(jarvis_personal.y27), fmtK(jarvis_personal.y28), fmtKApprox(jarvis_personal.y36)], accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 5% §',               values: [fmtK(jarvis_anew.y26), fmtK(jarvis_anew.y27), fmtK(jarvis_anew.y28), fmtK(jarvis_anew.y36)], accent: ACCENT_ANEW },
+      { label: "Ed's Team GCI Override 5%",    values: [fmtK(jarvis_override.y26), fmtK(jarvis_override.y27), fmtK(jarvis_override.y28), fmtK(jarvis_override.y36)], accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75%',     values: [fmtK(jarvis_profit.y26), fmtK(jarvis_profit.y27), fmtK(jarvis_profit.y28), fmtK(jarvis_profit.y36)], accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+    ],
+    total: { values: [fmtK(jarvis_total.y26), fmtK(jarvis_total.y27), fmtK(jarvis_total.y28), fmtKApprox(jarvis_total.y36)] },
+    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+  };
+
+  // ── CARD 5: ZOILA ORTEGA ASTOR ───────────────────────────────────────────────
+  const zoila_personal = opts.zoilaGci;
+  const zoila_nest     = NEST_ZOILA;
+  const zoila_anew     = { y26: 0, y27: anewPool.y27 * ANEW_PCT.zoila, y28: anewPool.y28 * ANEW_PCT.zoila, y36: anewPool.y36 * ANEW_PCT.zoila };
+  const zoila_override = ZOILA_OVERRIDE;
+  const zoila_profit   = { y26: 0, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.zoila, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.zoila, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.zoila };
+  const zoila_total    = {
+    y26: zoila_personal.y26 + zoila_nest[2026] + zoila_anew.y26 + zoila_override[2026] + zoila_profit.y26,
+    y27: zoila_personal.y27 + zoila_nest[2027] + zoila_anew.y27 + zoila_override[2027] + zoila_profit.y27,
+    y28: zoila_personal.y28 + zoila_nest[2028] + zoila_anew.y28 + zoila_override[2028] + zoila_profit.y28,
+    y36: zoila_personal.y36 + zoila_nest[2036] + zoila_anew.y36 + zoila_override[2036] + zoila_profit.y36,
+  };
+
+  const card5: CardData = {
+    name: 'Zoila Ortega Astor †',
+    title: 'Broker/Agent – Office Director',
+    nestNote: 'Nest salary $70K/yr · Start May 4 2026',
+    rows: [
+      { label: 'Personal GCI',                 values: [fmtK(zoila_personal.y26), fmtK(zoila_personal.y27), fmtK(zoila_personal.y28), fmtKApprox(zoila_personal.y36)], accent: ACCENT_PERSONAL },
+      { label: 'Nest Salary °',                values: [fmtK(zoila_nest[2026]), fmtK(zoila_nest[2027]), fmtK(zoila_nest[2028]), fmtK(zoila_nest[2036])], accent: ACCENT_ANEW },
+      { label: 'AnewHomes 5% † §',             values: [fmtK(zoila_anew.y26), fmtK(zoila_anew.y27), fmtK(zoila_anew.y28), fmtK(zoila_anew.y36)], accent: ACCENT_ANEW },
+      { label: "Ed's Team GCI Override †",     values: [fmtK(zoila_override[2026]), fmtK(zoila_override[2027]), fmtK(zoila_override[2028]), fmtK(zoila_override[2036])], accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75% †',   values: [fmtK(zoila_profit.y26), fmtK(zoila_profit.y27), fmtK(zoila_profit.y28), fmtK(zoila_profit.y36)], accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+    ],
+    total: { values: [fmtK(zoila_total.y26), fmtK(zoila_total.y27), fmtK(zoila_total.y28), fmtKApprox(zoila_total.y36)] },
+    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+  };
+
+  // ── CARD 6: SCOTT SMITH ──────────────────────────────────────────────────────
+  // Scott 2036 ruling: 20% YoY compound from ROSTER 2031 per * Governing
+  const scott_personal = opts.scottGci;
+  const scott_anew     = { y26: anewPool.y26 * ANEW_PCT.scott, y27: anewPool.y27 * ANEW_PCT.scott, y28: anewPool.y28 * ANEW_PCT.scott, y36: anewPool.y36 * ANEW_PCT.scott };
+  const scott_total    = {
+    y26: scott_personal.y26 + scott_anew.y26,
+    y27: scott_personal.y27 + scott_anew.y27,
+    y28: scott_personal.y28 + scott_anew.y28,
+    y36: scott_personal.y36 + scott_anew.y36,
+  };
+
+  const card6: CardData = {
+    name: 'Scott Smith *',
+    title: 'Agent – AnewHomes Co. Partner',
+    rows: [
+      { label: 'Personal GCI',     values: [fmtK(scott_personal.y26), fmtK(scott_personal.y27), fmtK(scott_personal.y28), fmtKApprox(scott_personal.y36)], accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 35% §',  values: [fmtK(scott_anew.y26), fmtK(scott_anew.y27), fmtK(scott_anew.y28), fmtK(scott_anew.y36)], accent: ACCENT_ANEW },
+    ],
+    total: { values: [fmtK(scott_total.y26), fmtK(scott_total.y27), fmtK(scott_total.y28), fmtKApprox(scott_total.y36)] },
+    footnotes: [],
+  };
+
+  // ── CARD 7: RICHARD BRUEHL ───────────────────────────────────────────────────
+  const richard_anew = { y26: anewPool.y26 * ANEW_PCT.richard, y27: anewPool.y27 * ANEW_PCT.richard, y28: anewPool.y28 * ANEW_PCT.richard, y36: anewPool.y36 * ANEW_PCT.richard };
+
+  const card7: CardData = {
+    name: 'Richard Bruehl',
+    title: 'Strategic Advisor – AnewHomes Co. Partner',
+    rows: [
+      { label: 'AnewHomes 10% §', values: [fmtK(richard_anew.y26), fmtK(richard_anew.y27), fmtK(richard_anew.y28), fmtK(richard_anew.y36)], accent: ACCENT_ANEW },
+    ],
+    total: { values: [fmtK(richard_anew.y26), fmtK(richard_anew.y27), fmtK(richard_anew.y28), fmtK(richard_anew.y36)] },
+    footnotes: [],
+  };
+
+  return [card1, card2, card3, card4, card5, card6, card7];
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPONENT
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export default function FutureTabPrintCream() {
+  // Live wires — same endpoints the screen dashboard uses
+  const { data: arcData } = trpc.future.ascensionArc.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+  const { data: pcData } = trpc.future.partnerCards.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+  const { data: gmData } = trpc.future.growthModel.useQuery(undefined, {
+    retry: false, staleTime: 5 * 60 * 1000,
+  });
+
+  // Helper — pull a year from ascensionArc.years[] safely
+  const arcYear = (yr: number) => arcData?.years?.find(y => y.year === yr);
+
+  // Build canonical inputs from live wires, with v14_3b fallback per cell
+  const opts = {
+    edTeamGci: {
+      y26: arcYear(2026)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2026],
+      y27: arcYear(2027)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2027],
+      y28: arcYear(2028)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2028],
+      y36: arcYear(2036)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2036],
+    },
+    netProfit: {
+      y26: arcYear(2026)?.netProfit || FALLBACK_OUTPUTS.netProfit[2026],
+      y27: arcYear(2027)?.netProfit || FALLBACK_OUTPUTS.netProfit[2027],
+      y28: arcYear(2028)?.netProfit || FALLBACK_OUTPUTS.netProfit[2028],
+      y36: arcYear(2036)?.netProfit || FALLBACK_OUTPUTS.netProfit[2036],
+    },
+    edPersonalGci: {
+      // Personal GCI = Team GCI × 70% (* Governing)
+      y26: (arcYear(2026)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2026]) * AGENT_SPLIT,
+      y27: (arcYear(2027)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2027]) * AGENT_SPLIT,
+      y28: (arcYear(2028)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2028]) * AGENT_SPLIT,
+      y36: (arcYear(2036)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2036]) * AGENT_SPLIT,
+    },
+    angelGci: extractAgent(pcData, gmData, 'Angel', FALLBACK_OUTPUTS.angelGci),
+    jarvisGci: extractAgent(pcData, gmData, 'Jarvis', FALLBACK_OUTPUTS.jarvisGci),
+    zoilaGci: extractAgent(pcData, gmData, 'Zoila', FALLBACK_OUTPUTS.zoilaGci),
+    scottGci: extractAgent(pcData, gmData, 'Scott', FALLBACK_OUTPUTS.scottGci),
+  };
+
+  const cards = deriveCards(opts);
+
   return (
     <div style={{ background: CREAM, fontFamily: SERIF, color: INK }}>
-      <Page1 />
-      <Page2 />
+      <Page1 arcData={arcData} />
+      <Page2 cards={cards} />
     </div>
   );
 }
 
+// Helper — find an agent in partnerCards or growthModel data, project 2036 from 2031 at 20% YoY
+function extractAgent(
+  pcData: any,
+  gmData: any,
+  partialName: string,
+  fallback: { 2026: number; 2027: number; 2028: number; 2031: number },
+): { y26: number; y27: number; y28: number; y36: number } {
+  const pcAgent = pcData?.agents?.find((a: any) => String(a.name).toLowerCase().includes(partialName.toLowerCase()));
+  const gmAgent = gmData?.agents?.find((a: any) => String(a.name).toLowerCase().includes(partialName.toLowerCase()));
+
+  const y26 = pcAgent?.gci2026 || gmAgent?.gci2026 || fallback[2026];
+  const y27 = pcAgent?.gci2027 || gmAgent?.gci2027 || fallback[2027];
+  const y28 = pcAgent?.gci2028 || gmAgent?.gci2028 || fallback[2028];
+  const y31 = gmAgent?.gci2031 || fallback[2031];
+
+  // 2036 = 20% YoY compound from 2031 (5 years) per * Governing "20% year-over-year, uncapped"
+  const y36 = Math.round(y31 * Math.pow(1.20, 5));
+
+  return { y26, y27, y28, y36 };
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
-// PAGE 1: Arc chart + 100-day cards
+// PAGE 1: Brand band → Arc chart → Legend → Brand signature → 100-day cards
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function Page1() {
+function Page1({ arcData }: { arcData: any }) {
   return (
     <section
       className="pfc-page pfc-page-1"
       style={{ background: CREAM, padding: '18px 14px 16px', pageBreakAfter: 'always', breakAfter: 'page' }}
     >
       <BrandBand />
-      <ArcChartCream />
+      <ArcChartCream arcData={arcData} />
       <ChartLegend />
       <BrandSignature />
       <HundredDayCards />
@@ -97,63 +470,41 @@ function Page1() {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// Brand band (top of each page) — single header, not three
-// ───────────────────────────────────────────────────────────────────────────────
-
 function BrandBand() {
   return (
     <div style={{
-      textAlign: 'center',
-      fontSize: 8.5,
-      letterSpacing: 3,
-      textTransform: 'uppercase',
-      color: INK,
-      paddingBottom: 6,
-      borderBottom: `1px solid ${GOLD}`,
-      marginBottom: 12,
+      textAlign: 'center', fontSize: 8.5, letterSpacing: 3, textTransform: 'uppercase',
+      color: INK, paddingBottom: 6, borderBottom: `1px solid ${GOLD}`, marginBottom: 12,
     }}>
       Christie's · International Real Estate Group · East Hampton · Est. 1766
     </div>
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// Arc chart — port of FINAL_v7_2_arc_pdf.html
-// Museum mat frame (charcoal #2c2c2a) wraps cream card with chart inside
-// ───────────────────────────────────────────────────────────────────────────────
-
-function ArcChartCream() {
+function ArcChartCream({ arcData }: { arcData: any }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chartInstanceRef = useRef<Chart | null>(null);
-  const { data: arcData } = trpc.future.ascensionArc.useQuery(undefined, {
-    retry: false,
-    staleTime: 5 * 60 * 1000,
-  });
+  const chartRef = useRef<Chart | null>(null);
 
   useEffect(() => {
     const init = () => {
-      if (!canvasRef.current) {
-        setTimeout(init, 50);
-        return;
-      }
-      // Destroy any existing chart instance before creating a new one
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
-        chartInstanceRef.current = null;
-      }
+      if (!canvasRef.current) return;
 
-      // Data matches FINAL_v7_2_arc_pdf.html exactly.
-      // When Perp wires live OUTPUTS sheet values, replace the hardcoded arrays
-      // with arcData.ehTotal, arcData.shHampton, arcData.whHampton, etc.
       const years = ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
-      // Canonical three-office volume series. Verified against CHART_DATA tab of OUTPUTS sheet
-      // (Perplexity audit, April 22 2026 · 36/36 zero drift).
-      // AnewHomes and CPS1 are revenue streams, not office volumes — they live on partner cards
-      // (§ and ‡ markers) and in footnotes. Ed ruling April 22 2026.
-      const ehTotal = [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
-      const shHampton = [0, 0, 0, 42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6, 987.8];
-      const whHampton = [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9];
+
+      // Wire to live ascensionArc data (CHART_DATA via VOLUME tab in OUTPUTS)
+      // Fallback to canonical CHART_DATA values if wire fails (Perp-verified zero drift)
+      const ehTotal = years.map((_, i) => {
+        const yr = 2025 + i;
+        return arcData?.years?.find((y: any) => y.year === yr)?.ehVolume || [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3][i];
+      });
+      const shHampton = years.map((_, i) => {
+        const yr = 2025 + i;
+        return arcData?.years?.find((y: any) => y.year === yr)?.shVolume || [0, 0, 0, 42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6, 987.8][i];
+      });
+      const whHampton = years.map((_, i) => {
+        const yr = 2025 + i;
+        return arcData?.years?.find((y: any) => y.year === yr)?.whVolume || [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9][i];
+      });
       const totalByYear = years.map((_, i) => ehTotal[i] + shHampton[i] + whHampton[i]);
 
       const fmt = (v: number) => v >= 1000 ? `$${(v / 1000).toFixed(2)}B` : `$${Math.round(v)}M`;
@@ -173,7 +524,8 @@ function ArcChartCream() {
         },
       };
 
-      chartInstanceRef.current = new Chart(canvasRef.current, {
+      if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; }
+      chartRef.current = new Chart(canvasRef.current, {
         type: 'bar',
         data: {
           labels: years,
@@ -184,18 +536,12 @@ function ArcChartCream() {
           ],
         },
         options: {
-          responsive: true,
-          maintainAspectRatio: false,
+          responsive: true, maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
             y: {
               stacked: true, beginAtZero: true, max: 3500,
-              ticks: {
-                color: INK_FAINT,
-                font: { size: 12, family: 'Georgia, serif', weight: 'bold' as const },
-                padding: -38, mirror: true, z: 10,
-                callback: (v: any) => `$${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}`,
-              },
+              ticks: { color: INK_FAINT, font: { size: 12, family: 'Georgia, serif', weight: 'bold' as const }, padding: -38, mirror: true, z: 10, callback: (v: any) => `$${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}` },
               grid: { color: 'rgba(148,114,49,0.15)' },
               border: { color: 'rgba(148,114,49,0.5)' },
             },
@@ -211,12 +557,7 @@ function ArcChartCream() {
       });
     };
     init();
-    return () => {
-      if (chartInstanceRef.current) {
-        chartInstanceRef.current.destroy();
-        chartInstanceRef.current = null;
-      }
-    };
+    return () => { if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; } };
   }, [arcData]);
 
   return (
@@ -224,27 +565,15 @@ function ArcChartCream() {
       <div style={{ background: MUSEUM_MAT, padding: 10, borderRadius: 10 }}>
         <div style={{ background: CREAM, border: '2px solid #000', padding: '14px 18px 18px' }}>
           <div style={{ textAlign: 'center', marginBottom: '0.25rem' }}>
-            <div style={{
-              fontSize: 20,
-              letterSpacing: 5,
-              color: INK,
-              fontFamily: SERIF,
-            }}>
+            <div style={{ fontSize: 20, letterSpacing: 5, color: INK, fontFamily: SERIF }}>
               CHRISTIE'S EAST HAMPTON FLAGSHIP
             </div>
-            <div style={{
-              fontSize: 13,
-              letterSpacing: 2,
-              color: INK_SUBTLE,
-              fontFamily: SERIF,
-              marginTop: 3,
-              fontStyle: 'italic',
-            }}>
+            <div style={{ fontSize: 13, letterSpacing: 2, color: INK_SUBTLE, fontFamily: SERIF, marginTop: 3, fontStyle: 'italic' }}>
               Ascension Arc · 2026 through 2036 and beyond
             </div>
           </div>
           <div style={{ position: 'relative', width: '100%', height: 440, marginTop: 4 }}>
-            <canvas ref={canvasRef} role="img" aria-label="Five-band cream ascension arc chart" />
+            <canvas ref={canvasRef} role="img" aria-label="Three-office cream ascension arc chart" />
           </div>
         </div>
       </div>
@@ -252,34 +581,21 @@ function ArcChartCream() {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// Chart legend — five swatches in two rows
-// ───────────────────────────────────────────────────────────────────────────────
-
 function ChartLegend() {
   const Swatch = ({ color }: { color: string }) => (
     <span style={{ width: 13, height: 13, background: color, border: '1px solid #000', display: 'inline-block' }} />
   );
-  const row: React.CSSProperties = {
-    display: 'flex', justifyContent: 'center', gap: 28,
-    fontSize: 11, color: INK_FAINT, fontFamily: SERIF,
-  };
   const item: React.CSSProperties = { display: 'flex', alignItems: 'center', gap: 7 };
   return (
     <div style={{ padding: '13px 0', borderTop: '1px solid #c9bf9f', borderBottom: '1px solid #c9bf9f', margin: '16px 0 0' }}>
-      <div style={row}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 28, fontSize: 11, color: INK_FAINT, fontFamily: SERIF }}>
         <span style={item}><Swatch color={COLOR_EH_FLAGSHIP} /> East Hampton Flagship</span>
         <span style={item}><Swatch color={COLOR_SH_FLAGSHIP} /> Southampton Flagship · 2028</span>
         <span style={item}><Swatch color={COLOR_WH_FLAGSHIP} /> Westhampton Flagship · 2030</span>
       </div>
-      {/* Second legend row (AnewHomes + CPS1) deleted — Ed ruling April 22 2026. Three-office only. */}
     </div>
   );
 }
-
-// ───────────────────────────────────────────────────────────────────────────────
-// Brand signature — CHRISTIE'S INTERNATIONAL REAL ESTATE · SINCE 1766
-// ───────────────────────────────────────────────────────────────────────────────
 
 function BrandSignature() {
   return (
@@ -297,58 +613,26 @@ function BrandSignature() {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// 100-day cards — port of FINAL_v15 cream half (classes pg-c / card-c / ch-c / cb-c)
-// Four cards, 4-column grid, cream substrate, parchment headers, charcoal body
-// ───────────────────────────────────────────────────────────────────────────────
-
-type HundredDayCardProps = {
-  label: string;           // "1st 100 Days"
-  status: string;          // "Done"
-  dates: string;           // "Dec 2025 – Mar 2026"
-  accent: string;          // left border color
-  shareholder: string;
-  client: string;
-  team: string;
-};
+// 100-day cards — doctrine artifacts (status update content), hardcoded by design
+type HundredDayCardProps = { label: string; status: string; dates: string; accent: string; shareholder: string; client: string; team: string };
 
 const HUNDRED_DAY_CARDS: HundredDayCardProps[] = [
-  {
-    label: '1st 100 Days',
-    status: 'Done',
-    dates: 'Dec 2025 – Mar 2026',
-    accent: '#9a9a9a',
+  { label: '1st 100 Days', status: 'Done',     dates: 'Dec 2025 – Mar 2026', accent: '#9a9a9a',
     shareholder: '$4.57M closed. 9 Daniels Hole Road $2.47M. 2 Old Hollow $2.10M. Dashboard live Day 1.',
     client: 'AnewHomes proven at $2.47M. Every deal scored before the first showing.',
-    team: '26 Park Place operational. Open before the sign went up.',
-  },
-  {
-    label: '2nd 100 Days',
-    status: 'Doing',
-    dates: 'Mar – Apr 29, 2026',
-    accent: GOLD,
+    team: '26 Park Place operational. Open before the sign went up.' },
+  { label: '2nd 100 Days', status: 'Doing',    dates: 'Mar – Apr 29, 2026', accent: GOLD,
     shareholder: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active.',
     client: "Schneps Media pilot in motion. Dan's Papers channel in play. NYC outreach through Melissa True, Rockefeller and Flatiron desks.",
-    team: 'Angel Day One April 25. Zoila start May 4. Flagship relaunch April 29.',
-  },
-  {
-    label: '3rd 100 Days',
-    status: 'Incoming',
-    dates: 'Apr 29 – Aug 2026',
-    accent: '#c8946b',
+    team: 'Angel Day One April 25. Zoila start May 4. Flagship relaunch April 29.' },
+  { label: '3rd 100 Days', status: 'Incoming', dates: 'Apr 29 – Aug 2026', accent: '#c8946b',
     shareholder: '$75M 2026 trajectory. First Wednesday Caravan live. East End flagship presence.',
     client: "Daily intelligence briefing in market. Every listing at Christie's standard.",
-    team: '5 agents on live OS. Scott joins June 1. Southampton pre-launch in motion.',
-  },
-  {
-    label: 'Ascension',
-    status: 'Vision',
-    dates: '2027 – 2036',
-    accent: NAVY,
+    team: '5 agents on live OS. Scott joins June 1. Southampton pre-launch in motion.' },
+  { label: 'Ascension', status: 'Vision',     dates: '2027 – 2036', accent: NAVY,
     shareholder: '$3.00B three-office combined 2036. 36 elite producers at maturity. Profit sharing opens Year 2 (2027).',
     client: "Global Christie's brand. Legacy practice. Not a brokerage.",
-    team: 'Three offices fully staffed by 2031. Team complete. Steady growth carries through 2036.',
-  },
+    team: 'Three offices fully staffed by 2031. Team complete. Steady growth carries through 2036.' },
 ];
 
 function HundredDayCards() {
@@ -370,15 +654,15 @@ function HundredDayCard({ label, status, dates, accent, shareholder, client, tea
         <div style={{ fontSize: 7.5, color: INK_ACCENT, fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3 }}>{dates}</div>
       </div>
       <div style={{ padding: '9px 10px 10px' }}>
-        <Section heading="Shareholder" body={shareholder} />
-        <Section heading="Client" body={client} />
-        <Section heading="Team" body={team} />
+        <SectionLine heading="Shareholder" body={shareholder} />
+        <SectionLine heading="Client" body={client} />
+        <SectionLine heading="Team" body={team} />
       </div>
     </div>
   );
 }
 
-function Section({ heading, body }: { heading: string; body: string }) {
+function SectionLine({ heading, body }: { heading: string; body: string }) {
   return (
     <div style={{ marginBottom: 8 }}>
       <div style={{ fontSize: 7, letterSpacing: 1.4, color: GOLD, fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' }}>{heading}</div>
@@ -388,10 +672,10 @@ function Section({ heading, body }: { heading: string; body: string }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PAGE 2: Partner cards + Levers + Footnotes + UHNW card
+// PAGE 2: Partner cards (live-wired) → Legend → Levers → Footnotes → UHNW
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function Page2() {
+function Page2({ cards }: { cards: CardData[] }) {
   return (
     <section
       className="pfc-page pfc-page-2"
@@ -401,7 +685,7 @@ function Page2() {
       <div style={{ textAlign: 'center', fontSize: 14, letterSpacing: 4, textTransform: 'uppercase', color: NAVY, fontWeight: 500, padding: '2px 0 10px', borderBottom: `1px solid ${GOLD}`, marginBottom: 12 }}>
         Partnership Projections · 2026 – 2036
       </div>
-      <PartnerCardGrid />
+      <PartnerCardGrid cards={cards} />
       <ChartLegend />
       <ModelAssumptionLevers />
       <CanonicalFootnotes />
@@ -412,127 +696,10 @@ function Page2() {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// Partner cards — port of FINAL_v14_3b_page2_cream.html
-// 7 cards, 3-column grid, canonical OUTPUTS values verified against checkpoint ae4ee6b5
-// ───────────────────────────────────────────────────────────────────────────────
-
-type Row = {
-  label: string;
-  values: string[];        // [2026, 2027, 2028, 2036]
-  borderColor: string;
-};
-
-type PartnerCard = {
-  name: string;
-  title: string;
-  nestNote?: string;       // italic line under title (Zoila only)
-  rows: Row[];
-  total: { label: string; values: string[] };
-  footnotes: string[];     // e.g. ["CPS1 + CIRE Node visibility only — not included in total"]
-  excludeHeader?: boolean; // if true, no "Stream / 2026 / 2027 / 2028 / 2036" column headers
-};
-
-const PARTNER_CARDS: PartnerCard[] = [
-  // ── COLUMN 1 ────────────────────────────────────────────────────────────────
-  {
-    name: 'Edward Bruehl',
-    title: 'Broker – Managing Director',
-    rows: [
-      { label: "Ed's Team GCI (reference)",    values: ['$600K',   '$720K',  '$864K',  '$3.60M'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'Personal GCI',                  values: ['$420K',   '$504K',  '$605K',  '$2.60M'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 35% * §',             values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: '#c8946b' },
-      { label: 'CIREG Profit Share 29.75% *',   values: ['$52K',    '$128K',  '$287K',  '$3.39M'],  borderColor: '#6b2838' },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
-    ],
-    total: { label: 'All Streams Total', values: ['$489.5K', '$684.5K', '$951K', '$6.14M'] },
-    footnotes: [
-      "Ed's Team GCI reference only — not included in total",
-      'CPS1 + CIRE Node visibility only — not included in total',
-    ],
-  },
-  {
-    name: 'Ilija Pavlovic',
-    title: 'Franchise Principal · CIREG Tri-State',
-    rows: [
-      { label: 'CIREG Profit Share 65% **',     values: ['$114K',   '$279K',  '$627K',  '$7.4M'],   borderColor: '#6b2838' },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
-    ],
-    total: { label: 'All Streams Total', values: ['$114K', '$279K', '$627K', '$7.4M'] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
-  },
-  // ── COLUMN 2 ────────────────────────────────────────────────────────────────
-  {
-    name: 'Angel Theodore',
-    title: 'Agent – Marketing Coordinator',
-    nestNote: 'Nest salary $70K/yr · through Q1 2027',
-    rows: [
-      { label: 'Personal GCI',                  values: ['$17.5K',  '$84K',   '$100.8K','$433K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'Nest Salary °',                 values: ['$70K',    '$17.5K', '—',      '—'],       borderColor: '#c8946b' },
-      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
-      { label: "Ed's Team GCI Override 5%",     values: ['$30K',    '$36K',   '$43K',   '$186K'],   borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
-    ],
-    total: { label: 'All Streams Total', values: ['$123K', '$152.5K', '$168.2K', '$840.6K+'] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
-  },
-  {
-    name: 'Jarvis Slade',
-    title: 'Agent – COO',
-    rows: [
-      { label: 'Personal GCI',                  values: ['$140K',   '$168K',  '$201.6K','$868K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 5% §',                values: ['$2.5K',   '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
-      { label: "Ed's Team GCI Override 5%",     values: ['$30K',    '$36K',   '$43K',   '$186K'],   borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75%',      values: ['$3K',     '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
-    ],
-    total: { label: 'All Streams Total', values: ['$175.5K', '$219.5K', '$270K', '$1.28M'] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
-  },
-  // ── COLUMN 3 ────────────────────────────────────────────────────────────────
-  {
-    name: 'Zoila Ortega Astor †',
-    title: 'Broker/Agent – Office Director',
-    nestNote: 'Nest salary $70K/yr · Start May 4 2026',
-    rows: [
-      { label: 'Personal GCI',                  values: ['$17.5K',  '$105K',  '$126K',  '$542K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'Nest Salary °',                 values: ['$46.7K',  '$17.5K', '—',      '—'],       borderColor: '#c8946b' },
-      { label: 'AnewHomes 5% † §',              values: ['$0',      '$7.5K',  '$8.4K',  '$21.6K'],  borderColor: '#c8946b' },
-      { label: "Ed's Team GCI Override †",      values: ['$30K',    '$9K',    '—',      '—'],       borderColor: '#9a9a9a' },
-      { label: 'CIREG Profit Share 1.75% †',    values: ['$0',      '$8K',    '$17K',   '$200K'],   borderColor: '#6b2838' },
-      { label: 'CPS1 + CIRE Node ‡',            values: ['$100K',   '$250K',  '$500K',  '$1.13M'],  borderColor: '#6b2838' },
-    ],
-    total: { label: 'All Streams Total', values: ['$94.2K', '$147K', '$151.4K', '$763.6K+'] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
-  },
-  {
-    name: 'Scott Smith *',
-    title: 'Agent – AnewHomes Co. Partner',
-    rows: [
-      { label: 'Personal GCI',                  values: ['$35K',    '$84K',   '$100.8K','$324K+'],  borderColor: COLOR_EH_FLAGSHIP },
-      { label: 'AnewHomes 35% §',               values: ['$17.5K',  '$52.5K', '$59K',   '$151K'],   borderColor: '#c8946b' },
-    ],
-    total: { label: 'All Streams Total', values: ['$52.5K', '$136.5K', '$159.8K', '$475K+'] },
-    footnotes: [],
-  },
-  {
-    name: 'Richard Bruehl',
-    title: 'Strategic Advisor – AnewHomes Co. Partner',
-    rows: [
-      { label: 'AnewHomes 10% §',               values: ['$5K',     '$15K',   '$16.9K', '$43.3K'],  borderColor: '#c8946b' },
-    ],
-    total: { label: 'All Streams Total', values: ['$5K', '$15K', '$16.9K', '$43.3K'] },
-    footnotes: [],
-  },
-];
-
-function PartnerCardGrid() {
-  // 3-column layout matching v14_3b: col1 = [Ed, Ilija], col2 = [Angel, Jarvis], col3 = [Zoila, Scott, Richard]
-  const col1 = [PARTNER_CARDS[0], PARTNER_CARDS[1]];
-  const col2 = [PARTNER_CARDS[2], PARTNER_CARDS[3]];
-  const col3 = [PARTNER_CARDS[4], PARTNER_CARDS[5], PARTNER_CARDS[6]];
-
+function PartnerCardGrid({ cards }: { cards: CardData[] }) {
+  const col1 = [cards[0], cards[1]];
+  const col2 = [cards[2], cards[3]];
+  const col3 = [cards[4], cards[5], cards[6]];
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr)', gap: 7, marginBottom: 11 }}>
       <Column cards={col1} />
@@ -542,7 +709,7 @@ function PartnerCardGrid() {
   );
 }
 
-function Column({ cards }: { cards: PartnerCard[] }) {
+function Column({ cards }: { cards: CardData[] }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 7, minWidth: 0, justifyContent: 'center' }}>
       {cards.map((card, i) => <PartnerCardView key={i} card={card} />)}
@@ -550,7 +717,7 @@ function Column({ cards }: { cards: PartnerCard[] }) {
   );
 }
 
-function PartnerCardView({ card }: { card: PartnerCard }) {
+function PartnerCardView({ card }: { card: CardData }) {
   return (
     <div style={{ border: '2px solid #000', background: CREAM, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
       <div style={{ background: PARCHMENT, padding: '5px 8px 4px', borderBottom: `1px solid ${GOLD}` }}>
@@ -588,10 +755,10 @@ function RowHeader() {
   );
 }
 
-function TableRow({ row }: { row: Row }) {
+function TableRow({ row }: { row: { label: string; values: [string, string, string, string]; accent: string } }) {
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '1.5px 0 1.5px 4px',
-      lineHeight: 1.2, fontSize: 9, borderLeft: `2px solid ${row.borderColor}`, marginTop: 0.5 }}>
+      lineHeight: 1.2, fontSize: 9, borderLeft: `2px solid ${row.accent}`, marginTop: 0.5 }}>
       <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all' }}>{row.label}</div>
       {row.values.map((v, i) => (
         <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, color: INK_FAINT, fontStyle: 'italic' }}>{v}</div>
@@ -600,22 +767,17 @@ function TableRow({ row }: { row: Row }) {
   );
 }
 
-function TotalRow({ total }: { total: { label: string; values: string[] } }) {
+function TotalRow({ total }: { total: { values: [string, string, string, string] } }) {
   return (
     <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '4px 0 1px 4px',
       marginTop: 3, borderTop: '1px solid #000', fontSize: 9.5, fontWeight: 500 }}>
-      <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all' }}>{total.label}</div>
+      <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all' }}>All Streams Total</div>
       {total.values.map((v, i) => (
         <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, color: GOLD, fontStyle: 'normal', fontWeight: 500 }}>{v}</div>
       ))}
     </div>
   );
 }
-
-// ───────────────────────────────────────────────────────────────────────────────
-// Model Assumption Levers — port of FINAL_v16_levers_cream.html
-// STATIC: no sliders in print. Thin gold tracks with static markers.
-// ───────────────────────────────────────────────────────────────────────────────
 
 function ModelAssumptionLevers() {
   return (
@@ -665,10 +827,6 @@ function Output({ label, value }: { label: string; value: string }) {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// Canonical footnotes — verbatim copy from v14_3b
-// ───────────────────────────────────────────────────────────────────────────────
-
 function CanonicalFootnotes() {
   const cellStyle: React.CSSProperties = { padding: 0 };
   const headingStyle: React.CSSProperties = { fontSize: 8.5, letterSpacing: 1.2, textTransform: 'uppercase', color: NAVY, fontWeight: 500, marginBottom: 3 };
@@ -680,7 +838,7 @@ function CanonicalFootnotes() {
         <div style={cellStyle}>
           <div style={headingStyle}>* Governing Principle</div>
           <div style={bodyStyle}>
-            Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped.
+            Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped. Scott Smith 2036 forward-projected from ROSTER 2031 at 20% YoY per this doctrine.
           </div>
         </div>
         <div style={cellStyle}>
@@ -720,11 +878,6 @@ function CanonicalFootnotes() {
   );
 }
 
-// ───────────────────────────────────────────────────────────────────────────────
-// UHNW Wealth Path Card — port of FINAL_v17_client_resource_cream.html
-// Static reference card with canonical URL visible as text
-// ───────────────────────────────────────────────────────────────────────────────
-
 function UHNWCardLink() {
   return (
     <div style={{ background: CREAM, padding: '14px 14px 16px', height: 'fit-content', minHeight: 'auto', marginTop: 12 }}>
@@ -745,10 +898,6 @@ function UHNWCardLink() {
     </div>
   );
 }
-
-// ───────────────────────────────────────────────────────────────────────────────
-// Page number — bottom right of each page
-// ───────────────────────────────────────────────────────────────────────────────
 
 function PageNumber({ children }: { children: React.ReactNode }) {
   return (
