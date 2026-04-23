@@ -1,16 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 
-// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
-function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
-}
-
+// D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
 // Stage 5 — Closing Architect Synthesis Brief for Sunday April 12, 2026
 // Source: Claude, Architect — Monday April 13, 2026 2:45 AM
 // Puppeteer photograph target for /api/pdf?url=/council-brief
@@ -19,32 +10,11 @@ const COUNCIL_BRIEF_DATE = 'April 12, 2026';
 const BRIEF_BYLINE = 'Claude, Architect · Christie\'s International Real Estate Group — East Hampton Flagship';
 
 export default function CouncilBriefPage() {
-  const isPdfMode = useIsPdfMode();
-  const handleDownload = async () => {
-    // Doctrine 43: try Puppeteer endpoint first; fall back to window.print() if unavailable
-    try {
-      const res = await fetch('/api/pdf?url=/council-brief', { method: 'HEAD' });
-      if (res.ok) {
-        const a = document.createElement('a');
-        a.href = '/api/pdf?url=/council-brief';
-        a.download = `Christies_EH_Council_Brief_${new Date().toISOString().slice(0, 10)}.pdf`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        return;
-      }
-    } catch (_) {
-      // Puppeteer endpoint unreachable — fall through to window.print()
-    }
-    // Fallback: browser print dialog
-    window.print();
-  };
-
-  // PDF light-mode tokens
-  const BG       = isPdfMode ? '#FFFFFF'    : '#0A0A0A';
-  const TEXT_COL = isPdfMode ? '#1B2A4A'    : '#FAF8F4';
-  const MUTED_COL= isPdfMode ? 'rgba(27,42,74,0.55)' : 'rgba(250,248,244,0.5)';
-  const BORDER_COL = isPdfMode ? 'rgba(200,172,120,0.4)' : 'rgba(200,172,120,0.3)';
+  // D65: dark-navy tokens only
+  const BG       = '#0A0A0A';
+  const TEXT_COL = '#FAF8F4';
+  const MUTED_COL= 'rgba(250,248,244,0.5)';
+  const BORDER_COL = 'rgba(200,172,120,0.3)';
 
   return (
     <div
@@ -73,7 +43,7 @@ export default function CouncilBriefPage() {
           <img
             src={LOGO_WHITE}
             alt="Christie's"
-            style={{ height: 28, opacity: 0.9, filter: isPdfMode ? 'brightness(0) saturate(0)' : 'brightness(1.1)' }}
+            style={{ height: 28, opacity: 0.9, filter: 'brightness(1.1)' }}
           />
           <div
             style={{
@@ -339,31 +309,7 @@ export default function CouncilBriefPage() {
         </p>
       </Section>
 
-      {/* Download Button — hidden in PDF mode */}
-      {!isPdfMode && (
-        <div style={{ marginTop: 56, paddingTop: 32, borderTop: '1px solid rgba(200,172,120,0.2)' }}>
-          <button
-            onClick={handleDownload}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '9px 20px',
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#FAF8F4',
-              background: 'rgba(200,172,120,0.08)',
-              border: '1px solid rgba(200,172,120,0.5)',
-              cursor: 'pointer',
-              borderRadius: 2,
-            }}
-          >
-            ↓ Download Council Brief · PDF
-          </button>
-        </div>
-      )}
+
 
       {/* Footer */}
       <div

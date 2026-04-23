@@ -4,11 +4,8 @@
  * Routes:
  *   /        → Six-tab dashboard (HOME · MARKET · MAPS · PIPE · FUTURE · INTEL)
  *   /report  → Full six-section Live Market Report (separate destination, no nav chrome)
- *   /pro-forma → Pro Forma live renderer (no nav chrome, Puppeteer PDF target)
- *   /future           → FUTURE tab standalone renderer (no nav chrome, Puppeteer PDF target)
- *                        Auth-gate infrastructure scaffolded — activation flag: FUTURE_AUTH_ENABLED
- *                        Currently: false (all tabs public until May 26, 2026 per Ed ruling April 16)
- *                        To activate: set FUTURE_AUTH_ENABLED = true
+ *   /pro-forma → Pro Forma live renderer (DashboardLayout navy shell · D65 canonical)
+ *   /future           → FUTURE tab via Dashboard initialTab="future" (global nav chrome · S2 fix Apr 23 2026)
  *   /letters/flagship   → Flagship AI-Letter live renderer (no nav chrome, Puppeteer PDF target)
  *   /letters/christies  → Christie's Letter to the Families (no nav chrome, Puppeteer PDF target)
  *   /cards/uhnw-path     → UHNW Wealth Path Card (no nav chrome, Puppeteer PDF target)
@@ -26,8 +23,6 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { DashboardLayout, type TabId } from "./components/DashboardLayout";
 import { FloatingDashboardIntro } from "./components/FloatingDashboardIntro";
-import { useAuth } from "./_core/hooks/useAuth";
-import { getLoginUrl } from "./const";
 
 // Tab pages
 import HomeTab   from "./pages/tabs/HomeTab";
@@ -49,50 +44,10 @@ import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 import NeighborhoodCardPage from "./pages/NeighborhoodCardPage";
 import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
 
-// ─── Auth Gate Feature Flag ───────────────────────────────────────────────────
-// Set to true on May 26, 2026 to activate auth-gate on /future standalone route.
-// All tabs remain public until that date per Ed ruling April 16, 2026.
-const FUTURE_AUTH_ENABLED = false;
-// bundle-refresh: 2026-04-17T19:12Z — StaggeredRampChart Y1/Y2 color fix + mobile portrait fix
+// S2 Shell Purge (Apr 23 2026): ProtectedFutureRoute deleted.
+// /future now routes through Dashboard initialTab="future" — gets global nav chrome.
+// Auth gate may be re-scaffolded inside Dashboard when FUTURE_AUTH_ENABLED is needed.
 
-// ─── Protected Future Route ───────────────────────────────────────────────────
-// When FUTURE_AUTH_ENABLED is true, unauthenticated visitors to /future are
-// redirected to the Manus OAuth login page. Authenticated users see FutureTab.
-// When FUTURE_AUTH_ENABLED is false, /future renders FutureTab for everyone.
-function ProtectedFutureRoute() {
-  const { isAuthenticated, loading } = useAuth();
-  if (!FUTURE_AUTH_ENABLED) {
-    return <FutureTab />;
-  }
-
-  if (loading) {
-    // Show a minimal loading state while auth resolves
-    return (
-      <div style={{
-        minHeight: "100vh",
-        background: "#0a1628",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "var(--font-condensed, 'Barlow Condensed', sans-serif)",
-        color: "#947231",
-        fontSize: "0.75rem",
-        letterSpacing: "0.2em",
-        textTransform: "uppercase",
-      }}>
-        Verifying access…
-      </div>
-    );
-  }
-
-  if (!isAuthenticated) {
-    // Redirect to Manus OAuth login
-    window.location.href = getLoginUrl();
-    return null;
-  }
-
-  return <FutureTab />;
-}
 
 function TabContent({ activeTab }: { activeTab: TabId }) {
   switch (activeTab) {
@@ -144,7 +99,10 @@ function App() {
             <Route path="/letters/welcome" component={NeighborhoodLetterPage} />
             <Route path="/architecture-of-wealth" component={ArchitectureOfWealthPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />
-            <Route path="/future" component={ProtectedFutureRoute} />
+            {/* S2 Shell Purge (Apr 23 2026): /future routed through Dashboard so it gets global nav chrome.
+                ProtectedFutureRoute deleted — auth gate scaffolded in Dashboard if FUTURE_AUTH_ENABLED.
+                /future now pixel-identical to /market /maps /pipe /intel in nav presence. */}
+            <Route path="/future">{() => <Dashboard initialTab="future" />}</Route>
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
             <Route path="/cards/bike" component={NeighborhoodCardPage} />
             <Route component={Dashboard} />

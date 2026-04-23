@@ -11,17 +11,9 @@
  * Doctrine 43 — PDF Light Mode Export Standard
  * ?pdf=1 → download bar hidden, clean rendering for Puppeteer.
  */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-// ─── Doctrine 43 — PDF Light Mode Export Standard ─────────────────────────────
-function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
-}
+// D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY    = '#0a1628';
@@ -105,39 +97,8 @@ const PRINT_STYLE = `
 `;
 
 export default function NeighborhoodCardPage() {
-  const isPdfMode = useIsPdfMode();
   const [downloading, setDownloading] = useState(false);
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/cards/bike');
-      if (!res.ok) {
-        const printWin = window.open('/cards/bike', '_blank');
-        if (printWin) {
-          printWin.addEventListener('load', () => {
-            setTimeout(() => printWin.print(), 500);
-          });
-        } else {
-          window.print();
-        }
-        return;
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      a.href = url;
-      a.download = `Christies_EH_Neighborhood_Card_${today}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      console.error('[NeighborhoodCard] PDF download failed, falling back to print:', err);
-      window.print();
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   return (
     <div
@@ -147,9 +108,8 @@ export default function NeighborhoodCardPage() {
       <style>{PRINT_STYLE}</style>
 
       {/* ── Download bar (screen only) ─────────────────────────────────────── */}
-      {!isPdfMode && (
+      {true && (
         <div
-          className="no-print"
           style={{
             background: '#0d1f3c',
             borderBottom: `1px solid rgba(200,172,120,0.3)`,
@@ -184,7 +144,7 @@ export default function NeighborhoodCardPage() {
               ↑ Open &amp; Print
             </button>
             <button
-              onClick={handleDownload}
+              onClick={() => window.print()}
               disabled={downloading}
               style={{
                 background: GOLD,

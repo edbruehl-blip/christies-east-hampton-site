@@ -5,13 +5,10 @@
  * James Christie portrait, gold small-caps title, cream body.
  * Matches FlagshipLetterPage visual identity exactly.
  *
- * PDF mode (?pdf=1): Puppeteer passes this param. The component detects it
- * and renders the print layout directly (logo visible, navy header hidden).
- * This is more reliable than @media print because Puppeteer uses page.pdf()
- * which does NOT trigger @media print.
+ * D65 Strict (Apr 23 2026): isPdfMode deleted. Single cream render path.
+ * PDF = html2canvas screenshot of live page. No parallel paths.
  *
  * Content source: CHRISTIES_LETTER_TEXT via tRPC flagship.getChristiesLetter
- * PDF: /api/pdf?url=/letters/christies (Puppeteer) or window.print()
  * Route: /letters/christies (registered in App.tsx)
  */
 import { trpc } from '@/lib/trpc';
@@ -25,7 +22,6 @@ const MUTED   = 'rgba(27,42,74,0.6)';
 
 // CDN assets
 const CIREG_LOGO_WHITE = 'https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png';
-const CIREG_LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
 const AUCTION_ROOM_BG  = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/DtTxqkdyvvLrygvu.jpg';
 const ED_HEADSHOT      = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/ed-headshot-primary_0f6df1af.jpg';
 
@@ -47,151 +43,243 @@ export default function ChristiesLetterPage() {
   const { data, isLoading, error } = trpc.flagship.getChristiesLetter.useQuery();
   const { lead, body } = data?.text ? extractLeadSummary(data.text) : { lead: null, body: [] };
 
-  // Detect PDF render mode — Puppeteer appends ?pdf=1 to the URL
-  const isPdfMode = new URLSearchParams(window.location.search).get('pdf') === '1';
-
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div style={{ background: CREAM, minHeight: '100vh', fontFamily: '"Cormorant Garamond", serif' }}>
 
-      {/* ── PDF MODE HEADER — shown when ?pdf=1, hidden otherwise ───────────── */}
-      {isPdfMode && (
-        <div style={{ padding: '20px 40px 0' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            paddingBottom: 12, borderBottom: `2px solid ${GOLD}`, marginBottom: 24,
+      {/* ── NAVY HEADER — always shown (D65: PDF mode header deleted) ──────── */}
+      <header
+        className="letter-header"
+        style={{
+          position: 'relative',
+          background: NAVY,
+          overflow: 'hidden',
+          borderBottom: `1px solid ${GOLD}`,
+        }}
+      >
+        {/* Auction room background */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: `url(${AUCTION_ROOM_BG})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          opacity: 0.18,
+        }} />
+
+        {/* Top bar: logo + label */}
+        <div style={{
+          position: 'relative', zIndex: 2,
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '16px 40px',
+          borderBottom: `1px solid rgba(200,172,120,0.2)`,
+        }}>
+          <img
+            src={CIREG_LOGO_WHITE}
+            alt="Christie's International Real Estate Group"
+            style={{ height: 28, objectFit: 'contain' }}
+          />
+          <span style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
           }}>
-            <img
-              src={CIREG_LOGO_BLACK}
-              alt="Christie's International Real Estate Group"
-              style={{ height: 24, objectFit: 'contain' }}
-            />
+            Letter to the Families
+          </span>
+        </div>
+
+        {/* Hero area: James Christie portrait + letter title */}
+        <div
+          style={{
+            position: 'relative', zIndex: 2,
+            display: 'flex', alignItems: 'flex-end', gap: 32,
+            padding: '32px 40px 36px',
+            maxWidth: 800, margin: '0 auto',
+          }}
+        >
+          {/* James Christie portrait */}
+          <div style={{ flexShrink: 0 }}>
+            <div style={{
+              padding: 4,
+              border: `2px solid ${GOLD}`,
+              boxShadow: `0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.6)`,
+              background: 'rgba(27,42,74,0.4)',
+              display: 'inline-block',
+            }}>
+              <img
+                src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                alt="James Christie — Founder, Christie's, Est. 1766"
+                style={{
+                  width: 90, height: 115,
+                  objectFit: 'cover', objectPosition: 'center 20%',
+                  display: 'block',
+                }}
+              />
+            </div>
             <div style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: NAVY, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: GOLD, fontSize: 8, letterSpacing: '0.16em',
+              textTransform: 'uppercase', marginTop: 6, textAlign: 'center',
             }}>
-              Christie's East Hampton · Letter to the Families
+              James Christie · London · 1766
             </div>
           </div>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginBottom: 28 }}>
-            <img
-              src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-              alt="James Christie"
-              style={{ width: 60, height: 76, objectFit: 'cover', objectPosition: 'center 20%', border: `1px solid ${GOLD}` }}
-            />
-            <div>
-              <h1 style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                color: NAVY, fontWeight: 400, fontSize: '1.8rem',
-                margin: '0 0 4px', letterSpacing: '0.04em',
-              }}>
-                A Letter to the Families of the East End
-              </h1>
-              <div style={{ color: MUTED, fontSize: '0.85rem', fontStyle: 'italic' }}>
-                Art. Beauty. Provenance. Since 1766.
-              </div>
-            </div>
-          </div>
-          <div style={{ borderTop: `1px solid ${GOLD}`, marginBottom: 28, opacity: 0.5 }} />
-        </div>
-      )}
 
-      {/* ── SCREEN NAVY HEADER — hidden in PDF mode ───────────────────────── */}
-      {!isPdfMode && (
-        <header className="no-print letter-header" style={{ position: 'relative', background: NAVY, overflow: 'hidden', borderBottom: `1px solid ${GOLD}` }}>
-          <div style={{ position: 'absolute', inset: 0, backgroundImage: `url(${AUCTION_ROOM_BG})`, backgroundSize: 'cover', backgroundPosition: 'center 30%', opacity: 0.18 }} />
-          <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 40px', borderBottom: `1px solid rgba(200,172,120,0.2)` }}>
-            <img src={CIREG_LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 28, objectFit: 'contain' }} />
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Letter to the Families</span>
-              <button onClick={handlePrint} style={{ background: 'transparent', border: `1px solid ${GOLD}`, color: GOLD, fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '6px 16px', cursor: 'pointer' }}>↓ Download PDF</button>
+          {/* Title block */}
+          <div>
+            <div style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: GOLD, fontSize: 10, letterSpacing: '0.24em',
+              textTransform: 'uppercase', marginBottom: 10,
+            }}>
+              Christie's East Hampton · Institutional Letter
+            </div>
+            <h1 style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              color: '#FAF8F4', fontWeight: 400,
+              fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)',
+              lineHeight: 1.1, margin: '0 0 10px',
+              letterSpacing: '0.04em',
+            }}>
+              A Letter to the Families of the East End
+            </h1>
+            <div style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              color: 'rgba(250,248,244,0.55)', fontSize: '0.9rem',
+              fontStyle: 'italic',
+            }}>
+              Art. Beauty. Provenance. Since 1766.
             </div>
           </div>
-          <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'flex-end', gap: 32, padding: '32px 40px 36px', maxWidth: 800, margin: '0 auto' }}>
-            <div style={{ flexShrink: 0 }}>
-              <div style={{ padding: 4, border: `2px solid ${GOLD}`, boxShadow: `0 0 0 1px rgba(200,172,120,0.3), 0 8px 32px rgba(0,0,0,0.6)`, background: 'rgba(27,42,74,0.4)', display: 'inline-block' }}>
-                <img src={JAMES_CHRISTIE_PORTRAIT_PRIMARY} alt="James Christie — Founder, Christie's, Est. 1766" style={{ width: 90, height: 115, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
-              </div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>James Christie · London · 1766</div>
-            </div>
-            <div>
-              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 10 }}>Christie's East Hampton · Institutional Letter</div>
-              <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', lineHeight: 1.1, margin: '0 0 10px', letterSpacing: '0.04em' }}>A Letter to the Families of the East End</h1>
-              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.9rem', fontStyle: 'italic' }}>Art. Beauty. Provenance. Since 1766.</div>
-            </div>
-          </div>
-        </header>
-      )}
+        </div>
+      </header>
 
       {/* ── LETTER BODY ─────────────────────────────────────────────────────── */}
       <main style={{
         maxWidth: 720,
         margin: '0 auto',
-        padding: isPdfMode ? '0 40px 60px' : '56px 32px 80px',
+        padding: '56px 32px 80px',
       }}>
-        {isLoading && <div style={{ textAlign: 'center', color: MUTED, padding: '60px 0', fontStyle: 'italic' }}>Loading…</div>}
-        {error && <div style={{ color: '#e57373', fontSize: '0.9rem', textAlign: 'center', padding: '60px 0' }}>Unable to load letter. Please refresh.</div>}
-
-        {lead && (
-          <div className="lead-summary-box" style={{ background: NAVY, borderLeft: `3px solid ${GOLD}`, padding: '20px 24px', marginBottom: 40, borderRadius: 2 }}>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase', color: GOLD, marginBottom: 8 }}>Lead Summary</div>
-            <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1rem', lineHeight: 1.7, color: '#FAF8F4', margin: 0, fontStyle: 'italic' }}>{lead}</p>
+        {isLoading && (
+          <div style={{ textAlign: 'center', color: MUTED, padding: '60px 0', fontStyle: 'italic' }}>
+            Loading…
+          </div>
+        )}
+        {error && (
+          <div style={{ color: '#e57373', fontSize: '0.9rem', textAlign: 'center', padding: '60px 0' }}>
+            Unable to load letter. Please refresh.
           </div>
         )}
 
+        {/* Lead summary box */}
+        {lead && (
+          <div className="lead-summary-box" style={{
+            background: NAVY,
+            borderLeft: `3px solid ${GOLD}`,
+            padding: '20px 24px',
+            marginBottom: 40,
+            borderRadius: 2,
+          }}>
+            <div style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
+              color: GOLD, marginBottom: 8,
+            }}>
+              Lead Summary
+            </div>
+            <p style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              fontSize: '1rem', lineHeight: 1.7,
+              color: '#FAF8F4', margin: 0, fontStyle: 'italic',
+            }}>
+              {lead}
+            </p>
+          </div>
+        )}
+
+        {/* Letter body */}
         {body.length > 0 && (
           <>
-            {/* Portrait float — screen only */}
-            {!isPdfMode && (
-              <div className="no-print" style={{ float: 'left', marginRight: 28, marginBottom: 12, marginTop: 4 }}>
-                <div style={{ padding: 3, border: `2px solid ${GOLD}`, boxShadow: `0 0 0 1px rgba(200,172,120,0.25), 0 6px 20px rgba(27,42,74,0.15)`, background: CREAM }}>
-                  <img src={JAMES_CHRISTIE_PORTRAIT_PRIMARY} alt="James Christie — Founder, Christie's, Est. 1766" style={{ width: 80, height: 102, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} />
-                </div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 5, textAlign: 'center' }}>James Christie · London · 1766</div>
+            {/* Portrait float */}
+            <div style={{ float: 'left', marginRight: 28, marginBottom: 12, marginTop: 4 }}>
+              <div style={{
+                padding: 3,
+                border: `2px solid ${GOLD}`,
+                boxShadow: `0 0 0 1px rgba(200,172,120,0.25), 0 6px 20px rgba(27,42,74,0.15)`,
+                background: CREAM,
+              }}>
+                <img
+                  src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                  alt="James Christie — Founder, Christie's, Est. 1766"
+                  style={{
+                    width: 80, height: 102,
+                    objectFit: 'cover', objectPosition: 'center 20%',
+                    display: 'block',
+                  }}
+                />
               </div>
-            )}
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                color: GOLD, fontSize: 8, letterSpacing: '0.14em',
+                textTransform: 'uppercase', marginTop: 5, textAlign: 'center',
+              }}>
+                James Christie · London · 1766
+              </div>
+            </div>
 
             {body.map((para, i) => (
               <p key={i} style={{
                 fontFamily: '"Cormorant Garamond", serif',
                 color: NAVY,
-                fontSize: isPdfMode ? '12pt' : '1.15rem',
+                fontSize: '1.15rem',
                 lineHeight: 1.85,
                 marginBottom: 28,
                 fontWeight: 400,
-              }}>{para}</p>
+              }}>
+                {para}
+              </p>
             ))}
 
             <div style={{ clear: 'both' }} />
             <div style={{ borderTop: `1px solid ${GOLD}`, marginTop: 48, marginBottom: 36, opacity: 0.4 }} />
 
-            {/* Ed signature block — circle headshot */}
+            {/* Ed signature block */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 20, marginBottom: 40 }}>
               <img
                 src={ED_HEADSHOT}
                 alt="Ed Bruehl"
                 style={{
-                  width: 64,
-                  height: 64,
+                  width: 64, height: 64,
                   borderRadius: '50%',
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                  display: 'block',
-                  flexShrink: 0,
+                  objectFit: 'cover', objectPosition: 'center top',
+                  display: 'block', flexShrink: 0,
                   border: `2px solid ${GOLD}`,
                 }}
               />
               <div>
-                <div style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 600, fontSize: '1rem', marginBottom: 2 }}>Ed Bruehl</div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: MUTED, fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 3 }}>Managing Director · Christie's East Hampton</div>
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.12em' }}>26 Park Place, East Hampton · 646-752-1233</div>
+                <div style={{
+                  fontFamily: '"Cormorant Garamond", serif',
+                  color: NAVY, fontWeight: 600, fontSize: '1rem', marginBottom: 2,
+                }}>
+                  Ed Bruehl
+                </div>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: MUTED, fontSize: 10, letterSpacing: '0.16em',
+                  textTransform: 'uppercase', marginBottom: 3,
+                }}>
+                  Managing Director · Christie's East Hampton
+                </div>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  color: GOLD, fontSize: 10, letterSpacing: '0.12em',
+                }}>
+                  26 Park Place, East Hampton · 646-752-1233
+                </div>
               </div>
             </div>
 
-            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: MUTED, fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center' }}>
+            <div style={{
+              fontFamily: '"Cormorant Garamond", serif',
+              color: MUTED, fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center',
+            }}>
               Christie's International Real Estate Group · East Hampton · Since 1766 · christiesrealestategroupeh.com
             </div>
           </>
@@ -200,24 +288,7 @@ export default function ChristiesLetterPage() {
 
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600&display=swap');
-        @media print {
-          .no-print { display: none !important; }
-          .letter-header { display: none !important; }
-          body { background: #FFFFFF !important; }
-          main { padding: 0 !important; }
-          * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          p { color: #1B2A4A !important; font-size: 14pt !important; line-height: 1.8 !important; }
-          img { max-width: 100% !important; }
-          .lead-summary-box {
-            background: #1B2A4A !important;
-            background-color: #1B2A4A !important;
-            border-left: 3px solid #947231 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          .lead-summary-box p { color: #FAF8F4 !important; font-style: italic !important; }
-          .lead-summary-box div { color: #947231 !important; }
-        }
+        /* D65: @media print cream overrides removed. PDF = html2canvas screenshot of live page. */
       `}</style>
     </div>
   );

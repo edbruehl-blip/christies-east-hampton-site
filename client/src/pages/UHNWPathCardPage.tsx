@@ -12,17 +12,8 @@
  * ?pdf=1 → download bar hidden, clean cream background for Puppeteer.
  */
 
-import { useState, useEffect } from 'react';
-
-// ─── Doctrine 43 — PDF Light Mode Export Standard ─────────────────────────────
-function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
-}
+import { useState } from 'react';
+// D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY   = '#384249';
@@ -96,43 +87,8 @@ const RUNGS = [
 ];
 
 export default function UHNWPathCardPage() {
-  const isPdfMode = useIsPdfMode();
   const [downloading, setDownloading] = useState(false);
 
-  const handleDownload = async () => {
-    setDownloading(true);
-    try {
-      const res = await fetch('/api/pdf?url=/cards/uhnw-path');
-      if (!res.ok) {
-        // Build 3 · Doctrine 43 fallback: Puppeteer failed → open page and trigger browser print dialog
-        console.warn('[UHNWPathCard] PDF endpoint returned', res.status, '— falling back to window.print()');
-        const printWin = window.open('/cards/uhnw-path', '_blank');
-        if (printWin) {
-          printWin.addEventListener('load', () => {
-            setTimeout(() => printWin.print(), 500);
-          });
-        } else {
-          // Pop-up blocked — print current page as last resort
-          window.print();
-        }
-        return;
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      a.href = url;
-      a.download = `Christies_EH_UHNW_Path_Card_${today}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } catch (err) {
-      // Network error — fall back to window.print()
-      console.error('[UHNWPathCard] PDF download failed, falling back to print:', err);
-      window.print();
-    } finally {
-      setDownloading(false);
-    }
-  };
 
   return (
     <div
@@ -145,7 +101,7 @@ export default function UHNWPathCardPage() {
       }}
     >
       {/* ── Download bar (screen only, hidden in print and PDF mode) ─────────── */}
-      {!isPdfMode && (
+      {true && (
         <div
           className="no-print"
           style={{
@@ -180,7 +136,7 @@ export default function UHNWPathCardPage() {
               OPEN &amp; PRINT
             </button>
             <button
-              onClick={handleDownload}
+              onClick={() => window.print()}
               disabled={downloading}
               style={{
                 background: GOLD,

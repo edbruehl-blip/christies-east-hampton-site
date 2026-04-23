@@ -4,13 +4,10 @@
  * Visual identity: matches HOME tab — navy header with auction room bg,
  * James Christie portrait float-left, gold small-caps title, cream body.
  *
- * PDF mode (?pdf=1): Puppeteer passes this param. The component detects it
- * and renders the print layout directly (logo visible, navy header hidden).
- * This is more reliable than @media print because Puppeteer uses page.pdf()
- * which does NOT trigger @media print.
+ * D65 Strict (Apr 23 2026): isPdfMode deleted. Single cream render path.
+ * PDF = html2canvas screenshot of live page. No parallel paths.
  *
  * Content source: FLAGSHIP_LETTER_TEXT via tRPC flagship.getLetter
- * PDF: /api/pdf?url=/letters/flagship (Puppeteer) or window.print()
  * Route: /letters/flagship (registered in App.tsx)
  */
 import { trpc } from '@/lib/trpc';
@@ -42,13 +39,6 @@ export default function FlagshipLetterPage() {
   const { data, isLoading, error } = trpc.flagship.getLetter.useQuery();
   const paragraphs = data?.text ? splitParagraphs(data.text) : [];
 
-  // Detect PDF render mode — Puppeteer appends ?pdf=1 to the URL
-  const isPdfMode = new URLSearchParams(window.location.search).get('pdf') === '1';
-
-  const handlePrint = () => {
-    window.print();
-  };
-
   const today = new Date().toLocaleDateString('en-US', {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
@@ -56,50 +46,9 @@ export default function FlagshipLetterPage() {
   return (
     <div style={{ background: CREAM, minHeight: '100vh', fontFamily: '"Cormorant Garamond", serif' }}>
 
-      {/* ── PDF MODE HEADER — shown when ?pdf=1, hidden otherwise ───────────── */}
-      {isPdfMode && (
-        <div style={{ padding: '20px 40px 0' }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            paddingBottom: 12, borderBottom: `2px solid ${GOLD}`, marginBottom: 24,
-          }}>
-            <img
-              src={CIREG_LOGO_BLACK}
-              alt="Christie's International Real Estate Group"
-              style={{ height: 24, objectFit: 'contain' }}
-            />
-            <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: NAVY, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase',
-            }}>
-              Christie's East Hampton · Flagship Letter
-            </div>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginBottom: 28 }}>
-            <img
-              src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-              alt="James Christie"
-              style={{ width: 60, height: 76, objectFit: 'cover', objectPosition: 'center 20%', border: `1px solid ${GOLD}` }}
-            />
-            <div>
-              <h1 style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                color: NAVY, fontWeight: 400, fontSize: '1.8rem',
-                margin: '0 0 4px', letterSpacing: '0.04em',
-              }}>
-                A Letter from the Council
-              </h1>
-              <div style={{ color: MUTED, fontSize: '0.85rem', fontStyle: 'italic' }}>{today}</div>
-            </div>
-          </div>
-          <div style={{ borderTop: `1px solid ${GOLD}`, marginBottom: 28, opacity: 0.5 }} />
-        </div>
-      )}
-
-      {/* ── SCREEN NAVY HEADER — hidden in PDF mode ───────────────────────── */}
-      {!isPdfMode && (
-        <header
-          className="no-print letter-header"
+      {/* ── NAVY HEADER — always shown (D65: PDF mode header deleted) ──────── */}
+      <header
+          className="letter-header"
           style={{
             position: 'relative',
             background: NAVY,
@@ -215,20 +164,16 @@ export default function FlagshipLetterPage() {
               </div>
             </div>
           </div>
-        </header>
-      )}
-
+         </header>
       {/* ── DOCUMENT BODY ─────────────────────────────────────────────────── */}
       <main style={{
         maxWidth: 720,
         margin: '0 auto',
-        padding: isPdfMode ? '0 40px 60px' : '52px 32px 100px',
+        padding: '52px 32px 100px',
       }}>
 
-        {/* Gold rule separator — screen only */}
-        {!isPdfMode && (
-          <div className="no-print" style={{ borderTop: `1px solid ${GOLD}`, marginBottom: 40, opacity: 0.35 }} />
-        )}
+        {/* Gold rule separator */}
+        <div style={{ borderTop: `1px solid ${GOLD}`, marginBottom: 40, opacity: 0.35 }} />
 
         {/* Loading / error states */}
         {isLoading && (
@@ -245,10 +190,9 @@ export default function FlagshipLetterPage() {
         {/* Letter body — James Christie portrait floats left on screen only */}
         {paragraphs.length > 0 && (
           <>
-            {/* Portrait float — screen only */}
-            {!isPdfMode && (
-              <div
-                className="no-print flagship-body-portrait"
+            {/* Portrait float */}
+            <div
+                className="flagship-body-portrait"
                 style={{
                   float: 'left',
                   marginRight: 28,
@@ -278,10 +222,7 @@ export default function FlagshipLetterPage() {
                   textTransform: 'uppercase', marginTop: 5, textAlign: 'center',
                 }}>
                   James Christie · London · 1766
-                </div>
-              </div>
-            )}
-
+                </div>                </div>
             {paragraphs.map((para, i) => {
               if (isSectionHeading(para)) {
                 return (
@@ -304,7 +245,7 @@ export default function FlagshipLetterPage() {
                   style={{
                     fontFamily: '"Cormorant Garamond", serif',
                     color: NAVY,
-                    fontSize: isPdfMode ? '12pt' : '1.15rem',
+                    fontSize: '1.15rem',
                     lineHeight: 1.85,
                     marginBottom: 28,
                     fontWeight: 400,

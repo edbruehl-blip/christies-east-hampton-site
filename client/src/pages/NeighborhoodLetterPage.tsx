@@ -14,11 +14,7 @@
 
 import { useEffect } from 'react';
 
-function useIsPdfMode() {
-  if (typeof window === 'undefined') return false;
-  return new URLSearchParams(window.location.search).get('pdf') === '1';
-}
-
+// D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single cream render path.
 const PARAGRAPHS = [
   "Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, the water, and the pace. We stayed because this place became home.",
   "For twenty years, I've been helping families buy and sell \u2014 but mostly steward \u2014 property here. The lesson, over and over, is simple. The families who love this place most are the ones who protect it first. Real estate on the East End is not inventory. For our families, it is legacy. The asset your grandchildren will thank you for.",
@@ -34,57 +30,27 @@ const PARAGRAPHS = [
 ];
 
 export default function NeighborhoodLetterPage() {
-  const isPdfMode = useIsPdfMode();
-
   useEffect(() => {
     document.title = "Christie's East Hampton \u2014 Neighborhood Letter";
   }, []);
 
-  const handleDownload = () => {
-    const a = document.createElement('a');
-    a.href = '/api/pdf?url=/letters/welcome';
-    a.download = 'Christies_EH_Neighborhood_Letter_' + new Date().toISOString().slice(0, 10) + '.pdf';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  };
-
   return (
     <div style={{
-      background: isPdfMode ? '#faf7f1' : '#2a2a2a',
+      background: '#2a2a2a',
       minHeight: '100vh',
-      padding: isPdfMode ? 0 : '30px 20px',
+      padding: '30px 20px',
       fontFamily: "'Cormorant Garamond', Georgia, serif",
     }}>
-      {/* Spec note — screen only */}
-      {!isPdfMode && (
-        <div style={{
-          maxWidth: 700,
-          margin: '0 auto 20px',
-          background: '#1c2638',
-          color: '#947231',
-          padding: '10px 16px',
-          fontFamily: 'Georgia, serif',
-          fontSize: 10,
-          letterSpacing: '1.5px',
-          textTransform: 'uppercase',
-          textAlign: 'center',
-          borderRadius: 2,
-        }}>
-          Neighborhood Letter v15 · Cream · Cormorant Garamond · 8.5×11 print-ready
-        </div>
-      )}
-
-      {/* Letter page */}
+      {/* Letter page — cream substrate, always */}
       <div style={{
         background: '#faf7f1',
-        border: isPdfMode ? 'none' : '2px solid #000',
-        padding: isPdfMode ? '60px 80px 50px' : '60px 80px 50px',
+        border: '2px solid #000',
+        padding: '60px 80px 50px',
         color: '#1a1a1a',
         maxWidth: 700,
         margin: '0 auto',
         lineHeight: 1.55,
-        boxShadow: isPdfMode ? 'none' : '0 4px 20px rgba(0,0,0,0.4)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.4)',
       }}>
 
         {/* Wordmark */}
@@ -190,31 +156,7 @@ export default function NeighborhoodLetterPage() {
         </div>
       </div>
 
-      {/* Download button — screen only */}
-      {!isPdfMode && (
-        <div style={{ maxWidth: 700, margin: '20px auto 0', textAlign: 'center' }}>
-          <button
-            onClick={handleDownload}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              padding: '9px 24px',
-              fontFamily: 'Georgia, serif',
-              fontSize: 11,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              color: '#faf7f1',
-              background: 'rgba(200,172,120,0.12)',
-              border: '1px solid rgba(200,172,120,0.5)',
-              cursor: 'pointer',
-              borderRadius: 2,
-            }}
-          >
-            &#8595; Download PDF
-          </button>
-        </div>
-      )}
+
     </div>
   );
 }

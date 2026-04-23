@@ -2706,3 +2706,58 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] S1 doctrine: audit all 7 routes — no route may inject its own background system outside PageShell
 - [x] R7 doctrine: REPORT lower-third ends once — one continuous closing sequence, one canonical SiteFooter, no stacked endings
 - [x] Verify /future?pdf=1 pixel-identical to /future in browser — isPdfMode deleted from all dashboard routes; DashboardLayout nav always renders
+
+## Shell Purge Round — Full Commit — Apr 23 2026
+
+### P0 NAV BUG (S2)
+- [ ] /future route: restore global sticky nav — diagnose FutureTab.tsx / ProFormaPage.tsx for local header that replaces global nav
+- [ ] Acceptance: load /future, scroll 500px, global nav stays visible and matches /maps /pipe /market /intel /report
+
+### D69 INTEL Corkboard Navy (R6)
+- [ ] Convert IntelTab corkboard from cream/ivory substrate to Glass Atmospheric Frame (~75% opacity navy, subtle blur, faint gold border)
+- [ ] Card interiors: navy surface, ivory/gold text on dark (same hierarchy as Command Board tiles)
+- [ ] Red COMPASS card stays but on darker navy, not cream
+- [ ] Preserve all content verbatim
+
+### S3 Legacy Slab Kill
+- [ ] Kill all 14 V1/V2 legacy slab hits identified by L13 grep
+
+### S4 SiteFooter Rollout
+- [ ] Add SiteFooter to HOME route
+- [ ] Add SiteFooter to MARKET route
+- [ ] Add SiteFooter to MAPS route
+- [ ] Add SiteFooter to PIPE route
+- [ ] Add SiteFooter to FUTURE route
+- [ ] Add SiteFooter to INTEL route
+
+### R1-R8 Route Fixes
+- [ ] R1 HOME: Today's Brief collapse when empty
+- [ ] R2 MARKET: donut Glass frame
+- [ ] R3 MAPS: unified lane
+- [ ] R4 PIPE: padding tighten
+- [ ] R5 FUTURE: top inside hero shell
+- [ ] R8 PhotoMatrix: responsive 1/2/3
+
+### Issue #2 INTEL Trello Matrix
+- [ ] Drop Perp's 16-tile array (Trello card 69OEdJ1i) into IntelTab.tsx line 180
+- [ ] Update line 215 text to "213 cards · 16 lists"
+
+### ProFormaPage D65 Audit
+- [ ] Grep /pro-forma for useIsPdfMode / isPdfMode / pdfMode / PrintFutureButton / cream imports
+- [ ] Apply D65 treatment if found
+
+## Full Purge Commit — Apr 23 2026 (single push)
+
+- [x] CouncilBriefPage: kill useIsPdfMode (8 hits), cream-always single render
+- [x] FlagshipLetterPage: kill isPdfMode inline check (7 hits), cream-always single render
+- [x] ChristiesLetterPage: kill isPdfMode (6 hits), cream-always single render
+- [x] NeighborhoodCardPage: kill isPdfMode (3 hits), cream-always single render
+- [x] UHNWPathCardPage: kill isPdfMode (3 hits), cream-always single render
+- [x] IntelTab L182: replace 13-lane array with canonical 16-lane 213-card Trello array
+- [x] IntelTab L215: update count text to '213 cards · 16 lists'
+- [x] IntelTab L201: remove inline slab background '#1B2A4A' on TrelloLayer wrapper
+- [ ] S1: audit all 7 dashboard routes — no self-injected backgrounds outside PageShell
+- [ ] S3: kill remaining 4 Lane 13 legacy slab hits in dashboard routes
+- [ ] S4: canonical SiteFooter on all 7 dashboard routes
+- [ ] Acceptance grep: zero isPdfMode/useIsPdfMode across all purge targets
+- [ ] Vitest green, build clean, push both remotes

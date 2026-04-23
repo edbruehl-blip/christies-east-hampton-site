@@ -177,8 +177,8 @@ function MindMapSection() {
 const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 
 // ─── Option A: Branded static tile (no iframe, no Trello API key needed) ─────
-// 13 lanes · 188 cards · navy/gold · Cormorant Garamond · Ponder audit Apr 19 2026
-// Static counts canonical as of April 19, 2026 · Ponder audit · Issue #2
+// 16 lanes · 213 cards · navy/gold · Cormorant Garamond · Perp audit Apr 23 2026
+// Static counts canonical as of April 23, 2026 · Issue #2 fix · GitHub Issue #2
 const TRELLO_LANES = [
   { name: 'THIS WEEK',                    count: 6  },
   { name: 'ACTIVE PIPELINE',              count: 22 },
@@ -193,6 +193,9 @@ const TRELLO_LANES = [
   { name: 'DOCTRINE LIBRARY',             count: 53 },
   { name: 'FLAGSHIP LETTER ARCHIVE',      count: 2  },
   { name: 'Market Intelligence Reports',  count: 6  },
+  { name: 'COUNCIL BRIEF ARCHIVE',        count: 12 },
+  { name: 'PARTNER NETWORK',              count: 9  },
+  { name: 'FUTURE PIPELINE',              count: 14 },
 ];
 
 function TrelloLayer() {
@@ -216,7 +219,7 @@ function TrelloLayer() {
               Christie's East Hampton — Command Board
             </h3>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: MUTED, fontSize: 11, marginTop: 4 }}>
-              188 cards &middot; 13 lists &middot; Live Trello board
+              213 cards · 16 lists · Live Trello board
             </p>
           </div>
           <a

@@ -4,25 +4,38 @@
  * Six quadrants: THE PULSE · THE PIPELINE · THE NETWORK ·
  *                THE CALENDAR · THE FOCUS · THE COMPASS
  * Text fixes applied: "Angel Day One · April 25" · "Ilija Pavlovic" · "Key Relationships"
+ *
+ * D69 One-Environment Strict (Apr 23 2026):
+ * Cream/ivory substrate replaced with navy dark glass.
+ * Card interiors: navy surface, ivory/gold text on dark — same hierarchy as Command Board tiles.
+ * COMPASS card: deep red stays, but on darker navy context (not cream).
+ * All content verbatim — only substrate changed.
  */
 import React from 'react';
 
 const C = {
   gold: '#c8ac78',
   goldDark: '#a88f5f',
+  // D69: charcoal replaced by navy dark surface
   charcoal: '#384249',
-  cream: '#f8f4ed',
-  paper: '#fffdf7',
+  // D69: cream/paper replaced by ivory text on dark
+  cream: '#FAF8F4',
+  paper: '#FAF8F4',
   deepRed: '#8b2635',
-  stone: '#e8dcc0',
-  line: '#b9a87f',
+  // D69: stone (warm beige) replaced by muted gold-tinted ivory
+  stone: 'rgba(250,248,244,0.55)',
+  line: 'rgba(200,172,120,0.25)',
   navy: '#1B2A4A',
+  // New dark surface tokens
+  darkSurface: 'rgba(27,42,74,0.55)',
+  darkBorder: 'rgba(200,172,120,0.18)',
+  darkBg: '#0D1B2A',
 };
 
 const s = {
   panel: {
-    background: C.paper,
-    border: `1px solid ${C.line}`,
+    background: C.darkSurface,
+    border: `1px solid ${C.darkBorder}`,
     padding: '12px 14px',
     height: '100%',
     boxSizing: 'border-box' as const,
@@ -30,8 +43,8 @@ const s = {
   panelH3: {
     fontSize: 10,
     letterSpacing: '0.28em',
-    color: C.deepRed,
-    borderBottom: `1px solid ${C.gold}`,
+    color: C.gold,
+    borderBottom: `1px solid rgba(200,172,120,0.3)`,
     paddingBottom: 5,
     marginBottom: 9,
     fontWeight: 700,
@@ -42,7 +55,7 @@ const s = {
   item: {
     padding: '3px 0',
     fontSize: 9.5,
-    color: C.charcoal,
+    color: 'rgba(250,248,244,0.85)',
     fontFamily: 'Georgia, serif',
     lineHeight: 1.45,
     display: 'flex',
@@ -62,7 +75,7 @@ const s = {
     margin: '8px 0 4px 0',
     textTransform: 'uppercase' as const,
     fontWeight: 700,
-    borderTop: `1px dotted ${C.gold}`,
+    borderTop: `1px dotted rgba(200,172,120,0.3)`,
     paddingTop: 5,
     fontFamily: 'Georgia, serif',
   } as React.CSSProperties,
@@ -73,7 +86,7 @@ function Bullet({ text, sub }: { text: string; sub?: string }) {
     <div style={s.item}>
       <span style={s.bullet}>◆</span>
       <span>
-        <span style={{ color: C.charcoal }}>{text}</span>
+        <span style={{ color: 'rgba(250,248,244,0.9)' }}>{text}</span>
         {sub && <span style={{ color: C.goldDark, fontSize: 8.5, display: 'block' }}>{sub}</span>}
       </span>
     </div>
@@ -83,8 +96,8 @@ function Bullet({ text, sub }: { text: string; sub?: string }) {
 export function EdCorkboard() {
   return (
     <div style={{
-      background: C.cream,
-      color: C.charcoal,
+      background: C.darkBg,
+      color: C.cream,
       fontFamily: 'Georgia, "Times New Roman", serif',
       fontSize: 11,
       lineHeight: 1.4,
@@ -95,19 +108,19 @@ export function EdCorkboard() {
 
       {/* HEADER */}
       <header style={{ borderBottom: `2px solid ${C.gold}`, paddingBottom: 8, display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', marginBottom: 10 }}>
-        <div style={{ fontSize: 9, letterSpacing: '0.2em', color: C.charcoal, lineHeight: 1.6 }}>
-          <strong style={{ color: C.deepRed }}>CHRISTIE'S</strong><br />
+        <div style={{ fontSize: 9, letterSpacing: '0.2em', color: 'rgba(250,248,244,0.7)', lineHeight: 1.6 }}>
+          <strong style={{ color: C.gold }}>CHRISTIE'S</strong><br />
           INTERNATIONAL REAL ESTATE GROUP<br />
           EAST HAMPTON · 26 PARK PLACE
         </div>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.deepRed, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD &middot; v3</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.gold, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD &middot; v3</h1>
           <div style={{ fontSize: 10, color: C.goldDark, letterSpacing: '0.3em', marginTop: 4, fontStyle: 'italic' }}>
             Nouns, not numbers · One page · Internal only
           </div>
         </div>
-        <div style={{ fontSize: 9, letterSpacing: '0.15em', color: C.charcoal, textAlign: 'right', lineHeight: 1.6 }}>
-          <strong style={{ color: C.deepRed }}>v3</strong> · April 22, 2026<br />
+        <div style={{ fontSize: 9, letterSpacing: '0.15em', color: 'rgba(250,248,244,0.7)', textAlign: 'right', lineHeight: 1.6 }}>
+          <strong style={{ color: C.gold }}>v3</strong> · April 22, 2026<br />
           Six-quadrant operational layout<br />
           T-7 days to public launch
         </div>
@@ -115,22 +128,22 @@ export function EdCorkboard() {
 
       {/* PRINCIPLES BAND */}
       <section style={{
-        background: C.stone,
+        background: 'rgba(200,172,120,0.07)',
         padding: '7px 14px',
         display: 'flex',
         justifyContent: 'space-around',
         fontSize: 10.5,
         letterSpacing: '0.1em',
-        borderTop: `1px solid ${C.gold}`,
-        borderBottom: `1px solid ${C.gold}`,
+        borderTop: `1px solid rgba(200,172,120,0.25)`,
+        borderBottom: `1px solid rgba(200,172,120,0.25)`,
         marginBottom: 12,
         flexWrap: 'wrap',
         gap: 8,
       }}>
-        <span><strong style={{ color: C.deepRed, fontStyle: 'italic' }}>JESUS FIRST</strong></span>
-        <span><strong style={{ color: C.deepRed, fontStyle: 'italic' }}>The Christie's Standard</strong> · Since 1766</span>
-        <span><strong style={{ color: C.deepRed, fontStyle: 'italic' }}>The Richard Rule</strong> · Operate from what is real</span>
-        <span><strong style={{ color: C.deepRed, fontStyle: 'italic' }}>The Hagler Standard</strong> · Train in the dark</span>
+        <span><strong style={{ color: C.gold, fontStyle: 'italic' }}>JESUS FIRST</strong></span>
+        <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Christie's Standard</strong> · Since 1766</span>
+        <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Richard Rule</strong> · Operate from what is real</span>
+        <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Hagler Standard</strong> · Train in the dark</span>
       </section>
 
       {/* SIX QUADRANTS — 3×2 grid */}
@@ -177,9 +190,9 @@ export function EdCorkboard() {
             ['Zoila starts', 'May 4'],
             ['Scott starts', 'June 1'],
           ].map(([who, when]) => (
-            <div key={who} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 6, padding: '2px 0', fontSize: 9, borderBottom: `1px dotted ${C.stone}`, fontFamily: 'Georgia, serif' }}>
-              <span style={{ color: C.charcoal }}>{who}</span>
-              <span style={{ color: C.deepRed, fontWeight: 700 }}>{when}</span>
+            <div key={who} style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 6, padding: '2px 0', fontSize: 9, borderBottom: `1px dotted rgba(200,172,120,0.2)`, fontFamily: 'Georgia, serif' }}>
+              <span style={{ color: 'rgba(250,248,244,0.85)' }}>{who}</span>
+              <span style={{ color: C.gold, fontWeight: 700 }}>{when}</span>
             </div>
           ))}
         </div>
@@ -194,7 +207,7 @@ export function EdCorkboard() {
           <Bullet text="Institutional Lens" sub="UHNW buyer pipeline · CPS-1 node active" />
         </div>
 
-        {/* Q6 — THE COMPASS */}
+        {/* Q6 — THE COMPASS (deep red stays — on darker navy context per D69) */}
         <div style={{
           background: C.deepRed,
           color: C.cream,
@@ -203,15 +216,16 @@ export function EdCorkboard() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           boxSizing: 'border-box',
+          border: `1px solid rgba(139,38,53,0.6)`,
         }}>
           <div>
             <h3 style={{ ...s.panelH3, color: C.gold, borderBottomColor: 'rgba(200,172,120,0.4)', marginBottom: 10 }}>
               ⑥ The Compass
             </h3>
-            <div style={{ fontSize: 11, color: C.stone, lineHeight: 1.6, fontStyle: 'italic', marginBottom: 10 }}>
+            <div style={{ fontSize: 11, color: 'rgba(250,248,244,0.85)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 10 }}>
               "Seventy-five million to three billion. Three offices. One trajectory."
             </div>
-            <div style={{ fontSize: 9.5, color: C.stone, lineHeight: 1.55 }}>
+            <div style={{ fontSize: 9.5, color: 'rgba(250,248,244,0.75)', lineHeight: 1.55 }}>
               <strong style={{ color: C.gold }}>Doctrine:</strong> The live URL is the source of truth. Ed thirty-five. Ilija sixty-five. Two parties at the pool. The platform is the pitch. No decks.
             </div>
           </div>
@@ -238,9 +252,9 @@ export function EdCorkboard() {
           { value: '$75M', label: '2026 Baseline' },
           { value: '$3B', label: '2036 Horizon' },
         ].map(({ value, label }) => (
-          <div key={label} style={{ background: C.charcoal, color: C.cream, padding: '10px 12px', textAlign: 'center', borderLeft: `4px solid ${C.gold}` }}>
+          <div key={label} style={{ background: 'rgba(27,42,74,0.7)', color: C.cream, padding: '10px 12px', textAlign: 'center', borderLeft: `4px solid ${C.gold}`, border: `1px solid rgba(200,172,120,0.2)`, borderLeftWidth: 4 }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: C.gold, letterSpacing: '0.03em', fontFamily: 'Georgia, serif' }}>{value}</div>
-            <div style={{ fontSize: 8.5, letterSpacing: '0.22em', marginTop: 3, textTransform: 'uppercase', color: C.stone }}>{label}</div>
+            <div style={{ fontSize: 8.5, letterSpacing: '0.22em', marginTop: 3, textTransform: 'uppercase', color: 'rgba(250,248,244,0.6)' }}>{label}</div>
           </div>
         ))}
       </section>
@@ -265,7 +279,7 @@ export function EdCorkboard() {
               <li key={i} style={{
                 padding: '3px 2px',
                 fontSize: 9.5,
-                borderBottom: i < 9 ? `1px dotted ${C.stone}` : 'none',
+                borderBottom: i < 9 ? `1px dotted rgba(200,172,120,0.2)` : 'none',
                 display: 'grid',
                 gridTemplateColumns: '26px 1fr',
                 gap: 5,
@@ -275,7 +289,7 @@ export function EdCorkboard() {
                 <span style={{ color: C.goldDark, fontWeight: 700, fontSize: 9, textAlign: 'right' }}>
                   {['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'][i]}.
                 </span>
-                <span style={{ color: C.charcoal }}>{cmd}</span>
+                <span style={{ color: 'rgba(250,248,244,0.85)' }}>{cmd}</span>
               </li>
             ))}
           </ol>
@@ -292,17 +306,17 @@ export function EdCorkboard() {
               ['Grok', 'Challenge. Stress-test.'],
             ].map(([name, role]) => (
               <div key={name} style={{ display: 'grid', gridTemplateColumns: '72px 1fr', gap: 6, padding: '2px 0', fontSize: 9, fontFamily: 'Georgia, serif' }}>
-                <span style={{ color: C.deepRed, fontWeight: 700 }}>{name}</span>
-                <span style={{ color: C.charcoal }}>{role}</span>
+                <span style={{ color: C.gold, fontWeight: 700 }}>{name}</span>
+                <span style={{ color: 'rgba(250,248,244,0.75)' }}>{role}</span>
               </div>
             ))}
           </div>
           <div style={s.panel}>
             <h3 style={{ ...s.panelH3, fontSize: 10 }}>Contact</h3>
-            <div style={{ fontSize: 9.5, lineHeight: 1.6, color: C.charcoal, fontFamily: 'Georgia, serif' }}>
-              <strong style={{ color: C.deepRed }}>Ed Bruehl</strong> · Managing Director<br />
+            <div style={{ fontSize: 9.5, lineHeight: 1.6, color: 'rgba(250,248,244,0.85)', fontFamily: 'Georgia, serif' }}>
+              <strong style={{ color: C.gold }}>Ed Bruehl</strong> · Managing Director<br />
               26 Park Place, East Hampton, NY 11937<br />
-              <strong style={{ color: C.deepRed }}>646-752-1233</strong><br />
+              <strong style={{ color: C.gold }}>646-752-1233</strong><br />
               edbruehl@christiesrealestategroup.com
             </div>
           </div>

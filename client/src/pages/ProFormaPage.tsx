@@ -1,10 +1,11 @@
 /**
  * ProFormaPage.tsx — Christie's East Hampton · Pro Forma Live Renderer
  *
- * Route: /pro-forma
- * Architecture: Live URL renderer — no nav chrome, document-only.
- * PDF: client-side window.print() via ?pdf=1 (Doctrine 43). No Puppeteer dependency.
- * Sprint 12 fix: PDF button now uses window.print(); 6s timeout fallback for offline rendering.
+ * Route: /pro-forma (inside DashboardLayout — navy hero shell)
+ *
+ * D65 Strict (Apr 23 2026): useIsPdfMode deleted. All 31 isPdfMode branches collapsed
+ * to their dark-navy canonical values. Single render path. PDF = html2canvas screenshot
+ * of this live navy render. No parallel paths.
  *
  * Four pages:
  *   Page 1 — The Ascension Arc (volume trajectory 2025–2036)
@@ -13,32 +14,25 @@
  *   Page 4 — Defensible Numbers + Ed contact
  *
  * Data: trpc.future.ascensionArc · trpc.future.volumeData · trpc.pipe.getKpis
- * Brand: Cormorant Garamond + Barlow Condensed · Navy #1B2A4A · Gold #947231 · Cream #FAF8F4
+ * Brand: Cormorant Garamond + Barlow Condensed · Navy #1B2A4A · Gold #947231
  *
  * Doctrine 20: Gold oklch(0.73 0.07 72) / Charcoal oklch(0.33 0.02 220)
  * Doctrine 14: No website URL in contact block
  * Doctrine 19: No website URL on any external surface
- * Sprint 8 · April 12, 2026 | Sprint 12 PDF fix · April 15, 2026
  */
 
 import { trpc } from '@/lib/trpc';
 import { useState, useEffect, useRef } from 'react';
-
-// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────────────
-// PF1 fix (April 20, 2026): synchronous URL param read — Puppeteer captures first render
-// before useEffect fires, so async version always returns false on first render.
-function useIsPdfMode(): boolean {
-  return typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('pdf') === '1';
-}
+import { DashboardLayout } from '@/components/DashboardLayout';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
-const LOGO_BLACK = 'https://d3w216np43fnr4.cloudfront.net/10580/348547/1.png';
+// D65: LOGO_BLACK deleted — ProFormaPage now uses navy shell (dark background)
+const LOGO_WHITE = 'https://d3w216np43fnr4.cloudfront.net/10580/348947/1.png';
 const ED_HEADSHOT = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/INlfZDqMHcqOCvuv.jpg';
 
 const MAX_VOLUME = 3_000_000_000; // D7 · OUTPUTS B42 · Sprint 13
 
 // Net pool fallback — OUTPUTS G32:G42 canonical NOP (Sprint 13, April 15, 2026, Perplexity verified)
-// Formula: GCI(2%) − Royalty(5%) − AgentSplits(70%) − Overhead(MAX($200K, GCI×6%))
 const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: number }> = {
   '2026': { pool: 175_000,     ed: 61_250,      ilija: 113_750 },
   '2027': { pool: 429_534,     ed: 150_337,     ilija: 279_197 },
@@ -53,9 +47,6 @@ const NET_POOL_FALLBACK: Record<string, { pool: number; ed: number; ilija: numbe
   '2036': { pool: 11_400_000,  ed: 3_990_000,   ilija: 7_410_000 },
 };
 
-// Equation 1 cascade — Ed Net Personal Production
-// After 70/30 house split + 5% overrides to 3 ICA team members
-// Source: Perplexity dispatch April 15, 2026 evening. Verified against OUTPUTS row 46.
 const EQ1_CASCADE: Record<string, number> = {
   '2026': 330_000,
   '2027': 990_000,
@@ -70,22 +61,18 @@ const EQ1_CASCADE: Record<string, number> = {
   '2036': 1_980_000,
 };
 
-// PF9 v5 council-locked five-band data — April 20 2026
-// EH total · SH · WH from Growth Model v2 VOLUME tab (Perplexity verified)
-// Three-office volumes only — AnewHomes and CPS1 removed from arc chart (Ed ruling Apr 22 2026)
 interface FiveBandYear {
   year: string;
-  eh: number;   // EH total (millions)
-  sh: number;   // Southampton (millions)
-  wh: number;   // Westhampton (millions)
-  combined: number; // total all offices (millions)
+  eh: number;
+  sh: number;
+  wh: number;
+  combined: number;
   display: string;
 }
 const FIVE_BAND_YEARS: FiveBandYear[] = (() => {
   const EH_TOTAL = [75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3];
   const SH_M     = [0,     0,  42.1, 161.4, 285.2, 422.1, 507.4, 607.3, 698.4, 821.6,  987.8];
   const WH_M     = [0,     0,     0,     0,  56.7, 230.5, 352.3, 452.4, 592.9, 737.8,  878.9];
-  // ANEW_PCT and CPS1_PCT deleted — Ed ruling April 22 2026
   const YEARS    = ['2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
   return YEARS.map((yr, i) => {
     const eh = EH_TOTAL[i];
@@ -100,7 +87,6 @@ const FIVE_BAND_YEARS: FiveBandYear[] = (() => {
     return { year: yr, eh, sh, wh, combined, display };
   });
 })();
-// Legacy alias for Page 3 profit pool table
 const OUTLOOK_YEARS = FIVE_BAND_YEARS.map(d => ({ year: d.year, vol: d.combined * 1_000_000 }));
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
@@ -125,14 +111,12 @@ function profitPool(year: string, liveNetProfit?: number) {
   };
 }
 
-// ─── Shared styles ────────────────────────────────────────────────────────────
+// ─── Shared styles — D65: all dark-navy canonical values ──────────────────────
 const PAGE_STYLE: React.CSSProperties = {
   width: '8.5in',
   minHeight: '11in',
   padding: '0.6in 0.65in 0.5in',
   background: '#FAF8F4',
-  // NOTE: page-break is handled by print CSS only — do NOT set pageBreakAfter here
-  // to avoid double page-break which creates blank pages between content.
   position: 'relative',
   boxSizing: 'border-box',
   fontFamily: "'Barlow Condensed', sans-serif",
@@ -210,7 +194,7 @@ const FOOTER_SPAN: React.CSSProperties = {
 function PageHeader({ generatedAt }: { generatedAt: string }) {
   return (
     <div style={HEADER_STYLE}>
-      <img src={LOGO_BLACK} alt="Christie's International Real Estate Group" style={{ height: 22 }} />
+      <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22 }} />
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)', textAlign: 'right' }}>
         Christie's East Hampton · Pro Forma<br />
         Generated {generatedAt} · Data: Growth Model v2
@@ -231,33 +215,27 @@ function KpiCard({ label, value, sub }: { label: string; value: string; sub: str
 }
 
 // ─── Page 1: The Ascension Arc ────────────────────────────────────────────────
-function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear: _liveNetProfitByYear, isPdfMode }: {
+// D65: isPdfMode removed — chart always renders dark-navy frame
+function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYear: _liveNetProfitByYear }: {
   generatedAt: string;
   activePipelineStr: string;
   exclusiveStr: string;
   liveNetProfitByYear: Record<string, number>;
-  isPdfMode: boolean;
 }) {
-  // Five-band stacked vertical bar chart — v14 FINAL · April 21 2026
-  // Colors: council-locked — EH #9e1b32 · AnewHomes #c8946b · CPS1 #6b2838 · SH #1a3a5c · WH #947231 (burnished gold)
   const C_EH   = '#9e1b32';
-  // C_ANEW and C_CPS1 deleted — Ed ruling April 22 2026
   const C_SH   = '#1a3a5c';
   const C_WH   = '#947231';
-  const MAX_M  = 3500; // Y-axis max in millions — headroom above $3.1B
+  const MAX_M  = 3500;
 
-  // All 12 years including 2025 baseline
   const ALL_YEARS: Array<{ year: string; eh: number; sh: number; wh: number; combined: number; display: string; isBaseline?: boolean }> = [
     { year: '2025', eh: 20, sh: 0, wh: 0, combined: 20, display: '$20M', isBaseline: true },
     ...FIVE_BAND_YEARS,
   ];
 
-  const CHART_H = 220; // px — chart area height
-  const BAR_W   = 38;  // px — bar width
-  const GAP     = 6;   // px — gap between bars
-  const TOTAL_W = ALL_YEARS.length * (BAR_W + GAP) - GAP;
+  const CHART_H = 220;
+  const BAR_W   = 38;
+  const GAP     = 6;
 
-  // Y-axis ticks
   const Y_TICKS = [0, 500, 1000, 1500, 2000, 2500, 3000];
 
   return (
@@ -269,7 +247,6 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 11, fontStyle: 'italic', color: 'rgba(56,66,73,0.55)', letterSpacing: '0.04em', marginBottom: 4 }}>Christie's East Hampton Flagship · 2025–2036 Sales Volume Trajectory</div>
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a7a5a', marginBottom: 14 }}>FUTURE PROJECTIONS · CPS-1 PRO FORMA · WITHIN THE EXISTING GROWTH PLAN</div>
 
-      {/* KPI Strip */}
       <div style={{ display: 'flex', gap: 10, marginBottom: 16 }}>
         <KpiCard label="Closed · First 100 Days" value="$4.57M" sub="Verified · Office closed period" />
         <KpiCard label="Active Pipeline" value={activePipelineStr} sub={`Live as of ${generatedAt}`} />
@@ -277,68 +254,53 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
         <KpiCard label="$3.1B Horizon" value="2036" sub="MODEL · D7 · OUTPUTS B42" />
       </div>
 
-      {/* Chart frame — cream substrate in PDF mode (Doctrine 43) */}
-      <div style={{ background: isPdfMode ? '#e8e0d0' : '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
-        {/* Chart title inside frame */}
-        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: isPdfMode ? '#1B2A4A' : '#947231', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
+      {/* Chart frame — dark navy (D65 canonical) */}
+      <div style={{ background: '#0f1820', borderRadius: 4, padding: '14px 14px 10px', marginBottom: 10, position: 'relative' }}>
+        <div style={{ fontFamily: "'Georgia', serif", fontSize: 9, color: '#947231', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: 10, textAlign: 'center' }}>
           SALES VOLUME TRAJECTORY · 2025–2036 · ALL OFFICES
         </div>
 
-        {/* Chart body: Y-axis + bars */}
         <div style={{ display: 'flex', gap: 8 }}>
-          {/* Y-axis labels */}
           <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-end', height: CHART_H, paddingBottom: 20, flexShrink: 0 }}>
             {[...Y_TICKS].reverse().map(t => (
-              <div key={t} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isPdfMode ? 'rgba(27,42,74,0.6)' : 'rgba(200,172,120,0.5)', letterSpacing: '0.05em' }}>
+              <div key={t} style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: 'rgba(200,172,120,0.5)', letterSpacing: '0.05em' }}>
                 {t === 0 ? '$0' : t >= 1000 ? `$${t/1000}B` : `$${t}M`}
               </div>
             ))}
           </div>
 
-          {/* Bar area */}
           <div style={{ flex: 1, position: 'relative', height: CHART_H }}>
-            {/* Grid lines */}
             {Y_TICKS.map(t => (
               <div key={t} style={{
                 position: 'absolute',
                 left: 0, right: 0,
                 bottom: `${20 + (t / MAX_M) * (CHART_H - 20)}px`,
                 height: 1,
-                background: isPdfMode ? (t === 0 ? 'rgba(27,42,74,0.3)' : 'rgba(27,42,74,0.08)') : (t === 0 ? 'rgba(200,172,120,0.25)' : 'rgba(200,172,120,0.08)'),
+                background: t === 0 ? 'rgba(200,172,120,0.25)' : 'rgba(200,172,120,0.08)',
               }} />
             ))}
 
-            {/* Bars */}
             <div style={{ position: 'absolute', bottom: 20, left: 0, display: 'flex', gap: GAP, alignItems: 'flex-end', height: CHART_H - 20 }}>
               {ALL_YEARS.map((d) => {
                 const totalH = ((d.combined) / MAX_M) * (CHART_H - 20);
                 const ehH = (d.eh / MAX_M) * (CHART_H - 20);
-
-                // Three-office only — no sub-band calculations
-
                 const shH = (d.sh / MAX_M) * (CHART_H - 20);
                 const whH = (d.wh / MAX_M) * (CHART_H - 20);
-
                 const isBaseline = d.isBaseline;
                 const opacity = isBaseline ? 0.35 : 1;
-                const labelColor = isBaseline
-                  ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)')
-                  : (isPdfMode ? '#1B2A4A' : '#947231');
+                const labelColor = isBaseline ? 'rgba(200,172,120,0.4)' : '#947231';
 
                 return (
                   <div key={d.year} style={{ width: BAR_W, display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-                    {/* Combined label above bar */}
                     <div style={{ fontFamily: "'Georgia', serif", fontSize: 6, color: labelColor, marginBottom: 2, whiteSpace: 'nowrap', letterSpacing: '0.02em' }}>
                       {d.display}
                     </div>
-                    {/* Stacked bar — bottom to top: EH, SH, WH (three-office only) */}
                     <div style={{ width: '100%', height: totalH, display: 'flex', flexDirection: 'column-reverse', opacity }}>
                       <div style={{ height: ehH, background: C_EH, flexShrink: 0 }} />
                       <div style={{ height: shH, background: C_SH, flexShrink: 0 }} />
                       <div style={{ height: whH, background: C_WH, flexShrink: 0 }} />
                     </div>
-                    {/* Year label */}
-                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? (isPdfMode ? 'rgba(27,42,74,0.3)' : 'rgba(200,172,120,0.4)') : (isPdfMode ? '#1B2A4A' : '#947231'), marginTop: 3, letterSpacing: '0.08em' }}>
+                    <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6.5, color: isBaseline ? 'rgba(200,172,120,0.4)' : '#947231', marginTop: 3, letterSpacing: '0.08em' }}>
                       {d.year}
                     </div>
                   </div>
@@ -348,23 +310,20 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
           </div>
         </div>
 
-        {/* Legend — one row, three offices (v15 · Ed ruling Apr 22 2026) */}
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px 18px', marginTop: 10, justifyContent: 'center' }}>
           {[
             [C_EH,   'East Hampton Flagship'],
             [C_SH,   'Southampton Flagship · 2028'],
             [C_WH,   'Westhampton Flagship · 2030'],
           ].map(([bg, label]) => (
-            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: isPdfMode ? 'rgba(27,42,74,0.75)' : 'rgba(200,172,120,0.85)' }}>
+            <span key={label} style={{ display: 'flex', alignItems: 'center', gap: 5, fontFamily: "Georgia, serif", fontSize: 9, letterSpacing: '0.03em', color: 'rgba(200,172,120,0.85)' }}>
               <span style={{ width: 14, height: 5, background: bg, display: 'inline-block', flexShrink: 0, border: '0.5px solid rgba(0,0,0,0.2)' }} />
               {label}
             </span>
           ))}
         </div>
-        {/* AnewHomes + CPS1 legend row deleted — Ed ruling April 22 2026 */}
 
-        {/* Footer inside frame */}
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: isPdfMode ? 'rgba(27,42,74,0.25)' : 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
+        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
           ART · BEAUTY · PROVENANCE · SINCE 1766
         </div>
       </div>
@@ -384,7 +343,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
   );
 }
 
-// ─── Page 2: The Machine — PF9 v5 Partner Cards ─────────────────────────────
+// ─── Page 2: The Machine ──────────────────────────────────────────────────────
 interface AgentRow {
   name: string;
   role: string;
@@ -394,7 +353,6 @@ interface AgentRow {
   proj2027: number;
 }
 
-// Shared partner card styles
 const P2_CARD: React.CSSProperties = {
   background: '#fff',
   border: '1px solid rgba(27,42,74,0.1)',
@@ -448,25 +406,18 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
   agents: AgentRow[];
   total: { proj2026: number; act2026: number; proj2027: number };
 }) {
-  // Page 2 is content-dense (7 partner cards + footnote) — override minHeight to 'auto'
-  // so the page shrinks to content and the footer flows directly below the footnote.
-  // This eliminates the empty gray rectangle below the partner cards.
   const page2Style: React.CSSProperties = { ...PAGE_STYLE, minHeight: 'auto', paddingBottom: '0.5in' };
   const page2Footer: React.CSSProperties = { ...PAGE_FOOTER, position: 'relative', bottom: 'auto', left: 'auto', right: 'auto', marginTop: 12 };
   return (
     <div style={page2Style}>
       <PageHeader generatedAt={generatedAt} />
 
-      {/* Three-tier header */}
       <div style={{ ...P2_SANS, fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: P2_GOLD, marginBottom: 4 }}>Page 2 of 4</div>
       <div style={{ ...P2_SERIF, fontSize: 26, fontWeight: 300, color: '#1B2A4A', lineHeight: 1.1, marginBottom: 2 }}>The Machine</div>
       <div style={{ ...P2_SERIF, fontSize: 11, fontStyle: 'italic', color: P2_MUTED, letterSpacing: '0.04em', marginBottom: 4 }}>Flagship Team · Income Streams · 2026–2036</div>
       <div style={{ ...P2_SANS, fontSize: 7.5, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#8a7a5a', marginBottom: 12 }}>GOVERNING PRINCIPLE · NOT YET CONTRACTUAL · PROJECTED = ITALIC · ACTUAL = GOLD BOLD</div>
 
-      {/* 3-column partner card grid */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
-
-        {/* Column 1: Ed + Ilija */}
         <div>
           <P2Card
             name="Edward Bruehl"
@@ -490,8 +441,6 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             total={['$114K','$279K','$627K','$7.4M']}
           />
         </div>
-
-        {/* Column 2: Angel + Jarvis */}
         <div>
           <P2Card
             name="Angel Theodore"
@@ -520,8 +469,6 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             total={['$175.5K','$219.5K','$270K','$1.28M']}
           />
         </div>
-
-        {/* Column 3: Zoila + Scott + Richard */}
         <div>
           <P2Card
             name="Zoila Ortega Astor †"
@@ -557,14 +504,13 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         </div>
       </div>
 
-      {/* Four-corner footer */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginTop: 8, paddingTop: 6, borderTop: `0.5px solid ${P2_CHARCOAL}` }}>
         <div style={{ ...P2_SANS, fontSize: 6.5, color: P2_DIM, fontStyle: 'italic', lineHeight: 1.6, flex: 1 }}>
           * Governing principle · not yet contractual · Net pool = GCI (vol×2%) minus 5% franchise royalty minus 70% agent splits minus overhead<br />
-          CIREG Profit Share: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed’s 35%) · Ilija 65%<br />
+          CIREG Profit Share: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed's 35%) · Ilija 65%<br />
           AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
-          ** Ilija CIREG 65% is his full take; 5% Christie’s royalty is Ilija’s cost, not surfaced on cards<br />
-          † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only.<br />
+          ** Ilija CIREG 65% is his full take; 5% Christie's royalty is Ilija's cost, not surfaced on cards<br />
+          † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only.<br />
           ‡ CPS1 + CIRE Node: Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
           § AnewHomes Co.: Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 (proof-of-concept) · $150K 2027 (Scott fully onboarded) · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
           ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
@@ -583,11 +529,10 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
 }
 
 // ─── Page 3: The Economics ────────────────────────────────────────────────────
-// isPdfMode: cream substrate doctrine — all 4 pages receive isPdfMode (Dispatch Addendum 2, April 21 2026)
-function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
+// D65: isPdfMode removed — all backgrounds collapsed to canonical cream page values
+function Page3({ generatedAt, liveNetProfitByYear }: {
   generatedAt: string;
   liveNetProfitByYear: Record<string, number>;
-  isPdfMode?: boolean;
 }) {
   const pool2026 = profitPool('2026', liveNetProfitByYear['2026']);
 
@@ -599,12 +544,12 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
       <div style={PAGE_TITLE}>The Economics</div>
       <div style={PAGE_SUBTITLE}>Profit Pool · Ed's Three Income Streams · AnewHomes Split</div>
 
-      <div style={{ background: isPdfMode ? 'rgba(200,172,120,0.08)' : 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #947231', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231' }}>
+      <div style={{ background: 'rgba(200,172,120,0.1)', border: '1px solid rgba(200,172,120,0.4)', borderLeft: '3px solid #947231', padding: '6px 10px', marginBottom: 12, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231' }}>
         ★ GCI and Profit Pool · Governing Principle *
       </div>
 
       <div style={{ ...SECTION_LABEL, marginBottom: 8 }}>Profit Pool · 2026–2036 Projection</div>
-      <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '8px 10px', marginBottom: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.6 }}>
+      <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '8px 10px', marginBottom: 10, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.6 }}>
         Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
         Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
         Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
@@ -622,7 +567,6 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
         <tbody>
           {OUTLOOK_YEARS.map(({ year, vol }, i) => {
             const p = profitPool(year, liveNetProfitByYear[year]);
-            const above = Math.max(0, vol - 40_000_000);
             return (
               <tr key={year} style={{ borderBottom: '1px solid rgba(27,42,74,0.06)', background: i % 2 === 1 ? 'rgba(27,42,74,0.015)' : 'transparent' }}>
                 <td style={{ padding: '5px 8px', color: '#947231', fontWeight: 600, letterSpacing: '0.1em', fontSize: 9 }}>{year}</td>
@@ -637,10 +581,8 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
         </tbody>
       </table>
 
-        {/* Two income blocks */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
-        {/* Ed's Three Income Streams */}
-        <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
+        <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
             ['Ed Net Personal Production (Eq. 1)', `${fmtFull(EQ1_CASCADE['2026'])}*`],
@@ -660,8 +602,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
           </div>
         </div>
 
-        {/* AnewHomes Split */}
-        <div style={{ background: isPdfMode ? '#faf7f1' : '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
+        <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes · Net Build Profit Split</div>
           {[
             ['Ed Bruehl (35%)', '$17,500 Y1 / $52,500 Y2*'],
@@ -693,7 +634,7 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
         Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
         Net profit after ALL build costs. Separate from Christie's commission income entirely.
         All seven AnewHomes participants aware and agreeable. Not yet formalized.
-        † Zoila Ortega Astor: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed’s Team GCI Override applies 2026 and Q1 2027 only. Reverts to pool if she does not make the cut.
+        † Zoila Ortega Astor: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only. Reverts to pool if she does not make the cut.
       </div>
 
       <div style={PAGE_FOOTER}>
@@ -705,11 +646,11 @@ function Page3({ generatedAt, liveNetProfitByYear, isPdfMode }: {
 }
 
 // ─── Page 4: Defensible Numbers ───────────────────────────────────────────────
-function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
+// D65: isPdfMode removed — contact card always renders navy (dark canonical)
+function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
   generatedAt: string;
   activePipelineStr: string;
   exclusiveStr: string;
-  isPdfMode?: boolean;
 }) {
   const defCards = [
     { value: '$4.57M', label: 'Closed Volume', note: 'Verified · First 100 days, office closed' },
@@ -728,7 +669,6 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
       <div style={PAGE_TITLE}>Defensible Numbers</div>
       <div style={PAGE_SUBTITLE}>Verified Actuals as of {generatedAt} · Growth Trajectory Labeled MODEL</div>
 
-      {/* Defensible grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 14 }}>
         {defCards.map(({ value, label, note }) => (
           <div key={label} style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', borderTop: '2px solid #947231', padding: '10px 12px' }}>
@@ -739,7 +679,6 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
         ))}
       </div>
 
-      {/* MODEL assumptions */}
       <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '10px 14px', marginBottom: 14 }}>
         <div style={{ ...SECTION_LABEL, marginBottom: 6 }}>Growth Trajectory — MODEL Assumptions</div>
         <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8.5, color: '#384249', lineHeight: 1.7 }}>
@@ -750,13 +689,13 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
         </div>
       </div>
 
-      {/* Contact card — D43 spec: cream palette in PDF mode, navy on screen */}
-      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: isPdfMode ? '#eeecea' : '#1B2A4A', border: isPdfMode ? '1px solid #d4d1ca' : 'none', padding: '18px 20px', marginTop: 16 }}>
-        <img src={ED_HEADSHOT} alt="Ed Bruehl" style={{ width: 70, height: 70, objectFit: 'cover', objectPosition: 'top', border: isPdfMode ? '1px solid #d4d1ca' : 'none' }} />
+      {/* Contact card — D65: always navy (dark canonical) */}
+      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: '#1B2A4A', padding: '18px 20px', marginTop: 16 }}>
+        <img src={ED_HEADSHOT} alt="Ed Bruehl" style={{ width: 70, height: 70, objectFit: 'cover', objectPosition: 'top' }} />
         <div style={{ flex: 1 }}>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: isPdfMode ? '#28251d' : '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a84c', marginBottom: 10 }}>Managing Director · Christie's East Hampton</div>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, color: isPdfMode ? '#7a7974' : 'rgba(250,248,244,0.7)', lineHeight: 1.7 }}>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.7 }}>
             M: 646.752.1233 · O: 631.771.7004<br />
             edbruehl@christiesrealestategroup.com<br />
             26 Park Place · East Hampton, NY 11937<br />
@@ -780,8 +719,8 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
+// D65: useIsPdfMode deleted. Wrapped in DashboardLayout — navy hero shell, global nav, canonical SiteFooter.
 export default function ProFormaPage() {
-  const isPdfMode = useIsPdfMode();
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
@@ -794,11 +733,9 @@ export default function ProFormaPage() {
 
   const generatedAt = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
-  // Live pipeline KPIs — fall back to last-known values if sheet unavailable
   const activePipelineStr = kpisData?.relationshipBookM ?? '$14.5M';
   const exclusiveStr = kpisData?.exclusiveTotalM ?? '$6.5M';
 
-  // Build live net profit lookup from arcData
   const liveNetProfitByYear: Record<string, number> = {};
   if (arcData?.years) {
     for (const y of arcData.years) {
@@ -806,7 +743,6 @@ export default function ProFormaPage() {
     }
   }
 
-  // Agent roster from volumeData — fall back to static roster if sheet unavailable
   const agents: AgentRow[] = volData?.agents?.length ? volData.agents : [
     { name: 'Ed Bruehl', role: 'Managing Director', status: 'Active', proj2026: 20_000_000, act2026: 4_570_000, proj2027: 30_000_000 },
     { name: 'Jarvis Slade', role: 'COO & Agent', status: 'Active', proj2026: 8_000_000, act2026: 0, proj2027: 15_000_000 },
@@ -817,13 +753,11 @@ export default function ProFormaPage() {
   ];
 
   const total = volData?.total ?? {
-    proj2026: 75_000_000,  // D6 · OUTPUTS B32 · Sprint 13
+    proj2026: 75_000_000,
     act2026: 4_570_000,
-    proj2027: 125_906_749, // OUTPUTS B33 · Sprint 13
+    proj2027: 125_906_749,
   };
 
-  // Timeout fallback: if data hasn't loaded in 6 seconds, render with static fallbacks
-  // This ensures the page is never blank when the server is slow or unavailable.
   const [loadTimeout, setLoadTimeout] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => {
@@ -838,83 +772,44 @@ export default function ProFormaPage() {
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#FAF8F4', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)' }}>
-        Loading Pro Forma · Christie's East Hampton
-      </div>
+      <DashboardLayout activeTab="future" onTabChange={() => {}}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 12, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(250,248,244,0.4)' }}>
+          Loading Pro Forma · Christie's East Hampton
+        </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <>
+    <DashboardLayout activeTab="future" onTabChange={() => {}}>
       {/* Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@300;400;500;600&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #FAF8F4; }
-        @page {
-          size: 8.5in 11in;
-          margin: 0;
-        }
+        @page { size: 8.5in 11in; margin: 0; }
         @media print {
-          body { background: #FAF8F4 !important; }
-          /* One clean page break per content div — no trailing blank pages */
-          .pro-forma-page {
-            break-after: page;
-            page-break-after: always;
-          }
-          .pro-forma-page:last-child {
-            break-after: avoid;
-            page-break-after: avoid;
-          }
-          /* Hide the print/back button bar */
+          .pro-forma-page { break-after: page; page-break-after: always; }
+          .pro-forma-page:last-child { break-after: avoid; page-break-after: avoid; }
           .no-print { display: none !important; }
-          /* Ensure wrapper has no padding that would push content onto extra pages */
-          .pro-forma-wrapper { padding: 0 !important; background: #FAF8F4 !important; }
+          .pro-forma-wrapper { padding: 0 !important; }
         }
       `}</style>
 
-      {/* Print button — hidden in print/Puppeteer mode */}
+      {/* Print button — D65: direct window.print(), no ?pdf=1 redirect */}
       <div className="no-print" style={{ position: 'fixed', top: 16, right: 16, zIndex: 9999, display: 'flex', gap: 8 }}>
         <button
-          onClick={() => {
-            // Doctrine 43: client-side window.print() — no Puppeteer dependency.
-            // If already in ?pdf=1 mode, print directly.
-            if (isPdfMode) {
-              window.print();
-              return;
-            }
-            // Otherwise open a new tab with ?pdf=1 and trigger print after render.
-            const printWin = window.open('/pro-forma?pdf=1', '_blank');
-            if (!printWin) {
-              alert('Pop-up blocked. Please allow pop-ups for this site and try again.');
-              return;
-            }
-            printWin.addEventListener('load', () => {
-              // Extra delay for Google Fonts + chart render
-              setTimeout(() => {
-                printWin.focus();
-                printWin.print();
-              }, 2000);
-            });
-          }}
+          onClick={() => window.print()}
           style={{ background: '#1B2A4A', color: '#947231', border: 'none', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
         >
           ↓ Print PDF
         </button>
-        <button
-          onClick={() => window.close()}
-          style={{ background: 'transparent', color: 'rgba(56,66,73,0.5)', border: '1px solid rgba(56,66,73,0.2)', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
-        >
-          ← Back
-        </button>
       </div>
 
-      <div className="pro-forma-wrapper" style={{ background: isPdfMode ? '#FFFFFF' : '#e8e6e0', padding: isPdfMode ? '0' : '24px 0', minHeight: '100vh' }}>
-        <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} isPdfMode={isPdfMode} /></div>
+      <div className="pro-forma-wrapper" style={{ background: '#e8e6e0', padding: '24px 0', minHeight: '100vh' }}>
+        <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
         <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
-        <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} isPdfMode={isPdfMode} /></div>
-        <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} isPdfMode={isPdfMode} /></div>
+        <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
+        <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} /></div>
       </div>
-    </>
+    </DashboardLayout>
   );
 }
