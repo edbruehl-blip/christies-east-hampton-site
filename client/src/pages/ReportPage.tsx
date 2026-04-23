@@ -34,6 +34,7 @@ import {
 import { captureToPdf } from '@/lib/capture-pdf';
 import '@/styles/report-print.css';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
+import { FoundingLetter } from '@/components/FoundingLetter';
 
 // ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
 function useIsPdfMode(): boolean {

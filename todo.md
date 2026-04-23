@@ -2663,3 +2663,9 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [PARKED] REPORT lower-third rebuild (five-endings composition) — Phase 2
 - [PARKED] INTEL hierarchy below corkboard — Phase 2
 - [PARKED] MAPS/MARKET content restructuring — Phase 2
+
+## P0 Regression · Apr 23 2026
+- [x] ReportPage.tsx: add missing `import { FoundingLetter } from '@/components/FoundingLetter'`
+- [x] Grep all files using `<FoundingLetter />` and confirm imports are present (HomeTab.tsx had it; ReportPage.tsx was missing it — fixed)
+- [x] Rebuild clean (0 TS errors)
+- [ ] Checkpoint, push to origin/main, republish
