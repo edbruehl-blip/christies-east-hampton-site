@@ -2696,3 +2696,13 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Post Manny tool inventory to Trello 69OEdJ1i
 - [ ] Close GitHub Issue #1 (items 2,3,5 superseded by D65; item 6 Nest orphan verified clean)
 - [ ] Close GitHub Issue #2 on ship
+
+## P0-B D65 Shell Purge — Apr 23 2026
+
+- [x] FutureTab: delete useIsPdfMode hook, all isPdfMode branches, PrintFutureButton, LOGO_BLACK import, cream BG token
+- [x] SiteFooter: delete hiddenInPdfMode prop and ?pdf=1 check — renders unconditionally
+- [x] ReportPage: delete useIsPdfMode hook, remove {!isPdfMode && <BackBar />} conditional — BackBar always renders
+- [x] future-print.css: remove cream/light @media print color overrides, keep only @page rules + screen-chrome hiding
+- [x] S1 doctrine: audit all 7 routes — no route may inject its own background system outside PageShell
+- [x] R7 doctrine: REPORT lower-third ends once — one continuous closing sequence, one canonical SiteFooter, no stacked endings
+- [x] Verify /future?pdf=1 pixel-identical to /future in browser — isPdfMode deleted from all dashboard routes; DashboardLayout nav always renders

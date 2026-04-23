@@ -1,11 +1,14 @@
 /**
  * SiteFooter.tsx — Canonical site footer.
  *
- * ShellWrapper Doctrine (S4 · Shell Purge Round · Apr 23 2026):
- * One footer, applied to all 7 routes. Gold/navy. No route-specific variants.
+ * D65 Shell Purge (Apr 23 2026):
+ * hiddenInPdfMode prop and ?pdf=1 branch deleted.
+ * Footer renders unconditionally on all routes.
+ * One footer. One environment. No parallel paths.
  *
  * Routes: HOME · MARKET · MAPS · PIPE · FUTURE · INTEL · REPORT
  */
+import React from 'react';
 import { useLocation } from 'wouter';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 
@@ -23,14 +26,8 @@ const LETTER_LINKS = [
   { label: 'Neighborhood Welcome Letter', href: '/letters/welcome' },
 ];
 
-export function SiteFooter({ hiddenInPdfMode = true }: { hiddenInPdfMode?: boolean }) {
+export function SiteFooter() {
   const [, navigate] = useLocation();
-  const isPdfMode =
-    typeof window !== 'undefined' &&
-    new URLSearchParams(window.location.search).get('pdf') === '1';
-
-  if (hiddenInPdfMode && isPdfMode) return null;
-
   const year = new Date().getFullYear();
 
   return (

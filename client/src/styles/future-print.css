@@ -1,8 +1,10 @@
 /**
  * FUTURE TAB — Print Stylesheet
- * April 22 2026 rewrite: print is a separate component tree (FutureTabPrintCream).
- * This file is now @page rules + screen-chrome hiding only.
- * No color rules. No background rules. No text-color rules. The component owns its palette.
+ * D65 Shell Purge · Apr 23 2026
+ *
+ * D65 Doctrine: PDF = screenshot of live page via html2canvas. No parallel render paths.
+ * @page rules + screen-chrome hiding only. Component owns its palette.
+ * FutureTabPrintCream is deleted. /future?pdf=1 renders pixel-identical to /future.
  */
 
 @media print {
@@ -29,16 +31,13 @@
     display: none !important;
   }
 
-  /* Force color printing so the component's inline cream/parchment/gold render exactly. */
+  /* Force color printing so the dark navy shell renders exactly in print. */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     color-adjust: exact !important;
   }
 
-  /* Page break between sections of the print component */
-  .pfc-page-1 { page-break-after: always; break-after: page; }
-  .pfc-page-2 { page-break-before: always; break-before: page; }
 }
 
 @media screen {

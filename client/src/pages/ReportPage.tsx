@@ -35,16 +35,10 @@ import { captureToPdf } from '@/lib/capture-pdf';
 import '@/styles/report-print.css';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 import { FoundingLetter } from '@/components/FoundingLetter';
+import { SiteFooter } from '@/components/SiteFooter';
 
-// ─── Doctrine 43 — PDF Light Mode Export Standard (Sprint 11 · April 14, 2026) ───────────────
-function useIsPdfMode(): boolean {
-  const [isPdf, setIsPdf] = useState(false);
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setIsPdf(params.get('pdf') === '1');
-  }, []);
-  return isPdf;
-}
+// D65 Shell Purge (Apr 23 2026): useIsPdfMode deleted. /report?pdf=1 renders identical to /report.
+// PDF capture uses html2canvas screenshot of live dark-shell render.
 
 // ─── Back button ──────────────────────────────────────────────────────────────
 function BackBar() {
@@ -2001,11 +1995,18 @@ function Section7() {
 //   Page 4 — Section4: MAPS Teaser (ANEW build, model deal)
 //   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
 //   Page 6 — EstateAdvisoryCard: Estate Advisory CTA
+/**
+ * R7 Doctrine (D65 Shell Purge · Apr 23 2026):
+ * Lower-third ends once. One continuous closing sequence. One canonical SiteFooter. Done.
+ * Section7 → EstateAdvisoryCard → SiteFooter. No stacked endings. No secondary footer logic.
+ *
+ * S1 Doctrine: outer wrapper is navy #0D1B2A — no route may inject its own background
+ * system outside PageShell. ReportPage is a standalone route so it owns the shell.
+ */
 export default function ReportPage() {
-  const isPdfMode = useIsPdfMode();
   return (
-    <div id="report-page-content" style={{ background: '#FAF8F4', minHeight: '100vh' }}>
-      {!isPdfMode && <BackBar />}
+    <div id="report-page-content" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
+      <BackBar />
       <Section1 />
       <Section3 />
       <Section4 />
@@ -2015,6 +2016,7 @@ export default function ReportPage() {
       <Section6 />
       <Section7 />
       <EstateAdvisoryCard />
+      <SiteFooter />
     </div>
   );
 }

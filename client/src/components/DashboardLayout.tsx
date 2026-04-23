@@ -174,9 +174,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
   const [, navigate] = useLocation();
   const market = useMarketData();
 
-  // PDF mode — synchronous URL param read so first Puppeteer render is already correct
-  const isPdfMode = typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('pdf') === '1';
-
+  // D65 Shell Purge (Apr 23 2026): isPdfMode deleted. /route?pdf=1 renders identical to /route.
   // Ticker content — exact production copy
   const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton\u2002·\u2002Exceptional Service";
 
@@ -203,14 +201,14 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     : null;
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'transparent', ...(isPdfMode ? { minHeight: 0, height: 'auto' } : {}) }}>
+    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
 
       {/* ══════════════════════════════════════════════════════════════════
           LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot
           Background: Navy #1B2A4A
           Hidden in PDF mode (D43 spec: FutureTab renders its own print header)
       ══════════════════════════════════════════════════════════════════ */}
-      {!isPdfMode && <div
+      <div
         className="sticky top-0 z-50"
         style={{ background: "#1B2A4A", borderBottom: "1px solid rgba(200,172,120,0.18)" }}
       >
@@ -481,12 +479,11 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
               <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "#947231", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>{market.weather}</span>
             </>
           )}
-          {/* Data current as of label removed — Sprint 33 directive */}
+           {/* Data current as of label removed — Sprint 33 directive */}
         </div>
-      </div>}
-
+      </div>
       {/* ── Main Content Area ── */}
-      <main className="flex-1" style={{ overflowX: 'hidden', width: '100%', ...(isPdfMode ? { flexGrow: 0, minHeight: 0, height: 'auto' } : {}) }}>
+      <main className="flex-1" style={{ overflowX: 'hidden', width: '100%' }}>
         {children}
       </main>
 
