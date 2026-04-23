@@ -176,18 +176,6 @@ const PAGE_SUBTITLE: React.CSSProperties = {
   marginBottom: 20,
 };
 
-const CONFIDENTIAL_BANNER: React.CSSProperties = {
-  background: '#1B2A4A',
-  color: '#947231',
-  fontFamily: "'Barlow Condensed', sans-serif",
-  fontSize: 7,
-  letterSpacing: '0.3em',
-  textTransform: 'uppercase',
-  textAlign: 'center',
-  padding: '4px 0',
-  marginBottom: 18,
-};
-
 const FOOTNOTE: React.CSSProperties = {
   fontFamily: "'Barlow Condensed', sans-serif",
   fontSize: 7.5,
@@ -778,9 +766,8 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr, isPdfMode }: {
       </div>
 
       <div style={{ ...FOOTNOTE, marginTop: 12 }}>
-        This document is prepared for internal use only. All projections are governing-principle models,
-        not guarantees. Verified actuals are noted explicitly. No GCI figure appears without the asterisk
-        and "governing principle" label. This document is not for external distribution.
+        All projections are governing-principle models, not guarantees. Verified actuals are noted explicitly.
+        No GCI figure appears without the asterisk and "governing principle" label.
         Christie's International Real Estate Group · {generatedAt}
       </div>
 

@@ -2684,3 +2684,15 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Item 4: Issue #1 AH Profit fix — FutureTab.tsx L653-664 ahGci Y1=$50K Y2=$150K 12.5% growth to $432K 2036
 - [ ] Item 5: Issue #1 CONFIDENTIAL strip — remove "CONFIDENTIAL" from Page 1 header + "internal only" from Page 2 footer
 - [ ] Item 6: Issue #2 Trello matrix — IntelTab.tsx L180 TRELLO_LANES + L215 count text (13 tiles / 188 cards)
+
+## Council Sync · Apr 23 2026 · Six-Item Commit
+
+- [x] Item 1: GitHub remote added (github/main at 5a5bab3) — done
+- [x] Item 2: 6a6d8b04 published to production — done
+- [x] Item 3: P0-4 orphan Section3Condensed removed from /report — done (5a5bab3)
+- [ ] Item 4: Issue #1 AH Profit verify — confirm live /future shows $433K for AnewHomes 2036
+- [ ] Item 5: Issue #1 CONFIDENTIAL strip — remove dead CONFIDENTIAL_BANNER code + "internal use only" from Page 4 footnote
+- [ ] Item 6: Issue #2 Trello matrix — update to 16 lists / 213 cards with new lane data
+- [ ] Post Manny tool inventory to Trello 69OEdJ1i
+- [ ] Close GitHub Issue #1 (items 2,3,5 superseded by D65; item 6 Nest orphan verified clean)
+- [ ] Close GitHub Issue #2 on ship
