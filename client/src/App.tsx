@@ -19,7 +19,7 @@
  */
 
 import { useState } from "react";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -108,9 +108,15 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
 
 function Dashboard({ initialTab = "home" }: { initialTab?: TabId }) {
   const [activeTab, setActiveTab] = useState<TabId>(initialTab); // HOME is the front door — default on refresh (D34)
+  const [, navigate] = useLocation();
+  const handleTabChange = (tab: TabId) => {
+    setActiveTab(tab);
+    // Keep URL in sync so /pipe, /maps, /intel etc. deep-link correctly (P0-1 fix)
+    navigate(tab === "home" ? "/" : "/" + tab);
+  };
   return (
     <>
-      <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      <DashboardLayout activeTab={activeTab} onTabChange={handleTabChange}>
         <TabContent activeTab={activeTab} />
       </DashboardLayout>
       {/* D16: FloatingDashboardIntro scoped to HOME tab only (Apr 19 2026) */}
