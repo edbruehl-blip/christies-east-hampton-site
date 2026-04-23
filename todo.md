@@ -2803,3 +2803,31 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] F6.5h: Code comments "verdict" → "indication" (tombstone comment preserved)
 - [x] Vitest 57/57 green (excl. pre-existing Perplexity TLS) + 3 stress tests all ✓
 - [x] Checkpoint + push both remotes
+
+## Shell Purge P2 — H1-H7 (Apr 23 2026)
+- [ ] PRE-COMMIT: Run full grep audit (cream hex, address/phone/email, footer components) and post to Trello 69OEdJ1i
+- [ ] H1 · HOME double footer — normalize to exactly one SiteFooter
+- [ ] H2 · HOME video matrix white slab → navy glass / FloatingCard
+- [ ] H3 · /report two different-colored footers → exactly one canonical SiteFooter
+- [ ] H4 · /report Section 4 Hamlet Atlas Matrix cream → navy + FloatingCard
+- [ ] H5 · Legacy slab purge (/, /report, /maps, /deal-engine, /proforma, /corkboard, /future)
+- [ ] H6 · ReportPage.tsx section inventory comment block at top of file
+- [ ] H7 · Address/phone/email canon — kill all drift variants, enforce 26 Park Place / 646-752-1233 / edbruehl@christiesrealestategroup.com
+- [ ] Vitest green, checkpoint, push both remotes, post commit hash + screenshot triplet to Trello
+
+## Shell Purge P2 + H8 (Apr 23 2026 — Ed GO)
+- [ ] H1 · HomeTab.tsx:482 — remove duplicate <SiteFooter />
+- [ ] H2 · ReportPage.tsx:1743 — YouTubeMatrix background #FAF8F4 → #1B2A4A + interior label color flip
+- [ ] H3 · ReportPage.tsx:1624 — remove duplicate copyright line from Section 6 closing block
+- [ ] H4 · ReportPage.tsx:1186 — Section 4 Hamlet Atlas #FAF8F4 → #1B2A4A; wrap 11 hamlet cards in FloatingCard
+- [ ] H5 · confirmed no additional surfaces (H2+H4 cover full scope)
+- [ ] H6 · ReportPage.tsx — insert section inventory comment block after imports
+- [ ] H7a · SiteFooter.tsx:126,127,225 — ed.bruehl@christies.com → edbruehl@christiesrealestategroup.com
+- [ ] H7b · ProFormaPage.tsx:699 — drop O: 631.771.7004
+- [ ] H7c · UHNWPathCardPage.tsx:306 — drop O: 631.771.7004
+- [ ] H8 · INTEL Layer 1 — Miro embed fix (uXjVGj6Oc40=) — must visibly render, not placeholder
+- [ ] Vitest green, checkpoint, push both remotes, post commit hash + screenshot triplet to Trello 69OEdJ1i
+
+## Shell Purge P2 — H5 + H8 Addendum (Apr 23 2026 — Ed pasted_content_23)
+- [x] H5 · ReportPage.tsx:487 — Section 2 outer <section> background #FAF8F4 → #1B2A4A navy (7 interior token inversions)
+- [x] H8 · IntelTab.tsx — Miro embed Option B: loading shimmer + branded CTA fallback card (onLoad cross-origin detection + onError, navy+gold, FloatingCard family)

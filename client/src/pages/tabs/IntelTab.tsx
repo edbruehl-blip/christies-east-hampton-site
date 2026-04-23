@@ -17,7 +17,7 @@
  * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { useLocation } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
@@ -121,17 +121,48 @@ function sheetOpenUrl(id: string) {
 const MIRO_EMBED_URL = 'https://miro.com/app/live-embed/uXjVGj6Oc40=/';
 const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
 
+// H8 · Option B — styled branded CTA fallback card
+// Detects iframe load failure via onLoad (checks contentWindow access) + onError.
+// Live embed shown when browser allows third-party cookies; CTA card shown otherwise.
 function MindMapSection() {
+  const [embedState, setEmbedState] = useState<'loading' | 'loaded' | 'blocked'>('loading');
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  // onLoad fires when the iframe finishes loading (success or blocked redirect).
+  // Miro's blocked state redirects to a login/error page — we detect this by trying
+  // to access contentWindow.location.href (throws cross-origin error on real content,
+  // succeeds with about:blank or miro error page on block).
+  const handleLoad = useCallback(() => {
+    try {
+      // If we can read the href, the iframe loaded a same-origin or blank page (blocked).
+      const href = iframeRef.current?.contentWindow?.location?.href ?? '';
+      if (href === '' || href === 'about:blank') {
+        setEmbedState('blocked');
+      } else {
+        // Cross-origin success: this line will throw, meaning Miro loaded correctly.
+        setEmbedState('loaded');
+      }
+    } catch {
+      // Cross-origin error = real Miro content loaded successfully.
+      setEmbedState('loaded');
+    }
+  }, []);
+
+  const handleError = useCallback(() => {
+    setEmbedState('blocked');
+  }, []);
+
   return (
     <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        {/* Header row */}
         <div className="flex items-center justify-between mb-4">
           <div>
             <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
               Layer 1 · Institutional Mind Map
             </div>
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
-              Christie's Flagship Mind Map
+              Christie’s Flagship Mind Map
             </h3>
             <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
               Live Miro board · Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
@@ -147,26 +178,84 @@ function MindMapSection() {
             Open in Miro ↗
           </a>
         </div>
-        <div style={{ border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, overflow: 'hidden', background: '#0D1520' }}>
+
+        {/* Embed container — iframe always mounted, CTA card overlays when blocked */}
+        <div style={{ position: 'relative', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, overflow: 'hidden', background: '#0D1520', minHeight: 680 }}>
+          {/* Loading shimmer */}
+          {embedState === 'loading' && (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0D1520', zIndex: 2 }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ width: 32, height: 32, border: '2px solid rgba(200,172,120,0.2)', borderTopColor: '#947231', borderRadius: '50%', animation: 'spin 0.9s linear infinite', margin: '0 auto 12px' }} />
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Loading mind map…</div>
+              </div>
+            </div>
+          )}
+
+          {/* Branded CTA fallback card — shown when embed is blocked */}
+          {embedState === 'blocked' && (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0D1520', zIndex: 2 }}>
+              <div style={{ textAlign: 'center', padding: '40px 32px', maxWidth: 420, border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2 }}>
+                {/* Gold rule */}
+                <div style={{ width: 40, height: 1, background: '#947231', margin: '0 auto 20px' }} />
+                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
+                  Layer 1 · Institutional Mind Map
+                </div>
+                <h4 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: '0 0 8px' }}>
+                  Christie’s Flagship Mind Map
+                </h4>
+                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.6, margin: '0 0 24px' }}>
+                  Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
+                </p>
+                <a
+                  href={MIRO_BOARD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 8,
+                    padding: '10px 24px',
+                    background: 'transparent',
+                    border: '1px solid rgba(200,172,120,0.6)',
+                    color: '#947231',
+                    fontFamily: '"Barlow Condensed", sans-serif',
+                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    transition: 'background 0.2s',
+                  }}
+                >
+                  Open Mind Map in Miro ↗
+                </a>
+                <div style={{ marginTop: 20, fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.25)', fontSize: 9, lineHeight: 1.5 }}>
+                  Live embed requires third-party cookies.
+                  <br />This browser’s privacy settings blocked the inline view.
+                </div>
+                {/* Gold rule */}
+                <div style={{ width: 40, height: 1, background: '#947231', margin: '20px auto 0' }} />
+              </div>
+            </div>
+          )}
+
+          {/* Live iframe — always present so onLoad fires */}
           <iframe
+            ref={iframeRef}
             src={MIRO_EMBED_URL}
-            title="Christie's Flagship Mind Map · Institutional Architecture"
+            title="Christie’s Flagship Mind Map · Institutional Architecture"
             width="100%"
             height="680"
-            style={{ display: 'block', border: 'none' }}
+            style={{ display: 'block', border: 'none', opacity: embedState === 'loaded' ? 1 : 0, transition: 'opacity 0.3s' }}
             allowFullScreen
+            onLoad={handleLoad}
+            onError={handleError}
           />
         </div>
-        <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
-          Live read-only embed · Edits made in Miro reflect on next load.{' '}
-          <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open in Miro &uarr;&rarr;</a>
-          {' '}to edit, drag nodes, and add new ones.
-          <span style={{ display: 'block', marginTop: 6, color: '#7a8a8e', fontSize: 9 }}>
-            If the board does not load, open it directly at{' '}
-            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>miro.com/app/board/uXjVGj6Oc40</a>
-            {' '}· Miro requires a free account to view in embed mode on some browsers.
-          </span>
-        </div>
+
+        {/* Footer caption — only when live embed loaded */}
+        {embedState === 'loaded' && (
+          <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
+            Live read-only embed · Edits made in Miro reflect on next load.{' '}
+            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open in Miro ↑→</a>
+            {' '}to edit, drag nodes, and add new ones.
+          </div>
+        )}
       </div>
     </div>
   );

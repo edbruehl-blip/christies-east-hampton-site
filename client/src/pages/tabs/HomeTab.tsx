@@ -23,8 +23,6 @@ import { useLocation } from 'wouter';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import { FoundingLetter } from '@/components/FoundingLetter';
-import { SiteFooter } from '@/components/SiteFooter';
-
 
 // ─── Today's Brief Block (Task 7 · Apr 22 2026) ────────────────────────────────
 function TodaysBrief() {
@@ -470,7 +468,8 @@ function SectionVideoReel() {
 
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
-// ORDER: Letter → Image Matrix → Today's Brief → Video Reel → Authority Block → Footer
+// ORDER: Letter → Image Matrix → Today's Brief → Video Reel → Authority Block
+// NOTE: SiteFooter is rendered by DashboardLayout — do NOT add it here (H1 · Shell Purge P2)
 export default function HomeTab() {
   return (
     <div>
@@ -479,7 +478,6 @@ export default function HomeTab() {
       <TodaysBrief />
       <SectionVideoReel />
       <SectionChristiesStory />
-      <SiteFooter />
     </div>
   );
 }

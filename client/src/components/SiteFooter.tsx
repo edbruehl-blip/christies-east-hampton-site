@@ -117,14 +117,14 @@ export function SiteFooter() {
             <div style={{ color: CREAM, fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', fontSize: '0.65rem', marginBottom: 4 }}>
               Christie's East Hampton
             </div>
-            <div>2 Main Street · East Hampton, NY 11937</div>
+            <div>26 Park Place · East Hampton, NY 11937</div>
             <div>
               <a href="tel:+16313246400" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
                 631.324.6400
               </a>
               {' · '}
-              <a href="mailto:ed.bruehl@christies.com" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
-                ed.bruehl@christies.com
+              <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
+                edbruehl@christiesrealestategroup.com
               </a>
             </div>
           </div>
@@ -218,11 +218,11 @@ export function SiteFooter() {
         >
           <span style={{ whiteSpace: 'nowrap' }}>Christie’s East Hampton</span>
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
-          <span style={{ whiteSpace: 'nowrap' }}>2 Main Street</span>
+          <span style={{ whiteSpace: 'nowrap' }}>26 Park Place</span>
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
           <a href="tel:+16313246400" style={{ color: 'rgba(200,172,120,0.7)', textDecoration: 'none', whiteSpace: 'nowrap' }}>631.324.6400</a>
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
-          <a href="mailto:ed.bruehl@christies.com" style={{ color: GOLD, textDecoration: 'none', whiteSpace: 'nowrap' }}>ed.bruehl@christies.com</a>
+          <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: GOLD, textDecoration: 'none', whiteSpace: 'nowrap' }}>edbruehl@christiesrealestategroup.com</a>
           {weather && (
             <>
               <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>

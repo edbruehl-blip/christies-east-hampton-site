@@ -696,7 +696,7 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#c9a84c', marginBottom: 10 }}>Managing Director · Christie's East Hampton</div>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.7 }}>
-            M: 646.752.1233 · O: 631.771.7004<br />
+            M: 646.752.1233<br />
             edbruehl@christiesrealestategroup.com<br />
             26 Park Place · East Hampton, NY 11937<br />
             Christie's International Real Estate Group · Est. 1766

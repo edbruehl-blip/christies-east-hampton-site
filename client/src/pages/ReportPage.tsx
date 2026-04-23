@@ -36,6 +36,7 @@ import '@/styles/report-print.css';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 import { FoundingLetter } from '@/components/FoundingLetter';
 import { SiteFooter } from '@/components/SiteFooter';
+import { FloatingCard } from '@/components/FramePrimitives';
 
 // D65 Shell Purge (Apr 23 2026): useIsPdfMode deleted. /report?pdf=1 renders identical to /report.
 // PDF capture uses html2canvas screenshot of live dark-shell render.
@@ -484,13 +485,13 @@ const TAG_COLORS: Record<string, string> = {
 
 function Section2() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="2" title="Hamptons Local Intelligence" />
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
-            color: 'rgba(27,42,74,0.45)',
+            color: 'rgba(250,248,244,0.45)',
             fontSize: 9,
             letterSpacing: '0.18em',
             textTransform: 'uppercase',
@@ -525,7 +526,7 @@ function Section2() {
                 <span
                   style={{
                     fontFamily: '"Barlow Condensed", sans-serif',
-                    color: '#1B2A4A',
+                    color: '#FAF8F4',
                     fontSize: 11,
                     letterSpacing: '0.14em',
                     textTransform: 'uppercase',
@@ -565,7 +566,7 @@ function Section2() {
                     <p
                       style={{
                         fontFamily: '"Source Sans 3", sans-serif',
-                        color: '#1B2A4A',
+                        color: '#FAF8F4',
                         fontSize: '0.8125rem',
                         lineHeight: 1.55,
                         margin: 0,
@@ -579,18 +580,18 @@ function Section2() {
                       <span
                         style={{
                           fontFamily: '"Barlow Condensed", sans-serif',
-                          color: 'rgba(27,42,74,0.45)',
+                          color: 'rgba(250,248,244,0.45)',
                           fontSize: 9,
                           letterSpacing: '0.12em',
                         }}
                       >
                         {item.source}
                       </span>
-                      <span style={{ color: 'rgba(27,42,74,0.25)', fontSize: 9 }}>·</span>
+                      <span style={{ color: 'rgba(250,248,244,0.25)', fontSize: 9 }}>·</span>
                       <span
                         style={{
                           fontFamily: '"Barlow Condensed", sans-serif',
-                          color: 'rgba(27,42,74,0.45)',
+                          color: 'rgba(250,248,244,0.45)',
                           fontSize: 9,
                           letterSpacing: '0.12em',
                         }}
@@ -1183,7 +1184,7 @@ function Section4() {
   }, []);
 
   return (
-    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
@@ -1191,12 +1192,13 @@ function Section4() {
           style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', marginBottom: 8 }}
         >
           {sortedHamlets.map((h) => (
-            <HamletTile
-              key={h.id}
-              hamlet={h}
-              isSelected={selectedId === h.id}
-              onSelect={() => setSelectedId(selectedId === h.id ? null : h.id)}
-            />
+            <FloatingCard key={h.id} style={{ padding: 0 }}>
+              <HamletTile
+                hamlet={h}
+                isSelected={selectedId === h.id}
+                onSelect={() => setSelectedId(selectedId === h.id ? null : h.id)}
+              />
+            </FloatingCard>
           ))}
         </div>
         {selectedHamlet && (
@@ -1206,12 +1208,12 @@ function Section4() {
         <div
           style={{
             fontFamily: '"Source Sans 3", sans-serif',
-            color: 'rgba(27,42,74,0.45)',
+            color: 'rgba(250,248,244,0.38)',
             fontSize: '0.6875rem',
             lineHeight: 1.5,
             marginTop: 20,
             paddingTop: 12,
-            borderTop: '1px solid rgba(27,42,74,0.08)',
+            borderTop: '1px solid rgba(200,172,120,0.12)',
           }}
         >
           Based on 2025 recorded brokerage transactions. Verified market intelligence. Total Hamptons dollar volume $5.922B.
@@ -1606,22 +1608,9 @@ function Section6() {
               fontSize: '0.9375rem',
               fontStyle: 'italic',
               lineHeight: 1.6,
-              marginBottom: 6,
             }}
           >
             Art. Beauty. Provenance.
-          </div>
-          <div
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: 'rgba(250,248,244,0.55)',
-              fontSize: 9,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              lineHeight: 1.6,
-            }}
-          >
-            Christie's International Real Estate Group · Est. 1766 · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
           </div>
         </div>
       </div>
@@ -1740,12 +1729,12 @@ const YOUTUBE_VIDEOS = [
 function YouTubeMatrix() {
   const [playing, setPlaying] = useState<string | null>(null);
   return (
-    <section className="no-print" style={{ background: '#FAF8F4', borderBottom: '1px solid rgba(27,42,74,0.1)' }}>
+    <section className="no-print" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
-            color: 'rgba(27,42,74,0.45)',
+            color: 'rgba(200,172,120,0.55)',
             fontSize: 9,
             letterSpacing: '0.22em',
             textTransform: 'uppercase',
@@ -1987,14 +1976,18 @@ function Section7() {
   );
 }
 
-// ─── Main ReportPage export ───────────────────────────────────────────────────
-// Six-page structure:
-//   Page 1 — Section1: Founding Letter (James Christie portrait + letter)
-//   Page 2 — Section2: Market Intelligence (CFS, rates, market strip)
-//   Page 3 — Section3: Hamlet Atlas Matrix (11 hamlets, median-descending)
-//   Page 4 — Section4: MAPS Teaser (ANEW build, model deal)
-//   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
-//   Page 6 — EstateAdvisoryCard: Estate Advisory CTA
+// ─── Main ReportPage export ───────────────────────────────────────────────
+// ReportPage Section Inventory — maintain on every add/remove/reorder (H6 · Shell Purge P2)
+// Section 1 · Founding Letter (James Christie portrait + letter)
+// Section 3 · Market Intelligence (CFS, rates, market strip)
+// Section 4 · Hamlet Atlas Matrix (11 hamlets, FloatingCard, median-descending)
+// Section 5 · MAPS Intelligence (ANEW build, model deal)
+// AuctionGallery · 3×3 auction image grid
+// YouTubeMatrix · 3×3 YouTube video grid (navy #1B2A4A)
+// Section 6 · Resources & Authority (Christie's ecosystem · contact block)
+// Section 7 · Private Territory Briefing (auction items)
+// EstateAdvisoryCard · Estate Advisory CTA
+// SiteFooter · Canonical site footer (standalone route — not in DashboardLayout)
 /**
  * R7 Doctrine (D65 Shell Purge · Apr 23 2026):
  * Lower-third ends once. One continuous closing sequence. One canonical SiteFooter. Done.

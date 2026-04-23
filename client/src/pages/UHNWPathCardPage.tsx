@@ -303,7 +303,7 @@ export default function UHNWPathCardPage() {
             "The Christie's Standard is not a price point. It is a commitment to the relationship between art, beauty, and provenance."
           </div>
           <div style={{ color: GOLD, fontSize: 9, letterSpacing: '0.06em' }}>
-            Ed Bruehl, Managing Director · M: 646.752.1233 · O: 631.771.7004 · edbruehl@christiesrealestategroup.com · 26 Park Place, East Hampton NY 11937
+            Ed Bruehl, Managing Director · M: 646.752.1233 · edbruehl@christiesrealestategroup.com · 26 Park Place, East Hampton NY 11937
           </div>
         </div>
       </div>
