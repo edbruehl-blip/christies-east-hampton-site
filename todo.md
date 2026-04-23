@@ -2602,3 +2602,11 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 ## Bug Fix — Apr 22 2026 (Session Continuation)
 
 - [x] brief.getToday: wrap DB query in try/catch — returns null gracefully on DB failure instead of throwing INTERNAL_SERVER_ERROR. Fixes "The string did not match the expected pattern" error on HOME tab. 54/54 vitest passing.
+
+## Dispatch 13 V3 · FUTURE Tab Pro Forma · Apr 23 2026
+
+- [x] Apply 13_FutureTabPrintCream.WIRED.V3.tsx as drop-in replacement (pasted_content_12.txt)
+- [x] Fix Jarvis base2026 → $250K (caps at 2035 per D64 doctrine)
+- [x] Fix fmtK() to round to nearest $1K (clean display, no decimal drift)
+- [x] 11/11 acceptance test PASS: Scott $774K · Jarvis $1M cap 2035+2036 · Angel $361K · Zoila $516K · Zoila full parity · Ed $3.60M/$2.52M
+- [x] Build clean (0 TS errors, no new warnings) · Vitest 54/54

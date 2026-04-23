@@ -1,48 +1,43 @@
 /**
- * FutureTabPrintCream.tsx — PRODUCTION-WIRED · APRIL 22 2026 LATE EVENING
+ * FutureTabPrintCream.tsx — PRODUCTION-WIRED v3 · APRIL 23, 2026 · 22:05 ET
  * Christie's East Hampton Flagship · /future?pdf=1 · Cream print mirror
  *
- * SUPERSEDES: All prior versions including c168f593 hardcoded snapshot.
+ * SUPERSEDES: v2 (22:15 earlier tonight) and v1 (D12 staged version)
+ *
+ * ED RULINGS APPLIED (Apr 22 · 22:00 ET):
+ *   R1 · Angel comes off Ilija Nest at Q1 2027. Her $70K Nest becomes her Personal
+ *        GCI first-full-year baseline, compounding 20% YoY from 2028 forward.
+ *        - 2026: Personal $50K (partial) + Nest $70K (Ilija)
+ *        - 2027: Personal $70K first full + Nest $17.5K (Q1 transition) = last Nest row
+ *        - 2028+: Personal compounds 20% YoY, no Nest
+ *   R2 · Zoila first-full-year 2027 = $100K, compound 20% YoY. Partial 2026 = $50K
+ *        (her own trades). Nest follows same pattern as Angel (ends Q1 2027).
+ *   R3 · Zoila FULL parity with Angel on Override (5%), AnewHomes (5%), CIREG (1.75%)
+ *        going forward. D64 doctrine (50/50 split on her own sourced deals) governs
+ *        participation mechanics but does not change card display values.
+ *   Scott: unchanged · $75K partial 2026, $150K first full 2027, 20% YoY to $1M cap
+ *   Jarvis: unchanged · $200K 2026, 20% YoY, hits $1M cap 2035
  *
  * CANONICAL DATA FLOW · D59 LIVE-PRINT UNITY:
- *   This component reads from the SAME tRPC endpoints the screen dashboard uses.
- *   Every partner card cell traces to a canonical source:
- *     - Office volume + Net Profit + Ed/Ilija pool: trpc.future.ascensionArc (OUTPUTS tab)
- *     - Named producer Personal GCI 2026/27/28: trpc.future.partnerCards (ROSTER tab)
- *     - Personal GCI 2031 (for Scott trajectory): trpc.future.growthModel (ROSTER tab)
- *     - 2036 Personal GCI for Ed: ascensionArc.years[10].edGci (VOLUME tab)
- *     - AnewHomes company total per year: derived from canonical doctrine
- *         ($50K 2026 · $150K 2027 · 12.5% CAGR 2028-2036) — § AnewHomes footnote
- *     - CPS1 + CIRE Node trajectory: derived from canonical doctrine
- *         ($100K 2026 → $1M 2030 → 2% steady-state) — ‡ CPS1 footnote
- *     - Vesting timing: † Zoila footnote doctrine (cliff Nov 4 2026, activates 2027)
- *     - Nest Salary: ° Nest Salary footnote doctrine (Angel + Zoila pro-rated)
- *     - Override percentages: * Governing footnote doctrine
- *
- * ED RULING APRIL 22 2026 (LATE EVENING):
- *   - All chart-canonical fixes from Perp pro forma audit applied
- *   - Personal GCI = 70% × Team GCI (formula, not snapshot)
- *   - Override 5% = 5% × Team GCI (formula, not snapshot)
- *   - Scott Smith 2036 = 20% YoY compound from ROSTER 2031 per * Governing
- *     "20% year-over-year, uncapped". If ROSTER 2031 unavailable, fallback to
- *     v14_3b approved value $324K with doctrine trace pending June 1 review.
- *
- * FALLBACK DISCIPLINE:
- *   If any tRPC wire fails, the component renders canonical fallback values
- *   (the v14_3b wireframe values). Print never renders empty cells, undefined,
- *   or null. Either live data or canonical fallback. Always traceable.
- *
- * WHEN ED CHANGES A SHEET CELL:
- *   On next page load (5-min stale time on cache), both screen and print show
- *   the new value. Same source, same render, two color modes.
+ *   Office volume + Net Profit pool: trpc.future.ascensionArc (OUTPUTS tab)
+ *   Ed's Team GCI: trpc.future.ascensionArc.years[].edGci (OUTPUTS canon)
+ *   Ed's Personal GCI: = Ed's Team GCI × 0.70 (GOVERNING rate)
+ *   Team member Personal GCI: projectPersonalGci(TEAM_BASES.member, year)
+ *   All rates: GOVERNING constant (agent_split, override, anewhomes, cireg)
+ *   AnewHomes pool: computeAnewHomesPool(year) — § doctrine
+ *   CPS1 trajectory: computeCps1(year) — ‡ doctrine
+ *   Nest salaries: TEAM_NEST (hardcoded, non-projecting — Angel + Zoila only)
  */
 
 import React, { useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
-import Chart from 'chart.js/auto';
+
+declare global {
+  interface Window { Chart?: any }
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CANONICAL PALETTE · APPROVED ED RULING APRIL 22 2026
+// CANONICAL PALETTE · ED-APPROVED · DO NOT CHANGE
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const CREAM       = '#faf7f1';
@@ -56,129 +51,144 @@ const INK_FAINT   = '#3a3a3a';
 const INK_SUBTLE  = '#5a5a5a';
 const INK_ACCENT  = '#5a5041';
 
-// Three-office bar colors — Ed-approved chart colors, do not change
 const COLOR_EH_FLAGSHIP = '#9e1b32'; // burgundy
 const COLOR_SH_FLAGSHIP = '#1a3a5c'; // navy
 const COLOR_WH_FLAGSHIP = '#947231'; // gold
 
-// Partner card row accent borders (inline hex, not separate constants)
-const ACCENT_PERSONAL = '#9e1b32'; // burgundy — Personal GCI rows
-const ACCENT_ANEW     = '#c8946b'; // tan — AnewHomes rows
-const ACCENT_OVERRIDE = '#9a9a9a'; // gray — Ed's Team GCI Override rows
-const ACCENT_PROFIT   = '#6b2838'; // dark burgundy — Profit Share + CPS1 rows
+const ACCENT_PERSONAL = '#9e1b32';
+const ACCENT_ANEW     = '#c8946b';
+const ACCENT_OVERRIDE = '#9a9a9a';
+const ACCENT_PROFIT   = '#6b2838';
 
 const SERIF = 'Georgia, serif';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CANONICAL DOCTRINE CONSTANTS · TRACE TO FOOTNOTES
+// CANONICAL DOCTRINE · TEAM_BASES + projectPersonalGci
+// Ed rulings R1/R2/R3 · Apr 22 2026 · 22:00 ET
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// § AnewHomes Co. doctrine — $50K 2026, $150K 2027, 12.5% CAGR thereafter
+interface TeamBase {
+  base2026: number;               // Personal GCI in 2026 (partial or full)
+  firstFull2027: number | null;   // Personal GCI first-full-year if different from base2026
+  cap: number;                    // Personal GCI ceiling ($1M canonical)
+}
+
+// DOCTRINE OF RECORD · Team compensation canonical bases
+// NO ROSTER DEPENDENCY · this is the only source of truth for team comp math
+const TEAM_BASES: Record<string, TeamBase> = {
+  // Angel — partial 2026 own trades $50K, off Ilija Nest Q1 2027, first full year $70K
+  angel:  { base2026:  50_000, firstFull2027:  70_000, cap: 1_000_000 },
+  // Jarvis — full producer Day 1, base 2026 $250K, compounds. Hits cap 2035.
+  jarvis: { base2026: 250_000, firstFull2027: null,    cap: 1_000_000 },
+  // Zoila — partial 2026 own trades $50K (May 4 start), first full year 2027 $100K
+  zoila:  { base2026:  50_000, firstFull2027: 100_000, cap: 1_000_000 },
+  // Scott — partial 2026 $75K (June 1 start), first full year 2027 $150K
+  scott:  { base2026:  75_000, firstFull2027: 150_000, cap: 1_000_000 },
+};
+
+const TEAM_GROWTH_RATE = 0.20;
+const TEAM_COMP_CEILING = 1_000_000;
+
+function projectPersonalGci(member: keyof typeof TEAM_BASES, year: number): number {
+  const spec = TEAM_BASES[member];
+  if (year < 2026) return 0;
+  if (year === 2026) return spec.base2026;
+  // Start point for compounding: either firstFull2027 (if declared) or base2026
+  const startVal = spec.firstFull2027 !== null ? spec.firstFull2027 : spec.base2026;
+  if (year === 2027) return startVal;
+  let value = startVal;
+  for (let y = 2028; y <= year; y++) {
+    if (value < spec.cap) value = Math.min(value * (1 + TEAM_GROWTH_RATE), spec.cap);
+  }
+  return Math.round(value);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL DOCTRINE · NEST SALARY · HARDCODED, NON-PROJECTING (° FOOTNOTE)
+// Both Angel and Zoila come off Ilija's Nest by end of Q1 2027.
+// Angel 2026: $70K (Ilija base). Angel 2027: $17.5K (Q1 only). Angel 2028+: $0.
+// Zoila 2026: $46.7K (pro-rated May 4 start). Zoila 2027: $17.5K (Q1). Zoila 2028+: $0.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const TEAM_NEST: Record<string, Record<number, number>> = {
+  angel: { 2026: 70_000, 2027: 17_500, 2028: 0, 2036: 0 },
+  zoila: { 2026: 46_700, 2027: 17_500, 2028: 0, 2036: 0 },
+};
+
+function getNest(member: 'angel' | 'zoila', year: number): number {
+  return TEAM_NEST[member]?.[year] ?? 0;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL DOCTRINE · ANEWHOMES POOL (§ FOOTNOTE)
+// ═══════════════════════════════════════════════════════════════════════════════
+
 function computeAnewHomesPool(year: number): number {
   if (year <= 2025) return 0;
-  if (year === 2026) return 50_000;
+  if (year === 2026) return  50_000;
   if (year === 2027) return 150_000;
-  // 12.5% CAGR from $150K (2027) for years 2028+
   return Math.round(150_000 * Math.pow(1.125, year - 2027));
 }
 
-// ‡ CPS1 + CIRE Node doctrine — ramps $100K → $1M by 2030, then 2% steady-state
+const GOVERNING = {
+  agent_split: 0.70,    // Ed Personal = Ed Team × 0.70
+  override:    0.05,    // Angel/Jarvis/Zoila each get 5% × Ed Team GCI
+  anewhomes: {
+    ed: 0.35, scott: 0.35, richard: 0.10,
+    angel: 0.05, jarvis: 0.05, zoila: 0.05,  // 5% reserve held, not displayed
+  },
+  cireg: {
+    ed: 0.2975, ilija: 0.65,
+    angel: 0.0175, jarvis: 0.0175, zoila: 0.0175,
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL DOCTRINE · CPS1 + CIRE NODE (‡ FOOTNOTE · VISIBILITY ONLY)
+// ═══════════════════════════════════════════════════════════════════════════════
+
 function computeCps1(year: number): number {
   if (year <= 2025) return 0;
-  if (year === 2026) return 100_000;
-  if (year === 2027) return 250_000;
-  if (year === 2028) return 500_000;
-  if (year === 2029) return 750_000;
+  if (year === 2026) return   100_000;
+  if (year === 2027) return   250_000;
+  if (year === 2028) return   500_000;
+  if (year === 2029) return   750_000;
   if (year === 2030) return 1_000_000;
-  // 2% YoY from $1M (2030) for years 2031+
   return Math.round(1_000_000 * Math.pow(1.02, year - 2030));
 }
 
-// AnewHomes participant percentages — sum to 100% across the 6 named participants + Pool reserve
-const ANEW_PCT = {
-  ed:      0.35,  // Ed Bruehl — Architect
-  scott:   0.35,  // Scott Smith — Build Partner
-  richard: 0.10,  // Richard Bruehl — Strategic Advisor
-  angel:   0.05,
-  jarvis:  0.05,
-  zoila:   0.05,
-  pool:    0.05,  // Reserved (not on cards)
-};
-
-// CIREG Profit Share percentages — * Governing doctrine, sum to 100%
-const PROFIT_SHARE_PCT = {
-  ed:     0.2975, // 29.75%
-  ilija:  0.65,   // 65%
-  angel:  0.0175, // 1.75%
-  jarvis: 0.0175, // 1.75%
-  zoila:  0.0175, // 1.75%
-};
-
-// Override percentage — Ed's Team GCI × 5%
-const OVERRIDE_PCT = 0.05;
-
-// Personal GCI = Team GCI × 70% (* Governing — agent split)
-const AGENT_SPLIT = 0.70;
-
-// Nest Salary doctrine — ° footnote
-// Angel: $70K full 2026, $17.5K Q1 2027 only, then $0
-// Zoila: $46.7K pro-rated from May 4 2026 (8 months × $5,833/mo), $17.5K Q1 2027 only
-const NEST_ANGEL  = { 2026: 70_000,  2027: 17_500, 2028: 0, 2036: 0 };
-const NEST_ZOILA  = { 2026: 46_700,  2027: 17_500, 2028: 0, 2036: 0 };
-
-// Zoila vesting cliff — † footnote
-// AnewHomes 5% and Profit Share 1.75% activate 2027 forward (cliff Nov 4 2026)
-// Override applies 2026 + Q1 2027 only ($30K + $9K)
-const ZOILA_VESTED = (year: number) => year >= 2027;
-const ZOILA_OVERRIDE = { 2026: 30_000, 2027: 9_000, 2028: 0, 2036: 0 };
+// ═══════════════════════════════════════════════════════════════════════════════
+// ZOILA TRANSITIONAL OVERRIDE († FOOTNOTE · RETIRED under R3)
+// R3: Zoila gets FULL parity with Angel going forward. No transitional array needed.
+// ═══════════════════════════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// FORMATTING HELPERS
+// CANONICAL FALLBACK · OUTPUTS (used only if tRPC wires fail)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const FALLBACK_OUTPUTS: Record<string, Record<number, number>> = {
+  edTeamGci:  { 2026: 600_000,  2027: 720_000,  2028: 864_000,  2036: 3_600_000 },
+  netProfit:  { 2026: 174_800,  2027: 430_300,  2028: 964_700,  2036: 11_390_000 },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FORMATTING · clean $K/$M, no "+" suffix (deprecated under TEAM_BASES canon)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function fmtK(n: number): string {
   if (n === 0) return '—';
   if (n < 1_000) return `$${n}`;
   if (n < 1_000_000) {
-    const k = n / 1_000;
-    return Number.isInteger(k) ? `$${k}K` : `$${k.toFixed(1)}K`;
+    const k = Math.round(n / 1_000);
+    return `$${k}K`;
   }
   const m = n / 1_000_000;
   return Number.isInteger(m) ? `$${m}M` : `$${m.toFixed(2)}M`;
 }
 
-// Format with "+" suffix for forward-projected approximations (Scott, Angel, Jarvis, Zoila 2036)
-function fmtKApprox(n: number): string {
-  if (n === 0) return '—';
-  return fmtK(n) + '+';
-}
-
 // ═══════════════════════════════════════════════════════════════════════════════
-// CANONICAL FALLBACK · v14_3b WIREFRAME (used only if all wires fail)
+// CARD DATA DERIVATION · all cells compute from canonical inputs
 // ═══════════════════════════════════════════════════════════════════════════════
-
-const FALLBACK_OUTPUTS = {
-  // Ed's Team GCI per year — OUTPUTS canonical step-function
-  edTeamGci: { 2026: 600_000, 2027: 720_000, 2028: 864_000, 2036: 3_600_000 },
-  // Net Operating Profit pool per year — OUTPUTS column G
-  netProfit: { 2026: 175_000, 2027: 429_534, 2028: 964_694, 2036: 11_400_000 },
-  // Ed Personal GCI per year (already 70% of Team)
-  edPersonalGci: { 2026: 420_000, 2027: 504_000, 2028: 605_000, 2036: 2_520_000 },
-  // Named producer Personal GCI from ROSTER
-  angelGci:   { 2026:  17_500, 2027:  84_000, 2028: 100_800, 2031: 174_000 },
-  jarvisGci:  { 2026: 140_000, 2027: 168_000, 2028: 201_600, 2031: 348_000 },
-  zoilaGci:   { 2026:  17_500, 2027: 105_000, 2028: 126_000, 2031: 217_000 },
-  scottGci:   { 2026:  35_000, 2027:  84_000, 2028: 100_800, 2031: 130_000 },
-};
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// PARTNER CARD DERIVATION · LIVE WIRE → CANONICAL VALUES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-interface DerivedAgentValues {
-  personal: { y26: number; y27: number; y28: number; y36: number };
-  // Additional fields per card type built up by deriveCards
-}
 
 interface CardData {
   name: string;
@@ -189,184 +199,153 @@ interface CardData {
   footnotes: string[];
 }
 
-function deriveCards(opts: {
-  edTeamGci: { y26: number; y27: number; y28: number; y36: number };
-  netProfit: { y26: number; y27: number; y28: number; y36: number };
-  edPersonalGci: { y26: number; y27: number; y28: number; y36: number };
-  angelGci: { y26: number; y27: number; y28: number; y36: number };
-  jarvisGci: { y26: number; y27: number; y28: number; y36: number };
-  zoilaGci: { y26: number; y27: number; y28: number; y36: number };
-  scottGci: { y26: number; y27: number; y28: number; y36: number };
-}): CardData[] {
-  const Y = [2026, 2027, 2028, 2036] as const;
+const DISPLAY_YEARS: [number, number, number, number] = [2026, 2027, 2028, 2036];
 
-  // AnewHomes pool per year — doctrine
-  const anewPool = { y26: computeAnewHomesPool(2026), y27: computeAnewHomesPool(2027), y28: computeAnewHomesPool(2028), y36: computeAnewHomesPool(2036) };
+function deriveCards(edTeamGci: Record<number, number>, netProfit: Record<number, number>): CardData[] {
+  const fmtYears = (calc: (y: number) => number): [string, string, string, string] =>
+    DISPLAY_YEARS.map(y => fmtK(calc(y))) as [string, string, string, string];
 
-  // CPS1 trajectory per year — doctrine
-  const cps1 = { y26: computeCps1(2026), y27: computeCps1(2027), y28: computeCps1(2028), y36: computeCps1(2036) };
+  const AH  = (y: number) => computeAnewHomesPool(y);
+  const CPS = (y: number) => computeCps1(y);
+  const T   = (y: number) => edTeamGci[y] ?? 0;
+  const NP  = (y: number) => netProfit[y] ?? 0;
+  const cpsValues = fmtYears(CPS);
 
-  // ── CARD 1: EDWARD BRUEHL ────────────────────────────────────────────────────
-  const ed_personal = opts.edPersonalGci;
-  const ed_team     = opts.edTeamGci;
-  const ed_anew     = { y26: anewPool.y26 * ANEW_PCT.ed, y27: anewPool.y27 * ANEW_PCT.ed, y28: anewPool.y28 * ANEW_PCT.ed, y36: anewPool.y36 * ANEW_PCT.ed };
-  const ed_profit   = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.ed, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.ed, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.ed, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.ed };
-  const ed_cps1     = cps1;
-  const ed_total    = {
-    y26: ed_personal.y26 + ed_anew.y26 + ed_profit.y26,
-    y27: ed_personal.y27 + ed_anew.y27 + ed_profit.y27,
-    y28: ed_personal.y28 + ed_anew.y28 + ed_profit.y28,
-    y36: ed_personal.y36 + ed_anew.y36 + ed_profit.y36,
-  };
+  // ── CARD 1 · EDWARD BRUEHL ───────────────────────────────────────────────────
+  const edPersonal = (y: number) => T(y) * GOVERNING.agent_split;
+  const edAnew     = (y: number) => AH(y) * GOVERNING.anewhomes.ed;
+  const edProfit   = (y: number) => NP(y) * GOVERNING.cireg.ed;
+  const edTotal    = (y: number) => edPersonal(y) + edAnew(y) + edProfit(y);
 
   const card1: CardData = {
     name: 'Edward Bruehl',
-    title: 'Broker – Managing Director',
+    title: 'Broker · Managing Director',
     rows: [
-      { label: "Ed's Team GCI (reference)",  values: [fmtK(ed_team.y26), fmtK(ed_team.y27), fmtK(ed_team.y28), fmtK(ed_team.y36)], accent: ACCENT_PERSONAL },
-      { label: 'Personal GCI',                values: [fmtK(ed_personal.y26), fmtK(ed_personal.y27), fmtK(ed_personal.y28), fmtK(ed_personal.y36)], accent: ACCENT_PERSONAL },
-      { label: 'AnewHomes 35% * §',           values: [fmtK(ed_anew.y26), fmtK(ed_anew.y27), fmtK(ed_anew.y28), fmtK(ed_anew.y36)], accent: ACCENT_ANEW },
-      { label: 'CIREG Profit Share 29.75% *', values: [fmtK(ed_profit.y26), fmtK(ed_profit.y27), fmtK(ed_profit.y28), fmtK(ed_profit.y36)], accent: ACCENT_PROFIT },
-      { label: 'CPS1 + CIRE Node ‡',          values: [fmtK(ed_cps1.y26), fmtK(ed_cps1.y27), fmtK(ed_cps1.y28), fmtK(ed_cps1.y36)], accent: ACCENT_PROFIT },
+      { label: "Ed's Team GCI (reference)",   values: fmtYears(T),          accent: ACCENT_PERSONAL },
+      { label: 'Personal GCI',                 values: fmtYears(edPersonal), accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 35% §',              values: fmtYears(edAnew),     accent: ACCENT_ANEW     },
+      { label: 'CIREG Profit Share 29.75%',    values: fmtYears(edProfit),   accent: ACCENT_PROFIT   },
+      { label: 'CPS1 + CIRE Node ‡',           values: cpsValues,            accent: ACCENT_PROFIT   },
     ],
-    total: { values: [fmtK(ed_total.y26), fmtK(ed_total.y27), fmtK(ed_total.y28), fmtK(ed_total.y36)] },
+    total: { values: fmtYears(edTotal) },
     footnotes: [
-      "Ed's Team GCI reference only — not included in total",
-      'CPS1 + CIRE Node visibility only — not included in total',
+      "Ed's Team GCI reference only — not in total",
+      'CPS1 + CIRE Node visibility only — not in total',
     ],
   };
 
-  // ── CARD 2: ILIJA PAVLOVIC ───────────────────────────────────────────────────
-  const ilija_profit = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.ilija, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.ilija, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.ilija, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.ilija };
-  const ilija_total  = ilija_profit;
+  // ── CARD 2 · ILIJA PAVLOVIC ──────────────────────────────────────────────────
+  const ilijaProfit = (y: number) => NP(y) * GOVERNING.cireg.ilija;
 
   const card2: CardData = {
     name: 'Ilija Pavlovic',
     title: 'Franchise Principal · CIREG Tri-State',
     rows: [
-      { label: 'CIREG Profit Share 65% **', values: [fmtK(ilija_profit.y26), fmtK(ilija_profit.y27), fmtK(ilija_profit.y28), fmtK(ilija_profit.y36)], accent: ACCENT_PROFIT },
-      { label: 'CPS1 + CIRE Node ‡',         values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+      { label: 'CIREG Profit Share 65% **',    values: fmtYears(ilijaProfit), accent: ACCENT_PROFIT },
+      { label: 'CPS1 + CIRE Node ‡',           values: cpsValues,             accent: ACCENT_PROFIT },
     ],
-    total: { values: [fmtK(ilija_total.y26), fmtK(ilija_total.y27), fmtK(ilija_total.y28), fmtK(ilija_total.y36)] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+    total: { values: fmtYears(ilijaProfit) },
+    footnotes: ['CPS1 + CIRE Node visibility only — not in total'],
   };
 
-  // ── CARD 3: ANGEL THEODORE ───────────────────────────────────────────────────
-  const angel_personal = opts.angelGci;
-  const angel_nest     = NEST_ANGEL;
-  const angel_anew     = { y26: anewPool.y26 * ANEW_PCT.angel, y27: anewPool.y27 * ANEW_PCT.angel, y28: anewPool.y28 * ANEW_PCT.angel, y36: anewPool.y36 * ANEW_PCT.angel };
-  const angel_override = { y26: ed_team.y26 * OVERRIDE_PCT, y27: ed_team.y27 * OVERRIDE_PCT, y28: ed_team.y28 * OVERRIDE_PCT, y36: ed_team.y36 * OVERRIDE_PCT };
-  const angel_profit   = { y26: opts.netProfit.y26 * PROFIT_SHARE_PCT.angel, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.angel, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.angel, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.angel };
-  const angel_total    = {
-    y26: angel_personal.y26 + angel_nest[2026] + angel_anew.y26 + angel_override.y26 + angel_profit.y26,
-    y27: angel_personal.y27 + angel_nest[2027] + angel_anew.y27 + angel_override.y27 + angel_profit.y27,
-    y28: angel_personal.y28 + angel_nest[2028] + angel_anew.y28 + angel_override.y28 + angel_profit.y28,
-    y36: angel_personal.y36 + angel_nest[2036] + angel_anew.y36 + angel_override.y36 + angel_profit.y36,
-  };
+  // ── CARD 3 · ANGEL THEODORE ──────────────────────────────────────────────────
+  const angelPersonal = (y: number) => projectPersonalGci('angel', y);
+  const angelNest     = (y: number) => getNest('angel', y);
+  const angelAnew     = (y: number) => AH(y) * GOVERNING.anewhomes.angel;
+  const angelOverride = (y: number) => T(y) * GOVERNING.override;
+  const angelProfit   = (y: number) => NP(y) * GOVERNING.cireg.angel;
+  const angelTotal    = (y: number) =>
+    angelPersonal(y) + angelNest(y) + angelAnew(y) + angelOverride(y) + angelProfit(y);
 
   const card3: CardData = {
     name: 'Angel Theodore',
-    title: 'Agent – Marketing Coordinator',
-    nestNote: 'Nest salary $70K/yr · through Q1 2027',
+    title: 'Agent · Marketing Coordinator',
+    nestNote: "Nest salary · Ilija · through Q1 2027 · Comes onto Ed's payroll 2027",
     rows: [
-      { label: 'Personal GCI',                 values: [fmtK(angel_personal.y26), fmtK(angel_personal.y27), fmtK(angel_personal.y28), fmtKApprox(angel_personal.y36)], accent: ACCENT_PERSONAL },
-      { label: 'Nest Salary °',                values: [fmtK(angel_nest[2026]), fmtK(angel_nest[2027]), fmtK(angel_nest[2028]), fmtK(angel_nest[2036])], accent: ACCENT_ANEW },
-      { label: 'AnewHomes 5% §',               values: [fmtK(angel_anew.y26), fmtK(angel_anew.y27), fmtK(angel_anew.y28), fmtK(angel_anew.y36)], accent: ACCENT_ANEW },
-      { label: "Ed's Team GCI Override 5%",    values: [fmtK(angel_override.y26), fmtK(angel_override.y27), fmtK(angel_override.y28), fmtK(angel_override.y36)], accent: ACCENT_OVERRIDE },
-      { label: 'CIREG Profit Share 1.75%',     values: [fmtK(angel_profit.y26), fmtK(angel_profit.y27), fmtK(angel_profit.y28), fmtK(angel_profit.y36)], accent: ACCENT_PROFIT },
-      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+      { label: 'Personal GCI',                 values: fmtYears(angelPersonal), accent: ACCENT_PERSONAL },
+      { label: 'Nest Salary °',                values: fmtYears(angelNest),     accent: ACCENT_ANEW     },
+      { label: 'AnewHomes 5% §',               values: fmtYears(angelAnew),     accent: ACCENT_ANEW     },
+      { label: "Ed's ICA Override 5%",         values: fmtYears(angelOverride), accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75%',     values: fmtYears(angelProfit),   accent: ACCENT_PROFIT   },
+      { label: 'CPS1 + CIRE Node ‡',           values: cpsValues,               accent: ACCENT_PROFIT   },
     ],
-    total: { values: [fmtK(angel_total.y26), fmtK(angel_total.y27), fmtK(angel_total.y28), fmtKApprox(angel_total.y36)] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+    total: { values: fmtYears(angelTotal) },
+    footnotes: ['CPS1 + CIRE Node visibility only — not in total'],
   };
 
-  // ── CARD 4: JARVIS SLADE ─────────────────────────────────────────────────────
-  const jarvis_personal = opts.jarvisGci;
-  const jarvis_anew     = angel_anew; // Same 5% on same pool
-  const jarvis_override = angel_override; // Same 5% on same Ed Team GCI
-  const jarvis_profit   = angel_profit; // Same 1.75% on same pool
-  const jarvis_total    = {
-    y26: jarvis_personal.y26 + jarvis_anew.y26 + jarvis_override.y26 + jarvis_profit.y26,
-    y27: jarvis_personal.y27 + jarvis_anew.y27 + jarvis_override.y27 + jarvis_profit.y27,
-    y28: jarvis_personal.y28 + jarvis_anew.y28 + jarvis_override.y28 + jarvis_profit.y28,
-    y36: jarvis_personal.y36 + jarvis_anew.y36 + jarvis_override.y36 + jarvis_profit.y36,
-  };
+  // ── CARD 4 · JARVIS SLADE ────────────────────────────────────────────────────
+  const jarvisPersonal = (y: number) => projectPersonalGci('jarvis', y);
+  const jarvisAnew     = angelAnew;
+  const jarvisOverride = angelOverride;
+  const jarvisProfit   = angelProfit;
+  const jarvisTotal    = (y: number) =>
+    jarvisPersonal(y) + jarvisAnew(y) + jarvisOverride(y) + jarvisProfit(y);
 
   const card4: CardData = {
     name: 'Jarvis Slade',
-    title: 'Agent – COO',
+    title: 'Agent · COO',
     rows: [
-      { label: 'Personal GCI',                 values: [fmtK(jarvis_personal.y26), fmtK(jarvis_personal.y27), fmtK(jarvis_personal.y28), fmtKApprox(jarvis_personal.y36)], accent: ACCENT_PERSONAL },
-      { label: 'AnewHomes 5% §',               values: [fmtK(jarvis_anew.y26), fmtK(jarvis_anew.y27), fmtK(jarvis_anew.y28), fmtK(jarvis_anew.y36)], accent: ACCENT_ANEW },
-      { label: "Ed's Team GCI Override 5%",    values: [fmtK(jarvis_override.y26), fmtK(jarvis_override.y27), fmtK(jarvis_override.y28), fmtK(jarvis_override.y36)], accent: ACCENT_OVERRIDE },
-      { label: 'CIREG Profit Share 1.75%',     values: [fmtK(jarvis_profit.y26), fmtK(jarvis_profit.y27), fmtK(jarvis_profit.y28), fmtK(jarvis_profit.y36)], accent: ACCENT_PROFIT },
-      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+      { label: 'Personal GCI',                 values: fmtYears(jarvisPersonal), accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 5% §',               values: fmtYears(jarvisAnew),     accent: ACCENT_ANEW     },
+      { label: "Ed's ICA Override 5%",         values: fmtYears(jarvisOverride), accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75%',     values: fmtYears(jarvisProfit),   accent: ACCENT_PROFIT   },
+      { label: 'CPS1 + CIRE Node ‡',           values: cpsValues,                accent: ACCENT_PROFIT   },
     ],
-    total: { values: [fmtK(jarvis_total.y26), fmtK(jarvis_total.y27), fmtK(jarvis_total.y28), fmtKApprox(jarvis_total.y36)] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+    total: { values: fmtYears(jarvisTotal) },
+    footnotes: ['CPS1 + CIRE Node visibility only — not in total'],
   };
 
-  // ── CARD 5: ZOILA ORTEGA ASTOR ───────────────────────────────────────────────
-  const zoila_personal = opts.zoilaGci;
-  const zoila_nest     = NEST_ZOILA;
-  const zoila_anew     = { y26: 0, y27: anewPool.y27 * ANEW_PCT.zoila, y28: anewPool.y28 * ANEW_PCT.zoila, y36: anewPool.y36 * ANEW_PCT.zoila };
-  const zoila_override = ZOILA_OVERRIDE;
-  const zoila_profit   = { y26: 0, y27: opts.netProfit.y27 * PROFIT_SHARE_PCT.zoila, y28: opts.netProfit.y28 * PROFIT_SHARE_PCT.zoila, y36: opts.netProfit.y36 * PROFIT_SHARE_PCT.zoila };
-  const zoila_total    = {
-    y26: zoila_personal.y26 + zoila_nest[2026] + zoila_anew.y26 + zoila_override[2026] + zoila_profit.y26,
-    y27: zoila_personal.y27 + zoila_nest[2027] + zoila_anew.y27 + zoila_override[2027] + zoila_profit.y27,
-    y28: zoila_personal.y28 + zoila_nest[2028] + zoila_anew.y28 + zoila_override[2028] + zoila_profit.y28,
-    y36: zoila_personal.y36 + zoila_nest[2036] + zoila_anew.y36 + zoila_override[2036] + zoila_profit.y36,
-  };
+  // ── CARD 5 · ZOILA ORTEGA ASTOR (R3 FULL PARITY WITH ANGEL) ─────────────────
+  const zoilaPersonal = (y: number) => projectPersonalGci('zoila', y);
+  const zoilaNest     = (y: number) => getNest('zoila', y);
+  const zoilaAnew     = angelAnew;       // full parity
+  const zoilaOverride = angelOverride;   // full parity — D64 governs 50/50 on self-sourced deals
+  const zoilaProfit   = angelProfit;     // full parity
+  const zoilaTotal    = (y: number) =>
+    zoilaPersonal(y) + zoilaNest(y) + zoilaAnew(y) + zoilaOverride(y) + zoilaProfit(y);
 
   const card5: CardData = {
-    name: 'Zoila Ortega Astor †',
-    title: 'Broker/Agent – Office Director',
-    nestNote: 'Nest salary $70K/yr · Start May 4 2026',
+    name: 'Zoila Ortega Astor',
+    title: 'Broker/Agent · Office Director',
+    nestNote: 'Nest salary · Ilija · through Q1 2027 · Start May 4 2026 (pro-rated)',
     rows: [
-      { label: 'Personal GCI',                 values: [fmtK(zoila_personal.y26), fmtK(zoila_personal.y27), fmtK(zoila_personal.y28), fmtKApprox(zoila_personal.y36)], accent: ACCENT_PERSONAL },
-      { label: 'Nest Salary °',                values: [fmtK(zoila_nest[2026]), fmtK(zoila_nest[2027]), fmtK(zoila_nest[2028]), fmtK(zoila_nest[2036])], accent: ACCENT_ANEW },
-      { label: 'AnewHomes 5% † §',             values: [fmtK(zoila_anew.y26), fmtK(zoila_anew.y27), fmtK(zoila_anew.y28), fmtK(zoila_anew.y36)], accent: ACCENT_ANEW },
-      { label: "Ed's Team GCI Override †",     values: [fmtK(zoila_override[2026]), fmtK(zoila_override[2027]), fmtK(zoila_override[2028]), fmtK(zoila_override[2036])], accent: ACCENT_OVERRIDE },
-      { label: 'CIREG Profit Share 1.75% †',   values: [fmtK(zoila_profit.y26), fmtK(zoila_profit.y27), fmtK(zoila_profit.y28), fmtK(zoila_profit.y36)], accent: ACCENT_PROFIT },
-      { label: 'CPS1 + CIRE Node ‡',           values: [fmtK(cps1.y26), fmtK(cps1.y27), fmtK(cps1.y28), fmtK(cps1.y36)], accent: ACCENT_PROFIT },
+      { label: 'Personal GCI',                 values: fmtYears(zoilaPersonal), accent: ACCENT_PERSONAL },
+      { label: 'Nest Salary °',                values: fmtYears(zoilaNest),     accent: ACCENT_ANEW     },
+      { label: 'AnewHomes 5% §',               values: fmtYears(zoilaAnew),     accent: ACCENT_ANEW     },
+      { label: "Ed's ICA Override 5%",         values: fmtYears(zoilaOverride), accent: ACCENT_OVERRIDE },
+      { label: 'CIREG Profit Share 1.75%',     values: fmtYears(zoilaProfit),   accent: ACCENT_PROFIT   },
+      { label: 'CPS1 + CIRE Node ‡',           values: cpsValues,               accent: ACCENT_PROFIT   },
     ],
-    total: { values: [fmtK(zoila_total.y26), fmtK(zoila_total.y27), fmtK(zoila_total.y28), fmtKApprox(zoila_total.y36)] },
-    footnotes: ['CPS1 + CIRE Node visibility only — not included in total'],
+    total: { values: fmtYears(zoilaTotal) },
+    footnotes: ['CPS1 + CIRE Node visibility only — not in total'],
   };
 
-  // ── CARD 6: SCOTT SMITH ──────────────────────────────────────────────────────
-  // Scott 2036 ruling: 20% YoY compound from ROSTER 2031 per * Governing
-  const scott_personal = opts.scottGci;
-  const scott_anew     = { y26: anewPool.y26 * ANEW_PCT.scott, y27: anewPool.y27 * ANEW_PCT.scott, y28: anewPool.y28 * ANEW_PCT.scott, y36: anewPool.y36 * ANEW_PCT.scott };
-  const scott_total    = {
-    y26: scott_personal.y26 + scott_anew.y26,
-    y27: scott_personal.y27 + scott_anew.y27,
-    y28: scott_personal.y28 + scott_anew.y28,
-    y36: scott_personal.y36 + scott_anew.y36,
-  };
+  // ── CARD 6 · SCOTT SMITH ─────────────────────────────────────────────────────
+  const scottPersonal = (y: number) => projectPersonalGci('scott', y);
+  const scottAnew     = (y: number) => AH(y) * GOVERNING.anewhomes.scott;
+  const scottTotal    = (y: number) => scottPersonal(y) + scottAnew(y);
 
   const card6: CardData = {
-    name: 'Scott Smith *',
-    title: 'Agent – AnewHomes Co. Partner',
+    name: 'Scott Smith',
+    title: 'Agent · AnewHomes Co. Partner',
     rows: [
-      { label: 'Personal GCI',     values: [fmtK(scott_personal.y26), fmtK(scott_personal.y27), fmtK(scott_personal.y28), fmtKApprox(scott_personal.y36)], accent: ACCENT_PERSONAL },
-      { label: 'AnewHomes 35% §',  values: [fmtK(scott_anew.y26), fmtK(scott_anew.y27), fmtK(scott_anew.y28), fmtK(scott_anew.y36)], accent: ACCENT_ANEW },
+      { label: 'Personal GCI',                 values: fmtYears(scottPersonal), accent: ACCENT_PERSONAL },
+      { label: 'AnewHomes 35% §',              values: fmtYears(scottAnew),     accent: ACCENT_ANEW     },
     ],
-    total: { values: [fmtK(scott_total.y26), fmtK(scott_total.y27), fmtK(scott_total.y28), fmtKApprox(scott_total.y36)] },
+    total: { values: fmtYears(scottTotal) },
     footnotes: [],
   };
 
-  // ── CARD 7: RICHARD BRUEHL ───────────────────────────────────────────────────
-  const richard_anew = { y26: anewPool.y26 * ANEW_PCT.richard, y27: anewPool.y27 * ANEW_PCT.richard, y28: anewPool.y28 * ANEW_PCT.richard, y36: anewPool.y36 * ANEW_PCT.richard };
+  // ── CARD 7 · RICHARD BRUEHL ──────────────────────────────────────────────────
+  const richardAnew = (y: number) => AH(y) * GOVERNING.anewhomes.richard;
 
   const card7: CardData = {
     name: 'Richard Bruehl',
-    title: 'Strategic Advisor – AnewHomes Co. Partner',
+    title: 'Strategic Advisor · AnewHomes Co. Partner',
     rows: [
-      { label: 'AnewHomes 10% §', values: [fmtK(richard_anew.y26), fmtK(richard_anew.y27), fmtK(richard_anew.y28), fmtK(richard_anew.y36)], accent: ACCENT_ANEW },
+      { label: 'AnewHomes 10% §',              values: fmtYears(richardAnew), accent: ACCENT_ANEW },
     ],
-    total: { values: [fmtK(richard_anew.y26), fmtK(richard_anew.y27), fmtK(richard_anew.y28), fmtK(richard_anew.y36)] },
+    total: { values: fmtYears(richardAnew) },
     footnotes: [],
   };
 
@@ -378,48 +357,22 @@ function deriveCards(opts: {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export default function FutureTabPrintCream() {
-  // Live wires — same endpoints the screen dashboard uses
   const { data: arcData } = trpc.future.ascensionArc.useQuery(undefined, {
     retry: false, staleTime: 5 * 60 * 1000,
   });
-  const { data: pcData } = trpc.future.partnerCards.useQuery(undefined, {
-    retry: false, staleTime: 5 * 60 * 1000,
-  });
-  const { data: gmData } = trpc.future.growthModel.useQuery(undefined, {
-    retry: false, staleTime: 5 * 60 * 1000,
-  });
 
-  // Helper — pull a year from ascensionArc.years[] safely
   const arcYear = (yr: number) => arcData?.years?.find(y => y.year === yr);
+  const pull = (getter: (y: any) => number | undefined, fallbackKey: keyof typeof FALLBACK_OUTPUTS, year: number): number =>
+    getter(arcYear(year)) ?? FALLBACK_OUTPUTS[fallbackKey][year] ?? 0;
 
-  // Build canonical inputs from live wires, with v14_3b fallback per cell
-  const opts = {
-    edTeamGci: {
-      y26: arcYear(2026)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2026],
-      y27: arcYear(2027)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2027],
-      y28: arcYear(2028)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2028],
-      y36: arcYear(2036)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2036],
-    },
-    netProfit: {
-      y26: arcYear(2026)?.netProfit || FALLBACK_OUTPUTS.netProfit[2026],
-      y27: arcYear(2027)?.netProfit || FALLBACK_OUTPUTS.netProfit[2027],
-      y28: arcYear(2028)?.netProfit || FALLBACK_OUTPUTS.netProfit[2028],
-      y36: arcYear(2036)?.netProfit || FALLBACK_OUTPUTS.netProfit[2036],
-    },
-    edPersonalGci: {
-      // Personal GCI = Team GCI × 70% (* Governing)
-      y26: (arcYear(2026)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2026]) * AGENT_SPLIT,
-      y27: (arcYear(2027)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2027]) * AGENT_SPLIT,
-      y28: (arcYear(2028)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2028]) * AGENT_SPLIT,
-      y36: (arcYear(2036)?.edGci || FALLBACK_OUTPUTS.edTeamGci[2036]) * AGENT_SPLIT,
-    },
-    angelGci: extractAgent(pcData, gmData, 'Angel', FALLBACK_OUTPUTS.angelGci),
-    jarvisGci: extractAgent(pcData, gmData, 'Jarvis', FALLBACK_OUTPUTS.jarvisGci),
-    zoilaGci: extractAgent(pcData, gmData, 'Zoila', FALLBACK_OUTPUTS.zoilaGci),
-    scottGci: extractAgent(pcData, gmData, 'Scott', FALLBACK_OUTPUTS.scottGci),
-  };
+  const edTeamGci: Record<number, number> = {};
+  const netProfit: Record<number, number> = {};
+  for (const y of DISPLAY_YEARS) {
+    edTeamGci[y] = pull((y2: any) => y2?.edGci,      'edTeamGci', y);
+    netProfit[y] = pull((y2: any) => y2?.netProfit, 'netProfit', y);
+  }
 
-  const cards = deriveCards(opts);
+  const cards = deriveCards(edTeamGci, netProfit);
 
   return (
     <div style={{ background: CREAM, fontFamily: SERIF, color: INK }}>
@@ -429,37 +382,14 @@ export default function FutureTabPrintCream() {
   );
 }
 
-// Helper — find an agent in partnerCards or growthModel data, project 2036 from 2031 at 20% YoY
-function extractAgent(
-  pcData: any,
-  gmData: any,
-  partialName: string,
-  fallback: { 2026: number; 2027: number; 2028: number; 2031: number },
-): { y26: number; y27: number; y28: number; y36: number } {
-  const pcAgent = pcData?.agents?.find((a: any) => String(a.name).toLowerCase().includes(partialName.toLowerCase()));
-  const gmAgent = gmData?.agents?.find((a: any) => String(a.name).toLowerCase().includes(partialName.toLowerCase()));
-
-  const y26 = pcAgent?.gci2026 || gmAgent?.gci2026 || fallback[2026];
-  const y27 = pcAgent?.gci2027 || gmAgent?.gci2027 || fallback[2027];
-  const y28 = pcAgent?.gci2028 || gmAgent?.gci2028 || fallback[2028];
-  const y31 = gmAgent?.gci2031 || fallback[2031];
-
-  // 2036 = 20% YoY compound from 2031 (5 years) per * Governing "20% year-over-year, uncapped"
-  const y36 = Math.round(y31 * Math.pow(1.20, 5));
-
-  return { y26, y27, y28, y36 };
-}
-
 // ═══════════════════════════════════════════════════════════════════════════════
-// PAGE 1: Brand band → Arc chart → Legend → Brand signature → 100-day cards
+// PAGE 1 — Ascension Arc chart + 100-day cards
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function Page1({ arcData }: { arcData: any }) {
   return (
-    <section
-      className="pfc-page pfc-page-1"
-      style={{ background: CREAM, padding: '18px 14px 16px', pageBreakAfter: 'always', breakAfter: 'page' }}
-    >
+    <section className="pfc-page pfc-page-1"
+      style={{ background: CREAM, padding: '18px 14px 16px', pageBreakAfter: 'always', breakAfter: 'page' }}>
       <BrandBand />
       <ArcChartCream arcData={arcData} />
       <ChartLegend />
@@ -472,10 +402,8 @@ function Page1({ arcData }: { arcData: any }) {
 
 function BrandBand() {
   return (
-    <div style={{
-      textAlign: 'center', fontSize: 8.5, letterSpacing: 3, textTransform: 'uppercase',
-      color: INK, paddingBottom: 6, borderBottom: `1px solid ${GOLD}`, marginBottom: 12,
-    }}>
+    <div style={{ textAlign: 'center', fontSize: 8.5, letterSpacing: 3, textTransform: 'uppercase',
+      color: INK, paddingBottom: 6, borderBottom: `1px solid ${GOLD}`, marginBottom: 12 }}>
       Christie's · International Real Estate Group · East Hampton · Est. 1766
     </div>
   );
@@ -483,16 +411,11 @@ function BrandBand() {
 
 function ArcChartCream({ arcData }: { arcData: any }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const chartRef = useRef<Chart | null>(null);
 
   useEffect(() => {
     const init = () => {
-      if (!canvasRef.current) return;
-
+      if (!window.Chart || !canvasRef.current) { setTimeout(init, 50); return; }
       const years = ['2025','2026','2027','2028','2029','2030','2031','2032','2033','2034','2035','2036'];
-
-      // Wire to live ascensionArc data (CHART_DATA via VOLUME tab in OUTPUTS)
-      // Fallback to canonical CHART_DATA values if wire fails (Perp-verified zero drift)
       const ehTotal = years.map((_, i) => {
         const yr = 2025 + i;
         return arcData?.years?.find((y: any) => y.year === yr)?.ehVolume || [20, 75, 125.9, 211.7, 295.5, 410.7, 566.6, 597.6, 676.3, 784.9, 932.6, 1133.3][i];
@@ -506,7 +429,6 @@ function ArcChartCream({ arcData }: { arcData: any }) {
         return arcData?.years?.find((y: any) => y.year === yr)?.whVolume || [0, 0, 0, 0, 0, 56.7, 230.5, 352.3, 452.4, 592.9, 737.8, 878.9][i];
       });
       const totalByYear = years.map((_, i) => ehTotal[i] + shHampton[i] + whHampton[i]);
-
       const fmt = (v: number) => v >= 1000 ? `$${(v / 1000).toFixed(2)}B` : `$${Math.round(v)}M`;
 
       const totalLabelsPlugin = {
@@ -517,15 +439,12 @@ function ArcChartCream({ arcData }: { arcData: any }) {
           ctx.fillStyle = INK_FAINT;
           ctx.font = 'bold 11px Georgia, serif';
           ctx.textAlign = 'center';
-          totalByYear.forEach((t, i) => {
-            ctx.fillText(fmt(t), x.getPixelForValue(i), y.getPixelForValue(t) - 8);
-          });
+          totalByYear.forEach((t, i) => ctx.fillText(fmt(t), x.getPixelForValue(i), y.getPixelForValue(t) - 8));
           ctx.restore();
         },
       };
 
-      if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; }
-      chartRef.current = new Chart(canvasRef.current, {
+      new window.Chart(canvasRef.current, {
         type: 'bar',
         data: {
           labels: years,
@@ -539,25 +458,18 @@ function ArcChartCream({ arcData }: { arcData: any }) {
           responsive: true, maintainAspectRatio: false,
           plugins: { legend: { display: false } },
           scales: {
-            y: {
-              stacked: true, beginAtZero: true, max: 3500,
-              ticks: { color: INK_FAINT, font: { size: 12, family: 'Georgia, serif', weight: 'bold' as const }, padding: -38, mirror: true, z: 10, callback: (v: any) => `$${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}` },
-              grid: { color: 'rgba(148,114,49,0.15)' },
-              border: { color: 'rgba(148,114,49,0.5)' },
-            },
-            x: {
-              stacked: true,
-              ticks: { color: INK_FAINT, font: { size: 13, family: 'Georgia, serif', weight: 'bold' as const }, padding: 8 },
-              grid: { display: false },
-              border: { color: 'rgba(148,114,49,0.5)' },
-            },
+            y: { stacked: true, beginAtZero: true, max: 3500,
+                 ticks: { color: INK_FAINT, font: { size: 12, family: 'Georgia, serif', weight: 'bold' as const }, padding: -38, mirror: true, z: 10, callback: (v: any) => `$${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}` },
+                 grid: { color: 'rgba(148,114,49,0.15)' }, border: { color: 'rgba(148,114,49,0.5)' } },
+            x: { stacked: true,
+                 ticks: { color: INK_FAINT, font: { size: 13, family: 'Georgia, serif', weight: 'bold' as const }, padding: 8 },
+                 grid: { display: false }, border: { color: 'rgba(148,114,49,0.5)' } },
           },
         },
         plugins: [totalLabelsPlugin],
       });
     };
     init();
-    return () => { if (chartRef.current) { chartRef.current.destroy(); chartRef.current = null; } };
   }, [arcData]);
 
   return (
@@ -613,7 +525,6 @@ function BrandSignature() {
   );
 }
 
-// 100-day cards — doctrine artifacts (status update content), hardcoded by design
 type HundredDayCardProps = { label: string; status: string; dates: string; accent: string; shareholder: string; client: string; team: string };
 
 const HUNDRED_DAY_CARDS: HundredDayCardProps[] = [
@@ -672,15 +583,13 @@ function SectionLine({ heading, body }: { heading: string; body: string }) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PAGE 2: Partner cards (live-wired) → Legend → Levers → Footnotes → UHNW
+// PAGE 2 — Partner card grid + Model Levers + Footnotes
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function Page2({ cards }: { cards: CardData[] }) {
   return (
-    <section
-      className="pfc-page pfc-page-2"
-      style={{ background: CREAM, padding: '22px 14px 16px', pageBreakBefore: 'always', breakBefore: 'page' }}
-    >
+    <section className="pfc-page pfc-page-2"
+      style={{ background: CREAM, padding: '22px 14px 16px', pageBreakBefore: 'always', breakBefore: 'page' }}>
       <BrandBand />
       <div style={{ textAlign: 'center', fontSize: 14, letterSpacing: 4, textTransform: 'uppercase', color: NAVY, fontWeight: 500, padding: '2px 0 10px', borderBottom: `1px solid ${GOLD}`, marginBottom: 12 }}>
         Partnership Projections · 2026 – 2036
@@ -838,19 +747,19 @@ function CanonicalFootnotes() {
         <div style={cellStyle}>
           <div style={headingStyle}>* Governing Principle</div>
           <div style={bodyStyle}>
-            Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped. Scott Smith 2036 forward-projected from ROSTER 2031 at 20% YoY per this doctrine.
+            Not yet contractual. CIREG Profit Share splits pool as Ed 29.75%, Angel/Jarvis/Zoila 1.75% each, Ilija 65%. Flagship team Personal GCI compounds 20% YoY from each member's first-full-year base until $1M cap, then flat. Ed's Team GCI is the OUTPUTS step-function; Ed's Personal GCI = Team × 70%.
           </div>
         </div>
         <div style={cellStyle}>
-          <div style={headingStyle}>† Zoila Vesting</div>
+          <div style={headingStyle}>° Nest Salary</div>
           <div style={bodyStyle}>
-            AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only.
+            Ilija-funded bridge salary during onboarding. Angel: $70K 2026, $17.5K through Q1 2027, then ends (Angel's 2027 Personal GCI of $70K replaces the Nest). Zoila: $46.7K 2026 (pro-rated May 4 start), $17.5K through Q1 2027, then ends (Zoila's 2027 Personal GCI of $100K replaces the Nest).
           </div>
         </div>
         <div style={cellStyle}>
           <div style={headingStyle}>‡ CPS1 + CIRE Node Pipeline</div>
           <div style={bodyStyle}>
-            Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie's East Hampton Canonical Reference Library.
+            Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine in the Canonical Reference Library.
           </div>
         </div>
       </div>
@@ -862,15 +771,15 @@ function CanonicalFootnotes() {
           </div>
         </div>
         <div style={cellStyle}>
-          <div style={headingStyle}>° Nest Salary</div>
+          <div style={headingStyle}>§ AnewHomes Co.</div>
           <div style={bodyStyle}>
-            Pro-rated through Q1 2027 producer transition. Angel: $70K/yr full 2026, $17.5K Q1 2027 only. Zoila: $46.7K pro-rated from May 4 2026, $17.5K Q1 2027 only.
+            Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026), Richard Bruehl as Strategic Advisor, flagship team carrying equity. Pool $50K 2026 · $150K 2027 · 12.5% CAGR through 2036. Distribution: Ed 35%, Scott 35%, Richard 10%, Angel/Jarvis/Zoila 5% each, 5% pool reserve.
           </div>
         </div>
         <div style={cellStyle}>
-          <div style={headingStyle}>§ AnewHomes Co.</div>
+          <div style={headingStyle}>Zoila Self-Sourced Deals (D64)</div>
           <div style={bodyStyle}>
-            Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028-2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.
+            When Zoila is the sourcing producer on a deal, the split is 50/50 Ed-Zoila on that deal, and Zoila does not take her Ed's ICA Override on that deal. On deals sourced by other producers in Ed's ICA, Zoila receives the full 5% Override at parity with Angel and Jarvis.
           </div>
         </div>
       </div>
