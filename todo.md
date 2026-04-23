@@ -2761,3 +2761,13 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] S4: canonical SiteFooter on all 7 dashboard routes
 - [ ] Acceptance grep: zero isPdfMode/useIsPdfMode across all purge targets
 - [ ] Vitest green, build clean, push both remotes
+
+## P2 /future PDF Button — Apr 23 2026
+- [x] Read capture-pdf.ts and FutureTab to map Pro Forma capture boundaries
+- [x] Add captureProFormaPDF() function to capture-pdf.ts (html2canvas, navy substrate, no isPdfMode)
+- [x] Place gold button in FutureTab Pro Forma header strip (right of LIVE indicator)
+- [x] Wire three button states: default (gold border/text), hover (gold fill/navy text), capturing (faded + spinner)
+- [x] Filename: christies-east-hampton-proforma-YYYY-MM-DD.pdf
+- [x] Acceptance: correct filename, 2 pages, chart+legend+100-day+partner cards, navy preserved, no browser chrome
+- [x] Vitest green, build clean, grep isPdfMode zero
+- [x] Checkpoint + push both remotes

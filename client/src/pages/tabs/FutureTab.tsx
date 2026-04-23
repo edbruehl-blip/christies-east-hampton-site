@@ -5,7 +5,7 @@
  * /future?pdf=1 renders pixel-identical to /future.
  */
 
-import React, { useMemo, useRef, useEffect } from 'react';
+import React, { useMemo, useRef, useEffect, useState, useCallback } from 'react';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
@@ -481,6 +481,24 @@ export default function FutureTab() {
   // PDF capture uses html2canvas screenshot of this dark-shell render.
 
   const TEXT_PRIMARY = '#ebe6db';
+  const proFormaRef = useRef<HTMLDivElement>(null);
+  const [pdfCapturing, setPdfCapturing] = useState(false);
+
+  const captureProFormaPdf = useCallback(async () => {
+    if (!proFormaRef.current || pdfCapturing) return;
+    setPdfCapturing(true);
+    try {
+      const { captureToPdf } = await import('@/lib/capture-pdf');
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+      const filename = `christies-east-hampton-proforma-${yyyy}-${mm}-${dd}.pdf`;
+      await captureToPdf(proFormaRef.current, filename);
+    } finally {
+      setPdfCapturing(false);
+    }
+  }, [pdfCapturing]);
 
   // tRPC wires (live data from Growth Model V2)
   const { data: arcData, isLoading: arcLoading } = trpc.future.ascensionArc.useQuery(undefined, {
@@ -600,17 +618,51 @@ export default function FutureTab() {
 
   return (
     <div className="future-main-wrapper" style={{ background: NAVY, overflowX: 'clip' }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
+      <div ref={proFormaRef} style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Page header ────────────────────────────────────────────────────── */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${GOLD}`, paddingBottom: 8, marginBottom: 16, gap: 6 }}>
           <div style={{ ...SANS, fontSize: 8.5, color: GOLD, letterSpacing: 1.5 }}>
             CHRISTIE&apos;S &middot; INTERNATIONAL REAL ESTATE GROUP &middot; EAST HAMPTON &middot; EST. 1766
           </div>
-          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             {((arcData && !arcLoading) || (volData && !volLoading)) ? (
               <span style={{ ...SANS, color: '#4ade80', fontSize: 7, letterSpacing: 1, textTransform: 'uppercase' }}>&#9679; Live</span>
             ) : null}
+            <button
+              onClick={captureProFormaPdf}
+              disabled={pdfCapturing}
+              style={{
+                ...SANS,
+                fontSize: 7,
+                letterSpacing: 1.5,
+                textTransform: 'uppercase' as const,
+                padding: '4px 10px',
+                borderRadius: 2,
+                border: `1px solid ${pdfCapturing ? 'rgba(200,172,120,0.4)' : '#c8ac78'}`,
+                background: 'transparent',
+                color: pdfCapturing ? 'rgba(200,172,120,0.4)' : '#c8ac78',
+                cursor: pdfCapturing ? 'not-allowed' : 'pointer',
+                transition: 'background 0.15s, color 0.15s',
+                whiteSpace: 'nowrap' as const,
+              }}
+              onMouseEnter={e => {
+                if (!pdfCapturing) {
+                  (e.currentTarget as HTMLButtonElement).style.background = '#c8ac78';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#0D1B2A';
+                  (e.currentTarget as HTMLButtonElement).style.fontWeight = '500';
+                }
+              }}
+              onMouseLeave={e => {
+                if (!pdfCapturing) {
+                  (e.currentTarget as HTMLButtonElement).style.background = 'transparent';
+                  (e.currentTarget as HTMLButtonElement).style.color = '#c8ac78';
+                  (e.currentTarget as HTMLButtonElement).style.fontWeight = 'normal';
+                }
+              }}
+            >
+              {pdfCapturing ? '⟳ CAPTURING…' : '↓ DOWNLOAD PRO FORMA PDF'}
+            </button>
           </div>
         </div>
 
