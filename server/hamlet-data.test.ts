@@ -33,7 +33,6 @@ describe('P2 Hamlet Data Corrections', () => {
     expect(ehn!.name).toBe('East Hampton North');
     expect(ehn!.medianPrice).toBe(2_030_000);
     expect(ehn!.medianPriceDisplay).toBe('$2.03M');
-    expect(ehn!.anewScore).toBe(8.6);
     expect(ehn!.volumeShare).toBe(9);
   });
 

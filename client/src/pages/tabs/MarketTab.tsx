@@ -6,7 +6,7 @@
  *   - Hamptons Market Signal — eleven-hamlet volume-share donut ring (Hamptons-native, no macro)
  *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
  *   - Eleven hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
- *   - Each tile: hamlet name, median price, Christie's Intelligence Score (CIS), tier badge, volume share bar
+ *   - Each tile: hamlet name, median price, tier badge, volume share bar
  *
  * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
  * Do NOT use VIX, S&P, or broad macro indicators inside this ring or its score.
@@ -18,7 +18,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
-// CISBadge import removed per Ruling 2
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
 import { trpc } from '@/lib/trpc';
 import { toast } from 'sonner';
@@ -44,7 +43,6 @@ const TIER_BADGE_COLORS: Record<HamletTier, { bg: string; text: string }> = {
 // LiveMatrixRow mirrors server/sheets-helper.ts MarketMatrixHamlet exactly
 interface LiveMatrixRow {
   hamlet: string;
-  cisScore: number;          // was: cis
   median2025: string;
   dollarVolumeShare: string; // was: volumeShare (now string e.g. "7%")
   dollarVolume2025: string;  // was: dollarVolume
@@ -60,7 +58,6 @@ interface LiveMatrixRow {
 // isLive = true means the sheet row was found and values are current.
 interface MergedHamlet extends HamletData {
   liveMedian: string;
-  liveCis: number;
   liveVolumeShare: number;
   liveDollarVolume: string;
   liveSales: number;
@@ -81,7 +78,6 @@ function mergeHamletData(
     return {
       ...h,
       liveMedian: match?.median2025 ?? h.medianPriceDisplay,
-      liveCis: match?.cisScore ?? h.anewScore,
       liveVolumeShare: parseFloat(String(match?.dollarVolumeShare ?? h.volumeShare)) || h.volumeShare,
       liveDollarVolume: match?.dollarVolume2025 ?? '',
       liveSales: match?.sales2025 ?? 0,
@@ -334,7 +330,6 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           >
             {hamlet.name}
           </h3>
-          {/* CIS badge removed per Ruling 2 */}
         </div>
 
         {/* Median price */}
@@ -352,7 +347,6 @@ function HamletTile({ hamlet }: { hamlet: MergedHamlet }) {
           </div>
         </div>
 
-        {/* CIS bar removed per Ruling 2 */}
 
         {/* Volume share bar */}
         <div>
@@ -562,10 +556,9 @@ export default function MarketTab() {
   // Extract the hamlets array before passing to mergeHamletData
   const matrixRows = matrixResponse?.hamlets;
 
-  // SD7 Item Two: sort by CIS descending (Sagaponack first)
   const mergedData = useMemo(() => {
     const merged = mergeHamletData(MASTER_HAMLET_DATA, matrixRows);
-    return [...merged].sort((a, b) => b.liveCis - a.liveCis);
+    return [...merged].sort((a, b) => b.medianPrice - a.medianPrice);
   }, [matrixRows]);
 
   const tierGroups = TIER_ORDER.map(tier => ({

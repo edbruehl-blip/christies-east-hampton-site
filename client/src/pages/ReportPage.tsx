@@ -8,7 +8,7 @@
  * Section 2 · Hamptons Local Intelligence — Bloomberg-style news feed
  * Section 3 · Market Intelligence — CFS donut ring · rate environment · Hamptons Median
  * Section 4 · Hamlet Atlas Matrix — 9 hamlet tiles, tap = inline expansion
- * Section 5 · MAPS / CIS Intelligence — model deal · CIS chip · QR
+ * Section 5 · MAPS Intelligence — model deal · QR
  * Section 6 · Resources & Authority — Christie's ecosystem · contact block · doctrine footer
  *
  * Design: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
@@ -31,7 +31,7 @@ import {
   type HamletData,
   type HamletTier,
 } from '@/data/hamlet-master';
-import { generateReportPdf } from '@/lib/report-pdf';
+import { captureToPdf } from '@/lib/capture-pdf';
 import '@/styles/report-print.css';
 import { EstateAdvisoryCard } from '@/components/EstateAdvisoryCard';
 
@@ -53,7 +53,9 @@ function BackBar() {
   async function handlePdfDownload() {
     setPdfLoading(true);
     try {
-      await generateReportPdf();
+      const el = document.getElementById('report-page-root') ?? document.body;
+      const today = new Date().toISOString().slice(0, 10);
+      await captureToPdf(el, `christies-east-hampton-market-report-${today}.pdf`);
       toast.success('PDF downloaded successfully');
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
@@ -173,7 +175,9 @@ function Section1() {
     if (pdfState === 'generating') return;
     setPdfState('generating');
     try {
-      await generateReportPdf();
+      const el = document.getElementById('report-page-root') ?? document.body;
+      const today = new Date().toISOString().slice(0, 10);
+      await captureToPdf(el, `christies-east-hampton-market-report-${today}.pdf`);
       setPdfState('done');
     } catch (e) {
       console.error(e);
@@ -327,7 +331,7 @@ function Section1() {
         >
           A Letter from the Desk
         </div>
-        <h2
+                <h2
           style={{
             fontFamily: '"Cormorant Garamond", serif',
             color: '#FAF8F4',
@@ -339,75 +343,12 @@ function Section1() {
         >
           Art. Beauty. Provenance. Since 1766.
         </h2>
-        {[
-          "Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.",
-          'The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.',
-           "This platform exists to carry the Christie's standard into every conversation, every deal brief, every market report. The intelligence here is institutional. The analysis is honest. The service is unconditional.",
-          'Every property is evaluated on five lenses: price trajectory, land scarcity, school district quality, transaction velocity, and institutional adjacency. A property either passes or it does not. There is no gray area in institutional real estate.',
-          'The eleven hamlets of the East End represent the most concentrated wealth corridor in the northeastern United States. East Hampton Village. Sagaponack. Bridgehampton. Water Mill. Southampton Village. Sag Harbor. Amagansett. Wainscott. East Hampton North. Springs. Montauk. Each one has a story. Each one has a price. Each one has a buyer.',
-          "Christie's East Hampton is not a brokerage. It is a standard. The auction house has been the authority on provenance, value, and discretion for 260 years. That authority now extends to the East End.",
-          "The families who built this territory deserve representation that matches the weight of their decisions. Not a pitch. Not a presentation. A system. A process that has been tested, scored, and proven.",
-          "Every export from this platform — every market report, every deal brief, every CMA — carries the Christie's name because it has earned the right to carry it. The standard is not aspirational. It is operational.",
-          'Not a pitch. A system. Not a promise. A process that has been tested, scored, and proven.',
-        ].map((para, i) => (
-          <p
-            key={i}
-            style={{
-              fontFamily: '"Source Sans 3", sans-serif',
-              color: i === 8 ? '#947231' : 'rgba(250,248,244,0.82)',
-              fontSize: '0.9375rem',
-              lineHeight: 1.75,
-              marginBottom: i === 8 ? 0 : 18,
-              fontStyle: i === 8 ? 'italic' : 'normal',
-              borderLeft: i === 8 ? '2px solid rgba(200,172,120,0.4)' : 'none',
-              paddingLeft: i === 8 ? 16 : 0,
-            }}
-          >
-            {para}
-          </p>
-        ))}
-
-        {/* Ed signature block */}
-        <div
-          className="mt-10 flex items-center gap-4"
-          style={{ borderTop: '1px solid rgba(200,172,120,0.2)', paddingTop: 24 }}
-        >
-          <img
-            src={ED_HEADSHOT_PRIMARY}
-            alt="Ed Bruehl"
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: '50%',
-              objectFit: 'cover',
-              border: '1.5px solid rgba(200,172,120,0.5)',
-            }}
-          />
-          <div>
-            <div
-              style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                color: '#FAF8F4',
-                fontWeight: 600,
-                fontSize: '1rem',
-              }}
-            >
-              Ed Bruehl
-            </div>
-            <div
-              style={{
-                fontFamily: '"Barlow Condensed", sans-serif',
-                color: '#947231',
-                fontSize: 10,
-                letterSpacing: '0.18em',
-                textTransform: 'uppercase',
-                marginTop: 2,
-              }}
-            >
-              Managing Director · Christie's East Hampton
-            </div>
-          </div>
-        </div>
+        <FoundingLetter
+          color="rgba(250,248,244,0.82)"
+          fontSize="0.9375rem"
+          lineHeight={1.75}
+          paragraphGap={18}
+        />
       </div>
     </section>
   );
@@ -1029,7 +970,7 @@ function HamletTile({
         >
           {hamlet.name}
         </span>
-        {/* Tier badge removed — CIS only on public surfaces (Sprint 6 LD-02) */}
+        
       </div>
       <div
         style={{
@@ -1134,7 +1075,6 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
                 ? `$${(hamlet.medianPrice / 1_000_000).toFixed(2)}M`
                 : `$${(hamlet.medianPrice / 1_000).toFixed(0)}K`,
           },
-          // CIS stat removed per Ruling 2
           { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
           { label: '4-Year Direction', value: 'Up' },
         ].map((stat) => (
@@ -1233,8 +1173,8 @@ function Section4() {
     return h && MASTER_HAMLET_DATA.some(d => d.id === h) ? h : null;
   });
   const selectedHamlet = MASTER_HAMLET_DATA.find((h) => h.id === selectedId) ?? null;
-  // Correction 3: render all 11 hamlets in CIS-descending order
-  const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.anewScore - a.anewScore);
+  // Render all 11 hamlets in median price descending order
+  const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.medianPrice - a.medianPrice);
 
   // B4: Auto-scroll to this section when hamlet param is present
   useEffect(() => {
@@ -2056,7 +1996,7 @@ function Section7() {
 // Six-page structure:
 //   Page 1 — Section1: Founding Letter (James Christie portrait + letter)
 //   Page 2 — Section2: Market Intelligence (CFS, rates, market strip)
-//   Page 3 — Section3: Hamlet Atlas Matrix (11 hamlets, CIS-descending)
+//   Page 3 — Section3: Hamlet Atlas Matrix (11 hamlets, median-descending)
 //   Page 4 — Section4: MAPS Teaser (ANEW build, model deal)
 //   Page 5 — Section5: Authority (gallery, YouTube, auction intel)
 //   Page 6 — EstateAdvisoryCard: Estate Advisory CTA

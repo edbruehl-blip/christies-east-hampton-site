@@ -2610,3 +2610,56 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Fix fmtK() to round to nearest $1K (clean display, no decimal drift)
 - [x] 11/11 acceptance test PASS: Scott $774K · Jarvis $1M cap 2035+2036 · Angel $361K · Zoila $516K · Zoila full parity · Ed $3.60M/$2.52M
 - [x] Build clean (0 TS errors, no new warnings) · Vitest 54/54
+
+## Council Final · Apr 23 2026 · Six Lanes
+
+### Lane 2 · CIS Purge
+- [x] Delete CISBadge.tsx
+- [x] Delete PublicPage.tsx
+- [x] MarketTab.tsx: strip badge, liveCis, CIS bar, CIS-desc sort, footer
+- [x] MapsTab.tsx: rename CIS Calculator → ANEW Deal Engine; remove badges; keep 4-field block
+- [x] NeighborhoodCardPage.tsx: remove CISBadge + cis field
+- [x] ReportPage.tsx: scrub L342-350 bespoke letter (replaced by FoundingLetter in Lane 3)
+- [x] HomeTab.tsx: rewrite L296 CIS ref
+- [x] pdf-exports.ts: remove all CIS rows (file dies entirely in Lane 6)
+- [x] hamlet-master.ts: delete/rename anewScore; strip CIS matrix fields
+- [x] hamlet-highlights.json: strip cis field from every entry
+- [x] Remaining 10 files: strip CIS refs per Perp scope
+- [x] Acceptance: grep CIS/Christie's Intelligence Score = zero matches
+
+### Lane 3 · Letter Canon
+- [x] Extract HomeTab.tsx L31-44 to client/src/content/founding-letter.ts
+- [x] Create FoundingLetter.tsx shared component
+- [x] HomeTab.tsx: import FoundingLetter (replaces inline paragraphs)
+- [x] ReportPage.tsx: import FoundingLetter (retires L342-350 + signed close)
+- [x] server/tts-route.ts: import FLAGSHIP_LETTER_TEXT
+- [x] Acceptance: grep "For twenty years on the East End" = exactly ONE match
+
+### Lane 4 · UHNW CTA Removal
+- [x] Remove "Open Card" CTA from /future footer (UHNWCardLink component)
+
+### Lane 5 · Shell Purge
+- [x] Build PageShell + SectionFrame primitives
+- [x] Kill blue hex #0B2545, #1E3A5F, blue-900 outside PageShell scrim
+- [x] Apply PageShell to all 7 routes: HOME, MARKET, MAPS, PIPE, FUTURE, INTEL, REPORT
+- [x] PhotoMatrix: auto-fill responsive grid (1/2/3 col breakpoints)
+- [x] Delete legacy V1/V2 component files
+- [x] HOME: hide "Today's Brief" block until William fires (null → hidden)
+- [x] Acceptance: screenshots at 375/768/1440px show single Christie's environment, no blue slabs
+
+### Lane 6 · Screenshot-to-PDF
+- [x] Confirm html2canvas in package.json (or install)
+- [x] Build captureToPdf() helper in client/src/lib/capture-pdf.ts
+- [x] Wire Download PDF button to every route (HOME/MARKET/MAPS/PIPE/FUTURE/INTEL/REPORT)
+- [x] Wire Download Market Report button to /report (full stacked scroll)
+- [x] Delete FutureTabPrintCream.tsx
+- [x] Delete pdf-exports.ts (entire file)
+- [x] Remove ?pdf=1 branch from FutureTab.tsx
+- [x] Acceptance: grep FutureTabPrintCream|generateMarketReport = zero matches
+
+### Chat Scope Guards (folded into Lane 5)
+- [x] PhotoMatrix: 3 col ≥900px, 2 col 640-900px, 1 col <640px, consistent gap, consistent image ratios, no overflow, no misaligned last row
+- [x] HOME Today's Brief: hide block conditionally when brief is null (one-line conditional, not a feature build)
+- [PARKED] REPORT lower-third rebuild (five-endings composition) — Phase 2
+- [PARKED] INTEL hierarchy below corkboard — Phase 2
+- [PARKED] MAPS/MARKET content restructuring — Phase 2

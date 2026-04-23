@@ -40,7 +40,6 @@ export interface HamletData {
   tier: HamletTier;
   medianPrice: number;          // USD
   medianPriceDisplay: string;   // formatted string
-  anewScore: number;            // 0–10
   volumeShare: number;          // percentage 0–100
   lastSale: string;             // address of last notable sale
   lastSalePrice: string;        // price of last notable sale
@@ -65,22 +64,6 @@ export interface HamletData {
   qsHamletTier: number;
 
   /**
-   * CIS data quality caveat — rendered as italic footnote on hamlet card.
-   * Only set for hamlets where the CIS score requires a disclosure
-   * (e.g., portal-modeled, thin sample, pending audit confirmation).
-   * Leave undefined for all other hamlets.
-   */
-  cisNote?: string;
-
-  /**
-   * Live CIS score — displayed as a gold badge on the hamlet matrix card.
-   * Set when a live CIS score is available for the hamlet.
-   * Leave undefined for all other hamlets.
-   * Added April 21 2026 — Dispatch Addendum 2 TS fix.
-   */
-  liveCis?: number;
-
-  /**
    * SUB-HAMLET SCAFFOLD — DATA LAYER ONLY
    * ─────────────────────────────────────────────────────────────────────────
    * This field is a reserved container for future sub-hamlet granularity
@@ -92,16 +75,15 @@ export interface HamletData {
    *   - DO NOT display this on the MARKET tab hamlet cards
    *   - The exact field schema (names, parent-child relationships,
    *     sub-designation labels) will be provided by Perplexity 2 as part
-   *     of the CIS matrix deliverable
    *
-   * Leave all values as empty arrays until Ed issues GO on the CIS matrix.
+   * Leave all values as empty arrays until Ed issues GO.
    */
   subHamlets?: SubHamletEntry[];
 }
 
 /**
  * SUB-HAMLET ENTRY — reserved schema container
- * All fields optional — exact schema TBD per CIS matrix deliverable.
+ * All fields optional — exact schema TBD.
  * DO NOT render, display, or export until Ed issues GO.
  */
 export interface SubHamletEntry {
@@ -111,13 +93,9 @@ export interface SubHamletEntry {
   name?: string;
   /** Parent hamlet ID this sub-hamlet belongs to */
   parentHamletId?: string;
-  /** Reserved for CIS matrix sub-designation labels */
-  cisSubDesignation?: string;
   /** Reserved for sub-hamlet median price (USD) */
   medianPrice?: number;
-  /** Reserved for sub-hamlet CIS score */
-  anewScore?: number;
-  /** Reserved for additional CIS matrix fields — TBD */
+  /** Reserved for additional sub-hamlet fields — TBD */
   [key: string]: unknown;
 }
 
@@ -130,7 +108,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Ultra-Trophy',
     medianPrice: 8_040_000,
     medianPriceDisplay: '$8.04M',
-    anewScore: 9.4,
     volumeShare: 4,  // ~4% — ~$229.9M of $5.922B (Sagaponack combined)
     lastSale: '123 Ocean Road',
     lastSalePrice: '$19.5M',
@@ -167,7 +144,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Ultra-Trophy',
     medianPrice: 5_250_000,
     medianPriceDisplay: '$5.25M',
-    anewScore: 9.2,
     volumeShare: 7,  // 7% — $408.9M of $5.922B (verified market intelligence cross-reference)
     lastSale: '8 Lily Pond Lane',
     lastSalePrice: '$9.8M',
@@ -204,7 +180,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 4_470_000,
     medianPriceDisplay: '$4.47M',
-    anewScore: 9.1,
     volumeShare: 9,  // 9% — $530.9M of $5.922B
     lastSale: '71 Ocean Road',
     lastSalePrice: '$7.2M',
@@ -241,7 +216,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 4_385_000,
     medianPriceDisplay: '$4.385M',
-    anewScore: 9.0,
     volumeShare: 11,  // 11% — $670.4M of $5.922B
     lastSale: '48 Gin Lane',
     lastSalePrice: '$5.6M',
@@ -278,7 +252,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 4_550_000,
     medianPriceDisplay: '$4.55M',
-    anewScore: 8.8,
     volumeShare: 7,  // 7% — $405.1M of $5.922B
     lastSale: '91 Flying Point Road',
     lastSalePrice: '$6.4M',
@@ -315,7 +288,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Premier',
     medianPrice: 2_800_000,
     medianPriceDisplay: '$2.80M',
-    anewScore: 8.4,
     volumeShare: 5,  // 5% — $315.8M of $5.922B
     lastSale: '15 Bay Street',
     lastSalePrice: '$3.9M',
@@ -352,7 +324,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Premier',
     medianPrice: 4_350_000,
     medianPriceDisplay: '$4.35M',
-    anewScore: 8.9,
     volumeShare: 9,  // 9% — $508.2M of $5.922B
     lastSale: '32 Bluff Road',
     lastSalePrice: '$4.7M',
@@ -392,7 +363,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Premier',
     medianPrice: 2_030_000,
     medianPriceDisplay: '$2.03M',
-    anewScore: 8.6,
     volumeShare: 9,  // 9% — $545.4M of $5.922B
     lastSale: '24 N Woods Ln',
     lastSalePrice: '$2.17M',
@@ -429,7 +399,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Opportunity',
     medianPrice: 1_580_000,
     medianPriceDisplay: '$1.58M',
-    anewScore: 6.8,
     volumeShare: 3,  // 3% — $156.2M of $5.922B
     lastSale: '9 Old Stone Highway',
     lastSalePrice: '$2.1M',
@@ -466,7 +435,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Opportunity',
     medianPrice: 2_240_000,
     medianPriceDisplay: '$2.24M',
-    anewScore: 8.2,
     volumeShare: 4,  // 4% — $245.3M of $5.922B
     lastSale: '18 Tara Road',
     lastSalePrice: '$3.99M',
@@ -503,8 +471,6 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     tier: 'Trophy',
     medianPrice: 3_600_000,
     medianPriceDisplay: '$3.6M',
-    anewScore: 8.8,  // CIS 8.8 · Portal-modeled · thin sample 10–20 transactions/yr · Doctrine 16
-    cisNote: 'Portal-modeled · Thin sample (10–20 txns/yr) · CIS 8.8 reflects limited transaction depth per Doctrine 16.',
     volumeShare: 2,  // 2% — $91.7M of $5.922B
     lastSale: '115 Beach Lane',
     lastSalePrice: '$59M',
@@ -538,7 +504,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
 ];
 
 // ─── Montauk: 10th hamlet added per Ed Bruehl direction, April 2026.
-// Wainscott: added April 3, 2026 — CIS 8.7 confirmed April 3, 2026, Trophy tier.
+// Wainscott: added April 3, 2026 — Trophy tier.
 // Medians: Verified market intelligence · MLS-backed public records — confirmed April 3, 2026.
 // imageUrl + vibeText: wired April 3, 2026.
 // Hampton Bays (Cowfish) is not in the ten-hamlet ANEW territory.

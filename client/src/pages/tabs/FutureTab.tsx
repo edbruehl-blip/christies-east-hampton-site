@@ -11,7 +11,6 @@ import { useLocation } from 'wouter';
 import { LOGO_WHITE, LOGO_BLACK } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
-import FutureTabPrintCream from './FutureTabPrintCream';
 import {
   Chart,
   BarController,
@@ -650,9 +649,6 @@ export default function FutureTab() {
 
   // Print is a separate component tree, not a CSS override.
   // When ?pdf=1 is present, render the cream mirror; never the dashboard.
-  if (isPdfMode) {
-    return <FutureTabPrintCream />;
-  }
 
   const BG = isPdfMode ? '#faf7f1' : NAVY;
   const TEXT_PRIMARY = isPdfMode ? '#111' : '#ebe6db';
@@ -1023,8 +1019,7 @@ export default function FutureTab() {
         <AssumptionsCalc isPdfMode={isPdfMode} />
         {/* Brand footer */}
         <BrandFooter isPdfMode={isPdfMode} />
-        {/* Client Resource block (v17 spec: cream static in PDF, dark clickable on screen) */}
-        <UHNWCardLink isPdfMode={isPdfMode} />
+        {/* UHNW Wealth Path Card — removed per Lane 4 (Council Final Apr 23 2026). Rebuilds as separate product work when designed properly. */}
         {/* Page 2 of 2 pagination - inside cream wrapper */}
         <div className="future-page-label" style={{ ...SANS, fontSize: 7, color: MUTED, letterSpacing: 1.2, textTransform: 'uppercase', textAlign: 'center', marginTop: 4, opacity: 0.55 }}>
             Page 2 of 2

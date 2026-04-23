@@ -1,8 +1,8 @@
 /**
  * MAPS TAB — Maps Intelligence Hub. Five layers, one scroll.
  * Layer 1: Paumanok SVG aerial plate (static, no zoom controls)
- * Layer 2: CIS Calculator (migrated from IDEAS — this is the canonical home)
- * Layer 3: Eleven Hamlet Matrix — CIS score cards with satellite thumbnails
+ * Layer 2: ANEW Deal Engine (canonical home)
+ * Layer 3: Eleven Hamlet Matrix — hamlet intelligence cards with satellite thumbnails
  * Layer 4: Individual hamlet PDF download from each card
  * Layer 5: Calculator output printable from Maps tab
  *
@@ -10,7 +10,7 @@
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels)
  *
  * NOTE: IDEAS tab removed from public navigation. This is the canonical home
- * for the CIS Calculator. Do not re-add IDEAS to the nav.
+ * for the ANEW Deal Engine. Do not re-add IDEAS to the nav.
  */
 
 import { useEffect, useRef, useState } from 'react';
@@ -43,7 +43,6 @@ import {
 } from '@/lib/pdf-exports';
 import hamletHighlightsData from '@/data/hamlet-highlights.json';
 import { ANEWDealEngine } from '@/components/ANEWDealEngine';
-// CISBadge import removed per Ruling 2
 
 // ─── CDN URLs for GeoJSON ─────────────────────────────────────────────────────
 
@@ -87,7 +86,7 @@ function PaumanokPlate() {
   );
 }
 
-// ─── Layer 2: CIS Calculator (migrated from IDEAS) ────────────────────────────
+// ─── Layer 2: ANEW Deal Engine ──────────────────────────────────────────────────
 
 const DEFAULT_ADDRESS = '140 Hands Creek Road, East Hampton';
 const LS_ADDRESS_KEY = 'anew_last_address';
@@ -345,19 +344,17 @@ function BuyRentForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
   );
 }
 
-// CISCalculatorLayer removed per Ruling 2 — replaced by ANEWDealEngineSection below
 
 // ─── Layer 3 + 4: Eleven Hamlet Matrix + PDF Download ────────────────────────────
 
 // ─── Hamlet Highlights: Selected-hamlet local intelligence module ────────────
 // Spec: Apr 17 2026 dispatch — one card, updates on hamlet selection
 // Data: Ponder-curated static JSON (hamlet-highlights.json)
-// Placement: below CIS Calculator
+// Placement: below ANEW Deal Engine
 
 interface HamletHighlight {
   name: string;
   id: string;
-  cis: number;
   anchor: string;
   local_spot: string;
   secret: string;
@@ -372,7 +369,7 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
 
   return (
     <div style={{ background: '#0D1520', border: '1px solid rgba(200,172,120,0.18)', display: 'flex', flexDirection: 'column' }}>
-      {/* Photo + CIS badge */}
+      {/* Photo */}
       <div style={{ position: 'relative', height: 160, overflow: 'hidden', flexShrink: 0 }}>
         {photo ? (
           <img src={photo} alt={highlight.name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} />
@@ -380,7 +377,7 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
           <div style={{ width: '100%', height: '100%', background: '#1B2A4A' }} />
         )}
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 35%, rgba(13,21,32,0.88) 100%)' }} />
-        {/* CIS badge removed per Ruling 2 */}
+        
         <div style={{ position: 'absolute', bottom: 10, left: 12, right: 12 }}>
           <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 600, fontSize: '1.1rem', lineHeight: 1.2 }}>{highlight.name}</div>
         </div>
@@ -442,7 +439,10 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
     setDownloading(true);
     const toastId = toast.loading(`Generating ${hamlet.name} PDF…`);
     try {
-      await generateMarketReport(hamlet.id);
+      // Lane 6: captureToPdf replaces bespoke generateMarketReport
+      const el = document.getElementById(`hamlet-card-${hamlet.id}`);
+      if (el) await captureToPdf(el, `christies-${hamlet.id}-report.pdf`);
+      else toast.info('Capture element not found — scroll to hamlet and try again.');
       toast.success('PDF downloaded', { id: toastId });
     } catch (err) {
       console.error('Hamlet PDF error:', err);
@@ -470,7 +470,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
         <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.75) 100%)' }} />
-        {/* CIS badge removed per Ruling 2 */}
+        
         {hamletListings.length > 0 && (
           <div style={{ position: 'absolute', top: 8, right: 8, background: '#947231', color: '#1B2A4A', fontFamily: '"Barlow Condensed", sans-serif', fontSize: 9, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', fontWeight: 700 }}>
             {hamletListings.length} ACTIVE
@@ -502,8 +502,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#947231', fontSize: '0.72rem', fontWeight: 700 }}>{hamletListings[0].price}</div>
           </div>
         )}
-        {/* CIS data quality caveat — renders only for hamlets with cisNote (e.g., Wainscott) */}
-        {/* CIS note removed per Ruling 2 */}
+        
         {/* PDF download button — Layer 4 */}
         <button
           onClick={handleDownload}
@@ -572,7 +571,6 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 28 }}>
           {[
             { label: 'Median Price', value: hamlet.medianPriceDisplay },
-            // CIS field removed per Ruling 2
             { label: 'Share of Hamptons Dollar Volume', value: `${hamlet.volumeShare}%` },
             { label: 'Last Zillow Sale', value: hamlet.lastSalePrice },
           ].map(stat => (
@@ -731,7 +729,7 @@ export default function MapsTab() {
           <PaumanokPlate />
         </div>
       </div>
-      {/* CIS Calculator removed per Ruling 2 — replaced by ANEW Deal Engine below */}
+      
 
       {/* ── ANEW Deal Engine — reordered Apr 22 2026: Map → Deal Engine → Hamlet Highlights ─── */}
       <ANEWDealEngine />

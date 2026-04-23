@@ -1,7 +1,7 @@
 /**
  * /cards/bike — Christie's Neighborhood Card · HTML Renderer
  *
- * Two-sided print card: front (map + CIS hamlet strip) + back (creed + services + contact)
+ * Two-sided print card: front (map + hamlet strip) + back (creed + services + contact)
  * Print CSS: landscape, two cards per 8.5×11 sheet, cut horizontally.
  *
  * PDF download: GET /api/pdf?url=/cards/bike
@@ -12,7 +12,6 @@
  * ?pdf=1 → download bar hidden, clean rendering for Puppeteer.
  */
 import { useState, useEffect } from 'react';
-// CISBadge import removed per Ruling 2
 
 // ─── Doctrine 43 — PDF Light Mode Export Standard ─────────────────────────────
 function useIsPdfMode(): boolean {
@@ -51,7 +50,7 @@ const HAMLET_POSITIONS = [
   { name: 'Sagaponack',          cis: 9.4, x: 62, y: 55 },
   { name: 'EH Village',          cis: 9.2, x: 72, y: 48 },
   { name: 'Bridgehampton',       cis: 9.1, x: 55, y: 52 },
-  { name: 'Southampton Village', cis: 8.8, x: 35, y: 50 },
+  { name: 'Southampton Village', x: 35, y: 50 },
   { name: 'Sag Harbor',          cis: 8.5, x: 68, y: 38 },
   { name: 'Amagansett',          cis: 8.3, x: 80, y: 50 },
   { name: 'Wainscott',           cis: 8.1, x: 66, y: 60 },
@@ -220,7 +219,7 @@ export default function NeighborhoodCardPage() {
             borderBottom: `1px solid rgba(200,172,120,0.15)`,
           }}
         >
-          {/* Left: Map zone with hamlet CIS badges */}
+          {/* Left: Map zone with hamlet strip */}
           <div
             style={{
               flex: '1 1 55%',
@@ -258,7 +257,7 @@ export default function NeighborhoodCardPage() {
             }}>
               East End · Hamptons · Since 1766
             </div>
-            {/* Hamlet CIS badges positioned on map */}
+            {/* Hamlet tier badges positioned on map */}
             {HAMLET_POSITIONS.map((h) => (
               <div
                 key={h.name}
@@ -355,7 +354,7 @@ export default function NeighborhoodCardPage() {
                     paddingBottom: 5,
                   }}
                 >
-                  {/* CIS badge removed per Ruling 2 */}
+
                   <div style={{ flex: 1 }}>
                     <div style={{
                       fontSize: 10,

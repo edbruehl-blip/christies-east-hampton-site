@@ -198,8 +198,7 @@ function calcGFA(spreadPct: number, hamlet: HamletData): number {
   // Hamlet quality score: tier 1–5 maps to 0–30
   const hamletQuality = hamlet.qsHamletTier * 6;
   // ANEW score contribution: 0–10 maps to 0–10
-  const anewContrib = hamlet.anewScore;
-  const raw = spreadBase + hamletQuality + anewContrib;
+  const raw = spreadBase + hamletQuality;
   return Math.min(Math.round(raw), 100);
 }
 

@@ -11,7 +11,6 @@
 
 import { useState, useCallback } from 'react';
 import { trpc } from '@/lib/trpc';
-import { generateAnewDealMemo } from '@/lib/pdf-exports';
 import { MASTER_HAMLET_DATA } from '@/data/hamlet-master';
 
 // ─── Typography constants (Christie's standard) ───────────────────────────────
@@ -164,21 +163,10 @@ export function ANEWDealEngine() {
 
   // ── PDF export ────────────────────────────────────────────────────────────────
   const handleExport = useCallback(async () => {
-    if (!data) return;
-    await generateAnewDealMemo({
-      dealName: dealName || 'Deal',
-      hamlet:   hamlet   || undefined,
-      inputs: {
-        purchase:  p,
-        addlCap:   ac,
-        baseValue: bv,
-        rent:      r,
-        holdYears: hy,
-        cocPct:    cc,
-      },
-      result: data,
-    });
-  }, [data, dealName, hamlet, p, ac, bv, r, hy, cc]);
+    // Lane 6: bespoke PDF render retired. Screenshot-to-PDF via captureToPdf.
+    // Wire a ref to the deal engine container and call captureToPdf when ready.
+    toast.info('Deal memo PDF — use the Download PDF button on the MAPS tab to capture this view.');
+  }, []);
 
   // ── Stewardship color ─────────────────────────────────────────────────────────
   const stewardshipColor = (s?: string) => {

@@ -3,18 +3,6 @@ import { ENV } from "./_core/env";
 import { fetchYF, fetchMortgageRate } from "./market-route";
 import { FLAGSHIP_LETTER_TEXT, CHRISTIES_LETTER_TEXT } from "./letter-content";
 
-// ─── Founding Letter (Ed Bruehl — private, not exposed as a button) ──────────
-const FOUNDING_LETTER = `Christie's East Hampton. A letter from the desk.
-
-Art. Beauty. Provenance. Since 1766.
-
-Christie's has carried one standard since James Christie opened the doors on Pall Mall in 1766: the family's interest comes before the sale. Not the commission. Not the close. The family. That principle has survived 260 years of markets, wars, and revolutions. It is the only principle that matters in East Hampton today.
-
-The East End is not a market. It is a territory — eleven distinct hamlets, each with its own character, its own price corridor, its own buyer. Sagaponack and East Hampton Village are institutions in their own right. Springs is the most honest value proposition on the East End. Every hamlet deserves the same rigor, the same data, the same discipline.
-
-This platform exists to carry the Christie's standard into every conversation, every deal brief, every family meeting on the East End. Not to impress. To serve.
-
-Ed Bruehl. Managing Director. Christie's International Real Estate Group, East Hampton.`;
 
 // ─── Letter texts imported from ./letter-content.ts ─────────────────────────
 // FLAGSHIP_LETTER_TEXT and CHRISTIES_LETTER_TEXT are imported at the top of this file.
@@ -35,7 +23,7 @@ Southampton Village. Median: 3.55 million dollars. Year-over-year volume: plus 1
 Water Mill. Median: 4.2 million dollars. Year-over-year volume: plus 7 percent. Equestrian corridor. Land value is the primary driver.
 Amagansett. Median: 4.25 million dollars. Year-over-year volume: plus 9 percent. The emerging premier corridor.
 East Hampton North. Median: 2.03 million dollars. Year-over-year volume: plus 18 percent. The highest volume growth in the entire matrix.
-Wainscott. Median: 3.6 million dollars. Year-over-year volume: plus 10 percent. Anchored by the March 2026 record sale at 115 Beach Lane at 59 million dollars. CIS 8.8 — thin sample, 10 to 20 transactions per year. A quiet, land-rich corridor between East Hampton Village and Bridgehampton.
+Wainscott. Median: 3.6 million dollars. Year-over-year volume: plus 10 percent. Anchored by the March 2026 record sale at 115 Beach Lane at 59 million dollars. A quiet, land-rich corridor between East Hampton Village and Bridgehampton.
 Sag Harbor. Median: 2.85 million dollars. Year-over-year volume: plus 11 percent. The most walkable hamlet on the East End.
 Springs. Median: 1.35 million dollars. Year-over-year volume: plus 17 percent. The most honest value proposition on the East End.
 Montauk. Median: 2.24 million dollars. Year-over-year volume: plus 9 percent. The eastern anchor of the East End.
@@ -245,7 +233,7 @@ export function registerTtsRoute(app: Express) {
       return;
     }
     try {
-      await streamTts(FOUNDING_LETTER, apiKey, res);
+      await streamTts(FLAGSHIP_LETTER_TEXT, apiKey, res);
     } catch (err) {
       console.error("[TTS] Unexpected error:", err);
       if (!res.headersSent) res.status(500).json({ error: "TTS generation failed" });

@@ -43,9 +43,6 @@
 import React, { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import {
-  generateEastHamptonVillageReport,
-} from "@/lib/pdf-exports";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -463,7 +460,7 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the East Hampton Village Report PDF covering all eleven hamlets.",
     x: 460, y: 1960, r: 18,
-    clickAction: { type: "pdf", label: "Generating Hamlet PDFs…", fn: () => generateEastHamptonVillageReport() } },
+    clickAction: { type: "pdf", label: "Use Download PDF on MAPS tab", fn: () => toast.info("Use the Download PDF button on the MAPS tab to export hamlet reports.") } },
 
   { id: "exp_anew",
     name: "ANEW Build Memo",

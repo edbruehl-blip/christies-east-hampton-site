@@ -286,7 +286,6 @@ const MARKET_MATRIX_TAB = "Market Matrix";
 
 export interface MarketMatrixHamlet {
   hamlet: string;
-  cisScore: number;
   median2025: string;       // e.g. "$5,250,000"
   dollarVolumeShare: string; // e.g. "7%"
   dollarVolume2025: string;  // e.g. "$408,910,000"
@@ -316,7 +315,6 @@ export async function readMarketMatrixRows(): Promise<MarketMatrixHamlet[]> {
     .filter(r => r && r[0] && r[0].trim())
     .map(r => ({
       hamlet:            r[0]  ?? '',
-      cisScore:          parseFloat(r[1] ?? '0') || 0,
       median2025:        r[2]  ?? '',
       dollarVolumeShare: r[3]  ?? '',
       dollarVolume2025:  r[4]  ?? '',
