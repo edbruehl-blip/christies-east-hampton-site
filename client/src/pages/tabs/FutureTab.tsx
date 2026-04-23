@@ -770,7 +770,7 @@ export default function FutureTab() {
 
 
   return (
-    <div className="future-main-wrapper" style={{ background: BG, overflowX: 'hidden' }}>
+    <div className="future-main-wrapper" style={{ background: BG, overflowX: 'clip' }}>
       {/* Top header removed per Apr 22 directive — redundant with chart title */}
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: isPdfMode ? '12px 18px 10px' : '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 

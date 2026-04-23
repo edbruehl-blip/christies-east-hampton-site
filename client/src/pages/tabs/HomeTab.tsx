@@ -23,6 +23,7 @@ import { useLocation } from 'wouter';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import { FoundingLetter } from '@/components/FoundingLetter';
+import { SiteFooter } from '@/components/SiteFooter';
 
 
 // ─── Today's Brief Block (Task 7 · Apr 22 2026) ────────────────────────────────
@@ -156,7 +157,7 @@ function SectionA() {
     ?? '';
 
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.25)' }}>
+    <section style={{ background: 'transparent', borderBottom: '1px solid rgba(200,172,120,0.25)' }}>
       <div className="relative">
         {/* Background image */}
         <img
@@ -339,7 +340,7 @@ function AuctionImageMatrix() {
 // ─── Section C  ·  Christie's Story ──────────────────────────────────────────
 function SectionChristiesStory() {
   return (
-    <div style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 24px' }}>
+    <div style={{ background: 'rgba(13,27,42,0.75)', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 24px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',
@@ -466,88 +467,7 @@ function SectionVideoReel() {
   );
 }
 
-// ─── Section E  ·  Home Footer (Task 8 · Orphan Links · Apr 22 2026) ─────────
-function HomeFooter() {
-  const [, navigate] = useLocation();
 
-  const FOOTER_LINKS = [
-    { label: 'Letter from the Flagship', href: '/letters/flagship' },
-    { label: 'A Letter from Christie’s', href: '/letters/christies' },
-    { label: 'Letter to Angel', href: '/letters/angel' },
-    { label: 'Neighborhood Welcome Letter', href: '/letters/welcome' },
-  ];
-
-  return (
-    <div style={{
-      background: '#0D1B2A',
-      borderTop: '1px solid rgba(200,172,120,0.18)',
-      padding: '48px 24px 56px',
-    }}>
-      <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
-        {/* Brand line */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          <div style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            color: '#947231',
-            fontSize: 12,
-            fontWeight: 600,
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-          }}>
-            Christie’s East Hampton Flagship
-          </div>
-          <div style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            color: '#947231',
-            fontSize: 10,
-            fontWeight: 500,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            opacity: 0.55,
-          }}>
-            Art. Beauty. Provenance. Since 1766.
-          </div>
-        </div>
-
-        {/* Letter links */}
-        <div>
-          <div style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 8,
-            fontWeight: 600,
-            letterSpacing: '0.28em',
-            textTransform: 'uppercase',
-            color: 'rgba(148,114,49,0.55)',
-            marginBottom: 10,
-          }}>Institutional Letters</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 24px' }}>
-            {FOOTER_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={(e) => { e.preventDefault(); navigate(href); }}
-                style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 11,
-                  fontWeight: 500,
-                  letterSpacing: '0.12em',
-                  color: 'rgba(250,248,244,0.55)',
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
-                  transition: 'color 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#947231')}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,248,244,0.55)')}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
 // ORDER: Letter → Image Matrix → Today's Brief → Video Reel → Authority Block → Footer
@@ -559,7 +479,7 @@ export default function HomeTab() {
       <TodaysBrief />
       <SectionVideoReel />
       <SectionChristiesStory />
-      <HomeFooter />
+      <SiteFooter />
     </div>
   );
 }

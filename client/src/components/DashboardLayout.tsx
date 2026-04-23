@@ -20,6 +20,7 @@ import { useState, useEffect, type ReactNode } from "react";
 import { useLocation } from "wouter";
 import { LOGO_WHITE, ED_HEADSHOT_PRIMARY } from "@/lib/cdn-assets";
 import { trpc } from "@/lib/trpc";
+import { SiteFooter } from './SiteFooter';
 
 export type TabId = "home" | "market" | "maps" | "pipe" | "future" | "intel";
 
@@ -489,16 +490,8 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
         {children}
       </main>
 
-      {/* ── Footer — hidden in PDF/print mode (D43 spec: FutureTab renders its own print footer) ── */}
-      {!isPdfMode && (
-        <footer style={{ background: "#1B2A4A", padding: "12px 24px", marginTop: "auto" }}>
-          <div style={{ maxWidth: 1400, margin: "0 auto", textAlign: "center" }}>
-            <span style={{ fontFamily: "var(--font-condensed)", fontSize: "0.65rem", letterSpacing: "0.18em", textTransform: "uppercase", color: "#947231" }}>
-              Art. Beauty. Provenance. · Since 1766.
-            </span>
-          </div>
-        </footer>
-      )}
+      {/* ── Footer — canonical SiteFooter (S4 · Shell Purge Round · Apr 23 2026) ── */}
+      <SiteFooter />
     </div>
   );
 }
