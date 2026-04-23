@@ -2675,3 +2675,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] P0-2: FUTURE V3 canon — Scott 2036 shows $324K (V1), Jarvis 2035 shows $868K uncapped (V1). Must show $774K / $1M cap flat. Verify TEAM_BASES + projectPersonalGci() is the actual data source, not a stale ROSTER read.
 - [ ] P0-3: Governing principle copy — live /future footnote says "20% year-over-year, uncapped." Must say "20% year-over-year to $1M cap then flat."
 - [ ] P0-4: Duplicate East End Spotlight on /market — remove the duplicate.
+
+## Six-Item Commit · Apr 23 2026
+
+- [ ] Item 1: Add GitHub remote (edbruehl-blip/christies-east-hampton-site) + push to both remotes
+- [ ] Item 2: Publish 6a6d8b04 to production (P0-1 routing fix live) — done via Management UI
+- [ ] Item 3: P0-4 orphan section on /report — remove stray LastSignificantSale/RateEnvironment between Atlas and Maps
+- [ ] Item 4: Issue #1 AH Profit fix — FutureTab.tsx L653-664 ahGci Y1=$50K Y2=$150K 12.5% growth to $432K 2036
+- [ ] Item 5: Issue #1 CONFIDENTIAL strip — remove "CONFIDENTIAL" from Page 1 header + "internal only" from Page 2 footer
+- [ ] Item 6: Issue #2 Trello matrix — IntelTab.tsx L180 TRELLO_LANES + L215 count text (13 tiles / 188 cards)

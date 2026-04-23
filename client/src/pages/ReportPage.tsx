@@ -2009,7 +2009,6 @@ export default function ReportPage() {
       <Section1 />
       <Section3 />
       <Section4 />
-      <Section3Condensed />
       <Section5 />
       <AuctionGallery />
       <YouTubeMatrix />
