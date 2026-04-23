@@ -42,13 +42,13 @@
     "firm": "Christie's International Real Estate Group",
     "address": "26 Park Place · East Hampton, NY 11937",
     "phone_mobile": "646-752-1233",
-    "phone_office": "631-771-7004",
+    "phone_office": "646-752-1233",
     "email": "edbruehl@christiesrealestategroup.com",
     "career_sales": "$1B+ in Career Sales · 20 Years, East End",
     "headshot_cdn": "https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/INlfZDqMHcqOCvuv.jpg",
     "headshot_note": "Navy jacket photo — used on HOME tab and all PDF exports. Do not replace without Ed's approval.",
-    "canonical_contact_block": "Ed Bruehl, Managing Director · M: 646.752.1233 · O: 631.771.7004 · edbruehl@christiesrealestategroup.com · 26 Park Place, East Hampton NY 11937",
-    "canonical_contact_rule": "No website URL in any contact block. O: 631.771.7004 required on all client-facing PDFs."
+    "canonical_contact_block": "Ed Bruehl, Managing Director · M: 646-752-1233 · edbruehl@christiesrealestategroup.com · 26 Park Place, East Hampton NY 11937",
+    "canonical_contact_rule": "No website URL in any contact block. Canonical phone: 646-752-1233 (mobile). No office line on client-facing PDFs."
   },
   "team": {
     "human_members": [
@@ -671,7 +671,7 @@
       {
         "id": "14",
         "title": "No Website URL in Contact Blocks",
-        "summary": "No website URL in any contact block on any PDF or document. O: 631.771.7004 required on all client-facing PDFs."
+        "summary": "No website URL in any contact block on any PDF or document. Canonical phone: 646-752-1233 (mobile). No office line on client-facing PDFs."
       },
       {
         "id": "15",

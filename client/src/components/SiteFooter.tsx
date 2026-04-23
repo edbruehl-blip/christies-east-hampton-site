@@ -119,8 +119,8 @@ export function SiteFooter() {
             </div>
             <div>26 Park Place · East Hampton, NY 11937</div>
             <div>
-              <a href="tel:+16313246400" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
-                631.324.6400
+              <a href="tel:+16467521233" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
+                646-752-1233
               </a>
               {' · '}
               <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: `rgba(250,248,244,0.65)`, textDecoration: 'none' }}>
@@ -220,7 +220,7 @@ export function SiteFooter() {
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
           <span style={{ whiteSpace: 'nowrap' }}>26 Park Place</span>
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
-          <a href="tel:+16313246400" style={{ color: 'rgba(200,172,120,0.7)', textDecoration: 'none', whiteSpace: 'nowrap' }}>631.324.6400</a>
+          <a href="tel:+16467521233" style={{ color: 'rgba(200,172,120,0.7)', textDecoration: 'none', whiteSpace: 'nowrap' }}>646-752-1233</a>
           <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
           <a href="mailto:edbruehl@christiesrealestategroup.com" style={{ color: GOLD, textDecoration: 'none', whiteSpace: 'nowrap' }}>edbruehl@christiesrealestategroup.com</a>
           {weather && (
@@ -232,7 +232,7 @@ export function SiteFooter() {
           {updatedTime && (
             <>
               <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
-              <span style={{ whiteSpace: 'nowrap' }}>{updatedTime} EDT</span>
+              <span style={{ whiteSpace: 'nowrap' }}>{updatedTime}</span>
             </>
           )}
         </div>

@@ -2831,3 +2831,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 ## Shell Purge P2 — H5 + H8 Addendum (Apr 23 2026 — Ed pasted_content_23)
 - [x] H5 · ReportPage.tsx:487 — Section 2 outer <section> background #FAF8F4 → #1B2A4A navy (7 interior token inversions)
 - [x] H8 · IntelTab.tsx — Miro embed Option B: loading shimmer + branded CTA fallback card (onLoad cross-origin detection + onError, navy+gold, FloatingCard family)
+
+## Four-Kill Canon Cleanup (Apr 23 2026 — Perp sweep of 8e7b76c7)
+- [x] Kill 1 · FlagshipLetterPage.tsx line 46 — `const handlePrint = () => window.print();` restored
+- [x] Kill 2 · SiteFooter.tsx lines 122-123, 223 — 631.324.6400 → 646-752-1233
+- [x] Kill 3 · SiteFooter.tsx line 235 — literal " EDT" suffix removed
+- [x] Kill 4 · state.json lines 45, 50, 51, 674 — phone_office + canonical_contact_rule updated to 646-752-1233
+- [x] Acceptance greps all zero, Vitest 59/59 ✓

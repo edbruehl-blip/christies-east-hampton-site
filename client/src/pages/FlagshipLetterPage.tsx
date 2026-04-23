@@ -43,6 +43,8 @@ export default function FlagshipLetterPage() {
     weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
   });
 
+  const handlePrint = () => window.print();
+
   return (
     <div style={{ background: CREAM, minHeight: '100vh', fontFamily: '"Cormorant Garamond", serif' }}>
 
