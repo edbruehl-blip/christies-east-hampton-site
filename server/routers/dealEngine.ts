@@ -117,7 +117,8 @@ export function computeDealEngine(input: DealEngineInput): DealEngineOutput {
   const equityPct  = equity / basis;
   const noi        = rent * (1 - expenseRatio);
   const capRate    = noi / baseValue;
-  const coc        = (noi - cocDecimal * basis) / equity;
+  // CoC denominator = basis (matches the "vs. Basis" label — F6.5c)
+  const coc        = basis > 0 ? (noi - cocDecimal * basis) / basis : 0;
 
   // 10-yr value bands
   const baseGrowth = Math.pow(1 + appreciation, holdYears);

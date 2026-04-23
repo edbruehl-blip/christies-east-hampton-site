@@ -669,9 +669,10 @@ export default function FutureTab() {
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* PAGE 1 · Ascension Arc                                            */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
+        <div data-pdf-page="1" style={{ background: '#0D1B2A', padding: '0 0 8px' }}>
         <AscensionArcChart />
 
-        {/* ── 100-Day Blocks · v15 FINAL (April 21 2026) ──────────────────────── */}
+        {/* ── 100-Day Blocks · v15 FINAL (April 21 2026) ──────────────────────────────────── */}
         <div style={{ marginBottom: 16 }}>
           {/* Section header */}
           <div style={{
@@ -756,11 +757,12 @@ export default function FutureTab() {
             Page 1 of 2
           </div>
         </div>
+        </div>{/* end data-pdf-page="1" */}
 
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* PAGE 2 · Partnership Projections                                  */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div className="future-page-2-wrapper">
+        <div data-pdf-page="2" className="future-page-2-wrapper" style={{ background: '#0D1B2A', padding: '8px 0 0' }}>
           {/* Page 2 header */}
           <div style={{ textAlign: 'center', marginBottom: 4 }}>
             <div style={{ ...SANS, fontSize: 8, letterSpacing: 3, textTransform: 'uppercase', color: '#ebe6db', paddingBottom: 2, opacity: 0.9 }}>

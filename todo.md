@@ -2771,3 +2771,26 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Acceptance: correct filename, 2 pages, chart+legend+100-day+partner cards, navy preserved, no browser chrome
 - [x] Vitest green, build clean, grep isPdfMode zero
 - [x] Checkpoint + push both remotes
+
+## L10 Cascade — Five Commits (Perp/Chat Verified · Apr 23 2026)
+
+- [ ] F1 · P0 · /report Section 6 cream slab → navy glass (#1B2A4A + gold border + flipped interior tokens)
+- [ ] F2 · P1 · PDF reflow — deterministic 2-page split via data-pdf-page markers; kill white bar artifact on p2
+- [ ] F3 · P2 · MAPS GoldBlackFrame + FloatingCard primitives; wrap map container, 11 hamlet cards, ANEW Deal Engine panel
+- [ ] F4 · P2 · Corkboard START HERE — swap red block to Q1, rewrite content, shift Q2-Q6, COMPASS drops to banner strip
+- [ ] F5 · P3 · SiteFooter rhyme — gold-gravure marquee line, compressed vertical stack, bottom echo strip
+
+## L10 + Deal Engine Trust Round — Six Commits (Consolidated · Apr 23 2026)
+
+- [x] F1 · P0 · /report Section 6 cream slab → navy glass (#1B2A4A + gold border + flipped interior tokens)
+- [x] F2 · P1 · PDF reflow — deterministic 2-page split via data-pdf-page markers; kill white bar artifact on p2
+- [x] F3 · P2 · MAPS GoldBlackFrame + FloatingCard primitives; wrap map container, 11 hamlet cards, ANEW Deal Engine panel
+- [x] F4 · P2 · Corkboard START HERE — swap red block to Q1, rewrite content, shift Q2-Q6, COMPASS drops to banner strip
+- [x] F6.5a · Deal Engine — Export button ReferenceError fix (import toast, dealRef, captureToPdf)
+- [x] F6.5b · Deal Engine — Pro Mode zero-drop fix (Number.isFinite guard on 6 inputs)
+- [x] F6.5c · Deal Engine — CoC denominator = basis (test updated -9.3%→-2.3%, fmtPct guard)
+- [x] F6.5d · Deal Engine — holdYears=0 silent fail → client-side validation ≥1
+- [x] F6.5e · Deal Engine — URL hash state mirror (base64 round-trip, shareable links)
+- [x] F6.5f · Deal Engine — Field clarity (labels, currency blur format, group spacing)
+- [x] F6.5g · Deal Engine — Reset / New Property button with toast confirm
+- [x] F5 · P3 · SiteFooter rhyme — gold-gravure marquee line, compressed vertical stack, bottom echo strip

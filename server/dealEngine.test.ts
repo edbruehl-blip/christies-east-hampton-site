@@ -18,7 +18,7 @@
  *  7. Basis Grade: A
  *  8. Stewardship: Hold
  *  9. Deal Type: Equity Play
- * 10. Cash-on-Cash (vs. Basis): -9.3%
+ * 10. Cash-on-Cash (vs. Basis): -2.3%  (denominator = basis, F6.5c)
  * 11. 10-Yr Value (Base): $3,421,000
  * 12. After-Tax Sell Now: $161,000
  * 12b. After-Tax Hold 10-Yr: $1,128,000
@@ -83,12 +83,12 @@ describe("Deal Engine v1 · Acceptance Test 1 · 17 Lenape", () => {
     expect(result.dealType).toBe("Equity Play");
   });
 
-  it("10. Cash-on-Cash (vs. Basis) = -9.3%", () => {
-    // (96,200 - 0.08 × 1,685,000) / 415,000
-    // = (96,200 - 134,800) / 415,000
-    // = -38,600 / 415,000
-    // = -0.09301... → -9.3%
-    expect(Math.round(result.coc * 1000) / 10).toBe(-9.3);
+  it("10. Cash-on-Cash (vs. Basis) = -2.3%", () => {
+    // (96,200 - 0.08 × 1,685,000) / 1,685,000  (denominator = basis, F6.5c)
+    // = (96,200 - 134,800) / 1,685,000
+    // = -38,600 / 1,685,000
+    // = -0.02290... → -2.3%
+    expect(Math.round(result.coc * 1000) / 10).toBe(-2.3);
   });
 
   it("11. 10-Yr Value (Base) = $3,421,000", () => {
@@ -180,5 +180,53 @@ describe("Deal Engine v1 · Acceptance Test 3 · Vellutini (Forestville)", () =>
 
   it("Stewardship = Pass", () => {
     expect(result.stewardship).toBe("Pass");
+  });
+});
+
+// ─── L21 · Output panel renders when ready = true ────────────────────────────
+describe("L21 · Output panel ready flag", () => {
+  it("returns a result when purchase > 0 and baseValue > 0", () => {
+    const result = computeDealEngine({
+      purchase:  1_000_000,
+      addlCap:         0,
+      baseValue: 1_200_000,
+      rent:         72_000,
+      holdYears:        10,
+      cocPct:            0,
+    });
+    expect(result.basis).toBeGreaterThan(0);
+    expect(result.capRate).toBeGreaterThan(0);
+    expect(result.stewardship).toBeTruthy();
+  });
+});
+
+// ─── L22 · CoC denominator guard: basis > 0 ───────────────────────────────────
+describe("L22 · CoC denominator guard: basis > 0", () => {
+  it("returns finite CoC when basis is near-zero", () => {
+    const result = computeDealEngine({
+      purchase:  0.001,
+      addlCap:   0,
+      baseValue: 1_000_000,
+      rent:      60_000,
+      holdYears: 10,
+      cocPct:    0,
+    });
+    expect(Number.isFinite(result.coc)).toBe(true);
+  });
+});
+
+// ─── L23 · Pro Mode zero-input passes through ─────────────────────────────────
+describe("L23 · Pro Mode zero-input (appreciation = 0)", () => {
+  it("appreciation = 0 produces flat 10-yr value (no growth)", () => {
+    const result = computeDealEngine({
+      purchase:  1_000_000,
+      addlCap:         0,
+      baseValue: 1_000_000,
+      rent:         60_000,
+      holdYears:        10,
+      cocPct:            0,
+      appreciation:      0,
+    });
+    expect(Math.round(result.tenYrValue.base)).toBe(1_000_000);
   });
 });

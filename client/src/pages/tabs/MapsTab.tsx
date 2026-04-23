@@ -43,6 +43,7 @@ import {
 } from '@/lib/pdf-exports';
 import hamletHighlightsData from '@/data/hamlet-highlights.json';
 import { ANEWDealEngine } from '@/components/ANEWDealEngine';
+import { GoldBlackFrame, FloatingCard } from '@/components/FramePrimitives';
 
 // ─── CDN URLs for GeoJSON ─────────────────────────────────────────────────────
 
@@ -63,7 +64,7 @@ function PaumanokPlate() {
     <div style={{ background: 'transparent', paddingBottom: 32 }}>
       {/* Framed map */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.22)', background: '#0D1520' }}>
+        <GoldBlackFrame style={{ overflow: 'hidden' }}>
           <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
           <MapView
             className="w-full h-[420px]"
@@ -79,14 +80,13 @@ function PaumanokPlate() {
                 keyboardShortcuts: false,
               });
             }}
-          />
-        </div>
+            />
+        </GoldBlackFrame>
       </div>
     </div>
   );
 }
-
-// ─── Layer 2: ANEW Deal Engine ──────────────────────────────────────────────────
+// ─── Layer 2: ANEW Deal Engine──────────────────────────────────────────────────
 
 const DEFAULT_ADDRESS = '140 Hands Creek Road, East Hampton';
 const LS_ADDRESS_KEY = 'anew_last_address';
@@ -368,7 +368,7 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
   const photo = hamletData?.imageUrl || hamletData?.photo || '';
 
   return (
-    <div style={{ background: '#0D1520', border: '1px solid rgba(200,172,120,0.18)', display: 'flex', flexDirection: 'column' }}>
+    <FloatingCard style={{ display: 'flex', flexDirection: 'column' }}>
       {/* Photo */}
       <div style={{ position: 'relative', height: 160, overflow: 'hidden', flexShrink: 0 }}>
         {photo ? (
@@ -401,10 +401,9 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.74rem', lineHeight: 1.55 }}>{highlight.practical_note}</div>
         </div>
       </div>
-    </div>
+    </FloatingCard>
   );
 }
-
 function HamletHighlightsModule() {
   return (
     <div style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
@@ -595,7 +594,6 @@ function HamletDetailPanel({ hamlet, onClose, liveListings }: { hamlet: HamletDa
             <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.6)', fontSize: '0.82rem', marginTop: 2 }}>{hamlet.lastSalePrice} · {hamlet.lastSaleDate}</div>
           </div>
         </div>
-
         <div style={{ marginBottom: 28 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 12 }}>Dining</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 8 }}>
@@ -732,7 +730,11 @@ export default function MapsTab() {
       
 
       {/* ── ANEW Deal Engine — reordered Apr 22 2026: Map → Deal Engine → Hamlet Highlights ─── */}
-      <ANEWDealEngine />
+      <div style={{ padding: '0 24px', maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <GoldBlackFrame style={{ marginBottom: 0 }}>
+          <ANEWDealEngine />
+        </GoldBlackFrame>
+      </div>
 
       {/* ── Hamlet Highlights: Local intelligence module (Apr 17 2026 dispatch) ─── */}
       <HamletHighlightsModule />

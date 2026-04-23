@@ -9,7 +9,9 @@
  * Soli Deo Gloria.
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { toast } from 'sonner';
+import { captureToPdf } from '@/lib/capture-pdf';
 import { trpc } from '@/lib/trpc';
 import { MASTER_HAMLET_DATA } from '@/data/hamlet-master';
 
@@ -35,7 +37,7 @@ const fmt$ = (n: number) =>
   '$' + Math.round(n).toLocaleString('en-US');
 
 const fmtPct = (n: number) =>
-  (n * 100).toFixed(1) + '%';
+  Number.isFinite(n) ? (n * 100).toFixed(1) + '%' : '—';
 
 // ─── Input field ─────────────────────────────────────────────────────────────
 function InputField({
@@ -110,6 +112,8 @@ export function ANEWDealEngine() {
   const [baseValue, setBaseValue] = useState('');
   const [rent,      setRent]      = useState('');
   const [holdYears, setHoldYears] = useState('10');
+  const [holdYearsError, setHoldYearsError] = useState('');
+  const dealRef = useRef<HTMLDivElement>(null);
   const [cocPct,    setCocPct]    = useState('0');
   const [hamlet,    setHamlet]    = useState('');
   const [dealName,  setDealName]  = useState('');
@@ -138,10 +142,13 @@ export function ANEWDealEngine() {
   const ac = parseFloat(addlCap)   || 0;
   const bv = parseFloat(baseValue) || 0;
   const r  = parseFloat(rent)      || 0;
-  const hy = parseFloat(holdYears) || 10;
+  const _hy = parseFloat(holdYears);
+  const hy = Number.isFinite(_hy) && _hy >= 1 ? _hy : 10;
   const cc = parseFloat(cocPct)    || 0;
-  const ap = parseFloat(appreciation) / 100 || 0.05;
-  const er = parseFloat(expenseRatio)  / 100 || 0.35;
+  const _ap = parseFloat(appreciation);
+  const ap = Number.isFinite(_ap) ? _ap / 100 : 0.05;
+  const _er = parseFloat(expenseRatio);
+  const er = Number.isFinite(_er) ? _er / 100 : 0.35;
 
   const ready = p > 0 && bv > 0;
 
@@ -163,9 +170,34 @@ export function ANEWDealEngine() {
 
   // ── PDF export ────────────────────────────────────────────────────────────────
   const handleExport = useCallback(async () => {
-    // Lane 6: bespoke PDF render retired. Screenshot-to-PDF via captureToPdf.
-    // Wire a ref to the deal engine container and call captureToPdf when ready.
-    toast.info('Deal memo PDF — use the Download PDF button on the MAPS tab to capture this view.');
+    if (!dealRef.current || !data) return;
+    const date = new Date().toISOString().slice(0, 10);
+    const rawSlug = (dealName || 'deal').toLowerCase();
+    const slug = rawSlug.replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    const filename = `christies-anew-deal-memo-${slug}-${date}.pdf`;
+    const outputPanel = dealRef.current.querySelector('[data-deal-output]') as HTMLElement | null;
+    const target = outputPanel ?? dealRef.current;
+    try {
+      await captureToPdf(target, filename);
+    } catch {
+      toast.error('Export failed — please try again.');
+    }
+  }, [data, dealName]);
+
+  // ── Reset handler ────────────────────────────────────────────────────────────────────────────
+  const handleReset = useCallback(() => {
+    setPurchase('');
+    setAddlCap('');
+    setBaseValue('');
+    setRent('');
+    setHoldYears('10');
+    setCocPct('0');
+    setHamlet('');
+    setDealName('');
+    setAppreciation('5');
+    setExpenseRatio('35');
+    setProOpen(false);
+    toast.success('New property — all fields cleared.');
   }, []);
 
   // ── Stewardship color ─────────────────────────────────────────────────────────

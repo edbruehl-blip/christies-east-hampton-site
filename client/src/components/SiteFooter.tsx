@@ -6,9 +6,14 @@
  * Footer renders unconditionally on all routes.
  * One footer. One environment. No parallel paths.
  *
+ * F5 Footer Rhyme (Apr 23 2026):
+ * Gold-gravure marquee between logo row and letter links.
+ * Compressed vertical: padding 40→24px, gap 24→16px.
+ * Echo strip above copyright mirrors nav market data strip.
+ *
  * Routes: HOME · MARKET · MAPS · PIPE · FUTURE · INTEL · REPORT
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 
@@ -18,6 +23,47 @@ const CREAM = '#FAF8F4';
 const SANS: React.CSSProperties = {
   fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
 };
+const CONDENSED: React.CSSProperties = {
+  fontFamily: '"Barlow Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif',
+};
+
+const MARQUEE_TEXT =
+  'ART\u2002·\u2002BEAUTY\u2002·\u2002PROVENANCE\u2002·\u2002SINCE 1766\u2002·\u2002CHRISTIE\u2019S\u2002·\u2002EAST HAMPTON\u2002·\u2002EST. 1766\u2002·\u2002ART\u2002·\u2002BEAUTY\u2002·\u2002PROVENANCE\u2002·\u2002SINCE 1766\u2002·\u2002CHRISTIE\u2019S\u2002·\u2002EAST HAMPTON\u2002·\u2002EST. 1766';
+
+function useFooterTime() {
+  const [label, setLabel] = useState<string>('');
+  useEffect(() => {
+    const update = () => {
+      const t = new Date().toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'America/New_York',
+        timeZoneName: 'short',
+      });
+      setLabel(`Updated ${t}`);
+    };
+    update();
+    const id = setInterval(update, 60_000);
+    return () => clearInterval(id);
+  }, []);
+  return label;
+}
+
+function useWeatherFooter() {
+  const [weather, setWeather] = useState<string | null>(null);
+  useEffect(() => {
+    fetch(
+      'https://api.open-meteo.com/v1/forecast?latitude=40.9637&longitude=-72.1848&current_weather=true&temperature_unit=fahrenheit'
+    )
+      .then(r => r.json())
+      .then(j => {
+        const cw = j?.current_weather;
+        if (cw?.temperature != null) setWeather(`${Math.round(cw.temperature)}\u00b0F`);
+      })
+      .catch(() => null);
+  }, []);
+  return weather;
+}
 
 const LETTER_LINKS = [
   { label: 'Letter from the Flagship', href: '/letters/flagship' },
@@ -28,14 +74,16 @@ const LETTER_LINKS = [
 
 export function SiteFooter() {
   const [, navigate] = useLocation();
-  const year = new Date().getFullYear();
+  const year        = new Date().getFullYear();
+  const updatedTime = useFooterTime();
+  const weather     = useWeatherFooter();
 
   return (
     <footer
       style={{
         background: NAVY,
         borderTop: `1px solid rgba(200,172,120,0.18)`,
-        padding: '40px 24px 28px',
+        padding: '24px 24px 20px',
         marginTop: 0,
       }}
     >
@@ -45,7 +93,7 @@ export function SiteFooter() {
           margin: '0 auto',
           display: 'flex',
           flexDirection: 'column',
-          gap: 24,
+          gap: 16,
         }}
       >
         {/* Top row: logo + contact + founding line */}
@@ -62,7 +110,7 @@ export function SiteFooter() {
           <img
             src={LOGO_WHITE}
             alt="Christie's International Real Estate Group"
-            style={{ height: 44, width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }}
+            style={{ height: 40, width: 'auto', filter: 'brightness(0) invert(1)', flexShrink: 0 }}
           />
           {/* Contact block */}
           <div style={{ ...SANS, fontSize: '0.72rem', color: `rgba(250,248,244,0.65)`, lineHeight: 1.7, letterSpacing: '0.02em' }}>
@@ -96,12 +144,39 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Letter links */}
+        {/* ── Gold-gravure marquee ─────────────────────────────────────── */}
+        <div
+          style={{
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            borderTop: '1px solid rgba(200,172,120,0.12)',
+            borderBottom: '1px solid rgba(200,172,120,0.12)',
+            padding: '5px 0',
+          }}
+        >
+          <div style={{ display: 'inline-block', animation: 'christies-marquee 55s linear infinite' }}>
+            <span
+              style={{
+                ...CONDENSED,
+                fontSize: '0.65rem',
+                fontWeight: 600,
+                letterSpacing: '0.18em',
+                color: 'rgba(200,172,120,0.55)',
+                textTransform: 'uppercase',
+                padding: '0 48px',
+              }}
+            >
+              {MARQUEE_TEXT}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{MARQUEE_TEXT}
+            </span>
+          </div>
+        </div>
+
+        {/* ── Letter links ─────────────────────────────────────────────── */}
         <div>
-          <div style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', marginBottom: 8 }}>
+          <div style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', marginBottom: 6 }}>
             Institutional Letters
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 20px' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 18px' }}>
             {LETTER_LINKS.map(({ label, href }) => (
               <a
                 key={href}
@@ -125,10 +200,44 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Divider */}
+        {/* ── Divider ─────────────────────────────────────────────────── */}
         <div style={{ height: 1, background: `rgba(200,172,120,0.12)` }} />
 
-        {/* Legal line */}
+        {/* ── Echo strip — mirrors nav market data strip ───────────────── */}
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            gap: '4px 14px',
+            ...CONDENSED,
+            fontSize: '0.62rem',
+            letterSpacing: '0.06em',
+            color: 'rgba(200,172,120,0.7)',
+          }}
+        >
+          <span style={{ whiteSpace: 'nowrap' }}>Christie’s East Hampton</span>
+          <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
+          <span style={{ whiteSpace: 'nowrap' }}>2 Main Street</span>
+          <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
+          <a href="tel:+16313246400" style={{ color: 'rgba(200,172,120,0.7)', textDecoration: 'none', whiteSpace: 'nowrap' }}>631.324.6400</a>
+          <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
+          <a href="mailto:ed.bruehl@christies.com" style={{ color: GOLD, textDecoration: 'none', whiteSpace: 'nowrap' }}>ed.bruehl@christies.com</a>
+          {weather && (
+            <>
+              <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
+              <span style={{ color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' }}>{weather}</span>
+            </>
+          )}
+          {updatedTime && (
+            <>
+              <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
+              <span style={{ whiteSpace: 'nowrap' }}>{updatedTime} EDT</span>
+            </>
+          )}
+        </div>
+
+        {/* ── Legal line ──────────────────────────────────────────────── */}
         <div
           style={{
             ...SANS,

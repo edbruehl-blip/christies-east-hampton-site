@@ -147,9 +147,23 @@ export function EdCorkboard() {
       </section>
 
       {/* SIX QUADRANTS — 3×2 grid */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 12 }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 0 }}>
 
-        {/* Q1 — THE PULSE */}
+        {/* Q1 — START HERE (public visitor orientation) */}
+        <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}`, background: 'rgba(139,38,53,0.18)' }}>
+          <h3 style={{ ...s.panelH3, color: C.cream }}>⓪ START HERE</h3>
+          <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.55, marginBottom: 6, fontStyle: 'italic' }}>— How to read this board —</div>
+          <Bullet text="The Mind Map lives in Trello" sub="Layer 1 — the cause-and-effect shape" />
+          <Bullet text="The 13 Sheets live in Drive" sub="Layer 3 — the operational surface" />
+          <Bullet text="The Corkboard lives here" sub="The one-page daily snapshot" />
+          <Bullet text="The Live Site" sub="christiesrealestategroupeh.com — the public face" />
+          <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, margin: '6px 0 4px', letterSpacing: '0.08em' }}>THE LIVE URL IS THE SOURCE OF TRUTH.</div>
+          <Bullet text="Ed thirty-five · Ilija sixty-five" sub="Two parties at the pool" />
+          <Bullet text="The platform is the pitch" sub="No decks" />
+          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Pulse (daily) → Pipeline (weekly) → Network (monthly) → Calendar (dates) → Focus (current)</div>
+        </div>
+
+        {/* Q2 — THE PULSE */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
           <h3 style={s.panelH3}>① The Pulse <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Daily</span></h3>
           <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
@@ -159,16 +173,16 @@ export function EdCorkboard() {
           <Bullet text="Touch Minimums" sub="3 seller touches · 2 buyer touches · 1 recruit" />
         </div>
 
-        {/* Q2 — THE PIPELINE */}
+        {/* Q3 — THE PIPELINE */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.gold}` }}>
           <h3 style={s.panelH3}>② The Pipeline <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Weekly</span></h3>
           <Bullet text="Active Listings" sub="Price · DOM · next action" />
           <Bullet text="Buy Side" sub="Active buyers · search criteria · urgency" />
-          <Bullet text="Auction House Intros" sub="Christie's referrals in motion" />
+          <Bullet text="Auction House Intros" sub="Christie’s referrals in motion" />
           <Bullet text="ANEW Projects" sub="AnewHomes pipeline · Scott + Richard" />
         </div>
 
-        {/* Q3 — THE NETWORK */}
+        {/* Q4 — THE NETWORK */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.navy}` }}>
           <h3 style={s.panelH3}>③ The Network <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
           <Bullet text="Key Relationships" sub="Lily · Ilija Pavlovic · Rick Moeser · Melissa True" />
@@ -177,10 +191,10 @@ export function EdCorkboard() {
           <Bullet text="Recruit Targets" sub="Next agent · timeline · approach" />
         </div>
 
-        {/* Q4 — THE CALENDAR */}
+        {/* Q5 — THE CALENDAR */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.gold}` }}>
           <h3 style={s.panelH3}>④ The Calendar <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
-          <Bullet text="Headline Events" sub="Christie's auction dates · Hamptons circuit" />
+          <Bullet text="Headline Events" sub="Christie’s auction dates · Hamptons circuit" />
           <Bullet text="Private Collector Series" sub="Monthly UHNW touchpoint events" />
           <Bullet text="Wednesday Caravan" sub="Recurring · brokers + culture + rhythm" />
           <div style={s.subLabel}>Team Dates</div>
@@ -197,7 +211,7 @@ export function EdCorkboard() {
           ))}
         </div>
 
-        {/* Q5 — THE FOCUS */}
+        {/* Q6 — THE FOCUS */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
           <h3 style={s.panelH3}>⑤ The Focus <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Current</span></h3>
           <Bullet text="Active Hamlet" sub="East Hampton Village · Bridgehampton corridor" />
@@ -207,42 +221,23 @@ export function EdCorkboard() {
           <Bullet text="Institutional Lens" sub="UHNW buyer pipeline · CPS-1 node active" />
         </div>
 
-        {/* Q6 — THE COMPASS (deep red stays — on darker navy context per D69) */}
-        <div style={{
-          background: C.deepRed,
-          color: C.cream,
-          padding: '12px 14px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          boxSizing: 'border-box',
-          border: `1px solid rgba(139,38,53,0.6)`,
-        }}>
-          <div>
-            <h3 style={{ ...s.panelH3, color: C.gold, borderBottomColor: 'rgba(200,172,120,0.4)', marginBottom: 10 }}>
-              ⑥ The Compass
-            </h3>
-            <div style={{ fontSize: 11, color: 'rgba(250,248,244,0.85)', lineHeight: 1.6, fontStyle: 'italic', marginBottom: 10 }}>
-              "Seventy-five million to three billion. Three offices. One trajectory."
-            </div>
-            <div style={{ fontSize: 9.5, color: 'rgba(250,248,244,0.75)', lineHeight: 1.55 }}>
-              <strong style={{ color: C.gold }}>Doctrine:</strong> The live URL is the source of truth. Ed thirty-five. Ilija sixty-five. Two parties at the pool. The platform is the pitch. No decks.
-            </div>
-          </div>
-          <div style={{
-            borderTop: `1px solid rgba(200,172,120,0.4)`,
-            paddingTop: 10,
-            marginTop: 10,
-            textAlign: 'center',
-          }}>
-            <div style={{ fontSize: 9, letterSpacing: '0.22em', color: C.gold, textTransform: 'uppercase', marginBottom: 4 }}>Daily Mentor Anchor</div>
-            <div style={{ fontSize: 13, letterSpacing: '0.3em', color: C.cream, fontStyle: 'italic', fontFamily: 'Georgia, serif' }}>
-              Soli Deo Gloria.
-            </div>
-          </div>
-        </div>
-
       </section>
+
+      {/* COMPASS DOCTRINE — narrow red bar below grid, above numbers band */}
+      <div style={{
+        background: C.deepRed,
+        padding: '8px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 16,
+        marginBottom: 10,
+        border: `1px solid rgba(139,38,53,0.6)`,
+        flexWrap: 'wrap',
+      }}>
+        <span style={{ fontSize: 9, letterSpacing: '0.22em', color: C.gold, textTransform: 'uppercase', fontWeight: 700, whiteSpace: 'nowrap' }}>⑥ The Compass</span>
+        <span style={{ fontSize: 10, color: 'rgba(250,248,244,0.9)', fontStyle: 'italic', flex: 1, minWidth: 200 }}>“Seventy-five million to three billion. Three offices. One trajectory.”</span>
+        <span style={{ fontSize: 9, color: 'rgba(250,248,244,0.7)' }}>Ed thirty-five · Ilija sixty-five · Two parties at the pool · The platform is the pitch · No decks.</span>
+      </div>
 
       {/* NUMBERS BAND */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 10 }}>

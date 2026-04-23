@@ -1474,7 +1474,7 @@ function Section5() {
 // ─── SECTION 6 · Resources & Authority ───────────────────────────────────────
 function Section6() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#FAF8F4' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="6" title="Resources & Authority" />
         <div
@@ -1485,7 +1485,7 @@ function Section6() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: 'rgba(27,42,74,0.45)',
+                color: 'rgba(250,248,244,0.55)',
                 fontSize: 9,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
@@ -1521,10 +1521,10 @@ function Section6() {
                   rel="noopener noreferrer"
                   style={{
                     fontFamily: '"Source Sans 3", sans-serif',
-                    color: '#1B2A4A',
+                    color: '#FAF8F4',
                     fontSize: '0.875rem',
                     textDecoration: 'none',
-                    borderBottom: '1px solid rgba(27,42,74,0.12)',
+                    borderBottom: '1px solid rgba(200,172,120,0.18)',
                     paddingBottom: 8,
                     display: 'block',
                   }}
@@ -1540,7 +1540,7 @@ function Section6() {
             <div
               style={{
                 fontFamily: '"Barlow Condensed", sans-serif',
-                color: 'rgba(27,42,74,0.45)',
+                color: 'rgba(250,248,244,0.55)',
                 fontSize: 9,
                 letterSpacing: '0.2em',
                 textTransform: 'uppercase',
@@ -1566,7 +1566,7 @@ function Section6() {
                 <div
                   style={{
                     fontFamily: '"Cormorant Garamond", serif',
-                    color: '#1B2A4A',
+                    color: '#FAF8F4',
                     fontSize: '1.125rem',
                     fontWeight: 600,
                   }}
@@ -1576,7 +1576,7 @@ function Section6() {
                 <div
                   style={{
                     fontFamily: '"Source Sans 3", sans-serif',
-                    color: '#384249',
+                    color: 'rgba(250,248,244,0.75)',
                     fontSize: '0.8125rem',
                     lineHeight: 1.65,
                     marginTop: 6,
@@ -1586,7 +1586,7 @@ function Section6() {
                   <br />
                   26 Park Place · East Hampton NY 11937
                   <br />
-                  <a href="tel:6467521233" style={{ color: '#1B2A4A', textDecoration: 'none' }}>
+                  <a href="tel:6467521233" style={{ color: '#FAF8F4', textDecoration: 'none' }}>
                     646-752-1233
                   </a>
                 </div>
@@ -1597,12 +1597,12 @@ function Section6() {
 
         <div
           className="mt-12 pt-8"
-          style={{ borderTop: '1px solid rgba(27,42,74,0.12)' }}
+          style={{ borderTop: '1px solid rgba(200,172,120,0.18)' }}
         >
           <div
             style={{
               fontFamily: '"Cormorant Garamond", serif',
-              color: '#1B2A4A',
+              color: '#947231',
               fontSize: '0.9375rem',
               fontStyle: 'italic',
               lineHeight: 1.6,
@@ -1614,14 +1614,14 @@ function Section6() {
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
-              color: 'rgba(27,42,74,0.55)',
+              color: 'rgba(250,248,244,0.55)',
               fontSize: 9,
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
               lineHeight: 1.6,
             }}
           >
-            Christie’s International Real Estate Group · Est. 1766 · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
+            Christie's International Real Estate Group · Est. 1766 · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
           </div>
         </div>
       </div>
