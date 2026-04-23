@@ -2668,4 +2668,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] ReportPage.tsx: add missing `import { FoundingLetter } from '@/components/FoundingLetter'`
 - [x] Grep all files using `<FoundingLetter />` and confirm imports are present (HomeTab.tsx had it; ReportPage.tsx was missing it — fixed)
 - [x] Rebuild clean (0 TS errors)
-- [ ] Checkpoint, push to origin/main, republish
+- [x] Checkpoint saved (6a4d8ff5), pushed to origin/main, ready to republish
+
+## P0 Regressions · Apr 23 2026 (Perp Visual Audit)
+- [ ] P0-1: Routing regression — /maps, /pipe, /intel render HomeTab content. Restore each route to its dedicated component.
+- [ ] P0-2: FUTURE V3 canon — Scott 2036 shows $324K (V1), Jarvis 2035 shows $868K uncapped (V1). Must show $774K / $1M cap flat. Verify TEAM_BASES + projectPersonalGci() is the actual data source, not a stale ROSTER read.
+- [ ] P0-3: Governing principle copy — live /future footnote says "20% year-over-year, uncapped." Must say "20% year-over-year to $1M cap then flat."
+- [ ] P0-4: Duplicate East End Spotlight on /market — remove the duplicate.

@@ -383,7 +383,7 @@ function AssumptionsCalc({ isPdfMode }: { isPdfMode: boolean }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: 7, borderTop: `1px solid ${notesBorder}` }}>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>* Governing Principle</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year, uncapped.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting</div>
@@ -743,7 +743,7 @@ export default function FutureTab() {
   ];
 
   const jarvisStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$140K',  v27: '$168K',  v28: '$201.6K',v36: '$868K+', color: C_EH },
+    { label: 'Personal GCI',             v26: '$250K',  v27: '$250K',  v28: '$300K',  v36: '$1.0M',  color: C_EH },
     { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
     { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
@@ -751,7 +751,7 @@ export default function FutureTab() {
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Personal GCI',                   v26: '$17.5K',v27: '$105K', v28: '$126K', v36: '$542K+', color: C_EH },
+    { label: 'Personal GCI',                   v26: '$70K',  v27: '$70K',  v28: '$84K',  v36: '$361K',  color: C_EH },
     { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
@@ -760,7 +760,7 @@ export default function FutureTab() {
   ];
 
   const scottStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$35K',   v27: '$84K',   v28: '$100.8K',v36: '$324K+', color: C_EH },
+    { label: 'Personal GCI',             v26: '$150K',  v27: '$150K',  v28: '$180K',  v36: '$774K',  color: C_EH },
     { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
   ];
 

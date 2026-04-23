@@ -106,8 +106,8 @@ function TabContent({ activeTab }: { activeTab: TabId }) {
   }
 }
 
-function Dashboard() {
-  const [activeTab, setActiveTab] = useState<TabId>("home"); // HOME is the front door — default on refresh (D34)
+function Dashboard({ initialTab = "home" }: { initialTab?: TabId }) {
+  const [activeTab, setActiveTab] = useState<TabId>(initialTab); // HOME is the front door — default on refresh (D34)
   return (
     <>
       <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
@@ -127,7 +127,10 @@ function App() {
           <Toaster />
           <Switch>
             <Route path="/report" component={ReportPage} />
-            <Route path="/market" component={ReportPage} />
+            <Route path="/market">{() => <Dashboard initialTab="market" />}</Route>
+            <Route path="/maps">{() => <Dashboard initialTab="maps" />}</Route>
+            <Route path="/pipe">{() => <Dashboard initialTab="pipe" />}</Route>
+            <Route path="/intel">{() => <Dashboard initialTab="intel" />}</Route>
             <Route path="/pro-forma" component={ProFormaPage} />
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
