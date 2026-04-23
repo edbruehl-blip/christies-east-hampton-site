@@ -2794,3 +2794,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] F6.5f · Deal Engine — Field clarity (labels, currency blur format, group spacing)
 - [x] F6.5g · Deal Engine — Reset / New Property button with toast confirm
 - [x] F5 · P3 · SiteFooter rhyme — gold-gravure marquee line, compressed vertical stack, bottom echo strip
+
+## F6.5c Revert + F6.5h Trust Language — One Commit (Apr 23 2026)
+- [x] F6.5c-revert: dealEngine.ts — equity denominator restored, null guard live (equity > 0 ? ... : null)
+- [x] F6.5c-revert: dealEngine.test.ts — -9.3% restored, L22-CANARY null-guard tests added (equity=0 → null, negative equity → null)
+- [x] F6.5c-revert: ANEWDealEngine.tsx — relabeled "Cash-on-Cash Return", fmtPct null→"—", ⓘ tooltip
+- [x] F6.5h: Panel header → "One indication"
+- [x] F6.5h: Code comments "verdict" → "indication" (tombstone comment preserved)
+- [x] Vitest 57/57 green (excl. pre-existing Perplexity TLS) + 3 stress tests all ✓
+- [x] Checkpoint + push both remotes

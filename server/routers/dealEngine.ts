@@ -85,7 +85,7 @@ export interface DealEngineOutput {
   basisGrade:      string;
   stewardship:     string;
   dealType:        string;
-  coc:             number;
+  coc:             number | null;  // null when equity ≤ 0
   tenYrValue: {
     floor:   number;
     base:    number;
@@ -117,8 +117,9 @@ export function computeDealEngine(input: DealEngineInput): DealEngineOutput {
   const equityPct  = equity / basis;
   const noi        = rent * (1 - expenseRatio);
   const capRate    = noi / baseValue;
-  // CoC denominator = basis (matches the "vs. Basis" label — F6.5c)
-  const coc        = basis > 0 ? (noi - cocDecimal * basis) / basis : 0;
+  // CoC denominator = equity (JPMorgan/Bloomberg institutional standard — F6.5c-revert)
+  // Guard: returns null when equity ≤ 0 (negative or zero equity — renders "—" in UI)
+  const coc        = equity > 0 ? (noi - cocDecimal * basis) / equity : null;
 
   // 10-yr value bands
   const baseGrowth = Math.pow(1 + appreciation, holdYears);

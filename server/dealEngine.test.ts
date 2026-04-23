@@ -18,7 +18,7 @@
  *  7. Basis Grade: A
  *  8. Stewardship: Hold
  *  9. Deal Type: Equity Play
- * 10. Cash-on-Cash (vs. Basis): -2.3%  (denominator = basis, F6.5c)
+ * 10. Cash-on-Cash Return: -9.3%  (denominator = equity, JPMorgan/Bloomberg canon — F6.5c-revert)
  * 11. 10-Yr Value (Base): $3,421,000
  * 12. After-Tax Sell Now: $161,000
  * 12b. After-Tax Hold 10-Yr: $1,128,000
@@ -83,12 +83,13 @@ describe("Deal Engine v1 · Acceptance Test 1 · 17 Lenape", () => {
     expect(result.dealType).toBe("Equity Play");
   });
 
-  it("10. Cash-on-Cash (vs. Basis) = -2.3%", () => {
-    // (96,200 - 0.08 × 1,685,000) / 1,685,000  (denominator = basis, F6.5c)
-    // = (96,200 - 134,800) / 1,685,000
-    // = -38,600 / 1,685,000
-    // = -0.02290... → -2.3%
-    expect(Math.round(result.coc * 1000) / 10).toBe(-2.3);
+  it("10. Cash-on-Cash Return = -9.3%", () => {
+    // (96,200 - 0.08 × 1,685,000) / 415,000  (denominator = equity, JPMorgan/Bloomberg canon)
+    // = (96,200 - 134,800) / 415,000
+    // = -38,600 / 415,000
+    // = -0.09301... → -9.3%
+    expect(result.coc).not.toBeNull();
+    expect(Math.round(result.coc! * 1000) / 10).toBe(-9.3);
   });
 
   it("11. 10-Yr Value (Base) = $3,421,000", () => {
@@ -200,9 +201,10 @@ describe("L21 · Output panel ready flag", () => {
   });
 });
 
-// ─── L22 · CoC denominator guard: basis > 0 ───────────────────────────────────
-describe("L22 · CoC denominator guard: basis > 0", () => {
-  it("returns finite CoC when basis is near-zero", () => {
+// ─── L22 · CoC positive equity → returns a number ─────────────────────────────────────
+describe("L22 · CoC positive equity → returns a number", () => {
+  it("returns a finite number when equity is positive", () => {
+    // purchase << baseValue → equity is large and positive → coc is a number
     const result = computeDealEngine({
       purchase:  0.001,
       addlCap:   0,
@@ -211,7 +213,9 @@ describe("L22 · CoC denominator guard: basis > 0", () => {
       holdYears: 10,
       cocPct:    0,
     });
-    expect(Number.isFinite(result.coc)).toBe(true);
+    expect(result.equity).toBeGreaterThan(0);
+    expect(result.coc).not.toBeNull();
+    expect(Number.isFinite(result.coc!)).toBe(true);
   });
 });
 
@@ -228,5 +232,37 @@ describe("L23 · Pro Mode zero-input (appreciation = 0)", () => {
       appreciation:      0,
     });
     expect(Math.round(result.tenYrValue.base)).toBe(1_000_000);
+  });
+});
+
+// ─── L22-CANARY · Em-dash guard: equity ≤ 0 → coc === null ──────────────────
+// Perplexity harness L22 em-dash canary: flips green when guard is live.
+describe("L22-CANARY · CoC null guard (equity ≤ 0)", () => {
+  it("equity = 0 (purchase = baseValue) → coc is null", () => {
+    // purchase = baseValue → equity = 0 → guard fires → coc = null
+    const result = computeDealEngine({
+      purchase:  1_000_000,
+      addlCap:         0,
+      baseValue: 1_000_000,  // equity = 1,000,000 - 1,000,000 = 0
+      rent:         60_000,
+      holdYears:        10,
+      cocPct:            8,
+    });
+    expect(result.equity).toBe(0);
+    expect(result.coc).toBeNull();
+  });
+
+  it("negative equity (purchase > baseValue) → coc is null", () => {
+    // purchase > baseValue → equity < 0 → guard fires → coc = null
+    const result = computeDealEngine({
+      purchase:  2_000_000,
+      addlCap:   100_000,
+      baseValue: 1_800_000,  // equity = 1,800,000 - 2,100,000 = -300,000
+      rent:        100_000,
+      holdYears:        10,
+      cocPct:            8,
+    });
+    expect(result.equity).toBeLessThan(0);
+    expect(result.coc).toBeNull();
   });
 });

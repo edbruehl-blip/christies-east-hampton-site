@@ -2,7 +2,8 @@
  * ANEW Deal Engine v1
  * Christie's East Hampton · MAPS Tab · Section below hamlet cards
  *
- * Six inputs. Two grades. One verdict. One doctrine line.
+ * Six inputs. Two grades. One indication. One doctrine line.
+ * F6.5h: “verdict” → “indication” throughout (trust language).
  * Live-wired to trpc.dealEngine.score — server runs all formulas.
  * Client is pure presentation (currency + percent formatters only).
  *
@@ -36,8 +37,8 @@ const HAMLETS = MASTER_HAMLET_DATA.map(h => h.name);
 const fmt$ = (n: number) =>
   '$' + Math.round(n).toLocaleString('en-US');
 
-const fmtPct = (n: number) =>
-  Number.isFinite(n) ? (n * 100).toFixed(1) + '%' : '—';
+const fmtPct = (n: number | null) =>
+  (n === null || !Number.isFinite(n)) ? '—' : (n * 100).toFixed(1) + '%';
 
 // ─── Input field ─────────────────────────────────────────────────────────────
 function InputField({
@@ -85,14 +86,17 @@ function InputField({
 }
 
 // ─── Output row ───────────────────────────────────────────────────────────────
-function OutputRow({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function OutputRow({ label, value, accent, tooltip }: { label: string; value: string; accent?: boolean; tooltip?: string }) {
   return (
     <div style={{
       display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
       padding: '5px 0', borderBottom: '1px solid rgba(148,114,49,0.10)',
     }}>
-      <span style={{ fontFamily: LABEL, color: MUTED, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-        {label}
+      <span
+        style={{ fontFamily: LABEL, color: MUTED, fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', cursor: tooltip ? 'help' : 'default' }}
+        title={tooltip}
+      >
+        {label}{tooltip && <span style={{ marginLeft: 3, opacity: 0.5, fontSize: 9 }}>ⓘ</span>}
       </span>
       <span style={{
         fontFamily: SANS, color: accent ? GOLD : CREAM,
@@ -224,7 +228,7 @@ export function ANEWDealEngine() {
           ANEW Deal Engine
         </h3>
         <p style={{ fontFamily: SANS, color: MUTED, fontSize: '0.78rem', marginTop: 5, marginBottom: 0 }}>
-          Six inputs. Two grades. One verdict.
+          Six inputs. Two grades. One indication.
         </p>
       </div>
 
@@ -401,7 +405,11 @@ export function ANEWDealEngine() {
                       </span>
                     </div>
                     <div style={{ height: 8 }} />
-                    <OutputRow label="Cash-on-Cash (vs. Basis)" value={fmtPct(data.coc)} />
+                    <OutputRow
+                      label="Cash-on-Cash Return"
+                      value={fmtPct(data.coc)}
+                      tooltip="Annual cash flow divided by total equity invested. Institutional standard per JPMorgan/Bloomberg methodology. Displays — when equity is negative or zero."
+                    />
                   </div>
 
                   {/* Right column */}
