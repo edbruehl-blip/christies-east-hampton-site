@@ -21,135 +21,10 @@
 
 import { useLocation } from 'wouter';
 import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
-import { trpc } from '@/lib/trpc';
 import { FoundingLetter } from '@/components/FoundingLetter';
 
-// ─── Today's Brief Block (Task 7 · Apr 22 2026) ────────────────────────────────
-function TodaysBrief() {
-  const { data: brief, isLoading } = trpc.brief.getToday.useQuery();
-
-  const formatDate = (dateStr: string) => {
-    try {
-      const [y, m, d] = dateStr.split('-').map(Number);
-      return new Date(y, m - 1, d).toLocaleDateString('en-US', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-      });
-    } catch { return dateStr; }
-  };
-
-  const handlePrint = () => {
-    if (!brief) return;
-    const html = `<!DOCTYPE html><html><head><title>Today's Brief · ${brief.briefDate}</title><style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;color:#1B2A4A;line-height:1.7}h1{font-size:1.4rem;letter-spacing:.1em;border-bottom:2px solid #947231;padding-bottom:8px;margin-bottom:24px}h2{font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:#947231;margin:20px 0 8px}p{margin:0 0 12px;font-size:.95rem}@media print{body{margin:20px}}</style></head><body><h1>Today's Brief · ${formatDate(brief.briefDate)}</h1><h2>The Hamptons</h2><p>${brief.hamptons}</p><h2>Markets</h2><p>${brief.markets}</p><h2>Art</h2><p>${brief.art}</p></body></html>`;
-    const w = window.open('', '_blank');
-    if (w) { w.document.write(html); w.document.close(); w.print(); }
-  };
-
-  // P2 (Apr 23 2026): Render nothing until the Bruehl Brief feed is wired.
-  // Condition: if not loading and no brief data, return null — no heading, no wrapper, nothing mounted.
-  if (!isLoading && !brief) return null;
-
-  return (
-    <div style={{
-      background: '#0D1B2A',
-      borderTop: '1px solid rgba(148,114,49,0.25)',
-      borderBottom: '1px solid rgba(148,114,49,0.25)',
-      padding: '48px 24px',
-    }}>
-      <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28, flexWrap: 'wrap', gap: 12 }}>
-          <div>
-            <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: '0.28em',
-              textTransform: 'uppercase',
-              color: '#947231',
-              marginBottom: 6,
-            }}>The Bruehl Brief</div>
-            <h2 style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              color: '#FAF8F4',
-              fontWeight: 400,
-              fontSize: 'clamp(1.2rem, 2.2vw, 1.6rem)',
-              margin: 0,
-              lineHeight: 1.2,
-            }}>
-              Today's Brief
-              {brief && (
-                <span style={{ fontSize: '0.65em', color: '#947231', marginLeft: 12, fontStyle: 'italic' }}>
-                  {formatDate(brief.briefDate)}
-                </span>
-              )}
-            </h2>
-          </div>
-          {brief && (
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button
-                onClick={handlePrint}
-                style={{
-                  background: 'transparent',
-                  border: '1px solid rgba(148,114,49,0.5)',
-                  color: '#947231',
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 10,
-                  fontWeight: 600,
-                  letterSpacing: '0.18em',
-                  textTransform: 'uppercase',
-                  padding: '7px 16px',
-                  cursor: 'pointer',
-                }}
-              >
-                Print PDF
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Content */}
-        {isLoading ? (
-          <div style={{ color: 'rgba(250,248,244,0.4)', fontFamily: 'Georgia, serif', fontSize: '0.9rem', fontStyle: 'italic' }}>
-            Loading today's brief…
-          </div>
-        ) : !brief ? (
-          null /* Hidden until William fires at 5:55 AM */
-        ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
-            {[
-              { label: 'The Hamptons', body: brief.hamptons },
-              { label: 'Markets', body: brief.markets },
-              { label: 'Art', body: brief.art },
-            ].map(({ label, body }) => (
-              <div key={label} style={{
-                borderLeft: '3px solid #947231',
-                paddingLeft: 16,
-              }}>
-                <div style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  fontSize: 9,
-                  fontWeight: 600,
-                  letterSpacing: '0.22em',
-                  textTransform: 'uppercase',
-                  color: '#947231',
-                  marginBottom: 8,
-                }}>{label}</div>
-                <p style={{
-                  fontFamily: '"Source Sans 3", sans-serif',
-                  color: 'rgba(250,248,244,0.82)',
-                  fontSize: '0.88rem',
-                  lineHeight: 1.72,
-                  margin: 0,
-                }}>{body}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
+// ─── TodaysBrief removed — canon-kill Apr 24 2026 (Ed ruled 10:34 PM EDT: Bloomberg or JPMorgan)
+// function TodaysBrief() {
 // ─── Section A  ·  Hero letter with floating portrait ──────────────────────────
 function SectionA() {
   const [, navigate] = useLocation();
@@ -480,14 +355,13 @@ function SectionVideoReel() {
 
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
-// ORDER: Letter → Image Matrix → Today's Brief → Video Reel → Authority Block
+// ORDER: Letter → Image Matrix → Video Reel → Authority Block
 // NOTE: SiteFooter is rendered by DashboardLayout — do NOT add it here (H1 · Shell Purge P2)
 export default function HomeTab() {
   return (
     <div>
       <SectionA />
       <AuctionImageMatrix />
-      <TodaysBrief />
       <SectionVideoReel />
       <SectionChristiesStory />
     </div>

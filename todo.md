@@ -2871,3 +2871,23 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] P5: Added poster= attributes to all four HOME videos using Christie's CDN gallery stills
 - [x] Vitest 59/59 gate — PASSED (11 test files)
 - [x] Checkpoint + publish closeout commit
+
+## Bruehl Brief Canon-Kill — Apr 24 2026 (Ed ruled 10:34 PM EDT)
+- [ ] 1. HomeTab.tsx: delete TodaysBrief function + render, remove trpc import if orphaned, update order comment
+- [ ] 2. server/routers.ts: delete entire brief router block (getToday + upsert)
+- [ ] 3. drizzle/schema.ts: delete dailyBrief mysqlTable block and type exports
+- [ ] 4. Delete client/src/components/BruehlBriefBulletin.tsx entirely
+- [ ] 5. IntelTab.tsx: delete BruehlBriefBulletin import + commented render block
+- [ ] 6. grep zero-hit verification: TodaysBrief|BruehlBrief|brief.getToday|dailyBrief|daily_brief
+- [ ] 7. Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
+
+## Consolidated Closeout Commit — Apr 24 2026
+- [ ] Scope 1-1: HomeTab.tsx — delete TodaysBrief function + render, remove trpc import, update order comment
+- [ ] Scope 1-2: server/routers.ts — delete entire brief router block + remove dailyBrief import
+- [ ] Scope 1-3: drizzle/schema.ts — delete dailyBrief table + type exports
+- [ ] Scope 1-4: Delete BruehlBriefBulletin.tsx file entirely
+- [ ] Scope 1-5: IntelTab.tsx — delete import + commented render block
+- [ ] Scope 1-6: grep zero-hit verification (post output before shipping)
+- [ ] Scope 2: Flagship Letter date → "April 2026" (month only, no day)
+- [ ] Scope 3: FUTURE "Flagship 3-Yr Cumulative" → "Per-Producer 3-Yr Cumulative", audit 3 lever labels
+- [ ] Scope 4: Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal

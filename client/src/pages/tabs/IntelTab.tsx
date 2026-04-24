@@ -23,8 +23,6 @@ import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
 import { EdCorkboard } from '@/components/EdCorkboard';
-// BruehlBriefBulletin removed — replaced by Market Report component (D51 · Apr 19 2026)
-
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
 // Recurring every Wednesday from May 7, 2026
 
@@ -1079,13 +1077,7 @@ export default function IntelTab() {
       <div id="intel-layer-6" />
       <IntelligenceWebLayer />
 
-      {/* Section 9 — Bruehl Brief Bulletin Board — HIDDEN V1 Apr 18 2026 (D51 violation during open phase)
-           "Tomorrow Edge", "Scripture for Rest", "Mentor Line", "Soli Deo Gloria" are personal council material.
-           Resolves with R5 Tuesday: BruehlBriefBulletin → Market Report component.
-           Do NOT unhide until R5 ships. */}
-      {/* <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <BruehlBriefBulletin />
-      </div> */}
+      {/* Section 9 — BruehlBriefBulletin removed — canon-kill Apr 24 2026 */}
 
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#947231' }}>

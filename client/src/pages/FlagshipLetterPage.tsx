@@ -39,9 +39,7 @@ export default function FlagshipLetterPage() {
   const { data, isLoading, error } = trpc.flagship.getLetter.useQuery();
   const paragraphs = data?.text ? splitParagraphs(data.text) : [];
 
-  const today = new Date().toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-  });
+  const today = 'April 2026'; // Institutional convention — month only, no day (Scope 2 · Apr 24 2026)
 
   const handlePrint = () => window.print();
 

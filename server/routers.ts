@@ -5,7 +5,7 @@ import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
-import { pipeline, dailyBrief } from "../drizzle/schema";
+import { pipeline } from "../drizzle/schema";
 import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian, readHeadcountTable, readMilestones, readPartnerCards } from './sheets-helper';
 import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
@@ -518,61 +518,7 @@ export const appRouter = router({
       }),
   }),
 
-  // ─── Brief Router (Task 7 · Today's Brief surface · Apr 22 2026) ────────────────
-  brief: router({
-    /**
-     * Get today's brief (most recent row from daily_brief table).
-     * publicProcedure — content is non-sensitive.
-     */
-    getToday: publicProcedure.query(async () => {
-      try {
-        const db = await getDb();
-        if (!db) return null;
-        const all = await db.select().from(dailyBrief).orderBy(dailyBrief.briefDate);
-        if (all.length === 0) return null;
-        return all[all.length - 1];
-      } catch {
-        return null;
-      }
-    }),
-
-    /**
-     * Upsert today's brief content.
-     * Called by the William 5:55 AM pipeline.
-     */
-    upsert: publicProcedure
-      .input(z.object({
-        briefDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        hamptons:  z.string().min(1),
-        markets:   z.string().min(1),
-        art:       z.string().min(1),
-        audioUrl:  z.string().url().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const db = await getDb();
-        if (!db) throw new Error('Database not available');
-        await db
-          .insert(dailyBrief)
-          .values({
-            briefDate:   input.briefDate,
-            hamptons:    input.hamptons,
-            markets:     input.markets,
-            art:         input.art,
-            audioUrl:    input.audioUrl ?? null,
-            generatedAt: new Date(),
-          })
-          .onDuplicateKeyUpdate({
-            set: {
-              hamptons:    input.hamptons,
-              markets:     input.markets,
-              art:         input.art,
-              audioUrl:    input.audioUrl ?? null,
-              generatedAt: new Date(),
-            },
-          });
-        return { ok: true, briefDate: input.briefDate };
-      }),
-  }),
 });
+// brief router removed — canon-kill Apr 24 2026 (Ed ruled 10:34 PM EDT: Bloomberg or JPMorgan)
 
 export type AppRouter = typeof appRouter;

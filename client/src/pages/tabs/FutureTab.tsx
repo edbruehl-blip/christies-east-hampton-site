@@ -306,7 +306,7 @@ function AssumptionsCalc() {
       {/* Three output cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
         {[
-          { label: 'Flagship 3-Yr Cumulative', val: fmtOut(413 * factor) },
+          { label: 'Per-Producer 3-Yr Cumulative', val: fmtOut(413 * factor) },
           { label: '2029 Flagship Cumulative',  val: fmtOut(708 * factor) },
           { label: '2036 Combined Volume',       val: fmtOut(3000 * factor) },
         ].map(({ label, val }) => (
