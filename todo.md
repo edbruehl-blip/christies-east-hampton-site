@@ -2844,3 +2844,14 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Delete SectionFrame.tsx + PageShell.tsx
 - [x] Remove phone_office field from state.json
 - [x] Vitest 59/59, zero broken imports, phone_office zero ✓
+
+## Backlog — Polish Commit (after /market PDF closes)
+- [ ] B1 · HOME video thumbnails — add poster attribute to 4 <video> elements (option 2: YouTube thumbnail if YT-sourced, option 1: mid-frame extract otherwise)
+- [ ] B2 · HOME "Today's Brief" widget — hide body until Bruehl Brief feed is wired (option 2: hide empty header, not option 3 placeholder)
+
+## /market PDF Button Round (Apr 23 2026)
+- [x] Wire MARKET PDF button to canonical Puppeteer capture path (GET /api/pdf?url=/market)
+- [x] Kill Sprint 14 tombstone comment, restore <MarketReportPdfButton /> render
+- [x] Update button label to "DOWNLOAD MARKET PDF" per dispatch
+- [x] Update filename to christies-east-hampton-market-{YYYY-MM-DD}.pdf per dispatch
+- [x] No jsPDF in MARKET render path ✓ · Vitest 59/59 ✓

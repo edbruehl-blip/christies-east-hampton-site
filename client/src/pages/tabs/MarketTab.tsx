@@ -259,7 +259,7 @@ function MarketReportPdfButton() {
       const a = document.createElement('a');
       const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
       a.href = url;
-      a.download = `Christies_EH_Market_Report_${today}.pdf`;
+      a.download = `christies-east-hampton-market-${today}.pdf`;
       a.click();
       URL.revokeObjectURL(url);
       toast.success('Market Report PDF downloaded', { id: toastId });
@@ -289,7 +289,7 @@ function MarketReportPdfButton() {
         transition: 'opacity 0.2s',
       }}
     >
-      {loading ? 'Generating…' : '▼ Export Market Report PDF'}
+      {loading ? 'Generating…' : 'DOWNLOAD MARKET PDF'}
     </button>
   );
 }
@@ -610,9 +610,10 @@ export default function MarketTab() {
             </div>
           </div>
 
-          {/* Market Report PDF button removed — Sprint 14 architectural rule (Ed ruling Apr 15 2026):
-               One canonical document per PDF button, no duplicate paths.
-               /report page (tap James Christie portrait) has the sole Download PDF button. */}
+          {/* Market Report PDF button — wired per /market PDF button round dispatch (Apr 23 2026).
+               Puppeteer path: GET /api/pdf?url=/market → photographs live /market → PDF.
+               Sprint 14 tombstone superseded by explicit dispatch. */}
+          <MarketReportPdfButton />
         </div>
       </section>
 
