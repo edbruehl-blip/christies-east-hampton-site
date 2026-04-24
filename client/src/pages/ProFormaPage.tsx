@@ -482,7 +482,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
               { label: 'CIREG Profit Share 1.75% †',  vals: ['$0','$8K','$17K','$200K'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
             ]}
-            total={['$94.2K','$147K','$151.4K','$763.6K+']}
+            total={['$94.2K','$112K','$109.4K','$582.6K']}
           />
           <P2Card
             name="Scott Smith *"

@@ -578,8 +578,8 @@ export default function FutureTab() {
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Personal GCI',                   v26: '$70K',  v27: '$70K',  v28: '$84K',  v36: '$361K',  color: C_EH },
-    { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },
+    { label: 'Personal GCI',                   v26: '$17.5K°',v27: '$70K',  v28: '$84K',  v36: '$361K',  color: C_EH },  // °pro-rated 8 months (May 4 start)
+    { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },  // °$70K/yr
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
     { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: '#6b2838' },
@@ -818,10 +818,10 @@ export default function FutureTab() {
               <PartnerCard
                 name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
                 subtitle="Broker/Agent – Office Director"
-                nestNote="Nest salary $60K/yr · Start May 4 2026"
+                nestNote="Nest salary $70K/yr · Start May 4 2026"
                 streams={zoilaStreams}
                 totLabel="All Streams Total"
-                tot={['$94.2K','$147K','$151.4K','$763.6K+']}
+                tot={['$94.2K','$112K','$109.4K','$582.6K']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
