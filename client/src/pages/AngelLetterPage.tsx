@@ -37,8 +37,6 @@ const ANGEL_LETTER_PARAGRAPHS = [
   `You have access to the Miro board, the Trello board, the Growth Model, and the dashboard. Everything is open. Nothing is locked from you. The only thing we ask is that you bring the same care to every interaction that this institution has brought to its clients for over 250 years.`,
 
   `We are glad you are here. The door is always open — we look forward to building this with you.`,
-
-  `Soli Deo Gloria.`,
 ];
 
 export default function AngelLetterPage() {

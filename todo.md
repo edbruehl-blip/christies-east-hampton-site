@@ -2972,3 +2972,14 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] C2: Market Report PDF — generates fresh from live /report page via Puppeteer (no cache); all text changes reflected automatically on next download
 - [ ] E1: PIPE Sheet iframe — deferred to follow-up commit on Ed's URL delivery
 - [ ] B1: Calendar iframe — verify embed loads without sign-in gate (conditional on Ed confirming public share)
+
+## Dispatch 34 — Apr 24 2026
+
+- [x] Item 1: HOME AuctionImageMatrix container reframed to mounted-object language (border + translucent slab)
+- [x] Item 2: /angel-letter and /council-letter redirect routes added to App.tsx
+- [x] Item 3: NineSheetMatrix + IntelligenceWebLayer removed from public INTEL render (data preserved)
+- [x] Item 4: INTEL_SECTIONS sticky nav stripped to four active layers (Corkboard, Mind Map, Command Board, Master Calendar)
+- [x] Item 5: Canon sweep eleven→ten across MARKET tab (donut aria-label, H2, KPI subtitle, filter), IntelTab sheet descriptions, hamlet-master.ts comment
+- [x] Item 6: Christie's letter lead summary 260 years → over 250 years
+- [x] Item 7: Flagship letter thirty-four tests → fifty-nine tests (both occurrences)
+- [x] Item 8: SDG stripped from flagship letter body and Angel letter body (last per dispatch sequencing)

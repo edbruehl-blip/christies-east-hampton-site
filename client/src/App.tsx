@@ -96,6 +96,9 @@ function App() {
             <Route path="/letters/flagship" component={FlagshipLetterPage} />
             <Route path="/letters/christies" component={ChristiesLetterPage} />
             <Route path="/letters/angel" component={AngelLetterPage} />
+            {/* Legacy short-form routes — redirect to canonical /letters/* paths */}
+            <Route path="/angel-letter">{() => { window.location.replace('/letters/angel'); return null; }}</Route>
+            <Route path="/council-letter">{() => { window.location.replace('/letters/flagship'); return null; }}</Route>
             <Route path="/letters/welcome" component={NeighborhoodLetterPage} />
             <Route path="/architecture-of-wealth" component={ArchitectureOfWealthPage} />
             <Route path="/council-brief" component={CouncilBriefPage} />

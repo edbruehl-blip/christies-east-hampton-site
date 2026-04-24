@@ -3,9 +3,9 @@
  * Design: navy #1B2A4A · gold #947231 · charcoal #384249 · cream #FAF8F4
  * Typography: Cormorant Garamond (titles) · Source Sans 3 (data) · Barlow Condensed (labels/badges)
  * Modules:
- *   - Hamptons Market Signal — eleven-hamlet volume-share donut ring (Hamptons-native, no macro)
+ *   - Hamptons Market Signal — ten-hamlet volume-share donut ring (Hamptons-native, no macro)
  *   - Rate Environment sidebar (mortgage corridor, Hamptons Median)
- *   - Eleven hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
+ *   - Ten hamlet tiles in tier order (Ultra-Trophy → Trophy → Premier → Opportunity)
  *   - Each tile: hamlet name, median price, tier badge, volume share bar
  *
  * DIRECTIVE: The core Hamptons market instrument must stay Hamptons-native.
@@ -145,7 +145,7 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
         width={320}
         height={320}
         viewBox="0 0 320 320"
-        aria-label="Eleven-hamlet volume share donut"
+        aria-label="Ten-hamlet volume share donut"
         style={{ overflow: 'visible' }}
       >
         {segments.map(seg => {
@@ -481,7 +481,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
           className="mt-1"
           style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.75rem' }}
         >
-          All eleven hamlets &middot; trailing 12 months
+            All ten hamlets &middot; trailing 12 months
         </div>
       </div>
 
@@ -557,7 +557,9 @@ export default function MarketTab() {
   const matrixRows = matrixResponse?.hamlets;
 
   const mergedData = useMemo(() => {
-    const merged = mergeHamletData(MASTER_HAMLET_DATA, matrixRows);
+    // D2 Apr 24 2026: east-hampton-north filtered at render boundary (ten canonical hamlets)
+    const merged = mergeHamletData(MASTER_HAMLET_DATA, matrixRows)
+      .filter(h => h.id !== 'east-hampton-north');
     return [...merged].sort((a, b) => b.medianPrice - a.medianPrice);
   }, [matrixRows]);
 
@@ -585,7 +587,7 @@ export default function MarketTab() {
             className="mb-8"
             style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.35rem, 2.5vw, 1.75rem)', lineHeight: 1.25 }}
           >
-            Eleven-Hamlet Volume Distribution &middot; Hamptons Territory
+            Ten-Hamlet Volume Distribution &middot; Hamptons Territory
           </h2>
 
           {/* Two-column hero: donut left, rate environment right — stacks on mobile */}

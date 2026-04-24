@@ -594,14 +594,14 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'office-pipeline',
     name: 'Office Pipeline',
-    description: 'Live deal tracker — active deals across all eleven hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
+    description: 'Live deal tracker — active deals across all ten canonical hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
     sheetId: SHEET_IDS.officePipeline,
     badge: 'PIPE Tab',
   },
   {
     id: 'market-matrix',
     name: 'Market Matrix',
-    description: 'Eleven-hamlet market data matrix — 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
+    description: 'Ten-hamlet market data matrix — 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
     sheetId: SHEET_IDS.marketMatrix,
     badge: 'MARKET Tab',
   },
@@ -1035,12 +1035,10 @@ function CorkboardLayer() {
 
 const INTEL_SECTIONS = [
   { id: 'intel-layer-corkboard', label: 'Corkboard · Day One' },
-  { id: 'intel-layer-1', label: 'Layer 1 · Mind Map' },
-  { id: 'intel-layer-2', label: 'Layer 2 · Trello Board' },
-  { id: 'intel-layer-3', label: 'Layer 3 · Calendar' },
-  { id: 'intel-layer-4', label: 'Layer 4 · Thirteen Sheets' },
-  { id: 'intel-layer-5', label: 'Layer 5 · Documents' },
-  { id: 'intel-layer-6', label: 'Layer 6 · Intel Web' },
+  { id: 'intel-layer-1', label: 'Mind Map' },
+  { id: 'intel-layer-2', label: 'Command Board' },
+  { id: 'intel-layer-3', label: 'Master Calendar' },
+  // Layers 4–6 removed from public surface per D34 Apr 24 2026
 ];
 
 function IntelStickyNav() {
@@ -1121,17 +1119,9 @@ export default function IntelTab() {
       <div id="intel-layer-3" />
       <CalendarLayer />
 
-      <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
-
-      {/* Layer 4 — Thirteen-Sheet Matrix */}
-      <div id="intel-layer-4" />
-      <NineSheetMatrix />
-
+      {/* Layer 4 — Thirteen-Sheet Matrix — removed from public surface per D34 Apr 24 2026; data preserved in NINE_SHEETS array above */}
       {/* Layer 5 — Document Library — removed from public surface per A2 Apr 24 2026; data preserved in DOCUMENT_LIBRARY + INTEL_DASHBOARD_LINKS arrays above */}
-
-      {/* Layer 6 — Intelligence Web */}
-      <div id="intel-layer-6" />
-      <IntelligenceWebLayer />
+      {/* Layer 6 — Intelligence Web — removed from public surface per D34 Apr 24 2026; data preserved in IntelligenceWebTabs component */}
 
       {/* Section 9 — BruehlBriefBulletin removed — canon-kill Apr 24 2026 */}
 

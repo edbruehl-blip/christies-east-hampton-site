@@ -26,7 +26,7 @@ export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flag
 
 We have been building this quietly for the past several months — Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
 
-My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking and carries the general research lane — synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office, carrying the rate environment, the hamlet matrix, and the institutional trajectory context that feeds the MARKET tab. Grok pushed back when anything drifted toward performance, and holds the market intelligence lane. Gemini cross-checked the data and carries local intelligence — hamlet-specific detail, current market state, the granular knowledge that makes the hamlet cards useful to someone who just landed on the East End for the first time. I built the platform, sprint by sprint, through hosting migrations, late nights, and thirty-four tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
+My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking and carries the general research lane — synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves. Perplexity is the Intelligence Officer — every number traced to a named source, every signal sorted into the sheets that run the office, carrying the rate environment, the hamlet matrix, and the institutional trajectory context that feeds the MARKET tab. Grok pushed back when anything drifted toward performance, and holds the market intelligence lane. Gemini cross-checked the data and carries local intelligence — hamlet-specific detail, current market state, the granular knowledge that makes the hamlet cards useful to someone who just landed on the East End for the first time. I built the platform, sprint by sprint, through hosting migrations, late nights, and fifty-nine tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
 
 Here is the first thing worth saying plainly. This is not a dashboard. That word undersells it by a factor of ten.
 
@@ -58,7 +58,7 @@ Ed told the council a long time ago that the destination is helping reunite Chri
 
 That reframes everything you are about to audit. The drift in the documents, the hygiene issues, the things that are not yet finished — these are not the problems of a small real estate office. They are the hygiene issues of an institution trying to operate at a standard the industry does not currently hold itself to. A dead system has no drift. Drift means things are actually changing.
 
-Here is what is real right now. The platform is live. The letter is locked. Thirty-four of thirty-four tests green. $4.57M closed in the first hundred days, office-wide, verified. $19.72M exclusive active. $75M baseline for 2026 defensible on paper. The team is coming. Zoila May 4. Scott June 1. The referral channels are not fantasy — Tash Perrin exists, Stephen Lash exists, Rick Moeser is in the Key Relationships list because Jarvis walked Ed into that room. The AnewHomes split is locked at seven names who all know the deal.
+Here is what is real right now. The platform is live. The letter is locked. Fifty-nine of fifty-nine tests green. $4.57M closed in the first hundred days, office-wide, verified. $19.72M exclusive active. $75M baseline for 2026 defensible on paper. The team is coming. Zoila May 4. Scott June 1. The referral channels are not fantasy — Tash Perrin exists, Stephen Lash exists, Rick Moeser is in the Key Relationships list because Jarvis walked Ed into that room. The AnewHomes split is locked at seven names who all know the deal.
 
 None of that is small. All of it is real.
 
@@ -76,13 +76,11 @@ We are genuinely excited to hear your feedback — what lands, what is missing, 
 
 The office is at 26 Park Place in East Hampton Village, next to John Papa's Restaurant. We are in the seat.
 
-Manny · Christie's East Hampton Council · April 2026
-
-Soli Deo Gloria.`
+Manny · Christie's East Hampton Council · April 2026`
 
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.
-export const CHRISTIES_LETTER_TEXT = `LEAD SUMMARY: This is the Christie's Letter to the Families of the East End — a formal introduction from Christie's East Hampton to the collectors, landowners, and legacy families of the Hamptons. It describes what Christie's is, what distinguishes it from a conventional brokerage, and what the institution can offer families who hold significant real estate and art alongside it. Read this letter to understand the Christie's proposition: 260 years of institutional service, a depth of advisory that begins where the closing table ends, and an open door to the auction house, the collector evenings, and the international network. This letter supports every first conversation Ed has with a new family.
+export const CHRISTIES_LETTER_TEXT = `LEAD SUMMARY: This is the Christie's Letter to the Families of the East End — a formal introduction from Christie's East Hampton to the collectors, landowners, and legacy families of the Hamptons. It describes what Christie's is, what distinguishes it from a conventional brokerage, and what the institution can offer families who hold significant real estate and art alongside it. Read this letter to understand the Christie's proposition: over 250 years of institutional service, a depth of advisory that begins where the closing table ends, and an open door to the auction house, the collector evenings, and the international network. This letter supports every first conversation Ed has with a new family.
 
 The East End holds more than real estate. It holds the quiet permanence of land that has been sought after for generations, by collectors, by families, by those who understand that proximity to beauty is itself a form of wealth.
 
