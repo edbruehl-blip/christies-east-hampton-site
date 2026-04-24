@@ -10,6 +10,12 @@ import { LOGO_WHITE } from '@/lib/cdn-assets';
 import { trpc } from '@/lib/trpc';
 import '@/styles/future-print.css';
 import {
+  ANGEL_NEST_ANNUAL, ZOILA_NEST_ANNUAL,
+  ZOILA_NEST_2026_PRORATED, ZOILA_NEST_2027_Q1_STUB,
+  ANGEL_NEST_2026_FULL, ANGEL_NEST_2027_Q1_STUB,
+  fmtK,
+} from '@shared/nestConstants';
+import {
   Chart,
   BarController,
   BarElement,
@@ -320,7 +326,7 @@ function AssumptionsCalc() {
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&deg; Nest Salary</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Pro-rated through Q1 2027 producer transition. Angel: $70K/yr full 2026, $17.5K Q1 2027 only. Zoila: $46.7K pro-rated from May 4 2026, $17.5K Q1 2027 only.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>{`Pro-rated through Q1 2027 producer transition. Angel: $${ANGEL_NEST_ANNUAL/1000}K/yr full 2026, ${fmtK(ANGEL_NEST_2027_Q1_STUB)} Q1 2027 only. Zoila: ${fmtK(ZOILA_NEST_2026_PRORATED)} pro-rated from May 4 2026, ${fmtK(ZOILA_NEST_2027_Q1_STUB)} Q1 2027 only.`}</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&sect; AnewHomes Co.</div>
@@ -334,12 +340,18 @@ function AssumptionsCalc() {
 // ─── Partner Card Components (v14 wireframe) ──────────────────────────────────
 interface StreamRow {
   label: React.ReactNode;
-  v26: string;
-  v27: string;
-  v28: string;
-  v36: string;
+  values: [number, number, number, number]; // 2026, 2027, 2028, 2036 in dollars
   color: string;
+  visibilityOnly?: boolean; // excluded from All Streams Total
 }
+
+const computeTotal = (streams: StreamRow[]): [string, string, string, string] =>
+  [0, 1, 2, 3].map(i => {
+    const sum = streams
+      .filter(s => !s.visibilityOnly)
+      .reduce((acc, s) => acc + s.values[i], 0);
+    return fmtK(sum);
+  }) as [string, string, string, string];
 interface CardProps {
   name: React.ReactNode;
   subtitle: string;
@@ -385,8 +397,8 @@ function PartnerCard({ name, subtitle, nestNote, streams, totLabel, tot, clarifi
         {streams.map((row, idx) => (
           <div key={idx} style={{ display: 'flex', alignItems: 'baseline', gap: 2, padding: '1.5px 0 1.5px 4px', lineHeight: 1.2, borderLeft: `2px solid ${row.color}`, marginTop: 0.5 }}>
             <div style={{ flex: 1, minWidth: 0, wordBreak: 'keep-all', overflowWrap: 'normal', hyphens: 'none', ...SANS, fontSize: 8, color: lblColor }}>{row.label}</div>
-            {[row.v26, row.v27, row.v28, row.v36].map((v, i) => (
-              <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, fontSize: 8, color: valColor, fontStyle: 'italic' }}>{v}</div>
+            {row.values.map((v, i) => (
+              <div key={i} style={{ width: i === 3 ? 36 : 30, textAlign: 'right', whiteSpace: 'nowrap', flexShrink: 0, ...SERIF, fontSize: 8, color: valColor, fontStyle: 'italic' }}>{v < 0 ? '—' : fmtK(v)}</div>
             ))}
           </div>
         ))}
@@ -548,51 +560,51 @@ export default function FutureTab() {
   const ITALIC_GRAY = '#9a9a9a';
 
   const edStreams: StreamRow[] = [
-    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.60M', color: ITALIC_GRAY },
-    { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
-    { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
-    { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: '#6b2838' },
-    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: ITALIC_GRAY },
+    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, values: [600000, 720000, 864000, 3600000], color: ITALIC_GRAY, visibilityOnly: true },
+    { label: 'Personal GCI',             values: [420000, 504000, 605000, 2600000], color: C_EH },
+    { label: <>AnewHomes 35%*</>,        values: [17500, 52500, 59000, 151000],  color: '#c8946b' },
+    { label: 'CIREG Profit Share 29.75%',values: [52000, 128000, 287000, 3390000], color: '#6b2838' },
+    { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, values: [100000, 250000, 500000, 1130000], color: ITALIC_GRAY, visibilityOnly: true },
   ];
 
   const ilijaStreams: StreamRow[] = [
-    { label: <>CIREG Profit Share 65%**</>,                   v26: ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K', v27: ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K', v28: ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K', v36: ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M', color: C_SH },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
+    { label: <>CIREG Profit Share 65%**</>,                   values: [ilijaPool2026 ?? 114000, ilijaPool2027 ?? 279000, ilijaPool2028 ?? 627000, ilijaPool2036 ?? 7400000], color: C_SH },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, values: [100000, 250000, 500000, 1130000], color: '#9a9a9a', visibilityOnly: true },
   ];
 
   const angelStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$17.5K', v27: '$84K',   v28: '$100.8K',v36: '$433K+', color: C_EH },
-    { label: 'Nest Salary',              v26: '$70K',   v27: '$17.5K°', v28: '—',  v36: '—',   color: C_EH },
-    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
-    { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
+    { label: 'Personal GCI',             values: [17500, 84000, 100800, 433000], color: C_EH },
+    { label: <>Nest Salary&nbsp;&deg;</>, values: [ANGEL_NEST_2026_FULL, ANGEL_NEST_2027_Q1_STUB, -1, -1], color: C_EH },
+    { label: <>AnewHomes 5%</>,          values: [2500, 7500, 8400, 21600], color: '#c8946b' },
+    { label: "Ed's Team GCI Override 5%",values: [30000, 36000, 43000, 186000], color: '#9a9a9a' },
+    { label: 'CIREG Profit Share 1.75%', values: [3000, 8000, 17000, 200000], color: '#6b2838' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, values: [100000, 250000, 500000, 1130000], color: '#9a9a9a', visibilityOnly: true },
   ];
 
   const jarvisStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$250K',  v27: '$250K',  v28: '$300K',  v36: '$1.0M',  color: C_EH },
-    { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
-    { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
-    { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
+    { label: 'Personal GCI',             values: [250000, 250000, 300000, 1000000], color: C_EH },
+    { label: <>AnewHomes 5%</>,          values: [2500, 7500, 8400, 21600], color: '#c8946b' },
+    { label: "Ed's Team GCI Override 5%",values: [30000, 36000, 43000, 186000], color: '#9a9a9a' },
+    { label: 'CIREG Profit Share 1.75%', values: [3000, 8000, 17000, 200000], color: '#6b2838' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, values: [100000, 250000, 500000, 1130000], color: '#9a9a9a', visibilityOnly: true },
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Personal GCI',                   v26: '$70K',  v27: '$70K',  v28: '$84K',  v36: '$361K',  color: C_EH },
-    { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },
-    { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
-    { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
-    { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, v26: '$0', v27: '$8K',  v28: '$17K',  v36: '$200K',  color: '#6b2838' },
-    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: '#9a9a9a' },
+    { label: 'Personal GCI',                   values: [17500, 70000, 84000, 361000], color: C_EH },
+    { label: <>Nest Salary&nbsp;&deg;</>,       values: [ZOILA_NEST_2026_PRORATED, ZOILA_NEST_2027_Q1_STUB, -1, -1], color: C_EH },
+    { label: <>AnewHomes 5%&nbsp;&dagger;</>,   values: [0, 7500, 8400, 21600], color: '#c8946b' },
+    { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, values: [30000, 9000, -1, -1], color: '#9a9a9a' },
+    { label: <>CIREG Profit Share 1.75%&nbsp;&dagger;</>, values: [0, 8000, 17000, 200000], color: '#6b2838' },
+    { label: <span style={{fontStyle:'italic',color:'#9a9a9a'}}>CPS1 + CIRE Node ‡</span>, values: [100000, 250000, 500000, 1130000], color: '#9a9a9a', visibilityOnly: true },
   ];
 
   const scottStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$150K',  v27: '$150K',  v28: '$180K',  v36: '$774K',  color: C_EH },
-    { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
+    { label: 'Personal GCI',             values: [150000, 150000, 180000, 774000], color: C_EH },
+    { label: <>AnewHomes 35%</>,         values: [17500, 52500, 59000, 151000], color: '#c8946b' },
   ];
 
   const richardStreams: StreamRow[] = [
-    { label: 'AnewHomes 10%',            v26: '$5K',    v27: '$15K',   v28: '$16.9K', v36: '$43.3K', color: '#c8946b' },
+    { label: 'AnewHomes 10%',            values: [5000, 15000, 16900, 43300], color: '#c8946b' },
   ];
 
 
@@ -763,7 +775,6 @@ export default function FutureTab() {
                 subtitle="Broker – Managing Director"
                 streams={edStreams}
                 totLabel="All Streams Total"
-                tot={['$489.5K','$684.5K','$951K','$6.14M']}
                 clarifications={[
                   "Ed's Team GCI reference only — not included in total",
                   "CPS1 + CIRE Node visibility only — not included in total",
@@ -774,12 +785,6 @@ export default function FutureTab() {
                 subtitle="Franchise Principal · CIREG Tri-State"
                 streams={ilijaStreams}
                 totLabel="All Streams Total"
-                tot={[
-                  ilijaPool2026 ? fmtM(ilijaPool2026) : '$114K',
-                  ilijaPool2027 ? fmtM(ilijaPool2027) : '$279K',
-                  ilijaPool2028 ? fmtM(ilijaPool2028) : '$627K',
-                  ilijaPool2036 ? fmtM(ilijaPool2036) : '$7.4M',
-                ]}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
@@ -791,10 +796,9 @@ export default function FutureTab() {
               <PartnerCard
                 name="Angel Theodore"
                 subtitle="Agent – Marketing Coordinator"
-                nestNote="Nest salary $70K/yr · through Q1 2027"
+                nestNote={`Nest salary $${ANGEL_NEST_ANNUAL / 1000}K/yr · through Q1 2027`}
                 streams={angelStreams}
                 totLabel="All Streams Total"
-                tot={['$123K','$152.5K','$168.2K','$840.6K+']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
@@ -805,7 +809,6 @@ export default function FutureTab() {
                 subtitle="Licensed Real Estate Salesperson"
                 streams={jarvisStreams}
                 totLabel="All Streams Total"
-                tot={['$175.5K','$219.5K','$270K','$1.28M']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
@@ -818,10 +821,9 @@ export default function FutureTab() {
               <PartnerCard
                 name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
                 subtitle="Broker/Agent – Office Director"
-                nestNote="Nest salary $60K/yr · Start May 4 2026"
+                nestNote={`Nest salary $${ZOILA_NEST_ANNUAL / 1000}K/yr · Start May 4 2026`}
                 streams={zoilaStreams}
                 totLabel="All Streams Total"
-                tot={['$94.2K','$147K','$151.4K','$763.6K+']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
@@ -832,7 +834,7 @@ export default function FutureTab() {
                 subtitle="Agent – AnewHomes Co. Partner"
                 streams={scottStreams}
                 totLabel="All Streams Total"
-                tot={['$52.5K','$136.5K','$159.8K','$475K+']}
+
                 shortYears
               />
               <PartnerCard
@@ -840,7 +842,7 @@ export default function FutureTab() {
                 subtitle="Strategic Advisor – AnewHomes Co. Partner"
                 streams={richardStreams}
                 totLabel="All Streams Total"
-                tot={['$5K','$15K','$16.9K','$43.3K']}
+
                 shortYears
               />
             </div>

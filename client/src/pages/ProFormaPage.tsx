@@ -24,6 +24,12 @@
 import { trpc } from '@/lib/trpc';
 import { useState, useEffect, useRef } from 'react';
 import { DashboardLayout } from '@/components/DashboardLayout';
+import {
+  ANGEL_NEST_ANNUAL, ZOILA_NEST_ANNUAL,
+  ZOILA_NEST_2026_PRORATED, ZOILA_NEST_2027_Q1_STUB,
+  ANGEL_NEST_2026_FULL, ANGEL_NEST_2027_Q1_STUB,
+  fmtK,
+} from '@shared/nestConstants';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 // D65: LOGO_BLACK deleted — ProFormaPage now uses navy shell (dark background)
@@ -448,7 +454,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             nestSalary="$70K/yr · through Q1 2027"
             streams={[
               { label: 'Personal GCI',                 vals: ['$17.5K','$84K','$100.8K','$433K+'] },
-              { label: 'Nest Salary °',                vals: ['$70K','$17.5K°','—','—'] },
+              { label: 'Nest Salary °',                vals: [fmtK(ANGEL_NEST_2026_FULL), fmtK(ANGEL_NEST_2027_Q1_STUB)+'°','—','—'] },
               { label: 'AnewHomes 5% §',               vals: ['$2.5K','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override 5%",   vals: ['$30K','$36K','$43K','$186K'] },
               { label: 'CIREG Profit Share 1.75%',     vals: ['$3K','$8K','$17K','$200K'] },
@@ -476,13 +482,13 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             nestSalary="$70K/yr · Start May 4 2026"
             streams={[
               { label: 'Personal GCI',                 vals: ['$17.5K','$105K','$126K','$542K+'] },
-              { label: 'Nest Salary ° †',              vals: ['$46.7K°','$17.5K°','—','—'] },
+              { label: 'Nest Salary ° †',              vals: [fmtK(ZOILA_NEST_2026_PRORATED)+'°', fmtK(ZOILA_NEST_2027_Q1_STUB)+'°','—','—'] },
               { label: 'AnewHomes 5% † §',             vals: ['$0','$7.5K','$8.4K','$21.6K'] },
               { label: "Ed's Team GCI Override †",    vals: ['$30K','$9K','—','—'] },
               { label: 'CIREG Profit Share 1.75% †',  vals: ['$0','$8K','$17K','$200K'] },
               { label: 'CPS1 + CIRE Node ‡ (ref.)',   vals: ['$100K','$250K','$500K','$1.13M'] },
             ]}
-            total={['$94.2K','$147K','$151.4K','$763.6K+']}
+            total={['$94.2K','$112K','$109.4K','$582.6K']}
           />
           <P2Card
             name="Scott Smith *"
@@ -513,7 +519,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
           † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only.<br />
           ‡ CPS1 + CIRE Node: Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
           § AnewHomes Co.: Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 (proof-of-concept) · $150K 2027 (Scott fully onboarded) · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
-          ° Nest Salary pro-rated: Angel $70K full 2026 + $17.5K Q1 2027 · Zoila $46.7K from May 4 2026 + $17.5K Q1 2027
+          {`° Nest Salary pro-rated: Angel $${ANGEL_NEST_ANNUAL/1000}K full 2026 + ${fmtK(ANGEL_NEST_2027_Q1_STUB)} Q1 2027 · Zoila ${fmtK(ZOILA_NEST_2026_PRORATED)} from May 4 2026 + ${fmtK(ZOILA_NEST_2027_Q1_STUB)} Q1 2027`}
         </div>
         <div style={{ ...P2_SERIF, fontSize: 8, color: '#888', fontStyle: 'italic', whiteSpace: 'nowrap', marginLeft: 12 }}>
           The foundation is proven. The model is working.

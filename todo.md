@@ -2891,3 +2891,19 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Scope 2: Flagship Letter date → "April 2026" (month only, no day)
 - [x] Scope 3: FUTURE "Flagship 3-Yr Cumulative" → "Per-Producer 3-Yr Cumulative", audit 3 lever labels
 - [x] Scope 4: Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
+
+## Canon-from-Source Structural Commit — Apr 24 2026
+- [x] FIX 1: Remove SectionLabel component + all 5 call sites from /report (section headings carry weight on their own)
+- [x] FIX 2: Create shared/nestConstants.ts — ANGEL_NEST_ANNUAL, ZOILA_NEST_ANNUAL, derived prorated values, fmtK()
+- [x] FIX 3a: FutureTab.tsx — StreamRow interface → values: [number,number,number,number] + visibilityOnly flag
+- [x] FIX 3b: FutureTab.tsx — computeTotal() replaces hardcoded tot props on all 7 PartnerCards
+- [x] FIX 3c: FutureTab.tsx — Zoila GCI 2026 copy-paste bug fixed: $70K → $17.5K (17500)
+- [x] FIX 3d: FutureTab.tsx — Nest Salary rows wired from constants (ANGEL_NEST_2026_FULL, ZOILA_NEST_2026_PRORATED, etc.)
+- [x] FIX 3e: FutureTab.tsx — -1 sentinel for '—' cells (no salary after Q1 2027)
+- [x] FIX 3f: FutureTab.tsx — footnote text interpolated from constants
+- [x] FIX 4a: ProFormaPage.tsx — nestConstants import added
+- [x] FIX 4b: ProFormaPage.tsx — Angel + Zoila Nest Salary vals wired from constants
+- [x] FIX 4c: ProFormaPage.tsx — Zoila total corrected: $147K→$112K, $151.4K→$109.4K, $763.6K→$582.6K
+- [x] FIX 4d: ProFormaPage.tsx — footnote interpolated from constants
+- [x] FIX 5: /report Section 3 before Section 4 render order fixed
+- [x] Vitest 59/59 ✓ · pnpm build ✓ · checkpoint + publish
