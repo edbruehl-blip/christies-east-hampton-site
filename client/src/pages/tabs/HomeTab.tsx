@@ -44,6 +44,10 @@ function TodaysBrief() {
     if (w) { w.document.write(html); w.document.close(); w.print(); }
   };
 
+  // P2 (Apr 23 2026): Render nothing until the Bruehl Brief feed is wired.
+  // Condition: if not loading and no brief data, return null — no heading, no wrapper, nothing mounted.
+  if (!isLoading && !brief) return null;
+
   return (
     <div style={{
       background: '#0D1B2A',
@@ -380,28 +384,35 @@ function SectionChristiesStory() {
 // ─── Section D  ·  Video Reel ─────────────────────────────────────────────────
 // ORDER (Apr 22 2026 Session 3 — titles corrected per Ed's dispatch):
 // 1. 250 Years of History · 2. A Life Less Ordinary · 3. Christie's Estate Services · 4. Rabbit Hole
+// P5 (Apr 23 2026): Poster images added to all four videos — Christie's gallery stills from CDN.
+// Prevents black frame before user clicks play.
+const _CDN_POSTER = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870';
 const VIDEO_REEL = [
   {
     key: 'v3',
     src: '/manus-storage/v3_nov3_2025_2b01a2eb.mov',
+    poster: `${_CDN_POSTER}/xxnqbHbKnDJGuFwB.jpg`,  // Christie's King Street, London
     title: '250 Years of History',
     label: "Christie's International Real Estate Group",
   },
   {
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',
+    poster: `${_CDN_POSTER}/DtTxqkdyvvLrygvu.jpg`,  // The Grand Saleroom, Christie's
     title: 'A Life Less Ordinary',
     label: "Christie's East Hampton — Life Less Ordinary",
   },
   {
     key: 'v2',
     src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
+    poster: `${_CDN_POSTER}/RTJNoOCaJmYcVUzG.jpg`,  // Grand Saleroom Evening Sale
     title: "Christie's Estate Services",
     label: "Christie's — Estate & Collection Services",
   },
   {
     key: 'v0',
     src: '/manus-storage/JamesChristie-RabbitHole_79659439.mov',
+    poster: `${_CDN_POSTER}/eAJQMsvhfrxtjUtt.jpg`,  // Hermès Handbag Auction, Christie's
     title: 'The James Christie Rabbit Hole',
     label: "Christie's East Hampton · The Standard",
   },
@@ -448,6 +459,7 @@ function SectionVideoReel() {
           </div>
           <video
             src={v.src}
+            poster={v.poster}
             controls
             playsInline
             preload="metadata"

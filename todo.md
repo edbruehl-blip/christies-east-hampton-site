@@ -2862,3 +2862,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Fix: pnpm run build regenerated dist/ from current source — version.json now b1971494
 - [x] Vitest 59/59 after fresh build
 - [x] Checkpoint + publish to force Manus platform to deploy fresh build
+
+## Architecture Sprint Closeout — Apr 23 2026
+- [x] P1: FALSE POSITIVE — /letters/flagship and /letters/angel render correctly on live site. /report/letter-* were audit test URLs that never existed.
+- [x] P2: Hide Today's Brief on HOME when !isLoading && !brief — returns null from entire component, no heading, no wrapper, nothing mounted
+- [x] P3: FALSE POSITIVE — Bitcoin shows in FUTURE ticker after page load. Audit screenshot was timing artifact (data still loading). No code change needed.
+- [x] P4: FALSE POSITIVE — Bitcoin shows in MAPS ticker after page load. Same timing artifact. No code change needed.
+- [x] P5: Added poster= attributes to all four HOME videos using Christie's CDN gallery stills
+- [x] Vitest 59/59 gate — PASSED (11 test files)
+- [x] Checkpoint + publish closeout commit
