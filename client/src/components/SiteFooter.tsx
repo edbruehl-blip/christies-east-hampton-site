@@ -66,10 +66,9 @@ function useWeatherFooter() {
 }
 
 const LETTER_LINKS = [
-  { label: 'Letter from the Flagship', href: '/letters/flagship' },
-  { label: "A Letter from Christie's", href: '/letters/christies' },
-  { label: 'Letter to Angel', href: '/letters/angel' },
-  { label: 'Neighborhood Welcome Letter', href: '/letters/welcome' },
+  { label: 'Letter from the Council', href: '/letters/flagship', row: 'Letters' },
+  { label: 'Neighborhood Welcome', href: '/cards/bike', row: 'Cards' },
+  { label: 'UHNW Path', href: '/cards/uhnw-path', row: 'Cards' },
 ];
 
 export function SiteFooter() {
@@ -171,33 +170,37 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* ── Letter links ─────────────────────────────────────────────── */}
-        <div>
-          <div style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', marginBottom: 6 }}>
-            Institutional Letters
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px 18px' }}>
-            {LETTER_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={(e) => { e.preventDefault(); navigate(href); }}
-                style={{
-                  ...SANS,
-                  fontSize: '0.68rem',
-                  letterSpacing: '0.1em',
-                  color: 'rgba(250,248,244,0.5)',
-                  textDecoration: 'none',
-                  textTransform: 'uppercase',
-                  transition: 'color 0.15s',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,248,244,0.5)')}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
+        {/* ── Letter + Card links ───────────────────────────────────────── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {(['Letters', 'Cards'] as const).map(row => (
+            <div key={row} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+              <span style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', minWidth: 46 }}>
+                {row}
+              </span>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 14px' }}>
+                {LETTER_LINKS.filter(l => l.row === row).map(({ label, href }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={(e) => { e.preventDefault(); navigate(href); }}
+                    style={{
+                      ...SANS,
+                      fontSize: '0.68rem',
+                      letterSpacing: '0.1em',
+                      color: 'rgba(250,248,244,0.5)',
+                      textDecoration: 'none',
+                      textTransform: 'uppercase',
+                      transition: 'color 0.15s',
+                    }}
+                    onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
+                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,248,244,0.5)')}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* ── Divider ─────────────────────────────────────────────────── */}

@@ -2939,3 +2939,11 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] B-1: Wednesday Caravan → Wednesday Circuit (IntelTab + FutureTab)
 - [x] B-2: THE PULSE → THE STANDARD (IntelTab Q1 title)
 - [x] B-3: CouncilBriefPage:237 strip WhatsApp 631-239-7190 line
+
+## Tier B-2 Final (Apr 24 2026)
+- [x] B-4: SiteFooter footer links → Letters row (Letter from the Council) + Cards row (Neighborhood Welcome · UHNW Path)
+- [x] B-5: Podcast line in NeighborhoodLetterPage → Ed's exact wording with 26 Park Place + Swing by
+- [x] B-6: Corkboard Q1 body → Christie's Standard anchor line added below clockwise guide
+- [x] B-7: Corkboard Q2 header → "① The Christie's Standard" (possessive)
+- [x] B-8: WhatsApp word stripped from IntelTab.tsx description string
+- [x] B-9: Jarvis FutureTab timeline → "COO · Licensed Real Estate Salesperson"

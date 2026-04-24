@@ -161,11 +161,12 @@ export function EdCorkboard() {
           <Bullet text="Ed thirty-five · Ilija sixty-five" sub="Two parties at the pool" />
           <Bullet text="The platform is the pitch" sub="No decks" />
           <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Pulse (daily) → Pipeline (weekly) → Network (monthly) → Calendar (dates) → Focus (current)</div>
+          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.82)', marginTop: 8, lineHeight: 1.65, fontStyle: 'italic', borderTop: '1px solid rgba(148,114,49,0.22)', paddingTop: 7 }}>“We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie’s Standard forward — over 250 years of it — in every conversation.”</div>
         </div>
 
         {/* Q2 — THE STANDARD */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
-          <h3 style={s.panelH3}>① The Standard</h3>
+          <h3 style={s.panelH3}>① The Christie’s Standard</h3>
           <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
           <Bullet text="Top 3 for Ed" sub="Highest-leverage actions today" />
           <Bullet text="Top 3 for Angel" sub="Angel Day One · April 25" />
