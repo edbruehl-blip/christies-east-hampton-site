@@ -197,7 +197,7 @@ function PageHeader({ generatedAt }: { generatedAt: string }) {
       <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22 }} />
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)', textAlign: 'right' }}>
         Christie's East Hampton · Pro Forma<br />
-        Generated {generatedAt} · Data: Growth Model v2
+        Generated {generatedAt} · Data: Growth Model
       </div>
     </div>
   );
@@ -332,7 +332,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
         * All projections labeled MODEL. 2026 Closed ($4.57M) and Active ({exclusiveStr}) are verified actuals.
         2026 baseline ($75M) and all outer years are governing-principle projections, not guarantees.
         AnewHomes and CPS-1 bands show visibility within EH total — not additive to EH volume.
-        Data source: Growth Model v2 · Christie's East Hampton.
+        Data source: Growth Model · Christie's East Hampton.
       </div>
 
       <div style={PAGE_FOOTER}>
@@ -553,7 +553,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         Formula: Gross GCI = Office Volume × 2%. Royalty = GCI × 5%. Agent Splits = GCI × 70%.
         Overhead = MAX($200K, GCI × 6%). <strong>Net Operating Profit = GCI − Royalty − Splits − Overhead.</strong>
         Split: <strong>Ed 35%</strong> · <strong>Ilija 65%</strong> · two parties only.
-        Paid at year end. Not salary. Not splits. Profit participation. Source: Growth Model v2 OUTPUTS D39/D41.
+        Paid at year end. Not salary. Not splits. Profit participation. Source: Growth Model OUTPUTS D39/D41.
       </div>
 
       <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9, marginBottom: 14 }}>

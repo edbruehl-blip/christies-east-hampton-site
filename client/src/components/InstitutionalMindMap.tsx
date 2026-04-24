@@ -123,9 +123,9 @@ const NODES: MapNode[] = [
 
   { id: "auction_house",
     name: "CHRISTIE'S AUCTION HOUSE",
-    title: "260 Years · $6.2B in 2025 Sales · Americas Leadership",
+    title: "Over 250 Years · $6.2B in 2025 Sales · Americas Leadership",
     type: "CATEGORY", status: "ACTIVE",
-    note: "Christie's International — 260 years, founded 1766. $6.2B in 2025 sales. Bonnie Brennan: President Americas — first American woman in that role. Alex Rotter: Global President. Julien Pradels: Regional President Americas — Ed's direct auction house contact. Tash Perrin: Deputy Chairman International, Trusts & Estates, auction referral bridge. Stephen Lash: Chairman Emeritus, 50-year tenure, Ed's senior institutional relationship. Rahul Kadakia: President Asia-Pacific, based Hong Kong, jewelry auction referral pathway.",
+    note: "Christie's International — over 250 years, founded 1766. $6.2B in 2025 sales. Bonnie Brennan: President Americas — first American woman in that role. Alex Rotter: Global President. Julien Pradels: Regional President Americas — Ed's direct auction house contact. Tash Perrin: Deputy Chairman International, Trusts & Estates, auction referral bridge. Stephen Lash: Chairman Emeritus, 50-year tenure, Ed's senior institutional relationship. Rahul Kadakia: President Asia-Pacific, based Hong Kong, jewelry auction referral pathway.",
     x: 300, y: 540, r: R,
     members: ["Bonnie Brennan (President Americas)", "Alex Rotter (Global President)", "Julien Pradels (Reg. President Americas)", "Tash Perrin (Deputy Chair)", "Stephen Lash (Chair Emeritus)", "Rahul Kadakia (President APAC)"],
     rw: R, rh: R },
@@ -397,7 +397,7 @@ const NODES: MapNode[] = [
     name: "MASTER INDEX",
     title: "Doctrine Library · Trello DOCTRINE LIBRARY Lane",
     type: "RELATIONSHIP_INTELLIGENCE", status: "ACTIVE",
-    note: "Master Index card in DOCTRINE LIBRARY Trello lane. Single source of truth for all canonical rulings, dispatch history, and session logs. Created Apr 16 2026. Links to Google Drive Growth Model v2 and all Council dispatches.",
+    note: "Master Index card in DOCTRINE LIBRARY Trello lane. Single source of truth for all canonical rulings, dispatch history, and session logs. Created Apr 16 2026. Links to Google Drive Growth Model and all Council dispatches.",
     x: 1060, y: 1680, r: R,
     clickAction: { type: "url", url: "https://trello.com/b/H2mvEgRi", label: "Open Trello DOCTRINE LIBRARY" } },
 

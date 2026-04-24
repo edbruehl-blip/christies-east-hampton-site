@@ -171,7 +171,7 @@ const SOURCES: IntelSource[] = [
   {
     id: "growth-model-v2",
     pillar: "memory",
-    name: "Growth Model v2 Sheet",
+    name: "Growth Model Sheet",
     type: "Sheet",
     cadence: "Manual (quarterly update)",
     feedsInto: "FUTURE tab GCI chart · 300-Day Arc · WhatsApp brief",
@@ -443,7 +443,7 @@ export function IntelSourceTemplate() {
             className="inline-block px-4 py-2 text-[9px] uppercase tracking-widest border transition-colors hover:bg-[#1B2A4A] hover:text-[#FAF8F4]"
             style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: '#947231', color: '#1B2A4A', letterSpacing: '0.16em', textDecoration: 'none' }}
           >
-            Open Growth Model v2 Sheet ↗
+            Open Growth Model Sheet ↗
           </a>
         </div>
       </div>

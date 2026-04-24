@@ -2921,3 +2921,11 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] PDF: add data-pdf-page="1/2/3" markers — deterministic 3-page split, kills dead blank band
 - [x] PDF: @page size: letter portrait; margin: 0.9in 1in — Chrome + Safari print preview clean
 - [x] PDF: data-pdf-page CSS page-break rules added to report-print.css
+
+## Micro-Commit — Apr 24 2026
+
+- [x] H7b — drop O: 631.771.7004 from ProFormaPage (already clean — zero action)
+- [x] H7c — drop O: 631.771.7004 from UHNWPathCardPage (already clean — zero action)
+- [x] H9+H10 — replace all "260 years" with "over 250 years" (4 files: EstateAdvisoryCard, FamilyOfficeList, InstitutionalMindMap x2)
+- [x] Growth Model v2 → Growth Model display label (IntelSourceTemplate x2, ProFormaPage x3, ReportPage x2, IntelTab x1, InstitutionalMindMap x1)
+- [x] /report top-nav verified — intentional standalone architecture, no drift

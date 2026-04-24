@@ -558,7 +558,7 @@ interface SheetEntry {
 const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'growth-model',
-    name: 'Growth Model v2',
+    name: 'Growth Model',
     description: 'Agent volume projections, GCI model, ROSTER, LEADERBOARD, OUTPUTS, and recruiting pipeline. Single source of truth for the Ascension Arc.',
     sheetId: SHEET_IDS.growthModel,
     badge: 'FUTURE Tab',

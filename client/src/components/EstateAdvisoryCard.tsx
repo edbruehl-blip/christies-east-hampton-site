@@ -75,7 +75,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
             </div>
             <div style={{ ...SERIF, color: 'rgba(250,248,244,0.85)', fontSize: '1.05rem', lineHeight: 1.65, fontStyle: 'italic' }}>
               "The family's interest comes before the sale. Not the commission.
-              Not the close. The family. That principle has survived 260 years
+              Not the close. The family. That principle has survived over 250 years
               of markets, wars, and revolutions."
             </div>
             <div style={{ ...LABEL_FONT, color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>

@@ -807,7 +807,7 @@ function Section3() {
                 maxWidth: 220,
               }}
             >
-              The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model v2.
+              The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model.
             </div>
           </div>
 
@@ -1278,7 +1278,7 @@ function Section3Condensed() {
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Last Significant Sale</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>EAST END<br />SPOTLIGHT</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model v2.</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model.</div>
           </div>
 
           {/* Rate Environment */}
