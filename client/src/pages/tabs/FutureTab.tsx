@@ -684,7 +684,7 @@ export default function FutureTab() {
                 lbl: '2ND 100 DAYS', st: 'DOING', dt: 'Mar – Apr 29, 2026',
                 sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active. Two additional closings this quarter.',
                 cl: "Stephen Lash engaged. Dan's Papers pilot with Schneps Media in motion. NYC outreach through Melissa True, Rockefeller and Flatiron desks.",
-                tm: 'Jarvis Slade joined as COO · Licensed Real Estate Salesperson. Angel Day One April 25. Zoila Ortega Astor starts May 4. Flagship relaunch April 29.',
+                tm: 'Jarvis Slade joined as COO · Licensed Real Estate Salesperson. Angel Theodore active · April 2026. Zoila Ortega Astor starts May 4. Flagship relaunch April 29.',
               },
               {
                 accent: '#c8946b',
@@ -790,7 +790,7 @@ export default function FutureTab() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
               <PartnerCard
                 name="Angel Theodore"
-                subtitle="Agent – Marketing Coordinator"
+                subtitle="Marketing Coordinator + Sales"
                 nestNote="Nest salary $70K/yr · through Q1 2027"
                 streams={angelStreams}
                 totLabel="All Streams Total"
@@ -817,7 +817,7 @@ export default function FutureTab() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
               <PartnerCard
                 name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
-                subtitle="Broker/Agent – Office Director"
+                subtitle="Office Director · Producing Broker"
                 nestNote="Nest salary $70K/yr · Start May 4 2026"
                 streams={zoilaStreams}
                 totLabel="All Streams Total"

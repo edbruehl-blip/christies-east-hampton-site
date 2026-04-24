@@ -169,7 +169,7 @@ export function EdCorkboard() {
           <h3 style={s.panelH3}>① The Christie’s Standard</h3>
           <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
           <Bullet text="Top 3 for Ed" sub="Highest-leverage actions today" />
-          <Bullet text="Top 3 for Angel" sub="Angel Day One · April 25" />
+          <Bullet text="Top 3 for Angel" sub="Angel active · April 2026" />
           <Bullet text="Waiting On" sub="Counterparties · attorneys · banks" />
           <Bullet text="Touch Minimums" sub="3 seller touches · 2 buyer touches · 1 recruit" />
         </div>
@@ -200,7 +200,7 @@ export function EdCorkboard() {
           <Bullet text="Wednesday Circuit" sub="Recurring · brokers + culture + rhythm" />
           <div style={s.subLabel}>Team Dates</div>
           {[
-            ['Angel Day One', 'April 25'],
+            ['Angel active', 'April 2026'],
             ['Public Launch', 'April 29'],
             ['Zoila starts', 'May 4'],
             ['Scott starts', 'June 1'],
