@@ -120,9 +120,9 @@ export function EdCorkboard() {
           </div>
         </div>
         <div style={{ fontSize: 9, letterSpacing: '0.15em', color: 'rgba(250,248,244,0.7)', textAlign: 'right', lineHeight: 1.6 }}>
-          Updated April 2026<br />
+          Updated April 29, 2026 · Public Launch<br />
           Six-quadrant operational layout<br />
-          Live · April 29, 2026
+          christiesrealestategroupeh.com
         </div>
       </header>
 

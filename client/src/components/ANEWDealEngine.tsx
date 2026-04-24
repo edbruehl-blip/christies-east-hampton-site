@@ -222,7 +222,7 @@ export function ANEWDealEngine() {
       {/* ── Section header ───────────────────────────────────────────────────── */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '32px 24px 20px' }}>
         <div style={{ fontFamily: LABEL, color: GOLD, letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', fontWeight: 600, marginBottom: 6 }}>
-          ANEW Deal Engine · v1
+          ANEW Deal Engine
         </div>
         <h3 style={{ fontFamily: SERIF, color: CREAM, fontWeight: 400, fontSize: 'clamp(1.2rem, 2.2vw, 1.6rem)', margin: 0 }}>
           ANEW Deal Engine
