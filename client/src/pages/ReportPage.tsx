@@ -2012,8 +2012,8 @@ export default function ReportPage() {
     <div id="report-page-content" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
       <BackBar />
       <Section1 />
-      <Section4 />
       <Section3 />
+      <Section4 />
       <YouTubeMatrix />
       <AuctionGallery />
       <Section7 />
