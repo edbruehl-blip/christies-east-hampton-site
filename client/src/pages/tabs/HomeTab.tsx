@@ -168,7 +168,7 @@ function SectionA() {
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ display: 'block' }}
         />
-        <div className="absolute inset-0" style={{ background: 'rgba(13,27,42,0.91)' }} />
+        <div className="absolute inset-0" style={{ background: 'rgba(27,42,74,0.78)' }} />
 
         {/* Content wrapper — centered, max 900px */}
         <div className="relative" style={{ display: 'flex', justifyContent: 'center', padding: '28px 24px 56px' }}>
