@@ -163,9 +163,9 @@ export function EdCorkboard() {
           <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Pulse (daily) → Pipeline (weekly) → Network (monthly) → Calendar (dates) → Focus (current)</div>
         </div>
 
-        {/* Q2 — THE PULSE */}
+        {/* Q2 — THE STANDARD */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}` }}>
-          <h3 style={s.panelH3}>① The Pulse <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Daily</span></h3>
+          <h3 style={s.panelH3}>① The Standard</h3>
           <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
           <Bullet text="Top 3 for Ed" sub="Highest-leverage actions today" />
           <Bullet text="Top 3 for Angel" sub="Angel Day One · April 25" />

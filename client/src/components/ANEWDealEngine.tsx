@@ -263,7 +263,7 @@ export function ANEWDealEngine() {
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
               <div style={{ fontFamily: LABEL, color: GOLD, fontSize: 9, letterSpacing: '0.18em', textTransform: 'uppercase' }}>
-                Hamlet (optional)
+                Hamlet / Area (optional)
               </div>
               <select
                 value={hamlet}

@@ -234,7 +234,7 @@ export default function CouncilBriefPage() {
           </tbody>
         </table>
         <p style={{ marginTop: 16 }}>
-          The four William audio keywords on WhatsApp 631-239-7190 are NEWS (the 14-category Cronkite brief of daily Hamptons and market intelligence), LETTER (the James Christie letter to the families), FLAGSHIP (the Flagship AI-Letter), and BRIEF (the Council Brief Lead Summary Paragraph). All four keywords deliver through the ElevenLabs Turbo v2 British RP Voice per Doctrine 25 via Twilio per Doctrine 34.
+        
         </p>
       </Section>
 
@@ -308,7 +308,6 @@ export default function CouncilBriefPage() {
           Monday, April 13, 2026 — 2:45 AM
         </p>
       </Section>
-
 
 
       {/* Footer */}

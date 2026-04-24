@@ -28,7 +28,7 @@ const ANGEL_LETTER_PARAGRAPHS = [
 
   `Here is what you need to know about how we operate. The dashboard at christiesrealestategroupeh.com is the operating system for this office. It has six layers: HOME, MARKET, MAPS, PIPE, FUTURE, and INTEL. You will learn each one. The Christie's logo in the top left is the only way to return to HOME — that is intentional. Every letter surface, every report, every brief flows through this system.`,
 
-  `The team you are joining: Ed Bruehl, Managing Director. Jarvis, Licensed Real Estate Salesperson. You, Angel. Zoila joins alongside you. Scott Smith joins June 1. Richard Bruehl serves as Strategic Advisor and founding partner of AnewHomes. This is a small, high-trust team. Everyone here is expected to operate at an institutional level — not because it is required, but because the families we serve deserve nothing less.`,
+  `The team you are joining: Ed Bruehl, Managing Director. Jarvis, COO · Licensed Real Estate Salesperson. You, Angel. Zoila joins alongside you. Scott Smith joins June 1. Richard Bruehl serves as Strategic Advisor and founding partner of AnewHomes. This is a small, high-trust team. Everyone here is expected to operate at an institutional level — not because it is required, but because the families we serve deserve nothing less.`,
 
   `Your AnewHomes equity is 5%, fully vested with no cliff, effective Day One. This is a structural share in the AnewHomes entity, not a bonus.`,
 

@@ -2929,3 +2929,13 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] H9+H10 — replace all "260 years" with "over 250 years" (4 files: EstateAdvisoryCard, FamilyOfficeList, InstitutionalMindMap x2)
 - [x] Growth Model v2 → Growth Model display label (IntelSourceTemplate x2, ProFormaPage x3, ReportPage x2, IntelTab x1, InstitutionalMindMap x1)
 - [x] /report top-nav verified — intentional standalone architecture, no drift
+
+## Commit 2 — Tier A + Tier B (Apr 24 2026)
+- [x] D-1: ReportPage:920 Sagaponack prose $7.5M → $8.04M
+- [x] D-2: ReportPage:1303 Sagaponack/Springs prose fix (PDF print)
+- [x] D-3: AngelLetterPage:31 Jarvis → "COO · Licensed Real Estate Salesperson"
+- [x] D-5: FutureTab:805 Jarvis subtitle → "COO · Licensed Real Estate Salesperson"
+- [x] D-6: Add canonical:true flag to 10 canonical hamlets in hamlet-master.ts; filter Hamlet Atlas + Maps cards at render boundary; prose "Eleven" → "Ten"
+- [x] B-1: Wednesday Caravan → Wednesday Circuit (IntelTab + FutureTab)
+- [x] B-2: THE PULSE → THE STANDARD (IntelTab Q1 title)
+- [x] B-3: CouncilBriefPage:237 strip WhatsApp 631-239-7190 line

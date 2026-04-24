@@ -917,8 +917,8 @@ function Section3() {
                 marginTop: 12,
               }}
             >
-              Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at
-              $1.35M. Eleven distinct corridors, eleven distinct buyers.
+              Sagaponack leads at $8.04M median. Springs remains the most accessible entry point at
+              $1.58M. Ten distinct corridors, ten distinct buyers.
             </div>
           </div>
         </div>{/* grid */}
@@ -1175,7 +1175,7 @@ function Section4() {
   });
   const selectedHamlet = MASTER_HAMLET_DATA.find((h) => h.id === selectedId) ?? null;
   // Render all 11 hamlets in median price descending order
-  const sortedHamlets = [...MASTER_HAMLET_DATA].sort((a, b) => b.medianPrice - a.medianPrice);
+  const sortedHamlets = [...MASTER_HAMLET_DATA].filter(h => h.canonical !== false).sort((a, b) => b.medianPrice - a.medianPrice);
 
   // B4: Auto-scroll to this section when hamlet param is present
   useEffect(() => {
@@ -1300,7 +1300,7 @@ function Section3Condensed() {
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Hamptons Median</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#947231', fontSize: '2.25rem', fontWeight: 400, lineHeight: 1 }}>$2.34M</div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.4)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase', marginTop: 8 }}>East End · Q4 2025 · Record High · Verified market intelligence</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $7.5M median. Springs remains the most accessible entry point at $1.35M. Eleven distinct corridors, eleven distinct buyers.</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, marginTop: 12 }}>Sagaponack leads at $8.04M median. Springs remains the most accessible entry point at $1.58M. Ten distinct corridors, ten distinct buyers.</div>
           </div>
         </div>
       </div>

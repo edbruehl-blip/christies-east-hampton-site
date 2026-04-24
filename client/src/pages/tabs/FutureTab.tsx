@@ -676,7 +676,7 @@ export default function FutureTab() {
                 accent: '#9a9a9a',
                 lbl: '1ST 100 DAYS', st: 'DONE', dt: 'Dec 2025 – Mar 2026',
                 sh: '$4.57M closed. 9 Daniels Hole Road $2.47M, AnewHomes debut. 2 Old Hollow Road $2.10M. Pipeline built to $19.72M.',
-                cl: 'Office rebuilt as an auction house. Art hung, desks reduced, podcast studio installed. Hamptons Real Estate Podcast live. First Private Collector Series events — Watches, Art, Wine. Wednesday Caravan launched.',
+                cl: 'Office rebuilt as an auction house. Art hung, desks reduced, podcast studio installed. Hamptons Real Estate Podcast live. First Private Collector Series events — Watches, Art, Wine. Wednesday Circuit launched.',
                 tm: '26 Park Place open before the sign went up. Angel Theodore led the transformation. Dashboard live Day 1.',
               },
               {
@@ -689,7 +689,7 @@ export default function FutureTab() {
               {
                 accent: '#c8946b',
                 lbl: '3RD 100 DAYS', st: 'INCOMING', dt: 'Apr 29 – Aug 2026',
-                sh: '$75M 2026 trajectory. First Wednesday Caravan live. East End flagship presence established.',
+                sh: '$75M 2026 trajectory. First Wednesday Circuit live. East End flagship presence established.',
                 cl: "Daily intelligence briefing in market. Every listing held to the Christie's standard.",
                 tm: 'Five agents on live operating system. Scott Smith joins June 1. Southampton pre-launch in motion.',
               },
@@ -802,7 +802,7 @@ export default function FutureTab() {
               />
               <PartnerCard
                 name="Jarvis Slade"
-                subtitle="Licensed Real Estate Salesperson"
+                subtitle="COO · Licensed Real Estate Salesperson"
                 streams={jarvisStreams}
                 totLabel="All Streams Total"
                 tot={['$175.5K','$219.5K','$270K','$1.28M']}

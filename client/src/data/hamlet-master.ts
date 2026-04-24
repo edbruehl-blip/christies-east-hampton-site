@@ -37,6 +37,7 @@ export interface EeleListing {
 export interface HamletData {
   id: string;
   name: string;
+  canonical?: boolean;   // true = one of the 10 canonical hamlets east of the canal
   tier: HamletTier;
   medianPrice: number;          // USD
   medianPriceDisplay: string;   // formatted string
@@ -106,6 +107,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'sagaponack',
     name: 'Sagaponack',
     tier: 'Ultra-Trophy',
+    canonical: true,
     medianPrice: 8_040_000,
     medianPriceDisplay: '$8.04M',
     volumeShare: 4,  // ~4% — ~$229.9M of $5.922B (Sagaponack combined)
@@ -142,6 +144,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'east-hampton-village',
     name: 'East Hampton Village',
     tier: 'Ultra-Trophy',
+    canonical: true,
     medianPrice: 5_250_000,
     medianPriceDisplay: '$5.25M',
     volumeShare: 7,  // 7% — $408.9M of $5.922B (verified market intelligence cross-reference)
@@ -178,6 +181,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'bridgehampton',
     name: 'Bridgehampton',
     tier: 'Trophy',
+    canonical: true,
     medianPrice: 4_470_000,
     medianPriceDisplay: '$4.47M',
     volumeShare: 9,  // 9% — $530.9M of $5.922B
@@ -214,6 +218,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'southampton-village',
     name: 'Southampton Village',
     tier: 'Trophy',
+    canonical: true,
     medianPrice: 4_385_000,
     medianPriceDisplay: '$4.385M',
     volumeShare: 11,  // 11% — $670.4M of $5.922B
@@ -250,6 +255,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'water-mill',
     name: 'Water Mill',
     tier: 'Trophy',
+    canonical: true,
     medianPrice: 4_550_000,
     medianPriceDisplay: '$4.55M',
     volumeShare: 7,  // 7% — $405.1M of $5.922B
@@ -286,6 +292,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'sag-harbor',
     name: 'Sag Harbor',
     tier: 'Premier',
+    canonical: true,
     medianPrice: 2_800_000,
     medianPriceDisplay: '$2.80M',
     volumeShare: 5,  // 5% — $315.8M of $5.922B
@@ -322,6 +329,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'amagansett',
     name: 'Amagansett',
     tier: 'Premier',
+    canonical: true,
     medianPrice: 4_350_000,
     medianPriceDisplay: '$4.35M',
     volumeShare: 9,  // 9% — $508.2M of $5.922B
@@ -361,6 +369,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'east-hampton-north',
     name: 'East Hampton North',
     tier: 'Premier',
+    canonical: false,
     medianPrice: 2_030_000,
     medianPriceDisplay: '$2.03M',
     volumeShare: 9,  // 9% — $545.4M of $5.922B
@@ -397,6 +406,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'springs',
     name: 'Springs',
     tier: 'Opportunity',
+    canonical: true,
     medianPrice: 1_580_000,
     medianPriceDisplay: '$1.58M',
     volumeShare: 3,  // 3% — $156.2M of $5.922B
@@ -433,6 +443,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'montauk',
     name: 'Montauk',
     tier: 'Opportunity',
+    canonical: true,
     medianPrice: 2_240_000,
     medianPriceDisplay: '$2.24M',
     volumeShare: 4,  // 4% — $245.3M of $5.922B
@@ -469,6 +480,7 @@ export const MASTER_HAMLET_DATA: HamletData[] = [
     id: 'wainscott',
     name: 'Wainscott',
     tier: 'Trophy',
+    canonical: true,
     medianPrice: 3_600_000,
     medianPriceDisplay: '$3.6M',
     volumeShare: 2,  // 2% — $91.7M of $5.922B

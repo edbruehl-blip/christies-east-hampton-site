@@ -228,7 +228,7 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
 }
 
 function AnewBuildForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
-  const [hamletId, setHamletId] = useState('east-hampton-north');
+  const [hamletId, setHamletId] = useState('east-hampton-village');
   const [address, setAddress] = useState<string>(() => {
     try { return localStorage.getItem(LS_ADDRESS_KEY) || DEFAULT_ADDRESS; } catch { return DEFAULT_ADDRESS; }
   });
@@ -260,7 +260,7 @@ function AnewBuildForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
 }
 
 function BuyHoldForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
-  const [hamletId, setHamletId] = useState('east-hampton-north');
+  const [hamletId, setHamletId] = useState('east-hampton-village');
   const [address, setAddress] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
   const [closingCosts, setClosingCosts] = useState('');
@@ -310,7 +310,7 @@ function BuyRenovateHoldForm({ onResult }: { onResult: (r: AnewOutput) => void }
 }
 
 function BuyRentForm({ onResult }: { onResult: (r: AnewOutput) => void }) {
-  const [hamletId, setHamletId] = useState('east-hampton-north');
+  const [hamletId, setHamletId] = useState('east-hampton-village');
   const [address, setAddress] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
   const [closingCosts, setClosingCosts] = useState('');
