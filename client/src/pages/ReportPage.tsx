@@ -126,7 +126,34 @@ function BackBar() {
 }
 
 // ─── Section label ────────────────────────────────────────────────────────────
-// SectionLabel removed — section headings carry weight on their own (canon Apr 24 2026)
+function SectionLabel({ n, title }: { n: string; title: string }) {
+  return (
+    <div className="flex items-baseline gap-3 mb-6">
+      <span
+        style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#947231',
+          fontSize: 10,
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+        }}
+      >
+        Section {n}
+      </span>
+      <span
+        style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: 'rgba(27,42,74,0.35)',
+          fontSize: 10,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+        }}
+      >
+        {title}
+      </span>
+    </div>
+  );
+}
 
 // ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
 function Section1() {
@@ -461,6 +488,7 @@ function Section2() {
     <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
+        <SectionLabel n="2" title="Hamptons Local Intelligence" />
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
@@ -732,6 +760,7 @@ function Section3() {
     <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
+        <SectionLabel n="3" title="Market Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
@@ -1161,6 +1190,7 @@ function Section4() {
     <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
+        <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
           className="grid gap-2"
           style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', marginBottom: 8 }}
@@ -1280,6 +1310,7 @@ function Section5() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="5" title="MAPS Intelligence" />
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -1452,6 +1483,7 @@ function Section6() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <SectionLabel n="6" title="Resources & Authority" />
         <div
           className="grid gap-8"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
@@ -1980,8 +2012,8 @@ export default function ReportPage() {
     <div id="report-page-content" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
       <BackBar />
       <Section1 />
-      <Section3 />
       <Section4 />
+      <Section3 />
       <YouTubeMatrix />
       <AuctionGallery />
       <Section7 />
