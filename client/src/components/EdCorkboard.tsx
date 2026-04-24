@@ -2,13 +2,13 @@
  * Ed's Corkboard v3 — Canonical Six-Quadrant Operational Layout
  * Per Ed's ruling February 2026. Rebuilt April 22 2026.
  * Six quadrants: THE PULSE · THE PIPELINE · THE NETWORK ·
- *                THE CALENDAR · THE FOCUS · THE COMPASS
+ *                THE CALENDAR · THE FOCUS · THE NORTH STAR
  * Text fixes applied: "Angel Day One · April 25" · "Ilija Pavlovic" · "Key Relationships"
  *
  * D69 One-Environment Strict (Apr 23 2026):
  * Cream/ivory substrate replaced with navy dark glass.
  * Card interiors: navy surface, ivory/gold text on dark — same hierarchy as Command Board tiles.
- * COMPASS card: deep red stays, but on darker navy context (not cream).
+ * NORTH STAR card: deep red stays, but on darker navy context (not cream).
  * All content verbatim — only substrate changed.
  */
 import React from 'react';
@@ -223,7 +223,7 @@ export function EdCorkboard() {
 
       </section>
 
-      {/* COMPASS DOCTRINE — narrow red bar below grid, above numbers band */}
+      {/* NORTH STAR DOCTRINE — narrow red bar below grid, above numbers band */}
       <div style={{
         background: C.deepRed,
         padding: '8px 16px',
@@ -234,7 +234,7 @@ export function EdCorkboard() {
         border: `1px solid rgba(139,38,53,0.6)`,
         flexWrap: 'wrap',
       }}>
-        <span style={{ fontSize: 9, letterSpacing: '0.22em', color: C.gold, textTransform: 'uppercase', fontWeight: 700, whiteSpace: 'nowrap' }}>⑥ The Compass</span>
+        <span style={{ fontSize: 9, letterSpacing: '0.22em', color: C.gold, textTransform: 'uppercase', fontWeight: 700, whiteSpace: 'nowrap' }}>⑥ North Star</span>
         <span style={{ fontSize: 10, color: 'rgba(250,248,244,0.9)', fontStyle: 'italic', flex: 1, minWidth: 200 }}>“Seventy-five million to three billion. Three offices. One trajectory.”</span>
         <span style={{ fontSize: 9, color: 'rgba(250,248,244,0.7)' }}>Ed thirty-five · Ilija sixty-five · Two parties at the pool · The platform is the pitch · No decks.</span>
       </div>

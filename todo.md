@@ -2882,12 +2882,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] 7. Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
 
 ## Consolidated Closeout Commit — Apr 24 2026
-- [ ] Scope 1-1: HomeTab.tsx — delete TodaysBrief function + render, remove trpc import, update order comment
-- [ ] Scope 1-2: server/routers.ts — delete entire brief router block + remove dailyBrief import
-- [ ] Scope 1-3: drizzle/schema.ts — delete dailyBrief table + type exports
-- [ ] Scope 1-4: Delete BruehlBriefBulletin.tsx file entirely
-- [ ] Scope 1-5: IntelTab.tsx — delete import + commented render block
-- [ ] Scope 1-6: grep zero-hit verification (post output before shipping)
-- [ ] Scope 2: Flagship Letter date → "April 2026" (month only, no day)
-- [ ] Scope 3: FUTURE "Flagship 3-Yr Cumulative" → "Per-Producer 3-Yr Cumulative", audit 3 lever labels
-- [ ] Scope 4: Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
+- [x] Scope 1-1: HomeTab.tsx — delete TodaysBrief function + render, remove trpc import, update order comment
+- [x] Scope 1-2: server/routers.ts — delete entire brief router block + remove dailyBrief import
+- [x] Scope 1-3: drizzle/schema.ts — delete dailyBrief table + type exports
+- [x] Scope 1-4: Delete BruehlBriefBulletin.tsx file entirely
+- [x] Scope 1-5: IntelTab.tsx — delete import + commented render block
+- [x] Scope 1-6: grep zero-hit verification — zero hits confirmed Apr 24 2026
+- [x] Scope 2: Flagship Letter date → "April 2026" (month only, no day)
+- [x] Scope 3: FUTURE "Flagship 3-Yr Cumulative" → "Per-Producer 3-Yr Cumulative", audit 3 lever labels
+- [x] Scope 4: Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal

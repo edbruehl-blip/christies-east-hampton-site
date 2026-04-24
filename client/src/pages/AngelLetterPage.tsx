@@ -24,15 +24,15 @@ const ED_HEADSHOT      = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9W
 const ANGEL_LETTER_PARAGRAPHS = [
   `Welcome to Christie's East Hampton. Today is Day One — and you are not walking into a brokerage. You are walking into an institution that has served collectors, landowners, and legacy families for two hundred and sixty years. That context is not decoration. It is the foundation of every conversation you will have on the East End.`,
 
-  `Your role is Client Relations & Operations Lead. That means you are the connective tissue of this office — the person who ensures that every family who walks through the door at 26 Park Place, or who receives a letter, or who hears Ed's name in a conversation, experiences the same level of care and precision that Christie's has always stood for. You are not support staff. You are an institutional representative.`,
+  `Your role is Marketing Coordinator + Sales. That means you are the connective tissue of this office — the person who ensures that every family who walks through the door at 26 Park Place, or who receives a letter, or who hears Ed's name in a conversation, experiences the same level of care and precision that Christie's has always stood for. You are not support staff. You are an institutional representative.`,
 
   `Here is what you need to know about how we operate. The dashboard at christiesrealestategroupeh.com is the operating system for this office. It has six layers: HOME, MARKET, MAPS, PIPE, FUTURE, and INTEL. You will learn each one. The Christie's logo in the top left is the only way to return to HOME — that is intentional. Every letter surface, every report, every brief flows through this system.`,
 
-  `The team you are joining: Ed Bruehl, Managing Director. Jarvis, Senior Agent. You, Angel. Zoila joins alongside you. Richard and Scott Smith are incoming. This is a small, high-trust team. Everyone here is expected to operate at an institutional level — not because it is required, but because the families we serve deserve nothing less.`,
+  `The team you are joining: Ed Bruehl, Managing Director. Jarvis, Licensed Real Estate Salesperson. You, Angel. Zoila joins alongside you. Scott Smith joins June 1. Richard Bruehl serves as Strategic Advisor and founding partner of AnewHomes. This is a small, high-trust team. Everyone here is expected to operate at an institutional level — not because it is required, but because the families we serve deserve nothing less.`,
 
-  `Your equity stake in this institution is real. On co-deals where Jarvis brings the buyer or seller, the split is 50/50 between Ed and Jarvis. From Ed's 50%, 5% flows to you. That is not a bonus. That is a structural share in the outcome of every deal this team closes. There is no cap. The ceiling is the market.`,
+  `Your AnewHomes equity is 5%, fully vested with no cliff, effective Day One. This is a structural share in the AnewHomes entity, not a bonus.`,
 
-  `The doctrines that govern this office are not rules imposed from above — they are the distilled wisdom of everything this institution has learned about how to serve families well. Fifty-four canonical doctrines. The most important ones for Day One: we never name a competitor. We never put GCI on a public surface. We never say "South Fork" — it is always "the East End." And every letter, every conversation, every closing ends the same way: "The door is always open — we look forward to meeting you."`,
+  `The doctrines that govern this office are not rules imposed from above — they are the distilled wisdom of everything this institution has learned about how to serve families well. Fifty canonical doctrines. The most important ones for Day One: we never name a competitor. We never put GCI on a public surface. We never say "South Fork" — it is always "the East End." And every letter, every conversation, every closing ends the same way: "The door is always open — we look forward to meeting you."`,
 
   `You have access to the Miro board, the Trello board, the Growth Model, and the dashboard. Everything is open. Nothing is locked from you. The only thing we ask is that you bring the same care to every interaction that this institution has brought to its clients for two and a half centuries.`,
 
@@ -68,7 +68,7 @@ export default function AngelLetterPage() {
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 10 }}>Christie's East Hampton · Day One Orientation</div>
             <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', lineHeight: 1.1, margin: '0 0 10px', letterSpacing: '0.04em' }}>A Letter to Angel</h1>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.9rem', fontStyle: 'italic' }}>
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              April 2026
             </div>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function AngelLetterPage() {
           <div>
             <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 400, fontSize: '1.8rem', margin: '0 0 4px', letterSpacing: '0.04em' }}>A Letter to Angel</h1>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: MUTED, fontSize: '0.85rem', fontStyle: 'italic' }}>
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              April 2026
             </div>
           </div>
         </div>

@@ -151,8 +151,9 @@ function MindMapSection() {
   }, []);
 
   return (
-    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
+    <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
         {/* Header row */}
         <div className="flex items-center justify-between mb-4">
           <div>
@@ -254,6 +255,7 @@ function MindMapSection() {
             {' '}to edit, drag nodes, and add new ones.
           </div>
         )}
+        </div>{/* /mount frame */}
       </div>
     </div>
   );
@@ -293,9 +295,9 @@ function TrelloLayer() {
   const MUTED   = 'rgba(250,248,244,0.85)';
 
   return (
-    <div className="px-6 py-8 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)', background: '#1B2A4A' }}>
+    <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
         {/* ── Header row ─────────────────────────────────────────────────── */}
         <div className="flex items-start justify-between mb-5">
           <div>
@@ -420,6 +422,7 @@ function TrelloLayer() {
             Open Full Board →
           </a>
         </div>
+        </div>{/* /mount frame */}
       </div>
     </div>
   );
@@ -429,8 +432,9 @@ function TrelloLayer() {
 
 function CalendarLayer() {
   return (
-    <div className="px-6 py-8" style={{ background: '#1B2A4A' }}>
+    <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
       {/* Layer label */}
       <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
         Layer 3 · Master Calendar
@@ -507,7 +511,8 @@ function CalendarLayer() {
             Open Sheet Matrix ↗
           </a>
         </div>
-      </div>
+        </div>
+        </div>{/* /mount frame */}
       </div>
     </div>
   );
@@ -622,7 +627,7 @@ const NINE_SHEETS: SheetEntry[] = [
 
 function NineSheetMatrix() {
   return (
-    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
@@ -823,7 +828,7 @@ const INTEL_DASHBOARD_LINKS = [
   { label: 'Letter to Angel', href: '/letters/angel', description: 'Onboarding letter to Angel — the Day One brief, institutional context, and operational mandate.', external: false },
   { label: 'CPS1 + CIRE Node · Canonical Reference', href: 'https://docs.google.com/document/d/13iw0I835xr5Kc8A59jlsWMy-YDAPOkHrKeSN3RBTMs0/edit', description: 'Locked growth curve: 2026 $100K · 2027 $250K · 2028 $500K · 2029 $750K · 2030 $1.0M · 2031–2036 2% YoY · 2036 $1.13M. Visibility line only. Supersedes all prior $1.5M cap language. Ratified April 22, 2026.', external: true },
   { label: 'AnewHomes Co. · Canonical Reference', href: 'https://docs.google.com/document/d/1zAtjB7ikC01A9d9rNdNBvOSbLCQZuoyXTqB0EF-nYUA/edit', description: 'Definition, origin ruling, equity cap table (Ed 35 · Scott 35 · Richard 10 · Jarvis 5 · Angel 5 · Zoila 5 · Pool 5), revenue source, 6-of-7 partner card render spec, ratified footnote language. Ratified April 22, 2026.', external: true },
-  { label: 'Christie’s Flagship Corkboard · Canonical Content', href: 'https://docs.google.com/document/d/1yFAoW_RiTbHyVwm4dTtUe76LP05b_-7VUO4SDuLOV4U/edit', description: 'Six-quadrant operational layout source-of-truth. Q1 PULSE · Q2 PIPELINE · Q3 NETWORK · Q4 CALENDAR · Q5 FOCUS · Q6 COMPASS. Data fields for all quadrants. Ratified April 22, 2026.', external: true },
+  { label: 'Christie’s Flagship Corkboard · Canonical Content', href: 'https://docs.google.com/document/d/1yFAoW_RiTbHyVwm4dTtUe76LP05b_-7VUO4SDuLOV4U/edit', description: 'Six-quadrant operational layout source-of-truth. Q1 PULSE · Q2 PIPELINE · Q3 NETWORK · Q4 CALENDAR · Q5 FOCUS · Q6 NORTH STAR. Data fields for all quadrants. Ratified April 22, 2026.', external: true },
 ];
 
 function DocumentLibrary() {

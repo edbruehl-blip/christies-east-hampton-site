@@ -78,27 +78,7 @@ function AscensionArcChart() {
       },
     };
 
-    // Opening-year labels below X-axis: "SH opens 2028" at index 3, "WH opens 2030" at index 5
-    const openingYearPlugin = {
-      id: 'arcOpeningYears',
-      afterDraw(chart: Chart) {
-        const { ctx, scales: { x }, chartArea } = chart as any;
-        const openings = [
-          { idx: 0, text: 'BASELINE · 2025' },
-          { idx: 3, text: 'SH opens 2028' },
-          { idx: 5, text: 'WH opens 2030' },
-        ];
-        ctx.save();
-        ctx.font = 'italic 8.5px "Cormorant Garamond", serif';
-        ctx.fillStyle = '#947231';
-        ctx.textAlign = 'center';
-        const yPos = chartArea.bottom + 34;
-        openings.forEach(({ idx, text }) => {
-          ctx.fillText(text, x.getPixelForValue(idx), yPos);
-        });
-        ctx.restore();
-      },
-    };
+    // openingYearPlugin deleted — Ed ruling Apr 24 2026: axis footnote row removed.
 
     chartRef.current = new Chart(canvasRef.current, {
       type: 'bar',
@@ -159,7 +139,7 @@ function AscensionArcChart() {
           },
         },
       },
-      plugins: [totalPlugin as any, openingYearPlugin as any],
+      plugins: [totalPlugin as any],
     });
 
     return () => { chartRef.current?.destroy(); chartRef.current = null; };
@@ -617,7 +597,7 @@ export default function FutureTab() {
 
 
   return (
-    <div className="future-main-wrapper" style={{ background: NAVY, overflowX: 'clip' }}>
+    <div className="future-main-wrapper" style={{ background: 'transparent', overflowX: 'clip' }}>
       <div ref={proFormaRef} style={{ maxWidth: 1100, margin: '0 auto', padding: '18px 22px 16px', fontFamily: '"Cormorant Garamond", serif', color: TEXT_PRIMARY }}>
 
         {/* ── Page header ────────────────────────────────────────────────────── */}
@@ -669,7 +649,7 @@ export default function FutureTab() {
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* PAGE 1 · Ascension Arc                                            */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div data-pdf-page="1" style={{ background: '#0D1B2A', padding: '0 0 8px' }}>
+        <div data-pdf-page="1" style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', margin: '0 0 32px', padding: '16px 20px 8px' }}>
         <AscensionArcChart />
 
         {/* ── 100-Day Blocks · v15 FINAL (April 21 2026) ──────────────────────────────────── */}
@@ -762,7 +742,7 @@ export default function FutureTab() {
         {/* ═══════════════════════════════════════════════════════════════════ */}
         {/* PAGE 2 · Partnership Projections                                  */}
         {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div data-pdf-page="2" className="future-page-2-wrapper" style={{ background: '#0D1B2A', padding: '8px 0 0' }}>
+        <div data-pdf-page="2" className="future-page-2-wrapper" style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', margin: '0 0 32px', padding: '8px 20px 16px' }}>
           {/* Page 2 header */}
           <div style={{ textAlign: 'center', marginBottom: 4 }}>
             <div style={{ ...SANS, fontSize: 8, letterSpacing: 3, textTransform: 'uppercase', color: '#ebe6db', paddingBottom: 2, opacity: 0.9 }}>
@@ -822,7 +802,7 @@ export default function FutureTab() {
               />
               <PartnerCard
                 name="Jarvis Slade"
-                subtitle="Agent – COO"
+                subtitle="Licensed Real Estate Salesperson"
                 streams={jarvisStreams}
                 totLabel="All Streams Total"
                 tot={['$175.5K','$219.5K','$270K','$1.28M']}
@@ -838,7 +818,7 @@ export default function FutureTab() {
               <PartnerCard
                 name={<>Zoila Ortega Astor&nbsp;&dagger;</>}
                 subtitle="Broker/Agent – Office Director"
-                nestNote="Nest salary $70K/yr · Start May 4 2026"
+                nestNote="Nest salary $60K/yr · Start May 4 2026"
                 streams={zoilaStreams}
                 totLabel="All Streams Total"
                 tot={['$94.2K','$147K','$151.4K','$763.6K+']}

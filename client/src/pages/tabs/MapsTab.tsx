@@ -33,14 +33,7 @@ import {
   type BuyRenovateHoldInput,
   type BuyRentInput,
 } from '@/calculators/anew-calculator';
-import {
-  generateAnewBuildMemo,
-  generateChristieCMA,
-  generateDealBrief,
-  generateInvestmentMemo,
-  generateMarketReport,
-  generateEastHamptonVillageReport,
-} from '@/lib/pdf-exports';
+import { captureToPdf } from '@/lib/capture-pdf';
 import hamletHighlightsData from '@/data/hamlet-highlights.json';
 import { ANEWDealEngine } from '@/components/ANEWDealEngine';
 import { GoldBlackFrame, FloatingCard } from '@/components/FramePrimitives';
@@ -406,7 +399,9 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
 }
 function HamletHighlightsModule() {
   return (
-    <div style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
+    <div style={{ background: 'transparent', padding: '0 24px 32px' }}>
+      <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
+      <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)' }}>
       {/* Section header */}
       <div className="px-6 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
@@ -424,6 +419,8 @@ function HamletHighlightsModule() {
             ))}
           </div>
         </div>
+      </div>
+      </div>{/* /mount frame */}
       </div>
     </div>
   );

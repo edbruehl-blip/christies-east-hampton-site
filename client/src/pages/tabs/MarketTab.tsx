@@ -571,8 +571,9 @@ export default function MarketTab() {
 
 
       {/* ── Market Signal Hero Row: Donut + Rate Environment (two-column) ──────────────────── */}
-      <section className="px-6 py-10" style={{ background: 'rgba(13,27,42,0.5)' }}>
+      <section className="px-6 py-10" style={{ background: 'transparent' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '24px 28px' }}>
 
           <div
             className="uppercase mb-2"
@@ -614,12 +615,14 @@ export default function MarketTab() {
                Puppeteer path: GET /api/pdf?url=/market → photographs live /market → PDF.
                Sprint 14 tombstone superseded by explicit dispatch. */}
           <MarketReportPdfButton />
+          </div>{/* /mount frame */}
         </div>
       </section>
 
-      {/* ── Hamlet Tiles by Tier ──────────────────────────────────────────────────── */}
-      <section className="px-6 pb-14" style={{ background: 'rgba(13,27,42,0.5)' }}>
+      {/* ── Hamlet Tiles by Tier ──────────────────────────────────────────── */}
+      <section className="px-6 pb-14" style={{ background: 'transparent' }}>
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+          <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '24px 28px' }}>
 
           <div className="flex items-center justify-between mb-6">
             <div
@@ -654,10 +657,11 @@ export default function MarketTab() {
           {/* Single source attribution — bottom of matrix only (April 7 directive) */}
           <div className="mt-6 pt-4" style={{ borderTop: '1px solid rgba(27,42,74,0.08)' }}>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#9aabb0', fontSize: '0.7rem', letterSpacing: '0.04em', lineHeight: 1.6 }}>
-              Sources: Verified market intelligence &middot; Christie's East Hampton internal analysis &middot; The Real Deal &middot; Behind The Hedges &middot; MLS-backed public records.
+              Sources: Verified market intelligence · Christie's East Hampton internal analysis · The Real Deal · Behind The Hedges · MLS-backed public records.
               Dollar volume figures represent closed residential transactions, East End, Jan–Dec 2025. Last sale data: verified, representative, no outliers per institutional methodology.
             </p>
           </div>
+          </div>{/* /mount frame */}
         </div>
       </section>
 

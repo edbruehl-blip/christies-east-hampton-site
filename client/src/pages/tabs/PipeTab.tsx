@@ -353,8 +353,10 @@ function PipelineTable() {
 
   return (
     <div>
-      {/* KPI strip */}
-      <KpiStrip deals={dealRows as unknown as Array<Record<string, string>>} />
+      {/* KPI strip — mounted object */}
+      <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', marginBottom: 24, padding: '16px 20px' }}>
+        <KpiStrip deals={dealRows as unknown as Array<Record<string, string>>} />
+      </div>
 
       {/* Controls bar */}
       <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -408,8 +410,8 @@ function PipelineTable() {
         </div>
       )}
 
-      {/* Table */}
-      <div style={{ overflowX: 'auto', border: '0.5px solid rgba(200,172,120,0.35)' }}>
+      {/* Table — mounted object */}
+      <div style={{ overflowX: 'auto', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', background: 'rgba(27,42,74,0.88)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 900 }}>
           {/* Header */}
           <thead>

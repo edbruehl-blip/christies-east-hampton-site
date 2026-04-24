@@ -485,8 +485,9 @@ const TAG_COLORS: Record<string, string> = {
 
 function Section2() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.15)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="2" title="Hamptons Local Intelligence" />
         <div
           style={{
@@ -605,14 +606,14 @@ function Section2() {
             </div>
           ))}
         </div>
+        </div>{/* /mount frame */}
       </div>
     </section>
   );
 }
 
-// ─── SECTION 3 · Market Intelligence ─────────────────────────────────────────
+// ─── SECTION 3 · Market Intelligence ─────────────────────────────────────────────────────
 interface TickerData {
-  sp500Change: number;
   vix: number;
   treasury10y: number;
   mortgage30y: number;
@@ -756,8 +757,9 @@ function Section3() {
   const cfs = calcCFS(ticker);
 
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="3" title="Market Intelligence" />
         <div
           className="grid gap-6"
@@ -919,13 +921,14 @@ function Section3() {
               $1.35M. Eleven distinct corridors, eleven distinct buyers.
             </div>
           </div>
-        </div>
+        </div>{/* grid */}
+        </div>{/* /mount frame */}
       </div>
     </section>
   );
 }
 
-// ─── SECTION 4 · Hamlet Atlas Matrix ─────────────────────────────────────────
+// ─── SECTION 44 · Hamlet Atlas Matrix ─────────────────────────────────────────────────────
 const TIER_COLORS: Record<HamletTier, string> = {
   'Ultra-Trophy': '#8a6a2a',
   Trophy: '#1B2A4A',
@@ -1184,8 +1187,9 @@ function Section4() {
   }, []);
 
   return (
-    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.18)' }}>
+    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
           className="grid gap-2"
@@ -1218,6 +1222,7 @@ function Section4() {
         >
           Based on 2025 recorded brokerage transactions. Verified market intelligence. Total Hamptons dollar volume $5.922B.
         </div>
+        </div>{/* /mount frame */}
       </div>
     </section>
   );
@@ -1622,8 +1627,9 @@ function Section6() {
 function AuctionGallery() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
@@ -1661,6 +1667,7 @@ function AuctionGallery() {
             </button>
           ))}
         </div>
+        </div>{/* /mount frame */}
         {lightbox && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center"
@@ -1729,8 +1736,9 @@ const YOUTUBE_VIDEOS = [
 function YouTubeMatrix() {
   const [playing, setPlaying] = useState<string | null>(null);
   return (
-    <section className="no-print" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.18)' }}>
+    <section className="no-print" style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
@@ -1825,17 +1833,18 @@ function YouTubeMatrix() {
                       {v.title}
                     </p>
                   </div>
-                </button>
+                  </button>
               )}
             </div>
           ))}
         </div>
+        </div>{/* /mount frame */}
       </div>
     </section>
   );
 }
 
-// ─── SECTION 7 · Christie's Auction Intelligence ─────────────────────────────
+// ─── SECTION 7 · Christie's Auction Intelligence ─────────────────────────────────────────────────────
 // Contextual layer: upcoming auctions relevant to Hamptons buyers and sellers.
 // Disappears gracefully if no content is available.
 const AUCTION_ITEMS = [
@@ -1880,8 +1889,9 @@ const AUCTION_ITEMS = [
 function Section7() {
   if (AUCTION_ITEMS.length === 0) return null;
   return (
-    <section style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)' }}>
+    <section style={{ background: 'transparent', padding: '0 0 2px' }}>
       <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <p style={{
           fontFamily: '"Source Sans 3", sans-serif',
           color: 'rgba(250,248,244,0.85)',
@@ -1971,6 +1981,7 @@ function Section7() {
         }}>
           Christie's International Real Estate Group · East Hampton · christiesrealestategroupeh.com
         </div>
+        </div>{/* /mount frame */}
       </div>
     </section>
   );
@@ -1978,14 +1989,14 @@ function Section7() {
 
 // ─── Main ReportPage export ───────────────────────────────────────────────
 // ReportPage Section Inventory — maintain on every add/remove/reorder (H6 · Shell Purge P2)
+// CANON ORDER (Commit B · Apr 24 2026):
 // Section 1 · Founding Letter (James Christie portrait + letter)
-// Section 3 · Market Intelligence (CFS, rates, market strip)
 // Section 4 · Hamlet Atlas Matrix (11 hamlets, FloatingCard, median-descending)
-// Section 5 · MAPS Intelligence (ANEW build, model deal)
-// AuctionGallery · 3×3 auction image grid
-// YouTubeMatrix · 3×3 YouTube video grid (navy #1B2A4A)
-// Section 6 · Resources & Authority (Christie's ecosystem · contact block)
-// Section 7 · Private Territory Briefing (auction items)
+// Section 3 · Rate Cards / Market Intelligence (CFS, rates, market strip)
+// YouTubeMatrix · Video Intelligence — nine YouTube embeds
+// AuctionGallery · Auction Calendar — 3×3 auction image grid
+// Section 7 · Private Territory CTA (auction items)
+// REMOVED: Section 5 (MAPS Intelligence), Section 6 (Resources & Authority) — interstitials not in canon order
 // EstateAdvisoryCard · Estate Advisory CTA
 // SiteFooter · Canonical site footer (standalone route — not in DashboardLayout)
 /**
@@ -2001,12 +2012,10 @@ export default function ReportPage() {
     <div id="report-page-content" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
       <BackBar />
       <Section1 />
-      <Section3 />
       <Section4 />
-      <Section5 />
-      <AuctionGallery />
+      <Section3 />
       <YouTubeMatrix />
-      <Section6 />
+      <AuctionGallery />
       <Section7 />
       <EstateAdvisoryCard />
       <SiteFooter />
