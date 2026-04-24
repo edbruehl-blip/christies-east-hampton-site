@@ -2838,3 +2838,9 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Kill 3 · SiteFooter.tsx line 235 — literal " EDT" suffix removed
 - [x] Kill 4 · state.json lines 45, 50, 51, 674 — phone_office + canonical_contact_rule updated to 646-752-1233
 - [x] Acceptance greps all zero, Vitest 59/59 ✓
+
+## Housekeeping Commit — Delete-Only (Apr 23 2026)
+- [x] Delete 8 orphaned components: AIChatBox.tsx, AuctionHouseServices.tsx, DashboardLayoutSkeleton.tsx, EmbedFrame.tsx, ManusDialog.tsx, NewsletterManager.tsx, OperatorControlPanel.tsx, PrivateTabGate.tsx
+- [x] Delete SectionFrame.tsx + PageShell.tsx
+- [x] Remove phone_office field from state.json
+- [x] Vitest 59/59, zero broken imports, phone_office zero ✓
