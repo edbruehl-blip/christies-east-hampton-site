@@ -22,7 +22,7 @@ const AUCTION_ROOM_BG  = 'https://files.manuscdn.com/user_upload_by_module/sessi
 const ED_HEADSHOT      = 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/ed-headshot-primary_0f6df1af.jpg';
 
 const ANGEL_LETTER_PARAGRAPHS = [
-  `Welcome to Christie's East Hampton. Today is Day One — and you are not walking into a brokerage. You are walking into an institution that has served collectors, landowners, and legacy families for two hundred and sixty years. That context is not decoration. It is the foundation of every conversation you will have on the East End.`,
+  `Welcome to Christie's East Hampton. Today is Day One — and you are not walking into a brokerage. You are walking into an institution that has served collectors, landowners, and legacy families for over 250 years. That context is not decoration. It is the foundation of every conversation you will have on the East End.`,
 
   `Your role is Marketing Coordinator + Sales. That means you are the connective tissue of this office — the person who ensures that every family who walks through the door at 26 Park Place, or who receives a letter, or who hears Ed's name in a conversation, experiences the same level of care and precision that Christie's has always stood for. You are not support staff. You are an institutional representative.`,
 
@@ -34,9 +34,11 @@ const ANGEL_LETTER_PARAGRAPHS = [
 
   `The doctrines that govern this office are not rules imposed from above — they are the distilled wisdom of everything this institution has learned about how to serve families well. Fifty canonical doctrines. The most important ones for Day One: we never name a competitor. We never put GCI on a public surface. We never say "South Fork" — it is always "the East End." And every letter, every conversation, every closing ends the same way: "The door is always open — we look forward to meeting you."`,
 
-  `You have access to the Miro board, the Trello board, the Growth Model, and the dashboard. Everything is open. Nothing is locked from you. The only thing we ask is that you bring the same care to every interaction that this institution has brought to its clients for two and a half centuries.`,
+  `You have access to the Miro board, the Trello board, the Growth Model, and the dashboard. Everything is open. Nothing is locked from you. The only thing we ask is that you bring the same care to every interaction that this institution has brought to its clients for over 250 years.`,
 
   `We are glad you are here. The door is always open — we look forward to building this with you.`,
+
+  `Soli Deo Gloria.`,
 ];
 
 export default function AngelLetterPage() {

@@ -2,7 +2,7 @@
  * MAPS TAB — Maps Intelligence Hub. Five layers, one scroll.
  * Layer 1: Paumanok SVG aerial plate (static, no zoom controls)
  * Layer 2: ANEW Deal Engine (canonical home)
- * Layer 3: Eleven Hamlet Matrix — hamlet intelligence cards with satellite thumbnails
+ * Layer 3: Ten Hamlet Matrix — hamlet intelligence cards with satellite thumbnails
  * Layer 4: Individual hamlet PDF download from each card
  * Layer 5: Calculator output printable from Maps tab
  *
@@ -354,7 +354,8 @@ interface HamletHighlight {
   practical_note: string;
 }
 
-const HAMLET_HIGHLIGHTS: HamletHighlight[] = (hamletHighlightsData as { hamlets: HamletHighlight[] }).hamlets;
+// D2 Apr 24 2026: east-hampton-north excluded from public hamlet highlights — ten canonical hamlets only
+const HAMLET_HIGHLIGHTS: HamletHighlight[] = (hamletHighlightsData as { hamlets: HamletHighlight[] }).hamlets.filter(h => h.id !== 'east-hampton-north');
 
 function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
   const hamletData = MASTER_HAMLET_DATA.find(h => h.id === highlight.id);
@@ -407,10 +408,10 @@ function HamletHighlightsModule() {
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>Hamlet Highlights</h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>All eleven hamlets · Anchor · Local Spot · Secret · Practical Note</p>
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>Ten canonical hamlets · Anchor · Local Spot · Secret · Practical Note</p>
         </div>
       </div>
-      {/* 11-card grid */}
+      {/* 10-card grid */}
       <div className="px-6 py-8">
         <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>

@@ -66,7 +66,6 @@ function useWeatherFooter() {
 }
 
 const LETTER_LINKS = [
-  { label: 'Letter from the Council', href: '/letters/flagship', row: 'Letters' },
   { label: 'Neighborhood Welcome', href: '/cards/bike', row: 'Cards' },
   { label: 'UHNW Path', href: '/cards/uhnw-path', row: 'Cards' },
 ];
@@ -172,7 +171,7 @@ export function SiteFooter() {
 
         {/* ── Letter + Card links ───────────────────────────────────────── */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {(['Letters', 'Cards'] as const).map(row => (
+          {(['Cards'] as const).map(row => (
             <div key={row} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
               <span style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', minWidth: 46 }}>
                 {row}

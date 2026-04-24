@@ -197,7 +197,7 @@ export function EdCorkboard() {
           <h3 style={s.panelH3}>④ The Calendar <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
           <Bullet text="Headline Events" sub="Christie’s auction dates · Hamptons circuit" />
           <Bullet text="Private Collector Series" sub="Monthly UHNW touchpoint events" />
-          <Bullet text="Wednesday Caravan" sub="Recurring · brokers + culture + rhythm" />
+          <Bullet text="Wednesday Circuit" sub="Recurring · brokers + culture + rhythm" />
           <div style={s.subLabel}>Team Dates</div>
           {[
             ['Angel Day One', 'April 25'],

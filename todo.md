@@ -2958,3 +2958,17 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] B-3.7: Kill INTEL anchor-nav strip
 - [x] B-3.8: /report section-to-section spacing upgraded (py-10→py-14, section bottom padding 2px→24px)
 - [x] B-3.9: /pipe KPI zone padding upgraded (16px 20px → 24px 28px)
+
+## Polish Final — Dispatch 33 (Apr 24 2026)
+- [x] A1: INTEL v2 strip — comment text removed from CalendarLayer + NineSheetMatrix + IntelSourceTemplate
+- [x] A2: INTEL canon-docs block (DocumentLibrary) removed from public render surface
+- [x] A3: Lower-half slab strengthening — NineSheetMatrix bg → solid #1B2A4A; MatrixCard border opacity 0.15→0.4
+- [x] A4: Wednesday Caravan → Wednesday Circuit (EdCorkboard.tsx)
+- [x] D1: Footer LETTERS row removed (R13 two-surface canon); Cards row preserved
+- [x] D2: MAPS ten hamlets — east-hampton-north filtered at render boundary; subtitle "eleven"→"ten"
+- [x] M4: Flagship letter verbatim sweeps — execution hinge→Marketing Coordinator canon, Wednesday caravan→Circuit, whale list→Key Relationships list, eleven hamlets→ten hamlets, two hundred and sixty years→over 250 years (3 instances), Soli Deo Gloria appended
+- [x] M5: Angel letter verbatim sweeps — two hundred and sixty years→over 250 years, two and a half centuries→over 250 years, Soli Deo Gloria appended
+- [x] F1: /report section rhythm validated — py-14 consistent across all sections, H2 on HOME typography scale, no orphaned CTAs
+- [x] C2: Market Report PDF — generates fresh from live /report page via Puppeteer (no cache); all text changes reflected automatically on next download
+- [ ] E1: PIPE Sheet iframe — deferred to follow-up commit on Ed's URL delivery
+- [ ] B1: Calendar iframe — verify embed loads without sign-in gate (conditional on Ed confirming public share)

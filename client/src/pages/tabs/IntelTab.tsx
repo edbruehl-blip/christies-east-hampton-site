@@ -681,7 +681,7 @@ const NINE_SHEETS: SheetEntry[] = [
 
 function NineSheetMatrix() {
   return (
-    <div className="px-6 py-8" style={{ background: 'rgba(10,16,28,0.55)' }}>
+    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.4)', borderBottom: '1px solid rgba(200,172,120,0.4)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
@@ -992,9 +992,9 @@ function IntelligenceWebLayer() {
   );
 }
 
-// ─── CORK1 — Ed's Corkboard v2 (Day One · Key Relationships · First-Name-Only Ilija) ──────────────
-// Embedded below Calendar section per v5 Round 2 dispatch.
-// Source: eds_corkboard_v2.html — uploaded to CDN Apr 20 2026.
+// ─── CORK1 — Ed's Corkboard (Day One · Key Relationships · First-Name-Only Ilija) ──────────────
+// Embedded below Calendar section per Apr 22 dispatch.
+// Source: eds_corkboard.html — uploaded to CDN Apr 20 2026.
 
 function CorkboardLayer() {
   const wrapRef = React.useRef<HTMLDivElement>(null);
@@ -1099,7 +1099,7 @@ export default function IntelTab() {
 
       {/* Anchor nav removed per B-3.7 — section eyebrows provide orientation */}
 
-      {/* CORK1 — Ed's Corkboard v2 · FIRST per Apr 22 dispatch */}
+      {/* CORK1 — Ed's Corkboard · FIRST per Apr 22 dispatch */}
       <div id="intel-layer-corkboard" />
       <CorkboardLayer />
 
@@ -1127,9 +1127,7 @@ export default function IntelTab() {
       <div id="intel-layer-4" />
       <NineSheetMatrix />
 
-      {/* Layer 5 — Document Library */}
-      <div id="intel-layer-5" />
-      <DocumentLibrary />
+      {/* Layer 5 — Document Library — removed from public surface per A2 Apr 24 2026; data preserved in DOCUMENT_LIBRARY + INTEL_DASHBOARD_LINKS arrays above */}
 
       {/* Layer 6 — Intelligence Web */}
       <div id="intel-layer-6" />
