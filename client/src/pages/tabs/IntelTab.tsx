@@ -23,13 +23,13 @@ import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
 import { EdCorkboard } from '@/components/EdCorkboard';
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
-// Recurring every Wednesday from May 7, 2026
+// Recurring every Wednesday from May 6, 2026
 
 function WednesdayCircuitCountdown() {
   const { daysUntil, nextDate, isToday } = useMemo(() => {
     const now = new Date();
-    // Find next Wednesday (day 3) on or after May 7, 2026
-    const seriesStart = new Date('2026-05-07T00:00:00');
+    // Find next Wednesday (day 3) on or after May 6, 2026
+    const seriesStart = new Date('2026-05-06T00:00:00');
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     // If today is before series start, count to series start
     let target = new Date(seriesStart);
@@ -122,6 +122,7 @@ const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
 // Detects iframe load failure via onLoad (checks contentWindow access) + onError.
 // Live embed shown when browser allows third-party cookies; CTA card shown otherwise.
 function MindMapSection() {
+  const [embedBlocked, setEmbedBlocked] = React.useState(false);
   return (
     <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
@@ -136,7 +137,7 @@ function MindMapSection() {
                 Christie's Flagship Mind Map
               </h3>
               <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)' }}>
-                Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
+                Institutional architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
               </p>
             </div>
             <a
@@ -161,7 +162,18 @@ function MindMapSection() {
               Open in Miro ↗
             </a>
           </div>
-          {/* Preview card — branded, no iframe */}
+          {/* Live Miro embed — shown unless onError fires */}
+          {!embedBlocked && (
+            <iframe
+              src={MIRO_EMBED_URL}
+              style={{ width: '100%', height: 480, border: 'none', borderRadius: 4, display: 'block' }}
+              allow="fullscreen; clipboard-read; clipboard-write"
+              onError={() => setEmbedBlocked(true)}
+              title="Christie's Flagship Mind Map"
+            />
+          )}
+          {/* Branded fallback card — shown only when live embed is blocked */}
+          {embedBlocked && (
           <div style={{
             background: '#0D1520',
             border: '1px solid rgba(200,172,120,0.2)',
@@ -228,10 +240,13 @@ function MindMapSection() {
             {/* Gold rule */}
             <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
           </div>
+          )}
           {/* Footer caption */}
+          {embedBlocked && (
           <div className="mt-3 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: 10 }}>
-            Live Miro board · Version 3 architecture · Edits made in Miro reflect on next load
+            Live Miro board · Institutional architecture · Edits made in Miro reflect on next load
           </div>
+          )}
         </div>
       </div>
     </div>
@@ -405,9 +420,11 @@ function TrelloLayer() {
 
 // ─── Calendar Layer (Layer 2) ─────────────────────────────────────────────────────
 
+const GOOGLE_CAL_EMBED_URL = 'https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab&ctz=America%2FNew_York&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=1&showCalendars=0&mode=MONTH';
 function CalendarLayer() {
   const GOOGLE_CAL_URL = 'https://calendar.google.com/calendar/r';
   const GOOGLE_CAL_CID_URL = 'https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab';
+  const [calBlocked, setCalBlocked] = React.useState(false);
   return (
     <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)', background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
@@ -447,7 +464,17 @@ function CalendarLayer() {
               Open Calendar ↗
             </a>
           </div>
-          {/* Preview card — branded, no iframe */}
+          {/* Live Google Calendar embed — shown unless onError fires */}
+          {!calBlocked && (
+            <iframe
+              src={GOOGLE_CAL_EMBED_URL}
+              style={{ width: '100%', height: 480, border: 'none', borderRadius: 4, display: 'block' }}
+              onError={() => setCalBlocked(true)}
+              title="Christie's East Hampton Calendar"
+            />
+          )}
+          {/* Branded fallback card — shown only when live embed is blocked */}
+          {calBlocked && (
           <div style={{
             background: '#0D1520',
             border: '1px solid rgba(200,172,120,0.2)',
@@ -483,7 +510,7 @@ function CalendarLayer() {
             </div>
             <div>
               <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.15rem', fontWeight: 400, marginBottom: 8 }}>
-                Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
+                Wednesday Circuit · Recurring Every Wednesday from May 6, 2026
               </div>
               <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', lineHeight: 1.6, maxWidth: 380, margin: '0 auto' }}>
                 Podcast · Event · Internal · Social calendars · All Christie's East Hampton events
@@ -533,6 +560,7 @@ function CalendarLayer() {
             {/* Gold rule */}
             <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
           </div>
+          )}
           {/* Wednesday Circuit countdown */}
           <div className="mt-4 flex justify-center">
             <WednesdayCircuitCountdown />
@@ -782,7 +810,7 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   },
   {
     id: 'market-report-live-v2',
-    label: 'Christie\'s Hamptons Live Market Report · v2 · April 2026',
+    label: 'Christie\'s Hamptons Live Market Report · April 2026',
     description: 'Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.',
 
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
@@ -861,7 +889,7 @@ function DocumentLibrary() {
   const [, navigate] = useLocation();
 
   return (
-    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 5 · Document Library
@@ -947,7 +975,7 @@ function DocumentLibrary() {
 
 function IntelligenceWebLayer() {
   return (
-    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.35)', background: 'rgba(10,16,28,0.55)' }}>
+    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 6 · Relationship Intelligence
@@ -1069,8 +1097,7 @@ export default function IntelTab() {
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
 
-      {/* Sticky section navigator */}
-      <IntelStickyNav />
+      {/* Anchor nav removed per B-3.7 — section eyebrows provide orientation */}
 
       {/* CORK1 — Ed's Corkboard v2 · FIRST per Apr 22 dispatch */}
       <div id="intel-layer-corkboard" />

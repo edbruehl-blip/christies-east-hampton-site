@@ -2947,3 +2947,14 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] B-7: Corkboard Q2 header → "① The Christie's Standard" (possessive)
 - [x] B-8: WhatsApp word stripped from IntelTab.tsx description string
 - [x] B-9: Jarvis FutureTab timeline → "COO · Licensed Real Estate Salesperson"
+
+## Tier B-3 Final (Apr 24 2026)
+- [x] B-3.1: Strip all version markers from public surfaces
+- [x] B-3.2: /report hero — R7 canonical title, remove duplicate tombstone lockup
+- [x] B-3.3: INTEL lower half — solid #1B2A4A slab containers + gold rules
+- [x] B-3.4: Restore Miro + Calendar live iframes with correct state machine (default loaded, flip on onError)
+- [x] B-3.5: Wednesday Circuit series start fixed to May 6 (correct Wednesday)
+- [x] B-3.6: PDF blank page 4 — already resolved by prior PDF composition fix
+- [x] B-3.7: Kill INTEL anchor-nav strip
+- [x] B-3.8: /report section-to-section spacing upgraded (py-10→py-14, section bottom padding 2px→24px)
+- [x] B-3.9: /pipe KPI zone padding upgraded (16px 20px → 24px 28px)

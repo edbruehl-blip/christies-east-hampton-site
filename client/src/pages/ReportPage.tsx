@@ -202,13 +202,6 @@ function Section1() {
         />
         <div
           className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-          <div style={{ marginBottom: 10 }}>
-            <img
-              src={LOGO_BLACK}
-              alt="Christie's International Real Estate Group"
-              style={{ height: 28, opacity: 0.9, filter: 'brightness(0) invert(1)' }}
-            />
-          </div>
           <div
             style={{
               fontFamily: '"Barlow Condensed", sans-serif',
@@ -216,10 +209,10 @@ function Section1() {
               fontSize: 10,
               letterSpacing: '0.22em',
               textTransform: 'uppercase',
-              marginBottom: 6,
+              marginBottom: 8,
             }}
           >
-            Christie's · Est. 1766
+            Christie's International Real Estate Group · East Hampton
           </div>
           <h1
             style={{
@@ -231,7 +224,7 @@ function Section1() {
               margin: 0,
             }}
           >
-            Christie's East Hampton
+            Your Hamptons Real Estate Market Report
           </h1>
           <p
             style={{
@@ -241,7 +234,7 @@ function Section1() {
               marginTop: 6,
             }}
           >
-            Managing Director · Ed Bruehl · Christie's International Real Estate Group
+            Ed Bruehl · Managing Director · East Hampton Flagship
           </p>
         </div>
       </div>
@@ -314,7 +307,7 @@ function Section1() {
       `}</style>
 
       {/* Founding letter */}
-      <div className="px-6 py-10" style={{ maxWidth: 780, margin: '0 auto' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 780, margin: '0 auto' }}>
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
@@ -485,8 +478,8 @@ const TAG_COLORS: Record<string, string> = {
 
 function Section2() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="2" title="Hamptons Local Intelligence" />
         <div
@@ -757,8 +750,8 @@ function Section3() {
   const cfs = calcCFS(ticker);
 
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="3" title="Market Intelligence" />
         <div
@@ -807,7 +800,7 @@ function Section3() {
                 maxWidth: 220,
               }}
             >
-              The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model.
+              The most recent significant closed sale on the East End. Data updated via Growth Model.
             </div>
           </div>
 
@@ -1189,8 +1182,8 @@ function Section4() {
   }, []);
 
   return (
-    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <SectionLabel n="4" title="Hamlet Atlas Matrix" />
         <div
@@ -1269,7 +1262,7 @@ function Section3Condensed() {
 
   return (
     <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
@@ -1278,7 +1271,7 @@ function Section3Condensed() {
           <div style={{ background: 'rgba(250,248,244,0.05)', border: '1px solid rgba(200,172,120,0.2)', padding: 24 }}>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 16 }}>Last Significant Sale</div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '2rem', fontWeight: 600, letterSpacing: '0.02em', lineHeight: 1.1, marginBottom: 10 }}>EAST END<br />SPOTLIGHT</div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Perplexity → Growth Model.</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.5, maxWidth: 220 }}>The most recent significant closed sale on the East End. Data updated via Growth Model.</div>
           </div>
 
           {/* Rate Environment */}
@@ -1311,7 +1304,7 @@ function Section3Condensed() {
 function Section5() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="5" title="MAPS Intelligence" />
         <div
           className="grid gap-6"
@@ -1484,7 +1477,7 @@ function Section5() {
 function Section6() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="6" title="Resources & Authority" />
         <div
           className="grid gap-8"
@@ -1629,8 +1622,8 @@ function Section6() {
 function AuctionGallery() {
   const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
   return (
-    <section style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <div
           style={{
@@ -1738,8 +1731,8 @@ const YOUTUBE_VIDEOS = [
 function YouTubeMatrix() {
   const [playing, setPlaying] = useState<string | null>(null);
   return (
-    <section className="no-print" style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section className="no-print" style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <div
           style={{
@@ -1892,8 +1885,8 @@ const AUCTION_ITEMS = [
 function Section7() {
   if (AUCTION_ITEMS.length === 0) return null;
   return (
-    <section style={{ background: 'transparent', padding: '0 0 2px' }}>
-      <div className="px-6 py-10" style={{ maxWidth: 1100, margin: '0 auto' }}>
+    <section style={{ background: 'transparent', padding: '0 0 24px' }}>
+      <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
         <p style={{
           fontFamily: '"Source Sans 3", sans-serif',

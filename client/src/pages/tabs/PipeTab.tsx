@@ -354,7 +354,7 @@ function PipelineTable() {
   return (
     <div>
       {/* KPI strip — mounted object */}
-      <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', marginBottom: 24, padding: '16px 20px' }}>
+      <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', marginBottom: 24, padding: '24px 28px' }}>
         <KpiStrip deals={dealRows as unknown as Array<Record<string, string>>} />
       </div>
 

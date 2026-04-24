@@ -114,13 +114,13 @@ export function EdCorkboard() {
           EAST HAMPTON · 26 PARK PLACE
         </div>
         <div style={{ textAlign: 'center' }}>
-          <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.gold, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD &middot; v3</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.gold, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD</h1>
           <div style={{ fontSize: 10, color: C.goldDark, letterSpacing: '0.3em', marginTop: 4, fontStyle: 'italic' }}>
             Nouns, not numbers · One page · Internal only
           </div>
         </div>
         <div style={{ fontSize: 9, letterSpacing: '0.15em', color: 'rgba(250,248,244,0.7)', textAlign: 'right', lineHeight: 1.6 }}>
-          <strong style={{ color: C.gold }}>v3</strong> · April 22, 2026<br />
+          Updated April 2026<br />
           Six-quadrant operational layout<br />
           T-7 days to public launch
         </div>
