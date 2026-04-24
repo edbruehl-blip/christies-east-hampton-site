@@ -2881,7 +2881,7 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] 6. grep zero-hit verification: TodaysBrief|BruehlBrief|brief.getToday|dailyBrief|daily_brief
 - [ ] 7. Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
 
-## Consolidated Closeout Commit — Apr 24 2026
+## Consolidated Closeout Commit — Apr 24 2026 (v2 — letter-content.ts fifty fix)
 - [x] Scope 1-1: HomeTab.tsx — delete TodaysBrief function + render, remove trpc import, update order comment
 - [x] Scope 1-2: server/routers.ts — delete entire brief router block + remove dailyBrief import
 - [x] Scope 1-3: drizzle/schema.ts — delete dailyBrief table + type exports
