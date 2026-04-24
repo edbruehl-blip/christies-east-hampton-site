@@ -701,20 +701,20 @@ export default function FutureTab() {
                 tm: 'Three offices. Three markets. One standard.',
               },
             ] as Array<{accent:string;lbl:string;st:string;dt:string;sh:string;cl:string;tm:string}>).map(c => (
-              <div key={c.lbl} style={{
+              <div key={c.lbl} className="future-card" style={{
                 background: '#141d28',
                 border: `1px solid rgba(148,114,49,0.4)`,
                 borderLeft: `5px solid ${c.accent}`,
                 overflow: 'hidden',
               }}>
                 {/* Card header */}
-                <div style={{ background: '#1c2638', padding: '8px 10px', borderBottom: `1px solid rgba(148,114,49,0.5)` }}>
-                  <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 1.8, color: '#947231', fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const, lineHeight: 1.15 }}>{c.lbl}</div>
+                <div className="future-card-header" style={{ background: '#1c2638', padding: '8px 10px', borderBottom: `1px solid rgba(148,114,49,0.5)` }}>
+                  <div className="future-card-label" style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 1.8, color: '#947231', fontWeight: 500, marginBottom: 2, textTransform: 'uppercase' as const, lineHeight: 1.15 }}>{c.lbl}</div>
                   <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 1.5, color: '#ebe6db', fontWeight: 400, textTransform: 'uppercase' as const, fontStyle: 'italic', lineHeight: 1.15 }}>{c.st}</div>
                   <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, color: '#947231', fontStyle: 'italic', marginTop: 3, letterSpacing: 0.3, opacity: 0.85 }}>{c.dt}</div>
                 </div>
                 {/* Card body */}
-                <div style={{ padding: '6px 8px 7px' }}>
+                <div className="future-card-body" style={{ padding: '6px 8px 7px' }}>
                   <div style={{ marginBottom: 5 }}>
                     <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 6.5, letterSpacing: 1.4, color: '#947231', fontWeight: 500, marginBottom: 1, textTransform: 'uppercase' as const }}>Shareholder</div>
                     <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 7.5, lineHeight: 1.38, color: '#ebe6db' }}>{c.sh}</div>

@@ -947,8 +947,11 @@ function HamletTile({
 }) {
   const tierColor = TIER_COLORS[hamlet.tier] || '#384249';
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onSelect}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
       className="text-left w-full"
       style={{
         background: isSelected ? '#1B2A4A' : '#FAF8F4',
@@ -994,11 +997,10 @@ function HamletTile({
         }}
       >
         {hamlet.volumeShare}% vol
-      </div>
-    </button>
+       </div>
+    </div>
   );
 }
-
 function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => void }) {
   return (
     <div
@@ -1794,6 +1796,7 @@ function YouTubeMatrix() {
                     }}
                   >
                     <div
+                      className="video-play-button"
                       style={{
                         width: 44,
                         height: 44,

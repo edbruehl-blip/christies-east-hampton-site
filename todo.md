@@ -2892,3 +2892,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Scope 3: FUTURE "Flagship 3-Yr Cumulative" → "Per-Producer 3-Yr Cumulative", audit 3 lever labels
 - [x] Scope 4: Vitest 59/59, pnpm build, checkpoint, publish, 90s wait, nine-curl gate, shipped signal
 - [x] /report Section 3/4 render order fix — Section3 (MARKET INTELLIGENCE) now renders before Section4 (HAMLET ATLAS MATRIX) — April 24 2026 daylight commit
+
+## April 29 Pre-Launch Commit 1 — Four P0s (April 24 2026)
+
+- [x] P0-1: Flagship Letter PDF print styles — keep header, swap logo black/white, wider margins, bigger body copy
+- [x] P0-2: Auction Image Matrix slot-3 swap — room-fallback → auctionRoomIllustration (cdn-assets.ts 2-line change)
+- [x] P0-3: FUTURE tab 100-day cards mobile responsiveness — responsive media queries at 390/768/1440px
+- [x] P0-4: Market Report PDF Hamlet Atlas print visibility — button→div[role=button] + report-print.css rules

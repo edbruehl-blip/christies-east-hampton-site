@@ -103,8 +103,8 @@ export const GALLERY_IMAGES = [
   },
   {
     id: "room-fallback",
-    src: `${CDN}/RTJNoOCaJmYcVUzG.jpg`,
-    caption: "The Grand Saleroom — Evening Sale",
+    src: `${CDN}/PvzuUCeMdcVZXLsR.jpg`,
+    caption: "Christie's — Auction Room, Historical",
     category: "institutional",
   },
   {

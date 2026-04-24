@@ -56,8 +56,8 @@ export default function FlagshipLetterPage() {
             borderBottom: `1px solid ${GOLD}`,
           }}
         >
-          {/* Auction room background */}
-          <div style={{
+          {/* Auction room background — hidden in print via .hero-bg */}
+          <div className="hero-bg" style={{
             position: 'absolute', inset: 0,
             backgroundImage: `url(${AUCTION_ROOM_BG})`,
             backgroundSize: 'cover',
@@ -71,10 +71,18 @@ export default function FlagshipLetterPage() {
             padding: '16px 40px',
             borderBottom: `1px solid rgba(200,172,120,0.2)`,
           }}>
+            {/* Screen: white logo on navy. Print: black logo on cream. */}
             <img
               src={CIREG_LOGO_WHITE}
               alt="Christie's International Real Estate Group"
+              className="logo-white"
               style={{ height: 28, objectFit: 'contain' }}
+            />
+            <img
+              src={CIREG_LOGO_BLACK}
+              alt="Christie's International Real Estate Group"
+              className="logo-black"
+              style={{ height: 28, objectFit: 'contain', display: 'none' }}
             />
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{
@@ -323,12 +331,19 @@ export default function FlagshipLetterPage() {
         }
 
         @media print {
+          /* P0-1 Fix 1: Keep header — remove only the auction-room background image */
           .no-print { display: none !important; }
-          .letter-header { display: none !important; }
+          .hero-bg { display: none !important; }
+          /* P0-1 Fix 2: Logo swap — black on cream for print */
+          .logo-white { display: none !important; }
+          .logo-black { display: block !important; }
+          /* P0-1 Fix 3: Wider margins and max-width */
+          @page { size: Letter; margin: 0.9in 1in; }
           body { background: #FAF8F4 !important; }
-          main { padding: 0 !important; }
+          main { max-width: 6.5in !important; margin: 0 auto !important; padding: 0 !important; }
           * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-          p { color: #1B2A4A !important; font-size: 14pt !important; line-height: 1.8 !important; }
+          /* P0-1 Fix 4: Bigger body copy — Cormorant Garamond 13pt / 1.75 */
+          p { color: #1B2A4A !important; font-size: 13pt !important; line-height: 1.75 !important; font-family: 'Cormorant Garamond', serif !important; }
           img { max-width: 100% !important; }
         }
       `}</style>

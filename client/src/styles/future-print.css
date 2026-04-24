@@ -43,3 +43,34 @@
 @media screen {
   .future-print-footer { display: none !important; }
 }
+
+/* ── P0-3: 100-day cards mobile responsiveness (Apr 24 2026) ── */
+@media (max-width: 760px) {
+  .future-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .future-card-header {
+    padding: 12px 14px !important;
+  }
+  .future-card-label {
+    font-size: 16px !important;
+    letter-spacing: 0.12em !important;
+  }
+  .future-card-body {
+    padding: 10px 14px 12px !important;
+  }
+  .future-card-body > div > div:last-child {
+    font-size: 12px !important;
+    line-height: 1.55 !important;
+  }
+  .future-card-body > div > div:first-child {
+    font-size: 9px !important;
+    letter-spacing: 0.18em !important;
+  }
+}
+
+@media (min-width: 761px) and (max-width: 1023px) {
+  .future-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}

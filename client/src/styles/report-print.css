@@ -139,6 +139,32 @@
     content: none !important;
   }
 
+  /* ── P0-4: Hamlet Atlas print visibility fix (Apr 24 2026) ── */
+  /* Root cause: HamletTile was a <button> — user-agent button-text color overrides React inline styles */
+  /* Fix: HamletTile swapped to div[role=button]. These rules protect both old and new markup. */
+  #section-hamlet-atlas {
+    background: rgba(27,42,74,0.88) !important;
+  }
+  #section-hamlet-atlas [role="button"],
+  #section-hamlet-atlas button {
+    background: #FAF8F4 !important;
+    border: 1px solid rgba(27,42,74,0.25) !important;
+    color: #1B2A4A !important;
+    page-break-inside: avoid !important;
+  }
+  #section-hamlet-atlas [role="button"] *,
+  #section-hamlet-atlas button * {
+    color: inherit !important;
+  }
+  #section-hamlet-atlas [role="button"] [style*="#947231"],
+  #section-hamlet-atlas button [style*="#947231"] {
+    color: #947231 !important;
+  }
+  /* ── P0-4 Bonus: hide video play-button circles in print ── */
+  .video-play-button {
+    display: none !important;
+  }
+
   /* ── Remove box shadows (they don't print well) ── */
   * {
     box-shadow: none !important;
