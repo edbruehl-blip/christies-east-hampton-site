@@ -17,11 +17,10 @@
  * - Nine-Sheet Matrix: nine labeled boxes, one-line description, Open in Google Sheets button
  */
 
-import React, { useState, useMemo, useRef, useCallback } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useLocation } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
-import { InstitutionalMindMap } from '@/components/InstitutionalMindMap';
 import { EdCorkboard } from '@/components/EdCorkboard';
 // ─── Wednesday Circuit Countdown ────────────────────────────────────────────────────────
 // Recurring every Wednesday from May 7, 2026
@@ -123,145 +122,121 @@ const MIRO_BOARD_URL = 'https://miro.com/app/board/uXjVGj6Oc40=/';
 // Detects iframe load failure via onLoad (checks contentWindow access) + onError.
 // Live embed shown when browser allows third-party cookies; CTA card shown otherwise.
 function MindMapSection() {
-  const [embedState, setEmbedState] = useState<'loading' | 'loaded' | 'blocked'>('loading');
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // onLoad fires when the iframe finishes loading (success or blocked redirect).
-  // Miro's blocked state redirects to a login/error page — we detect this by trying
-  // to access contentWindow.location.href (throws cross-origin error on real content,
-  // succeeds with about:blank or miro error page on block).
-  const handleLoad = useCallback(() => {
-    try {
-      // If we can read the href, the iframe loaded a same-origin or blank page (blocked).
-      const href = iframeRef.current?.contentWindow?.location?.href ?? '';
-      if (href === '' || href === 'about:blank') {
-        setEmbedState('blocked');
-      } else {
-        // Cross-origin success: this line will throw, meaning Miro loaded correctly.
-        setEmbedState('loaded');
-      }
-    } catch {
-      // Cross-origin error = real Miro content loaded successfully.
-      setEmbedState('loaded');
-    }
-  }, []);
-
-  const handleError = useCallback(() => {
-    setEmbedState('blocked');
-  }, []);
-
   return (
     <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
-        {/* Header row */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-              Layer 1 · Institutional Mind Map
+        <div style={{ background: 'rgba(27,42,74,0.92)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '32px 28px' }}>
+          {/* Header row */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
+                Layer 1 · Institutional Mind Map
+              </div>
+              <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.35rem', margin: 0 }}>
+                Christie's Flagship Mind Map
+              </h3>
+              <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)' }}>
+                Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
+              </p>
             </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.25rem' }}>
-              Christie’s Flagship Mind Map
-            </h3>
-            <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
-              Live Miro board · Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
-            </p>
+            <a
+              href={MIRO_BOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                border: '1px solid rgba(200,172,120,0.6)',
+                color: '#947231',
+                padding: '8px 22px',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: 2,
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
+                transition: 'background 0.15s',
+              }}
+            >
+              Open in Miro ↗
+            </a>
           </div>
-          <a
-            href={MIRO_BOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 text-xs uppercase tracking-wider border transition-colors"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', borderColor: 'rgba(200,172,120,0.5)', color: '#947231', letterSpacing: '0.14em', textDecoration: 'none', flexShrink: 0 }}
-          >
-            Open in Miro ↗
-          </a>
-        </div>
-
-        {/* Embed container — iframe always mounted, CTA card overlays when blocked */}
-        <div style={{ position: 'relative', border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2, overflow: 'hidden', background: '#0D1520', minHeight: 680 }}>
-          {/* Loading shimmer */}
-          {embedState === 'loading' && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0D1520', zIndex: 2 }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ width: 32, height: 32, border: '2px solid rgba(200,172,120,0.2)', borderTopColor: '#947231', borderRadius: '50%', animation: 'spin 0.9s linear infinite', margin: '0 auto 12px' }} />
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}>Loading mind map…</div>
+          {/* Preview card — branded, no iframe */}
+          <div style={{
+            background: '#0D1520',
+            border: '1px solid rgba(200,172,120,0.2)',
+            borderRadius: 4,
+            padding: '48px 32px',
+            textAlign: 'center',
+            minHeight: 280,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 20,
+          }}>
+            {/* Gold rule */}
+            <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
+            {/* Miro icon placeholder */}
+            <div style={{
+              width: 56, height: 56,
+              border: '1px solid rgba(200,172,120,0.35)',
+              borderRadius: 4,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(200,172,120,0.06)',
+            }}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.7 }}>
+                <circle cx="12" cy="12" r="10" stroke="#947231" strokeWidth="1.2" />
+                <circle cx="12" cy="12" r="3" fill="#947231" opacity="0.6" />
+                <line x1="12" y1="2" x2="12" y2="6" stroke="#947231" strokeWidth="1.2" />
+                <line x1="12" y1="18" x2="12" y2="22" stroke="#947231" strokeWidth="1.2" />
+                <line x1="2" y1="12" x2="6" y2="12" stroke="#947231" strokeWidth="1.2" />
+                <line x1="18" y1="12" x2="22" y2="12" stroke="#947231" strokeWidth="1.2" />
+                <line x1="4.9" y1="4.9" x2="7.8" y2="7.8" stroke="#947231" strokeWidth="1.2" />
+                <line x1="16.2" y1="16.2" x2="19.1" y2="19.1" stroke="#947231" strokeWidth="1.2" />
+                <line x1="19.1" y1="4.9" x2="16.2" y2="7.8" stroke="#947231" strokeWidth="1.2" />
+                <line x1="7.8" y1="16.2" x2="4.9" y2="19.1" stroke="#947231" strokeWidth="1.2" />
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.2rem', fontWeight: 400, marginBottom: 8 }}>
+                Christie's Flagship Mind Map
+              </div>
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', lineHeight: 1.6, maxWidth: 380, margin: '0 auto' }}>
+                47 nodes · Ed at center · Auction House Track + Real Estate Track · Five radiating rings · Live on Miro
               </div>
             </div>
-          )}
-
-          {/* Branded CTA fallback card — shown when embed is blocked */}
-          {embedState === 'blocked' && (
-            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#0D1520', zIndex: 2 }}>
-              <div style={{ textAlign: 'center', padding: '40px 32px', maxWidth: 420, border: '1px solid rgba(200,172,120,0.25)', borderRadius: 2 }}>
-                {/* Gold rule */}
-                <div style={{ width: 40, height: 1, background: '#947231', margin: '0 auto 20px' }} />
-                <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>
-                  Layer 1 · Institutional Mind Map
-                </div>
-                <h4 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: '0 0 8px' }}>
-                  Christie’s Flagship Mind Map
-                </h4>
-                <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.75rem', lineHeight: 1.6, margin: '0 0 24px' }}>
-                  Version 3 architecture · Ed at center · Auction House Track + Real Estate Track · Five radiating rings
-                </p>
-                <a
-                  href={MIRO_BOARD_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 8,
-                    padding: '10px 24px',
-                    background: 'transparent',
-                    border: '1px solid rgba(200,172,120,0.6)',
-                    color: '#947231',
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
-                    textDecoration: 'none',
-                    transition: 'background 0.2s',
-                  }}
-                >
-                  Open Mind Map in Miro ↗
-                </a>
-                <div style={{ marginTop: 20, fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.25)', fontSize: 9, lineHeight: 1.5 }}>
-                  Live embed requires third-party cookies.
-                  <br />This browser’s privacy settings blocked the inline view.
-                </div>
-                {/* Gold rule */}
-                <div style={{ width: 40, height: 1, background: '#947231', margin: '20px auto 0' }} />
-              </div>
-            </div>
-          )}
-
-          {/* Live iframe — always present so onLoad fires */}
-          <iframe
-            ref={iframeRef}
-            src={MIRO_EMBED_URL}
-            title="Christie’s Flagship Mind Map · Institutional Architecture"
-            width="100%"
-            height="680"
-            style={{ display: 'block', border: 'none', opacity: embedState === 'loaded' ? 1 : 0, transition: 'opacity 0.3s' }}
-            allowFullScreen
-            onLoad={handleLoad}
-            onError={handleError}
-          />
-        </div>
-
-        {/* Footer caption — only when live embed loaded */}
-        {embedState === 'loaded' && (
-          <div className="mt-2 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.45)', fontSize: 10 }}>
-            Live read-only embed · Edits made in Miro reflect on next load.{' '}
-            <a href={MIRO_BOARD_URL} target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open in Miro ↑→</a>
-            {' '}to edit, drag nodes, and add new ones.
+            <a
+              href={MIRO_BOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '11px 28px',
+                background: 'transparent',
+                border: '1px solid rgba(200,172,120,0.6)',
+                color: '#947231',
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: 2,
+                transition: 'background 0.2s',
+              }}
+            >
+              Open Mind Map in Miro ↗
+            </a>
+            {/* Gold rule */}
+            <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
           </div>
-        )}
-        </div>{/* /mount frame */}
+          {/* Footer caption */}
+          <div className="mt-3 text-center" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.35)', fontSize: 10 }}>
+            Live Miro board · Version 3 architecture · Edits made in Miro reflect on next load
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-// ─── Trello Layer 2 — Live Structural Board ────────────────────────────────────────────────────
 
 const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 
@@ -431,92 +406,143 @@ function TrelloLayer() {
 // ─── Calendar Layer (Layer 2) ─────────────────────────────────────────────────────
 
 function CalendarLayer() {
+  const GOOGLE_CAL_URL = 'https://calendar.google.com/calendar/r';
+  const GOOGLE_CAL_CID_URL = 'https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab';
   return (
-    <div className="px-6 py-8" style={{ background: 'transparent' }}>
+    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)', background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-        <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
-      {/* Layer label */}
-      <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-        Layer 3 · Master Calendar
-      </div>
-
-      {/* Christie's card module */}
-      <div style={{
-        border: '1px solid rgba(200,172,120,0.2)',
-        borderRadius: 2,
-        overflow: 'hidden',
-        background: 'rgba(13,27,42,0.75)',
-      }}>
-        {/* Card header */}
-        <div className="flex items-center justify-between px-5 py-3" style={{ background: '#1B2A4A' }}>
-          <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase', fontWeight: 600 }}>
-              Master Calendar · Christie's East Hampton
+        <div style={{ background: 'rgba(27,42,74,0.92)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '32px 28px' }}>
+          {/* Header row */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
+                Layer 3 · Master Calendar
+              </div>
+              <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.35rem', margin: 0 }}>
+                Christie's East Hampton · Master Calendar
+              </h3>
+              <p className="mt-1 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)' }}>
+                Podcast · Event · Internal · Social · Wednesday Circuit
+              </p>
             </div>
-            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.8)', fontSize: 9, marginTop: 2 }}>
-              Podcast · Event · Internal · Social · Wednesday Circuit
-            </div>
+            <a
+              href={GOOGLE_CAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                border: '1px solid rgba(200,172,120,0.6)',
+                color: '#947231',
+                padding: '8px 22px',
+                fontSize: 11,
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: 2,
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
+                transition: 'background 0.15s',
+              }}
+            >
+              Open Calendar ↗
+            </a>
           </div>
-          <a
-            href="https://calendar.google.com/calendar/r"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
-          >
-            Open Google Calendar ↗
-          </a>
-        </div>
-
-        {/* Wednesday Circuit Google Calendar embed — framed */}
-        <div style={{ borderTop: '1px solid rgba(200,172,120,0.15)' }}>
-          <div style={{ border: '1px solid rgba(200,172,120,0.3)', borderRadius: 2, overflow: 'hidden', boxShadow: '0 0 0 1px rgba(27,42,74,0.5), 0 4px 24px rgba(0,0,0,0.22)', background: '#0D1520' }}>
-            <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
-            <div className="px-3 py-2 flex items-center justify-between" style={{ background: 'rgba(27,42,74,0.6)', borderBottom: '1px solid rgba(200,172,120,0.1)', flexShrink: 0 }}>
-              <div className="text-[9px] uppercase tracking-widest" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em' }}>
+          {/* Preview card — branded, no iframe */}
+          <div style={{
+            background: '#0D1520',
+            border: '1px solid rgba(200,172,120,0.2)',
+            borderRadius: 4,
+            padding: '40px 32px',
+            minHeight: 220,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 18,
+            textAlign: 'center',
+          }}>
+            {/* Gold rule */}
+            <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
+            {/* Calendar icon */}
+            <div style={{
+              width: 56, height: 56,
+              border: '1px solid rgba(200,172,120,0.35)',
+              borderRadius: 4,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(200,172,120,0.06)',
+            }}>
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" style={{ opacity: 0.7 }}>
+                <rect x="3" y="4" width="18" height="17" rx="2" stroke="#947231" strokeWidth="1.2" />
+                <line x1="3" y1="9" x2="21" y2="9" stroke="#947231" strokeWidth="1.2" />
+                <line x1="8" y1="2" x2="8" y2="6" stroke="#947231" strokeWidth="1.2" />
+                <line x1="16" y1="2" x2="16" y2="6" stroke="#947231" strokeWidth="1.2" />
+                <rect x="7" y="12" width="3" height="3" rx="0.5" fill="#947231" opacity="0.5" />
+                <rect x="13" y="12" width="3" height="3" rx="0.5" fill="#947231" opacity="0.5" />
+                <rect x="7" y="17" width="3" height="2" rx="0.5" fill="#947231" opacity="0.3" />
+              </svg>
+            </div>
+            <div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.15rem', fontWeight: 400, marginBottom: 8 }}>
                 Wednesday Circuit · Recurring Every Wednesday from May 7, 2026
               </div>
+              <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', lineHeight: 1.6, maxWidth: 380, margin: '0 auto' }}>
+                Podcast · Event · Internal · Social calendars · All Christie's East Hampton events
+              </div>
+            </div>
+            {/* Two CTA buttons */}
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
               <a
-                href={`https://calendar.google.com/calendar/r?cid=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab`}
+                href={GOOGLE_CAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '10px 24px',
+                  background: 'transparent',
+                  border: '1px solid rgba(200,172,120,0.6)',
+                  color: '#947231',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  borderRadius: 2,
+                  transition: 'background 0.2s',
+                }}
               >
-                Open Calendar ↗
+                Open Google Calendar ↗
+              </a>
+              <a
+                href={GOOGLE_CAL_CID_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '10px 24px',
+                  background: 'rgba(200,172,120,0.08)',
+                  border: '1px solid rgba(200,172,120,0.25)',
+                  color: 'rgba(200,172,120,0.7)',
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 11, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  textDecoration: 'none',
+                  borderRadius: 2,
+                  transition: 'background 0.2s',
+                }}
+              >
+                Subscribe to Wednesday Circuit ↗
               </a>
             </div>
-            <iframe
-              src="https://calendar.google.com/calendar/embed?src=b591e65ffdfeee02ac8b410880b54bfdd20f29bec8b910fcefa51dd3c8cc97ab&ctz=America%2FNew_York&mode=MONTH&showTitle=0&showNav=1&showDate=1&showPrint=0&showTabs=0&showCalendars=0&showTz=0"
-              title="Wednesday Circuit Calendar"
-              width="100%"
-              height="520"
-              style={{ display: 'block', border: 'none' }}
-            />
-            <div className="px-3 py-2 text-center" style={{ background: 'rgba(0,0,0,0.2)', borderTop: '1px solid rgba(200,172,120,0.08)' }}>
-              <span style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: 10 }}>
-                If the calendar appears blank, your browser may be blocking third-party cookies. Use{' '}
-                <a href="https://calendar.google.com/calendar/r" target="_blank" rel="noopener noreferrer" style={{ color: '#947231', textDecoration: 'underline' }}>Open Google Calendar ↗</a> to view directly.
-              </span>
-            </div>
+            {/* Gold rule */}
+            <div style={{ width: 48, height: 1, background: 'linear-gradient(90deg, transparent, #947231, transparent)' }} />
+          </div>
+          {/* Wednesday Circuit countdown */}
+          <div className="mt-4 flex justify-center">
+            <WednesdayCircuitCountdown />
           </div>
         </div>
-
-        {/* Open Sheet Matrix — reference link below calendar */}
-        <div className="px-5 py-3 flex items-center justify-end" style={{ background: 'rgba(13,27,42,0.4)', borderTop: '1px solid rgba(200,172,120,0.1)' }}>
-          <a
-            href={`https://docs.google.com/spreadsheets/d/${SHEET_IDS.officePipeline}/edit`}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase' }}
-          >
-            Open Sheet Matrix ↗
-          </a>
-        </div>
-        </div>
-        </div>{/* /mount frame */}
       </div>
     </div>
   );
 }
+
 // ─── Nine-Sheet Matrix (Layer 3 — Sprint 11 Item 10) ─────────────────────────
 
 
@@ -627,7 +653,7 @@ const NINE_SHEETS: SheetEntry[] = [
 
 function NineSheetMatrix() {
   return (
-    <div className="px-6 py-8" style={{ background: 'transparent' }}>
+    <div className="px-6 py-8" style={{ background: 'rgba(10,16,28,0.55)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
@@ -921,7 +947,7 @@ function DocumentLibrary() {
 
 function IntelligenceWebLayer() {
   return (
-    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8 border-t" style={{ borderColor: 'rgba(200,172,120,0.35)', background: 'rgba(10,16,28,0.55)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 6 · Relationship Intelligence

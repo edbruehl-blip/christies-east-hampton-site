@@ -954,8 +954,8 @@ function HamletTile({
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
       className="text-left w-full"
       style={{
-        background: isSelected ? '#1B2A4A' : '#FAF8F4',
-        border: `1px solid ${isSelected ? '#947231' : 'rgba(27,42,74,0.12)'}`,
+        background: isSelected ? '#1B2A4A' : '#0D1B2A',
+        border: `1px solid ${isSelected ? '#947231' : 'rgba(200,172,120,0.2)'}`,
         padding: '16px 18px',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
@@ -965,7 +965,7 @@ function HamletTile({
         <span
           style={{
             fontFamily: '"Cormorant Garamond", serif',
-            color: isSelected ? '#FAF8F4' : '#1B2A4A',
+            color: '#FAF8F4',
             fontWeight: 600,
             fontSize: '1rem',
           }}
@@ -989,7 +989,7 @@ function HamletTile({
       <div
         style={{
           fontFamily: '"Barlow Condensed", sans-serif',
-          color: isSelected ? 'rgba(250,248,244,0.5)' : 'rgba(27,42,74,0.45)',
+          color: 'rgba(250,248,244,0.45)',
           fontSize: 9,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
@@ -2012,16 +2012,22 @@ function Section7() {
  */
 export default function ReportPage() {
   return (
-    <div id="report-page-content" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
+    <div id="report-page-root" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
       <BackBar />
-      <Section1 />
-      <Section3 />
-      <Section4 />
-      <YouTubeMatrix />
-      <AuctionGallery />
-      <Section7 />
-      <EstateAdvisoryCard />
-      <SiteFooter />
+      <div data-pdf-page="1">
+        <Section1 />
+      </div>
+      <div data-pdf-page="2">
+        <Section3 />
+        <Section4 />
+      </div>
+      <div data-pdf-page="3">
+        <YouTubeMatrix />
+        <AuctionGallery />
+        <Section7 />
+        <EstateAdvisoryCard />
+        <SiteFooter />
+      </div>
     </div>
   );
 }

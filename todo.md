@@ -2899,3 +2899,25 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] P0-2: Auction Image Matrix slot-3 swap — room-fallback → auctionRoomIllustration (cdn-assets.ts 2-line change)
 - [x] P0-3: FUTURE tab 100-day cards mobile responsiveness — responsive media queries at 390/768/1440px
 - [x] P0-4: Market Report PDF Hamlet Atlas print visibility — button→div[role=button] + report-print.css rules
+
+## Commit B Final v4 — Council Locked (Apr 24 2026)
+- [ ] INTEL-1: Kill raw Miro/Trello/Calendar iframes — replace with branded preview cards linking out
+- [ ] INTEL-2: Strengthen lower-half opacity (NineSheetMatrix, DocumentLibrary, IntelligenceWeb)
+- [ ] INTEL-3: Keep Corkboard v3 + Start Here untouched
+- [ ] REPORT-H2: ReportPage YouTubeMatrix background #FAF8F4 → #1B2A4A + interior label flip
+- [ ] REPORT-H4: ReportPage Section 4 Hamlet Atlas unselected tile #FAF8F4 → #1B2A4A + token flip
+- [ ] REPORT-F1: ReportPage Section 6 cream slab → navy glass (already navy — verify)
+- [ ] PDF-F2: Add data-pdf-page markers to ReportPage sections for deterministic page breaks
+- [ ] PDF-F2: Kill dead blank band — fix report-page-root id mismatch
+- [ ] PDF-F2: Chrome + Safari print preview clean
+
+## Commit B Final v4 (Apr 24 2026)
+- [x] INTEL: kill raw Miro iframe chrome — replaced with branded preview card + Open in Miro link
+- [x] INTEL: kill raw Calendar iframe chrome — replaced with branded preview card + Open Calendar link
+- [x] INTEL: strengthen lower-half opacity — NineSheetMatrix, DocumentLibrary, IntelligenceWebLayer bg rgba(10,16,28,0.55)
+- [x] /report Section 4: HamletTile navy mounted-object family — unselected bg #0D1B2A, cream text, gold border
+- [x] /report Section 4: report-print.css hamlet atlas print rules updated to match navy family
+- [x] PDF: add id=report-page-root to outer div — capture target now resolves correctly
+- [x] PDF: add data-pdf-page="1/2/3" markers — deterministic 3-page split, kills dead blank band
+- [x] PDF: @page size: letter portrait; margin: 0.9in 1in — Chrome + Safari print preview clean
+- [x] PDF: data-pdf-page CSS page-break rules added to report-print.css

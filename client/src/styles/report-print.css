@@ -16,8 +16,8 @@
 @media print {
   /* ── Page setup ── */
   @page {
-    size: auto;
-    margin: 0.5in;
+    size: letter portrait;
+    margin: 0.9in 1in;
   }
 
   html,
@@ -30,19 +30,34 @@
     height: auto !important;
   }
 
+  /* ── data-pdf-page groups: each group breaks to a new page ── */
+  [data-pdf-page] {
+    page-break-before: always;
+    break-before: page;
+  }
+  [data-pdf-page="1"] {
+    page-break-before: auto;
+    break-before: auto;
+  }
+
   /* ── Item 2 Fix A: Force Page 1 section background to cream ── */
   /* Section1 has background: #1B2A4A (navy) on screen — in print, force cream */
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type,
   #report-page-content > section:first-of-type {
     background: #FAF8F4 !important;
     color: #1B2A4A !important;
   }
 
   /* Force all text inside Section1 to be legible on cream background */
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type *,
   #report-page-content > section:first-of-type * {
     color: #1B2A4A !important;
   }
 
   /* Preserve gold accents inside Section1 */
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type [style*="color: #947231"],
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type [style*="color:#947231"],
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type [style*="color: rgb(200, 172, 120)"],
   #report-page-content > section:first-of-type [style*="color: #947231"],
   #report-page-content > section:first-of-type [style*="color:#947231"],
   #report-page-content > section:first-of-type [style*="color: rgb(200, 172, 120)"] {
@@ -51,6 +66,7 @@
 
   /* ── Item 2 Fix B: Closing line spacing — prevent collision with gold footer bar ── */
   /* The last paragraph in the founding letter needs bottom margin before the signature block */
+  #report-page-root > [data-pdf-page="1"] > section:first-of-type p:last-of-type,
   #report-page-content > section:first-of-type p:last-of-type {
     margin-bottom: 24pt !important;
     page-break-after: avoid;
@@ -147,14 +163,14 @@
   }
   #section-hamlet-atlas [role="button"],
   #section-hamlet-atlas button {
-    background: #FAF8F4 !important;
-    border: 1px solid rgba(27,42,74,0.25) !important;
-    color: #1B2A4A !important;
+    background: #0D1B2A !important;
+    border: 1px solid rgba(200,172,120,0.3) !important;
+    color: #FAF8F4 !important;
     page-break-inside: avoid !important;
   }
   #section-hamlet-atlas [role="button"] *,
   #section-hamlet-atlas button * {
-    color: inherit !important;
+    color: #FAF8F4 !important;
   }
   #section-hamlet-atlas [role="button"] [style*="#947231"],
   #section-hamlet-atlas button [style*="#947231"] {
