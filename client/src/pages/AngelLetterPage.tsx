@@ -53,7 +53,7 @@ export default function AngelLetterPage() {
         <div style={{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 40px', borderBottom: `1px solid rgba(200,172,120,0.2)` }}>
           <img src={CIREG_LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 28, objectFit: 'contain' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Day One · Angel</span>
+            <span style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Angel Theodore · April 2026</span>
             <button onClick={handlePrint} style={{ background: 'transparent', border: `1px solid ${GOLD}`, color: GOLD, fontFamily: '"Barlow Condensed", sans-serif', fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase', padding: '6px 16px', cursor: 'pointer' }}>↓ Download PDF</button>
           </div>
         </div>
@@ -65,7 +65,7 @@ export default function AngelLetterPage() {
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 8, letterSpacing: '0.16em', textTransform: 'uppercase', marginTop: 6, textAlign: 'center' }}>James Christie · London · 1766</div>
           </div>
           <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 10 }}>Christie's East Hampton · Day One Orientation</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.24em', textTransform: 'uppercase', marginBottom: 10 }}>Christie's East Hampton · Angel Theodore · April 2026</div>
             <h1 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', lineHeight: 1.1, margin: '0 0 10px', letterSpacing: '0.04em' }}>A Letter to Angel</h1>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.9rem', fontStyle: 'italic' }}>
               April 2026
@@ -78,7 +78,7 @@ export default function AngelLetterPage() {
       <div className="print-only-header" style={{ display: 'none' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 0 12px', borderBottom: `2px solid ${GOLD}`, marginBottom: 24 }}>
           <img src={CIREG_LOGO_BLACK} alt="Christie's International Real Estate Group" style={{ height: 22 }} />
-          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: NAVY, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Christie's East Hampton · Day One · Angel</div>
+          <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: NAVY, fontSize: 9, letterSpacing: '0.2em', textTransform: 'uppercase' }}>Christie's East Hampton · Angel Theodore · April 2026</div>
         </div>
         <div style={{ display: 'flex', alignItems: 'flex-end', gap: 20, marginBottom: 28 }}>
           <img src={JAMES_CHRISTIE_PORTRAIT_PRIMARY} alt="James Christie" style={{ width: 60, height: 76, objectFit: 'cover', objectPosition: 'center 20%', border: `1px solid ${GOLD}` }} />

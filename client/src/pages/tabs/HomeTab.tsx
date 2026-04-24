@@ -157,7 +157,7 @@ function SectionA() {
 // 9-image 3×3 grid — first thing after "The flagship is awakening."
 function AuctionImageMatrix() {
   return (
-    <div style={{ background: 'rgba(13,27,42,0.55)', borderTop: '1px solid rgba(200,172,120,0.25)', borderBottom: '1px solid rgba(200,172,120,0.18)', padding: '48px 24px 52px' }}>
+    <div style={{ background: 'rgba(13,27,42,0.35)', borderTop: '1px solid rgba(200,172,120,0.18)', borderBottom: '1px solid rgba(200,172,120,0.12)', padding: '48px 24px 52px', boxShadow: 'inset 0 1px 0 rgba(200,172,120,0.06), inset 0 -1px 0 rgba(200,172,120,0.06)' }}>
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',

@@ -122,7 +122,7 @@ export function EdCorkboard() {
         <div style={{ fontSize: 9, letterSpacing: '0.15em', color: 'rgba(250,248,244,0.7)', textAlign: 'right', lineHeight: 1.6 }}>
           Updated April 2026<br />
           Six-quadrant operational layout<br />
-          T-7 days to public launch
+          Live · April 29, 2026
         </div>
       </header>
 

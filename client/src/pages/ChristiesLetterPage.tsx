@@ -42,6 +42,7 @@ function extractLeadSummary(text: string): { lead: string | null; body: string[]
 export default function ChristiesLetterPage() {
   const { data, isLoading, error } = trpc.flagship.getChristiesLetter.useQuery();
   const { lead, body } = data?.text ? extractLeadSummary(data.text) : { lead: null, body: [] };
+  const handlePrint = () => window.print();
 
   return (
     <div style={{ background: CREAM, minHeight: '100vh', fontFamily: '"Cormorant Garamond", serif' }}>
@@ -77,12 +78,27 @@ export default function ChristiesLetterPage() {
             alt="Christie's International Real Estate Group"
             style={{ height: 28, objectFit: 'contain' }}
           />
-          <span style={{
-            fontFamily: '"Barlow Condensed", sans-serif',
-            color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
-          }}>
-            Letter to the Families
-          </span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{
+              fontFamily: '"Barlow Condensed", sans-serif',
+              color: GOLD, fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase',
+            }}>
+              Letter to the Families
+            </span>
+            <button
+              onClick={handlePrint}
+              style={{
+                background: 'transparent',
+                border: `1px solid ${GOLD}`,
+                color: GOLD,
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 10, letterSpacing: '0.18em', textTransform: 'uppercase',
+                padding: '6px 16px', cursor: 'pointer', transition: 'all 0.2s',
+              }}
+            >
+              ↓ Download PDF
+            </button>
+          </div>
         </div>
 
         {/* Hero area: James Christie portrait + letter title */}
