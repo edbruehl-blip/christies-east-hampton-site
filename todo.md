@@ -2855,3 +2855,10 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Update button label to "DOWNLOAD MARKET PDF" per dispatch
 - [x] Update filename to christies-east-hampton-market-{YYYY-MM-DD}.pdf per dispatch
 - [x] No jsPDF in MARKET render path ✓ · Vitest 59/59 ✓
+
+## SPA Routing Fix — Apr 23 2026 (P0 Deploy Blocker)
+- [x] Diagnose: local production server returns HTTP 200 on all 7 routes — catch-all IS in serveStatic
+- [x] Root cause: dist/ was stale (version 400398ea vs current b1971494) — old build deployed
+- [x] Fix: pnpm run build regenerated dist/ from current source — version.json now b1971494
+- [x] Vitest 59/59 after fresh build
+- [x] Checkpoint + publish to force Manus platform to deploy fresh build
