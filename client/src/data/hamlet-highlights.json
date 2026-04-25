@@ -3,92 +3,92 @@
     {
       "name": "Sagaponack",
       "id": "sagaponack",
-      "anchor": "W\u00f6lffer Estate Vineyard",
-      "local_spot": "The Seafood Shop \u2014 the best fish market on the East End, open year-round",
-      "secret": "The back road along Sagg Main \u2014 farmland on one side, ocean light on the other. Nothing like it on the East End.",
+      "anchor": "Wölffer Estate Vineyard",
+      "local_spot": "The Seafood Shop — the best fish market on the East End, open year-round",
+      "secret": "The back road along Sagg Main — farmland on one side, ocean light on the other. Nothing like it on the East End.",
       "practical_note": "No village center. You are here for the land and the light. Parking is never a problem.",
-      "market_signal": "Ultra-prime \u00b7 Median $8M+ \u00b7 Limited inventory"
+      "market_signal": "Ultra-prime · Median $8M+ · Limited inventory"
     },
     {
       "name": "East Hampton Village",
       "id": "east-hampton-village",
-      "anchor": "Guild Hall \u2014 the cultural institution that has anchored the village since 1931",
-      "local_spot": "The Palm at Huntting Inn \u2014 the room where deals get made",
+      "anchor": "Guild Hall — the cultural institution that has anchored the village since 1931",
+      "local_spot": "The Palm at Huntting Inn — the room where deals get made",
       "secret": "Main Beach at 6am before the season starts. The most beautiful half-mile of sand on the Eastern Seaboard.",
       "practical_note": "Village parking is tight in-season. The Herrick Park lot is the local move. Off-season, the village is yours.",
-      "market_signal": "Trophy corridor \u00b7 $4M\u2013$15M \u00b7 Strong demand"
+      "market_signal": "Trophy corridor · $4M–$15M · Strong demand"
     },
     {
       "name": "Bridgehampton",
       "id": "bridgehampton",
-      "anchor": "Bridgehampton Commons \u2014 the working heart of the East End",
-      "local_spot": "Almond Restaurant \u2014 year-round, honest, and the best room in the hamlet",
+      "anchor": "Bridgehampton Commons — the working heart of the East End",
+      "local_spot": "Almond Restaurant — year-round, honest, and the best room in the hamlet",
       "secret": "The Bridgehampton-Sag Harbor Turnpike at dusk. Farm stands, vineyards, and open sky in one straight line.",
       "practical_note": "The most central hamlet on the East End. Equidistant to Southampton and East Hampton. Underrated as a base.",
-      "market_signal": "Equestrian belt \u00b7 $3M\u2013$12M \u00b7 Rising"
+      "market_signal": "Equestrian belt · $3M–$12M · Rising"
     },
     {
       "name": "Southampton Village",
       "id": "southampton-village",
-      "anchor": "The Parrish Art Museum \u2014 the institutional anchor of the western corridor",
-      "local_spot": "Sant Ambroeus Southampton \u2014 the room where old money eats lunch",
+      "anchor": "The Parrish Art Museum — the institutional anchor of the western corridor",
+      "local_spot": "Sant Ambroeus Southampton — the room where old money eats lunch",
       "secret": "Jobs Lane off-season. The architecture, the hedgerows, and the social order all visible at once. No crowds.",
       "practical_note": "The most governed hamlet on the East End. Architecture review board is strict. That is why the values hold.",
-      "market_signal": "Institutional \u00b7 $2.5M\u2013$10M \u00b7 Stable"
+      "market_signal": "Institutional · $2.5M–$10M · Stable"
     },
     {
       "name": "Water Mill",
       "id": "water-mill",
-      "anchor": "Water Mill Museum \u2014 the original grist mill, still standing",
-      "local_spot": "Tate's Bake Shop \u2014 the local institution that became a national brand",
+      "anchor": "Water Mill Museum — the original grist mill, still standing",
+      "local_spot": "Tate's Bake Shop — the local institution that became a national brand",
       "secret": "The boardwalk across the marsh at sunrise. The most undervalued acreage on the East End sits right behind it.",
       "practical_note": "No village center, no foot traffic. You are buying land and light. The buyer who sees land before address wins here.",
-      "market_signal": "Transitional \u00b7 $2M\u2013$8M \u00b7 Active"
+      "market_signal": "Transitional · $2M–$8M · Active"
     },
     {
       "name": "Amagansett",
       "id": "amagansett",
-      "anchor": "The Stephen Talkhouse \u2014 the most legendary music venue on the East End",
-      "local_spot": "Estia's Little Kitchen \u2014 now in Sag Harbor. The best breakfast on the East End, worth the drive.",
+      "anchor": "The Stephen Talkhouse — the most legendary music venue on the East End",
+      "local_spot": "Estia's Little Kitchen — now in Sag Harbor. The best breakfast on the East End, worth the drive.",
       "secret": "Indian Wells Beach on a Tuesday in September. The hamlet that still feels like what the entire East End used to be.",
       "practical_note": "The last hamlet before Montauk. Off-season advantage is significant. Year-round community is tight and real.",
-      "market_signal": "Surf culture \u00b7 $1.8M\u2013$6M \u00b7 Steady"
+      "market_signal": "Surf culture · $1.8M–$6M · Steady"
     },
     {
       "name": "Sag Harbor",
       "id": "sag-harbor",
-      "anchor": "The American Hotel \u2014 the room that has hosted every important conversation in this village for 150 years",
-      "local_spot": "Sen \u2014 the local Japanese restaurant that the whole village treats as its dining room",
+      "anchor": "The American Hotel — the room that has hosted every important conversation in this village for 150 years",
+      "local_spot": "Sen — the local Japanese restaurant that the whole village treats as its dining room",
       "secret": "The windmill at the end of Main Street at golden hour. The whole village still runs on foot traffic and conversation.",
       "practical_note": "The most walkable hamlet on the East End. No car needed on weekends. The ferry to North Haven is a two-minute drive.",
-      "market_signal": "Village walkability premium \u00b7 $1.5M\u2013$5M"
+      "market_signal": "Village walkability premium · $1.5M–$5M"
     },
     {
       "name": "Springs",
       "id": "springs",
-      "anchor": "Pollock-Krasner House \u2014 Jackson Pollock painted here because the light was honest and the rent was low",
-      "local_spot": "Bostwick's Chowder House \u2014 the year-round local institution on Three Mile Harbor",
+      "anchor": "Pollock-Krasner House — Jackson Pollock painted here because the light was honest and the rent was low",
+      "local_spot": "Bostwick's Chowder House — the year-round local institution on Three Mile Harbor",
       "secret": "Accabonac Harbor at dawn. The dock meets the marsh and the land remembers what it was.",
       "practical_note": "The most affordable entry point in the township. The buyer who understands trajectory buys Springs before the market does.",
-      "market_signal": "Artist legacy \u00b7 $900K\u2013$3M \u00b7 Emerging"
+      "market_signal": "Artist legacy · $900K–$3M · Emerging"
     },
     {
       "name": "Montauk",
       "id": "montauk",
-      "anchor": "Montauk Lighthouse \u2014 the end of the road and the beginning of the Atlantic",
-      "local_spot": "Gosman's Dock \u2014 the institution where the fishing boats still come in. Under new ownership as of 2024.",
+      "anchor": "Montauk Lighthouse — the end of the road and the beginning of the Atlantic",
+      "local_spot": "Gosman's Dock — the institution where the fishing boats still come in. Under new ownership as of 2024.",
       "secret": "Camp Hero State Park at the very tip. Radar towers, bluffs, and the most dramatic coastline on the East End. No crowds, ever.",
       "practical_note": "Raw, unhurried, and unapologetically its own. The East End's last wild place. Off-season advantage is the highest of any hamlet.",
-      "market_signal": "Seasonal \u00b7 $1.2M\u2013$5M \u00b7 Surf premium"
+      "market_signal": "Seasonal · $1.2M–$5M · Surf premium"
     },
     {
       "name": "Wainscott",
       "id": "wainscott",
-      "anchor": "115 Beach Lane \u2014 $59M off-market close, March 2026",
-      "local_spot": "Bridgehampton Inn Restaurant \u2014 the year-round anchor of the Wainscott corridor",
+      "anchor": "Georgica Pond — the institutional water Wainscott shares with East Hampton Village",
+      "local_spot": "Bridgehampton Inn Restaurant — the year-round anchor of the Wainscott corridor",
       "secret": "The dune path to the ocean at the end of Beach Lane. Nothing between you and the horizon.",
       "practical_note": "The smallest hamlet by volume. Two percent of East End transactions. The buyer who finds it before the market does wins.",
-      "market_signal": "Quiet enclave \u00b7 $2M\u2013$7M \u00b7 Low turnover"
+      "market_signal": "Quiet enclave · $2M–$7M · Low turnover"
     }
   ]
 }
