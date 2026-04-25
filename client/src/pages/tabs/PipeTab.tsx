@@ -449,7 +449,7 @@ function PipelineTable() {
                 </td>
               </tr>
             ) : (
-              filtered.map((row, idx) => {
+              dedupedFiltered.map((row, idx) => {
                 if (row.isSectionHeader) {
                   return (
                     <tr key={`section-${idx}`} style={{ background: '#1B2A4A' }}>
@@ -793,6 +793,16 @@ export default function PipeTab() {
   const handleDealAdded = useCallback(() => {
     utils.pipe.sheetDeals.invalidate();
   }, [utils]);
+
+  // R-QUIET-AND-PENDING: suppress duplicate section header labels at render time
+  const _seenSectionLabels = new Set<string>();
+  const dedupedFiltered = filtered.filter(row => {
+    if (!row.isSectionHeader) return true;
+    const label = (row.address ?? '').toUpperCase().trim();
+    if (_seenSectionLabels.has(label)) return false;
+    _seenSectionLabels.add(label);
+    return true;
+  });
 
   return (
     <div className="min-h-screen" style={{ background: 'transparent' }}>
