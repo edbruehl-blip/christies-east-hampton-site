@@ -30,25 +30,6 @@ const CONDENSED: React.CSSProperties = {
 const MARQUEE_TEXT =
   'ART\u2002·\u2002BEAUTY\u2002·\u2002PROVENANCE\u2002·\u2002SINCE 1766\u2002·\u2002CHRISTIE\u2019S\u2002·\u2002EAST HAMPTON\u2002·\u2002EST. 1766\u2002·\u2002ART\u2002·\u2002BEAUTY\u2002·\u2002PROVENANCE\u2002·\u2002SINCE 1766\u2002·\u2002CHRISTIE\u2019S\u2002·\u2002EAST HAMPTON\u2002·\u2002EST. 1766';
 
-function useFooterTime() {
-  const [label, setLabel] = useState<string>('');
-  useEffect(() => {
-    const update = () => {
-      const t = new Date().toLocaleTimeString('en-US', {
-        hour: 'numeric',
-        minute: '2-digit',
-        timeZone: 'America/New_York',
-        timeZoneName: 'short',
-      });
-      setLabel(`Updated ${t}`);
-    };
-    update();
-    const id = setInterval(update, 60_000);
-    return () => clearInterval(id);
-  }, []);
-  return label;
-}
-
 function useWeatherFooter() {
   const [weather, setWeather] = useState<string | null>(null);
   useEffect(() => {
@@ -72,14 +53,15 @@ const LETTER_LINKS = [
 
 export function SiteFooter() {
   const [, navigate] = useLocation();
-  const year        = new Date().getFullYear();
-  const updatedTime = useFooterTime();
-  const weather     = useWeatherFooter();
+  const year    = new Date().getFullYear();
+  const weather = useWeatherFooter();
 
   return (
     <footer
       style={{
-        background: NAVY,
+        background: 'rgba(27, 42, 74, 0.75)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
         borderTop: `1px solid rgba(200,172,120,0.18)`,
         padding: '24px 24px 20px',
         marginTop: 0,
@@ -231,12 +213,7 @@ export function SiteFooter() {
               <span style={{ color: GOLD, fontWeight: 600, whiteSpace: 'nowrap' }}>{weather}</span>
             </>
           )}
-          {updatedTime && (
-            <>
-              <span style={{ color: 'rgba(200,172,120,0.25)' }}>·</span>
-              <span style={{ whiteSpace: 'nowrap' }}>{updatedTime}</span>
-            </>
-          )}
+
         </div>
 
         {/* ── Legal line ──────────────────────────────────────────────── */}

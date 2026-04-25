@@ -108,11 +108,15 @@ export async function readPipelineDeals(): Promise<PipelineDeal[]> {
     // Section headers have address text but no price/status
     const hasPrice = !!row[3]?.trim();
     const isSectionHeader = !hasPrice && address.toUpperCase() === address;
-    if (isSectionHeader) currentCategory = address;
+    // R-PIPE-ONE-SECTION: normalize PENDING DEALS → QUIET & PENDING (render-side merge)
+    const normalizedAddress = isSectionHeader && address.toUpperCase() === 'PENDING DEALS'
+      ? 'QUIET & PENDING'
+      : address;
+    if (isSectionHeader) currentCategory = normalizedAddress;
 
     rawDeals.push({
       rowNumber: i + 1,
-      address,
+      address: normalizedAddress,
       town:           row[1]?.trim()  ?? "",
       type:           row[2]?.trim()  ?? "",
       price:          row[3]?.trim()  ?? "",

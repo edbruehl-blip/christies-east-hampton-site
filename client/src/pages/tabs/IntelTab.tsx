@@ -681,7 +681,7 @@ const NINE_SHEETS: SheetEntry[] = [
 
 function NineSheetMatrix() {
   return (
-    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.4)', borderBottom: '1px solid rgba(200,172,120,0.4)' }}>
+    <div className="px-6 py-8" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderTop: '1px solid rgba(200,172,120,0.4)', borderBottom: '1px solid rgba(200,172,120,0.4)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 4 · Thirteen-Sheet Matrix
@@ -889,7 +889,7 @@ function DocumentLibrary() {
   const [, navigate] = useLocation();
 
   return (
-    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 5 · Document Library
@@ -975,7 +975,7 @@ function DocumentLibrary() {
 
 function IntelligenceWebLayer() {
   return (
-    <div className="px-6 py-8" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <div className="px-6 py-8" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderTop: '1px solid rgba(200,172,120,0.2)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div className="uppercase mb-2" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
           Layer 6 · Relationship Intelligence
@@ -1052,7 +1052,9 @@ function IntelStickyNav() {
         position: 'sticky',
         top: 0,
         zIndex: 40,
-        background: '#1B2A4A',
+        background: 'rgba(27, 42, 74, 0.75)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
         borderBottom: '1px solid rgba(200,172,120,0.3)',
         display: 'flex',
         alignItems: 'center',
@@ -1126,7 +1128,7 @@ export default function IntelTab() {
       {/* Section 9 — BruehlBriefBulletin removed — canon-kill Apr 24 2026 */}
 
       {/* Doctrine footer */}
-      <div className="px-6 py-4 text-center border-t" style={{ background: '#1B2A4A', borderColor: '#947231' }}>
+      <div className="px-6 py-4 text-center border-t" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderColor: '#947231' }}>
         <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontStyle: 'italic', color: 'rgba(200,172,120,0.65)', fontSize: '0.72rem' }}>
           Art. Beauty. Provenance. · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
         </div>

@@ -187,7 +187,7 @@ function Section1() {
 
 
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
+    <section style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
       {/* Auction room hero */}
       <div className="relative" style={{ maxHeight: 520, overflow: 'hidden' }}>
         <img
@@ -1263,7 +1263,7 @@ function Section3Condensed() {
   }, []);
 
   return (
-    <section style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div
           className="grid gap-6"
@@ -1305,7 +1305,7 @@ function Section3Condensed() {
 // ─── SECTION 5 · MAPS Intelligence ────────────────────────────────────────────
 function Section5() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: '#1B2A4A', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="5" title="MAPS Intelligence" />
         <div
@@ -1478,7 +1478,7 @@ function Section5() {
 // ─── SECTION 6 · Resources & Authority ───────────────────────────────────────
 function Section6() {
   return (
-    <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: '#1B2A4A', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
+    <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <SectionLabel n="6" title="Resources & Authority" />
         <div

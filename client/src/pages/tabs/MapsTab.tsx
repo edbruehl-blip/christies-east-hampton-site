@@ -349,6 +349,7 @@ interface HamletHighlight {
   name: string;
   id: string;
   anchor: string;
+  top_restaurant?: string;
   local_spot: string;
   secret: string;
   practical_note: string;
@@ -383,6 +384,12 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Anchor</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', fontSize: '0.78rem', lineHeight: 1.55 }}>{highlight.anchor}</div>
         </div>
+        {highlight.top_restaurant && (
+          <div style={{ borderLeft: '2px solid rgba(200,172,120,0.55)', paddingLeft: 10 }}>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Restaurant</div>
+            <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: '0.78rem', lineHeight: 1.55 }}>{highlight.top_restaurant}</div>
+          </div>
+        )}
         <div style={{ borderLeft: '2px solid rgba(200,172,120,0.4)', paddingLeft: 10 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Local Spot</div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: '0.78rem', lineHeight: 1.55 }}>{highlight.local_spot}</div>
@@ -407,7 +414,7 @@ function HamletHighlightsModule() {
         <div className="px-0 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
           <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>Hamlet Highlights</h2>
-          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>Ten canonical hamlets · Anchor · Local Spot · Secret · Practical Note</p>
+          <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>Ten canonical hamlets · Anchor · Restaurant · Local Spot · Secret · Practical Note</p>
         </div>
         {/* 10-card grid */}
         <div className="py-8">

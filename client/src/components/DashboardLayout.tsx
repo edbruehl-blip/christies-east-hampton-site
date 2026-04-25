@@ -178,11 +178,6 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
   // Ticker content — exact production copy
   const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton\u2002·\u2002Exceptional Service";
 
-  // Format the updatedAt ISO string into a short local time stamp
-  const updatedLabel = market.updatedAt
-    ? `Updated ${new Date(market.updatedAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", timeZone: "America/New_York", timeZoneName: "short" })}`
-    : null;
-
   // Wire Five: live Hamptons Median from Market Matrix B23
   // When Perplexity updates B23, this value updates automatically on next query.
   const { data: hamptonsMedianData } = trpc.market.hamptonsMedian.useQuery(undefined, {
@@ -226,7 +221,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
       ══════════════════════════════════════════════════════════════════ */}
       <div
         className="sticky top-0 z-50"
-        style={{ background: "#1B2A4A", borderBottom: "1px solid rgba(200,172,120,0.18)" }}
+        style={{ background: "rgba(27, 42, 74, 0.75)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)", borderBottom: "1px solid rgba(200,172,120,0.18)" }}
       >
         <div
           style={{
@@ -352,7 +347,9 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
         ══════════════════════════════════════════════════════════════ */}
         <div
           style={{
-            background: "#1B2A4A",
+            background: "rgba(27, 42, 74, 0.75)",
+            backdropFilter: "blur(6px)",
+            WebkitBackdropFilter: "blur(6px)",
             borderBottom: "1px solid rgba(200,172,120,0.22)",
             overflow: "hidden",
             whiteSpace: "nowrap",
@@ -404,14 +401,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
           <DataItem label="30Y MORTGAGE" value={market.mortgage} />
           {market.mortgage && market.gold && <Sep />}
           <DataItem label="Gold" value={market.gold} />
-          {updatedLabel && (
-            <>
-              <Sep />
-              <span style={{ fontFamily: "var(--font-condensed)", fontSize: 10, color: "rgba(255,255,255,0.38)", letterSpacing: "0.06em" }}>
-                {updatedLabel}
-              </span>
-            </>
-          )}
+
         </div>
 
         {/* ══════════════════════════════════════════════════════════════

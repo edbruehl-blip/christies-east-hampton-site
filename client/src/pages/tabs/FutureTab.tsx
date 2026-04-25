@@ -153,7 +153,7 @@ function AscensionArcChart() {
 
   // ── Dark (navy) live screen render ──
   return (
-    <div style={{ background: NAVY, borderRadius: 4, padding: '14px 18px', marginBottom: 16 }}>
+    <div style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderRadius: 4, padding: '14px 18px', marginBottom: 16 }}>
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: 4 }}>
         <div style={{ ...SERIF, fontSize: 20, letterSpacing: 5, color: '#ebe6db', textTransform: 'uppercase', fontWeight: 400 }}>
