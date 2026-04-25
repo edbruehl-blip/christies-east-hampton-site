@@ -789,8 +789,10 @@ function Section3() {
                 marginBottom: 10,
               }}
             >
-              EAST END<br />SPOTLIGHT
+              $59,000,000
             </div>
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontSize: '1.05rem', fontWeight: 400, marginBottom: 4 }}>115 Beach Lane</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.7)', fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', marginBottom: 10 }}>Wainscott · March 2026</div>
             <div
               style={{
                 fontFamily: '"Source Sans 3", sans-serif',
@@ -800,7 +802,7 @@ function Section3() {
                 maxWidth: 220,
               }}
             >
-              The most recent significant closed sale on the East End. Data updated via Growth Model.
+              Oceanfront compound. Highest recorded sale in Wainscott. Sets the East End ceiling for Q1 2026.
             </div>
           </div>
 

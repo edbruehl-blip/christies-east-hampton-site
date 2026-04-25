@@ -220,7 +220,7 @@ function AuctionImageMatrix() {
 // ─── Section C  ·  Christie's Story ──────────────────────────────────────────
 function SectionChristiesStory() {
   return (
-    <div style={{ background: 'rgba(13,27,42,0.75)', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 24px' }}>
+    <div style={{ background: '#0D1B2A', borderTop: '1px solid rgba(200,172,120,0.15)', padding: '56px 24px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{
           fontFamily: '"Barlow Condensed", sans-serif',

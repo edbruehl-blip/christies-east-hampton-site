@@ -1022,7 +1022,7 @@ function CorkboardLayer() {
   return (
     <div
       ref={wrapRef}
-      style={{ background: 'rgba(13,27,42,0.82)', width: '100%', overflow: 'hidden', borderRadius: 8, border: '1px solid rgba(200,172,120,0.18)' }}
+      style={{ background: 'transparent', width: '100%', overflow: 'hidden' }}
     >
       <div ref={innerRef} style={{ display: 'inline-block' }}>
         <EdCorkboard />

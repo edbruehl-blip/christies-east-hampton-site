@@ -31,7 +31,7 @@ const BORDER  = `1px solid rgba(148,114,49,0.28)`;
 const HAMLET_DATA_MAP = Object.fromEntries(
   MASTER_HAMLET_DATA.map(h => [h.name, h])
 );
-const HAMLETS = MASTER_HAMLET_DATA.map(h => h.name);
+const HAMLETS = MASTER_HAMLET_DATA.filter(h => h.id !== 'east-hampton-north').map(h => h.name);
 
 // ─── Formatters ───────────────────────────────────────────────────────────────
 const fmt$ = (n: number) =>

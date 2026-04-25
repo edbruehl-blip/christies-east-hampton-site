@@ -200,8 +200,24 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
     ? `Data current as of ${new Date(sheetsTimestamp.timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}`
     : null;
 
+  const AUCTION_ROOM_BG = 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/DtTxqkdyvvLrygvu.jpg';
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'transparent' }}>
+    <div className="min-h-screen flex flex-col" style={{ background: '#0D1B2A', position: 'relative' }}>
+      {/* Painted-room hero overlay — universal shell (Dispatch 37 · Lane 10) */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundImage: `url(${AUCTION_ROOM_BG})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center 30%',
+          backgroundAttachment: 'fixed',
+          opacity: 0.07,
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
 
       {/* ══════════════════════════════════════════════════════════════════
           LAYER 1 — Tab row: CIREG logo · 6 tabs · Ed headshot

@@ -144,7 +144,7 @@ function HamletSelect({ value, onChange }: { value: string; onChange: (v: string
     <div className="flex flex-col gap-1">
       <label className="uppercase tracking-wider" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.16em', fontSize: 12, fontWeight: 600 }}>Hamlet</label>
       <select value={value} onChange={e => onChange(e.target.value)} className="w-full px-3 py-2.5 border text-sm outline-none focus:border-[#947231]" style={{ fontFamily: '"Source Sans 3", sans-serif', color: '#FAF8F4', background: 'rgba(13,27,42,0.7)', borderColor: 'rgba(200,172,120,0.2)' }}>
-        {MASTER_HAMLET_DATA.map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
+        {MASTER_HAMLET_DATA.filter(h => h.id !== 'east-hampton-north').map(h => <option key={h.id} value={h.id}>{h.name}</option>)}
       </select>
     </div>
   );
@@ -352,6 +352,7 @@ interface HamletHighlight {
   local_spot: string;
   secret: string;
   practical_note: string;
+  market_signal?: string;
 }
 
 // D2 Apr 24 2026: east-hampton-north excluded from public hamlet highlights — ten canonical hamlets only
@@ -388,11 +389,11 @@ function HamletHighlightCard({ highlight }: { highlight: HamletHighlight }) {
         </div>
         <div style={{ borderLeft: '2px solid rgba(200,172,120,0.2)', paddingLeft: 10 }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.18em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>The Secret</div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.7)', fontSize: '0.78rem', lineHeight: 1.55, fontStyle: 'italic' }}>{highlight.secret}</div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.88)', fontSize: '0.78rem', lineHeight: 1.55, fontStyle: 'italic' }}>{highlight.secret}</div>
         </div>
         <div style={{ background: 'rgba(250,248,244,0.04)', padding: '8px 10px', borderTop: '1px solid rgba(200,172,120,0.12)', marginTop: 'auto' }}>
           <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.6)', letterSpacing: '0.16em', fontSize: 8, textTransform: 'uppercase', fontWeight: 600, marginBottom: 3 }}>Practical Note</div>
-          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.55)', fontSize: '0.74rem', lineHeight: 1.55 }}>{highlight.practical_note}</div>
+          <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.82)', fontSize: '0.74rem', lineHeight: 1.55 }}>{highlight.practical_note}</div>
         </div>
       </div>
     </FloatingCard>
@@ -402,26 +403,20 @@ function HamletHighlightsModule() {
   return (
     <div style={{ background: 'transparent', padding: '0 24px 32px' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
-      <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)' }}>
-      {/* Section header */}
-      <div className="px-6 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+        {/* Section header */}
+        <div className="px-0 py-6 border-b" style={{ borderColor: 'rgba(200,172,120,0.2)' }}>
           <div className="uppercase tracking-widest mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>Local Intelligence</div>
           <h2 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.5rem', margin: 0 }}>Hamlet Highlights</h2>
           <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.5)', fontSize: '0.78rem', marginTop: 6, marginBottom: 0 }}>Ten canonical hamlets · Anchor · Local Spot · Secret · Practical Note</p>
         </div>
-      </div>
-      {/* 10-card grid */}
-      <div className="px-6 py-8">
-        <div className="mx-auto" style={{ maxWidth: 'var(--frame-max-w)' }}>
+        {/* 10-card grid */}
+        <div className="py-8">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
             {HAMLET_HIGHLIGHTS.map(h => (
               <HamletHighlightCard key={h.id} highlight={h} />
             ))}
           </div>
         </div>
-      </div>
-      </div>{/* /mount frame */}
       </div>
     </div>
   );

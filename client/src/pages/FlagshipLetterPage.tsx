@@ -309,13 +309,7 @@ export default function FlagshipLetterPage() {
               </div>
             </div>
 
-            {/* Footer line */}
-            <div style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              color: MUTED, fontSize: '0.85rem', fontStyle: 'italic', textAlign: 'center',
-            }}>
-              Christie's International Real Estate Group · East Hampton · Since 1766
-            </div>
+            {/* Footer stamp stripped per Dispatch 37 Lane 13 */}
           </>
         )}
       </main>
