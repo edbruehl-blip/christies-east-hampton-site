@@ -442,7 +442,7 @@ function PipelineTable() {
             </tr>
           </thead>
           <tbody>
-            {filtered.length === 0 ? (
+            {dedupedFiltered.length === 0 ? (
               <tr>
                 <td colSpan={COLUMNS.length + 1} style={{ padding: '24px', textAlign: 'center', fontFamily: '"Source Sans 3", sans-serif', color: '#7a8a8e', fontSize: '0.82rem', fontStyle: 'italic' }}>
                   No deals match the current filter.
