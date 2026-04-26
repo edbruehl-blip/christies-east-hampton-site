@@ -54,7 +54,21 @@ async function getChromiumPath(): Promise<string> {
       return p;
     }
   }
-  // Fall back to puppeteer bundled Chrome via dynamic import (ESM-safe)
+  // Primary container fallback: @sparticuz/chromium (statically linked, no system lib deps)
+  try {
+    const sparticuz = await import('@sparticuz/chromium') as { default: { executablePath: () => Promise<string> } };
+    const sparticuzPath = await sparticuz.default.executablePath();
+    if (sparticuzPath && existsSync(sparticuzPath)) {
+      console.log(`[PDF] Using @sparticuz/chromium: ${sparticuzPath}`);
+      return sparticuzPath;
+    }
+    console.warn(`[PDF] @sparticuz/chromium path: ${sparticuzPath} (not found on disk, may need extraction)`);
+    // Return the path anyway — sparticuz extracts on first use
+    if (sparticuzPath) return sparticuzPath;
+  } catch (e) {
+    console.warn('[PDF] @sparticuz/chromium import failed:', e);
+  }
+  // Secondary fallback: puppeteer bundled Chrome
   try {
     const puppeteerFull = await import('puppeteer') as { default: { executablePath: () => string } };
     const bundled = puppeteerFull.default.executablePath();
@@ -66,7 +80,7 @@ async function getChromiumPath(): Promise<string> {
   } catch (e) {
     console.warn('[PDF] puppeteer dynamic import failed:', e);
   }
-  throw new Error('No Chromium binary found. Install chromium-browser or puppeteer.');
+  throw new Error('No Chromium binary found. Install @sparticuz/chromium or chromium-browser.');
 }
 
 /**
@@ -127,21 +141,26 @@ async function getBrowserFromPool(): Promise<import('puppeteer-core').Browser> {
     }
   }
 
-  // Launch fresh browser
+  // Launch fresh browser — use @sparticuz/chromium args if available (container-safe)
   const execPath = await waitForChromium();
+  let launchArgs = [
+    '--no-sandbox',
+    '--disable-setuid-sandbox',
+    '--disable-dev-shm-usage',
+    '--disable-gpu',
+    '--no-first-run',
+    '--no-zygote',
+    '--single-process',
+    '--disable-extensions',
+  ];
+  try {
+    const sparticuz = await import('@sparticuz/chromium') as { default: { args: string[] } };
+    launchArgs = [...sparticuz.default.args, ...launchArgs];
+  } catch { /* sparticuz not available, use defaults */ }
   poolBrowser = await puppeteer.launch({
     executablePath: execPath,
     headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox',
-      '--disable-dev-shm-usage',
-      '--disable-gpu',
-      '--no-first-run',
-      '--no-zygote',
-      '--single-process',
-      '--disable-extensions',
-    ],
+    args: launchArgs,
   });
   console.log('[PDF Pool] Fresh browser launched');
   schedulePoolIdle();

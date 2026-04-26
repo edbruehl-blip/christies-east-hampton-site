@@ -160,7 +160,7 @@ export function EdCorkboard() {
           <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, margin: '6px 0 4px', letterSpacing: '0.08em' }}>THE LIVE URL IS THE SOURCE OF TRUTH.</div>
           <Bullet text="Ed thirty-five · Ilija sixty-five" sub="Two parties at the pool" />
           <Bullet text="The platform is the pitch" sub="No decks" />
-          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Pulse (daily) → Pipeline (weekly) → Network (monthly) → Calendar (dates) → Focus (current)</div>
+          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Standard → Pipeline → Network → Calendar → Focus → North Star</div>
           <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.82)', marginTop: 8, lineHeight: 1.65, fontStyle: 'italic', borderTop: '1px solid rgba(148,114,49,0.22)', paddingTop: 7 }}>“We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie’s Standard forward — over 250 years of it — in every conversation.”</div>
         </div>
 
@@ -169,7 +169,7 @@ export function EdCorkboard() {
           <h3 style={s.panelH3}>① The Christie’s Standard</h3>
           <Bullet text="Numbers Box" sub="Closings · pipeline value · active count" />
           <Bullet text="Top 3 for Ed" sub="Highest-leverage actions today" />
-          <Bullet text="Top 3 for Angel" sub="Angel active · April 2026" />
+          <Bullet text="Top 3 for Angel" sub="Angel active · today" />
           <Bullet text="Waiting On" sub="Counterparties · attorneys · banks" />
           <Bullet text="Touch Minimums" sub="3 seller touches · 2 buyer touches · 1 recruit" />
         </div>
@@ -187,7 +187,7 @@ export function EdCorkboard() {
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.navy}` }}>
           <h3 style={s.panelH3}>③ The Network <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
           <Bullet text="Key Relationships" sub="Lily · Ilija Pavlovic · Rick Moeser · Melissa True" />
-          <Bullet text="NYC Contacts" sub="Finance · law · art world" />
+          <Bullet text="NYC Contacts" sub="3 to recruit Q2" />
           <Bullet text="Attorneys" sub="Deal counsel · estate counsel · referral partners" />
           <Bullet text="Recruit Targets" sub="Next agent · timeline · approach" />
         </div>
