@@ -436,7 +436,8 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's East Hampton founding letter PDF.",
     x: 160, y: 1800, r: 18,
-    clickAction: { type: "pdf", label: "Downloading Christie's Letter PDF…", fn: async () => { const a = document.createElement('a'); a.href = '/api/pdf?url=/letters/christies'; a.download = 'christies-letter.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } } },
+    // D65: open live page in new tab — user prints via browser Print dialog (Ctrl+P)
+    clickAction: { type: "pdf", label: "Opening Christie's Letter for print…", fn: async () => { window.open('/letters/christies', '_blank'); } } },
 
   { id: "exp_flagship",
     name: "Flagship Letter",
@@ -444,7 +445,8 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the Christie's Flagship Letter PDF — the internal council document.",
     x: 240, y: 1860, r: 18,
-    clickAction: { type: "pdf", label: "Downloading Flagship Letter PDF…", fn: async () => { const a = document.createElement('a'); a.href = '/api/pdf?url=/letters/flagship'; a.download = 'flagship-letter.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); } } },
+    // D65: open live page in new tab — user prints via browser Print dialog (Ctrl+P)
+    clickAction: { type: "pdf", label: "Opening Flagship Letter for print…", fn: async () => { window.open('/letters/flagship', '_blank'); } } },
 
   { id: "exp_market",
     name: "Market Report",
@@ -452,7 +454,8 @@ const NODES: MapNode[] = [
     type: "EXPORT_NODE", status: "ACTIVE",
     note: "Generates the five-page Christie's East Hampton Market Report PDF using live Market Matrix sheet data at generation time.",
     x: 340, y: 1920, r: 18,
-    clickAction: { type: "pdf", label: "Generating Market Report PDF…", fn: async () => { const res = await fetch('/api/pdf?url=/market'); if (!res.ok) throw new Error('PDF failed'); const blob = await res.blob(); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'Christies_EH_Market_Report.pdf'; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); } } },
+    // D65: open live /market in new tab — user uses DOWNLOAD MARKET PDF button on that page
+    clickAction: { type: "pdf", label: "Opening Market Report for download…", fn: async () => { window.open('/market', '_blank'); } } },
 
   { id: "exp_hamlet",
     name: "Hamlet PDFs x11",

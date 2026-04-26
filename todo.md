@@ -2992,3 +2992,18 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Item 6: Document Council/Cortex 5-seat box location, post to Trello
 - [x] Item 4: Build /cork live route (3×2 grid, North Star band, KPIs, Commandments, Council, 3 live wires, copy fixes, timestamp footer)
 - [x] Final D23 pass-fail matrix: post to Trello card 3vugr84o, checkpoint, tag all commits
+
+## Apr 26 2026 — PDF Architecture Override + Pre-Publish Confirms
+
+- [x] Update Trello card 3vugr84o description with f1d476c3 audit matrix (overwrite 09ff9c93 content)
+- [x] Confirm Ed Bruehl Page 2 label reads AnewHomes 35% * § (effective) — confirmed correct, no change needed
+- [x] Option A: Replace all puppeteer/chromium with jsPDF + html2canvas (D65 ABSOLUTE — no parallel render paths)
+- [x] MarketTab.tsx: replaced fetch('/api/pdf') with captureToPdf(marketRef) — D65 compliant
+- [x] InstitutionalMindMap.tsx: replaced 3 /api/pdf fetch calls with window.open() to live pages
+- [x] server/pdf-route.ts: deleted (dead code — no client callers)
+- [x] server/proforma-generator.ts: deleted (dead code — no client callers)
+- [x] routers.ts: removed generateProForma procedure and proforma-generator import
+- [x] index.ts: removed pdfRouter import, app.use(pdfRouter), and debug/chromium endpoint
+- [x] Vitest 67/67 pass — clean build confirmed
+- [ ] Checkpoint, ping Ed to publish
+- [ ] Post fresh production matrix to card 3vugr84o description after publish

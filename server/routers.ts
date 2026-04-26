@@ -7,7 +7,6 @@ import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
 import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian, readHeadcountTable, readMilestones, readPartnerCards } from './sheets-helper';
-import { generateProFormaPDF } from './proforma-generator';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { FLAGSHIP_LETTER_TEXT, CHRISTIES_LETTER_TEXT } from './letter-content';
@@ -424,14 +423,6 @@ export const appRouter = router({
           officeVolume: y.officeVolume,
         }));
       }),
-    // Generate the 4-page institutional pro forma PDF
-    // Returns base64-encoded PDF bytes for client-side download
-    generateProForma: publicProcedure
-      .mutation(async () => {
-        const pdfBuffer = await generateProFormaPDF();
-        return { pdf: pdfBuffer.toString('base64') };
-      }),
-
     // Build 1 · Endpoint 1: Headcount Scaling Table
     // Source: OUTPUTS!A74:E85 — Year | EH | SH | WH | Total
     // Fallback: hardcoded canonical values if sheet unavailable

@@ -15,7 +15,7 @@
  * Falls back to static hamlet-master.ts values if sheet is unavailable.
  */
 
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { MASTER_HAMLET_DATA, TIER_ORDER, type HamletData, type HamletTier } from '@/data/hamlet-master';
@@ -238,30 +238,19 @@ function HamletDonut({ data }: { data: MergedHamlet[] }) {
   );
 }
 
-// ─── Market Report PDF Button (Puppeteer — SD7 Item Two) ───────────────────────────────────────────────
-// Architecture: GET /api/pdf?url=/market → Puppeteer photographs /market → PDF
-// No jsPDF. No html2canvas. One architecture.
-
-function MarketReportPdfButton() {
+// ─── Market Report PDF Button (D65 — html2canvas screenshot of live render) ────────────────────────────
+// D65 ABSOLUTE: PDF = html2canvas screenshot of live page. No server Chrome. No parallel render paths.
+function MarketReportPdfButton({ marketRef }: { marketRef: React.RefObject<HTMLDivElement | null> }) {
   const [loading, setLoading] = useState(false);
-
   const handleExport = async () => {
+    if (loading) return;
     setLoading(true);
     const toastId = toast.loading('Generating Market Report PDF…');
     try {
-      const res = await fetch('/api/pdf?url=/market');
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({ message: 'Unknown error' }));
-        throw new Error(err.message ?? `HTTP ${res.status}`);
-      }
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const { captureToPdf } = await import('@/lib/capture-pdf');
+      const el = marketRef.current ?? document.body;
       const today = new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-      a.href = url;
-      a.download = `christies-east-hampton-market-${today}.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
+      await captureToPdf(el, `christies-east-hampton-market-${today}.pdf`);
       toast.success('Market Report PDF downloaded', { id: toastId });
     } catch (err: any) {
       console.error('Market Report PDF error:', err);
@@ -529,6 +518,7 @@ function RateEnvironment({ liveMortgageRate, mortgageDate, treasuryRate, treasur
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function MarketTab() {
+  const marketRef = useRef<HTMLDivElement>(null);
   const { data: mortgageData } = trpc.market.mortgageRate.useQuery(undefined, {
     staleTime: 24 * 60 * 60 * 1000, // 24h — matches FRED cache
     retry: false,
@@ -569,7 +559,7 @@ export default function MarketTab() {
   }));
 
   return (
-    <div className="min-h-screen" style={{ background: 'transparent' }}>
+    <div ref={marketRef} className="min-h-screen" style={{ background: 'transparent' }}>
 
 
       {/* ── Market Signal Hero Row: Donut + Rate Environment (two-column) ──────────────────── */}
@@ -613,10 +603,8 @@ export default function MarketTab() {
             </div>
           </div>
 
-          {/* Market Report PDF button — wired per /market PDF button round dispatch (Apr 23 2026).
-               Puppeteer path: GET /api/pdf?url=/market → photographs live /market → PDF.
-               Sprint 14 tombstone superseded by explicit dispatch. */}
-          <MarketReportPdfButton />
+          {/* Market Report PDF button — D65: html2canvas screenshot of live /market render. */}
+          <MarketReportPdfButton marketRef={marketRef} />
           </div>{/* /mount frame */}
         </div>
       </section>

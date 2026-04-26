@@ -12,7 +12,6 @@ import { registerMarketRoute } from "../market-route";
 import { registerWhatsAppRoute, startWhatsAppScheduler } from "../whatsapp-route";
 import { registerWhatsAppInbound } from "../whatsapp-inbound";
 import listingsRouter, { syncListings } from "../listings-sync-route";
-import pdfRouter from "../pdf-route";
 import { registerTtsRoute, warmFlagshipCache } from "../tts-route";
 import cron from "node-cron";
 
@@ -150,36 +149,11 @@ async function startServer() {
   // Listings sync — Christie's API → MAPS tab
   app.use('/api/listings', listingsRouter);
 
-  // PDF render — Puppeteer-based PDF generation for the market report
-  app.use(pdfRouter);
-
   // TTS — ElevenLabs voice synthesis for William floating button (D34 amendment)
   registerTtsRoute(app);
   // Pre-warm the flagship letter audio cache on startup so first click is instant
   const elevenKey = process.env.ELEVENLABS_API_KEY;
   if (elevenKey) warmFlagshipCache(elevenKey);
-
-  // Temporary debug endpoint — check Chromium availability on deployed server
-  app.get('/api/debug/chromium', async (_req, res) => {
-    const { execSync } = await import('child_process');
-    const { existsSync } = await import('fs');
-    const candidates = [
-      '/usr/bin/chromium',
-      '/usr/bin/chromium-browser',
-      '/usr/bin/google-chrome',
-      '/usr/bin/google-chrome-stable',
-      '/usr/local/bin/chromium',
-      '/usr/local/bin/chromium-browser',
-      '/opt/google/chrome/google-chrome',
-      '/snap/bin/chromium',
-    ];
-    const found = candidates.filter(p => existsSync(p));
-    let whichOutput = '';
-    try { whichOutput = execSync('which chromium chromium-browser google-chrome 2>/dev/null || echo none').toString().trim(); } catch { whichOutput = 'exec error'; }
-    let puppeteerPath = '';
-    try { const { default: puppeteer } = await import('puppeteer'); puppeteerPath = puppeteer.executablePath(); } catch (e: unknown) { puppeteerPath = String(e); }
-    res.json({ found, whichOutput, puppeteerPath, env: process.env.NODE_ENV });
-  });
 
   // 6AM daily listing sync (America/New_York)
   cron.schedule('0 0 6 * * *', async () => {
