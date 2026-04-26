@@ -309,7 +309,27 @@ export default function FlagshipLetterPage() {
               </div>
             </div>
 
-            {/* Footer stamp stripped per Dispatch 37 Lane 13 */}
+            {/* P3: Standard site footer added per Dispatch 40 */}
+            <footer style={{
+              borderTop: `1px solid rgba(148,114,49,0.35)`,
+              marginTop: 48,
+              paddingTop: 20,
+              paddingBottom: 24,
+              textAlign: 'center',
+            }}>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 13, letterSpacing: 5, color: GOLD, textTransform: 'uppercase' as const }}>
+                Christie&rsquo;s International Real Estate Group
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 11, letterSpacing: 3, color: '#a0a8b0', marginTop: 6, fontStyle: 'italic' }}>
+                Art &middot; Beauty &middot; Provenance &middot; Since 1766
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 10, letterSpacing: 2, color: '#a0a8b0', marginTop: 8 }}>
+                26 Park Place &middot; East Hampton, NY 11937
+              </div>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: 9, letterSpacing: 2, color: 'rgba(160,168,176,0.6)', marginTop: 6 }}>
+                &copy; 2026 Christie&rsquo;s International Real Estate Group &middot; East Hampton Flagship
+              </div>
+            </footer>
           </>
         )}
       </main>

@@ -44,6 +44,7 @@ import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 import NeighborhoodCardPage from "./pages/NeighborhoodCardPage";
 import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
 import CorkPage from "./pages/CorkPage";
+import MiroPage from "./pages/MiroPage";
 
 // S2 Shell Purge (Apr 23 2026): ProtectedFutureRoute deleted.
 // /future now routes through Dashboard initialTab="future" — gets global nav chrome.
@@ -111,6 +112,17 @@ function App() {
             <Route path="/cards/bike" component={NeighborhoodCardPage} />
             {/* /cork — Christie's Flagship Corkboard live route (D23 Work Order Apr 26 2026) */}
             <Route path="/cork" component={CorkPage} />
+            {/* /miro — Flagship Mind Map (P12 Dispatch 40 Apr 26 2026) */}
+            <Route path="/miro" component={MiroPage} />
+            {/* P12/P14: Phantom route redirects — intentional (Dispatch 40 Apr 26 2026) */}
+            {/* /press — redirect to home (press track is a future build) */}
+            <Route path="/press">{() => { window.location.replace('/'); return null; }}</Route>
+            {/* /q-and-a — redirect to home (Q&A build queued Trello UJfzaOaE) */}
+            <Route path="/q-and-a">{() => { window.location.replace('/'); return null; }}</Route>
+            {/* /reports — redirect to /report (canonical singular) */}
+            <Route path="/reports">{() => { window.location.replace('/report'); return null; }}</Route>
+            {/* /letters/home — redirect to / (HOME letter lives on HOME tab) */}
+            <Route path="/letters/home">{() => { window.location.replace('/'); return null; }}</Route>
             <Route component={Dashboard} />
           </Switch>
           {/* D16: FloatingDashboardIntro moved to Dashboard component, HOME tab only (Apr 19 2026) */}

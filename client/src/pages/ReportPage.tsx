@@ -481,7 +481,7 @@ function Section2() {
     <section className="report-section" data-section-title="Christie's East Hampton · Hamptons Local Intelligence" style={{ background: 'transparent', padding: '0 0 24px' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
-        <SectionLabel n="2" title="Hamptons Local Intelligence" />
+        {/* P4: SectionLabel removed per Dispatch 40 — mirror /market, no section number labels */}
         <div
           style={{
             fontFamily: '"Barlow Condensed", sans-serif',
@@ -753,7 +753,7 @@ function Section3() {
     <section className="report-section" data-section-title="Christie's East Hampton · Market Intelligence" style={{ background: 'transparent', padding: '0 0 24px' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
-        <SectionLabel n="3" title="Market Intelligence" />
+        {/* P4: SectionLabel removed per Dispatch 40 */}
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}
@@ -1187,7 +1187,7 @@ function Section4() {
     <section id="section-hamlet-atlas" className="report-section" data-section-title="Christie's East Hampton · Hamlet Atlas" style={{ background: 'transparent', padding: '0 0 24px' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '28px 32px' }}>
-        <SectionLabel n="4" title="Hamlet Atlas Matrix" />
+        {/* P4: SectionLabel removed per Dispatch 40 */}
         <div
           className="grid gap-2"
           style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', marginBottom: 8 }}
@@ -1307,7 +1307,7 @@ function Section5() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Maps Intelligence" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.2)' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="5" title="MAPS Intelligence" />
+        {/* P4: SectionLabel removed per Dispatch 40 */}
         <div
           className="grid gap-6"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}
@@ -1480,7 +1480,7 @@ function Section6() {
   return (
     <section className="report-section" data-section-title="Christie's East Hampton · Estate Advisory" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderTop: '1px solid rgba(200,172,120,0.18)' }}>
       <div className="px-6 py-14" style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <SectionLabel n="6" title="Resources & Authority" />
+        {/* P4: SectionLabel removed per Dispatch 40 */}
         <div
           className="grid gap-8"
           style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))' }}

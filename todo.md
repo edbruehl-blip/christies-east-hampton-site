@@ -3026,3 +3026,57 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Fix 9: TBD — awaiting Architect amendment
 - [ ] Fix 10: Post R-HAMLET-CARDS-6FIELD 10 copy strings to Trello comment (no code work)
 - [ ] Vitest 67/67 pass, checkpoint, post production matrix to Trello 3vugr84o, ping Ed
+
+## Apr 26 2026 — Dispatch 40 Priorities (4:35 PM EDT · One Commit)
+
+### Lane 1 — HOME / LETTERS / PDF
+- [ ] P1. HOME letter v2 verify — confirm v2 live, zero em-dashes, no "door is always open"
+- [ ] P2. Verify "door is always open" scrubbed from FOUNDING_LETTER_TEXT source
+- [ ] P3. /letters/flagship em-dash scrub + add standard site footer
+- [x] P4. /report live route rebuild — kill v1 letter top, kill SECTION framing, mirror /market
+- [ ] P5. Market PDF capture rebuild — no clipped title, no nav/buttons, no blank pages, 3 vitest tests
+- [ ] P6. Two-PDF-Letters Rule audit — only HOME + Dashboard PDF letters exist
+- [ ] P7. HOME social video chrome reframe — navy 3D mount or static film card
+- [ ] P8. Footer canon drift fix — "Art · Beauty · Provenance · Since 1766" everywhere
+
+### Lane 2 — Visual Canon
+- [ ] P9. Royal blue strip site-wide — ticker $2.34M, /pipe section dividers → navy/charcoal
+- [ ] P10. Footer canon audit every route
+- [x] P11. /maps outer 3D frame (Mounted-Object Rule D8)
+- [x] P12. Build /miro as Flagship Mind Map — mounted Christie's object, center on load, fallback card
+- [ ] P13. Bottom-of-content to footer gap normalize (/maps and /market ~40-60px)
+- [x] P14. Phantom-route audit — /press, /q-and-a, /reports, /letters/home
+- [ ] P15. Kill "CLICK → MARKET REPORT" caption under James Christie portrait on HOME
+- [ ] P16. /pro-forma "PAGE 1 OF 4" labels verify (not v1 SECTION leftover)
+
+### Lane 3 — /cork · /intel · Stewardship · Naming
+- [ ] P17. /cork + /intel Ilija dollar-figure scrub (percentages only)
+- [ ] P18. Q5 + Q6 fix on /cork footer — correct live wire labels
+- [ ] P19. Stewardship single-instance audit on HOME
+- [x] P20. Hamlet card gold market-signal badge KILL
+- [x] P21. Hamlet CTA Option 1 verify on every hamlet card
+
+### Lane 4 — /pipe Fixes
+- [x] P22. /pipe co-broker visibility verify (all names public)
+- [ ] P23. /pipe kill Inactive stat tile from header band
+- [ ] P24. /pipe kill Rentals total tile (section list stays)
+- [ ] P25. /pipe rename "address TBC" → "123 Amagansett"
+- [ ] P26. /pipe rewrite "Lily - Brooklyn 3-Buildings" → "Lily Fan · Brooklyn 3-Building Assemblage"
+- [ ] P27. /pipe Bonita DeWolf capitalization sweep (capital D, capital W)
+- [ ] P28. /pipe status badge Title Case canon
+- [ ] P29. /pipe "Mtk" → "Montauk" everywhere
+
+### Lane 5 — Apex / Trello / Ops
+- [ ] P30. Apex DNS verify
+- [ ] P31. Beacon Seat surfacing — Cap Table v2 + Agent Cards + Pro Forma consistent
+- [ ] P32. Calendar cookie fallback
+- [ ] P33. ANEW Deal Engine save-deal feature
+- [ ] P34. Pipeline source sync verify
+- [x] P35. Trello Start Here card + lane-name verify
+- [ ] P36. /letters/home build or designate
+- [x] P37. Trello orphan delete (5 cards: bOsXNBgA, UfixHIQc, 4FluhUAi, CfMfTn7L, RVMn2g54)
+- [x] P38. Production matrix post to D23 card 3vugr84o
+
+### Lane 6 — /cork Block 7
+- [x] P39. Build Block 7 of 7 on /cork — "HOW WE OPERATE" (7-row operating system map)
+- [x] P40. Block 7 visual treatment matches Blocks 1–6 (navy, gold, mounted-object)

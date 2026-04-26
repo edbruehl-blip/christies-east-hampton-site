@@ -55,8 +55,15 @@ function PaumanokPlate() {
 
   return (
     <div style={{ background: 'transparent', paddingBottom: 32 }}>
-      {/* Framed map */}
+      {/* P11: 3D mounted-object outer frame (Mounted-Object Rule D8) */}
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto', padding: '0 24px' }}>
+        {/* Outer navy 3D mount */}
+        <div style={{
+          background: 'rgba(10,16,30,0.9)',
+          border: '1px solid rgba(148,114,49,0.4)',
+          boxShadow: '0 0 0 1px rgba(148,114,49,0.15), 0 4px 8px rgba(0,0,0,0.4), 0 12px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(148,114,49,0.1)',
+          padding: 6,
+        }}>
         <GoldBlackFrame style={{ overflow: 'hidden' }}>
           <div style={{ height: 2, background: 'linear-gradient(90deg, rgba(200,172,120,0.7) 0%, rgba(200,172,120,0.08) 100%)' }} />
           <MapView
@@ -75,6 +82,7 @@ function PaumanokPlate() {
             }}
             />
         </GoldBlackFrame>
+        </div>
       </div>
     </div>
   );

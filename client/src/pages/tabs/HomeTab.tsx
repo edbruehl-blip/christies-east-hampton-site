@@ -119,24 +119,7 @@ function SectionA() {
                 }}>
                   James Christie · London · 1766
                 </div>
-                {/* Caption line 2 — click to market report */}
-                <div
-                  style={{
-                    fontFamily: '"Barlow Condensed", sans-serif',
-                    fontSize: 8,
-                    color: '#947231',
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    textAlign: 'center',
-                    marginTop: 4,
-                    opacity: 0.65,
-                    cursor: 'pointer',
-                    maxWidth: 146,
-                  }}
-                  onClick={() => navigate('/report')}
-                >
-                  Click → Market Report
-                </div>
+                {/* Caption line 2 — removed per Dispatch 40 P15 */}
               </div>
 
               {/* Letter paragraphs — flow around the float */}
@@ -170,7 +153,7 @@ function AuctionImageMatrix() {
           textAlign: 'center',
           opacity: 0.7,
         }}>
-          Christie's · Art · Luxury · Fine Wine · Since 1766
+          Art · Beauty · Provenance · Since 1766
         </div>
         <div style={{
           display: 'grid',

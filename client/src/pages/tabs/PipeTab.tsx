@@ -179,8 +179,7 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
     { label: 'Offers / Buy-Side',    vol: volByCategory(['OFFER', 'BUY-SIDE', 'BUY SIDE']),  dot: '#947231' },
     { label: 'Pending Listings',     vol: volByCategory(['PENDING']),                         dot: '#e07b39' },
     { label: 'In Contract / Closed', vol: volByCategory(['IN CONTRACT', 'CLOSED']),           dot: '#1B2A4A' },
-    { label: 'Rentals',              vol: volByCategory(['RENTAL']),                          dot: '#384249' },
-    { label: 'Inactive',             vol: volByCategory(['INACTIVE', 'DEAD', 'STALLED']),    dot: '#ccc'    },
+    // Rentals tile removed P24 · Inactive tile removed P23 (Dispatch 40)
   ];
   return (
     <div className="mb-6">

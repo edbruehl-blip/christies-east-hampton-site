@@ -459,6 +459,33 @@ export default function CorkPage() {
           ))}
         </section>
 
+        {/* BLOCK 7 — HOW WE OPERATE (P13/P21: added per Dispatch 40) */}
+        <section style={{ marginBottom: 10 }}>
+          <div style={{ ...s.panel, borderLeft: `4px solid ${C.gold}`, background: 'rgba(27,42,74,0.6)' }}>
+            <h3 style={{ ...s.panelH3, fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' as const }}>⑦ How We Operate</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+              <div>
+                <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Underwrite</div>
+                <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
+                  We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. Every number has a named source. No invented figures.
+                </div>
+              </div>
+              <div>
+                <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Standard</div>
+                <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
+                  We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie's Standard forward — over 250 years of it — in every conversation.
+                </div>
+              </div>
+              <div>
+                <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Gate</div>
+                <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
+                  The operator is the gate. Ed signs off or it does not ship. The platform is the pitch — no decks. Nothing to Manny without a Claude wireframe. God First.
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* FOOTER: Ten Commandments + Council + Contact */}
         <section style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 12 }}>
           <div style={s.panel}>

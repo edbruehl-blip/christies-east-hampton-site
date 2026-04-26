@@ -186,7 +186,7 @@ function AscensionArcChart() {
           CHRISTIE&rsquo;S INTERNATIONAL REAL ESTATE
         </div>
         <div style={{ ...SERIF, fontSize: 12, color: '#ebe6db', letterSpacing: 4, marginTop: 10, fontStyle: 'italic', opacity: 0.7 }}>
-          Art &middot; Beauty &middot; Provenance
+          Art &middot; Beauty &middot; Provenance &middot; Since 1766
         </div>
         <div style={{ ...SERIF, fontSize: 14, color: C_WH, letterSpacing: 8, marginTop: 14, fontWeight: 600 }}>
           SINCE 1766
@@ -449,8 +449,7 @@ function BrandFooter() {
   return (
     <div style={{ textAlign: 'center', paddingTop: 7, borderTop: `1px solid ${borderColor}`, position: 'relative', marginTop: 8 }}>
       <div style={{ ...SERIF, fontSize: 11, letterSpacing: 5, color: textColor }}>{`CHRISTIE'S INTERNATIONAL REAL ESTATE`}</div>
-      <div style={{ ...SERIF, fontSize: 8.5, letterSpacing: 2.5, fontStyle: 'italic', color: mutedColor, marginTop: 2 }}>Art &middot; Beauty &middot; Provenance</div>
-      <div style={{ ...SERIF, fontSize: 10, letterSpacing: 7, color: C_WH, marginTop: 3, fontWeight: 600 }}>SINCE 1766</div>
+      <div style={{ ...SERIF, fontSize: 8.5, letterSpacing: 2.5, fontStyle: 'italic', color: mutedColor, marginTop: 2 }}>Art &middot; Beauty &middot; Provenance &middot; Since 1766</div>
     </div>
   );
 }
