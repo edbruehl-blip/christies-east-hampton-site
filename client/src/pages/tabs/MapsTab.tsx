@@ -179,7 +179,7 @@ function ResultsPanel({ result, onExport }: { result: AnewOutput; onExport: (typ
     <MatrixCard variant="navy" className="p-6">
       <div className="flex items-center justify-between mb-5 pb-4 border-b border-[rgba(200,172,120,0.2)]">
         <div className="flex items-center gap-3">
-          <img src={ED_HEADSHOT_PRIMARY} alt="Ed Bruehl — Managing Director" className="h-10 w-10 rounded-full object-cover object-top border border-[rgba(200,172,120,0.35)]" />
+          <img src={ED_HEADSHOT_PRIMARY} alt="Ed Bruehl · Managing Director" className="h-10 w-10 rounded-full object-cover object-top border border-[rgba(200,172,120,0.35)]" />
           <div>
             <div className="text-[var(--color-cream)] text-[0.8rem] font-semibold" style={{ fontFamily: '"Cormorant Garamond", serif' }}>Ed Bruehl</div>
             <div className="text-[rgba(200,172,120,0.7)] text-[0.6rem] uppercase tracking-[0.14em]" style={{ fontFamily: '"Barlow Condensed", sans-serif' }}>Managing Director · Christie's East Hampton</div>
@@ -449,7 +449,7 @@ function HamletMatrixCard({ hamlet, onExpand, isExpanded, liveListings }: { haml
       // Lane 6: captureToPdf replaces bespoke generateMarketReport
       const el = document.getElementById(`hamlet-card-${hamlet.id}`);
       if (el) await captureToPdf(el, `christies-${hamlet.id}-report.pdf`);
-      else toast.info('Capture element not found — scroll to hamlet and try again.');
+      else toast.info('Capture element not found. Scroll to hamlet and try again.');
       toast.success('PDF downloaded', { id: toastId });
     } catch (err) {
       console.error('Hamlet PDF error:', err);
@@ -689,7 +689,7 @@ function NeighborhoodCardLink() {
             Neighborhood Card
           </div>
           <div style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(235,230,219,0.7)', fontSize: '0.78rem', marginTop: 3 }}>
-            East Hampton hamlet guide — bike routes, landmarks, and local intelligence.
+            East Hampton hamlet guide: bike routes, landmarks, and local intelligence.
           </div>
         </div>
         <button

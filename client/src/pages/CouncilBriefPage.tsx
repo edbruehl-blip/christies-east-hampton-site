@@ -1,4 +1,5 @@
 import React from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 
 // D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
@@ -343,6 +344,7 @@ export default function CouncilBriefPage() {
           {COUNCIL_BRIEF_DATE}
         </span>
       </div>
+      <SiteFooter />
     </div>
   );
 }

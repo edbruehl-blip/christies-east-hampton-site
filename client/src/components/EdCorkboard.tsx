@@ -152,16 +152,16 @@ export function EdCorkboard() {
         {/* Q1 — START HERE (public visitor orientation) */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.deepRed}`, background: 'rgba(139,38,53,0.18)' }}>
           <h3 style={{ ...s.panelH3, color: C.cream }}>⓪ START HERE</h3>
-          <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.55, marginBottom: 6, fontStyle: 'italic' }}>— How to read this board —</div>
-          <Bullet text="The Mind Map lives in Trello" sub="Layer 1 — the cause-and-effect shape" />
-          <Bullet text="The 13 Sheets live in Drive" sub="Layer 3 — the operational surface" />
+          <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.7)', lineHeight: 1.55, marginBottom: 6, fontStyle: 'italic' }}>How to read this board</div>
+          <Bullet text="The Mind Map lives in Trello" sub="Layer 1 · the cause-and-effect shape" />
+          <Bullet text="The 13 Sheets live in Drive" sub="Layer 3 · the operational surface" />
           <Bullet text="The Corkboard lives here" sub="The one-page daily snapshot" />
-          <Bullet text="The Live Site" sub="christiesrealestategroupeh.com — the public face" />
+          <Bullet text="The Live Site" sub="christiesrealestategroupeh.com · the public face" />
           <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, margin: '6px 0 4px', letterSpacing: '0.08em' }}>THE LIVE URL IS THE SOURCE OF TRUTH.</div>
           <Bullet text="Ed thirty-five · Ilija sixty-five" sub="Two parties at the pool" />
           <Bullet text="The platform is the pitch" sub="No decks" />
           <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.6)', marginTop: 6, lineHeight: 1.5, fontStyle: 'italic' }}>Read clockwise: Standard → Pipeline → Network → Calendar → Focus → North Star</div>
-          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.82)', marginTop: 8, lineHeight: 1.65, fontStyle: 'italic', borderTop: '1px solid rgba(148,114,49,0.22)', paddingTop: 7 }}>“We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie’s Standard forward — over 250 years of it — in every conversation.”</div>
+          <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.82)', marginTop: 8, lineHeight: 1.65, fontStyle: 'italic', borderTop: '1px solid rgba(148,114,49,0.22)', paddingTop: 7 }}>“We underwrite homes the way a banker underwrites a portfolio: replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie’s Standard forward, over 250 years of it, in every conversation.”</div>
         </div>
 
         {/* Q2 — THE STANDARD */}
@@ -200,7 +200,7 @@ export function EdCorkboard() {
           <Bullet text="Wednesday Circuit" sub="Recurring · brokers + culture + rhythm" />
           <div style={s.subLabel}>Team Dates</div>
           {[
-            ['Angel active', 'April 2026'],
+            ['Angel', 'Active'],
             ['Public Launch', 'April 29'],
             ['Zoila starts', 'May 4'],
             ['Scott starts', 'June 1'],

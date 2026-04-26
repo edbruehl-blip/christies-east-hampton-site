@@ -849,7 +849,7 @@ export function InstitutionalMindMap() {
           textTransform: "uppercase",
           color: "rgba(250,248,244,0.4)",
         }}>
-          Institutional Mind Map · Two Parallel Tracks · April 2026
+          Institutional Mind Map · Two Parallel Tracks
         </p>
       </div>
 

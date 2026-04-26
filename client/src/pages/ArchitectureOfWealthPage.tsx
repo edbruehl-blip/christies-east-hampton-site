@@ -13,6 +13,7 @@
  */
 
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
+import { SiteFooter } from '@/components/SiteFooter';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
 const NAVY  = '#1B2A4A';
@@ -531,6 +532,7 @@ export default function ArchitectureOfWealthPage() {
         }
       `}</style>
 
+      <SiteFooter />
     </div>
   );
 }

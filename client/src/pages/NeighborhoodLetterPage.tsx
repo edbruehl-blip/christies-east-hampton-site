@@ -13,6 +13,7 @@
  */
 
 import { useEffect } from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 
 // D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single cream render path.
 const PARAGRAPHS = [
@@ -157,6 +158,7 @@ export default function NeighborhoodLetterPage() {
       </div>
 
 
+      <SiteFooter />
     </div>
   );
 }

@@ -257,13 +257,13 @@ const VIDEO_REEL = [
     key: 'v1',
     src: '/manus-storage/v1_april3_2026_7d954a08.mov',
     title: 'A Life Less Ordinary',
-    label: "Christie's East Hampton — Life Less Ordinary",
+    label: "Christie's East Hampton · Life Less Ordinary",
   },
   {
     key: 'v2',
     src: '/manus-storage/v2_jan22_2026_3820cf1c.mov',
     title: "Christie's Estate Services",
-    label: "Christie's — Estate & Collection Services",
+    label: "Christie's · Estate & Collection Services",
   },
   {
     key: 'v0',
@@ -334,7 +334,8 @@ function SectionVideoReel() {
 
 
 // ─── HomeTab default export ───────────────────────────────────────────────────
-// ORDER: Letter → Image Matrix → Video Reel → Authority Block
+// ORDER: Letter → Image Matrix → Video Reel
+// P-41B.2: SectionChristiesStory (Authority block) removed — canon kill Apr 26 2026.
 // NOTE: SiteFooter is rendered by DashboardLayout — do NOT add it here (H1 · Shell Purge P2)
 export default function HomeTab() {
   return (
@@ -342,7 +343,6 @@ export default function HomeTab() {
       <SectionA />
       <AuctionImageMatrix />
       <SectionVideoReel />
-      <SectionChristiesStory />
     </div>
   );
 }

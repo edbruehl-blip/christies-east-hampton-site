@@ -262,13 +262,13 @@ const TRELLO_LANES = [
   { name: 'THIS WEEK',                    count: 6  },
   { name: 'ACTIVE PIPELINE',              count: 22 },
   { name: 'RECRUITS',                     count: 28 },
-  { name: 'PROJECTS — Website & Systems', count: 28 },
+  { name: 'PROJECTS · Website & Systems', count: 28 },
   { name: 'FLAGSHIP TEAM',                count: 7  },
   { name: 'BROKER ONBOARDING',            count: 2  },
   { name: "CHRISTIE'S NETWORK",           count: 18 },
   { name: 'EAST HAMPTON OFFICE',          count: 5  },
-  { name: 'KEY CLIENTS — Whales',         count: 8  },
-  { name: 'CASE STUDY — James Christie',  count: 3  },
+  { name: 'KEY CLIENTS · Whales',         count: 8  },
+  { name: 'CASE STUDY · James Christie',  count: 3  },
   { name: 'DOCTRINE LIBRARY',             count: 53 },
   { name: 'FLAGSHIP LETTER ARCHIVE',      count: 2  },
   { name: 'Market Intelligence Reports',  count: 6  },
@@ -295,7 +295,7 @@ function TrelloLayer() {
               Layer 2 · Structural Architecture
             </div>
             <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: CREAM, fontWeight: 400, fontSize: '1.35rem', margin: 0, letterSpacing: '0.04em' }}>
-              Christie's East Hampton — Command Board
+              Christie's East Hampton · Command Board
             </h3>
             <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: MUTED, fontSize: 11, marginTop: 4 }}>
               213 cards · 16 lists · Live Trello board
@@ -594,21 +594,21 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'office-pipeline',
     name: 'Office Pipeline',
-    description: 'Live deal tracker — active deals across all ten canonical hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
+    description: 'Live deal tracker: active deals across all ten canonical hamlets. Status, price, hamlet, agent, and notes. Drives the PIPE tab in real time.',
     sheetId: SHEET_IDS.officePipeline,
     badge: 'PIPE Tab',
   },
   {
     id: 'market-matrix',
     name: 'Market Matrix',
-    description: 'Ten-hamlet market data matrix — 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
+    description: 'Ten-hamlet market data matrix: 2025 medians, dollar volume share, sales counts, and four-year direction. Drives the MARKET tab.',
     sheetId: SHEET_IDS.marketMatrix,
     badge: 'MARKET Tab',
   },
   {
     id: 'future-agents',
     name: 'Future Agents Recruiting',
-    description: 'Tier 1 and Tier 2 agent recruiting targets — status, firm, territory, and outreach cadence. Jarvis Top Agents audience.',
+    description: 'Tier 1 and Tier 2 agent recruiting targets: status, firm, territory, and outreach cadence. Jarvis Top Agents audience.',
     sheetId: SHEET_IDS.agentRecruiting,
     badge: 'INTEL Layer 2',
   },
@@ -629,21 +629,21 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'event-calendar',
     name: 'Event Calendar',
-    description: 'All Christie\'s East Hampton events — Private Collector Series, caravan, office meetings, and community events. Syncs to Google Calendar via Apps Script.',
+    description: 'All Christie\'s East Hampton events: Private Collector Series, caravan, office meetings, and community events. Syncs to Google Calendar via Apps Script.',
     sheetId: SHEET_IDS.event,
     badge: 'INTEL Layer 2',
   },
   {
     id: 'podcast-calendar',
     name: 'Podcast Calendar',
-    description: 'Weekly podcast episode schedule — guest, topic, recording date, and publication date. Angel\'s production master.',
+    description: 'Weekly podcast episode schedule: guest, topic, recording date, and publication date. Angel\'s production master.',
     sheetId: SHEET_IDS.podcast,
     badge: 'INTEL Layer 2',
   },
   {
     id: 'hamptons-outreach',
     name: 'Hamptons Outreach Intelligence',
-    description: 'UHNW targeting intelligence — Tier A and Tier B principals, outreach sequence, campaign playbook, and Christie\'s Neighborhood Card mailer list. Master sheet with 10 tabs.',
+    description: 'UHNW targeting intelligence: Tier A and Tier B principals, outreach sequence, campaign playbook, and Christie\'s Neighborhood Card mailer list. Master sheet with 10 tabs.',
     sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
     badge: 'Internal',
   },
@@ -652,7 +652,7 @@ const NINE_SHEETS: SheetEntry[] = [
   {
     id: 'outreach-uhnw-oceanfront',
     name: 'UHNW Oceanfront · 314-Property Outreach List',
-    description: '314 oceanfront UHNW principals — Tier A and Tier B. Column T: MAGAZINE TIER 1 (being populated by Perplexity). Active outreach campaign list. Angel uses weekly.',
+    description: '314 oceanfront UHNW principals: Tier A and Tier B. Column T: MAGAZINE TIER 1 (being populated by Perplexity). Active outreach campaign list. Angel uses weekly.',
     sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
     badge: 'Outreach · Active',
   },
@@ -672,7 +672,7 @@ const NINE_SHEETS: SheetEntry[] = [
   },
   {
     id: 'outreach-sop-angel',
-    name: 'SOP — Angel · Weekly Mail Campaign',
+    name: 'SOP · Angel · Weekly Mail Campaign',
     description: 'Standard operating procedure for the weekly mail campaign. Angel\'s weekly production schedule, mailing cadence, and execution checklist.',
     sheetId: SHEET_IDS.hamptonsOutreachIntelligence,
     badge: 'SOP · Angel',
@@ -690,7 +690,7 @@ function NineSheetMatrix() {
           Canonical Data Sources
         </div>
         <div className="mb-6 text-xs" style={{ fontFamily: '"Source Sans 3", sans-serif', color: 'rgba(250,248,244,0.85)' }}>
-          Thirteen Google Sheets powering the Christie's East Hampton platform — nine canonical data sources plus four active operational tabs from the Hamptons Outreach Intelligence sheet. Each opens directly in Google Sheets.
+          Thirteen Google Sheets powering the Christie's East Hampton platform: nine canonical data sources plus four active operational tabs from the Hamptons Outreach Intelligence sheet. Each opens directly in Google Sheets.
         </div>
 
         <div className="grid grid-cols-1 gap-3" style={{ maxWidth: 860 }}>
@@ -798,19 +798,19 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   {
     id: 'estate-advisory-card',
     label: 'Estate Advisory Card · PDF',
-    description: 'Christie\'s East Hampton estate advisory card — client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie\'s meeting.',
+    description: 'Christie\'s East Hampton estate advisory card: client-facing credential document. CIREG brand, Ed Bruehl, doctrine lines. Send as PDF in 30 seconds from any Christie\'s meeting.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/christies-estate-advisory-card_e0fc3254.pdf',
     pinned: true,
   },
   {
     id: '300day-ascension',
     label: '300-Day Ascension Plan · Wireframe',
-    description: 'Full 300-day growth arc from foundation through market authority — agent recruitment, GCI targets, institutional positioning milestones.',
+    description: 'Full 300-day growth arc from foundation through market authority: agent recruitment, GCI targets, institutional positioning milestones.',
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/WXzEqCTtWmVsElaB.html',
   },
   {
     id: 'market-report-live-v2',
-    label: 'Christie\'s Hamptons Live Market Report · April 2026',
+    label: 'Christie\'s Hamptons Live Market Report',
     description: 'Full live market report wireframe — six sections, hamlet atlas, ANEW intelligence, rate environment, and resources. Council-approved March 29, 2026.',
 
     url: 'https://files.manuscdn.com/user_upload_by_module/session_file/115914870/vevzqEIvPqAYOdHz.html',
@@ -825,14 +825,14 @@ const DOCUMENT_LIBRARY: DocItem[] = [
   // P2 — Sprint 12: UHNW assets hosted on Manus CDN
   {
     id: 'uhnw-backend-strategy',
-    label: 'Modern Day Path · UHNW Backend Strategy · April 2026',
+    label: 'Modern Day Path · UHNW Backend Strategy',
     description: 'UHNW targeting intelligence — Tier A and Tier B principals, art-secured lending pathway, Christie’s auction house referral architecture, and the Christie’s Neighborhood Card mailer playbook. Art-secured lending terminology applied throughout.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Modern_Day_Path_UHNW_Backend_Strategy_56d7c1aa.pdf',
     pinned: true,
   },
   {
     id: 'intelligence-web-canonical',
-    label: 'Christie’s Intelligence Web · Canonical Map · April 2026',
+    label: 'Christie’s Intelligence Web · Canonical Map',
     description: 'Full institutional relationship map — 47 entities across RECRUIT, WHALE, COMPETITOR, PARTNER, ATTORNEY, ADVISOR, MEDIA, INSTITUTION, and COUNCIL types. Interactive spiderweb visualization. Frank Newbold: RELATIONSHIP_INTELLIGENCE · Brand tier.',
     url: 'https://d2xsxph8kpxj0f.cloudfront.net/115914870/Acqj9Wc4PB2323zvtzuKaz/Christies_Intelligence_Web_Locked_7c609b20.html',
     pinned: true,

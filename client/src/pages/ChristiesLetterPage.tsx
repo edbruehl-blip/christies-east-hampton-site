@@ -12,6 +12,7 @@
  * Route: /letters/christies (registered in App.tsx)
  */
 import { trpc } from '@/lib/trpc';
+import { SiteFooter } from '@/components/SiteFooter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
@@ -306,6 +307,7 @@ export default function ChristiesLetterPage() {
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600&display=swap');
         /* D65: @media print cream overrides removed. PDF = html2canvas screenshot of live page. */
       `}</style>
+      <SiteFooter />
     </div>
   );
 }

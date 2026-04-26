@@ -12,6 +12,7 @@
  * ?pdf=1 → download bar hidden, clean rendering for Puppeteer.
  */
 import { useState } from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 
 // D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
 
@@ -580,6 +581,7 @@ export default function NeighborhoodCardPage() {
         </div>
 
       </div>
+      <SiteFooter />
     </div>
   );
 }

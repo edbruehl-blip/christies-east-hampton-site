@@ -11,6 +11,7 @@
  * Route: /letters/flagship (registered in App.tsx)
  */
 import { trpc } from '@/lib/trpc';
+import { SiteFooter } from '@/components/SiteFooter';
 import { JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
@@ -362,6 +363,7 @@ export default function FlagshipLetterPage() {
           header { background: transparent !important; border-bottom: 1px solid #947231 !important; }
         }
       `}</style>
+      <SiteFooter />
     </div>
   );
 }

@@ -10,6 +10,7 @@
  * Live embed: https://miro.com/app/live-embed/uXjVGj6Oc40=/
  */
 import { useState } from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const NAVY  = '#1B2A4A';
 const GOLD  = '#947231';
@@ -245,6 +246,7 @@ export default function MiroPage() {
         </span>
       </footer>
 
+          <SiteFooter />
     </div>
   );
 }

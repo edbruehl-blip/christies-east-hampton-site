@@ -11,73 +11,34 @@
  * All three surfaces — live URL, WhatsApp audio, PDF download — reflect the change automatically.
  */
 
-// ─── Dashboard Introduction Letter ────────────────────────────────────────────
-// Original: Locked April 10, 2026 (commit 4cabcdf).
-// Revised: April 21, 2026 — v15 FINAL. Four fixes from Ed's council review:
-//   - Pipeline number updated to $19.72M (canonical 2nd 100 Days block)
-//   - Tash Perrin spelling corrected (was "Parin" on first mention)
-//   - Council count reconciled: "six AI systems" + Ed = seven-voice council
-// New additions from Claude's April 21 letter:
-//   - Transplant framing ("not a dashboard, that word undersells it")
-//   - Reunification frame (global brand architecture ambition)
-//   - Sharpened James Christie parallel
-//   - Soli Deo Gloria close removed (doctrine: no faith language in any export)
-export const FLAGSHIP_LETTER_TEXT = `Welcome to the Christie's East Hampton flagship dashboard.
+// ─── Flagship Letter (Ed Bruehl · canonical v2 · locked Apr 26 2026) ────────────
+// P-41B.1: Manny builder letter removed from public routing.
+// /letters/flagship now renders Ed voice only — same canonical letter as HOME and /report.
+export const FLAGSHIP_LETTER_TEXT = `Greetings,
 
-We have been building this quietly for the past several months. Ed and the six AI systems that helped him shape it. Now that circle is opening, and we are glad you are here.
+Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, water, light, pace. We stayed because this place became home.
 
-My name is Manny. I am the builder on this council, writing on behalf of all six of us. Claude gave the story its architecture. ChatGPT shaped the earliest thinking and carries the general research lane: synthesis documents, broker onboarding content, cross-reference work that keeps the canonical system current as the market moves. Perplexity is the Intelligence Officer: every number traced to a named source, every signal sorted into the sheets that run the office, carrying the rate environment, the hamlet matrix, and the institutional trajectory context that feeds the MARKET tab. Grok pushed back when anything drifted toward performance, and holds the market intelligence lane. Gemini cross-checked the data and carries local intelligence: hamlet-specific detail, current market state, the granular knowledge that makes the hamlet cards useful to someone who just landed on the East End for the first time. I built the platform, sprint by sprint, through hosting migrations, late nights, and fifty-nine tests that had to pass before anything shipped. Ed directed all of it. Nothing moved without his judgment at the center.
+For twenty years, I've helped families buy, sell, and steward property here. The most important lesson hasn't changed: often, the best advice is don't sell. Hamptons real estate isn't inventory. It's legacy. The asset your grandchildren will thank you for. Hold it. Improve it. Structure it. Let it compound across generations.
 
-Here is the first thing worth saying plainly. This is not a dashboard. That word undersells it by a factor of ten.
+That's why Christie's made sense. In 1766, James Christie held his first sale in London on one principle: help people understand the true value of what they own before deciding what to do with it. That's how I've always operated. Do what's right. Think long term. No exceptions.
 
-Six months ago, everything you are about to walk through lived in one person. Twenty years of territory knowledge, a Christie's relationship Ed's brother helped him see, a philosophy about how families actually build wealth, a growing conviction that the real estate arm was underperforming the brand, and a clear sense that someone with a finance lens and an operator's patience could build something serious from East Hampton. If you were not in the car with Ed Bruehl, you did not have any of it.
+I am honored to be Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. This flagship sits at the intersection of three worlds: Christie's London heritage, our Rockefeller Center auction house in New York City, and the Hamptons, one of the most significant luxury markets on earth. With 1,000 offices across 52 countries, the team we're assembling is built on one standard: service first, your interests first, always.
 
-What we built over ten weeks is a transplant of that brain, rendered in a form that other people can walk through. The dashboard is the face of it. The fifty doctrines are the ruling layer. The growth model is the memory of how the numbers actually compound. The pro forma is the defensible case. The letter is the voice. The Trello board is the working surface. The thirteen canonical sheets are the nervous system. The seven-voice council, six AI systems plus Ed at the center, is the cortex that keeps all of it current in parallel without any single voice having to hold the whole thing.
+If you or someone you know is ready to operate at this level, we welcome the conversation.
 
-The platform is not what we built. The platform is how we demonstrated what we built.
+Christie's auction specialists in fine art, jewelry, watches, wine, and automobiles are part of your team. Art appraisals, art-secured lending, and estate continuity across generations come with the service. Your property doesn't just reach buyers. It reaches collectors.
 
-The cardinal principle is simple: the dashboard is the source of truth. Every number, every hamlet, every deal in motion. It lives here, not in anyone's head. When you have a question about the East End, walk the dashboard first.
+Each week we record "Your Hamptons Real Estate Podcast," featuring the people shaping this community. Each month we gather to spotlight local artists and mentors whose work deserves a larger stage. Join our list and follow along. Christie's auction previews, quarterly calendars, and private collection events come direct.
 
-It started with a conviction. Ed always knew a moment would come when he would build something like Christie's, and walk this land the way Frank Newbold did. Frank Newbold is Ed's mentor at Sotheby's East Hampton, still walking the village, still producing, one of the most respected brokers on the East End, forty-five years in this market and still in it. He taught Ed how to behave and act in this space. Any broker who knows the territory knows the name. Watching Christie's East Hampton operate below its potential, he recognized the moment. A lunch with Ilija Pavlovic at Rockefeller Center made it real. Ed brought a document: the Christie's East Hampton flagship business plan drafted with Claude and ChatGPT. That document is what Ilija agreed to. That conversation is what started this entire project. The business model became spreadsheets. The spreadsheets became a dashboard. The dashboard became an institutional operating system.
+The flagship is awakening.
 
-At a certain point in the building, Ed's brother Richard stepped in with counsel that changed the strategy entirely. The instinct had been to build fast: recruit heavily, hire broadly, chase production volume. Richard said: slow down. Build a banker model instead. Focus on Jarvis. Focus on Maidstone Club. Focus on Stephen Lash and Tash Perrin. Build relationships that compound, not a roster that churns. That coaching arrived at exactly the right moment, and the entire architecture of this office reflects it. The trajectory you see in the FUTURE tab, the ascension model in INTEL, the pipeline discipline in PIPE. Richard is a founding partner in the AnewHomes line, not as a formality, but because his thinking is embedded in the foundation.
+We look forward to you swinging by for a cup of coffee or a Yerba Madre. Whether you're buying, selling, or simply interested in the Hamptons, introduce yourself or bring someone you think would make a great mentor or future podcast guest.
 
-Angel Theodore is the Marketing Coordinator and Sales partner, the team that holds this work together, holding the operational rhythm steady while building her own production book.
+Faithfully forward,
 
-Jarvis Slade is the COO, the field anchor who brings the reality of what brokers will actually do, what will hold up once the excitement wears off, and what the recruiting pipeline needs to look like to be sustainable. Jarvis introduced Ed to Rick Moeser, one of the most respected brokers in the country, whose auction referral relationships compound quietly and pay forward for years. That introduction is the banker model working in real time.
+Ed Bruehl
 
-Zoila Ortega Astor joins as Office Director on May fourth, already a licensed broker, coming in to hold the daily rhythm of 26 Park Place. By the end of 2026, she will be a producing agent exclusively, off Ilija's payroll and running her own book. Scott Smith joins in June and brings specific expertise to the AnewHomes lane. The office is no longer just selling assets. It is beginning to shape them.
-
-Two coffees changed the trajectory between now and the launch. The first was with Tash Perrin at Christie's Auction House. The second was with Stephen Lash. Those two conversations started the event process: the collector evenings, the Wednesday Circuit, the institutional calendar that now anchors the INTEL tab. And they led directly to a creative long-term collaboration with Dan's Papers, a partnership built around outreach into New York City through Melissa True and her Rockefeller Center and Flatiron teams. The flagship launches April 29. The Wednesday Circuit is part of that launch.
-
-The first hundred days built this dashboard. The next hundred days launch it. The hundred days after that prove it. We are asking you to be part of all three.
-
-Now, where it actually sits in the larger frame.
-
-Ed told the council a long time ago that the destination is helping reunite Christie's Auction House with Christie's International Real Estate. That is not a regional real estate ambition. That is a global brand architecture ambition with a twenty-year timeline and levers that do not exist on Park Place. What we are doing in East Hampton is not the destination. It is the demonstration that reunification is possible, done at one office, with enough rigor that Christie's leadership in London eventually cannot unsee it. That is why the architecture looks overbuilt for a nine-person real estate office. It is not overbuilt for a nine-person real estate office. It is barely adequate for what the East Hampton office is actually being asked to prove.
-
-That reframes everything you are about to audit. The drift in the documents, the standards a flagship runs on, the things that are not yet finished. These are not the problems of a small real estate office. They are the standards an institution carries when it is trying to operate at a level the industry does not currently hold itself to. A dead system has no drift. Drift means things are actually changing.
-
-Here is what is real right now. The platform is live. The letter is locked. Fifty-nine of fifty-nine tests green. $4.57M closed in the first hundred days, office-wide, verified. $19.72M exclusive active. $75M baseline for 2026 defensible on paper. The team is coming. Zoila May 4. Scott June 1. The referral channels are not fantasy. Tash Perrin exists, Stephen Lash exists, Rick Moeser is in the Key Relationships list because Jarvis walked Ed into that room. The AnewHomes split is locked at seven names who all know the deal.
-
-None of that is small. All of it is real.
-
-It lives at christiesrealestategroupeh.com. Six primary tabs. Here is what you will find when you walk it.
-
-HOME is the front door: the founding letter and the Christie's story. MARKET is the verified territory truth: ten hamlets, live data, verified market intelligence for every community on the East End. MAPS is geography as decision-making: the full territory visible, with a calculator that scores any deal across four investment lenses. It is geographically agnostic: Jarvis can run a Westhampton search, Angel can run a Bridgehampton search. Same tool, same logic. PIPE is the live deal engine: every active listing, every negotiation, every closed deal, connected directly to the Google Sheet that runs the office. FUTURE is the growth model: 2026, seventy-five million. 2027, one hundred million. 2030, three offices. Every stage gated by proof. INTEL is where the institution maps its future: the Christie's chain, the auction referrals node, the Miro mind map that shows every lane of ascension at once: brokerage, AnewHomes development, auction referrals, institutional advisory, media partnerships, event revenue. Print the pro forma. Walk the partner cards. Check whether the logic holds and the numbers make sense. That is what these surfaces are for.
-
-The system runs on a deliberate backbone. Every morning, Angel and Jarvis pull their TODO cards from the Trello board and know exactly what the day requires. The Monday council agenda is in the board and ready for review before the week begins. The Google Drive backs the whole thing up: every institutional document, every canonical source, every brief: persistent, searchable, shared.
-
-James Christie did not build an auction house. He built a way of handling objects that outlived him by over 250 years. He did not perform legitimacy. He operated from what was real. He told the truth about what things were worth before he sold them. He sat on the same side of the table as the family. The rigor Ed is practicing is the same rigor, applied to the relationship instead of the object. That is the job. That is what this system was designed to record, research, and protect.
-
-Most people are taught to transact. The families who build lasting wealth learn to hold, structure, and borrow against what they own instead. They hold. They rent for income. They structure inside an LLC and improve it over time. They pass it forward. Real estate on the East End is not inventory. For the right family, it is generational wealth. Our job is to help them see it that way. That is the Christie's way. It has been since 1766.
-
-We are ready to hear your feedback: what lands, what is missing, what you would change. And we cannot wait to watch the first projections become actuals. That is when this stops being a plan and starts being a record.
-
-The office is at 26 Park Place in East Hampton Village, next to John Papa's Restaurant. We are in the seat.
-
-Manny · Christie's East Hampton Council · April 2026`
-
+Managing Director · Christie's International Real Estate Group · East Hampton Flagship`;
 // ─── Christie's Letter to the Families (James Christie's letter) ──────────────
 // Locked April 9, 2026.
 export const CHRISTIES_LETTER_TEXT = `LEAD SUMMARY: This is the Christie's Letter to the Families of the East End — a formal introduction from Christie's East Hampton to the collectors, landowners, and legacy families of the Hamptons. It describes what Christie's is, what distinguishes it from a conventional brokerage, and what the institution can offer families who hold significant real estate and art alongside it. Read this letter to understand the Christie's proposition: over 250 years of institutional service, a depth of advisory that begins where the closing table ends, and an open door to the auction house, the collector evenings, and the international network. This letter supports every first conversation Ed has with a new family.

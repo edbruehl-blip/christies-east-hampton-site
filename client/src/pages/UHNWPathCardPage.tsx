@@ -13,6 +13,7 @@
  */
 
 import { useState } from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 // D65 Strict (Apr 23 2026): useIsPdfMode deleted. Single dark-navy render path.
 
 // ─── Brand tokens ──────────────────────────────────────────────────────────────
@@ -317,6 +318,7 @@ export default function UHNWPathCardPage() {
         }
         @page { size: landscape; margin: 0.25in; }
       `}</style>
+      <SiteFooter />
     </div>
   );
 }

@@ -683,7 +683,7 @@ export default function FutureTab() {
                 lbl: '2ND 100 DAYS', st: 'DOING', dt: 'Mar – Apr 29, 2026',
                 sh: '$19.72M in exclusive listings. 25 Horseshoe Road $5.75M in contract. 191 Bull Path $3.60M active. Two additional closings this quarter.',
                 cl: "Stephen Lash engaged. Dan's Papers pilot with Schneps Media in motion. NYC outreach through Melissa True, Rockefeller and Flatiron desks.",
-                tm: 'Jarvis Slade joined as COO · Licensed Real Estate Salesperson. Angel Theodore active · April 2026. Zoila Ortega Astor starts May 4. Flagship relaunch April 29.',
+                tm: 'Jarvis Slade joined as COO · Licensed Real Estate Salesperson. Angel Theodore · Active. Zoila Ortega Astor starts May 4. Flagship relaunch April 29.',
               },
               {
                 accent: '#c8946b',

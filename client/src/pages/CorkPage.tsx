@@ -15,6 +15,7 @@
  * Dynamic as-of timestamp footer matches /pipe style.
  */
 import React, { useMemo } from 'react';
+import { SiteFooter } from '@/components/SiteFooter';
 import { trpc } from '@/lib/trpc';
 
 // ─── Design tokens (same as EdCorkboard) ─────────────────────────────────────
@@ -249,7 +250,7 @@ export default function CorkPage() {
             <Bullet text="The Mind Map lives in Trello" sub="Layer 1 — the cause-and-effect shape" />
             <Bullet text="The 13 Sheets live in Drive" sub="Layer 3 — the operational surface" />
             <Bullet text="The Corkboard lives here" sub="The one-page daily snapshot" />
-            <Bullet text="The Live Site" sub="christiesrealestategroupeh.com — the public face" />
+            <Bullet text="The Live Site" sub="christiesrealestategroupeh.com · the public face" />
             <div style={{ fontSize: 9, color: C.gold, fontWeight: 700, margin: '6px 0 4px', letterSpacing: '0.08em' }}>
               THE LIVE URL IS THE SOURCE OF TRUTH.
             </div>
@@ -260,7 +261,7 @@ export default function CorkPage() {
               Read clockwise: Standard → Pipeline → Network → Calendar → Focus → North Star
             </div>
             <div style={{ fontSize: 8.5, color: 'rgba(250,248,244,0.82)', marginTop: 8, lineHeight: 1.65, fontStyle: 'italic', borderTop: '1px solid rgba(148,114,49,0.22)', paddingTop: 7 }}>
-              "We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie's Standard forward — over 250 years of it — in every conversation."
+              "We underwrite homes the way a banker underwrites a portfolio: replacement cost, comparable performance, exit scenarios. We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie's Standard forward, over 250 years of it, in every conversation."
             </div>
           </div>
 
@@ -352,7 +353,7 @@ export default function CorkPage() {
             <WednesdayCountdown />
             <div style={s.subLabel}>Team Dates</div>
             {[
-              ['Angel active', 'April 2026'],
+              ['Angel', 'Active'],
               ['Public Launch', 'April 29'],
               ['Zoila starts', 'May 4'],
               ['Scott starts', 'June 1'],
@@ -467,19 +468,19 @@ export default function CorkPage() {
               <div>
                 <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Underwrite</div>
                 <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
-                  We underwrite homes the way a banker underwrites a portfolio — replacement cost, comparable performance, exit scenarios. Every number has a named source. No invented figures.
+                  We underwrite homes the way a banker underwrites a portfolio: replacement cost, comparable performance, exit scenarios. Every number has a named source. No invented figures.
                 </div>
               </div>
               <div>
                 <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Standard</div>
                 <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
-                  We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie's Standard forward — over 250 years of it — in every conversation.
+                  We serve families who prefer to be understood before they are advised. We hold before we sell. We carry the Christie's Standard forward, over 250 years of it, in every conversation.
                 </div>
               </div>
               <div>
                 <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Gate</div>
                 <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
-                  The operator is the gate. Ed signs off or it does not ship. The platform is the pitch — no decks. Nothing to Manny without a Claude wireframe. God First.
+                  The operator is the gate. Ed signs off or it does not ship. The platform is the pitch, no decks. Nothing to Manny without a Claude wireframe. God First.
                 </div>
               </div>
             </div>
