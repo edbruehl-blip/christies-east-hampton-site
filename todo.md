@@ -3005,5 +3005,24 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] routers.ts: removed generateProForma procedure and proforma-generator import
 - [x] index.ts: removed pdfRouter import, app.use(pdfRouter), and debug/chromium endpoint
 - [x] Vitest 67/67 pass — clean build confirmed
-- [ ] Checkpoint, ping Ed to publish
+- [x] Checkpoint 86d40b69 saved — ping Ed to publish
 - [ ] Post fresh production matrix to card 3vugr84o description after publish
+
+## Apr 26 2026 — Commit 2: HOME Founding Letter v2
+
+- [ ] Replace FOUNDING_LETTER_TEXT in server/letter-content.ts with v2 canonical text
+- [ ] Vitest 67/67 pass, checkpoint, ping Ed
+
+## Apr 26 2026 — Commit 3: Voice Cleanup Batch Tier 1
+
+- [ ] Fix 1: Replace all "Edward Bruehl" with "Ed Bruehl" on /pro-forma and /future
+- [ ] Fix 2: /cork JESUS FIRST → God First; /intel JESUS FIRST → God First; /council-brief SDG sentence shortened
+- [ ] Fix 3: Trello list rename "KEY CLIENTS -- Whales" → "Key Relationships"
+- [ ] Fix 4: V18 "buyer urgency rising" — keep, no change, canon record only
+- [ ] Fix 5: /cork pre-launch surgical scrubs (Ilija $, Lily Fan, partner profit shares, Frank Newbold private intel, competitor specifics)
+- [ ] Fix 6: /intel pre-launch surgical scrubs (same targets as Fix 5)
+- [ ] Fix 7: /letters/flagship AI-tic pass — 3 phrase replacements + em-dash sweep
+- [ ] Fix 8: Hamlet CTA replacement on all 11 hamlet pages
+- [ ] Fix 9: TBD — awaiting Architect amendment
+- [ ] Fix 10: Post R-HAMLET-CARDS-6FIELD 10 copy strings to Trello comment (no code work)
+- [ ] Vitest 67/67 pass, checkpoint, post production matrix to Trello 3vugr84o, ping Ed

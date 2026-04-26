@@ -756,10 +756,10 @@ export default function FutureTab() {
           {/* Partner cards grid */}
           <div className="future-participant-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr)', gap: 5, marginBottom: 8, boxSizing: 'border-box' }}>
 
-            {/* Column 1: Edward Bruehl + Ilija Pavlovic */}
+            {/* Column 1: Ed Bruehl + Ilija Pavlovic */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 5, minWidth: 0, justifyContent: 'center' }}>
               <PartnerCard
-                name="Edward Bruehl"
+                name="Ed Bruehl"
                 subtitle="Broker – Managing Director"
                 streams={edStreams}
                 totLabel="All Streams Total"

@@ -140,7 +140,7 @@ export function EdCorkboard() {
         flexWrap: 'wrap',
         gap: 8,
       }}>
-        <span><strong style={{ color: C.gold, fontStyle: 'italic' }}>JESUS FIRST</strong></span>
+        <span><strong style={{ color: C.gold, fontStyle: 'italic' }}>God First</strong></span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Christie's Standard</strong> · Since 1766</span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Richard Rule</strong> · Operate from what is real</span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Hagler Standard</strong> · Train in the dark</span>
@@ -186,7 +186,7 @@ export function EdCorkboard() {
         {/* Q4 — THE NETWORK */}
         <div style={{ ...s.panel, borderLeft: `4px solid ${C.navy}` }}>
           <h3 style={s.panelH3}>③ The Network <span style={{ color: C.goldDark, fontSize: 8, fontStyle: 'italic', letterSpacing: '0.1em' }}>Monthly</span></h3>
-          <Bullet text="Key Relationships" sub="Lily · Ilija Pavlovic · Rick Moeser · Melissa True" />
+          <Bullet text="Key Relationships" sub="Key contacts · Q2 targets" />
           <Bullet text="NYC Contacts" sub="3 to recruit Q2" />
           <Bullet text="Attorneys" sub="Deal counsel · estate counsel · referral partners" />
           <Bullet text="Recruit Targets" sub="Next agent · timeline · approach" />

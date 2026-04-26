@@ -89,10 +89,7 @@ export function EstateAdvisoryCard({ framed = false, sectionLabel }: EstateAdvis
               Private Territory Briefing
             </div>
             <div style={{ ...SANS, color: 'rgba(250,248,244,0.65)', fontSize: '0.875rem', lineHeight: 1.65, marginBottom: 8 }}>
-              A private, no-obligation briefing covering your target hamlet's
-              current inventory, institutional-grade opportunities, and Christie's
-              institutional access to off-market transactions. Delivered in
-              person at 26 Park Place or via secure video.
+              When you're ready, come in. We'll cover what's on the market, what isn't yet, and how it fits your long-term plan.
             </div>
             {[
               'Hamlet-specific market analysis',

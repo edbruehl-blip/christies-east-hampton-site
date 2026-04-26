@@ -419,7 +419,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8 }}>
         <div>
           <P2Card
-            name="Edward Bruehl"
+            name="Ed Bruehl"
             subtitle="Broker – Managing Director"
             streams={[
               { label: "Ed's Team GCI (ref. only)",    vals: ['$600K','$720K','$864K','$3.60M'] },
