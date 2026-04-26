@@ -191,13 +191,12 @@ const FOOTER_SPAN: React.CSSProperties = {
 };
 
 // ─── Page Header ──────────────────────────────────────────────────────────────
-function PageHeader({ generatedAt }: { generatedAt: string }) {
+function PageHeader() {
   return (
     <div style={HEADER_STYLE}>
       <img src={LOGO_WHITE} alt="Christie's International Real Estate Group" style={{ height: 22 }} />
       <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(56,66,73,0.5)', textAlign: 'right' }}>
-        Christie's East Hampton · Pro Forma<br />
-        Generated {generatedAt} · Data: Growth Model
+        Christie's East Hampton · Pro Forma
       </div>
     </div>
   );
@@ -240,7 +239,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
 
   return (
     <div style={PAGE_STYLE}>
-      <PageHeader generatedAt={generatedAt} />
+      <PageHeader />
 
       <div style={SECTION_LABEL}>Page 1 of 4</div>
       <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 26, fontWeight: 300, color: '#1B2A4A', lineHeight: 1.1, marginBottom: 2 }}>The Ascension Arc</div>
@@ -410,7 +409,7 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
   const page2Footer: React.CSSProperties = { ...PAGE_FOOTER, position: 'relative', bottom: 'auto', left: 'auto', right: 'auto', marginTop: 12 };
   return (
     <div style={page2Style}>
-      <PageHeader generatedAt={generatedAt} />
+      <PageHeader />
 
       <div style={{ ...P2_SANS, fontSize: 8, letterSpacing: '0.3em', textTransform: 'uppercase', color: P2_GOLD, marginBottom: 4 }}>Page 2 of 4</div>
       <div style={{ ...P2_SERIF, fontSize: 26, fontWeight: 300, color: '#1B2A4A', lineHeight: 1.1, marginBottom: 2 }}>The Machine</div>
@@ -538,7 +537,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
 
   return (
     <div style={PAGE_STYLE}>
-      <PageHeader generatedAt={generatedAt} />
+      <PageHeader />
 
       <div style={SECTION_LABEL}>Page 3 of 4</div>
       <div style={PAGE_TITLE}>The Economics</div>
@@ -581,7 +580,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         </tbody>
       </table>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 16 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginBottom: 16 }}>
         <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
           <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Ed Bruehl · Three Income Streams · 2026</div>
           {[
@@ -603,15 +602,15 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
         </div>
 
         <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
-          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes · Net Build Profit Split</div>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>AnewHomes Pool 3 · Net Build Profit Split § ¶</div>
           {[
-            ['Ed Bruehl (35%)', '$17,500 Y1 / $52,500 Y2*'],
-            ['Scott Smith (35%)', '$17,500 Y1 / $52,500 Y2*'],
-            ['Richard Bruehl (10%)', '$5,000 Y1 / $15,000 Y2*'],
+            ['Ed Bruehl (30%)', '$15,000 Y1 / $45,000 Y2*'],
+            ['Richard Bruehl (25%)', '$12,500 Y1 / $37,500 Y2*'],
+            ['Scott Smith (25%)', '$12,500 Y1 / $37,500 Y2*'],
             ['Jarvis Slade (5%)', '$2,500 Y1 / $7,500 Y2*'],
             ['Angel Theodore (5%)', '$2,500 Y1 / $7,500 Y2*'],
             ['Zoila Ortega Astor (5%†)', '$2,500 Y1 / $7,500 Y2*'],
-            ['Pool / Future (5%)', '$2,500 Y1 / $7,500 Y2*'],
+            ['Founder-Held · Unallocated · 5% ¶', '$2,500 Y1 / $7,500 Y2*'],
           ].map(([label, value]) => (
             <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 9 }}>
               <span style={{ color: 'rgba(56,66,73,0.7)' }}>{label}</span>
@@ -625,15 +624,40 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
             </div>
           </div>
         </div>
+
+        <div style={{ background: '#fff', border: '1px solid rgba(27,42,74,0.1)', padding: '12px 14px' }}>
+          <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 7.5, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#947231', marginBottom: 8, borderBottom: '1px solid rgba(200,172,120,0.3)', paddingBottom: 5 }}>Flagship ICA · Sub-Distribution · 6 Seats ‡</div>
+          {[
+            ['Ed Bruehl (75%) ‡', 'Pending Eq2/ICA reconciliation*'],
+            ['Angel Theodore (5%)', 'Pending Eq2/ICA reconciliation*'],
+            ['Jarvis Slade (5%)', 'Pending Eq2/ICA reconciliation*'],
+            ['Zoila Ortega Astor (5%†)', 'Pending Eq2/ICA reconciliation*'],
+            ['Founder-Held · Unallocated · 5% ¶', 'Pending Eq2/ICA reconciliation*'],
+            ['Beacon (5%) ‡', 'Pending Eq2/ICA reconciliation*'],
+          ].map(([label, value]) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5, fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8 }}>
+              <span style={{ color: 'rgba(56,66,73,0.7)' }}>{label}</span>
+              <span style={{ color: '#1B2A4A', fontWeight: 600, fontSize: 7 }}>{value}</span>
+            </div>
+          ))}
+          <div style={{ borderTop: '1px solid rgba(27,42,74,0.1)', marginTop: 6, paddingTop: 6 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 8 }}>
+              <span style={{ fontWeight: 600, color: '#1B2A4A' }}>Total Seats</span>
+              <span style={{ color: '#947231', fontWeight: 600 }}>6 · 100 units</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div style={FOOTNOTE}>
         * Governing principle only — not yet contractual. All figures labeled MODEL.
         Profit pool activates above $40M total sales volume.
-        AnewHomes pool growth: Y1 $50K · Y2 $150K · 12.5% annual growth thereafter. Ed 35%.
-        Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income.
-        Net profit after ALL build costs. Separate from Christie's commission income entirely.
-        All seven AnewHomes participants aware and agreeable. Not yet formalized.
+        AnewHomes pool growth: Y1 $50K · Y2 $150K · 12.5% annual growth thereafter.
+        § D19 Compliance: Ed Bruehl holds 30% base in AnewHomes Pool 3. Effective share is 35% until Founder-Held · Unallocated seat allocates to a named participant. Founder-Held is Class B, non-voting, reserve unit. Ed's income card reflects 35% effective per D19 doctrine.
+        ¶ Founder-Held · Unallocated: Class B reserve unit. Not yet assigned. Reverts to pool upon allocation event. Visible on all financial surfaces per D19.
+        ‡ Flagship ICA: Ed Bruehl's vertically-integrated capital allocation vehicle. Beacon (5%) is a strategic reserve Class B unit held for institutional partnership. Flagship ICA routes developer pipeline through CPS1 + CIRE Node. Full doctrine: Christie's East Hampton Canonical Reference Library.
+        Morton steel-frame custom builds. ADU Garage Living Unit drives Year 1 income. Net profit after ALL build costs. Separate from Christie's commission income entirely.
+        All AnewHomes participants aware and agreeable. Not yet formalized.
         † Zoila Ortega Astor: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only. Reverts to pool if she does not make the cut.
       </div>
 
@@ -663,7 +687,7 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
 
   return (
     <div style={PAGE_STYLE}>
-      <PageHeader generatedAt={generatedAt} />
+      <PageHeader />
 
       <div style={SECTION_LABEL}>Page 4 of 4</div>
       <div style={PAGE_TITLE}>Defensible Numbers</div>

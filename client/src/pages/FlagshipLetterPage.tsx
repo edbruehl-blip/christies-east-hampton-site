@@ -339,6 +339,13 @@ export default function FlagshipLetterPage() {
           /* P0-1 Fix 4: Bigger body copy — Cormorant Garamond 13pt / 1.75 */
           p { color: #1B2A4A !important; font-size: 13pt !important; line-height: 1.75 !important; font-family: 'Cormorant Garamond', serif !important; }
           img { max-width: 100% !important; }
+          /* Wave 6 p6 Fix 1: Suppress hero portrait on print — body float portrait is the canonical print portrait */
+          .flagship-hero-portrait { display: none !important; }
+          /* Wave 6 p6 Fix 2: Headline — override clamp() for print, 28pt canonical */
+          h1 { font-size: 28pt !important; line-height: 1.15 !important; color: #1B2A4A !important; }
+          /* Wave 6 p6 Fix 3: Hero row collapses to title-only on print, no portrait gap */
+          .flagship-hero-row { flex-direction: column !important; align-items: flex-start !important; gap: 8px !important; padding: 16px 0 20px !important; background: transparent !important; }
+          header { background: transparent !important; border-bottom: 1px solid #947231 !important; }
         }
       `}</style>
     </div>

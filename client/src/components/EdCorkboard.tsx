@@ -270,7 +270,7 @@ export function EdCorkboard() {
               'Nothing to Manny without a Claude wireframe.',
               'The operator is the gate. Ed signs off or it does not ship.',
               'No competitor names on any public surface.',
-              'AnewHomes locked at seven. Ed, Scott, Richard, Jarvis, Angel, Zoila, Pool.',
+              'AnewHomes locked at seven. Ed, Richard, Scott, Jarvis, Angel, Zoila, Founder-Held.'
             ].map((cmd, i) => (
               <li key={i} style={{
                 padding: '3px 2px',
@@ -295,13 +295,13 @@ export function EdCorkboard() {
           <div style={s.panel}>
             <h3 style={{ ...s.panelH3, fontSize: 10 }}>The Council (Cortex)</h3>
             {[
-              ['Claude', 'Architect. Wireframes. Scribe.'],
-              ['Perplexity', 'Intelligence. Data. Editor.'],
-              ['Manny', 'Builder. Server-side truth.'],
-              ['ChatGPT', 'Pressure-test. Strategy.'],
-              ['Grok', 'Challenge. Stress-test.'],
+              ['Architect (Claude)', 'Wireframes. Doctrine. Scribe.'],
+              ['Intelligence (Perp)', 'Data. Audit. Editor.'],
+              ['Developer (Manny)', 'Builder. Server-side truth.'],
+              ['Visual Gate (Chat)', 'Pressure-test. Strategy.'],
+              ['Rules (Ed)', 'Operator. Gate. Final ruling.'],
             ].map(([name, role]) => (
-              <div key={name} style={{ display: 'grid', gridTemplateColumns: '72px 1fr', gap: 6, padding: '2px 0', fontSize: 9, fontFamily: 'Georgia, serif' }}>
+              <div key={name} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: 6, padding: '2px 0', fontSize: 9, fontFamily: 'Georgia, serif' }}>
                 <span style={{ color: C.gold, fontWeight: 700 }}>{name}</span>
                 <span style={{ color: 'rgba(250,248,244,0.75)' }}>{role}</span>
               </div>
