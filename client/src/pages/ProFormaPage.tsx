@@ -488,17 +488,17 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
             subtitle="Agent – AnewHomes Co. Partner"
             streams={[
               { label: 'Personal GCI',                 vals: ['$35K','$84K','$100.8K','$324K+'] },
-              { label: 'AnewHomes 35% §',              vals: ['$17.5K','$52.5K','$59K','$151K'] },
+              { label: 'AnewHomes 25% §',              vals: ['$12.5K','$37.5K','$42.2K','$108K'] },
             ]}
-            total={['$52.5K','$136.5K','$159.8K','$475K+']}
+            total={['$47.5K','$121.5K','$143K','$432K+']}
           />
           <P2Card
             name="Richard Bruehl"
             subtitle="Strategic Advisor – AnewHomes Co. Partner"
             streams={[
-              { label: 'AnewHomes 10% §',              vals: ['$5K','$15K','$16.9K','$43.3K'] },
+              { label: 'AnewHomes 25% §',              vals: ['$12.5K','$37.5K','$42.2K','$108K'] },
             ]}
-            total={['$5K','$15K','$16.9K','$43.3K']}
+            total={['$12.5K','$37.5K','$42.2K','$108K']}
           />
         </div>
       </div>
@@ -507,7 +507,8 @@ function Page2({ generatedAt, agents: _agents, total: _total }: {
         <div style={{ ...P2_SANS, fontSize: 6.5, color: P2_DIM, fontStyle: 'italic', lineHeight: 1.6, flex: 1 }}>
           * Governing principle · not yet contractual · Net pool = GCI (vol×2%) minus 5% franchise royalty minus 70% agent splits minus overhead<br />
           CIREG Profit Share: Ed 29.75% / Angel 1.75% / Jarvis 1.75% / Zoila 1.75% (inside Ed's 35%) · Ilija 65%<br />
-          AnewHomes: Ed 35% · Scott 35% · Richard 10% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Pool 5%<br />
+          AnewHomes Pool 3 (Delaware): Ed 30% (35% effective) · Richard 25% · Scott 25% · Jarvis 5% · Angel 5% · Zoila 5% vesting · Founder-Held 5%<br />
+          Flagship ICA (NY · 6 seats): Ed 75% · Angel 5% · Jarvis 5% · Zoila 5% · Founder-Held 5% · Beacon 5%. Independent of AnewHomes — no funnel.<br />
           ** Ilija CIREG 65% is his full take; 5% Christie's royalty is Ilija's cost, not surfaced on cards<br />
           † Zoila: AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only.<br />
           ‡ CPS1 + CIRE Node: Flagship-sourced developer pipeline routed through Flagship ICA. UHNW buyers meet new product in any Christie's market. Ramps $100K (2026) to $1M (2030), then 2% steady-state. Visibility only — not additive to totals. Full doctrine: Christie's East Hampton Canonical Reference Library.<br />
@@ -652,7 +653,7 @@ function Page3({ generatedAt, liveNetProfitByYear }: {
       <div style={FOOTNOTE}>
         * Governing principle only — not yet contractual. All figures labeled MODEL.
         Profit pool activates above $40M total sales volume.
-        AnewHomes pool growth: Y1 $50K · Y2 $150K · 12.5% annual growth thereafter.
+        AnewHomes pool growth: Y1 $50K · Y2 $150K · 12.5% annual growth thereafter. Ed 30% base · 35% effective until Founder-Held seat is allocated.
         § D19 Compliance: Ed Bruehl holds 30% base in AnewHomes Pool 3. Effective share is 35% until Founder-Held · Unallocated seat allocates to a named participant. Founder-Held is Class B, non-voting, reserve unit. Ed's income card reflects 35% effective per D19 doctrine.
         ¶ Founder-Held · Unallocated: Class B reserve unit. Not yet assigned. Reverts to pool upon allocation event. Visible on all financial surfaces per D19.
         ‡ Flagship ICA: Ed Bruehl's vertically-integrated capital allocation vehicle. Beacon (5%) is a strategic reserve Class B unit held for institutional partnership. Flagship ICA routes developer pipeline through CPS1 + CIRE Node. Full doctrine: Christie's East Hampton Canonical Reference Library.
