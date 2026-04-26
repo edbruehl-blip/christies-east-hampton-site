@@ -135,3 +135,6 @@ platform-review*.md
 platform_status*.md
 sprint*.md
 infrastructure_audit*.md
+
+# Puppeteer Chrome binary — downloaded on deploy via postinstall, do not commit
+.puppeteer-cache/

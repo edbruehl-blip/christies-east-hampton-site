@@ -43,6 +43,7 @@ import CouncilBriefPage    from "./pages/CouncilBriefPage";
 import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 import NeighborhoodCardPage from "./pages/NeighborhoodCardPage";
 import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
+import CorkPage from "./pages/CorkPage";
 
 // S2 Shell Purge (Apr 23 2026): ProtectedFutureRoute deleted.
 // /future now routes through Dashboard initialTab="future" — gets global nav chrome.
@@ -108,6 +109,8 @@ function App() {
             <Route path="/future">{() => <Dashboard initialTab="future" />}</Route>
             <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
             <Route path="/cards/bike" component={NeighborhoodCardPage} />
+            {/* /cork — Christie's Flagship Corkboard live route (D23 Work Order Apr 26 2026) */}
+            <Route path="/cork" component={CorkPage} />
             <Route component={Dashboard} />
           </Switch>
           {/* D16: FloatingDashboardIntro moved to Dashboard component, HOME tab only (Apr 19 2026) */}

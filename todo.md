@@ -2983,3 +2983,12 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Item 6: Christie's letter lead summary 260 years → over 250 years
 - [x] Item 7: Flagship letter thirty-four tests → fifty-nine tests (both occurrences)
 - [x] Item 8: SDG stripped from flagship letter body and Angel letter body (last per dispatch sequencing)
+
+## Sunday Apr 26 2026 Continuation Work Order
+
+- [x] R-PDF-CHROME: set puppeteer.skipDownload=false in package.json, verify PDF endpoints live
+- [x] Path naming: confirm /letter vs /letters route, lock in Master Index
+- [x] Item 3: Apex 301 redirect christiesrealestategroupeh.com/* → www.* at hosting layer
+- [x] Item 6: Document Council/Cortex 5-seat box location, post to Trello
+- [x] Item 4: Build /cork live route (3×2 grid, North Star band, KPIs, Commandments, Council, 3 live wires, copy fixes, timestamp footer)
+- [ ] Final D23 pass-fail matrix: post to Trello card 3vugr84o, checkpoint, tag all commits

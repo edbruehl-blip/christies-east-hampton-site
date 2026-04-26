@@ -101,6 +101,21 @@ async function startServer() {
     console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
   }
 
+  // ── Apex → www 301 redirect (Item 3 · D23 Work Order Apr 26 2026) ──────────
+  // 301 all paths: christiesrealestategroupeh.com/* → https://www.christiesrealestategroupeh.com/$1
+  // Fires before every other route. Production-only guard prevents localhost loops.
+  app.use((req, res, next) => {
+    const host = (req.headers.host || '').toLowerCase();
+    if (
+      process.env.NODE_ENV === 'production' &&
+      /^christiesrealestategroupeh\.com(:\d+)?$/.test(host)
+    ) {
+      res.redirect(301, `https://www.christiesrealestategroupeh.com${req.url}`);
+      return;
+    }
+    next();
+  });
+
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));

@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
-    "postinstall": "echo '[postinstall] Skipping Puppeteer Chrome download on deploy'"
+    "postinstall": "node node_modules/puppeteer/install.mjs || true"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.693.0",
@@ -134,6 +134,6 @@
   },
   "puppeteer": {
     "cacheDirectory": "./.puppeteer-cache",
-    "skipDownload": true
+    "skipDownload": false
   }
 }
