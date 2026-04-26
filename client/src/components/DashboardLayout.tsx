@@ -176,7 +176,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
 
   // D65 Shell Purge (Apr 23 2026): isPdfMode deleted. /route?pdf=1 renders identical to /route.
   // Ticker content — exact production copy
-  const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton\u2002·\u2002Exceptional Service";
+  const TICKER_TEXT = "Stewarding Hamptons legacies\u2002·\u2002Enjoy it\u2002·\u2002Improve it\u2002·\u2002Pass it on\u2002·\u2002Art\u2002·\u2002Beauty\u2002·\u2002Provenance\u2002·\u2002Since 1766\u2002·\u2002Christie\u2019s East Hampton";
 
   // Wire Five: live Hamptons Median from Market Matrix B23
   // When Perplexity updates B23, this value updates automatically on next query.

@@ -39,7 +39,7 @@ export default function FlagshipLetterPage() {
   const { data, isLoading, error } = trpc.flagship.getLetter.useQuery();
   const paragraphs = data?.text ? splitParagraphs(data.text) : [];
 
-  const today = 'April 2026'; // Institutional convention — month only, no day (Scope 2 · Apr 24 2026)
+  // Hotfix 41: Date stamp removed from header per canon lock (sign-offs carry no date).
 
   const handlePrint = () => window.print();
 
@@ -163,13 +163,7 @@ export default function FlagshipLetterPage() {
               }}>
                 A Letter from the Council
               </h1>
-              <div style={{
-                fontFamily: '"Cormorant Garamond", serif',
-                color: 'rgba(250,248,244,0.55)', fontSize: '0.9rem',
-                fontStyle: 'italic',
-              }}>
-                {today}
-              </div>
+
             </div>
           </div>
          </header>

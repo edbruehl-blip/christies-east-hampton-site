@@ -110,7 +110,7 @@ export const COUNCIL_BRIEF_LEAD_SUMMARY = `LEAD SUMMARY — COUNCIL BRIEF, APRIL
 // v2 (Apr 26 2026): renders with sign-off block: Ed Bruehl / Managing Director / CIREG EH Flagship.
 // v2 — April 26, 2026. Material changes: greeting added, sensory list expanded, "never sell" → "often, the best advice is don't sell", "Do what's right" triplet added, recruit CTA added, moat compressed, "door is always open" REMOVED, sign-off rewritten with Ed Bruehl / Managing Director attribution, em-dashes removed per No-Dash Rule.
 export const FOUNDING_LETTER_TEXT = `Greetings,
-Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, the water, the light, the pace. We stayed because this place became home.
+Many of you have known me for years. Some remember when I left Morgan Stanley after 9/11 and moved to the East End to raise a family. We came for the land, water, light, pace. We stayed because this place became home.
 
 For twenty years, I've helped families buy, sell, and steward property here. The most important lesson hasn't changed: often, the best advice is don't sell. Hamptons real estate isn't inventory. It's legacy. The asset your grandchildren will thank you for. Hold it. Improve it. Structure it. Let it compound across generations.
 

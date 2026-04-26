@@ -235,7 +235,7 @@ function SectionChristiesStory() {
           margin: 0,
           maxWidth: 640,
         }}>
-          Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, unparalleled service, and expertise reaching across cultures and centuries.
+          Founded in London in 1766, Christie's has conducted the sale of some of the world's greatest collections, setting hundreds of world auction records and offering a range of specialist services to its global clientele. Christie's is a name and place that speaks of extraordinary art, expertise across cultures and centuries, and the standard James Christie set in 1766.
         </p>
       </div>
     </div>
