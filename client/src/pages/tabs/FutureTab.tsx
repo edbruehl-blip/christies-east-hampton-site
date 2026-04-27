@@ -188,9 +188,6 @@ function AscensionArcChart() {
         <div style={{ ...SERIF, fontSize: 12, color: '#ebe6db', letterSpacing: 4, marginTop: 10, fontStyle: 'italic', opacity: 0.7 }}>
           Art &middot; Beauty &middot; Provenance &middot; Since 1766
         </div>
-        <div style={{ ...SERIF, fontSize: 14, color: C_WH, letterSpacing: 8, marginTop: 14, fontWeight: 600 }}>
-          SINCE 1766
-        </div>
       </div>
     </div>
   );
