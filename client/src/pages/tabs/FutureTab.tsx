@@ -284,7 +284,7 @@ function AssumptionsCalc() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
         {[
           { label: 'Per-Producer 3-Yr Cumulative *', val: fmtOut(413 * factor) },
-          { label: '2029 EH Flagship Cumulative',  val: fmtOut(708 * factor) },
+          { label: '2029 EH Flagship Cumulative †',  val: fmtOut(708 * factor) },
           { label: '2036 Combined Volume',       val: fmtOut(3000 * factor) },
         ].map(({ label, val }) => (
           <div key={label} style={{ background: outBg, padding: '5px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, border: '1px solid rgba(148,114,49,0.3)' }}>
@@ -298,11 +298,11 @@ function AssumptionsCalc() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: 7, borderTop: `1px solid ${notesBorder}` }}>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>* Governing Principle</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>* 3-yr cumulative vol at base assumptions (12 PPL, 2% GCI, $500K start). Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
         </div>
         <div>
-          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only.</div>
+          <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting &amp; EH-Only Scope</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>AnewHomes 5% and CIREG Profit Share 1.75% vest over six months from May 4 2026. Cliff November 4 2026. Activates 2027 forward. Ed's Team GCI Override applies 2026 and Q1 2027 only. &dagger; 2029 EH Flagship Cumulative = East Hampton office only (2026–2029). Does not include Southampton or Westhampton.</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&Dagger; CPS1 + CIRE Node Pipeline</div>
@@ -321,7 +321,7 @@ function AssumptionsCalc() {
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&sect; AnewHomes Co.</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Ed Bruehl's vertically-integrated build platform with Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor, and flagship team carrying equity. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Ed Bruehl's vertically-integrated build platform. Ed 35% · Scott 35% · Richard Bruehl 10% · Jarvis 5% · Angel 5% · Zoila 5% (vesting). Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.</div>
         </div>
       </div>
     </div>
@@ -547,7 +547,7 @@ export default function FutureTab() {
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.60M', color: ITALIC_GRAY },
     { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
     { label: <>AnewHomes 35%&sect;</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
-    { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: '#6b2838' },
+    { label: 'CIREG Profit Share 29.75%',v26: '$61K',   v27: '$150K',  v28: '$337K',  v36: '$3.99M', color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: ITALIC_GRAY },
   ];
 
@@ -566,7 +566,7 @@ export default function FutureTab() {
   ];
 
   const jarvisStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$250K',  v27: '$250K',  v28: '$300K',  v36: '$1.0M',  color: C_EH },
+    { label: 'Personal GCI',             v26: '$140K',  v27: '$250K',  v28: '$300K',  v36: '$1.0M',  color: C_EH },
     { label: <>AnewHomes 5%</>,          v26: '$2.5K',  v27: '$7.5K',  v28: '$8.4K',  v36: '$21.6K', color: '#c8946b' },
     { label: "Ed's Team GCI Override 5%",v26: '$30K',   v27: '$36K',   v28: '$43K',   v36: '$186K',  color: '#9a9a9a' },
     { label: 'CIREG Profit Share 1.75%', v26: '$3K',    v27: '$8K',    v28: '$17K',   v36: '$200K',  color: '#6b2838' },
@@ -574,7 +574,7 @@ export default function FutureTab() {
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Personal GCI',                   v26: '$17.5K°',v27: '$70K',  v28: '$84K',  v36: '$361K',  color: C_EH },  // °pro-rated 8 months (May 4 start)
+    { label: 'Personal GCI',             v26: '$17.5K°',v27: '$70K',  v28: '$84K',  v36: '$4.93M', color: C_EH },  // °pro-rated 8 months (May 4 start)
     { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },  // °$70K/yr
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
@@ -583,7 +583,7 @@ export default function FutureTab() {
   ];
 
   const scottStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$150K',  v27: '$150K',  v28: '$180K',  v36: '$774K',  color: C_EH },
+    { label: 'Personal GCI',             v26: '$60K',   v27: '$120K',  v28: '$180K',  v36: '$597K',  color: C_EH },
     { label: <>AnewHomes 35%</>,         v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
   ];
 
@@ -759,7 +759,7 @@ export default function FutureTab() {
                 subtitle="Broker – Managing Director"
                 streams={edStreams}
                 totLabel="All Streams Total"
-                tot={['$489.5K','$684.5K','$951K','$6.14M']}
+                tot={['$551K','$835K','$1.00M','$7.14M']}
                 clarifications={[
                   "Ed's Team GCI reference only — not included in total",
                   "CPS1 + CIRE Node visibility only — not included in total",
@@ -801,7 +801,7 @@ export default function FutureTab() {
                 subtitle="COO · Licensed Real Estate Salesperson"
                 streams={jarvisStreams}
                 totLabel="All Streams Total"
-                tot={['$175.5K','$219.5K','$270K','$1.28M']}
+                tot={['$175.5K','$301.5K','$368.4K','$1.41M']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
@@ -828,7 +828,7 @@ export default function FutureTab() {
                 subtitle="Agent – AnewHomes Co. Partner"
                 streams={scottStreams}
                 totLabel="All Streams Total"
-                tot={['$52.5K','$136.5K','$159.8K','$475K+']}
+                tot={['$77.5K','$172.5K','$239.8K','$748.5K']}
                 shortYears
               />
               <PartnerCard

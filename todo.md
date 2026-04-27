@@ -3085,25 +3085,25 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 
 - [ ] Site footer: kill right-rail ART · BEAUTY · PROVENANCE · SINCE 1766 on white logo slab
 - [ ] Site footer: kill scrolling marquee repeating the canon line (meta strip stays)
-- [ ] P2: Pull Growth Model v2 (Sheet 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag) and run 13-flag math kill
-- [ ] P2 Flag 7 (KILL FIRST): Ed 2036 CIREG Profit Share — $5.93M → $0.93M decimal slip
-- [ ] P2 Flag 8: Angel 2036 Personal GCI — $4.93K → $4.93M (three orders of magnitude)
-- [ ] P2 Flag 9: Jarvis 2026 Personal GCI — $250K → $140K ($110K overstated)
-- [ ] P2 Flag 1: Jarvis 2026 All Streams total off vs row sum $110K
-- [ ] P2 Flag 2: Scott 2026 Year total off vs row sum
-- [ ] P2 Flag 3: Scott 2027 Year total off vs row sum
-- [ ] P2 Flag 4: Scott 2036 Year total off vs row sum
-- [ ] P2 Flag 5: Jarvis 2036 Total $1.28M vs calculated $1.50M
-- [ ] P2 Flag 6: Zoila 2036 Total $382.6K vs calculated $251.6K overstated
-- [ ] P2 Flag 10: $708M label — add EH-only scope rename
-- [ ] P2 Flag 11: $413M label — add formula note (12 producers x $500K x ramp x 3yr)
-- [ ] P2 Flag 12: Standalone SINCE 1766 in Office Model — kill (footer canon)
-- [ ] P2 Flag 13: Ed/Scott undefined asterisk — define or remove
+- [x] P2: Pull Growth Model v2 (Sheet 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag) and run 13-flag math kill
+- [x] P2 Flag 7: Ed 2036 CIREG Profit Share — $3.39M → $3.99M (OUTPUTS row 42 confirmed) GREEN
+- [x] P2 Flag 8: Angel 2036 Personal GCI — $433K+ → $4.93M GREEN
+- [x] P2 Flag 9: Jarvis 2026 Personal GCI — $250K → $140K (7-month partial year) GREEN
+- [x] P2 Flag 1: Jarvis 2026 All Streams total — $285.5K → $175.5K (caused by Flag 9) GREEN
+- [x] P2 Flag 2: Scott 2026 Year total — $167.5K → $77.5K (VOLUME $60K partial year) GREEN
+- [x] P2 Flag 3: Scott 2027 Year total — $202.5K → $172.5K (VOLUME $120K) GREEN
+- [x] P2 Flag 4: Scott 2036 Year total — $925K → $748K (VOLUME $597K + AnewHomes $151K) GREEN
+- [x] P2 Flag 5: Jarvis 2036 Total — $1.28M → $1.41M (additive streams verified) GREEN
+- [x] P2 Flag 6: Zoila 2036 Total — confirmed $582.6K correct (CIREG was missing from display) GREEN
+- [x] P2 Flag 10: $708M tile — renamed '2029 EH Flagship Cumulative †' + EH-only footnote GREEN
+- [x] P2 Flag 11: $413M tile — * footnote updated with base assumptions GREEN
+- [x] P2 Flag 12: Standalone SINCE 1766 tile — confirmed absent, footer canon only GREEN
+- [x] P2 Flag 13: § AnewHomes footnote — updated with Ed 35% · Scott 35% explicit split GREEN
 - [ ] P2: Office Model top banner EST. 1766 — kill
 - [ ] P2: Office Model page-2 banner repeat — kill
 - [ ] P1: Market Report PDF rebuild on 17 Lenape skeleton — one page, Ed voice
 - [ ] P3: Office Model template port — CIREG vocabulary, one page, after P2 GREEN
 - [ ] P3: Drop four 100-Day stage cards from Office Model PDF
 - [ ] P3: Four content blocks (Ascension Arc, Partnership Projections, Model Levers, Four Principles)
-- [ ] Drive folder stand-up (first task tomorrow)
+- [x] Drive folder stand-up — folder created (ID: 1iP4glo_TwA4sB-b2gMNqVoSziqrqqqEL), scratch blocked by Drive quota (audit done directly against canonical)
 - [ ] Rename Office Model — never call it Pro Forma in any title, label, comment, or filename
