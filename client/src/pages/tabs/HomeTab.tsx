@@ -23,7 +23,7 @@
  */
 
 import { useLocation } from 'wouter';
-import { GALLERY_IMAGES } from '@/lib/cdn-assets';
+import { GALLERY_IMAGES, JAMES_CHRISTIE_PORTRAIT_PRIMARY } from '@/lib/cdn-assets';
 import { FoundingLetter } from '@/components/FoundingLetter';
 
 // ─── TodaysBrief removed — canon-kill Apr 24 2026 (Ed ruled 10:34 PM EDT: Bloomberg or JPMorgan)
@@ -78,9 +78,50 @@ function SectionA() {
               </div>
             </div>
 
-            {/* ── LETTER BODY — portrait removed D41D, inline portrait belongs in hero/banner only ── */}
+            {/* ── LETTER BODY with floating portrait — sanctioned position Night 10 Letterhead Anchor Canon ── */}
             <div style={{ maxWidth: 860, margin: '0 auto' }}>
+              {/* Portrait floats left — text wraps around it */}
+              <div
+                style={{
+                  float: 'left',
+                  marginRight: 28,
+                  marginBottom: 16,
+                  marginTop: 4,
+                  flexShrink: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <div
+                  style={{ border: '1px solid #947231', padding: 3, background: 'rgba(13,27,42,0.6)', cursor: 'pointer' }}
+                  onClick={() => navigate('/report')}
+                  title="Continue to Market Report"
+                >
+                  <img
+                    src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+                    alt="James Christie, founder of Christie's, London 1766"
+                    style={{ display: 'block', width: 140, height: 140, objectFit: 'cover', objectPosition: 'top center' }}
+                  />
+                </div>
+                <div style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  fontSize: 8,
+                  color: '#947231',
+                  letterSpacing: '0.16em',
+                  textTransform: 'uppercase',
+                  textAlign: 'center',
+                  marginTop: 6,
+                  lineHeight: 1.5,
+                  maxWidth: 146,
+                }}>
+                  James Christie · London · 1766
+                </div>
+              </div>
+              {/* Letter paragraphs — flow around the float */}
               <FoundingLetter />
+              {/* Clear float */}
+              <div style={{ clear: 'both' }} />
             </div>
 
           </div>

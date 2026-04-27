@@ -14,7 +14,6 @@
  * Routes: HOME · MARKET · MAPS · PIPE · FUTURE · INTEL · REPORT
  */
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'wouter';
 import { LOGO_WHITE } from '@/lib/cdn-assets';
 
 const GOLD = '#947231';
@@ -46,13 +45,9 @@ function useWeatherFooter() {
   return weather;
 }
 
-const LETTER_LINKS = [
-  { label: 'Neighborhood Welcome', href: '/cards/bike', row: 'Cards' },
-  { label: 'UHNW Path', href: '/cards/uhnw-path', row: 'Cards' },
-];
+// Neighborhood Cards removed from footer per D41D — strip clean, no stub
 
 export function SiteFooter() {
-  const [, navigate] = useLocation();
   const year    = new Date().getFullYear();
   const weather = useWeatherFooter();
 
@@ -151,38 +146,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* ── Letter + Card links ───────────────────────────────────────── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {(['Cards'] as const).map(row => (
-            <div key={row} style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
-              <span style={{ ...SANS, fontSize: '0.6rem', fontWeight: 600, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(148,114,49,0.55)', minWidth: 46 }}>
-                {row}
-              </span>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 14px' }}>
-                {LETTER_LINKS.filter(l => l.row === row).map(({ label, href }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={(e) => { e.preventDefault(); navigate(href); }}
-                    style={{
-                      ...SANS,
-                      fontSize: '0.68rem',
-                      letterSpacing: '0.1em',
-                      color: 'rgba(250,248,244,0.5)',
-                      textDecoration: 'none',
-                      textTransform: 'uppercase',
-                      transition: 'color 0.15s',
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(250,248,244,0.5)')}
-                  >
-                    {label}
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Neighborhood Card links removed D41D */}
 
         {/* ── Divider ─────────────────────────────────────────────────── */}
         <div style={{ height: 1, background: `rgba(200,172,120,0.12)` }} />
