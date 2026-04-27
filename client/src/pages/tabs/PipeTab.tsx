@@ -168,11 +168,15 @@ function KpiStrip({ deals }: { deals: Array<Record<string, string>> }) {
   const totalBook = deals
     .filter(d => !d.isSectionHeader && d.price)
     .reduce((sum, d) => sum + parsePrice(d.price), 0);
-  const fmt = (n: number) =>
-    n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M`
-    : n >= 1_000   ? `$${(n / 1_000).toFixed(0)}K`
-    : n > 0        ? `$${n}`
-    : '—';
+  const fmt = (n: number) => {
+    if (n >= 1_000_000) {
+      const v = (n / 1_000_000).toFixed(1);
+      return `$${v.endsWith('.0') ? v.slice(0, -2) : v}M`;
+    }
+    if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
+    if (n > 0) return `$${n}`;
+    return '—';
+  };
   const categories = [
     { label: 'Active Listings',      vol: volByCategory(['ACTIVE', 'EXCLUSIVE']),             dot: '#228B22' },
     { label: 'Quiet Listings',       vol: volByCategory(['QUIET']),                           dot: '#7a8a8e' },

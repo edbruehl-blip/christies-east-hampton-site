@@ -339,7 +339,7 @@ export function DashboardLayout({ activeTab, onTabChange, children }: DashboardL
             })}
             {/* Letter links in mobile nav */}
             <a href="/" onClick={() => setMobileNavOpen(false)} style={{ flexShrink: 0, fontFamily: "var(--font-condensed)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", padding: "6px 14px", cursor: "pointer", border: "1px solid rgba(200,172,120,0.3)", borderRadius: 2, background: "transparent", color: "rgba(250,248,244,0.65)", textDecoration: "none" }}>FOUNDING LETTER</a>
-            <a href="/letters/flagship" onClick={() => setMobileNavOpen(false)} style={{ flexShrink: 0, fontFamily: "var(--font-condensed)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", padding: "6px 14px", cursor: "pointer", border: "1px solid rgba(200,172,120,0.3)", borderRadius: 2, background: "transparent", color: "rgba(250,248,244,0.65)", textDecoration: "none" }}>COUNCIL LETTER</a>
+            <a href="/letters/flagship" onClick={() => setMobileNavOpen(false)} style={{ flexShrink: 0, fontFamily: "var(--font-condensed)", fontSize: "0.68rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", padding: "6px 14px", cursor: "pointer", border: "1px solid rgba(200,172,120,0.3)", borderRadius: 2, background: "transparent", color: "rgba(250,248,244,0.65)", textDecoration: "none" }}>FLAGSHIP LETTER</a>
           </div>
         )}
 

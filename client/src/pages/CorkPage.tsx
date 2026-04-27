@@ -228,7 +228,7 @@ export default function CorkPage() {
           flexWrap: 'wrap',
           gap: 8,
         }}>
-          <span><strong style={{ color: C.gold, fontStyle: 'italic' }}>God First</strong></span>
+          {/* God First — killed from public render per Ruling B D42 */}
           <span style={{ color: 'rgba(250,248,244,0.8)' }}>
             <strong style={{ color: C.gold, fontStyle: 'italic' }}>The Christie's Standard</strong> · Since 1766
           </span>
@@ -480,7 +480,7 @@ export default function CorkPage() {
               <div>
                 <div style={{ color: C.gold, fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase' as const, marginBottom: 4 }}>The Gate</div>
                 <div style={{ fontSize: 9, color: 'rgba(250,248,244,0.82)', lineHeight: 1.6, fontFamily: 'Georgia, serif' }}>
-                  The operator is the gate. Ed signs off or it does not ship. The platform is the pitch, no decks. Nothing to Manny without a Claude wireframe. God First.
+                  The operator is the gate. Ed signs off or it does not ship. The platform is the pitch, no decks. Nothing to Manny without a Claude wireframe.
                 </div>
               </div>
             </div>

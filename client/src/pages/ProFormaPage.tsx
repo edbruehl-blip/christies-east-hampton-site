@@ -24,6 +24,8 @@
 import { trpc } from '@/lib/trpc';
 import { useState, useEffect, useRef } from 'react';
 import { DashboardLayout } from '@/components/DashboardLayout';
+import { captureToPdf } from '@/lib/capture-pdf';
+import { toast } from 'sonner';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 // D65: LOGO_BLACK deleted — ProFormaPage now uses navy shell (dark background)
@@ -817,21 +819,32 @@ export default function ProFormaPage() {
         }
       `}</style>
 
-      {/* Print button — D65: direct window.print(), no ?pdf=1 redirect */}
+      {/* PDF download — captureToPdf per Ruling A D42 (replaces window.print) */}
       <div className="no-print" style={{ position: 'fixed', top: 16, right: 16, zIndex: 9999, display: 'flex', gap: 8 }}>
         <button
-          onClick={() => window.print()}
+          onClick={async () => {
+            const el = document.getElementById('pro-forma-root');
+            if (!el) { toast.error('Pro Forma container not found'); return; }
+            const today = new Date().toISOString().slice(0, 10);
+            try {
+              await captureToPdf(el, `christies-east-hampton-proforma-${today}.pdf`);
+              toast.success('Pro Forma downloaded');
+            } catch (e) {
+              const msg = e instanceof Error ? e.message : String(e);
+              toast.error(`PDF failed: ${msg}`);
+            }
+          }}
           style={{ background: '#1B2A4A', color: '#947231', border: 'none', padding: '8px 16px', fontFamily: "'Barlow Condensed', sans-serif", fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
         >
-          ↓ Print PDF
+          ↓ Download PDF
         </button>
       </div>
 
-      <div className="pro-forma-wrapper" style={{ background: '#e8e6e0', padding: '24px 0', minHeight: '100vh' }}>
-        <div className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
-        <div className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
-        <div className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
-        <div className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} /></div>
+      <div id="pro-forma-root" className="pro-forma-wrapper" style={{ background: '#e8e6e0', padding: '24px 0', minHeight: '100vh' }}>
+        <div data-pdf-page="1" className="pro-forma-page"><Page1 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} liveNetProfitByYear={liveNetProfitByYear} /></div>
+        <div data-pdf-page="2" className="pro-forma-page"><Page2 generatedAt={generatedAt} agents={agents} total={total} /></div>
+        <div data-pdf-page="3" className="pro-forma-page"><Page3 generatedAt={generatedAt} liveNetProfitByYear={liveNetProfitByYear} /></div>
+        <div data-pdf-page="4" className="pro-forma-page"><Page4 generatedAt={generatedAt} activePipelineStr={activePipelineStr} exclusiveStr={exclusiveStr} /></div>
       </div>
     </DashboardLayout>
   );

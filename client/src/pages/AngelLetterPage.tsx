@@ -33,11 +33,11 @@ const ANGEL_LETTER_PARAGRAPHS = [
 
   `Your AnewHomes equity is 5%, fully vested with no cliff, effective Day One. This is a structural share in the AnewHomes entity, not a bonus.`,
 
-  `The doctrines that govern this office are not rules imposed from above — they are the distilled wisdom of everything this institution has learned about how to serve families well. Fifty canonical doctrines. The most important ones for Day One: we never name a competitor. We never put GCI on a public surface. We never say "South Fork" — it is always "the East End." And every letter, every conversation, every closing ends the same way: "The door is always open — we look forward to meeting you."`,
+  `The doctrines that govern this office are not rules imposed from above — they are the distilled wisdom of everything this institution has learned about how to serve families well. Fifty canonical doctrines. The most important ones for Day One: we never name a competitor. We never put GCI on a public surface. We never say "South Fork" — it is always "the East End." And every letter, every conversation, every closing ends the same way: "Faithfully forward."`,
 
   `You have access to the Miro board, the Trello board, the Growth Model, and the dashboard. Everything is open. Nothing is locked from you. The only thing we ask is that you bring the same care to every interaction that this institution has brought to its clients for over 250 years.`,
 
-  `We are glad you are here. The door is always open — we look forward to building this with you.`,
+  `We are glad you are here. Faithfully forward — we look forward to building this with you.`,
 ];
 
 export default function AngelLetterPage() {
@@ -125,7 +125,7 @@ export default function AngelLetterPage() {
           <div>
             <div style={{ fontFamily: '"Cormorant Garamond", serif', color: NAVY, fontWeight: 600, fontSize: '1rem', marginBottom: 2 }}>Ed Bruehl</div>
             <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: MUTED, fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: 3 }}>Managing Director · Christie's East Hampton</div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.12em' }}>christiesrealestategroupeh.com · 646-752-1233</div>
+            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, fontSize: 10, letterSpacing: '0.12em' }}>646-752-1233</div>
           </div>
         </div>
 

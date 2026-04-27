@@ -188,60 +188,71 @@ function Section1() {
 
   return (
     <section style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
-      {/* Auction room hero */}
-      <div className="relative" style={{ maxHeight: 520, overflow: 'hidden' }}>
+      {/* Flambeaux navy banner — replaces auction room photo per Ruling A-c D42 */}
+      <div style={{
+        background: '#0D1B2A',
+        borderBottom: '1px solid rgba(200,172,120,0.25)',
+        padding: '48px 32px 40px',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 0,
+        textAlign: 'center',
+      }}>
+        {/* CIREG Logo */}
         <img
-          src={GALLERY_IMAGES.find(g => g.id === 'room-primary')?.src ?? GALLERY_IMAGES[0]?.src}
-          alt="The Grand Saleroom, Christie's"
-          className="w-full object-cover"
-          style={{ maxHeight: 520, display: 'block', objectPosition: 'center 35%' }}
+          src={LOGO_WHITE}
+          alt="Christie's International Real Estate Group"
+          style={{ height: 56, marginBottom: 24, opacity: 0.95 }}
         />
-        {/* D42: dual overlay — top dark navy kills royal blue cast, bottom gradient for text legibility */}
-        <div
-          className="absolute inset-0"
-          style={{ background: 'rgba(13,27,42,0.45)' }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(13,27,42,0.88) 100%)' }}
-        />
-        <div
-          className="absolute bottom-0 left-0 right-0 px-6 pb-6">
-          <div
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              color: '#947231',
-              fontSize: 10,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              marginBottom: 8,
-            }}
-          >
-            Christie's International Real Estate Group · East Hampton
-          </div>
-          <h1
-            style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              color: '#FAF8F4',
-              fontWeight: 400,
-              fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-              lineHeight: 1.15,
-              margin: 0,
-            }}
-          >
-            Your Hamptons Real Estate Market Report
-          </h1>
-          <p
-            style={{
-              fontFamily: '"Source Sans 3", sans-serif',
-              color: 'rgba(250,248,244,0.7)',
-              fontSize: '0.875rem',
-              marginTop: 6,
-            }}
-          >
-            Ed Bruehl · Managing Director · East Hampton Flagship
-          </p>
+        {/* Eyebrow */}
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: '#947231',
+          fontSize: 10,
+          letterSpacing: '0.26em',
+          textTransform: 'uppercase',
+          marginBottom: 14,
+        }}>
+          Hamptons Market Report &middot; East Hampton Flagship
         </div>
+        {/* Title */}
+        <h1 style={{
+          fontFamily: '"Cormorant Garamond", serif',
+          color: '#FAF8F4',
+          fontWeight: 400,
+          fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+          lineHeight: 1.15,
+          margin: '0 0 12px',
+          maxWidth: 640,
+        }}>
+          Your Hamptons Real Estate Market Report
+        </h1>
+        {/* James Christie portrait anchor */}
+        <img
+          src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
+          alt="James Christie · London · 1766"
+          style={{
+            width: 72,
+            height: 72,
+            objectFit: 'cover',
+            border: '2px solid rgba(200,172,120,0.5)',
+            borderRadius: 2,
+            marginTop: 16,
+            marginBottom: 8,
+          }}
+        />
+        <div style={{
+          fontFamily: '"Barlow Condensed", sans-serif',
+          color: 'rgba(200,172,120,0.55)',
+          fontSize: 8,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+        }}>
+          James Christie &middot; London &middot; 1766
+        </div>
+        {/* Divider */}
+        <div style={{ width: 48, height: 1, background: 'rgba(200,172,120,0.3)', margin: '20px auto 0' }} />
       </div>
 
       {/* ── Action panel beneath portrait ── */}

@@ -271,6 +271,11 @@ export default function FlagshipLetterPage() {
               </div>
             </div>
 
+            {/* Soli Deo Gloria — reinstated D42 per Voice Canon Rule 3 */}
+            <div style={{ fontFamily: '"Cormorant Garamond", serif', color: GOLD, fontSize: '0.85rem', fontStyle: 'italic', letterSpacing: '0.06em', marginTop: 20, marginBottom: 8, opacity: 0.7 }}>
+              Soli Deo Gloria
+            </div>
+
             {/* P3: Standard site footer added per Dispatch 40 */}
             <footer style={{
               borderTop: `1px solid rgba(148,114,49,0.35)`,
