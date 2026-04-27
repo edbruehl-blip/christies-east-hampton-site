@@ -283,8 +283,8 @@ function AssumptionsCalc() {
       {/* Three output cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
         {[
-          { label: 'Per-Producer 3-Yr Cumulative', val: fmtOut(413 * factor) },
-          { label: '2029 Flagship Cumulative',  val: fmtOut(708 * factor) },
+          { label: 'Per-Producer 3-Yr Cumulative *', val: fmtOut(413 * factor) },
+          { label: '2029 EH Flagship Cumulative',  val: fmtOut(708 * factor) },
           { label: '2036 Combined Volume',       val: fmtOut(3000 * factor) },
         ].map(({ label, val }) => (
           <div key={label} style={{ background: outBg, padding: '5px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, border: '1px solid rgba(148,114,49,0.3)' }}>
@@ -546,7 +546,7 @@ export default function FutureTab() {
   const edStreams: StreamRow[] = [
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>Ed&rsquo;s Team GCI (reference)</span>, v26: '$600K',  v27: '$720K',  v28: '$864K',  v36: '$3.60M', color: ITALIC_GRAY },
     { label: 'Personal GCI',             v26: '$420K',  v27: '$504K',  v28: '$605K',  v36: '$2.60M', color: C_EH },
-    { label: <>AnewHomes 35%*</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
+    { label: <>AnewHomes 35%&sect;</>,        v26: '$17.5K', v27: '$52.5K', v28: '$59K',   v36: '$151K',  color: '#c8946b' },
     { label: 'CIREG Profit Share 29.75%',v26: '$52K',   v27: '$128K',  v28: '$287K',  v36: '$3.39M', color: '#6b2838' },
     { label: <span style={{fontStyle:'italic',color:ITALIC_GRAY}}>CPS1 + CIRE Node ‡</span>, v26: '$100K', v27: '$250K', v28: '$500K', v36: '$1.13M', color: ITALIC_GRAY },
   ];
@@ -824,7 +824,7 @@ export default function FutureTab() {
                 shortYears
               />
               <PartnerCard
-                name={<>Scott Smith&nbsp;*</>}
+                name={<>Scott Smith&nbsp;&sect;</>}
                 subtitle="Agent – AnewHomes Co. Partner"
                 streams={scottStreams}
                 totLabel="All Streams Total"

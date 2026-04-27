@@ -158,40 +158,13 @@ function SectionLabel({ n, title }: { n: string; title: string }) {
 
 // ─── SECTION 1 · Institutional Opening ───────────────────────────────────────
 function Section1() {
-  const [pdfState, setPdfState] = useState<'idle' | 'generating' | 'done' | 'error'>('idle');
-
-  // Auto-reset PDF done state after 3s
-  useEffect(() => {
-    if (pdfState === 'done') {
-      const t = setTimeout(() => setPdfState('idle'), 3000);
-      return () => clearTimeout(t);
-    }
-  }, [pdfState]);
-
-  async function handleDownload() {
-    if (pdfState === 'generating') return;
-    setPdfState('generating');
-    try {
-      const el = document.getElementById('report-page-root') ?? document.body;
-      const today = new Date().toISOString().slice(0, 10);
-      await captureToPdf(el, `christies-east-hampton-market-report-${today}.pdf`);
-      setPdfState('done');
-    } catch (e) {
-      console.error(e);
-      setPdfState('error');
-      const msg = e instanceof Error ? e.message : String(e);
-      toast.error(msg.includes('Unauthorized') ? 'Session expired — please log in again' : `PDF generation failed: ${msg}`);
-      setTimeout(() => setPdfState('idle'), 3000);
-    }
-  }
-
-
-
   return (
     <section style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderBottom: '1px solid rgba(200,172,120,0.3)' }}>
       {/* Flambeaux navy banner — replaces auction room photo per Ruling A-c D42 */}
       <div style={{
-        background: '#0D1B2A',
+        background: 'rgba(13,27,42,0.82)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
         borderBottom: '1px solid rgba(200,172,120,0.25)',
         padding: '48px 32px 40px',
         display: 'flex',
@@ -256,72 +229,7 @@ function Section1() {
         <div style={{ width: 48, height: 1, background: 'rgba(200,172,120,0.3)', margin: '20px auto 0' }} />
       </div>
 
-      {/* ── Action panel beneath portrait ── */}
-      <div style={{ padding: '20px 24px 8px', maxWidth: 480, margin: '0 auto' }}>
-
-        {/* ── PDF Download Button ── */}
-        <button
-          onClick={handleDownload}
-          disabled={pdfState === 'generating'}
-          style={{
-            width: '100%',
-            background: pdfState === 'done' ? 'rgba(5,150,105,0.15)' : 'none',
-            border: `1px solid ${
-              pdfState === 'done' ? 'rgba(5,150,105,0.7)'
-              : pdfState === 'error' ? 'rgba(192,57,43,0.7)'
-              : 'rgba(200,172,120,0.55)'
-            }`,
-            color: pdfState === 'done' ? '#6ee7b7' : pdfState === 'error' ? '#f87171' : '#947231',
-            fontFamily: '"Barlow Condensed", sans-serif',
-            fontSize: 11,
-            letterSpacing: '0.26em',
-            textTransform: 'uppercase',
-            padding: '11px 28px',
-            cursor: pdfState === 'generating' ? 'wait' : 'pointer',
-            transition: 'all 0.3s',
-            position: 'relative',
-            overflow: 'hidden',
-            marginBottom: 6,
-          }}
-        >
-          {/* Animated fill bar while generating */}
-          {pdfState === 'generating' && (
-            <span style={{
-              position: 'absolute', left: 0, top: 0, bottom: 0,
-              background: 'rgba(200,172,120,0.12)',
-              animation: 'pdf-pulse 1.4s ease-in-out infinite',
-              width: '100%',
-            }} />
-          )}
-          <span style={{ position: 'relative', zIndex: 1 }}>
-            {pdfState === 'generating' && (
-              <span style={{ marginRight: 8 }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ display: 'inline', verticalAlign: 'middle', animation: 'spin 1s linear infinite' }}>
-                  <circle cx="12" cy="12" r="10" strokeOpacity="0.3"/>
-                  <path d="M12 2a10 10 0 0 1 10 10" strokeLinecap="round"/>
-                </svg>
-              </span>
-            )}
-            {pdfState === 'generating' ? 'Building Report… Please Wait'
-              : pdfState === 'done' ? '✓ Market Report Downloaded'
-              : pdfState === 'error' ? 'Generation Failed — Tap to Retry'
-              : '↓ Download Market Report'}
-          </span>
-        </button>
-
-      </div>
-
-      {/* CSS animations */}
-      <style>{`
-        @keyframes pdf-pulse {
-          0%, 100% { opacity: 0.4; }
-          50% { opacity: 0.8; }
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
+      {/* PDF button removed — BackBar ↓ Download PDF is the canonical one-button surface (WS4 D41D) */}
 
       {/* Founding letter */}
       <div className="px-6 py-14" style={{ maxWidth: 780, margin: '0 auto' }}>
@@ -1017,7 +925,9 @@ function HamletPanel({ hamlet, onClose }: { hamlet: HamletData; onClose: () => v
   return (
     <div
       style={{
-        background: '#1B2A4A',
+        background: 'rgba(27,42,74,0.75)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
         border: '1px solid rgba(200,172,120,0.3)',
         marginTop: 2,
         padding: '28px 24px',
@@ -1656,7 +1566,7 @@ function AuctionGallery() {
         >
           Christie's Auction House · Brand Authority
         </div>
-        <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))' }}>
           {GALLERY_IMAGES.map((img) => (
             <button
               key={img.id}
@@ -2024,7 +1934,7 @@ function Section7() {
  */
 export default function ReportPage() {
   return (
-    <div id="report-page-root" style={{ background: '#0D1B2A', minHeight: '100vh' }}>
+    <div id="report-page-root" style={{ background: '#0D1B2A', minHeight: '100vh', overflowX: 'hidden' }}>
       <BackBar />
       <div data-pdf-page="1">
         <Section1 />

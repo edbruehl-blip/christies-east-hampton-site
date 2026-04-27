@@ -714,8 +714,8 @@ function Page4({ generatedAt, activePipelineStr, exclusiveStr }: {
         </div>
       </div>
 
-      {/* Contact card — D65: always navy (dark canonical) */}
-      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: '#1B2A4A', padding: '18px 20px', marginTop: 16 }}>
+      {/* Contact card — V3 translucent */}
+      <div style={{ display: 'flex', gap: 20, alignItems: 'flex-start', background: 'rgba(27,42,74,0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', padding: '18px 20px', marginTop: 16 }}>
         <img src={ED_HEADSHOT} alt="Ed Bruehl" style={{ width: 70, height: 70, objectFit: 'cover', objectPosition: 'top' }} />
         <div style={{ flex: 1 }}>
           <div style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 20, fontWeight: 400, color: '#FAF8F4', lineHeight: 1.1, marginBottom: 2 }}>Ed Bruehl</div>

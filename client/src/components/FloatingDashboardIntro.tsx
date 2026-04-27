@@ -112,9 +112,10 @@ export function FloatingDashboardIntro() {
       className="no-print"
       style={{
         position: 'fixed',
-        bottom: 24,
-        right: 24,
+        bottom: 'clamp(12px, 3vw, 24px)',
+        right: 'clamp(10px, 3vw, 24px)',
         zIndex: 9999,
+        maxWidth: 'calc(100vw - 20px)',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'stretch',
