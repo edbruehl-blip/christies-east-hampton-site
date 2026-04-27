@@ -3080,3 +3080,30 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 ### Lane 6 — /cork Block 7
 - [x] P39. Build Block 7 of 7 on /cork — "HOW WE OPERATE" (7-row operating system map)
 - [x] P40. Block 7 visual treatment matches Blocks 1–6 (navy, gold, mounted-object)
+
+## Dispatch 51 · Apr 27 2026 · One Canon Four Surfaces
+
+- [ ] Site footer: kill right-rail ART · BEAUTY · PROVENANCE · SINCE 1766 on white logo slab
+- [ ] Site footer: kill scrolling marquee repeating the canon line (meta strip stays)
+- [ ] P2: Pull Growth Model v2 (Sheet 1jR_sO3t7YoKjUlDQpSvZ7hbFNQVg2BD6J4Sqd14z0Ag) and run 13-flag math kill
+- [ ] P2 Flag 7 (KILL FIRST): Ed 2036 CIREG Profit Share — $5.93M → $0.93M decimal slip
+- [ ] P2 Flag 8: Angel 2036 Personal GCI — $4.93K → $4.93M (three orders of magnitude)
+- [ ] P2 Flag 9: Jarvis 2026 Personal GCI — $250K → $140K ($110K overstated)
+- [ ] P2 Flag 1: Jarvis 2026 All Streams total off vs row sum $110K
+- [ ] P2 Flag 2: Scott 2026 Year total off vs row sum
+- [ ] P2 Flag 3: Scott 2027 Year total off vs row sum
+- [ ] P2 Flag 4: Scott 2036 Year total off vs row sum
+- [ ] P2 Flag 5: Jarvis 2036 Total $1.28M vs calculated $1.50M
+- [ ] P2 Flag 6: Zoila 2036 Total $382.6K vs calculated $251.6K overstated
+- [ ] P2 Flag 10: $708M label — add EH-only scope rename
+- [ ] P2 Flag 11: $413M label — add formula note (12 producers x $500K x ramp x 3yr)
+- [ ] P2 Flag 12: Standalone SINCE 1766 in Office Model — kill (footer canon)
+- [ ] P2 Flag 13: Ed/Scott undefined asterisk — define or remove
+- [ ] P2: Office Model top banner EST. 1766 — kill
+- [ ] P2: Office Model page-2 banner repeat — kill
+- [ ] P1: Market Report PDF rebuild on 17 Lenape skeleton — one page, Ed voice
+- [ ] P3: Office Model template port — CIREG vocabulary, one page, after P2 GREEN
+- [ ] P3: Drop four 100-Day stage cards from Office Model PDF
+- [ ] P3: Four content blocks (Ascension Arc, Partnership Projections, Model Levers, Four Principles)
+- [ ] Drive folder stand-up (first task tomorrow)
+- [ ] Rename Office Model — never call it Pro Forma in any title, label, comment, or filename

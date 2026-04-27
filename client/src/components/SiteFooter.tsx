@@ -26,9 +26,6 @@ const CONDENSED: React.CSSProperties = {
   fontFamily: '"Barlow Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif',
 };
 
-const MARQUEE_TEXT =
-  'ART\u2002·\u2002BEAUTY\u2002·\u2002PROVENANCE\u2002·\u2002SINCE 1766\u2002·\u2002CHRISTIE\u2019S\u2002·\u2002EAST HAMPTON';
-
 function useWeatherFooter() {
   const [weather, setWeather] = useState<string | null>(null);
   useEffect(() => {
@@ -102,47 +99,6 @@ export function SiteFooter() {
                 edbruehl@christiesrealestategroup.com
               </a>
             </div>
-          </div>
-          {/* Founding line */}
-          <div
-            style={{
-              ...SANS,
-              fontSize: '0.65rem',
-              color: GOLD,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              alignSelf: 'center',
-              flexShrink: 0,
-            }}
-          >
-            Art · Beauty · Provenance · Since 1766
-          </div>
-        </div>
-
-        {/* ── Gold-gravure marquee ─────────────────────────────────────── */}
-        <div
-          style={{
-            overflow: 'hidden',
-            whiteSpace: 'nowrap',
-            borderTop: '1px solid rgba(200,172,120,0.12)',
-            borderBottom: '1px solid rgba(200,172,120,0.12)',
-            padding: '5px 0',
-          }}
-        >
-          <div style={{ display: 'inline-block', animation: 'christies-marquee 55s linear infinite' }}>
-            <span
-              style={{
-                ...CONDENSED,
-                fontSize: '0.65rem',
-                fontWeight: 600,
-                letterSpacing: '0.18em',
-                color: 'rgba(200,172,120,0.55)',
-                textTransform: 'uppercase',
-                padding: '0 48px',
-              }}
-            >
-              {MARQUEE_TEXT}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{MARQUEE_TEXT}
-            </span>
           </div>
         </div>
 
