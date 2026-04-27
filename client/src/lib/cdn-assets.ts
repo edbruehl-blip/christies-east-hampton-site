@@ -90,6 +90,12 @@ export const LOGO_C_ICON =
 
 export const GALLERY_IMAGES = [
   {
+    id: "room-fallback",
+    src: `${CDN}/PvzuUCeMdcVZXLsR.jpg`,
+    caption: "Christie's — Auction Room, Historical",
+    category: "institutional",
+  },
+  {
     id: "building-flags",
     src: `${CDN}/xxnqbHbKnDJGuFwB.jpg`,
     caption: "Christie's — King Street, London",
@@ -99,12 +105,6 @@ export const GALLERY_IMAGES = [
     id: "room-primary",
     src: `${CDN}/DtTxqkdyvvLrygvu.jpg`,
     caption: "The Grand Saleroom, Christie's",
-    category: "institutional",
-  },
-  {
-    id: "room-fallback",
-    src: `${CDN}/PvzuUCeMdcVZXLsR.jpg`,
-    caption: "Christie's — Auction Room, Historical",
     category: "institutional",
   },
   {
