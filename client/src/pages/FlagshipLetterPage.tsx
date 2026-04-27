@@ -162,7 +162,7 @@ export default function FlagshipLetterPage() {
                 lineHeight: 1.1, margin: '0 0 10px',
                 letterSpacing: '0.04em',
               }}>
-                A Letter from the Council
+                The Flagship Letter
               </h1>
 
             </div>
@@ -190,42 +190,9 @@ export default function FlagshipLetterPage() {
           </div>
         )}
 
-        {/* Letter body — James Christie portrait floats left on screen only */}
+        {/* Letter body — no inline portrait (portrait lives in hero header only — D42 fix) */}
         {paragraphs.length > 0 && (
           <>
-            {/* Portrait float */}
-            <div
-                className="flagship-body-portrait"
-                style={{
-                  float: 'left',
-                  marginRight: 28,
-                  marginBottom: 12,
-                  marginTop: 4,
-                }}
-              >
-                <div style={{
-                  padding: 3,
-                  border: `2px solid ${GOLD}`,
-                  boxShadow: `0 0 0 1px rgba(200,172,120,0.25), 0 6px 20px rgba(27,42,74,0.15)`,
-                  background: CREAM,
-                }}>
-                  <img
-                    src={JAMES_CHRISTIE_PORTRAIT_PRIMARY}
-                    alt="James Christie — Founder, Christie's, Est. 1766"
-                    style={{
-                      width: 80, height: 102,
-                      objectFit: 'cover', objectPosition: 'center 20%',
-                      display: 'block',
-                    }}
-                  />
-                </div>
-                <div style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  color: GOLD, fontSize: 8, letterSpacing: '0.14em',
-                  textTransform: 'uppercase', marginTop: 5, textAlign: 'center',
-                }}>
-                  James Christie · London · 1766
-                </div>                </div>
             {paragraphs.map((para, i) => {
               if (isSectionHeading(para)) {
                 return (
@@ -336,7 +303,7 @@ export default function FlagshipLetterPage() {
         @media (max-width: 639px) {
           .flagship-hero-portrait { display: none !important; }
           .flagship-hero-row { flex-direction: column !important; align-items: flex-start !important; gap: 16px !important; }
-          .flagship-body-portrait { display: none !important; }
+          /* flagship-body-portrait removed D42 — inline portrait deleted from DOM */
         }
 
         @media print {
@@ -354,7 +321,7 @@ export default function FlagshipLetterPage() {
           /* P0-1 Fix 4: Bigger body copy — Cormorant Garamond 13pt / 1.75 */
           p { color: #1B2A4A !important; font-size: 13pt !important; line-height: 1.75 !important; font-family: 'Cormorant Garamond', serif !important; }
           img { max-width: 100% !important; }
-          /* Wave 6 p6 Fix 1: Suppress hero portrait on print — body float portrait is the canonical print portrait */
+          /* D42: hero portrait suppressed on print — inline body portrait removed, hero is the only portrait */
           .flagship-hero-portrait { display: none !important; }
           /* Wave 6 p6 Fix 2: Headline — override clamp() for print, 28pt canonical */
           h1 { font-size: 28pt !important; line-height: 1.15 !important; color: #1B2A4A !important; }

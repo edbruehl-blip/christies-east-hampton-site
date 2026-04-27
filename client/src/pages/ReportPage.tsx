@@ -196,9 +196,14 @@ function Section1() {
           className="w-full object-cover"
           style={{ maxHeight: 520, display: 'block', objectPosition: 'center 35%' }}
         />
+        {/* D42: dual overlay — top dark navy kills royal blue cast, bottom gradient for text legibility */}
         <div
           className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, transparent 40%, rgba(27,42,74,0.85) 100%)' }}
+          style={{ background: 'rgba(13,27,42,0.45)' }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{ background: 'linear-gradient(to bottom, transparent 30%, rgba(13,27,42,0.88) 100%)' }}
         />
         <div
           className="absolute bottom-0 left-0 right-0 px-6 pb-6">

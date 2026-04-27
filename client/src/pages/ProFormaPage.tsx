@@ -322,9 +322,7 @@ function Page1({ generatedAt, activePipelineStr, exclusiveStr, liveNetProfitByYe
           ))}
         </div>
 
-        <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 6, color: 'rgba(200,172,120,0.3)', letterSpacing: '0.15em', textTransform: 'uppercase', textAlign: 'center', marginTop: 8 }}>
-          ART · BEAUTY · PROVENANCE · SINCE 1766
-        </div>
+        {/* D42: standalone SINCE 1766 removed — tagline in PageHeader already carries the year */}
       </div>
 
       <div style={FOOTNOTE}>

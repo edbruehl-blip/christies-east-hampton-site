@@ -23,6 +23,35 @@ import { jsPDF } from 'jspdf';
 const SCALE = 2; // 2× resolution for print quality
 
 /**
+ * Preloads all <img> elements inside a container so html2canvas captures them.
+ * Returns a promise that resolves once every image has loaded (or timed out).
+ */
+async function preloadImages(element: HTMLElement): Promise<void> {
+  const imgs = Array.from(element.querySelectorAll<HTMLImageElement>('img'));
+  await Promise.all(
+    imgs.map(
+      (img) =>
+        new Promise<void>((resolve) => {
+          if (img.complete && img.naturalWidth > 0) { resolve(); return; }
+          const onDone = () => resolve();
+          img.addEventListener('load', onDone, { once: true });
+          img.addEventListener('error', onDone, { once: true });
+          // Force reload if src is already set but image failed
+          if (img.src && !img.complete) {
+            const src = img.src;
+            img.src = '';
+            img.src = src;
+          }
+          // Safety timeout — don't block PDF for a single broken image
+          setTimeout(resolve, 4000);
+        })
+    )
+  );
+  // Small buffer for layout reflow after image loads
+  await new Promise<void>((r) => setTimeout(r, 120));
+}
+
+/**
  * Captures a DOM element as a high-resolution screenshot and saves it as a PDF.
  *
  * @param element  The root DOM element to capture (use a React ref).
@@ -32,6 +61,9 @@ export async function captureToPdf(
   element: HTMLElement,
   filename: string
 ): Promise<void> {
+  // Preload all images before capture so html2canvas doesn't miss lazy/CDN images
+  await preloadImages(element);
+
   const pdf = new jsPDF({ unit: 'mm', format: 'letter', orientation: 'portrait' });
   const pageW = pdf.internal.pageSize.getWidth();
   const pageH = pdf.internal.pageSize.getHeight();

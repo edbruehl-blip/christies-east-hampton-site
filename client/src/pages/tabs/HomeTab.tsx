@@ -275,58 +275,60 @@ const VIDEO_REEL = [
 
 function SectionVideoReel() {
   return (
-    <div style={{ background: '#0D1B2A' }}>
-      {VIDEO_REEL.map((v) => (
-        <div
-          key={v.key}
-          style={{
-            width: '100%',
-            borderBottom: '1px solid rgba(200,172,120,0.12)',
-            position: 'relative',
-          }}
-        >
-          <div style={{
-            position: 'absolute',
-            top: 20,
-            left: 24,
-            zIndex: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            gap: 4,
-            pointerEvents: 'none',
-          }}>
-            <div style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 10,
-              fontWeight: 600,
-              letterSpacing: '0.22em',
-              textTransform: 'uppercase',
-              color: '#947231',
-              opacity: 0.8,
-            }}>{v.label}</div>
-            <div style={{
-              fontFamily: '"Cormorant Garamond", serif',
-              fontSize: 'clamp(1rem, 2vw, 1.4rem)',
-              fontWeight: 400,
-              color: '#FAF8F4',
-              lineHeight: 1.2,
-            }}>{v.title}</div>
-          </div>
-          <video
-            src={v.src}
-            controls
-            playsInline
-            preload="metadata"
+    <div style={{ background: '#0D1B2A', borderTop: '1px solid rgba(200,172,120,0.12)', padding: '48px 24px 52px' }}>
+      {/* Constrained to match photo matrix max-width — D42 fix */}
+      <div style={{ maxWidth: 960, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 0 }}>
+        {VIDEO_REEL.map((v) => (
+          <div
+            key={v.key}
             style={{
-              display: 'block',
-              width: '100%',
-              maxHeight: '80vh',
-              objectFit: 'contain',
-              background: '#000',
+              borderBottom: '1px solid rgba(200,172,120,0.12)',
+              position: 'relative',
             }}
-          />
-        </div>
-      ))}
+          >
+            <div style={{
+              position: 'absolute',
+              top: 14,
+              left: 16,
+              zIndex: 2,
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 3,
+              pointerEvents: 'none',
+            }}>
+              <div style={{
+                fontFamily: '"Barlow Condensed", sans-serif',
+                fontSize: 9,
+                fontWeight: 600,
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
+                color: '#947231',
+                opacity: 0.8,
+              }}>{v.label}</div>
+              <div style={{
+                fontFamily: '"Cormorant Garamond", serif',
+                fontSize: 'clamp(0.9rem, 1.8vw, 1.25rem)',
+                fontWeight: 400,
+                color: '#FAF8F4',
+                lineHeight: 1.2,
+              }}>{v.title}</div>
+            </div>
+            <video
+              src={v.src}
+              controls
+              playsInline
+              preload="metadata"
+              style={{
+                display: 'block',
+                width: '100%',
+                maxHeight: '56vh',
+                objectFit: 'contain',
+                background: '#000',
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
