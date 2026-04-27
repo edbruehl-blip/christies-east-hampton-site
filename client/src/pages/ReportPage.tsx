@@ -24,6 +24,7 @@ import {
   ED_HEADSHOT_PRIMARY,
   GALLERY_IMAGES,
   LOGO_BLACK,
+  LOGO_WHITE,
 } from '@/lib/cdn-assets';
 import {
   MASTER_HAMLET_DATA,
