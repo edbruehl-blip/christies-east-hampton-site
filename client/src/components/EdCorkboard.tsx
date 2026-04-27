@@ -116,12 +116,12 @@ export function EdCorkboard() {
         <div style={{ textAlign: 'center' }}>
           <h1 style={{ fontSize: 22, fontWeight: 400, letterSpacing: '0.25em', color: C.gold, fontFamily: 'Georgia, serif', margin: 0 }}>CHRISTIE&rsquo;S FLAGSHIP CORKBOARD</h1>
           <div style={{ fontSize: 10, color: C.goldDark, letterSpacing: '0.3em', marginTop: 4, fontStyle: 'italic' }}>
-            Nouns, not numbers · One page · Internal only
+            The standard. The pipeline. The north star.
           </div>
         </div>
         <div style={{ fontSize: 9, letterSpacing: '0.15em', color: 'rgba(250,248,244,0.7)', textAlign: 'right', lineHeight: 1.6 }}>
           Updated April 29, 2026 · Public Launch<br />
-          Six-quadrant operational layout<br />
+          Daily snapshot · Internal<br />
           christiesrealestategroupeh.com
         </div>
       </header>
@@ -140,7 +140,7 @@ export function EdCorkboard() {
         flexWrap: 'wrap',
         gap: 8,
       }}>
-        <span><strong style={{ color: C.gold, fontStyle: 'italic' }}>God First</strong></span>
+        <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Operator's Rule</strong> · Ed signs off or it does not ship</span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Christie's Standard</strong> · Since 1766</span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Richard Rule</strong> · Operate from what is real</span>
         <span style={{ color: 'rgba(250,248,244,0.8)' }}><strong style={{ color: C.gold, fontStyle: 'italic' }}>The Hagler Standard</strong> · Train in the dark</span>
