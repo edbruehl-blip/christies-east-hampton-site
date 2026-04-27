@@ -8,7 +8,7 @@
  *   /future           → FUTURE tab via Dashboard initialTab="future" (global nav chrome · S2 fix Apr 23 2026)
  *   /letters/flagship   → Flagship AI-Letter live renderer (no nav chrome, Puppeteer PDF target)
  *   /letters/christies  → Christie's Letter to the Families (no nav chrome, Puppeteer PDF target)
- *   /cards/uhnw-path     → UHNW Wealth Path Card (no nav chrome, Puppeteer PDF target)
+ *   /cards/uhnw-path     → REMOVED (UHNW Path Card cut Night 10 — resurfaces tomorrow on strategic page)
  *   /cards/bike           → REMOVED (NeighborhoodCard cut Night 10)
  *
  * /public removed Sprint 11 — platform is private. Public subscription site is a separate future track.
@@ -41,7 +41,6 @@ import ChristiesLetterPage     from "./pages/ChristiesLetterPage";
 import AngelLetterPage         from "./pages/AngelLetterPage";
 import NeighborhoodLetterPage  from "./pages/NeighborhoodLetterPage";
 import CouncilBriefPage    from "./pages/CouncilBriefPage";
-import UHNWPathCardPage    from "./pages/UHNWPathCardPage";
 import ArchitectureOfWealthPage from "./pages/ArchitectureOfWealthPage";
 import CorkPage from "./pages/CorkPage";
 import MiroPage from "./pages/MiroPage";
@@ -108,7 +107,6 @@ function App() {
                 ProtectedFutureRoute deleted — auth gate scaffolded in Dashboard if FUTURE_AUTH_ENABLED.
                 /future now pixel-identical to /market /maps /pipe /intel in nav presence. */}
             <Route path="/future">{() => <Dashboard initialTab="future" />}</Route>
-            <Route path="/cards/uhnw-path" component={UHNWPathCardPage} />
             {/* /cork — Christie's Flagship Corkboard live route (D23 Work Order Apr 26 2026) */}
             <Route path="/cork" component={CorkPage} />
             {/* /miro — Flagship Mind Map (P12 Dispatch 40 Apr 26 2026) */}
