@@ -3123,3 +3123,11 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] Item 1: Apex DNS 405 — Ed runs GoDaddy 301 redirect @ → https://www.christiesrealestategroupeh.com. Manny verifies propagation.
 - [x] Item 2: HOME copy — "Rockefeller Center auction house" → "our New York auction house" (NeighborhoodLetterPage + founding-letter.ts) GREEN
 - [x] Item 3: $413M footnote — formula claim replaced with: "3-year cumulative office volume at base assumptions (12 PPL · 2% GCI · $500K starting production). Computed in Growth Model v2." GREEN
+
+## Consolidated Dispatch · Apr 28 2026
+
+- [x] Patch 1 /future render: $413M tile label → "EH 3-YEAR CUMULATIVE VOLUME", footnote → "$75M + $126M + $212M = $413M per Growth Model v2 — CHART_DATA tab" GREEN
+- [x] Patch 1 PDF export: SAME source (html2canvas of live DOM) — inherits all changes automatically GREEN
+- [x] PDF source path: SAME — html2canvas screenshots proFormaRef div (live React component, same tRPC hooks) GREEN
+- [x] Date tie: 1ST 100 DAYS "Dec 2025 – Mar 2026" is correct operating history (office opened before sign). 2ND reads "Mar – Apr 29, 2026". Internally consistent. GREEN
+- [ ] Post verdicts to D23 per surface (live render + PDF + source path + date tie) — pending checkpoint
