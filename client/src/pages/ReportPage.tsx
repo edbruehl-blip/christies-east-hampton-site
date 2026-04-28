@@ -532,6 +532,7 @@ function Section2() {
 
 // ─── SECTION 3 · Market Intelligence ─────────────────────────────────────────────────────
 interface TickerData {
+  sp500Change: number;
   vix: number;
   treasury10y: number;
   mortgage30y: number;

@@ -3107,3 +3107,13 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] P3: Four content blocks (Ascension Arc, Partnership Projections, Model Levers, Four Principles)
 - [x] Drive folder stand-up — folder created (ID: 1iP4glo_TwA4sB-b2gMNqVoSziqrqqqEL), scratch blocked by Drive quota (audit done directly against canonical)
 - [ ] Rename Office Model — never call it Pro Forma in any title, label, comment, or filename
+
+## Pre-Ilija Defect Sprint · Apr 27 2026 (Claude/ChatGPT Audit)
+
+- [x] Defect 2: Ed Bruehl All Streams Total — CPS1 removed from totals: 2026 $498.5K, 2027 $706.5K, 2028 $1.001M, 2036 $6.74M GREEN
+- [x] Defect 3: Zoila 2036 Personal GCI $4.93M → $433K (20% CAGR from $70K base, 10yr). Total $582.6K → $655K GREEN
+- [x] Defect 4: $413M KPI tile — formula sub-label added: "12 producers × $500K start × 20% CAGR × 3yr vol" GREEN
+- [x] Defect 5: AnewHomes split — Founder-Held 5% added, now sums to 100% GREEN
+- [x] HOME copy fix A: "1,000 offices across 52 countries" → "nearly 50 countries and territories" (per CIRE Dec 2025 press release) GREEN
+- [x] HOME copy fix B: "Rockefeller Center" confirmed correct — Christie's NYC is 20 Rockefeller Plaza. No change needed GREEN
+- [ ] Defect 1 (infrastructure): christiesrealestategroupeh.com apex (no www) returns 405 — FLAGGED TO ED, DNS/infrastructure fix required (not code)

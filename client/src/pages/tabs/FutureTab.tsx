@@ -282,13 +282,16 @@ function AssumptionsCalc() {
 
       {/* Three output cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
-        {[
-          { label: 'Per-Producer 3-Yr Cumulative *', val: fmtOut(413 * factor) },
-          { label: '2029 EH Flagship Cumulative †',  val: fmtOut(708 * factor) },
-          { label: '2036 Combined Volume',       val: fmtOut(3000 * factor) },
-        ].map(({ label, val }) => (
+        {([
+          { label: 'Per-Producer 3-Yr Cumulative *', sub: '12 producers × $500K start × 20% CAGR × 3yr vol', val: fmtOut(413 * factor) },
+          { label: '2029 EH Flagship Cumulative †', sub: '', val: fmtOut(708 * factor) },
+          { label: '2036 Combined Volume', sub: '', val: fmtOut(3000 * factor) },
+        ] as { label: string; sub: string; val: string }[]).map(({ label, sub, val }) => (
           <div key={label} style={{ background: outBg, padding: '5px 8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 6, border: '1px solid rgba(148,114,49,0.3)' }}>
-            <div style={{ ...SANS, fontSize: 7, letterSpacing: 1, color: outLabel, textTransform: 'uppercase', lineHeight: 1.2 }}>{label}</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <div style={{ ...SANS, fontSize: 7, letterSpacing: 1, color: outLabel, textTransform: 'uppercase', lineHeight: 1.2 }}>{label}</div>
+              {sub && <div style={{ ...SANS, fontSize: 6, letterSpacing: 0.3, color: '#7a8a96', lineHeight: 1.2 }}>{sub}</div>}
+            </div>
             <div style={{ ...SERIF, fontSize: 13, color: outValue, fontWeight: 500, letterSpacing: 0.3, whiteSpace: 'nowrap' }}>{val}</div>
           </div>
         ))}
@@ -298,7 +301,7 @@ function AssumptionsCalc() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: 7, borderTop: `1px solid ${notesBorder}` }}>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>* Governing Principle</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>* 3-yr cumulative vol at base assumptions (12 PPL, 2% GCI, $500K start). Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>* 3-yr cumulative vol at base assumptions (12 PPL, 2% GCI, $500K start). Formula: 12 producers × $500K starting volume × 20% YoY ramp × 3-year cumulative = $413M at 2% GCI. Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting &amp; EH-Only Scope</div>
@@ -321,7 +324,7 @@ function AssumptionsCalc() {
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&sect; AnewHomes Co.</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Ed Bruehl's vertically-integrated build platform. Ed 35% · Scott 35% · Richard Bruehl 10% · Jarvis 5% · Angel 5% · Zoila 5% (vesting). Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>Ed Bruehl's vertically-integrated build platform. Ed 35% · Scott 35% · Richard Bruehl 10% · Jarvis 5% · Angel 5% · Zoila 5% (vesting) · Founder-Held 5% = 100%. Scott Smith as Build Partner (June 1 2026 start), Richard Bruehl as Strategic Advisor. Growth trajectory: $50K 2026 · $150K 2027 · 12.5% CAGR 2028–2036 (company total $433K by 2036). Conservative base case pending post-June 1 doctrine review with Scott. Full doctrine: Christie's East Hampton Canonical Reference Library.</div>
         </div>
       </div>
     </div>
@@ -574,7 +577,7 @@ export default function FutureTab() {
   ];
 
   const zoilaStreams: StreamRow[] = [
-    { label: 'Personal GCI',             v26: '$17.5K°',v27: '$70K',  v28: '$84K',  v36: '$4.93M', color: C_EH },  // °pro-rated 8 months (May 4 start)
+    { label: 'Personal GCI',             v26: '$17.5K°',v27: '$70K',  v28: '$84K',  v36: '$433K',  color: C_EH },  // °pro-rated 8 months (May 4 start) · 2036 = 20% CAGR from $70K base, 10yr (May 4 start)
     { label: 'Nest Salary',                    v26: '$46.7K°',v27: '$17.5K°',v28: '—', v36: '—',  color: C_EH },  // °$70K/yr
     { label: <>AnewHomes 5%&nbsp;&dagger;</>,   v26: '$0',    v27: '$7.5K', v28: '$8.4K', v36: '$21.6K', color: '#c8946b' },
     { label: <>Ed&rsquo;s Team GCI Override&nbsp;&dagger;</>, v26: '$30K', v27: '$9K', v28: '—', v36: '—', color: '#9a9a9a' },
@@ -759,7 +762,7 @@ export default function FutureTab() {
                 subtitle="Broker – Managing Director"
                 streams={edStreams}
                 totLabel="All Streams Total"
-                tot={['$551K','$835K','$1.00M','$7.14M']}
+                tot={['$498.5K','$706.5K','$1.001M','$6.74M']}
                 clarifications={[
                   "Ed's Team GCI reference only — not included in total",
                   "CPS1 + CIRE Node visibility only — not included in total",
@@ -817,7 +820,7 @@ export default function FutureTab() {
                 nestNote="Nest salary $70K/yr · Start May 4 2026"
                 streams={zoilaStreams}
                 totLabel="All Streams Total"
-                tot={['$94.2K','$112K','$109.4K','$582.6K']}
+                tot={['$94.2K','$112K','$109.4K','$655K']}
                 clarifications={[
                   "CPS1 + CIRE Node visibility only — not included in total",
                 ]}
