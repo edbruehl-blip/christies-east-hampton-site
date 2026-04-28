@@ -3130,4 +3130,28 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Patch 1 PDF export: SAME source (html2canvas of live DOM) — inherits all changes automatically GREEN
 - [x] PDF source path: SAME — html2canvas screenshots proFormaRef div (live React component, same tRPC hooks) GREEN
 - [x] Date tie: 1ST 100 DAYS "Dec 2025 – Mar 2026" is correct operating history (office opened before sign). 2ND reads "Mar – Apr 29, 2026". Internally consistent. GREEN
-- [ ] Post verdicts to D23 per surface (live render + PDF + source path + date tie) — pending checkpoint
+- [x] Post verdicts to D23 per surface — comment 69f0b47b5c0ad4993c49a15f GREEN
+
+## Manny Two-Item Dispatch · Apr 28 2026
+
+- [x] Post Build verdict to D23 for checkpoint 78ae1c87 — comment 69f0be10 GREEN
+- [x] Drive quota verdict: BLOCKED (storageQuotaExceeded) — P0 scratch copy PARKED post-Ilija per §9
+- [x] DOCTRINE LOCK: /cork is canonically PUBLIC — no auth gate, no passcode, no noindex. Ed ruling Apr 28 9:50am. Do not gate without Ed direct override.
+
+## DEALS Schema + TOTALS Architecture Sprint · P0 · Apr 28 2026
+
+- [x] Cleanup: Kill 25 Horse Meadow row (stale duplicate) GREEN
+- [x] Cleanup: Kill Bonita DeWolf Amagansett seller-side duplicate row GREEN
+- [x] Cleanup: Kill 138A Montauk Highway row (Howard Morrel NYC deal, off-roster) GREEN
+- [x] Cleanup: Normalize all STATUS cells to Title Case taxonomy GREEN
+- [x] Cleanup: Add ORIGINAL LIST PRICE column (U) populated from current PRICE values GREEN
+- [x] Schema: Extend Sheet1 economics zone — 39 total columns A-AM (cols U-AM = 22 economics columns) GREEN
+- [x] TOTALS tab: Section A — Active $26.1M, In Contract $5.75M, Closed YTD $4.57M, Quiet $33.8M, Total $77.2M GREEN
+- [x] TOTALS tab: Section B — 5 GCI streams resolving, Ed Closed YTD $114.25K, zero #VALUE! errors GREEN
+- [x] TOTALS tab: Section C — Bonita Active Rental $8.5K, Total $8.5K, all agents resolving GREEN
+- [x] TOTALS tab: Section D — CPS-1 audit trail formulas live GREEN
+- [x] Render audit: All numbers mapped to source — render_audit_apr28.md written GREEN
+- [x] render_audit_apr28.md saved to /home/ubuntu/render_audit_apr28.md GREEN
+- [x] Test entries: 6 logged (9 Daniels Hole, 2 Old Hollow, 25 Horseshoe, 191 Bull Path, 110 Two Holes, 240 Montauk Hwy) GREEN
+- [x] Verify propagation: TOTALS resolving correctly, zero errors, all sections live GREEN
+- [ ] Post verdicts to D23 — pending checkpoint
