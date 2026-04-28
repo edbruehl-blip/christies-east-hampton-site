@@ -283,7 +283,7 @@ function AssumptionsCalc() {
       {/* Three output cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 4, padding: '4px 8px 6px' }}>
         {([
-          { label: 'Per-Producer 3-Yr Cumulative *', sub: '12 producers × $500K start × 20% CAGR × 3yr vol', val: fmtOut(413 * factor) },
+          { label: 'Per-Producer 3-Yr Cumulative *', sub: '3-yr cumulative office volume · base assumptions', val: fmtOut(413 * factor) },
           { label: '2029 EH Flagship Cumulative †', sub: '', val: fmtOut(708 * factor) },
           { label: '2036 Combined Volume', sub: '', val: fmtOut(3000 * factor) },
         ] as { label: string; sub: string; val: string }[]).map(({ label, sub, val }) => (
@@ -301,7 +301,7 @@ function AssumptionsCalc() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 8, padding: 7, borderTop: `1px solid ${notesBorder}` }}>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>* Governing Principle</div>
-          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>* 3-yr cumulative vol at base assumptions (12 PPL, 2% GCI, $500K start). Formula: 12 producers × $500K starting volume × 20% YoY ramp × 3-year cumulative = $413M at 2% GCI. Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
+          <div style={{ ...SANS, fontSize: 7, color: notesText, lineHeight: 1.35 }}>* 3-year cumulative office volume at base assumptions (12 PPL · 2% GCI · $500K starting production). Computed in Growth Model v2. Not yet contractual. Profit pool = GCI less 5% royalty, 70% agent splits, and overhead. Flagship team takes 35% (Ed 29.75%, Angel 1.75%, Jarvis 1.75%, Zoila 1.75%). Franchise takes 65%. 20% year-over-year to $1M cap then flat.</div>
         </div>
         <div>
           <div style={{ ...SANS, fontSize: 7.5, letterSpacing: 1.2, textTransform: 'uppercase', color: notesHdr, fontWeight: 500, marginBottom: 2 }}>&dagger; Zoila Vesting &amp; EH-Only Scope</div>

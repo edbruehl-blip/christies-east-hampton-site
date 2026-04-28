@@ -3117,3 +3117,9 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] HOME copy fix A: "1,000 offices across 52 countries" → "nearly 50 countries and territories" (per CIRE Dec 2025 press release) GREEN
 - [x] HOME copy fix B: "Rockefeller Center" confirmed correct — Christie's NYC is 20 Rockefeller Plaza. No change needed GREEN
 - [ ] Defect 1 (infrastructure): christiesrealestategroupeh.com apex (no www) returns 405 — FLAGGED TO ED, DNS/infrastructure fix required (not code)
+
+## Pre-Ilija Punch List · Apr 28 2026 (Architect + Intelligence concurred)
+
+- [ ] Item 1: Apex DNS 405 — Ed runs GoDaddy 301 redirect @ → https://www.christiesrealestategroupeh.com. Manny verifies propagation.
+- [x] Item 2: HOME copy — "Rockefeller Center auction house" → "our New York auction house" (NeighborhoodLetterPage + founding-letter.ts) GREEN
+- [x] Item 3: $413M footnote — formula claim replaced with: "3-year cumulative office volume at base assumptions (12 PPL · 2% GCI · $500K starting production). Computed in Growth Model v2." GREEN
