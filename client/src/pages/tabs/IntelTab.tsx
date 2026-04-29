@@ -18,6 +18,7 @@
  */
 
 import React, { useMemo, useRef } from 'react';
+import { trpc } from '@/lib/trpc';
 import { useLocation } from 'wouter';
 import { MatrixCard } from '@/components/MatrixCard';
 import { IntelligenceWebTabs } from '@/components/IntelligenceWebTabs';
@@ -131,7 +132,7 @@ function MindMapSection() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <div className="uppercase mb-1" style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', letterSpacing: '0.22em', fontSize: 10 }}>
-                Layer 1 · Institutional Mind Map
+                Layer 2 · Institutional Mind Map
               </div>
               <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: '#FAF8F4', fontWeight: 400, fontSize: '1.35rem', margin: 0 }}>
                 Christie's Flagship Mind Map
@@ -247,6 +248,31 @@ function MindMapSection() {
             Live Miro board · Institutional architecture · Edits made in Miro reflect on next load
           </div>
           )}
+          {/* Section 7D — CTA parity: OPEN FULL MAP → */}
+          {!embedBlocked && (
+            <div style={{ marginTop: 12, textAlign: 'right' as const }}>
+              <a
+                href={MIRO_BOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: '"Barlow Condensed", sans-serif',
+                  background: '#c9a84c',
+                  color: '#0a1628',
+                  fontSize: 11,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase' as const,
+                  fontWeight: 700,
+                  padding: '8px 20px',
+                  borderRadius: 2,
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                }}
+              >
+                Open Full Map →
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -258,160 +284,237 @@ const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 // ─── Option A: Branded static tile (no iframe, no Trello API key needed) ─────
 // 16 lanes · 213 cards · navy/gold · Cormorant Garamond · Perp audit Apr 23 2026
 // Static counts canonical as of April 23, 2026 · Issue #2 fix · GitHub Issue #2
-const TRELLO_LANES = [
-  { name: 'THIS WEEK',                    count: 6  },
-  { name: 'ACTIVE PIPELINE',              count: 22 },
-  { name: 'RECRUITS',                     count: 28 },
-  { name: 'PROJECTS · Website & Systems', count: 28 },
-  { name: 'FLAGSHIP TEAM',                count: 7  },
-  { name: 'BROKER ONBOARDING',            count: 2  },
-  { name: "CHRISTIE'S NETWORK",           count: 18 },
-  { name: 'EAST HAMPTON OFFICE',          count: 5  },
-  { name: 'KEY CLIENTS · Whales',         count: 8  },
-  { name: 'CASE STUDY · James Christie',  count: 3  },
-  { name: 'DOCTRINE LIBRARY',             count: 53 },
-  { name: 'FLAGSHIP LETTER ARCHIVE',      count: 2  },
-  { name: 'Market Intelligence Reports',  count: 6  },
-  { name: 'COUNCIL BRIEF ARCHIVE',        count: 12 },
-  { name: 'PARTNER NETWORK',              count: 9  },
-  { name: 'FUTURE PIPELINE',              count: 14 },
+// TRELLO_LANES static list removed — replaced by live trpc.intel.trelloTriage query (Section 7 · Apr 29 2026)
+// Banker-book data (RECRUITS 28, FLAGSHIP TEAM 7) must not broadcast publicly.
+
+// ─── Section 7 · Command Board Triage Strip ───────────────────────────────────
+// Live Trello data via trpc.intel.trelloTriage · 9 filter pills · Apr 29 2026
+// Banker-book data (RECRUITS, FLAGSHIP TEAM counts) NOT rendered publicly.
+// Only card names, assignees, due dates, labels, and list names are shown.
+
+const TRIAGE_PILLS = [
+  { label: 'All',     filter: '' },
+  { label: 'Mine',    filter: 'Ed Bruehl' },
+  { label: 'Angel',   filter: 'Angel Theodore' },
+  { label: 'Jarvis',  filter: 'Jarvis' },
+  { label: 'Zoila',   filter: 'Zoila' },
+  { label: 'Scott',   filter: 'Scott' },
+  { label: 'Richard', filter: 'Richard' },
+  { label: 'Griff',   filter: 'Griff' },
+  { label: 'Agenda',  filter: 'AGENDA' },
 ];
 
 function TrelloLayer() {
   const NAVY    = '#0a1628';
   const GOLD    = '#c9a84c';
-  const GOLD_DIM = 'rgba(201,168,76,0.35)';
   const CREAM   = '#faf8f4';
-  const MUTED   = 'rgba(250,248,244,0.85)';
+  const MUTED   = 'rgba(250,248,244,0.75)';
+  const LABEL_S: React.CSSProperties = { fontFamily: '"Barlow Condensed", sans-serif' };
+  const SERIF_S: React.CSSProperties = { fontFamily: '"Cormorant Garamond", serif' };
+  const SANS_S:  React.CSSProperties = { fontFamily: '"Source Sans 3", sans-serif' };
+
+  const [activePill, setActivePill] = React.useState('');
+  const { data, isLoading, error } = trpc.intel.trelloTriage.useQuery(
+    { pill: activePill },
+    { staleTime: 2 * 60 * 1000, refetchOnWindowFocus: false }
+  );
+
+  const cards = data?.cards ?? [];
+
+  // Filter by pill
+  const filtered = React.useMemo(() => {
+    if (!activePill) return cards.slice(0, 12);
+    const f = activePill.toLowerCase();
+    if (f === 'agenda') {
+      return cards.filter((c: any) => c.listName?.toLowerCase().includes('agenda')).slice(0, 12);
+    }
+    return cards.filter((c: any) =>
+      c.assignees?.some((a: string) => a.toLowerCase().includes(f)) ||
+      c.listName?.toLowerCase().includes(f)
+    ).slice(0, 12);
+  }, [cards, activePill]);
+
+  // Label color map
+  const labelColor = (color: string) => {
+    const map: Record<string, string> = {
+      red: '#e05555', green: '#4caf7d', blue: '#4a90d9', yellow: '#c9a84c',
+      orange: '#e08c3a', purple: '#9c6dd8', pink: '#d96da0', sky: '#5bc4e0',
+      lime: '#8bc34a', black: '#555', null: '#947231',
+    };
+    return map[color] ?? '#947231';
+  };
 
   return (
     <div className="px-6 py-8" style={{ background: 'transparent' }}>
       <div style={{ maxWidth: 'var(--frame-max-w)', margin: '0 auto' }}>
         <div style={{ background: 'rgba(27,42,74,0.88)', border: '1px solid rgba(200,172,120,0.35)', borderRadius: 10, boxShadow: '0 8px 32px rgba(0,0,0,0.35)', padding: '20px 24px' }}>
-        {/* ── Header row ─────────────────────────────────────────────────── */}
-        <div className="flex items-start justify-between mb-5">
-          <div>
-            <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: GOLD, letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
-              Layer 2 · Structural Architecture
-            </div>
-            <h3 style={{ fontFamily: '"Cormorant Garamond", serif', color: CREAM, fontWeight: 400, fontSize: '1.35rem', margin: 0, letterSpacing: '0.04em' }}>
-              Christie's East Hampton · Command Board
-            </h3>
-            <p style={{ fontFamily: '"Source Sans 3", sans-serif', color: MUTED, fontSize: 11, marginTop: 4 }}>
-              213 cards · 16 lists · Live Trello board
-            </p>
-          </div>
-          <a
-            href={TRELLO_BOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              fontFamily: '"Barlow Condensed", sans-serif',
-              border: `1px solid ${GOLD}`,
-              color: GOLD,
-              padding: '6px 18px',
-              fontSize: 11,
-              letterSpacing: '0.14em',
-              textTransform: 'uppercase',
-              textDecoration: 'none',
-              borderRadius: 2,
-              flexShrink: 0,
-              whiteSpace: 'nowrap',
-              transition: 'background 0.15s',
-            }}
-          >
-            Open in Trello ↗
-          </a>
-        </div>
 
-        {/* ── Board tile ─────────────────────────────────────────────────── */}
-        <div style={{
-          background: NAVY,
-          border: `1px solid ${GOLD}`,
-          borderRadius: 4,
-          padding: '20px 20px 16px',
-        }}>
-          {/* 11 lane tiles in 3-column grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-            gap: 10,
-            marginBottom: 16,
-          }}>
-            {TRELLO_LANES.map(lane => (
+          {/* Header row */}
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <div style={{ ...LABEL_S, color: GOLD, letterSpacing: '0.22em', fontSize: 10, textTransform: 'uppercase', marginBottom: 4 }}>
+                Layer 1 · Command Board
+              </div>
+              <h3 style={{ ...SERIF_S, color: CREAM, fontWeight: 400, fontSize: '1.35rem', margin: 0, letterSpacing: '0.04em' }}>
+                Christie’s East Hampton · Command Board
+              </h3>
+              <p style={{ ...SANS_S, color: MUTED, fontSize: 11, marginTop: 4 }}>
+                Live Operating Board · Open Trello to view
+              </p>
+            </div>
+            <a
+              href={TRELLO_BOARD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                ...LABEL_S,
+                border: `1px solid ${GOLD}`,
+                color: GOLD,
+                padding: '6px 18px',
+                fontSize: 11,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                textDecoration: 'none',
+                borderRadius: 2,
+                flexShrink: 0,
+                whiteSpace: 'nowrap',
+                transition: 'background 0.15s',
+              }}
+            >
+              Open in Trello ↗
+            </a>
+          </div>
+
+          {/* 9 filter pills */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+            {TRIAGE_PILLS.map(pill => (
+              <button
+                key={pill.label}
+                onClick={() => setActivePill(activePill === pill.filter ? '' : pill.filter)}
+                style={{
+                  ...LABEL_S,
+                  fontSize: 9,
+                  letterSpacing: '0.18em',
+                  textTransform: 'uppercase',
+                  padding: '4px 12px',
+                  borderRadius: 2,
+                  border: `1px solid ${activePill === pill.filter ? GOLD : 'rgba(200,172,120,0.3)'}`,
+                  background: activePill === pill.filter ? 'rgba(201,168,76,0.18)' : 'transparent',
+                  color: activePill === pill.filter ? GOLD : 'rgba(200,172,120,0.6)',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
+                }}
+              >
+                {pill.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Triage strip */}
+          {isLoading && (
+            <div style={{ ...SANS_S, color: MUTED, fontSize: 11, padding: '24px 0', textAlign: 'center' }}>
+              Loading live board…
+            </div>
+          )}
+          {!isLoading && (error || data?.error) && (
+            <div style={{ background: NAVY, border: `1px solid ${GOLD}`, borderRadius: 4, padding: '20px 20px 16px' }}>
+              <div style={{ ...SANS_S, color: MUTED, fontSize: 11, marginBottom: 16 }}>
+                Live board data unavailable. Open Trello directly to view the Command Board.
+              </div>
               <a
-                key={lane.name}
                 href={TRELLO_BOARD_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  background: 'rgba(201,168,76,0.06)',
-                  border: `0.5px solid ${GOLD_DIM}`,
-                  borderRadius: 3,
-                  padding: '9px 12px',
-                  textDecoration: 'none',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s',
+                  display: 'block', width: '100%', textAlign: 'center',
+                  background: GOLD, color: NAVY, ...LABEL_S,
+                  fontSize: 13, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  fontWeight: 700, padding: '10px 0', borderRadius: 2,
+                  textDecoration: 'none', boxSizing: 'border-box' as const,
                 }}
-                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.14)')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.06)')}
               >
-                <span style={{
-                  fontFamily: '"Cormorant Garamond", serif',
-                  color: CREAM,
-                  fontSize: 12,
-                  letterSpacing: '0.05em',
-                  fontWeight: 500,
-                  lineHeight: 1.3,
-                }}>
-                  {lane.name}
-                </span>
-                <span style={{
-                  fontFamily: '"Barlow Condensed", sans-serif',
-                  color: GOLD,
-                  fontSize: 13,
-                  fontWeight: 700,
-                  letterSpacing: '0.06em',
-                  marginLeft: 10,
-                  flexShrink: 0,
-                  background: 'rgba(201,168,76,0.15)',
-                  borderRadius: 2,
-                  padding: '1px 7px',
-                }}>
-                  {lane.count}
-                </span>
+                Open Full Board →
               </a>
-            ))}
-          </div>
-
-          {/* Full-width Open Board button */}
-          <a
-            href={TRELLO_BOARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'block',
-              width: '100%',
-              textAlign: 'center',
-              background: GOLD,
-              color: NAVY,
-              fontFamily: '"Barlow Condensed", sans-serif',
-              fontSize: 13,
-              letterSpacing: '0.18em',
-              textTransform: 'uppercase',
-              fontWeight: 700,
-              padding: '10px 0',
-              borderRadius: 2,
-              textDecoration: 'none',
-              boxSizing: 'border-box',
-            }}
-          >
-            Open Full Board →
-          </a>
-        </div>
+            </div>
+          )}
+          {!isLoading && !error && !data?.error && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {filtered.length === 0 && (
+                <div style={{ ...SANS_S, color: MUTED, fontSize: 11, padding: '16px 0', textAlign: 'center' }}>
+                  No cards match this filter.
+                </div>
+              )}
+              {filtered.map((card: any) => (
+                <a
+                  key={card.id}
+                  href={card.shortUrl || TRELLO_BOARD_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    gap: 12,
+                    background: 'rgba(201,168,76,0.04)',
+                    border: '0.5px solid rgba(200,172,120,0.2)',
+                    borderRadius: 3,
+                    padding: '10px 14px',
+                    textDecoration: 'none',
+                    transition: 'background 0.15s',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.10)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'rgba(201,168,76,0.04)')}
+                >
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginBottom: 2 }}>
+                      {card.labels?.map((lbl: any, i: number) => (
+                        <span key={i} style={{
+                          display: 'inline-block',
+                          width: 8, height: 8, borderRadius: '50%',
+                          background: labelColor(lbl.color),
+                          flexShrink: 0,
+                        }} />
+                      ))}
+                      <span style={{ ...SERIF_S, color: CREAM, fontSize: 13, fontWeight: 500, letterSpacing: '0.03em', lineHeight: 1.3 }}>
+                        {card.name}
+                      </span>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <span style={{ ...LABEL_S, color: 'rgba(200,172,120,0.5)', fontSize: 9, letterSpacing: '0.14em', textTransform: 'uppercase' }}>
+                        {card.listName}
+                      </span>
+                      {card.assignees?.length > 0 && (
+                        <span style={{ ...SANS_S, color: 'rgba(250,248,244,0.4)', fontSize: 9 }}>
+                          · {card.assignees.join(', ')}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  {card.due && (
+                    <span style={{ ...LABEL_S, color: 'rgba(200,172,120,0.55)', fontSize: 9, letterSpacing: '0.1em', flexShrink: 0 }}>
+                      {new Date(card.due).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                  )}
+                </a>
+              ))}
+              {/* Full-width Open Board button */}
+              <a
+                href={TRELLO_BOARD_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'block', width: '100%', textAlign: 'center',
+                  background: GOLD, color: NAVY, ...LABEL_S,
+                  fontSize: 13, letterSpacing: '0.18em', textTransform: 'uppercase',
+                  fontWeight: 700, padding: '10px 0', borderRadius: 2,
+                  textDecoration: 'none', boxSizing: 'border-box' as const,
+                  marginTop: 4,
+                }}
+              >
+                Open Full Board →
+              </a>
+            </div>
+          )}
         </div>{/* /mount frame */}
       </div>
     </div>
@@ -1035,10 +1138,11 @@ function CorkboardLayer() {
 
 const INTEL_SECTIONS = [
   { id: 'intel-layer-corkboard', label: 'Corkboard · Day One' },
-  { id: 'intel-layer-1', label: 'Mind Map' },
-  { id: 'intel-layer-2', label: 'Command Board' },
+  { id: 'intel-layer-1', label: 'Command Board' },
+  { id: 'intel-layer-2', label: 'Mind Map' },
   { id: 'intel-layer-3', label: 'Master Calendar' },
   // Layers 4–6 removed from public surface per D34 Apr 24 2026
+  // Layer order swapped: Trello = Layer 1, Miro = Layer 2 · Section 7 · Apr 29 2026
 ];
 
 function IntelStickyNav() {
@@ -1105,15 +1209,61 @@ export default function IntelTab() {
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 1 — Institutional Mind Map */}
+      {/* Section 7C — Trajectory Banner · Apr 29 2026 */}
+      <div style={{
+        background: 'rgba(10,22,40,0.95)',
+        borderTop: '1px solid rgba(200,172,120,0.3)',
+        borderBottom: '1px solid rgba(200,172,120,0.3)',
+        padding: '14px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap' as const,
+        gap: 12,
+      }}>
+        <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: '#947231', fontSize: 11, letterSpacing: '0.22em', textTransform: 'uppercase' as const }}>
+          THE TRAJECTORY · 100 DAYS → 10 YEARS
+        </div>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' as const }}>
+          {[
+            { label: 'CLOSED YTD', value: '$4.57M' },
+            { label: 'EXCLUSIVE ACTIVE', value: '$13.62M' },
+            { label: '2026 TARGET', value: '$75M' },
+            { label: '2036 VISION', value: '$3B' },
+          ].map(item => (
+            <div key={item.label} style={{ textAlign: 'center' as const }}>
+              <div style={{ fontFamily: '"Cormorant Garamond", serif', color: '#faf8f4', fontSize: '1.1rem', fontWeight: 500 }}>{item.value}</div>
+              <div style={{ fontFamily: '"Barlow Condensed", sans-serif', color: 'rgba(200,172,120,0.55)', fontSize: 8, letterSpacing: '0.18em', textTransform: 'uppercase' as const, marginTop: 2 }}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+        {/* Section 7E — Public Launch Badge · auto-sunsets Apr 29 EOD */}
+        {new Date() <= new Date('2026-04-30T00:00:00-04:00') && (
+          <div style={{
+            fontFamily: '"Barlow Condensed", sans-serif',
+            background: 'rgba(201,168,76,0.15)',
+            border: '1px solid rgba(201,168,76,0.5)',
+            color: '#c9a84c',
+            fontSize: 9,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase' as const,
+            padding: '4px 12px',
+            borderRadius: 2,
+          }}>
+            PUBLIC LAUNCH · APR 29 2026
+          </div>
+        )}
+      </div>
+
+      {/* Layer 1 — Command Board (Trello) · swapped to Layer 1 per Section 7 · Apr 29 2026 */}
       <div id="intel-layer-1" />
-      <MindMapSection />
+      <TrelloLayer />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
-      {/* Layer 2 — Trello Board (Live Structural Reference) */}
+      {/* Layer 2 — Institutional Mind Map (Miro) · swapped to Layer 2 per Section 7 · Apr 29 2026 */}
       <div id="intel-layer-2" />
-      <TrelloLayer />
+      <MindMapSection />
 
       <div style={{ height: 1, background: 'rgba(200,172,120,0.2)' }} />
 
@@ -1130,7 +1280,7 @@ export default function IntelTab() {
       {/* Doctrine footer */}
       <div className="px-6 py-4 text-center border-t" style={{ background: 'rgba(27, 42, 74, 0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)', borderColor: '#947231' }}>
         <div style={{ fontFamily: '"Source Sans 3", sans-serif', fontStyle: 'italic', color: 'rgba(200,172,120,0.65)', fontSize: '0.72rem' }}>
-          Art. Beauty. Provenance. · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
+          Art · Beauty · Provenance · Since 1766 · 26 Park Place, East Hampton, NY 11937 · 646-752-1233
         </div>
       </div>
 

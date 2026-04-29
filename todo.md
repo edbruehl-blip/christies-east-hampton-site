@@ -3154,4 +3154,18 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] render_audit_apr28.md saved to /home/ubuntu/render_audit_apr28.md GREEN
 - [x] Test entries: 6 logged (9 Daniels Hole, 2 Old Hollow, 25 Horseshoe, 191 Bull Path, 110 Two Holes, 240 Montauk Hwy) GREEN
 - [x] Verify propagation: TOTALS resolving correctly, zero errors, all sections live GREEN
-- [ ] Post verdicts to D23 — pending checkpoint
+- [x] Post verdicts to D23 — comment 69f12bd8 GREEN
+
+## Section 7 / Sunrise Dispatch · Public Launch Day · Apr 29 2026
+
+- [x] Section 7A: 16-list-count grid killed. Live triage strip with 6 cards + RECRUITS/FLAGSHIP TEAM filter doctrine GREEN
+- [x] Section 7A: 9 filter pills live (Mine · Angel · Jarvis · Zoila · Scott · Richard · Griff · Agenda · Mtg) GREEN
+- [x] Section 7A: Layer order swapped — Command Board = Layer 1, Mind Map = Layer 2 GREEN
+- [x] Section 7B: Masthead trim — "Daily snapshot · Internal" + URL line killed, "Updated · April 29, 2026" only GREEN
+- [x] Section 7C: Trajectory banner live — THE TRAJECTORY · 100 DAYS → 10 YEARS · $4.57M · $13.62M · $75M · $3B GREEN
+- [x] Section 7D: CTA parity — Trello "Open Full Board →" + Miro "Open Full Map →" both live GREEN
+- [x] Section 7E: PUBLIC LAUNCH · APR 29 2026 badge live (auto-sunsets Apr 30 00:00 EDT) GREEN
+- [x] Section 7F: Mortgage ticker — FRED PMMS feed confirmed live (6.23% cached), mortgageDate returned by API, stale fallback already in market-route.ts GREEN
+- [x] Section 7G: Footer — "Art · Beauty · Provenance · Since 1766" confirmed live on /intel doctrine footer GREEN
+- [x] Monday Council Trello structure: AGENDA list + 4 labels (:mon-council · :weds-office · :thu-ilija · :flagship-letter) created on Command Board GREEN
+- [ ] Checkpoint, publish, post Section 7 signal to D23 — SAVING NOW

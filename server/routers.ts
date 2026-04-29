@@ -252,6 +252,71 @@ export const appRouter = router({
      * when multiple users hover the same node, or the same user revisits the tooltip.
      * Cache is keyed by normalized entity name and survives across requests within a process.
      */
+    /**
+     * Fetch live cards from the Christie's EH Command Board (Trello).
+     * Returns top cards per list for the triage strip on /intel Layer 1.
+     * Auth: TRELLO_API_KEY + TRELLO_TOKEN (server-side env vars).
+     * publicProcedure: no session cookie required — Trello API key is the credential.
+     * 2-minute server-side cache to avoid hammering the Trello API.
+     */
+    trelloTriage: publicProcedure
+      .input(z.object({ pill: z.string().optional() }))
+      .query(async ({ input }) => {
+        const TRELLO_CACHE_TTL_MS = 2 * 60 * 1000;
+        type TrelloCache = { cards: any[]; lists: any[]; cachedAt: number };
+        const cache: Map<string, TrelloCache> =
+          ((globalThis as any).__trelloTriageCache ??= new Map<string, TrelloCache>());
+        const cacheKey = 'triage';
+        const cached = cache.get(cacheKey);
+        if (cached && Date.now() - cached.cachedAt < TRELLO_CACHE_TTL_MS) {
+          return { cards: cached.cards, lists: cached.lists, error: null };
+        }
+        try {
+          const key = process.env.TRELLO_API_KEY ?? '';
+          const token = process.env.TRELLO_TOKEN ?? '';
+          const boardId = 'H2mvEgRi';
+          if (!key || !token) return { cards: [], lists: [], error: 'Trello credentials not configured' };
+          // Fetch lists
+          const listsRes = await fetch(
+            `https://api.trello.com/1/boards/${boardId}/lists?key=${key}&token=${token}&fields=name,id`,
+            { signal: AbortSignal.timeout(8000) }
+          );
+          const lists = await listsRes.json() as Array<{ id: string; name: string }>;
+          // Fetch all cards (limit 100, open only)
+          const cardsRes = await fetch(
+            `https://api.trello.com/1/boards/${boardId}/cards?key=${key}&token=${token}&filter=open&limit=100&fields=name,idList,due,idMembers,labels,shortUrl,dateLastActivity`,
+            { signal: AbortSignal.timeout(8000) }
+          );
+          const allCards = await cardsRes.json() as Array<any>;
+          // Fetch members for name resolution
+          const membersRes = await fetch(
+            `https://api.trello.com/1/boards/${boardId}/members?key=${key}&token=${token}&fields=fullName,username`,
+            { signal: AbortSignal.timeout(8000) }
+          );
+          const members = await membersRes.json() as Array<{ id: string; fullName: string; username: string }>;
+          const memberMap: Record<string, string> = {};
+          for (const m of members) memberMap[m.id] = m.fullName || m.username;
+          // Enrich cards with list name and member names
+          const listMap: Record<string, string> = {};
+          for (const l of lists) listMap[l.id] = l.name;
+          const enriched = allCards.map((c: any) => ({
+            id: c.id,
+            name: c.name,
+            listName: listMap[c.idList] ?? c.idList,
+            listId: c.idList,
+            due: c.due,
+            assignees: (c.idMembers ?? []).map((mid: string) => memberMap[mid] ?? mid),
+            labels: (c.labels ?? []).map((l: any) => ({ name: l.name, color: l.color })),
+            shortUrl: c.shortUrl,
+            dateLastActivity: c.dateLastActivity,
+          }));
+          cache.set(cacheKey, { cards: enriched, lists, cachedAt: Date.now() });
+          return { cards: enriched, lists, error: null };
+        } catch (err: any) {
+          return { cards: [], lists: [], error: err.message ?? 'Trello unavailable' };
+        }
+      }),
+
     entityNews: publicProcedure
       .input(z.object({ entityName: z.string().min(1).max(120) }))
       .query(async ({ input }) => {
