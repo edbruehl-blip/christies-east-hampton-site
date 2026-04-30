@@ -288,7 +288,7 @@ const TRELLO_BOARD_URL = 'https://trello.com/b/H2mvEgRi';
 // Banker-book data (RECRUITS 28, FLAGSHIP TEAM 7) must not broadcast publicly.
 
 // ─── Section 7 · Command Board Triage Strip ───────────────────────────────────
-// Live Trello data via trpc.intel.trelloTriage · 9 filter pills · Apr 29 2026
+// Live Trello data via trpc.intel.trelloTriage · 10 filter pills · Apr 29 2026
 // Banker-book data (RECRUITS, FLAGSHIP TEAM counts) NOT rendered publicly.
 // Only card names, assignees, due dates, labels, and list names are shown.
 
@@ -302,6 +302,7 @@ const TRIAGE_PILLS = [
   { label: 'Richard', filter: 'Richard' },
   { label: 'Griff',   filter: 'Griff' },
   { label: 'Agenda',  filter: 'AGENDA' },
+  { label: 'Mtg',     filter: 'MTG' },
 ];
 
 function TrelloLayer() {
@@ -327,6 +328,13 @@ function TrelloLayer() {
     const f = activePill.toLowerCase();
     if (f === 'agenda') {
       return cards.filter((c: any) => c.listName?.toLowerCase().includes('agenda')).slice(0, 12);
+    }
+    if (f === 'mtg') {
+      return cards.filter((c: any) =>
+        c.listName?.toLowerCase().includes('mtg') ||
+        c.name?.toLowerCase().includes('mtg') ||
+        c.labels?.some((l: any) => l.name?.toLowerCase().includes('mtg'))
+      ).slice(0, 12);
     }
     return cards.filter((c: any) =>
       c.assignees?.some((a: string) => a.toLowerCase().includes(f)) ||

@@ -461,7 +461,7 @@ function TwoColumnPipeline() {
       </div>
 
       {/* Two-column grid — desktop side-by-side, mobile stacked */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 420px), 1fr))', gap: 16, alignItems: 'start' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 16, alignItems: 'start' }}>
         <ColumnPanel
           title="Supply"
           subtitle="Listings · Land · Commercial/Coop · Quiet · Rentals"

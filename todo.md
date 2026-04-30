@@ -3196,3 +3196,7 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [ ] W-2: /pipe "LAST SYNCED 205 AGO" truncation — fix
 - [ ] W-3: /intel Layer 1 — add Mtg pill back — final 10: ALL · Mine · Angel · Jarvis · Zoila · Scott · Richard · Griff · Agenda · Mtg
 - [ ] W-4: Corkboard EXCLUSIVE ACTIVE — subtitle "Ed's exclusive listings only"
+
+## Patch · Desktop Layout + Mtg Pill · Apr 30 2026
+- [ ] P-1: /pipe desktop CSS fix — side-by-side two-column at >=768px (Supply left, Demand right), vertical stack mobile only
+- [ ] P-2: /intel Layer 1 — add Mtg pill back, final 10: ALL · Mine · Angel · Jarvis · Zoila · Scott · Richard · Griff · Agenda · Mtg
