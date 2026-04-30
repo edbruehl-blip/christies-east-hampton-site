@@ -6,7 +6,7 @@ import { ENV } from "./_core/env";
 import { z } from "zod";
 import { getDb } from "./db";
 import { pipeline } from "../drizzle/schema";
-import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian, readHeadcountTable, readMilestones, readPartnerCards } from './sheets-helper';
+import { readPipelineDeals, appendPipelineRow, updatePipelineStatus, updatePropertyReport, readIntelWebRows, readMarketMatrixRows, readGrowthModelData, readGrowthModelVolume, getPipelineKpis, readAscensionArcData, readHamptonsMedian, readHeadcountTable, readMilestones, readPartnerCards, readPipelineSplit } from './sheets-helper';
 import { beehiivSubscribe, beehiivGetStats, sendTestEmail } from './newsletter';
 import { syncListings } from './listings-sync-route';
 import { FLAGSHIP_LETTER_TEXT, CHRISTIES_LETTER_TEXT } from './letter-content';
@@ -56,6 +56,24 @@ export const appRouter = router({
     // Live pipeline KPIs for PDF export injection (Sprint 41)
     getKpis: publicProcedure.query(async () => {
       return await getPipelineKpis();
+    }),
+
+    // Section 6 — Supply/Demand two-column split (row 49 marker in Sheet1)
+    // Auth: publicProcedure — service account is the credential (same as sheetDeals)
+    sheetSplit: publicProcedure.query(async () => {
+      try {
+        const split = await readPipelineSplit();
+        return { ...split, error: null };
+      } catch (err: any) {
+        return {
+          supply: [],
+          demand: [],
+          supplyTotals: { totalBook: 0, active: 0, quiet: 0, inContract: 0, closed: 0, dealCount: 0 },
+          demandTotals: { totalBook: 0, active: 0, inContract: 0, closed: 0, dealCount: 0 },
+          lastSyncedAt: new Date().toISOString(),
+          error: err.message ?? 'Failed to read sheet',
+        };
+      }
     }),
 
     sheetDeals: publicProcedure.query(async () => {

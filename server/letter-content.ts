@@ -22,7 +22,7 @@ For twenty years, I've helped families buy, sell, and steward property here. The
 
 That's why Christie's made sense. In 1766, James Christie held his first sale in London on one principle: help people understand the true value of what they own before deciding what to do with it. That's how I've always operated. Do what's right. Think long term. No exceptions.
 
-I am honored to be Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. This flagship sits at the intersection of three worlds: Christie's London heritage, our Rockefeller Center auction house in New York City, and the Hamptons, one of the most significant luxury markets on earth. With 1,000 offices across 52 countries, the team we're assembling is built on one standard: service first, your interests first, always.
+I am honored to be Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. This flagship sits at the intersection of three worlds: Christie's London heritage, our New York auction house, and the Hamptons, one of the most significant luxury markets on earth. Spanning nearly 50 countries and territories, the team we're assembling is built on one standard: service first, your interests first, always.
 
 If you or someone you know is ready to operate at this level, we welcome the conversation.
 
@@ -77,7 +77,7 @@ For twenty years, I've helped families buy, sell, and steward property here. The
 
 That's why Christie's made sense. In 1766, James Christie held his first sale in London on one principle: help people understand the true value of what they own before deciding what to do with it. That's how I've always operated. Do what's right. Think long term. No exceptions.
 
-I am honored to be Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. This flagship sits at the intersection of three worlds: Christie's London heritage, our Rockefeller Center auction house in New York City, and the Hamptons, one of the most significant luxury markets on earth. With 1,000 offices across 52 countries, the team we're assembling is built on one standard: service first, your interests first, always.
+I am honored to be Managing Director of Christie's International Real Estate Group, East Hampton Flagship, at 26 Park Place. This flagship sits at the intersection of three worlds: Christie's London heritage, our New York auction house, and the Hamptons, one of the most significant luxury markets on earth. Spanning nearly 50 countries and territories, the team we're assembling is built on one standard: service first, your interests first, always.
 
 If you or someone you know is ready to operate at this level, we welcome the conversation.
 

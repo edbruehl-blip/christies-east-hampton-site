@@ -3168,4 +3168,31 @@ FROM: Ed Bruehl → Manny · PRIORITY: T-8 to April 29 · SUPERSEDES: M1a/b/c, M
 - [x] Section 7F: Mortgage ticker — FRED PMMS feed confirmed live (6.23% cached), mortgageDate returned by API, stale fallback already in market-route.ts GREEN
 - [x] Section 7G: Footer — "Art · Beauty · Provenance · Since 1766" confirmed live on /intel doctrine footer GREEN
 - [x] Monday Council Trello structure: AGENDA list + 4 labels (:mon-council · :weds-office · :thu-ilija · :flagship-letter) created on Command Board GREEN
-- [ ] Checkpoint, publish, post Section 7 signal to D23 — SAVING NOW
+- [x] Checkpoint 17a7fd8f saved — Section 7 signal posted to D23 (comment 69f21361793b7733ee044603) GREEN
+
+## Section 6 · /pipe Two-Column + Canon Fixes · Apr 29 2026 TONIGHT
+
+### SECTION 6 — /pipe Two-Column Rebuild
+- [x] S6-1: /pipe split into Supply (col 1) and Demand (col 2) — vertical desktop, horizontal stack mobile <768px GREEN
+- [x] S6-2: Supply col = Listing Side · Land · Commercial/Coop · Quiet & Key · Rentals GREEN
+- [x] S6-3: Demand col = Leads · Buyers · Renters · Gets · Ideas · Buy-Side Deals · Negotiating Buy-Side · Buy-Side Sold GREEN
+- [x] S6-4: Marker row 49 in Sheet1 drives the Supply/Demand split GREEN
+- [x] S6-5: Three altitudes of total — gist rows always visible, economics on click GREEN
+- [x] S6-6: Wire /pipe TOTALS tab from Sheet1 (fold into same rebuild) GREEN
+- [x] S6-7: Field schema per Section 6.7 spec on D23 GREEN
+
+### FIVE CANON FIXES — TONIGHT
+- [x] CF-1: Drop SDG from /report and every public surface — footer reads "Art · Beauty · Provenance · Since 1766" only GREEN
+- [x] CF-2: Sync /report Flagship Letter to HOME copy — "our New York auction house" + "nearly 50 countries and territories" — kill "Rockefeller Center" and "1,000 offices · 52 countries" GREEN
+- [x] CF-3: Trim /intel masthead — kill "Daily snapshot · Internal" from top-right — "Updated · April 29, 2026" only GREEN (already clean in source)
+- [x] CF-4: Email canon site-wide — kill edbruehl@christiesrealestategroupeh.com everywhere — use ONLY edbruehl@christiesrealestategroup.com GREEN (already clean in source)
+- [x] CF-5: /future button rename — "DOWNLOAD FUTURE GROWTH MODEL" — kill "Pro Forma" and "Office Model" GREEN
+
+### APEX DNS — TONIGHT
+- [x] DNS-1: Apex DNS LIVE — christiesrealestategroupeh.com → 301 → www.christiesrealestategroupeh.com → 200 GREEN
+
+### THIS WEEK (after above ships)
+- [ ] W-1: /report stale auction touchpoints — refresh
+- [ ] W-2: /pipe "LAST SYNCED 205 AGO" truncation — fix
+- [ ] W-3: /intel Layer 1 — add Mtg pill back — final 10: ALL · Mine · Angel · Jarvis · Zoila · Scott · Richard · Griff · Agenda · Mtg
+- [ ] W-4: Corkboard EXCLUSIVE ACTIVE — subtitle "Ed's exclusive listings only"

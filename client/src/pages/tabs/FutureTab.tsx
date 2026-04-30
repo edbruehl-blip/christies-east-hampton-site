@@ -640,7 +640,7 @@ export default function FutureTab() {
                 }
               }}
             >
-              {pdfCapturing ? '⟳ CAPTURING…' : '↓ DOWNLOAD PRO FORMA PDF'}
+              {pdfCapturing ? '⟳ CAPTURING…' : '↓ DOWNLOAD FUTURE GROWTH MODEL'}
             </button>
           </div>
         </div>

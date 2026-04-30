@@ -284,6 +284,145 @@ export async function appendPipelineRow(deal: {
   return { rowNumber: allRows.length };
 }
 
+// ─── Pipeline Supply / Demand Split (Section 6) ─────────────────────────────
+// Row 49 in Sheet1 is the physical marker between Supply (rows 1–49) and
+// Demand (rows 50+). We read all rows once and split on that boundary.
+// Supply  = Listings · Land · Commercial/Coop · Quiet · Rentals
+// Demand  = Leads · Buyers · Renters · Gets · Ideas · Buy-Side Deals ·
+//           Negotiating Buy-Side · Buy-Side Sold
+
+export interface PipelineSplit {
+  supply: PipelineDeal[];
+  demand: PipelineDeal[];
+  supplyTotals: {
+    totalBook: number;
+    active: number;
+    quiet: number;
+    inContract: number;
+    closed: number;
+    dealCount: number;
+  };
+  demandTotals: {
+    totalBook: number;
+    active: number;
+    inContract: number;
+    closed: number;
+    dealCount: number;
+  };
+  lastSyncedAt: string; // ISO timestamp
+}
+
+function parseDollarLocal(p: string): number {
+  const n = parseFloat((p ?? '').replace(/[^0-9.]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+export async function readPipelineSplit(): Promise<PipelineSplit> {
+  const rows = await readPipelineRows();
+
+  // Row 49 in the sheet = index 48 (0-based). Rows above (indices 0–47) are Supply.
+  // Rows at index 48+ are Demand. Row 1 (index 0) is blank, row 2 (index 1) is header.
+  const SPLIT_INDEX = 48; // 0-based index of the first Demand row
+
+  const supplyRaw = rows.slice(0, SPLIT_INDEX);
+  const demandRaw = rows.slice(SPLIT_INDEX);
+
+  function parseGroup(groupRows: string[][]): PipelineDeal[] {
+    const deals: PipelineDeal[] = [];
+    let currentCategory = '';
+    for (let i = 0; i < groupRows.length; i++) {
+      const row = groupRows[i];
+      if (!row || row.length === 0) continue;
+      const address = row[0]?.trim() ?? '';
+      if (!address) continue;
+      if (address === 'ADDRESS') continue;
+      const hasPrice = !!row[3]?.trim();
+      const isSectionHeader = !hasPrice && address.toUpperCase() === address;
+      const normalizedAddress = isSectionHeader && address.toUpperCase() === 'PENDING DEALS'
+        ? 'QUIET & PENDING'
+        : address;
+      if (isSectionHeader) currentCategory = normalizedAddress;
+      deals.push({
+        rowNumber: i + 1,
+        address: normalizedAddress,
+        town:           row[1]?.trim()  ?? '',
+        type:           row[2]?.trim()  ?? '',
+        price:          row[3]?.trim()  ?? '',
+        status:         row[4]?.trim()  ?? '',
+        agent:          row[5]?.trim()  ?? '',
+        side:           row[6]?.trim()  ?? '',
+        ersSigned:      row[7]?.trim()  ?? '',
+        eeliLink:       row[8]?.trim()  ?? '',
+        signs:          row[9]?.trim()  ?? '',
+        photos:         row[10]?.trim() ?? '',
+        zillowShowcase: row[11]?.trim() ?? '',
+        dateClosed:          row[20]?.trim() ?? '',
+        propertyReportDate:  row[21]?.trim() ?? '',
+        propertyReportLink:  row[22]?.trim() ?? '',
+        isSectionHeader,
+        category: isSectionHeader ? normalizedAddress : currentCategory,
+      });
+    }
+    // De-dup non-header rows by address (last occurrence wins)
+    const lastSeen = new Map<string, PipelineDeal>();
+    for (const d of deals) {
+      if (!d.isSectionHeader) lastSeen.set(d.address.toLowerCase(), d);
+    }
+    const dedupedKeys = new Set<string>();
+    const final: PipelineDeal[] = [];
+    for (const d of deals) {
+      if (d.isSectionHeader) {
+        final.push(d);
+      } else {
+        const key = d.address.toLowerCase();
+        const canonical = lastSeen.get(key);
+        if (canonical && !dedupedKeys.has(key)) {
+          dedupedKeys.add(key);
+          final.push(canonical);
+        }
+      }
+    }
+    // De-dup section headers
+    const seenHeaders = new Set<string>();
+    return final.filter(d => {
+      if (!d.isSectionHeader) return true;
+      const label = d.address.toUpperCase().trim();
+      if (seenHeaders.has(label)) return false;
+      seenHeaders.add(label);
+      return true;
+    });
+  }
+
+  const supply = parseGroup(supplyRaw);
+  const demand = parseGroup(demandRaw);
+
+  function calcTotals(deals: PipelineDeal[]) {
+    let totalBook = 0, active = 0, quiet = 0, inContract = 0, closed = 0, dealCount = 0;
+    for (const d of deals) {
+      if (d.isSectionHeader) continue;
+      const price = parseDollarLocal(d.price);
+      const st = (d.status ?? '').toUpperCase();
+      if (price > 0) { totalBook += price; dealCount++; }
+      if (st === 'ACTIVE' || st === 'ACTIVE LISTING') active += price;
+      if (st.includes('QUIET')) quiet += price;
+      if (st === 'IN CONTRACT' || st === 'PENDING') inContract += price;
+      if (st === 'CLOSED') closed += price;
+    }
+    return { totalBook, active, quiet, inContract, closed, dealCount };
+  }
+
+  const supplyTotals = calcTotals(supply);
+  const demandTotals = calcTotals(demand);
+
+  return {
+    supply,
+    demand,
+    supplyTotals,
+    demandTotals,
+    lastSyncedAt: new Date().toISOString(),
+  };
+}
+
 // ─── Market Matrix Sheet ─────────────────────────────────────────────────────
 const MARKET_MATRIX_SHEET_ID = "176OVbAi6PrIVlglnvIdpENWBJWYSp4OtxJ-Ad9-sN4g";
 const MARKET_MATRIX_TAB = "Market Matrix";
